@@ -1,6 +1,13 @@
+*.prefs
+*.project
+*.classpath
+.gitignore
+.checkstyle
+
 *.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
+/bin
