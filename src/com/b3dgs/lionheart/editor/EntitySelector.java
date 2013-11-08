@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.UtilityImage;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Image;
 import com.b3dgs.lionengine.swing.ActionCombo;
@@ -146,8 +147,8 @@ public class EntitySelector
             {
                 if (entity.getCategory() == category)
                 {
-                    final Media media = Media.get(AppLionheart.ENTITIES_DIR, world.getPathName(), entity.getPathName()
-                            + "_ico.png");
+                    final Media media = UtilityMedia.get(AppLionheart.ENTITIES_DIR, world.getPathName(),
+                            entity.getPathName() + "_ico.png");
                     ico.add(Drawable.loadImage(media));
                     length++;
                 }

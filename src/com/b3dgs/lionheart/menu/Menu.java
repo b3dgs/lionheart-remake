@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Sequence;
 import com.b3dgs.lionengine.core.UtilityImage;
 import com.b3dgs.lionengine.core.UtilityMath;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteFont;
@@ -74,9 +75,9 @@ public class Menu
     /** Error message. */
     private static final String ERROR_MESSAGE = "Unknown type: ";
     /** Font filename. */
-    private static final Media FONT_SPRITE = Media.get("sprites", "font_big.png");
+    private static final Media FONT_SPRITE = UtilityMedia.get("sprites", "font_big.png");
     /** Font data. */
-    private static final Media FONT_DATA = Media.get("sprites", "fontdata_big.xml");
+    private static final Media FONT_DATA = UtilityMedia.get("sprites", "fontdata_big.xml");
     /** Text color in menu option. */
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 170, 238);
     /** Alpha step speed. */
@@ -165,13 +166,13 @@ public class Menu
         pics = new Sprite[1];
         for (int i = 0; i < 1; i++)
         {
-            pics[i] = Drawable.loadSprite(Media.get("menu", "pic" + (i + 1) + ".png"));
+            pics[i] = Drawable.loadSprite(UtilityMedia.get("menu", "pic" + (i + 1) + ".png"));
         }
 
         menus = new Sprite[3];
         for (int i = 0; i < 3; i++)
         {
-            menus[i] = Drawable.loadSprite(Media.get("menu", "menu" + (i + 1) + ".png"));
+            menus[i] = Drawable.loadSprite(UtilityMedia.get("menu", "menu" + (i + 1) + ".png"));
         }
         menusData = new Data[3];
 
@@ -536,7 +537,7 @@ public class Menu
                 for (int i = 0; i < 6; i++)
                 {
                     text.draw(g, menusData[id].choices[i].x + (int) (40 * factorH), menusData[id].choices[i].y,
-                            Align.LEFT, mouse.getKeyText(Menu.KEYS[i].intValue()));
+                            Align.LEFT, keyboard.getKeyText(Menu.KEYS[i].intValue()));
                 }
                 break;
             case INTRO:

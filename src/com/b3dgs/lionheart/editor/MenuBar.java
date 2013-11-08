@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.swing.ComboItem;
 import com.b3dgs.lionengine.swing.UtilityMessageBox;
 import com.b3dgs.lionengine.swing.UtilitySwing;
@@ -192,7 +193,7 @@ public class MenuBar
     void fileLoad()
     {
         final MapFilter filter = new MapFilter("Lionheart Remake Map", "lrm");
-        final Media media = Media.get(UtilitySwing.createOpenFileChooser(Media.getRessourcesDir(),
+        final Media media = UtilityMedia.get(UtilitySwing.createOpenFileChooser(UtilityMedia.getRessourcesDir(),
                 editor.getContentPane(), filter));
         if (media != null)
         {
@@ -219,7 +220,7 @@ public class MenuBar
      */
     void fileSave()
     {
-        final Media media = Media.get("test1.lrm");
+        final Media media = UtilityMedia.get("test1.lrm");
         try
         {
             editor.world.save(media);
@@ -247,7 +248,7 @@ public class MenuBar
     boolean toolsImportMap(JDialog dialog)
     {
         final MapFilter filter = new MapFilter("Map Image Rip", "png", "bmp");
-        final Media media = Media.get(UtilitySwing.createOpenFileChooser(Media.getRessourcesDir(),
+        final Media media = UtilityMedia.get(UtilitySwing.createOpenFileChooser(UtilityMedia.getRessourcesDir(),
                 editor.getContentPane(), filter));
         if (media != null)
         {
@@ -255,7 +256,7 @@ public class MenuBar
             final LevelRipConverter<Tile> rip = new LevelRipConverter<>();
             try
             {
-                rip.start(media, map, Media.get("tiles", editor.world.level.getWorld().getPathName()));
+                rip.start(media, map, UtilityMedia.get("tiles", editor.world.level.getWorld().getPathName()));
                 final int errors = rip.getErrors();
                 if (errors == 0)
                 {

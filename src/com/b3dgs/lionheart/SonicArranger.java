@@ -19,8 +19,7 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.audio.AudioSc68;
 import com.b3dgs.lionengine.audio.Sc68;
-import com.b3dgs.lionengine.core.Media;
-
+import com.b3dgs.lionengine.core.UtilityMedia;
 
 /**
  * Sc68 module binding.
@@ -91,7 +90,7 @@ public final class SonicArranger
     {
         if (SonicArranger.enabled)
         {
-            SonicArranger.sc68.play(Media.get(AppLionheart.MUSICS_DIR, music.getFilename()));
+            SonicArranger.sc68.play(UtilityMedia.get(AppLionheart.MUSICS_DIR, music.getFilename()));
         }
     }
 

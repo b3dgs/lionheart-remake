@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.UtilityRandom;
 import com.b3dgs.lionengine.audio.AudioWav;
 import com.b3dgs.lionengine.audio.Wav;
 import com.b3dgs.lionengine.core.Media;
-
+import com.b3dgs.lionengine.core.UtilityMedia;
 
 /**
  * Handle the SFX.
@@ -132,7 +132,7 @@ public enum Sfx
         this.sounds = new Wav[sounds.length];
         for (int i = 0; i < sounds.length; i++)
         {
-            final Media media = Media.get(AppLionheart.SFX_DIR, sounds[i] + Sfx.AUDIO_FILE_EXTENSION);
+            final Media media = UtilityMedia.get(AppLionheart.SFX_DIR, sounds[i] + Sfx.AUDIO_FILE_EXTENSION);
             this.sounds[i] = AudioWav.loadWav(media, count);
         }
     }

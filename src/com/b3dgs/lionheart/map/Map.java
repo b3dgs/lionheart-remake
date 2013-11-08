@@ -20,7 +20,7 @@ package com.b3dgs.lionheart.map;
 import java.io.IOException;
 import java.util.List;
 
-import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.file.XmlNode;
@@ -81,7 +81,7 @@ public class Map
     {
         if (AppLionheart.RASTER_ENABLED)
         {
-            setRaster(Media.get(AppLionheart.RASTERS_DIR, landscape.getRaster()), false, false);
+            setRaster(UtilityMedia.get(AppLionheart.RASTERS_DIR, landscape.getRaster()), false);
         }
     }
 

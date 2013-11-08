@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Keyboard;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.file.XmlNode;
@@ -85,7 +85,7 @@ final class ValdynAttack
     {
         this.valdyn = valdyn;
         this.movement = movement;
-        shade = Drawable.loadSpriteAnimated(Media.get(AppLionheart.ENTITIES_DIR, "players", "shade.png"), 7, 7);
+        shade = Drawable.loadSpriteAnimated(UtilityMedia.get(AppLionheart.ENTITIES_DIR, "players", "shade.png"), 7, 7);
         shade.load(false);
         shades = new EnumMap<>(ValdynState.class);
         shadesEnabled = new EnumMap<>(ValdynState.class);

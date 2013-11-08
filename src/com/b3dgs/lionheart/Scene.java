@@ -21,8 +21,8 @@ import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.core.Key;
 import com.b3dgs.lionengine.core.Loader;
-import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Sequence;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionheart.menu.Menu;
 
 /**
@@ -62,7 +62,7 @@ public final class Scene
      */
     private void loadLevel(LevelType level)
     {
-        world.loadFromFile(Media.get(AppLionheart.LEVELS_DIR, level.getFilename()));
+        world.loadFromFile(UtilityMedia.get(AppLionheart.LEVELS_DIR, level.getFilename()));
     }
 
     /**
