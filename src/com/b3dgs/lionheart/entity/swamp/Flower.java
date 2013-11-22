@@ -17,37 +17,24 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.entity.EntityItem;
+import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
-import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
- * Sword2 item. Second level of the sword.
+ * Flower implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Sword2
-        extends EntityItem
+public final class Flower
+        extends EntityMonster
 {
     /**
      * Constructor.
      * 
      * @param setup The setup reference.
      */
-    public Sword2(SetupEntity setup)
+    public Flower(SetupEntity setup)
     {
         super(setup);
-    }
-
-    /*
-     * EntityItem
-     */
-
-    @Override
-    protected void onTaken(Valdyn entity)
-    {
-        entity.stats.setSwordLevel(2);
-        Sfx.ITEM_TAKEN.play();
     }
 }

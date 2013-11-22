@@ -25,7 +25,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class TurningAuto
-        extends EntityTurning
+        extends EntitySceneryTurning
 {
     /**
      * Constructor.

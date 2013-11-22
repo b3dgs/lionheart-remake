@@ -23,11 +23,11 @@ import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
- * Sword2 item. Second level of the sword.
+ * Potion black implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Sword2
+public final class PotionBlack
         extends EntityItem
 {
     /**
@@ -35,7 +35,7 @@ public final class Sword2
      * 
      * @param setup The setup reference.
      */
-    public Sword2(SetupEntity setup)
+    public PotionBlack(SetupEntity setup)
     {
         super(setup);
     }
@@ -47,7 +47,6 @@ public final class Sword2
     @Override
     protected void onTaken(Valdyn entity)
     {
-        entity.stats.setSwordLevel(2);
-        Sfx.ITEM_TAKEN.play();
+        Sfx.ITEM_POTION_BIG.play();
     }
 }

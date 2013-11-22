@@ -27,7 +27,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class TurningHit
-        extends EntityTurning
+        extends EntitySceneryTurning
 {
     /**
      * Constructor.
@@ -81,7 +81,7 @@ public final class TurningHit
         if (shake)
         {
             // Start turning
-            if (shakeCounter == 4 && timerShake.elapsed(EntityTurning.TIME_BEFORE_TURNING))
+            if (shakeCounter == 4 && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_TURNING))
             {
                 shakeCounter = 5;
                 timerShake.stop();

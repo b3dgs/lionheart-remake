@@ -25,7 +25,7 @@ package com.b3dgs.lionheart;
 public enum LevelType
 {
     /** Stage 1. */
-    SWAMP_1("level1.lrm");
+    SWAMP_1("level1");
 
     /** Total number of levels. */
     public static final int LEVELS_NUMBER = LevelType.values().length;
@@ -39,7 +39,7 @@ public enum LevelType
      */
     private LevelType(String filename)
     {
-        this.filename = filename;
+        this.filename = filename + "." + Level.FILE_FORMAT;
     }
 
     /**

@@ -17,37 +17,41 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.entity.EntityItem;
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.SetupEntity;
-import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
- * Sword2 item. Second level of the sword.
+ * Spike 1 implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Sword2
-        extends EntityItem
+public final class Spike1
+        extends EntityScenery
 {
     /**
      * Constructor.
      * 
      * @param setup The setup reference.
      */
-    public Sword2(SetupEntity setup)
+    public Spike1(SetupEntity setup)
     {
         super(setup);
     }
 
     /*
-     * EntityItem
+     * EntityScenery
      */
 
     @Override
-    protected void onTaken(Valdyn entity)
+    protected void onCollide(Entity entity)
     {
-        entity.stats.setSwordLevel(2);
-        Sfx.ITEM_TAKEN.play();
+        entity.hitBy(this);
+    }
+
+    @Override
+    protected void onLostCollision()
+    {
+        // Nothing to do
     }
 }

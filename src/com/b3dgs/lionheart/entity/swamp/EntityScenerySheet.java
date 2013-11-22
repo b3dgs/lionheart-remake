@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.entity.swamp;
 
 import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**

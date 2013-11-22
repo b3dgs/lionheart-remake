@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity name="grasshopper" surface="grasshopper.png">
+	<frames horizontal="4" vertical="4"/>
+	<size width="64" height="64"/>
+	<data mass="1.85" gravityMax="16.0">
+		<movement speedMax="1.5" />
+		<jump heightMax="7.0" />
+	</data>
+	<life normal="2" />
+	<collision name="default" offsetX="0" offsetY="0" width="64" height="64" mirror="false" />
+	<animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+	<animation name="walk" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+	<animation name="turn" start="14" end="15" speed="0.25" reversed="false" repeat="false"/>
+	<animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
+	<animation name="jump" start="12" end="13" speed="0.25" reversed="false" repeat="false"/>
+</entity>

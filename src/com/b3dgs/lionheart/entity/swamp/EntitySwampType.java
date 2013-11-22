@@ -42,6 +42,8 @@ public enum EntitySwampType implements EntityType<EntitySwampType>
     POTION_LITTLE(PotionLittle.class, EntityCategory.ITEM),
     /** Potion big (item). */
     POTION_BIG(PotionBig.class, EntityCategory.ITEM),
+    /** Potion black (item). */
+    POTION_BLACK(PotionBlack.class, EntityCategory.ITEM),
     /** Life (item). */
     LIFE(Life.class, EntityCategory.ITEM),
     /** Sword2 (item). */
@@ -65,6 +67,20 @@ public enum EntitySwampType implements EntityType<EntitySwampType>
     BEE_LITTLE(BeeLittle.class, EntityCategory.MONSTER),
     /** BumbleBee (monster). */
     BUMBLE_BEE(BumbleBee.class, EntityCategory.MONSTER),
+    /** Carnivorous plant (monster). */
+    CARNIVOROUS_PLANT(CarnivorousPlant.class, EntityCategory.MONSTER),
+    /** Fly (monster). */
+    FLY(Fly.class, EntityCategory.MONSTER),
+    /** Nest (monster). */
+    NEST(Nest.class, EntityCategory.MONSTER),
+    /** Nest little (monster). */
+    NEST_LITTLE(NestLittle.class, EntityCategory.MONSTER),
+    /** Flower (monster). */
+    FLOWER(Flower.class, EntityCategory.MONSTER),
+    /** Grasshopper (monster). */
+    GRASSHOPPER(Grasshopper.class, EntityCategory.MONSTER),
+    /** Dragon (monster). */
+    DRAGON(Dragon.class, EntityCategory.MONSTER),
 
     /*
      * Scenery
@@ -79,7 +95,13 @@ public enum EntitySwampType implements EntityType<EntitySwampType>
     /** Beetle horizontal (scenery). */
     BEETLE_HORIZONTAL(BeetleHorizontal.class, EntityCategory.SCENERY),
     /** Beetle vertical (scenery). */
-    BEETLE_VERTICAL(BeetleVertical.class, EntityCategory.SCENERY);
+    BEETLE_VERTICAL(BeetleVertical.class, EntityCategory.SCENERY),
+    /** Spike 1. (scenery). */
+    SPIKE1(Spike1.class, EntityCategory.SCENERY),
+    /** Spike 2. (scenery). */
+    SPIKE2(Spike2.class, EntityCategory.SCENERY),
+    /** Bird (scenery). */
+    BIRD(Bird.class, EntityCategory.SCENERY);
 
     /**
      * Load type from its saved format.

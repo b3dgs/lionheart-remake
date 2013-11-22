@@ -15,57 +15,66 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
+package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
 
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
-import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.Movement;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.SetupEntity;
-import com.b3dgs.lionheart.entity.State;
+import com.b3dgs.lionengine.game.Alterable;
+import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.effect.EffectType;
+import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
 import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
 
 /**
- * Beetle base implementation.
+ * Monster base implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class EntityBeetle
-        extends EntityScenery
+public class EntityMonster
+        extends EntityMover
         implements Patrollable
 {
-    /** Patrollable model. */
-    protected final PatrollerModel patroller;
-    /** Forces list used. */
-    private final Force[] forces;
-    /** Movement force. */
-    private final Movement movement;
-    /** Movement max speed. */
-    private double movementSpeedMax;
+    /** Hurt max time. */
+    private static final int HURT_TIME = 200;
+    /** Hurt timer. */
+    protected final Timing timerHurt;
+    /** Life. */
+    private final Alterable life;
+    /** Effect factory. */
+    private final FactoryEffect factoryEffect;
+    /** Patrol model. */
+    private final PatrollerModel patroller;
 
     /**
      * @see Entity#Entity(SetupEntity)
      */
-    EntityBeetle(SetupEntity setup)
+    public EntityMonster(SetupEntity setup)
     {
         super(setup);
-        movement = new Movement();
-        forces = new Force[]
-        {
-            movement.getForce()
-        };
+        life = new Alterable(getDataInteger("normal", "life"));
+        timerHurt = new Timing();
+        factoryEffect = setup.level.factoryEffect;
         patroller = new PatrollerModel(this);
     }
 
+    /**
+     * Called when entity is hit once.
+     * 
+     * @param entity The entity that hit.
+     */
+    protected void onHitBy(Entity entity)
+    {
+        // Nothing by default
+    }
+
     /*
-     * EntityScenery
+     * EntityMover
      */
 
     @Override
@@ -73,15 +82,8 @@ public class EntityBeetle
     {
         super.prepare();
         patroller.prepare();
-    }
-
-    @Override
-    public void hitThat(Entity entity)
-    {
-        if (!status.isState(EntityState.TURN))
-        {
-            super.hitThat(entity);
-        }
+        movement.setForceToReach(movement.getForce());
+        life.fill();
     }
 
     @Override
@@ -99,55 +101,141 @@ public class EntityBeetle
     }
 
     @Override
-    protected void handleActions(double extrp)
+    protected void updateActions()
     {
+        if (timerHurt.isStarted() && timerHurt.elapsed(EntityMonster.HURT_TIME))
+        {
+            timerHurt.stop();
+        }
         final State state = status.getState();
         if (state == EntityState.TURN)
         {
-            movement.reset();
             if (getAnimState() == AnimState.FINISHED)
             {
-                final int side = patroller.getSide();
+                final int side = getSide();
                 setSide(-side);
                 mirror(side < 0);
                 if (getPatrolType() == Patrol.HORIZONTAL)
                 {
                     setMovementForce(movementSpeedMax * side, 0.0);
+                    movement.setForceToReach(movementSpeedMax * side, 0.0);
                     teleportX(getLocationIntX() + side);
                 }
                 else if (getPatrolType() == Patrol.VERTICAL)
                 {
                     setMovementForce(0.0, movementSpeedMax * side);
+                    movement.setForceToReach(movementSpeedMax * side, 0.0);
                     teleportY(getLocationIntY() + side);
                 }
             }
+            else
+            {
+                movement.reset();
+            }
         }
-        super.handleActions(extrp);
+        else if (state == EntityState.WALK)
+        {
+            if (getPatrolType() == Patrol.HORIZONTAL)
+            {
+                final int x = getLocationIntX();
+                if (x > getPositionMax())
+                {
+                    teleportX(getPositionMax());
+                }
+                if (x < getPositionMin())
+                {
+                    teleportX(getPositionMin());
+                }
+            }
+            else if (getPatrolType() == Patrol.VERTICAL)
+            {
+                final int y = getLocationIntY();
+                if (y > getPositionMax())
+                {
+                    teleportY(getPositionMax());
+                }
+                if (y < getPositionMin())
+                {
+                    teleportY(getPositionMin());
+                }
+            }
+        }
     }
 
     @Override
-    protected void handleMovements(double extrp)
+    public void hitBy(Entity entity)
     {
-        movement.update(extrp);
-        super.handleMovements(extrp);
+        if (!timerHurt.isStarted())
+        {
+            timerHurt.start();
+            life.decrease(1);
+            if (life.isEmpty())
+            {
+                kill();
+            }
+            else
+            {
+                Sfx.MONSTER_HURT.play();
+                onHitBy(entity);
+            }
+        }
     }
 
     @Override
-    protected Force[] getForces()
-    {
-        return forces;
-    }
-
-    @Override
-    protected void onCollide(Entity entity)
+    public void hitThat(Entity entity)
     {
         // Nothing to do
     }
 
     @Override
-    protected void onLostCollision()
+    protected void updateStates()
     {
-        // Nothing to do
+        boolean willTurn = false;
+        if (getPatrolType() == Patrol.HORIZONTAL)
+        {
+            final int x = getLocationIntX();
+            willTurn = x == getPositionMin() || x == getPositionMax();
+        }
+        else if (getPatrolType() == Patrol.VERTICAL)
+        {
+            final int y = getLocationIntY();
+            willTurn = y == getPositionMin() || y == getPositionMax();
+        }
+
+        final double diffHorizontal = getDiffHorizontal();
+        final double diffVertical = getDiffVertical();
+        if (hasPatrol() && willTurn)
+        {
+            status.setState(EntityState.TURN);
+        }
+        else if (diffHorizontal != 0.0 || diffVertical != 0.0)
+        {
+            status.setState(EntityState.WALK);
+        }
+        else
+        {
+            status.setState(EntityState.IDLE);
+        }
+    }
+
+    @Override
+    protected void updateDead()
+    {
+        factoryEffect.startEffect(EffectType.EXPLODE_BIG, (int) dieLocation.getX() - getCollisionData().getWidth() / 2
+                - 5, (int) dieLocation.getY() - 5);
+        Sfx.EXPLODE.play();
+        destroy();
+    }
+
+    @Override
+    protected void updateAnimations(double extrp)
+    {
+        final State state = status.getState();
+        if (state == EntityState.WALK)
+        {
+            final double speed = Math.abs(getHorizontalForce()) / 3;
+            setAnimSpeed(speed);
+        }
     }
 
     /*
@@ -158,7 +246,6 @@ public class EntityBeetle
     public void setMovementForce(double fh, double fv)
     {
         movement.getForce().setForce(fh, fv);
-        movement.setForceToReach(fh, fv);
     }
 
     @Override

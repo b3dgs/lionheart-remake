@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity name="flower" surface="flower.png">
+	<frames horizontal="5" vertical="2"/>
+	<size width="48" height="64"/>
+	<data mass="0" gravityMax="0">
+	</data>
+	<life normal="2" />
+	<collision name="default" offsetX="0" offsetY="0" width="48" height="64" mirror="false" />
+	<animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+	<animation name="walk" start="1" end="8" speed="0.25" reversed="false" repeat="true"/>
+	<animation name="dead" start="9" end="9" speed="0.25" reversed="false" repeat="false"/>
+</entity>

@@ -15,12 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
+package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionheart.effect.EffectType;
 import com.b3dgs.lionheart.effect.FactoryEffect;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**

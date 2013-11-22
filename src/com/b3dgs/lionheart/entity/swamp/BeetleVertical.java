@@ -27,7 +27,7 @@ import com.b3dgs.lionheart.entity.patrol.Patrol;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class BeetleVertical
-        extends EntityBeetle
+        extends EntitySceneryBeetle
 {
     /**
      * Constructor.

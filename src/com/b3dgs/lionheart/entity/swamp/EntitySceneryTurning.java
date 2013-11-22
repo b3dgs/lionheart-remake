@@ -30,7 +30,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityTurning
+public abstract class EntitySceneryTurning
         extends EntityScenerySheet
 {
     /** Shake amplitude. */
@@ -51,7 +51,7 @@ public abstract class EntityTurning
     /**
      * @see Entity#Entity(SetupEntity)
      */
-    public EntityTurning(SetupEntity setup)
+    public EntitySceneryTurning(SetupEntity setup)
     {
         super(setup);
         timerShake = new Timing();
@@ -65,7 +65,7 @@ public abstract class EntityTurning
     public void update(double extrp)
     {
         super.update(extrp);
-        if (!shake && timerShake.elapsed(EntityTurning.TIME_BEFORE_START_SHAKE))
+        if (!shake && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_START_SHAKE))
         {
             shake = true;
             timerShake.stop();
@@ -76,7 +76,7 @@ public abstract class EntityTurning
         {
             if (shakeCounter < 3)
             {
-                effectCounter += EntityTurning.SHAKE_SPEED * extrp;
+                effectCounter += EntitySceneryTurning.SHAKE_SPEED * extrp;
                 if (effectCounter > EntityScenerySheet.HALF_CIRCLE)
                 {
                     shakeCounter++;
@@ -90,7 +90,7 @@ public abstract class EntityTurning
                 shakeCounter = 4;
                 timerShake.start();
             }
-            setLocationY(initialY - UtilityMath.sin(effectCounter) * EntityTurning.SHAKE_AMPLITUDE);
+            setLocationY(initialY - UtilityMath.sin(effectCounter) * EntitySceneryTurning.SHAKE_AMPLITUDE);
         }
     }
 
@@ -123,7 +123,7 @@ public abstract class EntityTurning
                 }
             }
             // Start turning
-            if (shakeCounter == 4 && timerShake.elapsed(EntityTurning.TIME_BEFORE_TURNING))
+            if (shakeCounter == 4 && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_TURNING))
             {
                 shakeCounter = 5;
                 timerShake.stop();
