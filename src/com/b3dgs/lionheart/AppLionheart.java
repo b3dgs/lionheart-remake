@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.core.Config;
 import com.b3dgs.lionengine.core.Engine;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.swing.Theme;
+import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Program starts here.
@@ -56,7 +57,7 @@ public final class AppLionheart
     /** Show collision bounds. */
     public static final boolean SHOW_COLLISIONS = false;
     /** Enable sound. */
-    private static final boolean ENABLE_SOUND = false;
+    private static final boolean ENABLE_SOUND = true;
     /** Resources directory. */
     private static final String RESOURCES = "resources";
     /** Raster enabled. */
@@ -86,7 +87,7 @@ public final class AppLionheart
         else
         {
             final Loader loader = new Loader(config);
-            loader.start(new Scene(loader));
+            loader.start(new Intro(loader));
         }
     }
 

@@ -24,6 +24,8 @@ package com.b3dgs.lionheart;
  */
 public enum Music
 {
+    /** Intro music. */
+    INTRO("intro.sc68"),
     /** Swamp music. */
     SWAMP("swamp.sc68");
 
