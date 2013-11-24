@@ -47,17 +47,19 @@ public final class Intro
         ALPHAS_BLACK = new ColorRgba[256];
         for (int i = 0; i < 256; i++)
         {
-            ALPHAS_BLACK[i] = new ColorRgba(0, 0, 0, i);
+            Intro.ALPHAS_BLACK[i] = new ColorRgba(0, 0, 0, i);
         }
         ALPHAS_WHITE = new ColorRgba[256];
         for (int i = 0; i < 256; i++)
         {
-            ALPHAS_WHITE[i] = new ColorRgba(255, 255, 255, i);
+            Intro.ALPHAS_WHITE[i] = new ColorRgba(255, 255, 255, i);
         }
     }
 
     /** Part 1. */
     private final Part1 part1;
+    /** Part 2. */
+    private final Part2 part2;
     /** Music seek. */
     private int seek;
 
@@ -70,6 +72,7 @@ public final class Intro
     {
         super(loader, Intro.INTRO_DISPLAY);
         part1 = new Part1();
+        part2 = new Part2();
     }
 
     /*
@@ -80,6 +83,7 @@ public final class Intro
     protected void load()
     {
         part1.load();
+        part2.load();
         SonicArranger.play(Music.INTRO);
     }
 
@@ -87,13 +91,27 @@ public final class Intro
     protected void update(double extrp)
     {
         seek = SonicArranger.seek();
-        part1.update(seek, extrp);
+        if (seek < 47200)
+        {
+            part1.update(seek, extrp);
+        }
+        else
+        {
+            part2.update(seek, extrp);
+        }
     }
 
     @Override
     protected void render(Graphic g)
     {
-        part1.render(width, height, seek, g);
+        if (seek < 47200)
+        {
+            part1.render(width, height, seek, g);
+        }
+        else
+        {
+            part2.render(width, height, seek, g);
+        }
     }
 
     @Override

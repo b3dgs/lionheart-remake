@@ -57,7 +57,7 @@ public final class Part1
      */
     public Part1()
     {
-        textLarge = UtilityImage.createText(Text.SANS_SERIF, 22, TextStyle.NORMAL);
+        textLarge = UtilityImage.createText(Text.SANS_SERIF, 24, TextStyle.NORMAL);
         title = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "title.png"));
         backs = new Sprite[4];
         sceneries = new Sprite[6];
@@ -70,7 +70,7 @@ public final class Part1
      */
     public void load()
     {
-        title.load(false);
+        title.load(true);
         for (int i = 0; i < backs.length; i++)
         {
             backs[i] = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "back" + i + ".png"));
@@ -93,9 +93,10 @@ public final class Part1
     {
         if (seek > 0 && seek < 2500)
         {
-            alphaBack += 5.0;
+            alphaBack += 4.0;
         }
         updateAlphaText(2600, 5150, 5150, 7050, seek, extrp);
+        updateAlphaText(7050, 10000, 11000, 13000, seek, extrp);
         updateAlphaText(7050, 12050, 12050, 15200, seek, extrp);
         updateAlphaText(15200, 18100, 18100, 20200, seek, extrp);
         updateAlphaText(20200, 23100, 23100, 25200, seek, extrp);
@@ -125,6 +126,7 @@ public final class Part1
      */
     public void render(int width, int height, int seek, Graphic g)
     {
+        g.clear(0, 0, width, height);
         if (seek < 42000)
         {
             for (int i = 0; i < backs.length; i++)
@@ -143,7 +145,7 @@ public final class Part1
         renderScenery(height, 4, 1350, g);
         renderScenery(height, 5, 1650, g);
 
-        if (seek > 2600 && seek < 6000)
+        if (seek > 2600 && seek < 7050)
         {
             textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
             textLarge.draw(g, width / 2, height / 2 - 38, Align.CENTER, "BYRON 3D GAMES STUDIO");
@@ -151,32 +153,32 @@ public final class Part1
         }
         if (seek > 7050 && seek < 13000)
         {
-            title.setAlpha((int) alphaBack);
+            title.setAlpha((int) alphaText);
             title.render(g, width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 16);
         }
         if (seek > 15200 && seek < 19200)
         {
             textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
             textLarge.draw(g, width / 2 - 110, height / 2 - 60, Align.LEFT, "PROGRAMMING");
-            textLarge.draw(g, width / 2 - 86, height / 2 - 40, Align.LEFT, "Pierre-Alexandre");
+            textLarge.draw(g, width / 2 - 86, height / 2 - 35, Align.LEFT, "Pierre-Alexandre");
         }
         if (seek > 20200 && seek < 24200)
         {
             textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
             textLarge.draw(g, width / 2 - 110, height / 2 - 38, Align.LEFT, "GRAPHICS");
-            textLarge.draw(g, width / 2 - 58, height / 2 - 18, Align.LEFT, "Henk Nieborg");
+            textLarge.draw(g, width / 2 - 58, height / 2 - 12, Align.LEFT, "Henk Nieborg");
         }
         if (seek > 25200 && seek < 29200)
         {
             textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
             textLarge.draw(g, width / 2 - 110, height / 2 - 38, Align.LEFT, "GAMEDESIGN");
-            textLarge.draw(g, width / 2 - 42, height / 2 - 18, Align.LEFT, "Erik Simon");
+            textLarge.draw(g, width / 2 - 42, height / 2 - 12, Align.LEFT, "Erik Simon");
         }
         if (seek > 30200 && seek < 34200)
         {
             textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
             textLarge.draw(g, width / 2 - 110, height / 2 - 38, Align.LEFT, "MUSIC & SFX");
-            textLarge.draw(g, width / 2 - 110, height / 2 - 18, Align.LEFT, "Matthias Steinwachs");
+            textLarge.draw(g, width / 2 - 110, height / 2 - 12, Align.LEFT, "Matthias Steinwachs");
         }
         g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
         g.drawRect(0, 0, width, height, true);
@@ -196,11 +198,11 @@ public final class Part1
     {
         if (seek >= start1 && seek < end1)
         {
-            alphaText += 5.0 * extrp;
+            alphaText += 4.0 * extrp;
         }
         else if (seek >= start2 && seek < end2)
         {
-            alphaText -= 5.0 * extrp;
+            alphaText -= 4.0 * extrp;
         }
     }
 
