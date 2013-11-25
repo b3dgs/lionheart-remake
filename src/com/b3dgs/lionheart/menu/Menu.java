@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.drawable.SpriteFont;
 import com.b3dgs.lionheart.Scene;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.SonicArranger;
+import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Menu implementation.
@@ -181,7 +182,7 @@ public class Menu
         {
                 new Choice(text, factorH, factorV, "Start Game", 160, 74, Align.CENTER, MenuType.NEW),
                 new Choice(text, factorH, factorV, "Options", 160, 92, Align.CENTER, MenuType.OPTIONS),
-                new Choice(text, factorH, factorV, "Introduction", 160, 112, Align.CENTER, MenuType.MAIN),
+                new Choice(text, factorH, factorV, "Introduction", 160, 112, Align.CENTER, MenuType.INTRO),
                 new Choice(text, factorH, factorV, "Exit", 160, 140, Align.CENTER, MenuType.EXIT)
         };
         menusData[0] = new Data(text, factorH, factorV, "Main", false, choices);
@@ -446,6 +447,7 @@ public class Menu
                 handleMenuKeys();
                 break;
             case INTRO:
+                end(new Intro(loader));
                 break;
             case EXIT:
                 end();
@@ -617,7 +619,7 @@ public class Menu
     {
         handleMenuTransition(extrp);
         handleMenu(extrp);
-        if (isPressed(Key.ESCAPE))
+        if (keyboard.isPressedOnce(Key.ESCAPE))
         {
             end();
         }

@@ -20,11 +20,13 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.core.Key;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.SonicArranger;
+import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Introduction implementation.
@@ -60,6 +62,10 @@ public final class Intro
     private final Part1 part1;
     /** Part 2. */
     private final Part2 part2;
+    /** Part 3. */
+    private final Part3 part3;
+    /** Part 3. */
+    private final Part4 part4;
     /** Music seek. */
     private int seek;
 
@@ -73,6 +79,8 @@ public final class Intro
         super(loader, Intro.INTRO_DISPLAY);
         part1 = new Part1();
         part2 = new Part2();
+        part3 = new Part3();
+        part4 = new Part4();
     }
 
     /*
@@ -84,6 +92,8 @@ public final class Intro
     {
         part1.load();
         part2.load();
+        part3.load();
+        part4.load();
         SonicArranger.play(Music.INTRO);
     }
 
@@ -95,9 +105,21 @@ public final class Intro
         {
             part1.update(seek, extrp);
         }
-        else
+        else if (seek >= 47200 && seek < 88000)
         {
             part2.update(seek, extrp);
+        }
+        else if (seek >= 94000 && seek < 110000)
+        {
+            part3.update(seek, extrp);
+        }
+        else if (seek >= 110000 && seek < 201000)
+        {
+            part4.update(seek, extrp);
+        }
+        if (seek > 201000 || keyboard.isPressedOnce(Key.ESCAPE))
+        {
+            end(new Menu(loader));
         }
     }
 
@@ -108,9 +130,17 @@ public final class Intro
         {
             part1.render(width, height, seek, g);
         }
-        else
+        else if (seek >= 47200 && seek < 88000)
         {
             part2.render(width, height, seek, g);
+        }
+        else if (seek >= 94000 && seek < 110000)
+        {
+            part3.render(width, height, seek, g);
+        }
+        else if (seek >= 110000 && seek < 201000)
+        {
+            part4.render(width, height, seek, g);
         }
     }
 

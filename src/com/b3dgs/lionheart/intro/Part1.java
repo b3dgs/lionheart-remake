@@ -39,12 +39,12 @@ public final class Part1
     private final Text textLarge;
     /** Backgrounds. */
     private final Sprite[] backs;
-    /** Title. */
-    private final Sprite title;
     /** Sceneries. */
     private final Sprite[] sceneries;
-    /** Camera. */
-    private final CameraGame camera;
+    /** Title. */
+    private final Sprite title;
+    /** Camera back. */
+    private final CameraGame cameraBack;
     /** Camera scenery. */
     private final CameraGame cameraScenery;
     /** Back alpha. */
@@ -61,7 +61,7 @@ public final class Part1
         title = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "title.png"));
         backs = new Sprite[4];
         sceneries = new Sprite[6];
-        camera = new CameraGame();
+        cameraBack = new CameraGame();
         cameraScenery = new CameraGame();
     }
 
@@ -91,29 +91,59 @@ public final class Part1
      */
     public void update(int seek, double extrp)
     {
+        // First Fade in
         if (seek > 0 && seek < 2500)
         {
             alphaBack += 4.0;
+            alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
         }
-        updateAlphaText(2600, 5150, 5150, 7050, seek, extrp);
-        updateAlphaText(7050, 10000, 11000, 13000, seek, extrp);
-        updateAlphaText(7050, 12050, 12050, 15200, seek, extrp);
+
+        // Text fades
+        updateAlphaText(2600, 5650, 5650, 7050, seek, extrp);
+        updateAlphaText(7550, 10000, 12000, 14000, seek, extrp);
         updateAlphaText(15200, 18100, 18100, 20200, seek, extrp);
         updateAlphaText(20200, 23100, 23100, 25200, seek, extrp);
         updateAlphaText(25200, 28100, 28100, 30200, seek, extrp);
         updateAlphaText(30200, 33100, 33100, 35200, seek, extrp);
 
+        // Start moving camera until door
         if (seek > 10500)
         {
-            camera.moveLocation(extrp, 0.45, 0.0);
+            cameraBack.moveLocation(extrp, 0.45, 0.0);
             cameraScenery.moveLocation(extrp, 0.76, 0.0);
             if (cameraScenery.getLocationX() > 1602.0)
             {
                 cameraScenery.teleportX(1602.0);
             }
         }
-        alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
-        alphaText = UtilityMath.fixBetween(alphaText, 0.0, 255.0);
+    }
+
+    /**
+     * Render text.
+     * 
+     * @param start The starting time.
+     * @param end The ending time.
+     * @param x1 The text1 x.
+     * @param y1 The text1 y.
+     * @param x2 The text2 x.
+     * @param y2 The text2 y.
+     * @param align The text align.
+     * @param text1 The text 1.
+     * @param text2 The text 2.
+     * @param width The width.
+     * @param height The height.
+     * @param seek The current seek.
+     * @param g The graphic output.
+     */
+    private void renderText(int start, int end, int x1, int y1, int x2, int y2, Align align, String text1,
+            String text2, int width, int height, int seek, Graphic g)
+    {
+        if (seek > start && seek < end)
+        {
+            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
+            textLarge.draw(g, width / 2 + x1, height / 2 + y1, align, text1);
+            textLarge.draw(g, width / 2 + x2, height / 2 + y2, align, text2);
+        }
     }
 
     /**
@@ -127,13 +157,18 @@ public final class Part1
     public void render(int width, int height, int seek, Graphic g)
     {
         g.clear(0, 0, width, height);
+
+        // Render backs
         if (seek < 42000)
         {
             for (int i = 0; i < backs.length; i++)
             {
-                backs[i].render(g, camera.getViewpointX(i * backs[i].getWidth()), height / 2 - backs[i].getHeight() / 2);
+                backs[i].render(g, cameraBack.getViewpointX(i * backs[i].getWidth()), height / 2 - backs[i].getHeight()
+                        / 2);
             }
         }
+
+        // Render sceneries
         renderScenery(height, 0, 32, g);
         renderScenery(height, 1, 420, g);
         renderScenery(height, 0, 570, g);
@@ -145,43 +180,27 @@ public final class Part1
         renderScenery(height, 4, 1350, g);
         renderScenery(height, 5, 1650, g);
 
-        if (seek > 2600 && seek < 7050)
-        {
-            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
-            textLarge.draw(g, width / 2, height / 2 - 38, Align.CENTER, "BYRON 3D GAMES STUDIO");
-            textLarge.draw(g, width / 2, height / 2 - 16, Align.CENTER, "PRESENTS");
-        }
+        // Render texts
+        renderText(2600, 7050, 0, -38, 0, -16, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS", width, height, seek,
+                g);
         if (seek > 7050 && seek < 13000)
         {
             title.setAlpha((int) alphaText);
             title.render(g, width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 16);
         }
-        if (seek > 15200 && seek < 19200)
+        renderText(15200, 19200, -110, -60, -86, -35, Align.LEFT, "PROGRAMMING", "Pierre-Alexandre", width, height,
+                seek, g);
+        renderText(20200, 24200, -110, -38, -58, -12, Align.LEFT, "GRAPHICS", "Henk Nieborg", width, height, seek, g);
+        renderText(25200, 29200, -110, -38, -42, -12, Align.LEFT, "GAMEDESIGN", "Erik Simon", width, height, seek, g);
+        renderText(30200, 34200, -110, -38, -110, -12, Align.LEFT, "MUSIC & SFX", "Matthias Steinwachs", width, height,
+                seek, g);
+
+        // Render fade in
+        if (alphaBack < 255)
         {
-            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
-            textLarge.draw(g, width / 2 - 110, height / 2 - 60, Align.LEFT, "PROGRAMMING");
-            textLarge.draw(g, width / 2 - 86, height / 2 - 35, Align.LEFT, "Pierre-Alexandre");
+            g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
+            g.drawRect(0, 0, width, height, true);
         }
-        if (seek > 20200 && seek < 24200)
-        {
-            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
-            textLarge.draw(g, width / 2 - 110, height / 2 - 38, Align.LEFT, "GRAPHICS");
-            textLarge.draw(g, width / 2 - 58, height / 2 - 12, Align.LEFT, "Henk Nieborg");
-        }
-        if (seek > 25200 && seek < 29200)
-        {
-            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
-            textLarge.draw(g, width / 2 - 110, height / 2 - 38, Align.LEFT, "GAMEDESIGN");
-            textLarge.draw(g, width / 2 - 42, height / 2 - 12, Align.LEFT, "Erik Simon");
-        }
-        if (seek > 30200 && seek < 34200)
-        {
-            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
-            textLarge.draw(g, width / 2 - 110, height / 2 - 38, Align.LEFT, "MUSIC & SFX");
-            textLarge.draw(g, width / 2 - 110, height / 2 - 12, Align.LEFT, "Matthias Steinwachs");
-        }
-        g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
-        g.drawRect(0, 0, width, height, true);
     }
 
     /**
@@ -204,6 +223,7 @@ public final class Part1
         {
             alphaText -= 4.0 * extrp;
         }
+        alphaText = UtilityMath.fixBetween(alphaText, 0.0, 255.0);
     }
 
     /**
