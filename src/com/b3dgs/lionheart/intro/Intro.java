@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.core.Key;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
@@ -66,6 +67,8 @@ public final class Intro
     private final Part3 part3;
     /** Part 3. */
     private final Part4 part4;
+    /** Timer. */
+    private final Timing timer;
     /** Music seek. */
     private int seek;
 
@@ -81,6 +84,7 @@ public final class Intro
         part2 = new Part2();
         part3 = new Part3();
         part4 = new Part4();
+        timer = new Timing();
     }
 
     /*
@@ -95,12 +99,18 @@ public final class Intro
         part3.load();
         part4.load();
         SonicArranger.play(Music.INTRO);
+        timer.start();
     }
 
     @Override
     protected void update(double extrp)
     {
         seek = SonicArranger.seek();
+        if (seek == -1)
+        {
+            seek = (int) timer.elapsed();
+        }
+
         if (seek < 47200)
         {
             part1.update(seek, extrp);
@@ -113,7 +123,7 @@ public final class Intro
         {
             part3.update(seek, extrp);
         }
-        else if (seek >= 110000 && seek < 201000)
+        else if (seek >= 110000 && seek < 200200)
         {
             part4.update(seek, extrp);
         }
@@ -138,7 +148,7 @@ public final class Intro
         {
             part3.render(width, height, seek, g);
         }
-        else if (seek >= 110000 && seek < 201000)
+        else if (seek >= 110000 && seek < 200200)
         {
             part4.render(width, height, seek, g);
         }

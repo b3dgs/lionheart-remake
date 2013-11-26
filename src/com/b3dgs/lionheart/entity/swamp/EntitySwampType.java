@@ -67,8 +67,6 @@ public enum EntitySwampType implements EntityType<EntitySwampType>
     BEE_LITTLE(BeeLittle.class, EntityCategory.MONSTER),
     /** BumbleBee (monster). */
     BUMBLE_BEE(BumbleBee.class, EntityCategory.MONSTER),
-    /** Carnivorous plant (monster). */
-    CARNIVOROUS_PLANT(CarnivorousPlant.class, EntityCategory.MONSTER),
     /** Fly (monster). */
     FLY(Fly.class, EntityCategory.MONSTER),
     /** Nest (monster). */
@@ -96,6 +94,8 @@ public enum EntitySwampType implements EntityType<EntitySwampType>
     BEETLE_HORIZONTAL(BeetleHorizontal.class, EntityCategory.SCENERY),
     /** Beetle vertical (scenery). */
     BEETLE_VERTICAL(BeetleVertical.class, EntityCategory.SCENERY),
+    /** Carnivorous plant (scenery). */
+    CARNIVOROUS_PLANT(CarnivorousPlant.class, EntityCategory.SCENERY),
     /** Spike 1. (scenery). */
     SPIKE1(Spike1.class, EntityCategory.SCENERY),
     /** Spike 2. (scenery). */

@@ -17,7 +17,6 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
-import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
@@ -26,7 +25,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class NestLittle
-        extends EntityMonster
+        extends Nest
 {
     /**
      * Constructor.

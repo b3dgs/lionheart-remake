@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.core.Config;
 import com.b3dgs.lionengine.core.Engine;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.swing.Theme;
-import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Program starts here.
@@ -61,7 +60,7 @@ public final class AppLionheart
     /** Resources directory. */
     private static final String RESOURCES = "resources";
     /** Raster enabled. */
-    public static boolean RASTER_ENABLED = true;
+    public static boolean RASTER_ENABLED = false;
 
     /**
      * Main function.
@@ -87,7 +86,7 @@ public final class AppLionheart
         else
         {
             final Loader loader = new Loader(config);
-            loader.start(new Intro(loader));
+            loader.start(new Scene(loader));
         }
     }
 

@@ -17,6 +17,8 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityCollisionTileCategory;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
@@ -25,7 +27,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Nest
+public class Nest
         extends EntityMonster
 {
     /**
@@ -36,5 +38,32 @@ public final class Nest
     public Nest(SetupEntity setup)
     {
         super(setup);
+    }
+
+    /*
+     * EntityMonster
+     */
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+        if (checkCollisionHorizontal(EntityCollisionTileCategory.GROUND_CENTER) != null)
+        {
+            super.kill();
+        }
+    }
+
+    @Override
+    protected void onHitBy(Entity entity)
+    {
+        kill();
+    }
+
+    @Override
+    public void kill()
+    {
+        setMass(2.0);
+        setGravityMax(3.0);
     }
 }

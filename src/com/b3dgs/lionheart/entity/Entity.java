@@ -85,6 +85,7 @@ public abstract class Entity
         forces = new Force[0];
         loadCollisions(EntityCollision.values());
         loadAnimations(EntityState.values());
+        setFrame(getDataAnimation(EntityState.IDLE.getAnimationName()).getFirst());
     }
 
     /**

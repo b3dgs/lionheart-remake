@@ -94,6 +94,10 @@ public final class Scene
         {
             end(new Menu(loader));
         }
+        if (keyboard.isPressedOnce(Key.ALT))
+        {
+            SonicArranger.play(Music.INTRO);
+        }
     }
 
     @Override

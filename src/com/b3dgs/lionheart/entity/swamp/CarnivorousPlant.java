@@ -17,7 +17,8 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
-import com.b3dgs.lionheart.entity.EntityMonster;
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
@@ -26,7 +27,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class CarnivorousPlant
-        extends EntityMonster
+        extends EntityScenery
 {
     /**
      * Constructor.
@@ -36,5 +37,21 @@ public final class CarnivorousPlant
     public CarnivorousPlant(SetupEntity setup)
     {
         super(setup);
+    }
+    
+    /*
+     * EntityScenery
+     */
+
+    @Override
+    protected void onCollide(Entity entity)
+    {
+        entity.kill();
+    }
+
+    @Override
+    protected void onLostCollision()
+    {
+        // Nothing to do
     }
 }

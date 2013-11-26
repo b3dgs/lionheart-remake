@@ -77,7 +77,7 @@ public final class Part4
         }
 
         // First Fade out
-        if (seek > 197000 && seek < 201000)
+        if (seek > 197000 && seek < 200200)
         {
             alphaBack -= 3.0;
         }
@@ -142,7 +142,7 @@ public final class Part4
                     Align.LEFT,
                     "They were caught by the net and were %swiftly hauled towards the ship. %Valdyn, who was having a hard time with %the panicking dragon, drew his sword and %hacked a way through the tough material. %Just before being drawn into the air-ship, %he jumped out and plummeted towards the %ground!");
         }
-        if (seek >= 180000 && seek < 201000)
+        if (seek >= 180000 && seek < 200200)
         {
             font.draw(
                     g,

@@ -90,6 +90,8 @@ public final class SonicArranger
     {
         if (SonicArranger.enabled)
         {
+            SonicArranger.sc68.free();
+            SonicArranger.sc68.setVolume(40);
             SonicArranger.sc68.play(UtilityMedia.get(AppLionheart.MUSICS_DIR, music.getFilename()));
         }
     }
