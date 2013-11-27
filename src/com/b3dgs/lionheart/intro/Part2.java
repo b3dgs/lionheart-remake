@@ -61,7 +61,7 @@ public final class Part2
     /** Valdyn coordinate. */
     private final Coord valdynCoord;
     /** Z locations. */
-    private double[] z;
+    private final double[] z;
     /** Alpha. */
     private double alpha;
     /** Alpha 2. */
@@ -112,7 +112,7 @@ public final class Part2
         valdyn1.load(true);
         valdyn2.load(false);
         door.play(Anim.createAnimation(1, 6, 0.15, false, false));
-        final Animation equip = Anim.createAnimation(1, 3, 0.15, false, false);
+        final Animation equip = Anim.createAnimation(1, 3, 0.16, false, false);
         equipFoot.play(equip);
         equipSword.play(equip);
         equipHand.play(equip);
@@ -128,15 +128,15 @@ public final class Part2
     public void update(int seek, double extrp)
     {
         // Open the door
-        if (seek < 48700)
+        if (seek < 48500)
         {
             door.updateAnimation(extrp);
         }
 
         // Enter in the door
-        if (seek > 49000 && z[0] > 2)
+        if (seek > 48300 && z[0] > 2)
         {
-            z[0] -= 0.08;
+            z[0] -= 0.12;
             final int doorZ = (int) UtilityMath.fixBetween(1000 / z[0], 100, 800);
             door.scale(doorZ);
             if (z[0] < 2)
@@ -149,7 +149,7 @@ public final class Part2
         }
 
         // Alpha inside cave
-        if (seek > 50500 && seek < 55000)
+        if (seek > 49600 && seek < 55000)
         {
             alpha += 1.5;
         }
@@ -159,12 +159,12 @@ public final class Part2
         {
             for (int i = 1; i < z.length; i++)
             {
-                z[i] -= 0.12;
+                z[i] -= 0.14;
             }
         }
 
         // Valdyn approaching
-        if (seek > 66500 && seek < 71000)
+        if (seek > 66300 && seek < 71000)
         {
             valdynCoord.translate(-1.5 * extrp, -1.5 * 1.207 * extrp);
             if (valdynCoord.getX() < 180)
@@ -178,39 +178,39 @@ public final class Part2
         }
 
         // Fade out from cave
-        if (seek > 71260 && seek < 71900)
+        if (seek > 71160 && seek < 71800)
         {
             alpha -= 15.0;
         }
 
         // Fade in to equipment
-        if (seek > 71900 && seek < 72400)
+        if (seek > 71800 && seek < 72300)
         {
             alpha += 15.0;
         }
 
         // Equipment
-        if (seek > 75100 && seek < 76100)
+        if (seek > 74900 && seek < 76000)
         {
             equipSword.updateAnimation(extrp);
         }
-        if (seek > 76900 && seek < 77900)
+        if (seek > 76700 && seek < 77800)
         {
             equipFoot.updateAnimation(extrp);
         }
-        if (seek > 78670 && seek < 79670)
+        if (seek > 78470 && seek < 79570)
         {
             equipHand.updateAnimation(extrp);
         }
 
         // Fade out from equipment
-        if (seek > 80800 && seek < 81370)
+        if (seek > 80600 && seek < 81170)
         {
             alpha -= 15.0;
         }
 
         // Fade in to valdyn rage
-        if (seek > 81370 && seek < 81900)
+        if (seek > 81170 && seek < 81700)
         {
             alpha += 15.0;
         }
@@ -222,17 +222,17 @@ public final class Part2
         }
 
         // Fade in valdyn rage
-        if (seek > 83360 && seek < 84560)
+        if (seek > 83300 && seek < 84500)
         {
             alpha2 += 10.0;
         }
-        if (seek > 84490 && seek < 84900 && flash < 12)
+        if (seek > 84390 && seek < 84800 && flash < 12)
         {
             flash++;
         }
 
         // Fade out valdyn rage
-        if (seek > 84900 && seek < 85800)
+        if (seek > 84800 && seek < 85600)
         {
             alpha2 -= 10.0;
         }
@@ -275,7 +275,7 @@ public final class Part2
             // Render pillars
             for (int i = pillar.length - 1; i >= 0; i--)
             {
-                final int newPillarZ = (int) (z[1 + i]);
+                final int newPillarZ = (int) z[1 + i];
                 if (newPillarZ > 0)
                 {
                     final int pillarZ = 1000 / newPillarZ;
@@ -297,37 +297,37 @@ public final class Part2
         }
 
         // Render valdyn
-        if (seek > 66500 && seek < 72200)
+        if (seek > 66300 && seek < 72200)
         {
             valdyn.render(g, (int) valdynCoord.getX(), (int) valdynCoord.getY());
         }
 
         // Render cave 2
-        if (seek > 71900 && seek < 81370)
+        if (seek > 71900 && seek < 81270)
         {
             cave2.render(g, 0, 0);
         }
 
         // Render equipment
-        if (seek > 74500 && seek < 81370)
+        if (seek > 74400 && seek < 81170)
         {
             equipSword.render(g, 20, 54);
         }
-        if (seek > 76300 && seek < 81370)
+        if (seek > 76200 && seek < 81170)
         {
             equipFoot.render(g, 65, 62);
         }
-        if (seek > 78060 && seek < 81370)
+        if (seek > 77960 && seek < 81170)
         {
             equipHand.render(g, 110, 70);
         }
 
         // Render valdyn rage
-        if (seek > 81370 && seek < 88000)
+        if (seek > 81170 && seek < 88000)
         {
             valdyn0.render(g, 0, 0);
         }
-        if (seek > 83360 && seek < 88000)
+        if (seek > 83300 && seek < 88000)
         {
             valdyn1.setAlpha((int) alpha2);
             valdyn1.render(g, 0, 0);
@@ -338,7 +338,7 @@ public final class Part2
         }
 
         // Render fade
-        if (seek > 50500 && alpha < 255)
+        if (seek > 49600 && alpha < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - (int) alpha]);
             g.drawRect(0, 0, width, height, true);

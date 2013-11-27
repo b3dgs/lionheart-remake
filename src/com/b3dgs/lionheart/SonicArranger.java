@@ -85,25 +85,15 @@ public final class SonicArranger
      * Play a music.
      * 
      * @param music The music to play.
+     * @param loop The loop flag.
      */
-    public static void play(Music music)
+    public static void play(Music music, boolean loop)
     {
         if (SonicArranger.enabled)
         {
-            SonicArranger.sc68.free();
+            SonicArranger.sc68.stop();
             SonicArranger.sc68.setVolume(40);
-            SonicArranger.sc68.play(UtilityMedia.get(AppLionheart.MUSICS_DIR, music.getFilename()));
-        }
-    }
-
-    /**
-     * Terminate player.
-     */
-    public static void terminate()
-    {
-        if (SonicArranger.enabled)
-        {
-            SonicArranger.sc68.free();
+            SonicArranger.sc68.play(UtilityMedia.get(AppLionheart.MUSICS_DIR, music.getFilename()), loop);
         }
     }
 

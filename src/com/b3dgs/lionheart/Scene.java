@@ -94,10 +94,6 @@ public final class Scene
         {
             end(new Menu(loader));
         }
-        if (keyboard.isPressedOnce(Key.ALT))
-        {
-            SonicArranger.play(Music.INTRO);
-        }
     }
 
     @Override
@@ -109,7 +105,7 @@ public final class Scene
     @Override
     protected void onLoaded(double extrp, Graphic g)
     {
-        SonicArranger.play(world.level.getWorld().getMusic());
+        SonicArranger.play(world.level.getWorld().getMusic(), true);
         update(extrp);
         render(g);
     }
@@ -130,7 +126,6 @@ public final class Scene
         Sfx.stopAll();
         if (!hasNextSequence)
         {
-            SonicArranger.terminate();
             Sfx.terminateAll();
         }
     }

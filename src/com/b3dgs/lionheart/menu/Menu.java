@@ -651,7 +651,6 @@ public class Menu
         Sfx.stopAll();
         if (!hasNextSequence)
         {
-            SonicArranger.terminate();
             Sfx.terminateAll();
         }
     }

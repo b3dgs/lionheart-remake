@@ -38,7 +38,7 @@ public final class CarnivorousPlant
     {
         super(setup);
     }
-    
+
     /*
      * EntityScenery
      */

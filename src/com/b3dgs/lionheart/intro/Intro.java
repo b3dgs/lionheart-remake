@@ -98,7 +98,7 @@ public final class Intro
         part2.load();
         part3.load();
         part4.load();
-        SonicArranger.play(Music.INTRO);
+        SonicArranger.play(Music.INTRO, false);
         timer.start();
     }
 
@@ -119,7 +119,7 @@ public final class Intro
         {
             part2.update(seek, extrp);
         }
-        else if (seek >= 94000 && seek < 110000)
+        else if (seek >= 92000 && seek < 110000)
         {
             part3.update(seek, extrp);
         }
@@ -144,7 +144,7 @@ public final class Intro
         {
             part2.render(width, height, seek, g);
         }
-        else if (seek >= 94000 && seek < 110000)
+        else if (seek >= 93000 && seek < 110000)
         {
             part3.render(width, height, seek, g);
         }
@@ -161,7 +161,6 @@ public final class Intro
         if (!hasNextSequence)
         {
             Sfx.terminateAll();
-            SonicArranger.terminate();
         }
     }
 }

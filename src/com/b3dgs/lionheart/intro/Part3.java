@@ -122,9 +122,9 @@ public final class Part3
         dragon2.updateAnimation(extrp);
 
         // Move valdyn
-        if (seek > 95500 && valdynState == 0)
+        if (seek > 95400 && valdynState == 0)
         {
-            valdynCoord.translate(1.0, 0.0);
+            valdynCoord.translate(1.2, 0.0);
             if (valdynCoord.getX() > 224)
             {
                 valdynCoord.setX(224);
@@ -211,15 +211,15 @@ public final class Part3
         }
 
         // First Fade in
-        if (seek > 93660 && seek < 96000)
+        if (seek > 92000 && seek < 96000)
         {
-            alphaBack += 5.0;
+            alphaBack += 10.0;
         }
 
         // First Fade out
-        if (seek > 108500 && seek < 120000)
+        if (seek > 108000 && seek < 120000)
         {
-            alphaBack -= 5.0;
+            alphaBack -= 10.0;
         }
         alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
     }
@@ -236,7 +236,7 @@ public final class Part3
     {
         g.clear(0, 0, width, height);
 
-        if (seek > 93660 && seek < 95730)
+        if (seek > 92000 && seek < 95730)
         {
             valdyn.render(g, camera.getViewpointX((int) valdynCoord.getX()),
                     camera.getViewpointY((int) -valdynCoord.getY()));
@@ -245,7 +245,7 @@ public final class Part3
         scene.render(g, camera.getViewpointX(0), camera.getViewpointY(0) + height / 2 - scene.getHeight() / 2);
 
         // Render dragon
-        if (seek > 93660 && seek < 101200)
+        if (seek > 92000 && seek < 101200)
         {
             dragon1.render(g, camera.getViewpointX(172), camera.getViewpointY(-56));
         }

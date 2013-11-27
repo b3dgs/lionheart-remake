@@ -94,20 +94,20 @@ public final class Part1
         // First Fade in
         if (seek > 0 && seek < 2500)
         {
-            alphaBack += 4.0;
+            alphaBack += 5.0;
             alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
         }
 
         // Text fades
         updateAlphaText(2600, 5650, 5650, 7050, seek, extrp);
         updateAlphaText(7550, 10000, 12000, 14000, seek, extrp);
-        updateAlphaText(15200, 18100, 18100, 20200, seek, extrp);
-        updateAlphaText(20200, 23100, 23100, 25200, seek, extrp);
-        updateAlphaText(25200, 28100, 28100, 30200, seek, extrp);
-        updateAlphaText(30200, 33100, 33100, 35200, seek, extrp);
+        updateAlphaText(14900, 17900, 17900, 20000, seek, extrp);
+        updateAlphaText(19900, 22900, 22900, 25000, seek, extrp);
+        updateAlphaText(24900, 27900, 27900, 30000, seek, extrp);
+        updateAlphaText(29900, 32900, 32900, 35000, seek, extrp);
 
         // Start moving camera until door
-        if (seek > 10500)
+        if (seek > 10200)
         {
             cameraBack.moveLocation(extrp, 0.45, 0.0);
             cameraScenery.moveLocation(extrp, 0.76, 0.0);
@@ -171,11 +171,11 @@ public final class Part1
         // Render sceneries
         renderScenery(height, 0, 32, g);
         renderScenery(height, 1, 420, g);
-        renderScenery(height, 0, 570, g);
-        renderScenery(height, 1, 670, g);
-        renderScenery(height, 2, 730, g);
-        renderScenery(height, 0, 790, g);
-        renderScenery(height, 3, 910, g);
+        renderScenery(height, 0, 580, g);
+        renderScenery(height, 1, 690, g);
+        renderScenery(height, 2, 750, g);
+        renderScenery(height, 0, 810, g);
+        renderScenery(height, 3, 920, g);
         renderScenery(height, 0, 980, g);
         renderScenery(height, 4, 1350, g);
         renderScenery(height, 5, 1650, g);
@@ -186,13 +186,13 @@ public final class Part1
         if (seek > 7050 && seek < 13000)
         {
             title.setAlpha((int) alphaText);
-            title.render(g, width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 16);
+            title.render(g, width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 24);
         }
-        renderText(15200, 19200, -110, -60, -86, -35, Align.LEFT, "PROGRAMMING", "Pierre-Alexandre", width, height,
+        renderText(14900, 19000, -110, -60, -86, -35, Align.LEFT, "PROGRAMMING", "Pierre-Alexandre", width, height,
                 seek, g);
-        renderText(20200, 24200, -110, -38, -58, -12, Align.LEFT, "GRAPHICS", "Henk Nieborg", width, height, seek, g);
-        renderText(25200, 29200, -110, -38, -42, -12, Align.LEFT, "GAMEDESIGN", "Erik Simon", width, height, seek, g);
-        renderText(30200, 34200, -110, -38, -110, -12, Align.LEFT, "MUSIC & SFX", "Matthias Steinwachs", width, height,
+        renderText(19900, 24000, -110, -38, -58, -12, Align.LEFT, "GRAPHICS", "Henk Nieborg", width, height, seek, g);
+        renderText(24900, 29000, -110, -38, -42, -12, Align.LEFT, "GAMEDESIGN", "Erik Simon", width, height, seek, g);
+        renderText(29900, 34000, -110, -38, -110, -12, Align.LEFT, "MUSIC & SFX", "Matthias Steinwachs", width, height,
                 seek, g);
 
         // Render fade in
@@ -217,11 +217,11 @@ public final class Part1
     {
         if (seek >= start1 && seek < end1)
         {
-            alphaText += 4.0 * extrp;
+            alphaText += 5.0 * extrp;
         }
         else if (seek >= start2 && seek < end2)
         {
-            alphaText -= 4.0 * extrp;
+            alphaText -= 5.0 * extrp;
         }
         alphaText = UtilityMath.fixBetween(alphaText, 0.0, 255.0);
     }
