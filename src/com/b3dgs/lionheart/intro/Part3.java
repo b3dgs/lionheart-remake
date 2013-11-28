@@ -86,7 +86,7 @@ public final class Part3
         dragon2 = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part3", "dragon2.png"), 5, 4);
         valdynWalk = Anim.createAnimation(1, 10, 0.2f, false, true);
         valdynPrepare = Anim.createAnimation(11, 12, 0.2f, false, false);
-        valdynPrepareLoop = Anim.createAnimation(13, 14, 0.2f, false, true);
+        valdynPrepareLoop = Anim.createAnimation(13, 14, 0.1f, false, true);
         valdynDragon = Anim.createAnimation(15, 24, 0.2f, false, false);
         dragonIdle = Anim.createAnimation(1, 15, 0.2f, false, false);
         dragonEat = Anim.createAnimation(16, 18, 0.2f, false, true);
@@ -145,9 +145,12 @@ public final class Part3
                 valdynState = 2;
             }
         }
-        if (valdynState == 2 && seek > 99260)
+        if (valdynState == 2 && seek > 98900)
         {
             valdyn.stopAnimation();
+        }
+        if (valdynState == 2 && seek > 99260)
+        {
             valdynState = 3;
         }
         if (valdynState == 3 && seek > 99860)
@@ -160,22 +163,22 @@ public final class Part3
         if (seek > 96360 && seek < 98300)
         {
             camera.moveLocation(extrp, 1.0, 0.0);
-            if (dragonState == 0)
-            {
-                dragonState = 1;
-                dragon1.play(dragonIdle);
-            }
             if (camera.getLocationX() > 80)
             {
                 camera.teleportX(80);
             }
+        }
+        if (dragonState == 0 && seek > 95750 && seek < 97250)
+        {
+            dragonState = 1;
+            dragon1.play(dragonIdle);
         }
         if (dragonState == 1 && dragon1.getAnimState() == AnimState.FINISHED)
         {
             dragon1.play(dragonEat);
             dragonState = 2;
         }
-        if (dragonState == 2 && seek > 98230)
+        if (dragonState == 2 && seek > 97720)
         {
             dragonState = 3;
             dragon1.stopAnimation();
@@ -187,7 +190,7 @@ public final class Part3
             dragon1.setFrame(dragonBack.getLast() + 1);
             dragonState = 4;
         }
-        if (dragonState == 4 && seek > 101200)
+        if (dragonState == 4 && seek > 101600)
         {
             dragon2.play(dragonFly);
             dragonState = 5;
@@ -211,7 +214,7 @@ public final class Part3
         }
 
         // First Fade in
-        if (seek > 92000 && seek < 96000)
+        if (seek > 93300 && seek < 96000)
         {
             alphaBack += 10.0;
         }
@@ -236,7 +239,7 @@ public final class Part3
     {
         g.clear(0, 0, width, height);
 
-        if (seek > 92000 && seek < 95730)
+        if (seek > 93300 && seek < 95730)
         {
             valdyn.render(g, camera.getViewpointX((int) valdynCoord.getX()),
                     camera.getViewpointY((int) -valdynCoord.getY()));
@@ -245,17 +248,17 @@ public final class Part3
         scene.render(g, camera.getViewpointX(0), camera.getViewpointY(0) + height / 2 - scene.getHeight() / 2);
 
         // Render dragon
-        if (seek > 92000 && seek < 101200)
+        if (seek > 93300 && seek < 101600)
         {
             dragon1.render(g, camera.getViewpointX(172), camera.getViewpointY(-56));
         }
-        else if (seek >= 101200 && seek < 107000)
+        else if (seek >= 101600 && seek < 107400)
         {
             dragon2.render(g, (int) dragonCoord.getX(), (int) dragonCoord.getY());
         }
 
         // Render valdyn
-        if (seek > 95730 && seek < 101200)
+        if (seek > 95730 && seek < 101600)
         {
             valdyn.render(g, camera.getViewpointX((int) valdynCoord.getX()),
                     camera.getViewpointY((int) -valdynCoord.getY()));

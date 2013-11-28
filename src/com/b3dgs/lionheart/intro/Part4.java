@@ -77,9 +77,9 @@ public final class Part4
         }
 
         // First Fade out
-        if (seek > 197000 && seek < 200200)
+        if (seek > 198500 && seek < 200000)
         {
-            alphaBack -= 3.0;
+            alphaBack -= 6.0;
         }
         alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
     }
@@ -101,7 +101,7 @@ public final class Part4
         {
             history[0].render(g, 0, 0);
         }
-        if (seek >= 130000)
+        if (seek >= 129000)
         {
             history[1].render(g, 45, 20);
         }
@@ -109,31 +109,31 @@ public final class Part4
         {
             history[2].render(g, 90, 40);
         }
-        if (seek >= 180000)
+        if (seek >= 178500)
         {
             history[3].render(g, 135, 60);
         }
 
         // Render texts
-        if (seek >= 113500 && seek < 130000)
+        if (seek >= 113500 && seek < 129000)
         {
             font.draw(
                     g,
                     2,
                     history[0].getHeight() + 2,
                     Align.LEFT,
-                    "Valdyn crossed the border and flew into %Norka's country. Everything had gone %smoothly until now. %Then he noticed a shape on the horizon %which rapidly grew bigger. One of Norka's %air-ship!");
+                    "Valdyn crossed the border and flew into %Norka's country. Everything had gone %smoothly until now. %Then he noticed a shape on the horizon %which rapidly grew bigger. One of Norka's %air-ships!");
         }
-        if (seek >= 130000 && seek < 154000)
+        if (seek >= 129000 && seek < 154000)
         {
             font.draw(
                     g,
                     2,
                     history[1].getHeight() + 22,
                     Align.LEFT,
-                    "Frantically, Valdyn urged the dragon %to fly faster. Maybe he could still escape! %But the airship grew ever larger. %It had neared to a distance of a few meters %when a explosion sounded and rapidly %expanding net flew towards Valdyn and %the dragon!");
+                    "Frantically, Valdyn urged the dragon %to fly faster. Maybe he could still escape! %But the airship grew ever larger. %It had neared to a distance of a few meters %when an explosion sounded and a rapidly %expanding net flew towards Valdyn and %the dragon!");
         }
-        if (seek >= 154000 && seek < 180000)
+        if (seek >= 154000 && seek < 178500)
         {
             font.draw(
                     g,
@@ -142,14 +142,14 @@ public final class Part4
                     Align.LEFT,
                     "They were caught by the net and were %swiftly hauled towards the ship. %Valdyn, who was having a hard time with %the panicking dragon, drew his sword and %hacked a way through the tough material. %Just before being drawn into the air-ship, %he jumped out and plummeted towards the %ground!");
         }
-        if (seek >= 180000 && seek < 200200)
+        if (seek >= 178500 && seek < 200000)
         {
             font.draw(
                     g,
                     2,
                     history[3].getHeight() + 62,
                     Align.LEFT,
-                    "Due to his new powers, Valdyn had survived %the long fall without even a scratch. %He stood forlornly in the swamps and %watched the air-ship fly out the sight. %He cursed. His mission wouldn't be so %easy now.");
+                    "Due to his new powers, Valdyn had survived %the long fall without even a scratch. %He stood forlornly in the swamps and %watched the air-ship fly out of sight. %He cursed. His mission wouldn't be so %easy now.");
         }
 
         // Render fade in

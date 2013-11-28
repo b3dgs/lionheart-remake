@@ -57,7 +57,7 @@ public final class Part1
      */
     public Part1()
     {
-        textLarge = UtilityImage.createText(Text.SANS_SERIF, 24, TextStyle.NORMAL);
+        textLarge = UtilityImage.createText(Text.SERIF, 24, TextStyle.BOLD);
         title = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "title.png"));
         backs = new Sprite[4];
         sceneries = new Sprite[6];
@@ -99,21 +99,21 @@ public final class Part1
         }
 
         // Text fades
-        updateAlphaText(2600, 5650, 5650, 7050, seek, extrp);
-        updateAlphaText(7550, 10000, 12000, 14000, seek, extrp);
-        updateAlphaText(14900, 17900, 17900, 20000, seek, extrp);
-        updateAlphaText(19900, 22900, 22900, 25000, seek, extrp);
-        updateAlphaText(24900, 27900, 27900, 30000, seek, extrp);
-        updateAlphaText(29900, 32900, 32900, 35000, seek, extrp);
+        updateAlphaText(2650, 5650, 5650, 7050, 5.0, seek, extrp);
+        updateAlphaText(7240, 11000, 12100, 14700, 2.5, seek, extrp);
+        updateAlphaText(15030, 17900, 17900, 19700, 5.0, seek, extrp);
+        updateAlphaText(19900, 22900, 22900, 24700, 5.0, seek, extrp);
+        updateAlphaText(24900, 27900, 27900, 29700, 5.0, seek, extrp);
+        updateAlphaText(29900, 32900, 32900, 35000, 5.0, seek, extrp);
 
         // Start moving camera until door
-        if (seek > 10200)
+        if (seek > 10245)
         {
-            cameraBack.moveLocation(extrp, 0.45, 0.0);
+            cameraBack.moveLocation(extrp, 0.44, 0.0);
             cameraScenery.moveLocation(extrp, 0.76, 0.0);
-            if (cameraScenery.getLocationX() > 1602.0)
+            if (cameraScenery.getLocationX() > 1628)
             {
-                cameraScenery.teleportX(1602.0);
+                cameraScenery.teleportX(1628);
             }
         }
     }
@@ -177,22 +177,29 @@ public final class Part1
         renderScenery(height, 0, 810, g);
         renderScenery(height, 3, 920, g);
         renderScenery(height, 0, 980, g);
-        renderScenery(height, 4, 1350, g);
-        renderScenery(height, 5, 1650, g);
+        renderScenery(height, 4, 1375, g);
+        renderScenery(height, 5, 1676, g);
 
         // Render texts
-        renderText(2600, 7050, 0, -38, 0, -16, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS", width, height, seek,
+        renderText(2650, 7050, 0, -42, 0, -20, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS", width, height, seek,
                 g);
-        if (seek > 7050 && seek < 13000)
+        if (seek > 7240 && seek < 14700)
         {
-            title.setAlpha((int) alphaText);
+            if (seek < 10000)
+            {
+                title.setFade((int) -alphaText, 255);
+            }
+            else
+            {
+                title.setFade((int) alphaText, -255);
+            }
             title.render(g, width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 24);
         }
-        renderText(14900, 19000, -110, -60, -86, -35, Align.LEFT, "PROGRAMMING", "Pierre-Alexandre", width, height,
+        renderText(15030, 19000, -110, -64, -86, -41, Align.LEFT, "PROGRAMMING", "Pierre-Alexandre", width, height,
                 seek, g);
-        renderText(19900, 24000, -110, -38, -58, -12, Align.LEFT, "GRAPHICS", "Henk Nieborg", width, height, seek, g);
-        renderText(24900, 29000, -110, -38, -42, -12, Align.LEFT, "GAMEDESIGN", "Erik Simon", width, height, seek, g);
-        renderText(29900, 34000, -110, -38, -110, -12, Align.LEFT, "MUSIC & SFX", "Matthias Steinwachs", width, height,
+        renderText(19900, 24000, -110, -44, -58, -18, Align.LEFT, "GRAPHICS", "Henk Nieborg", width, height, seek, g);
+        renderText(24900, 29000, -110, -44, -42, -18, Align.LEFT, "GAMEDESIGN", "Erik Simon", width, height, seek, g);
+        renderText(29000, 34000, -110, -44, -110, -18, Align.LEFT, "MUSIC & SFX", "Matthias Steinwachs", width, height,
                 seek, g);
 
         // Render fade in
@@ -210,18 +217,19 @@ public final class Part1
      * @param end1 The entering end.
      * @param start2 The ending start.
      * @param end2 The ending end.
+     * @param speed The alpha speed.
      * @param seek The current seek.
      * @param extrp The extrapolation value.
      */
-    private void updateAlphaText(int start1, int end1, int start2, int end2, int seek, double extrp)
+    private void updateAlphaText(int start1, int end1, int start2, int end2, double speed, int seek, double extrp)
     {
         if (seek >= start1 && seek < end1)
         {
-            alphaText += 5.0 * extrp;
+            alphaText += speed * extrp;
         }
         else if (seek >= start2 && seek < end2)
         {
-            alphaText -= 5.0 * extrp;
+            alphaText -= speed * extrp;
         }
         alphaText = UtilityMath.fixBetween(alphaText, 0.0, 255.0);
     }

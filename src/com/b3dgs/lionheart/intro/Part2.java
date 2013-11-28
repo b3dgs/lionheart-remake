@@ -111,6 +111,7 @@ public final class Part2
         valdyn0.load(false);
         valdyn1.load(true);
         valdyn2.load(false);
+        cave1.scale(11);
         door.play(Anim.createAnimation(1, 6, 0.15, false, false));
         final Animation equip = Anim.createAnimation(1, 3, 0.16, false, false);
         equipFoot.play(equip);
@@ -128,15 +129,15 @@ public final class Part2
     public void update(int seek, double extrp)
     {
         // Open the door
-        if (seek < 48500)
+        if (seek > 47050 && seek < 48800)
         {
             door.updateAnimation(extrp);
         }
 
         // Enter in the door
-        if (seek > 48300 && z[0] > 2)
+        if (seek > 48100 && z[0] > 2)
         {
-            z[0] -= 0.12;
+            z[0] -= 0.08;
             final int doorZ = (int) UtilityMath.fixBetween(1000 / z[0], 100, 800);
             door.scale(doorZ);
             if (z[0] < 2)
@@ -149,24 +150,24 @@ public final class Part2
         }
 
         // Alpha inside cave
-        if (seek > 49600 && seek < 55000)
+        if (seek > 49850 && seek < 55000)
         {
-            alpha += 1.5;
+            alpha += 2.5;
         }
 
         // Move along the cave when entered
-        if (z[0] < 2)
+        if (seek > 49400 && seek < 66000)
         {
             for (int i = 1; i < z.length; i++)
             {
-                z[i] -= 0.14;
+                z[i] -= 0.155;
             }
         }
 
         // Valdyn approaching
         if (seek > 66300 && seek < 71000)
         {
-            valdynCoord.translate(-1.5 * extrp, -1.5 * 1.207 * extrp);
+            valdynCoord.translate(-1.43 * extrp, -1.43 * 1.207 * extrp);
             if (valdynCoord.getX() < 180)
             {
                 valdynCoord.setX(180);
@@ -178,13 +179,13 @@ public final class Part2
         }
 
         // Fade out from cave
-        if (seek > 71160 && seek < 71800)
+        if (seek > 71060 && seek < 71700)
         {
             alpha -= 15.0;
         }
 
         // Fade in to equipment
-        if (seek > 71800 && seek < 72300)
+        if (seek > 71700 && seek < 72300)
         {
             alpha += 15.0;
         }
@@ -222,19 +223,19 @@ public final class Part2
         }
 
         // Fade in valdyn rage
-        if (seek > 83300 && seek < 84500)
+        if (seek > 83250 && seek < 84500)
         {
             alpha2 += 10.0;
         }
-        if (seek > 84390 && seek < 84800 && flash < 12)
+        if (seek > 84250 && seek < 84800 && flash < 15)
         {
             flash++;
         }
 
         // Fade out valdyn rage
-        if (seek > 84800 && seek < 85600)
+        if (seek > 84800 && seek < 86000)
         {
-            alpha2 -= 10.0;
+            alpha2 -= 4.0;
         }
 
         alpha = UtilityMath.fixBetween(alpha, 0.0, 255.0);
@@ -260,7 +261,7 @@ public final class Part2
         }
 
         // Render cave
-        if (z[0] < 2)
+        if (seek > 49400)
         {
             if (z[7] > 0)
             {
@@ -275,24 +276,21 @@ public final class Part2
             // Render pillars
             for (int i = pillar.length - 1; i >= 0; i--)
             {
-                final int newPillarZ = (int) z[1 + i];
-                if (newPillarZ > 0)
+                final double newPillarZ = UtilityMath.fixBetween(z[1 + i], 0.1, 500);
+                final double pillarZ = UtilityMath.fixBetween(1000 / newPillarZ, -15, 500);
+                final double offset;
+                if (i % 2 == 1)
                 {
-                    final int pillarZ = 1000 / newPillarZ;
-                    final int offset;
-                    if (i % 2 == 1)
-                    {
-                        offset = -24 + i * 4 - pillarZ;
-                    }
-                    else
-                    {
-                        offset = 24 - i * 4 + pillarZ;
-                    }
-                    final int scale = UtilityMath.fixBetween(pillarZ, -19, 500);
-                    pillar[i].scale(10 + scale);
-                    pillar[i].render(g, width / 2 - pillar[i].getWidth() / 2 + offset,
-                            height / 2 - pillar[i].getHeight() / 2);
+                    offset = -5 - pillarZ;
                 }
+                else
+                {
+                    offset = 7 + pillarZ;
+                }
+                final int scale = (int) UtilityMath.fixBetween(pillarZ, -5, 500);
+                pillar[i].scale(10 + scale);
+                pillar[i].render(g, width / 2 - pillar[i].getWidth() / 2 + (int) offset,
+                        height / 2 - pillar[i].getHeight() / 2);
             }
         }
 
@@ -303,7 +301,7 @@ public final class Part2
         }
 
         // Render cave 2
-        if (seek > 71900 && seek < 81270)
+        if (seek > 71700 && seek < 81270)
         {
             cave2.render(g, 0, 0);
         }
@@ -327,18 +325,18 @@ public final class Part2
         {
             valdyn0.render(g, 0, 0);
         }
-        if (seek > 83300 && seek < 88000)
+        if (seek > 83250 && seek < 88000)
         {
             valdyn1.setAlpha((int) alpha2);
             valdyn1.render(g, 0, 0);
-            if (flash % 3 == 1 || flash % 3 == 2)
+            if (flash % 3 == 1)
             {
                 valdyn2.render(g, 0, 0);
             }
         }
 
         // Render fade
-        if (seek > 49600 && alpha < 255)
+        if (seek > 49400 && alpha < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - (int) alpha]);
             g.drawRect(0, 0, width, height, true);

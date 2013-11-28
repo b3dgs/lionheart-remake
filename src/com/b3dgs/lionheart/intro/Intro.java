@@ -38,7 +38,7 @@ public final class Intro
         extends Sequence
 {
     /** Original introduction display. */
-    public static final Resolution INTRO_DISPLAY = new Resolution(320, 240, 60);
+    public static final Resolution INTRO_DISPLAY = new Resolution(32064, 240, 60);
     /** Alpha black values. */
     static final ColorRgba[] ALPHAS_BLACK;
     /** Alpha white values. */
@@ -111,11 +111,11 @@ public final class Intro
             seek = (int) timer.elapsed();
         }
 
-        if (seek < 47200)
+        if (seek < 47050)
         {
             part1.update(seek, extrp);
         }
-        else if (seek >= 47200 && seek < 88000)
+        else if (seek >= 47050 && seek < 88000)
         {
             part2.update(seek, extrp);
         }
@@ -136,15 +136,15 @@ public final class Intro
     @Override
     protected void render(Graphic g)
     {
-        if (seek < 47200)
+        if (seek < 47050)
         {
             part1.render(width, height, seek, g);
         }
-        else if (seek >= 47200 && seek < 88000)
+        else if (seek >= 47050 && seek < 88000)
         {
             part2.render(width, height, seek, g);
         }
-        else if (seek >= 93000 && seek < 110000)
+        else if (seek >= 92000 && seek < 110000)
         {
             part3.render(width, height, seek, g);
         }
