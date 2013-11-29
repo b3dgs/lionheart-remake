@@ -100,7 +100,7 @@ public final class Part1
 
         // Text fades
         updateAlphaText(2650, 5650, 5650, 7050, 5.0, seek, extrp);
-        updateAlphaText(7240, 11000, 12100, 14700, 2.5, seek, extrp);
+        updateAlphaText(7250, 11000, 12100, 14700, 2.5, seek, extrp);
         updateAlphaText(15030, 17900, 17900, 19700, 5.0, seek, extrp);
         updateAlphaText(19900, 22900, 22900, 24700, 5.0, seek, extrp);
         updateAlphaText(24900, 27900, 27900, 29700, 5.0, seek, extrp);
@@ -183,7 +183,7 @@ public final class Part1
         // Render texts
         renderText(2650, 7050, 0, -42, 0, -20, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS", width, height, seek,
                 g);
-        if (seek > 7240 && seek < 14700)
+        if (seek > 7250 && seek < 14700)
         {
             if (seek < 10000)
             {

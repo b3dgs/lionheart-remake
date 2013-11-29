@@ -101,21 +101,21 @@ public final class Part4
         {
             history[0].render(g, 0, 0);
         }
-        if (seek >= 129000)
+        if (seek >= 129200)
         {
             history[1].render(g, 45, 20);
         }
-        if (seek >= 154000)
+        if (seek >= 154050)
         {
             history[2].render(g, 90, 40);
         }
-        if (seek >= 178500)
+        if (seek >= 178700)
         {
             history[3].render(g, 135, 60);
         }
 
         // Render texts
-        if (seek >= 113500 && seek < 129000)
+        if (seek >= 113500 && seek < 129200)
         {
             font.draw(
                     g,
@@ -124,7 +124,7 @@ public final class Part4
                     Align.LEFT,
                     "Valdyn crossed the border and flew into %Norka's country. Everything had gone %smoothly until now. %Then he noticed a shape on the horizon %which rapidly grew bigger. One of Norka's %air-ships!");
         }
-        if (seek >= 129000 && seek < 154000)
+        if (seek >= 129200 && seek < 154050)
         {
             font.draw(
                     g,
@@ -133,7 +133,7 @@ public final class Part4
                     Align.LEFT,
                     "Frantically, Valdyn urged the dragon %to fly faster. Maybe he could still escape! %But the airship grew ever larger. %It had neared to a distance of a few meters %when an explosion sounded and a rapidly %expanding net flew towards Valdyn and %the dragon!");
         }
-        if (seek >= 154000 && seek < 178500)
+        if (seek >= 154050 && seek < 178700)
         {
             font.draw(
                     g,
@@ -142,7 +142,7 @@ public final class Part4
                     Align.LEFT,
                     "They were caught by the net and were %swiftly hauled towards the ship. %Valdyn, who was having a hard time with %the panicking dragon, drew his sword and %hacked a way through the tough material. %Just before being drawn into the air-ship, %he jumped out and plummeted towards the %ground!");
         }
-        if (seek >= 178500 && seek < 200000)
+        if (seek >= 178700 && seek < 200000)
         {
             font.draw(
                     g,
