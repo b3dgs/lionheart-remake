@@ -98,7 +98,7 @@ public final class Intro
         part2.load();
         part3.load();
         part4.load();
-        SonicArranger.play(Music.INTRO, false);
+        SonicArranger.play(Music.INTRO);
         timer.start();
     }
 

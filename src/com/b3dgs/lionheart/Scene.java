@@ -105,7 +105,7 @@ public final class Scene
     @Override
     protected void onLoaded(double extrp, Graphic g)
     {
-        SonicArranger.play(world.level.getWorld().getMusic(), true);
+        SonicArranger.play(world.level.getWorld().getMusic());
         update(extrp);
         render(g);
     }
