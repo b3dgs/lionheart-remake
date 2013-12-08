@@ -21,7 +21,7 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-import com.b3dgs.lionengine.UtilityFile;
+import com.b3dgs.lionengine.core.UtilityFile;
 
 /**
  * Filter the map file format.

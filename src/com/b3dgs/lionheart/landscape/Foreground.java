@@ -19,10 +19,10 @@ package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.UtilityFile;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
 import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityFile;
 import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.drawable.Drawable;
