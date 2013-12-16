@@ -147,6 +147,7 @@ public class HandlerEntity
         // Monster interaction (player)
         else if (entity instanceof EntityMonster)
         {
+            ((EntityMonster) entity).update(player);
             if (player.collide(entity))
             {
                 entity.hitThat(player);

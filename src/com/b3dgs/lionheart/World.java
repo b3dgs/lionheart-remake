@@ -29,11 +29,15 @@ import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionheart.effect.HandlerEffect;
 import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
+import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.entity.player.EntityPlayerType;
 import com.b3dgs.lionheart.entity.player.FactoryEntityPlayer;
 import com.b3dgs.lionheart.entity.player.StatsRenderer;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
 import com.b3dgs.lionheart.entity.swamp.FactoryEntitySwamp;
+import com.b3dgs.lionheart.entity.swamp.launcher.FactoryLauncherSwamp;
+import com.b3dgs.lionheart.entity.swamp.projectile.FactoryProjectileSwamp;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.map.Map;
@@ -62,6 +66,12 @@ final class World
     private final HandlerEntity handlerEntity;
     /** Handler effect. */
     private final HandlerEffect handlerEffect;
+    /** Handler projectile reference. */
+    public final HandlerProjectile handlerProjectile;
+    /** Factory projectile reference. */
+    public final FactoryProjectileSwamp factoryProjectile;
+    /** Factory launcher. */
+    public final FactoryLauncher<?, ?> factoryLauncher;
     /** Stats renderer. */
     private final StatsRenderer statsRenderer;
     /** Landscape reference. */
@@ -84,7 +94,10 @@ final class World
         factoryPlayer = new FactoryEntityPlayer();
         factoryEntity = new FactoryEntitySwamp();
         handlerEntity = new HandlerEntity(camera, factoryEntity);
-        level = new Level(camera, factoryEntity, handlerEntity, source.getRate());
+        handlerProjectile = new HandlerProjectile(camera, handlerEntity);
+        factoryProjectile = new FactoryProjectileSwamp();
+        factoryLauncher = new FactoryLauncherSwamp(factoryProjectile, handlerProjectile);
+        level = new Level(camera, factoryEntity, handlerEntity, factoryLauncher, factoryProjectile, source.getRate());
         factoryEntity.setLevel(level);
         map = level.map;
         statsRenderer = new StatsRenderer(width);
@@ -126,6 +139,7 @@ final class World
         player.update(extrp);
         handlerEntity.update(extrp);
         handlerEffect.update(extrp);
+        handlerProjectile.update(extrp);
         camera.follow(player);
         landscape.update(extrp, camera);
         if (player.isDestroyed() || level.checkEnd(player))
@@ -140,6 +154,7 @@ final class World
         landscape.renderBackground(g);
         map.render(g, camera);
         handlerEntity.render(g);
+        handlerProjectile.render(g);
         handlerEffect.render(g);
         player.render(g, camera);
         if (AppLionheart.SHOW_COLLISIONS)

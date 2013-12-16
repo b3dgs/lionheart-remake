@@ -64,6 +64,16 @@ public class EntityMonster
     }
 
     /**
+     * Called to update with another entity.
+     * 
+     * @param entity The entity to update with.
+     */
+    protected void update(Entity entity)
+    {
+        // Nothing by default
+    }
+
+    /**
      * Called when entity is hit once.
      * 
      * @param entity The entity that hit.

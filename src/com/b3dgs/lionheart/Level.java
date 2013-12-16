@@ -27,6 +27,8 @@ import com.b3dgs.lionheart.effect.HandlerEffect;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
+import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
+import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 import com.b3dgs.lionheart.map.Map;
 
@@ -53,6 +55,10 @@ public class Level
     public final HandlerEntity handlerEntity;
     /** Handler effect reference. */
     public final HandlerEffect handlerEffect;
+    /** Factory launcher. */
+    public final FactoryLauncher<?, ?> factoryLauncher;
+    /** Factory projectile. */
+    public final FactoryProjectile<?> factoryProjectile;
     /** Desired fps value. */
     public final int desiredFps;
     /** World type. */
@@ -66,13 +72,18 @@ public class Level
      * @param camera The camera reference.
      * @param factoryEntity The entity factory reference.
      * @param handlerEntity The entity handler reference.
+     * @param factoryLauncher The launcher factory reference.
+     * @param factoryProjectile The projectile factory reference.
      * @param desiredFps The desired fps value.
      */
-    public Level(CameraPlatform camera, FactoryEntity<?> factoryEntity, HandlerEntity handlerEntity, int desiredFps)
+    public Level(CameraPlatform camera, FactoryEntity<?> factoryEntity, HandlerEntity handlerEntity,
+            FactoryLauncher<?, ?> factoryLauncher, FactoryProjectile<?> factoryProjectile, int desiredFps)
     {
         this.camera = camera;
         this.factoryEntity = factoryEntity;
         this.handlerEntity = handlerEntity;
+        this.factoryLauncher = factoryLauncher;
+        this.factoryProjectile = factoryProjectile;
         handlerEffect = new HandlerEffect(camera);
         factoryEffect = new FactoryEffect(handlerEffect);
         map = new Map();
@@ -113,6 +124,8 @@ public class Level
         setLandscape(LandscapeType.load(file));
         factoryEntity.load();
         factoryEffect.load();
+        factoryLauncher.load();
+        factoryProjectile.load();
         map.load(file);
         worldData.load(file);
         handlerEntity.load(file);

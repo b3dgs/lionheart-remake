@@ -132,6 +132,10 @@ public class WorldPanel
     private int movingOffsetY;
     /** Current player selection state. */
     private SelectionPlayerType playerSelection;
+    /** Last selection for place mode. */
+    private EntityType<?> lastSelection;
+    /** Last selection entity for place mode. */
+    private Entity lastSelectionEntity;
     /** Selection starting horizontal location. */
     private int selectStartX;
     /** Selection starting vertical location. */
@@ -153,7 +157,7 @@ public class WorldPanel
         camera = new CameraPlatform(WorldPanel.DEFAULT_WIDTH, WorldPanel.DEFAULT_HEIGHT);
         factoryEntity = new FactoryEntitySwamp();
         handlerEntity = new Handler(factoryEntity);
-        level = new Level(camera, factoryEntity, handlerEntity, 60);
+        level = new Level(camera, factoryEntity, handlerEntity, null, null, 60);
         factoryEntity.setLevel(level);
         worldData = level.worldData;
         map = level.map;
@@ -330,6 +334,28 @@ public class WorldPanel
             final int h = selectEndY - sy;
             g.setColor(WorldPanel.COLOR_MOUSE_SELECTION);
             g.drawRect(sx, sy, w, h, true);
+        }
+        if (editor.getSelectionState() == SelectionType.PLACE)
+        {
+            final EntityType<?> selection = editor.getSelectedEntity();
+            if (selection != null)
+            {
+                if (selection != lastSelection)
+                {
+                    lastSelectionEntity = editor.world.factoryEntity.createEntityFromType(selection.getType().name());
+                    lastSelection = selection;
+                }
+                final int tw = map.getTileWidth();
+                final int th = map.getTileHeight();
+                final int width = lastSelectionEntity.getWidth();
+                final int height = lastSelectionEntity.getHeight();
+                final int h = UtilityMath.getRounded(height, tw) - th;
+                final int x = UtilityMath.getRounded(mouseX, tw);
+                final int y = UtilityMath.getRounded(mouseY, th) - h;
+
+                g.setColor(ColorRgba.PURPLE);
+                g.drawRect(x, y, width, height, true);
+            }
         }
     }
 
@@ -758,14 +784,16 @@ public class WorldPanel
         final int y = areaY - my + editor.getOffsetViewV() - 1 + movingOffsetY;
         updateSelection(mx, my);
 
-        for (final Entity entity : handlerEntity.list())
+        if (editor.getSelectionState() == SelectionType.SELECT)
         {
-            if (entity.isSelected())
+            for (final Entity entity : handlerEntity.list())
             {
-                entity.teleport(entity.getLocationIntX() + x - ox, entity.getLocationIntY() + y - oy);
+                if (entity.isSelected())
+                {
+                    entity.teleport(entity.getLocationIntX() + x - ox, entity.getLocationIntY() + y - oy);
+                }
             }
         }
-
         updateMouse(mx, my);
     }
 

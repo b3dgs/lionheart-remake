@@ -17,8 +17,13 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionengine.core.UtilityMath;
+import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
+import com.b3dgs.lionheart.entity.swamp.launcher.FactoryLauncherSwamp;
+import com.b3dgs.lionheart.entity.swamp.launcher.LauncherBullet;
+import com.b3dgs.lionheart.entity.swamp.launcher.LauncherSwampType;
 
 /**
  * Flower implementation.
@@ -28,6 +33,9 @@ import com.b3dgs.lionheart.entity.SetupEntity;
 public final class Flower
         extends EntityMonster
 {
+    /** Launcher bullet. */
+    private final LauncherBullet launcher;
+
     /**
      * Constructor.
      * 
@@ -36,5 +44,29 @@ public final class Flower
     public Flower(SetupEntity setup)
     {
         super(setup);
+        FactoryLauncherSwamp factoryLauncherSwamp = (FactoryLauncherSwamp) setup.level.factoryLauncher;
+        launcher = factoryLauncherSwamp.create(LauncherSwampType.BULLET_LAUNCHER);
+        launcher.setOwner(this);
+        launcher.setRate(2000);
+    }
+
+    /*
+     * EntityMonster
+     */
+
+    @Override
+    protected void update(Entity entity)
+    {
+        super.update(entity);
+        final int frame = (getLocationIntX() - entity.getLocationIntX() + 12) / 16;
+        if (frame > 0)
+        {
+            setFrame(5 - UtilityMath.fixBetween(frame, 1, 4));
+        }
+        else
+        {
+            setFrame(5 + UtilityMath.fixBetween(-frame, 0, 3));
+        }
+        launcher.launch(entity);
     }
 }
