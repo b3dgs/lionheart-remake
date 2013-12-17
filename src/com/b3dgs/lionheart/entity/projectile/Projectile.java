@@ -18,8 +18,9 @@
 package com.b3dgs.lionheart.entity.projectile;
 
 import com.b3dgs.lionengine.Graphic;
+import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.drawable.Drawable;
-import com.b3dgs.lionengine.drawable.Sprite;
+import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
 import com.b3dgs.lionengine.game.projectile.ProjectileGame;
@@ -34,7 +35,7 @@ public abstract class Projectile
         extends ProjectileGame<Entity, Entity>
 {
     /** Surface. */
-    private final Sprite sprite;
+    private final SpriteAnimated sprite;
 
     /**
      * Constructor.
@@ -44,12 +45,20 @@ public abstract class Projectile
     public Projectile(SetupSurfaceGame setup)
     {
         super(setup);
-        sprite = Drawable.loadSprite(setup.surface);
+        sprite = Drawable.loadSpriteAnimated(setup.surface, 2, 1);
+        sprite.play(Anim.createAnimation(1, 2, 0.1, false, true));
     }
 
     /*
      * ProjectileGame
      */
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+        sprite.updateAnimation(extrp);
+    }
 
     @Override
     public void render(Graphic g, CameraGame camera)

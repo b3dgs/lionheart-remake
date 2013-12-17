@@ -48,9 +48,14 @@ import com.b3dgs.lionheart.WorldData;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityType;
 import com.b3dgs.lionheart.entity.FactoryEntity;
+import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
+import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
+import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
 import com.b3dgs.lionheart.entity.swamp.FactoryEntitySwamp;
+import com.b3dgs.lionheart.entity.swamp.launcher.FactoryLauncherSwamp;
+import com.b3dgs.lionheart.entity.swamp.projectile.FactoryProjectileSwamp;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -110,8 +115,14 @@ public class WorldPanel
     public final WorldData worldData;
     /** The entity handler reference. */
     public final Handler handlerEntity;
-    /** The factory reference. */
+    /** The factory entity reference. */
     public final FactoryEntity<?> factoryEntity;
+    /** The handler projectile reference. */
+    public final HandlerProjectile handlerProjectile;
+    /** The factory launcher reference. */
+    public final FactoryLauncher<?, ?> factoryLauncher;
+    /** The factory projectile reference. */
+    public final FactoryProjectile<?> factoryProjectile;
     /** The editor reference. */
     private final Editor editor;
     /** Current horizontal mouse location. */
@@ -157,7 +168,10 @@ public class WorldPanel
         camera = new CameraPlatform(WorldPanel.DEFAULT_WIDTH, WorldPanel.DEFAULT_HEIGHT);
         factoryEntity = new FactoryEntitySwamp();
         handlerEntity = new Handler(factoryEntity);
-        level = new Level(camera, factoryEntity, handlerEntity, null, null, 60);
+        handlerProjectile = new HandlerProjectile(camera, handlerEntity);
+        factoryProjectile = new FactoryProjectileSwamp();
+        factoryLauncher = new FactoryLauncherSwamp((FactoryProjectileSwamp) factoryProjectile, handlerProjectile);
+        level = new Level(camera, factoryEntity, handlerEntity, factoryLauncher, factoryProjectile, 60);
         factoryEntity.setLevel(level);
         worldData = level.worldData;
         map = level.map;

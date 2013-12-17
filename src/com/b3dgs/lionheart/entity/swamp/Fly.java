@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.entity.swamp;
 
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
+import com.b3dgs.lionheart.entity.patrol.Patrol;
 
 /**
  * Fly implementation.
@@ -36,5 +37,6 @@ public final class Fly
     public Fly(SetupEntity setup)
     {
         super(setup);
+        enableMovement(Patrol.HORIZONTAL);
     }
 }

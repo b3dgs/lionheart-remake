@@ -44,7 +44,7 @@ public final class Flower
     public Flower(SetupEntity setup)
     {
         super(setup);
-        FactoryLauncherSwamp factoryLauncherSwamp = (FactoryLauncherSwamp) setup.level.factoryLauncher;
+        final FactoryLauncherSwamp factoryLauncherSwamp = (FactoryLauncherSwamp) setup.level.factoryLauncher;
         launcher = factoryLauncherSwamp.create(LauncherSwampType.BULLET_LAUNCHER);
         launcher.setOwner(this);
         launcher.setRate(2000);
@@ -67,6 +67,40 @@ public final class Flower
         {
             setFrame(5 + UtilityMath.fixBetween(-frame, 0, 3));
         }
+        final int f = getFrame();
+        if (f == 1)
+        {
+            launcher.setOffsetX(-30);
+        }
+        else if (f == 2)
+        {
+            launcher.setOffsetX(-28);
+        }
+        else if (f == 3)
+        {
+            launcher.setOffsetX(-22);
+        }
+        else if (f == 4)
+        {
+            launcher.setOffsetX(-17);
+        }
+        else if (f == 5)
+        {
+            launcher.setOffsetX(-12);
+        }
+        else if (f == 6)
+        {
+            launcher.setOffsetX(-6);
+        }
+        else if (f == 7)
+        {
+            launcher.setOffsetX(-2);
+        }
+        else if (f == 8)
+        {
+            launcher.setOffsetX(0);
+        }
+        launcher.setOffsetY(6);
         launcher.launch(entity);
     }
 }
