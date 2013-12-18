@@ -63,7 +63,7 @@ import com.b3dgs.lionheart.map.Map;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class WorldPanel
+public final class WorldPanel
         extends JPanel
         implements MouseListener, MouseMotionListener
 {

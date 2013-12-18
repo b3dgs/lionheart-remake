@@ -42,6 +42,8 @@ public abstract class EntityMover
     protected final Force jumpForce;
     /** Jump max force. */
     protected final double jumpHeightMax;
+    /** Gravity max. */
+    protected final double gravityMax;
     /** Extra gravity force. */
     private final Force extraGravityForce;
     /** Forces list used. */
@@ -60,6 +62,7 @@ public abstract class EntityMover
         extraGravityForce = new Force();
         jumpForce = new Force();
         jumpHeightMax = getDataDouble("heightMax", "data", "jump");
+        gravityMax = getDataDouble("gravityMax", "data");
         movement.setVelocity(0.2);
         movement.setSensibility(0.4);
         forces = new Force[]
@@ -67,7 +70,7 @@ public abstract class EntityMover
                 jumpForce, extraGravityForce, movement.getForce()
         };
         setMass(getDataDouble("mass", "data"));
-        setGravityMax(getDataDouble("gravityMax", "data"));
+        setGravityMax(gravityMax);
         addCollisionTile(EntityCollisionTileCategory.GROUND_CENTER, 0, 0);
     }
 

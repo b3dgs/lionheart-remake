@@ -390,6 +390,7 @@ public final class Valdyn
             {
                 if (!timerJump.isStarted())
                 {
+                    setGravityMax(gravityMax + jumpHeightMax);
                     timerJump.start();
                 }
                 if (canJump() || tilt.getLianaSoared())
@@ -414,6 +415,7 @@ public final class Valdyn
                 {
                     final double factor = timerJump.elapsed() / (double) Valdyn.JUMP_TIME_MAX;
                     jumpForce.setForce(0.0, UtilityMath.fixBetween(jumpHeightMax * factor, 0.0, jumpHeightMax));
+                    setGravityMax(gravityMax + jumpForce.getForceVertical());
                     timerJump.stop();
                 }
             }
@@ -838,6 +840,12 @@ public final class Valdyn
             kill();
             teleportY(waterHeight);
             drownedDeath = true;
+        }
+        if (status.collisionChangedFromTo(EntityCollisionTile.NONE, EntityCollisionTile.GROUND)
+                || status.collisionChangedFromTo(EntityCollisionTile.NONE, EntityCollisionTile.LIANA))
+        {
+            timerJump.stop();
+            setGravityMax(gravityMax);
         }
     }
 

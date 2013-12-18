@@ -15,26 +15,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
-
-import com.b3dgs.lionheart.entity.EntityMonster;
-import com.b3dgs.lionheart.entity.SetupEntity;
+package com.b3dgs.lionheart.entity;
 
 /**
- * Grasshopper implementation.
+ * Jumpable ability for an entity.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Grasshopper
-        extends EntityMonster
+public interface Jumpable
 {
     /**
-     * Constructor.
+     * Set the jumpable flag.
      * 
-     * @param setup The setup reference.
+     * @param jumpable The jumpable flag.
      */
-    public Grasshopper(SetupEntity setup)
-    {
-        super(setup);
-    }
+    void setJumpable(boolean jumpable);
+
+    /**
+     * Set the jump force speed.
+     * 
+     * @param jumpForceSpeed The jump force speed.
+     */
+    void setJumpForceSpeed(int jumpForceSpeed);
+
+    /**
+     * Get the jump force.
+     * 
+     * @return The jump force.
+     */
+    int getJumpForceSpeed();
+
+    /**
+     * Check if crawling is jumpable.
+     * 
+     * @return <code>true</code> if jumpable, <code>false</code> else.
+     */
+    boolean isJumpable();
 }

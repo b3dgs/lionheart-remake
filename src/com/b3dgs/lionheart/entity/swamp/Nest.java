@@ -69,8 +69,7 @@ public class Nest
             entity.setMovementSpeedMax(1.0);
             entity.prepare();
             handler.add(entity);
-            timer.stop();
-            timer.start();
+            timer.restart();
         }
         if (checkCollisionHorizontal(EntityCollisionTileCategory.GROUND_CENTER) != null)
         {

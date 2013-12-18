@@ -28,7 +28,7 @@ import com.b3dgs.lionengine.core.UtilityFile;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class MapFilter
+final class MapFilter
         extends FileFilter
 {
     /** Map file description. */
@@ -42,7 +42,7 @@ public class MapFilter
      * @param description The map file description.
      * @param extensions The map file extensions.
      */
-    public MapFilter(String description, String... extensions)
+    MapFilter(String description, String... extensions)
     {
         this.description = description;
         this.extensions = extensions;

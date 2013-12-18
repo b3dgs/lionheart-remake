@@ -35,7 +35,7 @@ import com.b3dgs.lionheart.Editor;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class ToolBar
+public final class ToolBar
         extends JToolBar
 {
     /** Uid. */

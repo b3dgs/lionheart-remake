@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.EntityState;
+import com.b3dgs.lionheart.entity.Jumpable;
 import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.map.Map;
@@ -39,6 +40,7 @@ import com.b3dgs.lionheart.map.TileCollision;
  */
 public final class Crawling
         extends EntityMonster
+        implements Jumpable
 {
     /** Time before jump. */
     private static final int TIME_BEFORE_JUMP = 500;
@@ -66,44 +68,28 @@ public final class Crawling
         enableMovement(Patrol.HORIZONTAL);
     }
 
-    /**
-     * Set the jumpable flag.
-     * 
-     * @param jumpable The jumpable flag.
-     */
+    @Override
     public void setJumpable(boolean jumpable)
     {
         this.jumpable = jumpable;
     }
 
-    /**
-     * Set the jump force speed.
-     * 
-     * @param jumpForceSpeed The jump force speed.
-     */
+    @Override
     public void setJumpForceSpeed(int jumpForceSpeed)
     {
         this.jumpForceSpeed = jumpForceSpeed;
     }
 
-    /**
-     * Check if crawling is jumpable.
-     * 
-     * @return <code>true</code> if jumpable, <code>false</code> else.
-     */
-    public boolean isJumpable()
-    {
-        return jumpable;
-    }
-
-    /**
-     * Get the jump force.
-     * 
-     * @return The jump force.
-     */
+    @Override
     public int getJumpForceSpeed()
     {
         return jumpForceSpeed;
+    }
+
+    @Override
+    public boolean isJumpable()
+    {
+        return jumpable;
     }
 
     /*

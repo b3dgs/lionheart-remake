@@ -29,7 +29,7 @@ import com.b3dgs.lionheart.Editor;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class StateBar
+public final class StateBar
         extends JPanel
 {
     /** Uid. */

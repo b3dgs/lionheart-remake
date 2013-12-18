@@ -22,7 +22,7 @@ package com.b3dgs.lionheart.editor;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum TypeEditorEntity
+enum TypeEditorEntity
 {
     /** Minimum patrol. */
     PATROL_MIN,

@@ -164,7 +164,8 @@ public class MenuBar
                     editor.toolBar.setPaletteEnabled(true);
                     editor.toolBar.setSelectorEnabled(true);
                     editor.toolBar.setEditorEnabled(true);
-                    editor.toolBar.entityEditor.setPatrolPanelEnabled(false);
+                    editor.toolBar.entityEditor.setPatrolPanelEnabled(null, false);
+                    editor.toolBar.entityEditor.setJumpPanelEnabled(null, false);
                     items.get("Save").setEnabled(true);
                     items.get("Import Map").setEnabled(true);
                 }

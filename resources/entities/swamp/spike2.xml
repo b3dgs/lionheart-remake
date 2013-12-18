@@ -2,7 +2,9 @@
 <entity name="spike2" surface="spike2.png">
 	<frames horizontal="16" vertical="2"/>
 	<size width="16" height="32"/>
-	<collision name="default" offsetX="0" offsetY="0" width="16" height="32" mirror="false" />
+	<collision name="default" offsetX="4" offsetY="0" width="8" height="32" mirror="false" />
 	<animation name="idle" start="32" end="32" speed="0.25" reversed="false" repeat="false"/>
-	<animation name="walk" start="1" end="32" speed="0.25" reversed="false" repeat="true"/>
+	<animation name="walk" start="1" end="7" speed="0.75" reversed="false" repeat="false"/>
+	<animation name="jump" start="7" end="32" speed="1.5" reversed="false" repeat="false"/>
+	<animation name="turn" start="1" end="32" speed="0.75" reversed="true" repeat="false"/>
 </entity>

@@ -31,6 +31,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import com.b3dgs.lionengine.Version;
+import com.b3dgs.lionengine.core.Engine;
 import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionheart.editor.MenuBar;
 import com.b3dgs.lionheart.editor.SelectionType;
@@ -45,7 +46,7 @@ import com.b3dgs.lionheart.entity.EntityType;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class Editor
+public final class Editor
         extends JFrame
 {
     /** Editor version. */
@@ -104,7 +105,7 @@ public class Editor
     public void terminate()
     {
         dispose();
-        System.exit(0);
+        Engine.terminate();
     }
 
     /**

@@ -17,8 +17,6 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
@@ -27,7 +25,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class Spike1
-        extends EntityScenery
+        extends Spike
 {
     /**
      * Constructor.
@@ -37,21 +35,5 @@ public final class Spike1
     public Spike1(SetupEntity setup)
     {
         super(setup);
-    }
-
-    /*
-     * EntityScenery
-     */
-
-    @Override
-    protected void onCollide(Entity entity)
-    {
-        entity.hitBy(this);
-    }
-
-    @Override
-    protected void onLostCollision()
-    {
-        // Nothing to do
     }
 }

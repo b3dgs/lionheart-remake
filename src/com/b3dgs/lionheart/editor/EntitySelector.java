@@ -57,7 +57,7 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class EntitySelector
+final class EntitySelector
         extends JPanel
 {
     /** Uid. */
@@ -86,7 +86,7 @@ public class EntitySelector
      * 
      * @param editor The editor reference.
      */
-    public EntitySelector(final Editor editor)
+    EntitySelector(final Editor editor)
     {
         super();
         this.editor = editor;
@@ -177,7 +177,7 @@ public class EntitySelector
      * 
      * @author Pierre-Alexandre (contact@b3dgs.com)
      */
-    private class Entity
+    private final class Entity
             extends JPanel
             implements MouseListener, MouseMotionListener
     {

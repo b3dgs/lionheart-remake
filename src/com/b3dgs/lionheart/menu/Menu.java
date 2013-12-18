@@ -358,8 +358,7 @@ public class Menu
             }
             if (txtAlpha == 255.0 && timerPressStart.elapsed(500))
             {
-                timerPressStart.stop();
-                timerPressStart.start();
+                timerPressStart.restart();
                 pressStart = !pressStart;
             }
             // Enter the game

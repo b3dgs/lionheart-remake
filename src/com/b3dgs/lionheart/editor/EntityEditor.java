@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.swing.ComboRenderer;
 import com.b3dgs.lionengine.swing.UtilitySwing;
 import com.b3dgs.lionheart.Editor;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.Jumpable;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
 import com.b3dgs.lionheart.entity.swamp.Crawling;
@@ -47,7 +48,7 @@ import com.b3dgs.lionheart.entity.swamp.Crawling;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class EntityEditor
+final class EntityEditor
         extends JPanel
 {
     /** Uid. */
@@ -62,7 +63,7 @@ public class EntityEditor
      * @param action The action reference.
      * @return The combo instance.
      */
-    public static JComboBox<ComboItem> addMenuCombo(String name, JPanel panel, ComboItem[] tab, ActionCombo action)
+    static JComboBox<ComboItem> addMenuCombo(String name, JPanel panel, ComboItem[] tab, ActionCombo action)
     {
         final JComboBox<ComboItem> combo = new JComboBox<>(tab);
         combo.setRenderer(new ComboRenderer<>());
@@ -81,6 +82,64 @@ public class EntityEditor
             panel.add(combo);
         }
         return combo;
+    }
+
+    /**
+     * Change the combo value.
+     * 
+     * @param label The label reference.
+     * @param type The type.
+     * @param mover The patroller.
+     */
+    static void changeMoverValue(JLabel label, TypeEditorEntity type, Patrollable mover)
+    {
+        switch (type)
+        {
+            case PATROL_MIN:
+                mover.setPatrolLeft(EntityEditor.getValue(label));
+                break;
+            case PATROL_MAX:
+                mover.setPatrolRight(EntityEditor.getValue(label));
+                break;
+            case SPEED:
+                mover.setMoveSpeed(EntityEditor.getValue(label));
+                break;
+            case JUMP:
+                if (mover instanceof Crawling)
+                {
+                    ((Crawling) mover).setJumpForceSpeed(EntityEditor.getValue(label));
+                }
+                break;
+            default:
+                throw new LionEngineException("Unknown type: " + type);
+        }
+    }
+
+    /**
+     * Get the value of the label.
+     * 
+     * @param label The label reference.
+     * @return The value.
+     */
+    static int getValue(JLabel label)
+    {
+        return Integer.parseInt(label.getText());
+    }
+
+    /**
+     * Set the label value.
+     * 
+     * @param label The label reference.
+     * @param value The value.
+     */
+    static void setValue(JLabel label, int value)
+    {
+        int v = value;
+        if (v < 0)
+        {
+            v = 0;
+        }
+        label.setText(String.valueOf(v));
     }
 
     /**
@@ -127,7 +186,7 @@ public class EntityEditor
      * 
      * @param editor The editor reference.
      */
-    public EntityEditor(final Editor editor)
+    EntityEditor(final Editor editor)
     {
         super();
         this.editor = editor;
@@ -252,6 +311,7 @@ public class EntityEditor
                 }
             }
         });
+        UtilitySwing.setEnabled(patrolPanel.getComponents(), false);
 
         entityPanel = new JPanel();
         entityPanel.setLayout(new BorderLayout());
@@ -265,7 +325,7 @@ public class EntityEditor
             @Override
             public void actionPerformed(ActionEvent actionEvent)
             {
-                ((Crawling) selectedEntity).setJumpable(((JCheckBox) actionEvent.getSource()).isSelected());
+                ((Jumpable) selectedEntity).setJumpable(((JCheckBox) actionEvent.getSource()).isSelected());
             }
         });
         jumpableCheckBox.setEnabled(false);
@@ -273,10 +333,10 @@ public class EntityEditor
         jumpableSpeedValue = new JLabel();
         addIncDec(entityValues, "Jump speed", jumpableSpeedValue, 1, TypeEditorEntity.JUMP);
 
-        UtilitySwing.setEnabled(patrolPanel.getComponents(), false);
         tabs.setPreferredSize(new Dimension(204, 200));
         tabs.setMinimumSize(new Dimension(204, 200));
         tabs.setMaximumSize(new Dimension(204, 200));
+        UtilitySwing.setEnabled(entityPanel.getComponents(), false);
     }
 
     /**
@@ -284,36 +344,26 @@ public class EntityEditor
      * 
      * @param entity The selected entity.
      */
-    public void setSelectedEntity(Entity entity)
+    void setSelectedEntity(Entity entity)
     {
         selectedEntity = entity;
-        jumpableCheckBox.setEnabled(false);
-        jumpableCheckBox.setSelected(false);
 
-        if (entity instanceof Crawling)
+        if (entity instanceof Jumpable)
         {
-            jumpableCheckBox.setEnabled(true);
-            jumpableCheckBox.setSelected(((Crawling) entity).isJumpable());
-            setValue(jumpableSpeedValue, ((Crawling) entity).getJumpForceSpeed());
-        }
-        if (entity instanceof Patrollable)
-        {
-            final Patrollable mover = (Patrollable) entity;
-            for (final Patrol movement : Patrol.values())
-            {
-                final boolean enabled = mover.isPatrolEnabled(movement);
-                EntityEditor.setEnabled(comboMovement, movement.getIndex(), enabled);
-            }
-            UtilitySwing.setEnabled(patrolPanel.getComponents(), true);
-            setValue(patrolMin, mover.getPatrolLeft());
-            setValue(patrolMax, mover.getPatrolRight());
-            setValue(speedValue, mover.getMoveSpeed());
-            comboMovement.setSelectedIndex(mover.getPatrolType().getIndex());
-            comboDirection.setSelectedIndex(mover.getFirstMove());
+            setJumpPanelEnabled((Jumpable) entity, true);
         }
         else
         {
-            setPatrolPanelEnabled(false);
+            setJumpPanelEnabled(null, false);
+        }
+
+        if (entity instanceof Patrollable)
+        {
+            setPatrolPanelEnabled((Patrollable) entity, true);
+        }
+        else
+        {
+            setPatrolPanelEnabled(null, false);
         }
         editor.repaint();
     }
@@ -321,76 +371,56 @@ public class EntityEditor
     /**
      * Set the patrol panel enabled state.
      * 
+     * @param patrollable The patrollable reference.
      * @param state <code>true</code> if enabled, <code>false</code> else.
      */
-    public void setPatrolPanelEnabled(boolean state)
+    void setPatrolPanelEnabled(Patrollable patrollable, boolean state)
     {
-        if (!state)
+        if (!state || patrollable == null)
         {
             patrolMin.setText(null);
             patrolMax.setText(null);
             speedValue.setText(null);
             comboMovement.setSelectedIndex(0);
+            comboDirection.setSelectedIndex(0);
+        }
+        else
+        {
+            for (final Patrol movement : Patrol.values())
+            {
+                final boolean enabled = patrollable.isPatrolEnabled(movement);
+                EntityEditor.setEnabled(comboMovement, movement.getIndex(), enabled);
+            }
+            EntityEditor.setValue(patrolMin, patrollable.getPatrolLeft());
+            EntityEditor.setValue(patrolMax, patrollable.getPatrolRight());
+            EntityEditor.setValue(speedValue, patrollable.getMoveSpeed());
+            comboMovement.setSelectedIndex(patrollable.getPatrolType().getIndex());
+            comboDirection.setSelectedIndex(patrollable.getFirstMove());
         }
         UtilitySwing.setEnabled(patrolPanel.getComponents(), state);
     }
 
     /**
-     * Change the combo value.
+     * Set the jump panel enabled state.
      * 
-     * @param label The label reference.
-     * @param type The type.
-     * @param mover The patroller.
+     * @param jumpable The jumpable reference.
+     * @param state <code>true</code> if enabled, <code>false</code> else.
      */
-    void changeMoverValue(JLabel label, TypeEditorEntity type, Patrollable mover)
+    void setJumpPanelEnabled(Jumpable jumpable, boolean state)
     {
-        switch (type)
+        if (!state || jumpable == null)
         {
-            case PATROL_MIN:
-                mover.setPatrolLeft(getValue(label));
-                break;
-            case PATROL_MAX:
-                mover.setPatrolRight(getValue(label));
-                break;
-            case SPEED:
-                mover.setMoveSpeed(getValue(label));
-                break;
-            case JUMP:
-                if (mover instanceof Crawling)
-                {
-                    ((Crawling) mover).setJumpForceSpeed(getValue(label));
-                }
-                break;
-            default:
-                throw new LionEngineException("Unknown type: " + type);
+            jumpableCheckBox.setEnabled(false);
+            jumpableCheckBox.setSelected(false);
+            jumpableSpeedValue.setText(null);
         }
-    }
-
-    /**
-     * Get the value of the label.
-     * 
-     * @param label The label reference.
-     * @return The value.
-     */
-    int getValue(JLabel label)
-    {
-        return Integer.parseInt(label.getText());
-    }
-
-    /**
-     * Set the label value.
-     * 
-     * @param label The label reference.
-     * @param value The value.
-     */
-    void setValue(JLabel label, int value)
-    {
-        int v = value;
-        if (v < 0)
+        else
         {
-            v = 0;
+            jumpableCheckBox.setEnabled(true);
+            jumpableCheckBox.setSelected(jumpable.isJumpable());
+            EntityEditor.setValue(jumpableSpeedValue, jumpable.getJumpForceSpeed());
         }
-        label.setText(String.valueOf(v));
+        UtilitySwing.setEnabled(entityPanel.getComponents(), state);
     }
 
     /**
@@ -418,8 +448,8 @@ public class EntityEditor
             {
                 if (selectedEntity instanceof Patrollable)
                 {
-                    setValue(label, getValue(label) + step);
-                    changeMoverValue(label, type, (Patrollable) selectedEntity);
+                    EntityEditor.setValue(label, EntityEditor.getValue(label) + step);
+                    EntityEditor.changeMoverValue(label, type, (Patrollable) selectedEntity);
                     editor.world.repaint();
                 }
             }
@@ -431,8 +461,8 @@ public class EntityEditor
             {
                 if (selectedEntity instanceof Patrollable)
                 {
-                    setValue(label, getValue(label) - step);
-                    changeMoverValue(label, type, (Patrollable) selectedEntity);
+                    EntityEditor.setValue(label, EntityEditor.getValue(label) - step);
+                    EntityEditor.changeMoverValue(label, type, (Patrollable) selectedEntity);
                     editor.world.repaint();
                 }
             }
