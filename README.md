@@ -1,4 +1,75 @@
-lionheart-remake
-================
+<div align="center">
+	<a href="http://www.b3dgs.com/v6/page.php?lang=en&section=lionheart_remake" border="1">
+		<img align="center" src="http://www.b3dgs.com/v6/projects/lionheart_remake/lionheart_remake.jpg"/>
+	</a>
+</div>
 
-Java remake of Lionheart amiga game
+<div align="right">
+ <table><tr><td>
+  <h4 align="center">Summary</h4>
+  <div align="left">
+   <ul>
+    <li><a href="#presentation">Presentation</a></li>
+    <li><a href="#general-features">General features</a></li>
+	<li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#downloads">Downloads</a></li>
+   </ul>
+  </div>
+ </td></tr></table>
+</div>
+
+## Presentation
+
+[Lionheart Remake](http://www.b3dgs.com/v6/page.php?lang=en&section=lionheart_remake) is a __platform game__, keeping as much as possible elements of the [__original game__ (1992)](http://hol.abime.net/894).
+The story is the same: You, a Cat-Man called Valdyn, got new capacity by The King, in order to destroy the growing threat of Norka, a monster wanting to destroy The Kingdom.
+Llene, promised woman of Valdyn has been kidnapped. Valdyn has to search for Norka, far of The Kingdom, in order to find her.
+But the trip won't be easy !
+
+Indeed, your long tour is divided into several parts.
+You will have to cross a lot of areas before to reach the end.
+The adventure is made up of 14 levels by including 9 distinct areas.
+Each area has its own elements, monsters...
+
+## General features
+
+* #### __Target__
+>  * Uses the [__LionEngine__](http://www.b3dgs.com/v6/page.php?lang=en&section=lionengine)
+>  * Requires Java 7
+>  * Multiplatform (tested on Windows, Linux, Mac, Android)
+>  * Can be played from a browser (Firefox, IE...)
+>  * Need at least 32MB of RAM
+>  * Need at least 6MB of free disk space
+
+* #### __Background__
+>  * Introduction, Menu, Credits
+>  * 2.5D scrolling with 96 [parallax](http://en.wikipedia.org/wiki/Parallax) lines
+>  * Up to 256+ colors using [raster bar](http://en.wikipedia.org/wiki/Raster_bar) effect
+>  * Water distortion effect
+>  * 9 distinct themes (Swamp, Spidercave, Ancient Town, Lava, Secret Cave, Airship, Dragon Fly, Tower, Norka)
+>  * 14 unique levels
+>  * Original Amiga [Sonic Arranger](http://www.exotica.org.uk/wiki/Sonic_Arranger) music format
+
+* #### __Gameplay__
+>  * 4 directional movements (left-right-jump-crouch)
+>  * 7 distinct attacks (horizontal, vertical, turning, on ground, while jumping, while sliding, when falling)
+>  * Customizable keys
+>  * Movement feeling depends on were you are on the map (slides, slopes...)
+>  * Many monsters & items per levels with their own utility
+>  * 4 sword levels (increasing damages)
+>  * Health up to 8 (hurt count before death)
+>  * Talisments up to 99 (which increases the health capacity)
+>  * Lifes up to 99 (number of death before game over)
+>  * 1 hidden item for alternative ending
+>  * 3 Big Boss
+
+* #### __Special__
+>  * Level editor with map importer from level rip
+
+## Screenshots
+
+| [![img1](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/1.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/1.png) | [![img2](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/2.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/2.png) | [![img3](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/3.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/3.png)
+--- | --- | ---
+
+## Downloads
+
+* Coming soon !

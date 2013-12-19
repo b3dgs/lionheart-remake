@@ -50,7 +50,7 @@ public final class Editor
         extends JFrame
 {
     /** Editor version. */
-    public static final Version VERSION = Version.create(0, 1, 0);
+    public static final String VERSION = Version.create(0, 1, 0).toString();
     /** Uid. */
     private static final long serialVersionUID = -1248793737263689450L;
     /** Horizontal moving speed in tile. */

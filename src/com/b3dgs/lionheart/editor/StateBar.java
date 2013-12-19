@@ -74,6 +74,6 @@ public final class StateBar
             state.append("none");
         }
         gd.drawString(state.toString(), 240, 12);
-        gd.drawString(Editor.VERSION.toString(), editor.getWidth() - 45, 12);
+        gd.drawString(Editor.VERSION, editor.getWidth() - 45, 12);
     }
 }
