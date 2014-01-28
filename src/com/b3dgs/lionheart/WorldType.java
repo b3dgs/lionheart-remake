@@ -31,7 +31,9 @@ import com.b3dgs.lionengine.game.ObjectTypeUtility;
 public enum WorldType
 {
     /** Swamp world. */
-    SWAMP(Music.SWAMP);
+    SWAMP(Music.SWAMP),
+    /** Ancient town world. */
+    ANCIENT_TOWN(Music.SWAMP);
 
     /**
      * Load type from its saved format.
@@ -97,6 +99,6 @@ public enum WorldType
     @Override
     public String toString()
     {
-        return ObjectTypeUtility.toString(this);
+        return ObjectTypeUtility.toString(this).replace('_', ' ');
     }
 }

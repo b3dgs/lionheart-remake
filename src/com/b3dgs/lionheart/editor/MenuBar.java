@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.TreeMap;
 
@@ -249,34 +250,40 @@ public class MenuBar
     boolean toolsImportMap(JDialog dialog)
     {
         final MapFilter filter = new MapFilter("Map Image Rip", "png", "bmp");
-        final Media media = UtilityMedia.get(UtilitySwing.createOpenFileChooser(UtilityMedia.getRessourcesDir(),
-                editor.getContentPane(), filter));
-        if (media != null)
+        final File file = UtilitySwing.createOpenFileChooser(UtilityMedia.getRessourcesDir(), editor.getContentPane(),
+                filter);
+        if (file == null)
         {
-            final Map map = editor.world.map;
-            final LevelRipConverter<Tile> rip = new LevelRipConverter<>();
-            try
+            return false;
+        }
+        final Media media = UtilityMedia.get(file);
+        if (media == null)
+        {
+            return false;
+        }
+        final Map map = editor.world.map;
+        final LevelRipConverter<Tile> rip = new LevelRipConverter<>();
+        try
+        {
+            rip.start(media, map, UtilityMedia.get("tiles", editor.world.level.getWorld().getPathName()));
+            final int errors = rip.getErrors();
+            if (errors == 0)
             {
-                rip.start(media, map, UtilityMedia.get("tiles", editor.world.level.getWorld().getPathName()));
-                final int errors = rip.getErrors();
-                if (errors == 0)
+                if (dialog != null)
                 {
-                    if (dialog != null)
-                    {
-                        UtilitySwing.terminateDialog(dialog);
-                    }
-                    editor.world.camera.setLimits(map);
-                    editor.repaint();
-                    items.get("Import Map").setEnabled(false);
-                    return true;
+                    UtilitySwing.terminateDialog(dialog);
                 }
-                UtilityMessageBox.error("Import Map", errors + " tiles were not found.\nLevelrip: " + media.getPath()
-                        + "\nImport interrupted !");
+                editor.world.camera.setLimits(map);
+                editor.repaint();
+                items.get("Import Map").setEnabled(false);
+                return true;
             }
-            catch (final LionEngineException exception)
-            {
-                UtilityMessageBox.error("Import Map", exception.getMessage() + "\nImport interrupted !");
-            }
+            UtilityMessageBox.error("Import Map", errors + " tiles were not found.\nLevelrip: " + media.getPath()
+                    + "\nImport interrupted !");
+        }
+        catch (final LionEngineException exception)
+        {
+            UtilityMessageBox.error("Import Map", exception.getMessage() + "\nImport interrupted !");
         }
         return false;
     }
