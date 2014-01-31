@@ -138,7 +138,6 @@ public final class Valdyn
         movementSmooth = getDataDouble("smooth", "data", "movement");
         sensibilityIncrease = getDataDouble("sensibilityIncrease", "data", "movement");
         sensibilityDecrease = getDataDouble("sensibilityDecrease", "data", "movement");
-        setFrameOffsets(0, -2);
         loadCollisions(ValdynCollision.values());
         loadAnimations(ValdynState.values());
         legCollision = new CollidableModel(this);
@@ -546,7 +545,8 @@ public final class Valdyn
         {
             checkCollisionVertical(tile);
         }
-        if (isOnExtremity(-UtilityMath.getSign(getCollisionTileOffset(category).getX())))
+        CoordTile coord = getCollisionTileOffset(category);
+        if (coord != null && isOnExtremity(-UtilityMath.getSign(coord.getX())))
         {
             updateExtremity(mirror);
         }

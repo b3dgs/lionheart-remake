@@ -20,59 +20,29 @@ package com.b3dgs.lionheart.landscape;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityMath;
-import com.b3dgs.lionengine.core.UtilityMedia;
-import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.platform.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.platform.background.BackgroundElement;
 import com.b3dgs.lionengine.game.platform.background.BackgroundPlatform;
-import com.b3dgs.lionengine.game.platform.background.Parallax;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Scene;
 
 /**
- * Swamp full background implementation.
+ * Ancient Town full background implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-final class Swamp
+final class AncientTown
         extends BackgroundPlatform
 {
-    /** Moon rasters. */
-    private static final int MOON_RASTERS = 20;
-
     /** Backdrop. */
     private final Backdrop backdrop;
-    /** Clouds. */
-    private final Clouds clouds;
-    /** Parallax. */
-    private final Parallax parallax;
-    /** Number of parallax lines. */
-    private final int parallaxsNumber = 96;
     /** Flickering flag. */
     private final boolean flickering;
     /** The horizontal factor. */
     double scaleH;
     /** The vertical factor. */
     double scaleV;
-
-    /**
-     * Create a rastered element.
-     * 
-     * @param path The surface path.
-     * @param name The element name.
-     * @param x The location x.
-     * @param y The location y.
-     * @param rastersNumber The number of rasters to use.
-     * @return The created element.
-     */
-    static ElementRastered createElementRastered(String path, String name, int x, int y, int rastersNumber)
-    {
-        final Sprite sprite = Drawable.loadSprite(UtilityMedia.get(path, name));
-        sprite.load(false);
-        return new ElementRastered(x, y, sprite, rastersNumber);
-    }
 
     /**
      * Constructor.
@@ -83,22 +53,16 @@ final class Swamp
      * @param theme The theme name.
      * @param flickering The flickering flag.
      */
-    Swamp(Resolution source, double scaleH, double scaleV, String theme, boolean flickering)
+    AncientTown(Resolution source, double scaleH, double scaleV, String theme, boolean flickering)
     {
         super(theme, 0, 512);
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = Media.getPath(AppLionheart.BACKGROUNDS_DIR, "swamp", theme);
+        final String path = Media.getPath(AppLionheart.BACKGROUNDS_DIR, "ancient_town", theme);
         final int width = source.getWidth();
-        final int halfScreen = (int) (source.getWidth() / 3.5);
         backdrop = new Backdrop(path, this.flickering, width);
-        clouds = new Clouds(UtilityMedia.get(path, "cloud.png"), width, 4);
-        parallax = new Parallax(source, UtilityMedia.get(path, "parallax.png"), parallaxsNumber, halfScreen, 124, 50,
-                100);
         add(backdrop);
-        add(clouds);
-        add(parallax);
         totalHeight = 120;
         setScreenSize(source.getWidth(), source.getHeight());
     }
@@ -117,8 +81,6 @@ final class Swamp
         this.scaleV = scaleV;
         setOffsetY(height - Scene.SCENE_DISPLAY.getHeight() + 72);
         backdrop.setScreenWidth(width);
-        clouds.setScreenWidth(width);
-        parallax.setScreenSize(width, height);
     }
 
     /**
@@ -133,20 +95,10 @@ final class Swamp
         private final BackgroundElement backcolorA;
         /** Backdrop color B. */
         private final BackgroundElement backcolorB;
-        /** Mountain element. */
-        private final BackgroundElement mountain;
-        /** Moon element. */
-        private final ElementRastered moon;
-        /** Mountain sprite. */
-        private final Sprite mountainSprite;
         /** Flickering flag. */
         private final boolean flickering;
-        /** Original offset. */
-        private final int moonOffset;
         /** Screen width. */
         int screenWidth;
-        /** Screen wide value. */
-        private int w;
         /** Flickering counter. */
         private int flickerCount;
         /** Flickering type. */
@@ -175,12 +127,6 @@ final class Swamp
                 backcolorB = null;
             }
 
-            mountain = createElement(path, "mountain.png", 0, 124, false);
-
-            final int x = (int) (208 * scaleH);
-            moonOffset = 40;
-            moon = Swamp.createElementRastered(path, "moon.png", x, moonOffset, Swamp.MOON_RASTERS);
-            mountainSprite = (Sprite) mountain.getSprite();
             setScreenWidth(screenWidth);
         }
 
@@ -192,17 +138,12 @@ final class Swamp
         final void setScreenWidth(int width)
         {
             screenWidth = width;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getSprite()).getWidthOriginal()) + 1;
         }
 
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
             backcolorA.setOffsetY(y);
-            moon.setOffsetY(-20 - moonOffset + getOffsetY());
-            mountain.setOffsetX(UtilityMath.wrapDouble(mountain.getOffsetX() + speed * 0.24, 0.0,
-                    mountainSprite.getWidth()));
-            mountain.setOffsetY(y);
 
             if (flickering)
             {
@@ -231,18 +172,6 @@ final class Swamp
             {
                 sprite.render(g, backcolorA.getMainX() + i * sprite.getWidth(),
                         (int) (backcolorA.getOffsetY() + backcolorA.getMainY()));
-            }
-            // Render moon
-            moon.getRaster((int) ((mountain.getOffsetY() + (moonOffset - getOffsetY())) / 4 + Swamp.MOON_RASTERS))
-                    .render(g, moon.getMainX(), (int) (moon.getOffsetY() + moon.getMainY()));
-
-            // Render mountains
-            final int oy = (int) (mountain.getOffsetY() + mountain.getMainY());
-            final int ox = (int) (-mountain.getOffsetX() + mountain.getMainX());
-            final int sx = mountainSprite.getWidth();
-            for (int j = 0; j < w; j++)
-            {
-                mountainSprite.render(g, ox + sx * j, oy);
             }
         }
     }

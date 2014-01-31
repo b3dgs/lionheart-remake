@@ -72,6 +72,12 @@ public final class FactoryLandscape
                         .getTheme());
                 return new Landscape(landscape, background, foreground);
             }
+            case ANCIENT_TOWN:
+                final BackgroundPlatform background = new AncientTown(source, scaleH, scaleV, landscape.getTheme(),
+                        flicker);
+                final Foreground foreground = new Foreground(source, scaleH, scaleV, landscape.getForeground()
+                        .getTheme());
+                return new Landscape(landscape, background, foreground);
             default:
                 throw new LionEngineException(FactoryLandscape.UNKNOWN_LANDSCAPE_ERROR + landscape);
         }

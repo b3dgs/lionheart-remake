@@ -15,42 +15,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.entity.ancient_town.projectile;
+
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.game.SetupSurfaceGame;
+import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.WorldType;
+import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 
 /**
- * List of game levels.
+ * Projectile ancient town factory.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum LevelType
+public class FactoryProjectileAncientTown
+        extends FactoryProjectile<ProjectileAncientTownType>
 {
-    /** Stage 1. */
-    SWAMP_1("level1"),
-    /** Stage 2. */
-    ANCIENT_TOWN_1("level2");
-
-    /** Total number of levels. */
-    public static final int LEVELS_NUMBER = LevelType.values().length;
-    /** Level filename. */
-    private final String filename;
-
     /**
      * Constructor.
-     * 
-     * @param filename The level filename.
      */
-    private LevelType(String filename)
+    public FactoryProjectileAncientTown()
     {
-        this.filename = filename + "." + Level.FILE_FORMAT;
+        super(ProjectileAncientTownType.class, Media.getPath(AppLionheart.PROJECTILES_DIR,
+                WorldType.ANCIENT_TOWN.getPathName()));
     }
 
-    /**
-     * Get the level filename.
-     * 
-     * @return The level filename.
+    /*
+     * FactoryObjectGame
      */
-    public String getFilename()
+
+    @Override
+    protected SetupSurfaceGame createSetup(ProjectileAncientTownType type, Media config)
     {
-        return filename;
+        return new SetupSurfaceGame(config);
     }
 }

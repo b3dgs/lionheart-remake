@@ -441,7 +441,7 @@ final class ValdynTilt
         }
         else
         {
-            valdyn.setFrameOffsets(0, -2);
+            valdyn.setFrameOffsets(0, 1);
         }
     }
 

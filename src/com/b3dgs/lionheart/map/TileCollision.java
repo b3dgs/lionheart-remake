@@ -30,6 +30,8 @@ public enum TileCollision
     NONE(TileCollisionGroup.NONE),
     /** Ground. */
     GROUND(TileCollisionGroup.FLAT),
+    /** Ground top. */
+    GROUND_TOP(TileCollisionGroup.FLAT),
     /** Ground with spike. */
     GROUND_SPIKE(TileCollisionGroup.FLAT),
     /** Ground border right. */
@@ -38,6 +40,12 @@ public enum TileCollision
     BORDER_LEFT(TileCollisionGroup.FLAT, false, true),
     /** Ground border center. */
     BORDER_CENTER(TileCollisionGroup.FLAT, false, true),
+    /** Ground top border right. */
+    BORDER_RIGHT_TOP(TileCollisionGroup.FLAT, true, true),
+    /** Ground top border left. */
+    BORDER_LEFT_TOP(TileCollisionGroup.FLAT, false, true),
+    /** Ground top border center. */
+    BORDER_CENTER_TOP(TileCollisionGroup.FLAT, false, true),
     /** Slope right top \. */
     SLOPE_RIGHT_1(TileCollisionGroup.SLOPE, false),
     /** Slope right middle \. */
@@ -116,10 +124,14 @@ public enum TileCollision
     static
     {
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_TOP);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_SPIKE);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_LEFT);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_CENTER);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_RIGHT);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_LEFT_TOP);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_CENTER_TOP);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_RIGHT_TOP);
 
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_1);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_2);

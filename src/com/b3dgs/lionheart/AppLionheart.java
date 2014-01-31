@@ -80,7 +80,7 @@ public final class AppLionheart
 
         final Resolution output = new Resolution(640, 480, 60);
         final Config config = new Config(output, 16, true);
-        final boolean enableEditor = true;
+        final boolean enableEditor = false;
         if (enableEditor)
         {
             AppLionheart.RASTER_ENABLED = false;

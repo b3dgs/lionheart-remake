@@ -38,7 +38,13 @@ public enum LandscapeType
     /** Swamp dawn. */
     SWAMP_DAWN(WorldType.SWAMP, "dawn", "raster2.xml", ForegroundType.WATER),
     /** Swamp day. */
-    SWAMP_DAY(WorldType.SWAMP, "day", "raster3.xml", ForegroundType.WATER);
+    SWAMP_DAY(WorldType.SWAMP, "day", "raster3.xml", ForegroundType.WATER),
+    /** Ancient Town dusk. */
+    ANCIENT_TOWN_DUSK(WorldType.ANCIENT_TOWN, "dusk", "raster1.xml", ForegroundType.WATER),
+    /** Ancient Town dawn. */
+    ANCIENT_TOWN_DAWN(WorldType.ANCIENT_TOWN, "dawn", "raster2.xml", ForegroundType.WATER),
+    /** Ancient Town day. */
+    ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day", "raster3.xml", ForegroundType.WATER);
 
     /**
      * Get all landscapes related to the world.

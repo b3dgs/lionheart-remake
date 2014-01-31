@@ -48,14 +48,14 @@ import com.b3dgs.lionheart.WorldData;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityType;
 import com.b3dgs.lionheart.entity.FactoryEntity;
+import com.b3dgs.lionheart.entity.ancient_town.FactoryEntityAncientTown;
+import com.b3dgs.lionheart.entity.ancient_town.launcher.FactoryLauncherAncientTown;
+import com.b3dgs.lionheart.entity.ancient_town.projectile.FactoryProjectileAncientTown;
 import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
 import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
-import com.b3dgs.lionheart.entity.swamp.FactoryEntitySwamp;
-import com.b3dgs.lionheart.entity.swamp.launcher.FactoryLauncherSwamp;
-import com.b3dgs.lionheart.entity.swamp.projectile.FactoryProjectileSwamp;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -166,11 +166,12 @@ public final class WorldPanel
         super();
         this.editor = editor;
         camera = new CameraPlatform(WorldPanel.DEFAULT_WIDTH, WorldPanel.DEFAULT_HEIGHT);
-        factoryEntity = new FactoryEntitySwamp();
+        factoryEntity = new FactoryEntityAncientTown();
         handlerEntity = new Handler(factoryEntity);
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
-        factoryProjectile = new FactoryProjectileSwamp();
-        factoryLauncher = new FactoryLauncherSwamp((FactoryProjectileSwamp) factoryProjectile, handlerProjectile);
+        factoryProjectile = new FactoryProjectileAncientTown();
+        factoryLauncher = new FactoryLauncherAncientTown((FactoryProjectileAncientTown) factoryProjectile,
+                handlerProjectile);
         level = new Level(camera, factoryEntity, handlerEntity, factoryLauncher, factoryProjectile, 60);
         factoryEntity.setLevel(level);
         worldData = level.worldData;

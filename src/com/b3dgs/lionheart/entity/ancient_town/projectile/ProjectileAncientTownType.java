@@ -15,42 +15,55 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.entity.ancient_town.projectile;
+
+import com.b3dgs.lionengine.game.ObjectTypeUtility;
+import com.b3dgs.lionheart.entity.projectile.ProjectileType;
 
 /**
- * List of game levels.
+ * List of projectile types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum LevelType
+public enum ProjectileAncientTownType implements ProjectileType<ProjectileAncientTownType>
 {
-    /** Stage 1. */
-    SWAMP_1("level1"),
-    /** Stage 2. */
-    ANCIENT_TOWN_1("level2");
+    ;
 
-    /** Total number of levels. */
-    public static final int LEVELS_NUMBER = LevelType.values().length;
-    /** Level filename. */
-    private final String filename;
+    /** Target class. */
+    private final Class<?> target;
+    /** Path name. */
+    private final String path;
 
     /**
      * Constructor.
      * 
-     * @param filename The level filename.
+     * @param target The class target.
      */
-    private LevelType(String filename)
+    private ProjectileAncientTownType(Class<?> target)
     {
-        this.filename = filename + "." + Level.FILE_FORMAT;
+        this.target = target;
+        path = ObjectTypeUtility.getPathName(this);
     }
 
-    /**
-     * Get the level filename.
-     * 
-     * @return The level filename.
+    /*
+     * ProjectileType
      */
-    public String getFilename()
+
+    @Override
+    public Class<?> getTargetClass()
     {
-        return filename;
+        return target;
+    }
+
+    @Override
+    public String getPathName()
+    {
+        return path;
+    }
+
+    @Override
+    public ProjectileAncientTownType getType()
+    {
+        return this;
     }
 }

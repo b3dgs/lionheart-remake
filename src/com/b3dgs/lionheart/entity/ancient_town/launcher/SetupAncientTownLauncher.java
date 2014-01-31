@@ -15,42 +15,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.entity.ancient_town.launcher;
+
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionheart.entity.ancient_town.projectile.FactoryProjectileAncientTown;
+import com.b3dgs.lionheart.entity.launcher.SetupLauncher;
+import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
 
 /**
- * List of game levels.
+ * Setup ancient town launcher implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum LevelType
+public final class SetupAncientTownLauncher
+        extends SetupLauncher
 {
-    /** Stage 1. */
-    SWAMP_1("level1"),
-    /** Stage 2. */
-    ANCIENT_TOWN_1("level2");
-
-    /** Total number of levels. */
-    public static final int LEVELS_NUMBER = LevelType.values().length;
-    /** Level filename. */
-    private final String filename;
+    /** Factory projectile. */
+    public final FactoryProjectileAncientTown factory;
 
     /**
      * Constructor.
      * 
-     * @param filename The level filename.
+     * @param config The config file.
+     * @param factory The factory reference.
+     * @param handler The handler reference.
      */
-    private LevelType(String filename)
+    public SetupAncientTownLauncher(Media config, FactoryProjectileAncientTown factory, HandlerProjectile handler)
     {
-        this.filename = filename + "." + Level.FILE_FORMAT;
-    }
-
-    /**
-     * Get the level filename.
-     * 
-     * @return The level filename.
-     */
-    public String getFilename()
-    {
-        return filename;
+        super(config, handler);
+        this.factory = factory;
     }
 }

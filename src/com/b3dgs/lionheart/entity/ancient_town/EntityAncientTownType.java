@@ -15,26 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.entity.ancient_town;
 
 import java.io.IOException;
 
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.ObjectTypeUtility;
+import com.b3dgs.lionheart.entity.EntityCategory;
+import com.b3dgs.lionheart.entity.EntityType;
 
 /**
- * List of world types.
+ * List of entity types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum WorldType
+public enum EntityAncientTownType implements EntityType<EntityAncientTownType>
 {
-    /** Swamp world. */
-    SWAMP(Music.SWAMP),
-    /** Ancient town world. */
-    ANCIENT_TOWN(Music.ANCIENT_TOWN);
-
+    ;
+    
     /**
      * Load type from its saved format.
      * 
@@ -42,63 +41,67 @@ public enum WorldType
      * @return The loaded type.
      * @throws IOException If error.
      */
-    public static WorldType load(FileReading file) throws IOException
+    public static EntityAncientTownType load(FileReading file) throws IOException
     {
-        return WorldType.valueOf(file.readString());
+        return EntityAncientTownType.valueOf(file.readString());
     }
 
-    /** World music. */
-    private Music music;
+    /** Class target. */
+    private final Class<?> target;
+    /** Path name. */
+    private final String path;
+    /** Type category. */
+    private final EntityCategory category;
 
     /**
      * Constructor.
      * 
-     * @param music The music type.
+     * @param target The target class.
+     * @param category The entity category.
      */
-    private WorldType(Music music)
+    private EntityAncientTownType(Class<?> target, EntityCategory category)
     {
-        this.music = music;
+        this.target = target;
+        path = ObjectTypeUtility.getPathName(this);
+        this.category = category;
+        category.increase();
     }
 
-    /**
-     * Save the world type.
-     * 
-     * @param file The file writing.
-     * @throws IOException If error.
+    /*
+     * EntityType
      */
+
+    @Override
     public void save(FileWriting file) throws IOException
     {
         file.writeString(name());
     }
 
-    /**
-     * Get the music type.
-     * 
-     * @return The music type.
-     */
-    public Music getMusic()
+    @Override
+    public EntityCategory getCategory()
     {
-        return music;
+        return category;
     }
 
-    /**
-     * Get the name as a path (lower case).
-     * 
-     * @return The name.
+    @Override
+    public EntityAncientTownType getType()
+    {
+        return this;
+    }
+
+    /*
+     * ObjectType
      */
+
+    @Override
+    public Class<?> getTargetClass()
+    {
+        return target;
+    }
+
+    @Override
     public String getPathName()
     {
-        return ObjectTypeUtility.getPathName(this);
-    }
-
-    /**
-     * Get the title name (first letter as upper).
-     * 
-     * @return The title name.
-     */
-    @Override
-    public String toString()
-    {
-        return ObjectTypeUtility.toString(this).replace('_', ' ');
+        return path;
     }
 }

@@ -131,11 +131,12 @@ public class Tile
      */
     protected Double getGround(Localizable localizable, int offset)
     {
-        final int top = getTop();
+        final int top = getTop() + offset;
         final int bottom = top - 2;
+
         if (localizable.getLocationOldY() >= bottom && localizable.getLocationY() <= top)
         {
-            return Double.valueOf(top + offset);
+            return Double.valueOf(top);
         }
         return null;
     }
@@ -157,7 +158,7 @@ public class Tile
     @Override
     public int getTop()
     {
-        return super.getBottom() + 2;
+        return super.getBottom();
     }
 
     @Override

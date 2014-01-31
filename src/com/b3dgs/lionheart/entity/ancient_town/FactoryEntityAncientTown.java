@@ -15,42 +15,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.entity.ancient_town;
+
+import java.io.IOException;
+
+import com.b3dgs.lionengine.file.FileReading;
+import com.b3dgs.lionheart.WorldType;
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.FactoryEntity;
 
 /**
- * List of game levels.
+ * Represents the factory of item entity.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum LevelType
+public final class FactoryEntityAncientTown
+        extends FactoryEntity<EntityAncientTownType>
 {
-    /** Stage 1. */
-    SWAMP_1("level1"),
-    /** Stage 2. */
-    ANCIENT_TOWN_1("level2");
-
-    /** Total number of levels. */
-    public static final int LEVELS_NUMBER = LevelType.values().length;
-    /** Level filename. */
-    private final String filename;
-
     /**
      * Constructor.
-     * 
-     * @param filename The level filename.
      */
-    private LevelType(String filename)
+    public FactoryEntityAncientTown()
     {
-        this.filename = filename + "." + Level.FILE_FORMAT;
+        super(EntityAncientTownType.class, EntityAncientTownType.values(), WorldType.ANCIENT_TOWN);
     }
 
-    /**
-     * Get the level filename.
-     * 
-     * @return The level filename.
+    /*
+     * FactoryEntity
      */
-    public String getFilename()
+
+    @Override
+    public Entity createEntity(FileReading file) throws IOException
     {
-        return filename;
+        return create(EntityAncientTownType.load(file));
+    }
+
+    @Override
+    public Entity createEntityFromType(String type)
+    {
+        return create(EntityAncientTownType.valueOf(type));
     }
 }

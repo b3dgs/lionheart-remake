@@ -27,7 +27,9 @@ public enum Music
     /** Intro music. */
     INTRO("intro.sc68"),
     /** Swamp music. */
-    SWAMP("swamp.sc68");
+    SWAMP("swamp.sc68"),
+    /** Ancient Town music. */
+    ANCIENT_TOWN("ancient_town.sc68");
 
     /** Music filename. */
     private final String filename;
