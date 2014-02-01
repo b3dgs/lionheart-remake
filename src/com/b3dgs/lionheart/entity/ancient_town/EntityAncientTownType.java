@@ -33,7 +33,7 @@ import com.b3dgs.lionheart.entity.EntityType;
 public enum EntityAncientTownType implements EntityType<EntityAncientTownType>
 {
     ;
-    
+
     /**
      * Load type from its saved format.
      * 

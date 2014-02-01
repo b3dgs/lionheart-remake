@@ -34,6 +34,8 @@ public enum TileCollisionGroup
     SLOPE(0.5),
     /** Slide. */
     SLIDE(2.0),
+    /** Steep. */
+    STEEP(1.0),
     /** Liana. */
     LIANA_HORIZONTAL(1.0),
     /** Liana leaning. */

@@ -106,6 +106,8 @@ public class Map
                 return new TileSlope(width, height, pattern, number, collision);
             case SLIDE:
                 return new TileSlide(width, height, pattern, number, collision);
+            case STEEP:
+                return new TileSteep(width, height, pattern, number, collision);
             default:
                 return new Tile(width, height, pattern, number, collision);
         }

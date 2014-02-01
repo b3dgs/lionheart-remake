@@ -545,7 +545,7 @@ public final class Valdyn
         {
             checkCollisionVertical(tile);
         }
-        CoordTile coord = getCollisionTileOffset(category);
+        final CoordTile coord = getCollisionTileOffset(category);
         if (coord != null && isOnExtremity(-UtilityMath.getSign(coord.getX())))
         {
             updateExtremity(mirror);

@@ -99,6 +99,17 @@ public enum WorldType
     @Override
     public String toString()
     {
-        return ObjectTypeUtility.toString(this).replace('_', ' ');
+        final String toString = ObjectTypeUtility.toString(this).replace('_', ' ');
+        final StringBuilder newString = new StringBuilder(toString.length());
+        final String[] strArr = toString.split(" ");
+        for (String str : strArr)
+        {
+            final char[] stringArray = str.trim().toCharArray();
+            stringArray[0] = Character.toUpperCase(stringArray[0]);
+            str = new String(stringArray);
+
+            newString.append(str).append(" ");
+        }
+        return newString.toString();
     }
 }

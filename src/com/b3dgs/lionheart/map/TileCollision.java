@@ -86,6 +86,14 @@ public enum TileCollision
     PILLAR_VERTICAL(TileCollisionGroup.PILLAR),
     /** Pillar horizontal. */
     PILLAR_HORIZONTAL(TileCollisionGroup.PILLAR),
+    /** Ground steep right top. */
+    STEEP_RIGHT_1(TileCollisionGroup.STEEP, false),
+    /** Ground steep right bottom. */
+    STEEP_RIGHT_2(TileCollisionGroup.STEEP, false),
+    /** Ground steep left top. */
+    STEEP_LEFT_1(TileCollisionGroup.STEEP, true),
+    /** Ground steep left bottom. */
+    STEEP_LEFT_2(TileCollisionGroup.STEEP, true),
     /** Liana horizontal. */
     LIANA_HORIZONTAL(TileCollisionGroup.LIANA_HORIZONTAL),
     /** Liana steep right top. */
@@ -154,6 +162,11 @@ public enum TileCollision
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLIDE_RIGHT_2);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLIDE_RIGHT_3);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLIDE_RIGHT_GROUND_SLIDE);
+
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.STEEP_RIGHT_1);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.STEEP_RIGHT_2);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.STEEP_LEFT_1);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.STEEP_LEFT_2);
 
         TileCollision.COLLISION_LIANA_STEEP.add(TileCollision.LIANA_HORIZONTAL);
         TileCollision.COLLISION_LIANA_STEEP.add(TileCollision.LIANA_STEEP_RIGHT_1);
