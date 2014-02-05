@@ -45,8 +45,8 @@ public final class TileSteep
      */
     private Double getSteep(TileCollision c, Localizable localizable, int offset)
     {
-        final int startY = getTop() + (isLeft(c.getGroup()) ? 0 : 2);
-        return getCollisionY(c.getGroup(), localizable, startY, offset, -10, 5, -2);
+        final int startY = getTop() + 8;
+        return getCollisionY(c.getGroup(), localizable, startY, offset, -10, 0, -2);
     }
 
     /*
@@ -60,14 +60,14 @@ public final class TileSteep
         switch (c)
         {
             case STEEP_RIGHT_1:
-                return getSteep(c, localizable, 0);
+                return getSteep(c, localizable, -6);
             case STEEP_RIGHT_2:
-                return getSteep(c, localizable, 14);
+                return getSteep(c, localizable, 10);
 
             case STEEP_LEFT_1:
-                return getSteep(c, localizable, -14);
+                return getSteep(c, localizable, -6);
             case STEEP_LEFT_2:
-                return getSteep(c, localizable, 0);
+                return getSteep(c, localizable, 10);
 
             default:
                 return null;
