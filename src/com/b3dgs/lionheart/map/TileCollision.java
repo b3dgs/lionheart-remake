@@ -34,38 +34,18 @@ public enum TileCollision
     GROUND_TOP(TileCollisionGroup.FLAT),
     /** Ground with spike. */
     GROUND_SPIKE(TileCollisionGroup.FLAT),
-    /** Ground border right. */
-    BORDER_RIGHT(TileCollisionGroup.FLAT, true, true),
-    /** Ground border left. */
-    BORDER_LEFT(TileCollisionGroup.FLAT, false, true),
-    /** Ground border center. */
-    BORDER_CENTER(TileCollisionGroup.FLAT, false, true),
-    /** Ground top border right. */
-    BORDER_RIGHT_TOP(TileCollisionGroup.FLAT, true, true),
-    /** Ground top border left. */
-    BORDER_LEFT_TOP(TileCollisionGroup.FLAT, false, true),
-    /** Ground top border center. */
-    BORDER_CENTER_TOP(TileCollisionGroup.FLAT, false, true),
     /** Slope right top \. */
     SLOPE_RIGHT_1(TileCollisionGroup.SLOPE, false),
     /** Slope right middle \. */
     SLOPE_RIGHT_2(TileCollisionGroup.SLOPE, false),
     /** Slope right bottom \. */
     SLOPE_RIGHT_3(TileCollisionGroup.SLOPE, false),
-    /** Slope right border down \. */
-    SLOPE_RIGHT_BORDER_DOWN(TileCollisionGroup.SLOPE, false, true),
-    /** Slope right border up \. */
-    SLOPE_RIGHT_BORDER_UP(TileCollisionGroup.SLOPE, false, true),
     /** Slope left top /. */
     SLOPE_LEFT_1(TileCollisionGroup.SLOPE, true),
     /** Slope left middle /. */
     SLOPE_LEFT_2(TileCollisionGroup.SLOPE, true),
     /** Slope left bottom /. */
     SLOPE_LEFT_3(TileCollisionGroup.SLOPE, true),
-    /** Slope left border down /. */
-    SLOPE_LEFT_BORDER_DOWN(TileCollisionGroup.SLOPE, true, true),
-    /** Slope left border up /. */
-    SLOPE_LEFT_BORDER_UP(TileCollisionGroup.SLOPE, true, true),
     /** Slide right top. */
     SLIDE_RIGHT_1(TileCollisionGroup.SLIDE, false),
     /** Slide right middle. */
@@ -134,23 +114,13 @@ public enum TileCollision
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_TOP);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_SPIKE);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_LEFT);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_CENTER);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_RIGHT);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_LEFT_TOP);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_CENTER_TOP);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.BORDER_RIGHT_TOP);
 
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_1);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_2);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_3);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_BORDER_DOWN);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_BORDER_UP);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_RIGHT_1);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_RIGHT_2);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_RIGHT_3);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_RIGHT_BORDER_DOWN);
-        TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_RIGHT_BORDER_UP);
 
         TileCollision.COLLISION_VERTICAL.add(TileCollision.PILLAR_HORIZONTAL);
 
@@ -189,8 +159,6 @@ public enum TileCollision
     private final TileCollisionGroup group;
     /** Left flag. */
     private final boolean left;
-    /** Border state. */
-    private final boolean border;
 
     /**
      * Constructor.
@@ -199,7 +167,7 @@ public enum TileCollision
      */
     private TileCollision(TileCollisionGroup group)
     {
-        this(group, false, false);
+        this(group, false);
     }
 
     /**
@@ -210,21 +178,8 @@ public enum TileCollision
      */
     private TileCollision(TileCollisionGroup group, boolean left)
     {
-        this(group, left, false);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param group The collision group.
-     * @param left The side (true = left, false = right).
-     * @param border <code>true</code> if border, <code>false</code> else.
-     */
-    private TileCollision(TileCollisionGroup group, boolean left, boolean border)
-    {
         this.group = group;
         this.left = left;
-        this.border = border;
     }
 
     /**
@@ -245,15 +200,5 @@ public enum TileCollision
     public boolean isLeft()
     {
         return left;
-    }
-
-    /**
-     * Check if tile is a border.
-     * 
-     * @return <code>true</code> if border, <code>false</code> else.
-     */
-    public boolean isBorder()
-    {
-        return border;
     }
 }

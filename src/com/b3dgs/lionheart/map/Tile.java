@@ -52,16 +52,6 @@ public class Tile
     }
 
     /**
-     * Check if tile is a border.
-     * 
-     * @return <code>true</code> if border, <code>false</code> else.
-     */
-    public boolean isBorder()
-    {
-        return getCollision().isBorder();
-    }
-
-    /**
      * Check if tile if left part of this group.
      * 
      * @param group The group to check.

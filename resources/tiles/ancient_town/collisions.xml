@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collisions>
-	<collision name="GROUND_TOP" pattern="4" start="1" end="47"/>
+	<collision name="GROUND_TOP" pattern="4" start="1" end="71"/>
 	<collision name="GROUND_SPIKE" pattern="4" start="122" end="124"/>
-	<collision name="BORDER_RIGHT_TOP" pattern="4" start="59" end="67"/>
-	<collision name="BORDER_LEFT_TOP" pattern="4" start="48" end="58"/>
-	<collision name="BORDER_CENTER_TOP" pattern="4" start="68" end="71"/>
 	<collision name="SLOPE_RIGHT_1" pattern="4" start="72" end="75"/>
 	<collision name="SLOPE_RIGHT_2" pattern="4" start="76" end="82"/>
 	<collision name="SLOPE_RIGHT_3" pattern="4" start="83" end="86"/>

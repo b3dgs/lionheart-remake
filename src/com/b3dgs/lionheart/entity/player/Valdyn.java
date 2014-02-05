@@ -42,8 +42,10 @@ import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.State;
 import com.b3dgs.lionheart.landscape.Landscape;
+import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
+import com.b3dgs.lionheart.map.TileCollisionGroup;
 
 /**
  * Valdyn implementation (player).
@@ -541,9 +543,28 @@ public final class Valdyn
     private Tile checkCollisionExtremity(CollisionTileCategory<TileCollision> category, boolean mirror)
     {
         final Tile tile = getCollisionTile(map, category);
-        if (tile != null && tile.isBorder())
+        if (tile != null)
         {
-            checkCollisionVertical(tile);
+            final TileCollisionGroup group = tile.getCollision().getGroup();
+            final boolean isBorder;
+            if (group == TileCollisionGroup.SLIDE)
+            {
+                isBorder = false;
+            }
+            else if (group == TileCollisionGroup.STEEP)
+            {
+                isBorder = map.getTile(this, -Map.TILE_WIDTH, -Map.TILE_HEIGHT) != null
+                        || map.getTile(this, Map.TILE_WIDTH, Map.TILE_HEIGHT) != null;
+            }
+            else
+            {
+                isBorder = map.getTile(this, -Map.TILE_WIDTH, 0) != null
+                        || map.getTile(this, Map.TILE_WIDTH, 0) != null;
+            }
+            if (isBorder)
+            {
+                checkCollisionVertical(tile);
+            }
         }
         final CoordTile coord = getCollisionTileOffset(category);
         if (coord != null && isOnExtremity(-UtilityMath.getSign(coord.getX())))
@@ -562,7 +583,32 @@ public final class Valdyn
     private boolean isOnExtremity(int side)
     {
         final Tile tile = map.getTile(this, 0, 0);
-        if (tile != null && tile.isBorder())
+
+        if (tile == null)
+        {
+            return false;
+        }
+        final Tile tileLeft;
+        final Tile tileRight;
+        final TileCollisionGroup group = tile.getCollision().getGroup();
+        if (group == TileCollisionGroup.SLIDE)
+        {
+            return false;
+        }
+        else if (group == TileCollisionGroup.STEEP)
+        {
+            tileLeft = map.getTile(this, -Map.TILE_WIDTH, -Map.TILE_HEIGHT);
+            tileRight = map.getTile(this, Map.TILE_WIDTH, Map.TILE_HEIGHT);
+        }
+        else
+        {
+            tileLeft = map.getTile(this, -Map.TILE_WIDTH, 0);
+            tileRight = map.getTile(this, Map.TILE_WIDTH, 0);
+        }
+
+        final boolean noLeft = tileLeft == null || !tileLeft.hasCollision(this);
+        final boolean noRight = tileRight == null || !tileRight.hasCollision(this);
+        if (noLeft || noRight)
         {
             final int tx = getLocationIntX() - tile.getX() + Valdyn.TILE_EXTREMITY_WIDTH * side;
             final Tile next = map.getTile(tile.getX() / map.getTileWidth() + side, tile.getY() / map.getTileHeight());

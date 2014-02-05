@@ -87,14 +87,8 @@ public final class TileGround
         {
             case GROUND:
             case GROUND_SPIKE:
-            case BORDER_LEFT:
-            case BORDER_CENTER:
-            case BORDER_RIGHT:
                 return getGround(localizable, 0);
             case GROUND_TOP:
-            case BORDER_LEFT_TOP:
-            case BORDER_RIGHT_TOP:
-            case BORDER_CENTER_TOP:
                 return getGround(localizable, 15);
             case PILLAR_HORIZONTAL:
                 return getPillar(localizable);

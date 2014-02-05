@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collisions>
-	<collision name="GROUND" pattern="4" start="1" end="81"/>
-	<collision name="GROUND_SPIKE" pattern="4" start="84" end="88"/>
-	<collision name="BORDER_RIGHT" pattern="4" start="89" end="94"/>
-	<collision name="BORDER_LEFT" pattern="4" start="95" end="101"/>
-	<collision name="BORDER_CENTER" pattern="4" start="102" end="107"/>
-	<collision name="SLOPE_RIGHT_1" pattern="4" start="113" end="120"/>
-	<collision name="SLOPE_RIGHT_2" pattern="4" start="121" end="130"/>
+	<collision name="GROUND" pattern="4" start="1" end="100"/>
+	<collision name="GROUND_SPIKE" pattern="4" start="101" end="105"/>
+	<collision name="SLOPE_RIGHT_1" pattern="4" start="113" end="122"/>
+	<collision name="SLOPE_RIGHT_2" pattern="4" start="123" end="133"/>
 	<collision name="SLOPE_RIGHT_3" pattern="4" start="134" end="142"/>
-	<collision name="SLOPE_RIGHT_BORDER_UP" pattern="4" start="131" end="132"/>
-	<collision name="SLOPE_RIGHT_BORDER_DOWN" pattern="4" start="133" end="133"/>
-	<collision name="SLOPE_LEFT_1" pattern="4" start="143" end="151"/>
-	<collision name="SLOPE_LEFT_2" pattern="4" start="152" end="159"/>
+	<collision name="SLOPE_LEFT_1" pattern="4" start="143" end="152"/>
+	<collision name="SLOPE_LEFT_2" pattern="4" start="153" end="161"/>
 	<collision name="SLOPE_LEFT_3" pattern="4" start="162" end="168"/>
-	<collision name="SLOPE_LEFT_BORDER_DOWN" pattern="4" start="161" end="161"/>
-	<collision name="SLOPE_LEFT_BORDER_UP" pattern="4" start="160" end="160"/>
 	<collision name="SLIDE_RIGHT_1" pattern="4" start="177" end="180"/>
 	<collision name="SLIDE_RIGHT_2" pattern="4" start="181" end="184"/>
 	<collision name="SLIDE_RIGHT_3" pattern="4" start="185" end="186"/>
