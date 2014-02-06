@@ -89,6 +89,7 @@ public final class TileGround
             case GROUND_SPIKE:
                 return getGround(localizable, 0);
             case GROUND_TOP:
+            case GROUND_HOOKABLE:
                 return getGround(localizable, 15);
             case PILLAR_HORIZONTAL:
                 return getPillar(localizable);

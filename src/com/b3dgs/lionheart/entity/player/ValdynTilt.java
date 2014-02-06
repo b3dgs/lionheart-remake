@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionheart.entity.EntityAction;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
+import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
@@ -50,12 +51,20 @@ final class ValdynTilt
     private Align slide;
     /** Liana state. */
     private Align liana;
+    /** Ground hoockable state. */
+    private Align groundHoockable;
     /** Liana soar. */
     private boolean lianaSoar;
     /** Liana soared. */
     private boolean lianaSoared;
     /** Liana soar start y. */
     private double lianaSoarY;
+    /** Ground soar. */
+    private boolean groundSoar;
+    /** Ground soared. */
+    private boolean groundSoared;
+    /** Ground soar start y. */
+    private double groundSoarY;
 
     /**
      * Constructor.
@@ -202,6 +211,59 @@ final class ValdynTilt
     }
 
     /**
+     * Update the action movement on ground hoockable.
+     * 
+     * @param speed The current speed.
+     * @return The new speed.
+     */
+    double updateActionMovementGroundHoockable(double speed)
+    {
+        double newSpeed = speed;
+
+        if (groundHoockable == Align.CENTER)
+        {
+            newSpeed = 0.0;
+        }
+        if (groundHoockable != null)
+        {
+            if (valdyn.isAttacking())
+            {
+                newSpeed = 0.0;
+            }
+            // Soar ground
+            if (!groundSoar && groundHoockable == Align.CENTER && valdyn.isEnabled(EntityAction.JUMP))
+            {
+                groundSoar = true;
+                groundSoarY = valdyn.getLocationY();
+            }
+            // Exit ground
+            if (valdyn.isEnabled(EntityAction.MOVE_DOWN) && !timerLianaUnGrip.isStarted())
+            {
+                timerLianaUnGrip.start();
+                valdyn.setTimerFall(Valdyn.FALL_TIME_MARGIN);
+                groundHoockable = null;
+            }
+        }
+
+        // No movement while soaring
+        if (groundSoar)
+        {
+            newSpeed = 0.0;
+        }
+        // Exit ground soared
+        if (groundSoared)
+        {
+            if (valdyn.getDiffHorizontal() != 0 || valdyn.isEnabled(EntityAction.MOVE_DOWN))
+            {
+                valdyn.status.setCollision(EntityCollisionTile.NONE);
+                valdyn.setTimerFall(Valdyn.FALL_TIME_MARGIN);
+                groundSoared = false;
+            }
+        }
+        return newSpeed;
+    }
+
+    /**
      * Update the jump action on the slide.
      * 
      * @param jumpForce The jump force reference.
@@ -231,6 +293,14 @@ final class ValdynTilt
     }
 
     /**
+     * Terminate the ground hoockable soar.
+     */
+    void stopGroundHoockableSoar()
+    {
+        groundSoared = false;
+    }
+
+    /**
      * Update the states.
      * 
      * @return <code>true</code> if updated, <code>false</code> else.
@@ -244,6 +314,12 @@ final class ValdynTilt
         if (lianaSoared)
         {
             valdyn.status.setState(ValdynState.BORDER);
+            updated = true;
+        }
+        else if (groundSoared)
+        {
+            valdyn.status.setState(EntityState.IDLE);
+            groundSoared = false;
             updated = true;
         }
         else if (slide == Align.LEFT && keyLeft || slide == Align.RIGHT && keyRight)
@@ -281,6 +357,16 @@ final class ValdynTilt
             valdyn.status.setState(ValdynState.LIANA_IDLE);
             updated = true;
         }
+        else if (groundSoar)
+        {
+            valdyn.status.setState(ValdynState.GROUND_SOAR);
+            updated = true;
+        }
+        else if (groundHoockable == Align.CENTER && diffHorizontal == 0.0)
+        {
+            valdyn.status.setState(ValdynState.GROUNDHOOCKABLE_IDLE);
+            updated = true;
+        }
         else
         {
             updated = false;
@@ -303,8 +389,11 @@ final class ValdynTilt
         {
             timerLianaUnGrip.stop();
             liana = null;
+            groundHoockable = null;
             checkCollisionLiana(valdyn.getCollisionTile(map, ValdynCollisionTileCategory.HAND_LIANA_STEEP));
             checkCollisionLiana(valdyn.getCollisionTile(map, ValdynCollisionTileCategory.HAND_LIANA_LEANING));
+            checkCollisionGroundHoockable(valdyn.getCollisionTile(map,
+                    ValdynCollisionTileCategory.HAND_GROUND_HOOCKABLE));
         }
         if (found)
         {
@@ -396,11 +485,115 @@ final class ValdynTilt
     }
 
     /**
+     * Check vertical axis on ground hoockable.
+     * 
+     * @param tile The tile collision.
+     */
+    void checkCollisionGroundHoockable(Tile tile)
+    {
+        if (tile != null)
+        {
+            final Double y = tile.getCollisionY(valdyn);
+            if (valdyn.applyVerticalCollision(y))
+            {
+                valdyn.resetGravity();
+                valdyn.status.setCollision(EntityCollisionTile.LIANA);
+                valdyn.resetJump();
+                groundHoockable = Align.CENTER;
+            }
+        }
+    }
+
+    /**
      * Update the animation.
      * 
      * @param extrp The extrapolation value.
      */
     void updateAnimation(double extrp)
+    {
+        if (!updateAnimationLianaSoar(extrp) && !updateAnimationGroundSoar(extrp))
+        {
+            valdyn.setFrameOffsets(0, 1);
+        }
+    }
+
+    /**
+     * Get the liana status.
+     * 
+     * @return The liana status.
+     */
+    Align getLiana()
+    {
+        return liana;
+    }
+
+    /**
+     * Get the liana soar state.
+     * 
+     * @return The liana soar state.
+     */
+    boolean getLianaSoar()
+    {
+        return lianaSoar;
+    }
+
+    /**
+     * Get the liana soared state.
+     * 
+     * @return The liana soared state.
+     */
+    boolean getLianaSoared()
+    {
+        return lianaSoared;
+    }
+
+    /**
+     * Get the ground hoockable status.
+     * 
+     * @return The hoockable status.
+     */
+    Align getGroundHoockable()
+    {
+        return groundHoockable;
+    }
+
+    /**
+     * Get the ground soar state.
+     * 
+     * @return The ground soar state.
+     */
+    boolean getGroundSoar()
+    {
+        return groundSoar;
+    }
+
+    /**
+     * Get the ground soared state.
+     * 
+     * @return The ground soared state.
+     */
+    boolean getGroundSoared()
+    {
+        return groundSoared;
+    }
+
+    /**
+     * Get the slide status.
+     * 
+     * @return The slide status.
+     */
+    Align getSlide()
+    {
+        return slide;
+    }
+
+    /**
+     * Update the liana soar animation.
+     * 
+     * @param extrp The extrapolation value.
+     * @return <code>true</code> if soared, <code>false</code> else.
+     */
+    private boolean updateAnimationLianaSoar(double extrp)
     {
         if (lianaSoar && valdyn.status.getState() == ValdynState.LIANA_SOAR)
         {
@@ -438,50 +631,57 @@ final class ValdynTilt
                 valdyn.teleportY(lianaSoarY);
                 valdyn.resetGravity();
             }
+            return true;
         }
-        else
+        return false;
+    }
+
+    /**
+     * Update the ground soar animation.
+     * 
+     * @param extrp The extrapolation value.
+     * @return <code>true</code> if soared, <code>false</code> else.
+     */
+    private boolean updateAnimationGroundSoar(double extrp)
+    {
+        if (groundSoar && valdyn.status.getState() == ValdynState.GROUND_SOAR)
         {
-            valdyn.setFrameOffsets(0, 1);
+            final int frame = valdyn.getFrameAnim();
+            if (frame > 0 && frame <= 3)
+            {
+                valdyn.setFrameOffsets(0, (int) (-groundSoarY * 1) + 687);
+            }
+            else if (frame > 3 && frame <= 6)
+            {
+                valdyn.setFrameOffsets(0, (int) (-groundSoarY * 1) + 687);
+            }
+            else if (frame == 7)
+            {
+                valdyn.setFrameOffsets(0, (int) (-groundSoarY * 1) + 727);
+            }
+            else if (frame > 7 && frame <= 9)
+            {
+                valdyn.setFrameOffsets(0, (int) (-groundSoarY * 1) + 727);
+            }
+            else if (frame > 9)
+            {
+                valdyn.setFrameOffsets(0, (int) (-groundSoarY * 1) + 752);
+            }
+            if (valdyn.getAnimState() == AnimState.PLAYING)
+            {
+                groundSoarY += 1.2 * extrp;
+                valdyn.teleportY(groundSoarY);
+            }
+            if (valdyn.getAnimState() == AnimState.FINISHED)
+            {
+                groundSoar = false;
+                groundSoared = true;
+                groundHoockable = null;
+                valdyn.teleportY(groundSoarY);
+                valdyn.resetGravity();
+            }
+            return true;
         }
-    }
-
-    /**
-     * Get the liana status.
-     * 
-     * @return The liana status.
-     */
-    Align getLiana()
-    {
-        return liana;
-    }
-
-    /**
-     * Get the liana soar state.
-     * 
-     * @return The liana soar state.
-     */
-    boolean getLianaSoar()
-    {
-        return lianaSoar;
-    }
-
-    /**
-     * Get the liana soared state.
-     * 
-     * @return The liana soared state.
-     */
-    boolean getLianaSoared()
-    {
-        return lianaSoared;
-    }
-
-    /**
-     * Get the slide status.
-     * 
-     * @return The slide status.
-     */
-    Align getSlide()
-    {
-        return slide;
+        return false;
     }
 }

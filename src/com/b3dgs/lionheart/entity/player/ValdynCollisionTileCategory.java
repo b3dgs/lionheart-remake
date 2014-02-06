@@ -40,7 +40,9 @@ public enum ValdynCollisionTileCategory implements CollisionTileCategory<TileCol
     /** Hand liana steep. */
     HAND_LIANA_STEEP(TileCollision.COLLISION_LIANA_STEEP),
     /** Hand liana leaning. */
-    HAND_LIANA_LEANING(TileCollision.COLLISION_LIANA_LEANING);
+    HAND_LIANA_LEANING(TileCollision.COLLISION_LIANA_LEANING),
+    /** Hand ground hoockable. */
+    HAND_GROUND_HOOCKABLE(TileCollision.COLLISION_GROUND_HOOCKABLE);
 
     /** The collisions list. */
     private final EnumSet<TileCollision> collisions;

@@ -98,6 +98,7 @@ final class ValdynAttack
         addShadeAnimation(ValdynState.ATTACK_JUMP, 1);
         addShadeAnimation(ValdynState.ATTACK_SLIDE, 1);
         addShadeAnimation(ValdynState.ATTACK_LIANA, 1);
+        addShadeAnimation(ValdynState.ATTACK_GROUNDHOOCKABLE, 2);
     }
 
     /**
@@ -371,6 +372,10 @@ final class ValdynAttack
         else if (valdyn.isLiana())
         {
             setAttack(ValdynState.ATTACK_LIANA);
+        }
+        else if (valdyn.isGroundHoockable())
+        {
+            setAttack(ValdynState.ATTACK_GROUNDHOOCKABLE);
         }
         else if (!valdyn.isOnGround() && keyDown)
         {

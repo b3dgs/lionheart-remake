@@ -29,6 +29,8 @@
 	<animation name="liana_walk" start="36" end="44" speed="0.2" reversed="false" repeat="true"/>
 	<animation name="liana_slide" start="53" end="59" speed="0.2" reversed="true" repeat="true"/>
 	<animation name="liana_soar" start="72" end="82" speed="0.2" reversed="false" repeat="false"/>
+	<animation name="groundhoockable_idle" start="72" end="72" speed="0.2" reversed="false" repeat="false"/>
+	<animation name="ground_soar" start="72" end="82" speed="0.2" reversed="false" repeat="false"/>
 	<animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false"/>
 	<animation name="die" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
 	<animation name="dead" start="70" end="71" speed="0.15" reversed="false" repeat="true"/>
@@ -80,10 +82,18 @@
 		<attack frame="5" x="15" y="5" width="26" height="15"/>
 	</animation>
 	
+	<animation name="attack_groundhoockable" start="112" end="116" speed="0.4" reversed="true" repeat="false">
+		<attack frame="2" x="0" y="55" width="26" height="25"/>
+		<attack frame="3" x="10" y="55" width="26" height="25"/>
+		<attack frame="4" x="15" y="25" width="26" height="25"/>
+		<attack frame="5" x="15" y="5" width="26" height="15"/>
+	</animation>
+	
 	<animation name="shade_attack_up" start="1" end="2" speed="0.35" reversed="true" repeat="false"/>
 	<animation name="shade_attack_horizontal" start="9" end="12" speed="0.4" reversed="true" repeat="false"/>
 	<animation name="shade_attack_turning" start="24" end="30" speed="0.3" reversed="false" repeat="false"/>
 	<animation name="shade_attack_jump" start="31" end="35" speed="0.3" reversed="false" repeat="false"/>
 	<animation name="shade_attack_slide" start="40" end="43" speed="0.3" reversed="false" repeat="false"/>
 	<animation name="shade_attack_liana" start="32" end="35" speed="0.3" reversed="false" repeat="false"/>
+	<animation name="shade_attack_groundhoockable" start="13" end="15" speed="0.4" reversed="false" repeat="false"/>
 </entity>

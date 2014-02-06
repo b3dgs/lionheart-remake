@@ -153,6 +153,7 @@ public final class Valdyn
         addCollisionTile(ValdynCollisionTileCategory.KNEE_RIGHT, Valdyn.TILE_EXTREMITY_WIDTH * 2, 2);
         addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_LEANING, 0, 57);
         addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_STEEP, 0, 44);
+        addCollisionTile(ValdynCollisionTileCategory.HAND_GROUND_HOOCKABLE, 0, 65);
     }
 
     /**
@@ -323,6 +324,16 @@ public final class Valdyn
     }
 
     /**
+     * Check if valdyn is on ground hoockable.
+     * 
+     * @return <code>true</code> if liana, <code>false</code> else.
+     */
+    boolean isGroundHoockable()
+    {
+        return tilt.getGroundHoockable() != null;
+    }
+
+    /**
      * Check if valdyn is attacking.
      * 
      * @return <code>true</code> if attacking, <code>false</code> else.
@@ -362,6 +373,7 @@ public final class Valdyn
         }
         speed = tilt.updateActionMovementSlide(speed);
         speed = tilt.updateActionMovementLiana(speed);
+        speed = tilt.updateActionMovementGroundHoockable(speed);
         movement.setSensibility(sensibility);
         movement.setVelocity(movementSmooth);
         speed = tilt.updateMovementSlope(speed, sensibility, movementSpeedMax, movementSmooth);
@@ -394,12 +406,13 @@ public final class Valdyn
                     setGravityMax(gravityMax + jumpHeightMax);
                     timerJump.start();
                 }
-                if (canJump() || tilt.getLianaSoared())
+                if (canJump() || tilt.getLianaSoared() || tilt.getGroundSoared())
                 {
                     if (tilt.getSlide() == null)
                     {
                         jumpForce.setForce(0.0, jumpHeightMax);
                         tilt.stopLianaSoar();
+                        tilt.stopGroundHoockableSoar();
                     }
                     else
                     {
@@ -732,7 +745,7 @@ public final class Valdyn
         updateFall();
         updateFallen();
         updateActionMovement();
-        if (!tilt.getLianaSoar())
+        if (!tilt.getLianaSoar() && !tilt.getGroundSoar())
         {
             attack.updateActionAttack();
         }
@@ -840,7 +853,7 @@ public final class Valdyn
     @Override
     protected void updateCollisions()
     {
-        if (tilt.getLianaSoared())
+        if (tilt.getLianaSoared() || tilt.getGroundSoared())
         {
             extremity = true;
             status.setCollision(EntityCollisionTile.GROUND);

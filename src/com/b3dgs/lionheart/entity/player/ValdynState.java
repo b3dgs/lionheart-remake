@@ -44,8 +44,12 @@ enum ValdynState implements State
     LIANA_WALK,
     /** Liana slide. */
     LIANA_SLIDE,
-    /** Lian soar. */
+    /** Liana soar. */
     LIANA_SOAR,
+    /** Ground hoockable idle. */
+    GROUNDHOOCKABLE_IDLE,
+    /** Ground soar. */
+    GROUND_SOAR,
     /** Preparing attack. */
     ATTACK_PREPARING,
     /** Preparing attack down. */
@@ -68,6 +72,8 @@ enum ValdynState implements State
     ATTACK_FALL,
     /** Attack on liana. */
     ATTACK_LIANA,
+    /** Attack on ground hoockable. */
+    ATTACK_GROUNDHOOCKABLE,
     /** Attack while sliding. */
     ATTACK_SLIDE;
 

@@ -32,6 +32,8 @@ public enum TileCollision
     GROUND(TileCollisionGroup.FLAT),
     /** Ground top. */
     GROUND_TOP(TileCollisionGroup.FLAT),
+    /** Ground hoockable. */
+    GROUND_HOOKABLE(TileCollisionGroup.FLAT),
     /** Ground with spike. */
     GROUND_SPIKE(TileCollisionGroup.FLAT),
     /** Slope right top \. */
@@ -105,6 +107,8 @@ public enum TileCollision
     public static final EnumSet<TileCollision> COLLISION_LIANA_STEEP = EnumSet.noneOf(TileCollision.class);
     /** Vertical collisions list. */
     public static final EnumSet<TileCollision> COLLISION_LIANA_LEANING = EnumSet.noneOf(TileCollision.class);
+    /** Vertical collisions list. */
+    public static final EnumSet<TileCollision> COLLISION_GROUND_HOOCKABLE = EnumSet.noneOf(TileCollision.class);
 
     /**
      * Static init.
@@ -114,6 +118,7 @@ public enum TileCollision
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_TOP);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_SPIKE);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_HOOKABLE);
 
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_1);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_2);
@@ -143,6 +148,8 @@ public enum TileCollision
         TileCollision.COLLISION_LIANA_STEEP.add(TileCollision.LIANA_STEEP_RIGHT_2);
         TileCollision.COLLISION_LIANA_STEEP.add(TileCollision.LIANA_STEEP_LEFT_1);
         TileCollision.COLLISION_LIANA_STEEP.add(TileCollision.LIANA_STEEP_LEFT_2);
+
+        TileCollision.COLLISION_GROUND_HOOCKABLE.add(TileCollision.GROUND_HOOKABLE);
 
         TileCollision.COLLISION_LIANA_LEANING.add(TileCollision.LIANA_LEANING_LEFT_1);
         TileCollision.COLLISION_LIANA_LEANING.add(TileCollision.LIANA_LEANING_LEFT_2);
