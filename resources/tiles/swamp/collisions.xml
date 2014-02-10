@@ -1,32 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collisions>
-	<collision name="GROUND" pattern="4" start="1" end="100"/>
-	<collision name="GROUND_SPIKE" pattern="4" start="101" end="105"/>
-	<collision name="SLOPE_RIGHT_1" pattern="4" start="113" end="122"/>
-	<collision name="SLOPE_RIGHT_2" pattern="4" start="123" end="133"/>
-	<collision name="SLOPE_RIGHT_3" pattern="4" start="134" end="142"/>
-	<collision name="SLOPE_LEFT_1" pattern="4" start="143" end="152"/>
-	<collision name="SLOPE_LEFT_2" pattern="4" start="153" end="161"/>
-	<collision name="SLOPE_LEFT_3" pattern="4" start="162" end="168"/>
-	<collision name="SLIDE_RIGHT_1" pattern="4" start="177" end="180"/>
-	<collision name="SLIDE_RIGHT_2" pattern="4" start="181" end="184"/>
-	<collision name="SLIDE_RIGHT_3" pattern="4" start="185" end="186"/>
-	<collision name="SLIDE_RIGHT_GROUND_SLIDE" pattern="4" start="201" end="201"/>
-	<collision name="SLIDE_LEFT_1" pattern="4" start="187" end="190"/>
-	<collision name="SLIDE_LEFT_2" pattern="4" start="191" end="194"/>
-	<collision name="SLIDE_LEFT_3" pattern="4" start="195" end="196"/>
-	<collision name="SLIDE_LEFT_GROUND_SLIDE" pattern="4" start="202" end="202"/>
-	<collision name="PILLAR_VERTICAL" pattern="4" start="209" end="214"/>
-	<collision name="PILLAR_HORIZONTAL" pattern="4" start="215" end="222"/>
-	<collision name="LIANA_STEEP_RIGHT_1" pattern="5" start="1" end="8"/>
-	<collision name="LIANA_STEEP_RIGHT_2" pattern="5" start="9" end="16"/>
-	<collision name="LIANA_STEEP_LEFT_1" pattern="5" start="17" end="26"/>
-	<collision name="LIANA_STEEP_LEFT_2" pattern="5" start="27" end="34"/>
-	<collision name="LIANA_LEANING_LEFT_1" pattern="5" start="35" end="40"/>
-	<collision name="LIANA_LEANING_LEFT_2" pattern="5" start="41" end="45"/>
-	<collision name="LIANA_LEANING_LEFT_3" pattern="5" start="46" end="47"/>
-	<collision name="LIANA_LEANING_RIGHT_1" pattern="5" start="50" end="57"/>
-	<collision name="LIANA_LEANING_RIGHT_2" pattern="5" start="58" end="62"/>
-	<collision name="LIANA_LEANING_RIGHT_3" pattern="5" start="63" end="66"/>
-	<collision name="LIANA_HORIZONTAL" pattern="5" start="67" end="81"/>
+	<collision name="GROUND">
+		<tiles pattern="4" start="1" end="100"/>
+	</collision>
+	
+	<collision name="GROUND_SPIKE">
+		<tiles pattern="4" start="101" end="105"/>
+	</collision>
+	
+	<collision name="SLOPE_RIGHT_1">
+		<tiles pattern="4" start="113" end="122"/>
+	</collision>
+	
+	<collision name="SLOPE_RIGHT_2">
+		<tiles pattern="4" start="123" end="133"/>
+	</collision>
+	
+	<collision name="SLOPE_RIGHT_3">
+		<tiles pattern="4" start="134" end="142"/>
+	</collision>
+	
+	<collision name="SLOPE_LEFT_1">
+		<tiles pattern="4" start="143" end="152"/>
+	</collision>
+	
+	<collision name="SLOPE_LEFT_2">
+		<tiles pattern="4" start="153" end="161"/>
+	</collision>
+	
+	<collision name="SLOPE_LEFT_3">
+		<tiles pattern="4" start="162" end="168"/>
+	</collision>
+	
+	<collision name="SLIDE_RIGHT_1">
+		<tiles pattern="4" start="177" end="180"/>
+	</collision>
+	
+	<collision name="SLIDE_RIGHT_2">
+		<tiles pattern="4" start="181" end="184"/>
+	</collision>
+	
+	<collision name="SLIDE_RIGHT_3">
+		<tiles pattern="4" start="185" end="186"/>
+	</collision>
+	
+	<collision name="SLIDE_RIGHT_GROUND_SLIDE">
+		<tile pattern="4" number="201"/>
+	</collision>
+	
+	<collision name="SLIDE_LEFT_1">
+		<tiles pattern="4" start="187" end="190"/>
+	</collision>
+	
+	<collision name="SLIDE_LEFT_2">
+		<tiles pattern="4" start="191" end="194"/>
+	</collision>
+	
+	<collision name="SLIDE_LEFT_3">
+		<tiles pattern="4" start="195" end="196"/>
+	</collision>
+	
+	<collision name="SLIDE_LEFT_GROUND_SLIDE">
+		<tile pattern="4" number="202"/>
+	</collision>
+	
+	<collision name="PILLAR_VERTICAL">
+		<tiles pattern="4" start="209" end="214"/>
+	</collision>
+	
+	<collision name="PILLAR_HORIZONTAL">
+		<tiles pattern="4" start="215" end="222"/>
+	</collision>
+	
+	<collision name="LIANA_STEEP_RIGHT_1">
+		<tiles pattern="5" start="1" end="8"/>
+	</collision>
+	
+	<collision name="LIANA_STEEP_RIGHT_2">
+		<tiles pattern="5" start="9" end="16"/>
+	</collision>
+	
+	<collision name="LIANA_STEEP_LEFT_1">
+		<tiles pattern="5" start="17" end="26"/>
+	</collision>
+	
+	<collision name="LIANA_STEEP_LEFT_2">
+		<tiles pattern="5" start="27" end="34"/>
+	</collision>
+	
+	<collision name="LIANA_LEANING_LEFT_1">
+		<tiles pattern="5" start="35" end="40"/>
+	</collision>
+	
+	<collision name="LIANA_LEANING_LEFT_2">
+		<tiles pattern="5" start="41" end="45"/>
+	</collision>
+	
+	<collision name="LIANA_LEANING_LEFT_3">
+		<tiles pattern="5" start="46" end="47"/>
+	</collision>
+	
+	<collision name="LIANA_LEANING_RIGHT_1">
+		<tiles pattern="5" start="50" end="57"/>
+	</collision>
+	
+	<collision name="LIANA_LEANING_RIGHT_2">
+		<tiles pattern="5" start="58" end="62"/>
+	</collision>
+	
+	<collision name="LIANA_LEANING_RIGHT_3">
+		<tiles pattern="5" start="63" end="66"/>
+	</collision>
+	
+	<collision name="LIANA_HORIZONTAL">
+		<tiles pattern="5" start="67" end="81"/>
+	</collision>
 </collisions>
