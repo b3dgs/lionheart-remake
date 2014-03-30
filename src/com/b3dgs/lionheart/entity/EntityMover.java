@@ -24,7 +24,6 @@ import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.platform.CollisionTileCategory;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
-import com.b3dgs.lionheart.map.TileCollisionGroup;
 
 /**
  * Abstract entity base implementation designed to move around the map.
@@ -217,26 +216,6 @@ public abstract class EntityMover
         }
     }
 
-    /**
-     * Adjust gravity in case of slope (to stay on collision).
-     */
-    private void gravitySlopeAdjuster()
-    {
-        final double fh = getHorizontalForce();
-        final int h = (int) Math.ceil(fh);
-        final Tile nextTile = map.getTile(this, h, 0);
-        final double v;
-        if (isOnGround() && nextTile != null && nextTile.isGroup(TileCollisionGroup.SLOPE))
-        {
-            v = -Math.abs(fh) * 1.5;
-        }
-        else
-        {
-            v = 0.0;
-        }
-        extraGravityForce.setForce(0.0, v);
-    }
-
     /*
      * Entity
      */
@@ -282,7 +261,6 @@ public abstract class EntityMover
     protected void handleMovements(double extrp)
     {
         movement.update(extrp);
-        gravitySlopeAdjuster();
         super.handleMovements(extrp);
     }
 

@@ -18,13 +18,18 @@
 package com.b3dgs.lionheart.map;
 
 import java.util.EnumSet;
+import java.util.Set;
+
+import com.b3dgs.lionengine.game.platform.CollisionFunction;
+import com.b3dgs.lionengine.game.platform.CollisionTile;
+import com.b3dgs.lionengine.game.platform.CollisionTileModel;
 
 /**
  * List of collision types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum TileCollision
+public enum TileCollision implements CollisionTile
 {
     /** None. */
     NONE(TileCollisionGroup.NONE),
@@ -36,6 +41,8 @@ public enum TileCollision
     GROUND_HOOKABLE(TileCollisionGroup.FLAT),
     /** Ground with spike. */
     GROUND_SPIKE(TileCollisionGroup.FLAT),
+    /** Ground slide link. */
+    GROUND_SLIDE(TileCollisionGroup.FLAT),
     /** Slope right top \. */
     SLOPE_RIGHT_1(TileCollisionGroup.SLOPE, false),
     /** Slope right middle \. */
@@ -119,6 +126,7 @@ public enum TileCollision
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_TOP);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_SPIKE);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_HOOKABLE);
+        TileCollision.COLLISION_VERTICAL.add(TileCollision.GROUND_SLIDE);
 
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_1);
         TileCollision.COLLISION_VERTICAL.add(TileCollision.SLOPE_LEFT_2);
@@ -160,6 +168,7 @@ public enum TileCollision
 
         TileCollision.COLLISION_HORIZONTAL.add(TileCollision.GROUND_SPIKE);
         TileCollision.COLLISION_HORIZONTAL.add(TileCollision.PILLAR_VERTICAL);
+        TileCollision.COLLISION_HORIZONTAL.add(TileCollision.GROUND_SLIDE);
     }
 
     /** Group. */
@@ -207,5 +216,30 @@ public enum TileCollision
     public boolean isLeft()
     {
         return left;
+    }
+
+    /** Model. */
+    private final CollisionTileModel model = new CollisionTileModel();
+
+    /*
+     * CollisionTile
+     */
+
+    @Override
+    public void addCollisionFunction(CollisionFunction function)
+    {
+        model.addCollisionFunction(function);
+    }
+
+    @Override
+    public void removeCollisionFunction(CollisionFunction function)
+    {
+        model.removeCollisionFunction(function);
+    }
+
+    @Override
+    public Set<CollisionFunction> getCollisionFunctions()
+    {
+        return model.getCollisionFunctions();
     }
 }

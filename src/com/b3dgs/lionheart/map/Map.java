@@ -92,25 +92,7 @@ public class Map
     @Override
     public Tile createTile(int width, int height, Integer pattern, int number, TileCollision collision)
     {
-        final TileCollisionGroup group = collision != null ? collision.getGroup() : TileCollisionGroup.NONE;
-        switch (group)
-        {
-            case FLAT:
-            case PILLAR:
-                return new TileGround(width, height, pattern, number, collision);
-            case LIANA_HORIZONTAL:
-            case LIANA_STEEP:
-            case LIANA_LEANING:
-                return new TileLiana(width, height, pattern, number, collision);
-            case SLOPE:
-                return new TileSlope(width, height, pattern, number, collision);
-            case SLIDE:
-                return new TileSlide(width, height, pattern, number, collision);
-            case STEEP:
-                return new TileSteep(width, height, pattern, number, collision);
-            default:
-                return new Tile(width, height, pattern, number, collision);
-        }
+        return new Tile(width, height, pattern, number, collision);
     }
 
     @Override

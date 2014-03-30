@@ -150,16 +150,4 @@ public class Tile
     {
         return super.getBottom();
     }
-
-    @Override
-    public Double getCollisionX(Localizable localizable)
-    {
-        return null;
-    }
-
-    @Override
-    public Double getCollisionY(Localizable localizable)
-    {
-        return null;
-    }
 }

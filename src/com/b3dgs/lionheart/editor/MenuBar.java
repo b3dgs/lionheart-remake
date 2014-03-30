@@ -195,8 +195,8 @@ public class MenuBar
     void fileLoad()
     {
         final MapFilter filter = new MapFilter("Lionheart Remake Map", "lrm");
-        final Media media = UtilityMedia.get(UtilitySwing.createOpenFileChooser(UtilityMedia.getRessourcesDir(),
-                editor.getContentPane(), filter));
+        final Media media = UtilityMedia.get(UtilitySwing.createOpenFileChooser("Select level rip",
+                UtilityMedia.getRessourcesDir(), editor.getContentPane(), filter));
         if (media != null)
         {
             try
@@ -250,8 +250,8 @@ public class MenuBar
     boolean toolsImportMap(JDialog dialog)
     {
         final MapFilter filter = new MapFilter("Map Image Rip", "png", "bmp");
-        final File file = UtilitySwing.createOpenFileChooser(UtilityMedia.getRessourcesDir(), editor.getContentPane(),
-                filter);
+        final File file = UtilitySwing.createOpenFileChooser("Select level rip", UtilityMedia.getRessourcesDir(),
+                editor.getContentPane(), filter);
         if (file == null)
         {
             return false;

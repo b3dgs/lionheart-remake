@@ -52,7 +52,7 @@ public final class Scene
     {
         super(loader, Scene.ORIGINAL_SCENE_DISPLAY);
         world = new World(this);
-        lastLevelIndex = 0;
+        lastLevelIndex = -1;
     }
 
     /**

@@ -152,7 +152,7 @@ public final class Valdyn
         addCollisionTile(ValdynCollisionTileCategory.KNEE_LEFT, -Valdyn.TILE_EXTREMITY_WIDTH * 2, 2);
         addCollisionTile(ValdynCollisionTileCategory.KNEE_RIGHT, Valdyn.TILE_EXTREMITY_WIDTH * 2, 2);
         addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_LEANING, 0, 57);
-        addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_STEEP, 0, 44);
+        addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_STEEP, 0, 65);
         addCollisionTile(ValdynCollisionTileCategory.HAND_GROUND_HOOCKABLE, 0, 65);
     }
 
@@ -377,7 +377,7 @@ public final class Valdyn
         movement.setSensibility(sensibility);
         movement.setVelocity(movementSmooth);
         speed = tilt.updateMovementSlope(speed, sensibility, movementSpeedMax, movementSmooth);
-        movement.setForceToReach(speed, 0.0);
+        movement.setForceToReach(speed, 0);
 
         // Crouch
         if (isOnGround() && !isSliding() && keyDown)
@@ -580,7 +580,7 @@ public final class Valdyn
             }
         }
         final CoordTile coord = getCollisionTileOffset(category);
-        if (coord != null && isOnExtremity(-UtilityMath.getSign(coord.getX())))
+        if (coord != null && coord.getX() != 0 && isOnExtremity(-UtilityMath.getSign(coord.getX())))
         {
             updateExtremity(mirror);
         }
@@ -612,6 +612,11 @@ public final class Valdyn
         {
             tileLeft = map.getTile(this, -Map.TILE_WIDTH, -Map.TILE_HEIGHT);
             tileRight = map.getTile(this, Map.TILE_WIDTH, Map.TILE_HEIGHT);
+        }
+        else if (tile.getCollision() == TileCollision.SLOPE_LEFT_1
+                || tile.getCollision() == TileCollision.SLOPE_RIGHT_1)
+        {
+            return false;
         }
         else
         {
@@ -870,14 +875,17 @@ public final class Valdyn
         // Vertical collision
         if (getLocationY() <= getLocationOldY())
         {
-            final Tile tileRight = checkCollisionExtremity(ValdynCollisionTileCategory.LEG_RIGHT, true);
-            final Tile tileLeft = checkCollisionExtremity(ValdynCollisionTileCategory.LEG_LEFT, false);
             final Tile tile = getCollisionTile(map, EntityCollisionTileCategory.GROUND_CENTER);
             final boolean found = checkCollisionVertical(tile);
+            if (!found)
+            {
+                final Tile tileRight = checkCollisionExtremity(ValdynCollisionTileCategory.LEG_RIGHT, true);
+                final Tile tileLeft = checkCollisionExtremity(ValdynCollisionTileCategory.LEG_LEFT, false);
+            }
             tilt.updateCollisions(found, tile);
 
             // Special fix for slide from ground
-            tilt.updateCollisionSlideGroundTransition(tileLeft, tileRight, tile);
+            // tilt.updateCollisionSlideGroundTransition(tileLeft, tileRight, tile);
         }
 
         // Horizontal collision
