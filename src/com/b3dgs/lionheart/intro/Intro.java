@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.core.DeviceType;
-import com.b3dgs.lionengine.core.Key;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
@@ -132,7 +131,7 @@ public final class Intro
         {
             part4.update(seek, extrp);
         }
-        if (seek > 201000 || keyboard.isPressedOnce(Key.ESCAPE))
+        if (seek > 201000 || keyboard.isPressedOnce(Keyboard.ESCAPE))
         {
             end(Menu.class);
         }

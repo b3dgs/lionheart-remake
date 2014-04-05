@@ -28,7 +28,6 @@ import com.b3dgs.lionengine.Text;
 import com.b3dgs.lionengine.TextStyle;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.core.DeviceType;
-import com.b3dgs.lionengine.core.Key;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Media;
@@ -55,7 +54,7 @@ public class Menu
     /** Default key set. */
     private static final Integer[] KEYS =
     {
-            Key.UP, Key.DOWN, Key.CONTROL, Key.LEFT, Key.RIGHT, Key.ALT
+            Keyboard.UP, Keyboard.DOWN, Keyboard.CONTROL, Keyboard.LEFT, Keyboard.RIGHT, Keyboard.ALT
     };
     /** List of difficulties. */
     private static final String[] OPTIONS_DIFFICULTY =
@@ -331,7 +330,7 @@ public class Menu
             }
         }
         // Accept choice
-        if (next != null && isPressed(Menu.KEYS[2], Key.SPACE, Key.ENTER, Key.CONTROL))
+        if (next != null && isPressed(Menu.KEYS[2], Keyboard.SPACE, Keyboard.ENTER, Keyboard.CONTROL))
         {
             menuNext = next;
             transition = TransitionType.OUT;
@@ -415,7 +414,7 @@ public class Menu
                 choicePressed = false;
             }
             final boolean changeKey = !choicePressed && !waitKey
-                    && (isPressed(Menu.KEYS[2]) || isPressed(Key.SPACE) || keyboard.isPressedOnce(Key.ENTER));
+                    && (isPressed(Menu.KEYS[2]) || isPressed(Keyboard.SPACE) || keyboard.isPressedOnce(Keyboard.ENTER));
             final boolean acceptKey = !choicePressed && waitKey && keyboard.used();
             if (changeKey)
             {
@@ -627,7 +626,7 @@ public class Menu
     {
         handleMenuTransition(extrp);
         handleMenu(extrp);
-        if (keyboard.isPressedOnce(Key.ESCAPE))
+        if (keyboard.isPressedOnce(Keyboard.ESCAPE))
         {
             end();
         }

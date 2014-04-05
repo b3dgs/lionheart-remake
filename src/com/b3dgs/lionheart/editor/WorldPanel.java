@@ -33,8 +33,8 @@ import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Rectangle;
-import com.b3dgs.lionengine.core.Click;
 import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.Mouse;
 import com.b3dgs.lionengine.core.UtilityImage;
 import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionengine.file.File;
@@ -692,7 +692,7 @@ public final class WorldPanel
         switch (editor.getSelectionState())
         {
             case SELECT:
-                if (event.getButton() == Click.LEFT)
+                if (event.getButton() == Mouse.LEFT)
                 {
                     final Entity entity = hitEntity(mx, my);
                     editor.toolBar.entityEditor.setSelectedEntity(entity);

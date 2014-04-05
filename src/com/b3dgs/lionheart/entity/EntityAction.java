@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionengine.core.Key;
+import com.b3dgs.lionengine.core.Keyboard;
 
 /**
  * List of entity actions.
@@ -27,15 +27,15 @@ import com.b3dgs.lionengine.core.Key;
 public enum EntityAction
 {
     /** Move left. */
-    MOVE_LEFT(Key.LEFT),
+    MOVE_LEFT(Keyboard.LEFT),
     /** Move right. */
-    MOVE_RIGHT(Key.RIGHT),
+    MOVE_RIGHT(Keyboard.RIGHT),
     /** Move down. */
-    MOVE_DOWN(Key.DOWN),
+    MOVE_DOWN(Keyboard.DOWN),
     /** Jump. */
-    JUMP(Key.UP),
+    JUMP(Keyboard.UP),
     /** Attack. */
-    ATTACK(Key.CONTROL);
+    ATTACK(Keyboard.CONTROL);
 
     /** Values. */
     public static final EntityAction[] VALUES = EntityAction.values();

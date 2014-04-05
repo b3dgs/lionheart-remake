@@ -20,7 +20,6 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.core.DeviceType;
-import com.b3dgs.lionengine.core.Key;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
@@ -95,7 +94,7 @@ public final class Scene
     protected void update(double extrp)
     {
         world.update(extrp);
-        if (keyboard.isPressedOnce(Key.ESCAPE) || world.isGameOver())
+        if (keyboard.isPressedOnce(Keyboard.ESCAPE) || world.isGameOver())
         {
             end(Menu.class);
         }
