@@ -42,7 +42,7 @@ public final class StateBar
      * 
      * @param editor The editor reference.
      */
-    public StateBar(final Editor editor)
+    public StateBar(Editor editor)
     {
         this.editor = editor;
         final Dimension size = new Dimension(getWidth(), 16);

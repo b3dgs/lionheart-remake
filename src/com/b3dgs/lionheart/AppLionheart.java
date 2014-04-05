@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.swing.Theme;
 import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
+import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Program starts here.
@@ -97,7 +98,7 @@ public final class AppLionheart
         else
         {
             final Loader loader = new Loader(config);
-            loader.start(new Scene(loader));
+            loader.start(Menu.class);
         }
     }
 

@@ -17,6 +17,8 @@
  */
 package com.b3dgs.lionheart.menu;
 
+import java.awt.event.KeyEvent;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
@@ -25,7 +27,9 @@ import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Text;
 import com.b3dgs.lionengine.TextStyle;
 import com.b3dgs.lionengine.Timing;
+import com.b3dgs.lionengine.core.DeviceType;
 import com.b3dgs.lionengine.core.Key;
+import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Sequence;
@@ -98,6 +102,8 @@ public class Menu
         }
     }
 
+    /** Keyboard. */
+    private final Keyboard keyboard;
     /** Text for menu content. */
     private final Text text;
     /** Background menus. */
@@ -157,10 +163,11 @@ public class Menu
     public Menu(Loader loader)
     {
         super(loader, Menu.MENU_DISPLAY);
+        keyboard = getInputDevice(DeviceType.KEYBOARD);
         text = UtilityImage.createText(Text.SERIF, 24, TextStyle.NORMAL);
         timerPressStart = new Timing();
-        factorH = 2.0 * (width / (double) Menu.MENU_DISPLAY.getWidth());
-        factorV = 2.0 * (height / (double) Menu.MENU_DISPLAY.getHeight());
+        factorH = 2.0 * (getWidth() / (double) Menu.MENU_DISPLAY.getWidth());
+        factorV = 2.0 * (getHeight() / (double) Menu.MENU_DISPLAY.getHeight());
 
         font = Drawable.loadSpriteFont(Menu.FONT_SPRITE, Menu.FONT_DATA, 24, 24);
 
@@ -348,12 +355,13 @@ public class Menu
                 txtAlpha = 255.0;
             }
             alphaChanged = oldAlpha != txtAlpha;
+
             // Wait for loading
             if (!firstLoaded && txtAlpha == 255.0)
             {
                 firstLoaded = true;
                 timerPressStart.start();
-                start(new Scene(loader), true);
+                start(true, Scene.class);
                 loaded = true;
             }
             if (txtAlpha == 255.0 && timerPressStart.elapsed(500))
@@ -361,6 +369,7 @@ public class Menu
                 timerPressStart.restart();
                 pressStart = !pressStart;
             }
+
             // Enter the game
             if (loaded && !keyboard.used())
             {
@@ -446,7 +455,7 @@ public class Menu
                 handleMenuKeys();
                 break;
             case INTRO:
-                end(new Intro(loader));
+                end(Intro.class);
                 break;
             case EXIT:
                 end();
@@ -538,7 +547,7 @@ public class Menu
                 for (int i = 0; i < 6; i++)
                 {
                     text.draw(g, menusData[id].choices[i].x + (int) (40 * factorH), menusData[id].choices[i].y,
-                            Align.LEFT, keyboard.getKeyText(Menu.KEYS[i].intValue()));
+                            Align.LEFT, KeyEvent.getKeyText(Menu.KEYS[i].intValue()));
                 }
                 break;
             case INTRO:
@@ -627,7 +636,7 @@ public class Menu
     @Override
     protected void render(Graphic g)
     {
-        g.clear(source);
+        g.clear(0, 0, getWidth(), getHeight());
         final int id = getMenuID();
         if (id > -1)
         {
@@ -639,7 +648,7 @@ public class Menu
         {
             final int a = UtilityMath.fixBetween((int) alpha, 0, 255);
             g.setColor(Menu.ALPHAS[a]);
-            g.drawRect(0, 0, width, height, true);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 

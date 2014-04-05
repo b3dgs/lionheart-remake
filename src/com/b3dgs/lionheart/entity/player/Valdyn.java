@@ -20,8 +20,8 @@ package com.b3dgs.lionheart.entity.player;
 import java.util.Collection;
 
 import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.Keyboard;
 import com.b3dgs.lionengine.Timing;
+import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.CollisionData;

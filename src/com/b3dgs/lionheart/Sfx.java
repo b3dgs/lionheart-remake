@@ -18,10 +18,10 @@
 package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.UtilityRandom;
-import com.b3dgs.lionengine.audio.Wav;
 import com.b3dgs.lionengine.core.AudioWav;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Wav;
 
 /**
  * Handle the SFX.

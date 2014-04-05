@@ -161,7 +161,7 @@ public final class WorldPanel
      * 
      * @param editor The editor reference.
      */
-    public WorldPanel(final Editor editor)
+    public WorldPanel(Editor editor)
     {
         super();
         this.editor = editor;

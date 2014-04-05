@@ -21,7 +21,9 @@ import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Timing;
+import com.b3dgs.lionengine.core.DeviceType;
 import com.b3dgs.lionengine.core.Key;
+import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
 import com.b3dgs.lionheart.Music;
@@ -59,6 +61,8 @@ public final class Intro
         }
     }
 
+    /** Keyboard. */
+    private final Keyboard keyboard;
     /** Part 1. */
     private final Part1 part1;
     /** Part 2. */
@@ -80,6 +84,7 @@ public final class Intro
     public Intro(Loader loader)
     {
         super(loader, Intro.INTRO_DISPLAY);
+        keyboard = getInputDevice(DeviceType.KEYBOARD);
         part1 = new Part1();
         part2 = new Part2();
         part3 = new Part3();
@@ -129,7 +134,7 @@ public final class Intro
         }
         if (seek > 201000 || keyboard.isPressedOnce(Key.ESCAPE))
         {
-            end(new Menu(loader));
+            end(Menu.class);
         }
     }
 
@@ -138,19 +143,19 @@ public final class Intro
     {
         if (seek < 47050)
         {
-            part1.render(width, height, seek, g);
+            part1.render(getWidth(), getHeight(), seek, g);
         }
         else if (seek >= 47050 && seek < 88000)
         {
-            part2.render(width, height, seek, g);
+            part2.render(getWidth(), getHeight(), seek, g);
         }
         else if (seek >= 92000 && seek < 110000)
         {
-            part3.render(width, height, seek, g);
+            part3.render(getWidth(), getHeight(), seek, g);
         }
         else if (seek >= 110000 && seek < 200200)
         {
-            part4.render(width, height, seek, g);
+            part4.render(getWidth(), getHeight(), seek, g);
         }
     }
 
