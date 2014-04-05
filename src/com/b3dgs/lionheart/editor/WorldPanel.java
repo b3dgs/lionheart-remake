@@ -32,16 +32,17 @@ import javax.swing.JPanel;
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Rectangle;
+import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Mouse;
 import com.b3dgs.lionengine.core.UtilityImage;
-import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionengine.file.File;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.CoordTile;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
+import com.b3dgs.lionengine.geom.Geom;
+import com.b3dgs.lionengine.geom.Rectangle;
 import com.b3dgs.lionheart.Editor;
 import com.b3dgs.lionheart.Level;
 import com.b3dgs.lionheart.WorldData;
@@ -512,8 +513,8 @@ public final class WorldPanel
                     - editor.getOffsetViewH();
             final int y = UtilityMath.getRounded(entity.getLocationIntY(), map.getTileHeight())
                     - editor.getOffsetViewV();
-            final Rectangle r1 = UtilityMath.createRectangle(x1, y1, x2 - x1, y2 - y1);
-            final Rectangle r2 = UtilityMath.createRectangle(x, y, entity.getWidth(), entity.getHeight());
+            final Rectangle r1 = Geom.createRectangle(x1, y1, x2 - x1, y2 - y1);
+            final Rectangle r2 = Geom.createRectangle(x, y, entity.getWidth(), entity.getHeight());
             if (r1.intersects(r2))
             {
                 return true;

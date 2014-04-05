@@ -21,10 +21,11 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeMap;
 
-import com.b3dgs.lionengine.Coord;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.CoordTile;
+import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -51,8 +52,8 @@ public class WorldData
     public WorldData(Map map)
     {
         this.map = map;
-        playerStart = new Coord(-Map.TILE_WIDTH, -Map.TILE_HEIGHT);
-        playerEnd = new Coord(-Map.TILE_WIDTH, -Map.TILE_HEIGHT);
+        playerStart = Geom.createCoord(-Map.TILE_WIDTH, -Map.TILE_HEIGHT);
+        playerEnd = Geom.createCoord(-Map.TILE_WIDTH, -Map.TILE_HEIGHT);
         checkpoints = new TreeMap<>();
     }
 

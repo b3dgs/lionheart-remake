@@ -20,7 +20,6 @@ package com.b3dgs.lionheart.entity;
 import java.io.IOException;
 import java.util.HashMap;
 
-import com.b3dgs.lionengine.Coord;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.Animation;
@@ -29,6 +28,8 @@ import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.CollisionData;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
+import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -81,7 +82,7 @@ public abstract class Entity
         animations = new HashMap<>(4);
         collisions = new HashMap<>(4);
         timerDie = new Timing();
-        dieLocation = new Coord();
+        dieLocation = Geom.createCoord();
         forces = new Force[0];
         loadCollisions(EntityCollision.values());
         loadAnimations(EntityState.values());

@@ -17,15 +17,16 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.Coord;
 import com.b3dgs.lionengine.Graphic;
+import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Geom;
 
 /**
  * Intro part 2 implementation.
@@ -91,7 +92,7 @@ public final class Part2
         valdyn0 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn0.png"));
         valdyn1 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn1.png"));
         valdyn2 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn2.png"));
-        valdynCoord = new Coord(320, 240);
+        valdynCoord = Geom.createCoord(320, 240);
         z = new double[2 + pillar.length];
     }
 

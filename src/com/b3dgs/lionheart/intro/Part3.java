@@ -17,17 +17,18 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.Coord;
 import com.b3dgs.lionengine.Graphic;
+import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.UtilityMath;
 import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
+import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Geom;
 
 /**
  * Intro part 3 implementation.
@@ -93,8 +94,8 @@ public final class Part3
         dragonBack = Anim.createAnimation(1, 15, 0.2f, true, false);
         dragonFly = Anim.createAnimation(1, 20, 0.2f, true, true);
         camera = new CameraGame();
-        valdynCoord = new Coord(28, 90);
-        dragonCoord = new Coord(89, 23);
+        valdynCoord = Geom.createCoord(28, 90);
+        dragonCoord = Geom.createCoord(89, 23);
     }
 
     /**

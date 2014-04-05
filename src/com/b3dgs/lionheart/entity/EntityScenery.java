@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionengine.Rectangle;
+import com.b3dgs.lionengine.geom.Rectangle;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
