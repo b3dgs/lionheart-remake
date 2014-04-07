@@ -43,7 +43,6 @@ import com.b3dgs.lionheart.entity.swamp.projectile.FactoryProjectileSwamp;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.map.Map;
-import com.b3dgs.lionheart.map.TileCollision;
 
 /**
  * Represents the game layer, handling the landscape, the map, and the entities.
@@ -198,6 +197,6 @@ final class World
         handlerEntity.prepare();
         player.setCheckpoints(level.worldData.getCheckpoints());
         player.respawn(level.worldData.getStartX(), level.worldData.getStartY());
-        map.createCollisionDraw(TileCollision.class);
+        // map.createCollisionDraw(TileCollision.class);
     }
 }
