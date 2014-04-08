@@ -21,7 +21,6 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.core.DeviceType;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Sequence;
 import com.b3dgs.lionengine.file.FileReading;
@@ -93,7 +92,7 @@ final class World
         super(sequence);
         final double scaleH = width / (double) Scene.SCENE_DISPLAY.getWidth();
         final double scaleV = height / (double) Scene.SCENE_DISPLAY.getHeight();
-        keyboard = sequence.getInputDevice(DeviceType.KEYBOARD);
+        keyboard = sequence.getInputDevice(Keyboard.class);
         camera = new CameraPlatform(width, height);
         factoryLandscape = new FactoryLandscape(source, scaleH, scaleV, false);
         factoryPlayer = new FactoryEntityPlayer();

@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Timing;
-import com.b3dgs.lionengine.core.DeviceType;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
@@ -83,7 +82,7 @@ public final class Intro
     public Intro(Loader loader)
     {
         super(loader, Intro.INTRO_DISPLAY);
-        keyboard = getInputDevice(DeviceType.KEYBOARD);
+        keyboard = getInputDevice(Keyboard.class);
         part1 = new Part1();
         part2 = new Part2();
         part3 = new Part3();

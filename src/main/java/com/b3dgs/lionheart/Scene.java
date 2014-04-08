@@ -19,7 +19,6 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.core.DeviceType;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
@@ -54,7 +53,7 @@ public final class Scene
     public Scene(Loader loader)
     {
         super(loader, Scene.ORIGINAL_SCENE_DISPLAY);
-        keyboard = getInputDevice(DeviceType.KEYBOARD);
+        keyboard = getInputDevice(Keyboard.class);
         world = new World(this);
         lastLevelIndex = -1;
     }

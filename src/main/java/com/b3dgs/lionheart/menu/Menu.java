@@ -28,7 +28,6 @@ import com.b3dgs.lionengine.Text;
 import com.b3dgs.lionengine.TextStyle;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilityMath;
-import com.b3dgs.lionengine.core.DeviceType;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Media;
@@ -162,7 +161,7 @@ public class Menu
     public Menu(Loader loader)
     {
         super(loader, Menu.MENU_DISPLAY);
-        keyboard = getInputDevice(DeviceType.KEYBOARD);
+        keyboard = getInputDevice(Keyboard.class);
         text = UtilityImage.createText(Text.SERIF, 24, TextStyle.NORMAL);
         timerPressStart = new Timing();
         factorH = 2.0 * (getWidth() / (double) Menu.MENU_DISPLAY.getWidth());
