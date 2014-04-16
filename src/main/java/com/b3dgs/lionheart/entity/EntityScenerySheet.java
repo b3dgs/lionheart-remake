@@ -15,19 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
+package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionengine.UtilityMath;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityScenery;
-import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
  * Sheet base scenery implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class EntityScenerySheet
+public abstract class EntityScenerySheet
         extends EntityScenery
 {
     /** Half circle. */
@@ -50,7 +47,7 @@ public class EntityScenerySheet
     /**
      * @see Entity#Entity(SetupEntity)
      */
-    public EntityScenerySheet(SetupEntity setup)
+    protected EntityScenerySheet(SetupEntity setup)
     {
         super(setup);
     }

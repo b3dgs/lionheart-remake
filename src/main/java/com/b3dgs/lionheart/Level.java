@@ -48,7 +48,7 @@ public class Level
     /** World data reference. */
     public final WorldData worldData;
     /** Entity factory reference. */
-    public final FactoryEntity<?> factoryEntity;
+    public final FactoryEntity factoryEntity;
     /** Factory effect reference. */
     public final FactoryEffect factoryEffect;
     /** Entity handler reference. */
@@ -56,9 +56,9 @@ public class Level
     /** Handler effect reference. */
     public final HandlerEffect handlerEffect;
     /** Factory launcher. */
-    public final FactoryLauncher<?, ?> factoryLauncher;
+    public final FactoryLauncher factoryLauncher;
     /** Factory projectile. */
-    public final FactoryProjectile<?> factoryProjectile;
+    public final FactoryProjectile factoryProjectile;
     /** Desired fps value. */
     public final int desiredFps;
     /** World type. */
@@ -76,8 +76,8 @@ public class Level
      * @param factoryProjectile The projectile factory reference.
      * @param desiredFps The desired fps value.
      */
-    public Level(CameraPlatform camera, FactoryEntity<?> factoryEntity, HandlerEntity handlerEntity,
-            FactoryLauncher<?, ?> factoryLauncher, FactoryProjectile<?> factoryProjectile, int desiredFps)
+    public Level(CameraPlatform camera, FactoryEntity factoryEntity, HandlerEntity handlerEntity,
+            FactoryLauncher factoryLauncher, FactoryProjectile factoryProjectile, int desiredFps)
     {
         this.camera = camera;
         this.factoryEntity = factoryEntity;
@@ -122,10 +122,6 @@ public class Level
         }
         setWorld(WorldType.load(file));
         setLandscape(LandscapeType.load(file));
-        factoryEntity.load();
-        factoryEffect.load();
-        factoryLauncher.load();
-        factoryProjectile.load();
         map.load(file);
         worldData.load(file);
         handlerEntity.load(file);

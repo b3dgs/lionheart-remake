@@ -27,6 +27,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -49,7 +50,6 @@ import com.b3dgs.lionheart.Editor;
 import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.entity.EntityCategory;
 import com.b3dgs.lionheart.entity.EntityType;
-import com.b3dgs.lionheart.entity.swamp.EntitySwampType;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
 /**
@@ -126,7 +126,6 @@ final class EntitySelector
                 });
         landscape.add(landscapeCombo);
         tabbedPane.removeAll();
-        editor.world.factoryEntity.load();
         LandscapeType landscape = editor.world.level.getLandscape();
         if (landscape == null)
         {
@@ -143,18 +142,19 @@ final class EntitySelector
             final List<Image> ico = icons.get(category);
             ico.clear();
             int length = 0;
-            for (final EntityType<?> entity : editor.world.factoryEntity.getTypes())
+            for (final EntityType type : EntityType.values())
             {
-                if (entity.getCategory() == category)
+                final EntityCategory entityCategory = EntityCategory.getCategory(type.getType());
+                if (entityCategory == category)
                 {
-                    final Media media = UtilityMedia.get(AppLionheart.ENTITIES_DIR, world.getPathName(),
-                            entity.getPathName() + "_ico.png");
+                    final Media media = UtilityMedia.get(AppLionheart.ENTITIES_DIR, world.getPath(), type.name()
+                            .toLowerCase(Locale.ENGLISH) + "_ico.png");
                     ico.add(Drawable.loadImage(media));
                     length++;
                 }
             }
 
-            final JPanel panel = new Entity(ico);
+            final JPanel panel = new EntityIcon(ico);
             final int iconSize = EntitySelector.ICON_SIZE;
             final int cols = EntitySelector.COLUMNS;
             panel.setLayout(new GridLayout(0, cols));
@@ -177,7 +177,7 @@ final class EntitySelector
      * 
      * @author Pierre-Alexandre (contact@b3dgs.com)
      */
-    private final class Entity
+    private final class EntityIcon
             extends JPanel
             implements MouseListener, MouseMotionListener
     {
@@ -197,7 +197,7 @@ final class EntitySelector
          * 
          * @param icons The icons list.
          */
-        Entity(List<Image> icons)
+        EntityIcon(List<Image> icons)
         {
             this.icons = icons;
             click = false;
@@ -266,7 +266,7 @@ final class EntitySelector
                     {
                         total += categories[i].getCount();
                     }
-                    editor.setSelectedEntity(EntitySwampType.values()[total + num - 1]);
+                    editor.setSelectedEntity(EntityType.values()[total + num - 1].getType());
                     editor.setSelectionState(SelectionType.PLACE);
                     editor.repaint();
                 }

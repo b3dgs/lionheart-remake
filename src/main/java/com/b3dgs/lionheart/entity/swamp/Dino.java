@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.EntityState;
@@ -31,6 +32,7 @@ import com.b3dgs.lionheart.entity.patrol.Patroller;
  */
 public final class Dino
         extends EntityMonster
+        implements FolderSwamp
 {
     /**
      * Constructor.

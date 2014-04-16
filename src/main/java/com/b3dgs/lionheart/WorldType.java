@@ -18,10 +18,10 @@
 package com.b3dgs.lionheart;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
-import com.b3dgs.lionengine.game.ObjectTypeUtility;
 
 /**
  * List of world types.
@@ -31,9 +31,9 @@ import com.b3dgs.lionengine.game.ObjectTypeUtility;
 public enum WorldType
 {
     /** Swamp world. */
-    SWAMP(Music.SWAMP),
+    SWAMP("Swamp", Music.SWAMP),
     /** Ancient town world. */
-    ANCIENT_TOWN(Music.ANCIENT_TOWN);
+    ANCIENT_TOWN("Ancient Town", Music.ANCIENT_TOWN);
 
     /**
      * Load type from its saved format.
@@ -47,16 +47,20 @@ public enum WorldType
         return WorldType.valueOf(file.readString());
     }
 
+    /** Title displayed. */
+    private final String title;
     /** World music. */
-    private Music music;
+    private final Music music;
 
     /**
      * Constructor.
      * 
+     * @param title The displayed title.
      * @param music The music type.
      */
-    private WorldType(Music music)
+    private WorldType(String title, Music music)
     {
+        this.title = title;
         this.music = music;
     }
 
@@ -82,34 +86,22 @@ public enum WorldType
     }
 
     /**
-     * Get the name as a path (lower case).
+     * Get the world path.
      * 
-     * @return The name.
+     * @return The world path.
      */
-    public String getPathName()
+    public String getPath()
     {
-        return ObjectTypeUtility.getPathName(this);
+        return name().toLowerCase(Locale.ENGLISH);
     }
 
-    /**
-     * Get the title name (first letter as upper).
-     * 
-     * @return The title name.
+    /*
+     * Object
      */
+
     @Override
     public String toString()
     {
-        final String toString = ObjectTypeUtility.toString(this).replace('_', ' ');
-        final StringBuilder newString = new StringBuilder(toString.length());
-        final String[] strArr = toString.split(" ");
-        for (String str : strArr)
-        {
-            final char[] stringArray = str.trim().toCharArray();
-            stringArray[0] = Character.toUpperCase(stringArray[0]);
-            str = new String(stringArray);
-
-            newString.append(str).append(" ");
-        }
-        return newString.toString();
+        return title;
     }
 }

@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.entity.swamp.projectile;
 
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.projectile.Projectile;
 
 /**
@@ -27,6 +28,7 @@ import com.b3dgs.lionheart.entity.projectile.Projectile;
  */
 public class Bullet
         extends Projectile
+        implements FolderSwamp
 {
     /**
      * Constructor.

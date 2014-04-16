@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.entity.EntityMonsterBee;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**

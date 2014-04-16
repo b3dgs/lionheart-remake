@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.SetupEntity;
@@ -28,6 +29,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  */
 public final class Bird
         extends EntityScenery
+        implements FolderSwamp
 {
     /**
      * Constructor.

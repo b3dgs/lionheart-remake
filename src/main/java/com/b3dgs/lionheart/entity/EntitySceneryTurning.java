@@ -15,15 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
+package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
  * Turning scenery implementation base.
@@ -51,7 +48,7 @@ public abstract class EntitySceneryTurning
     /**
      * @see Entity#Entity(SetupEntity)
      */
-    public EntitySceneryTurning(SetupEntity setup)
+    protected EntitySceneryTurning(SetupEntity setup)
     {
         super(setup);
         timerShake = new Timing();

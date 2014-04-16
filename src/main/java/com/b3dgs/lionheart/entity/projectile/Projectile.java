@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
 import com.b3dgs.lionengine.game.projectile.ProjectileGame;
+import com.b3dgs.lionheart.Foldered;
 import com.b3dgs.lionheart.entity.Entity;
 
 /**
@@ -33,6 +34,7 @@ import com.b3dgs.lionheart.entity.Entity;
  */
 public abstract class Projectile
         extends ProjectileGame<Entity, Entity>
+        implements Foldered
 {
     /** Surface. */
     private final SpriteAnimated sprite;

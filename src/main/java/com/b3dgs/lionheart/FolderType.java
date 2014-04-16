@@ -15,44 +15,52 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
+package com.b3dgs.lionheart;
 
-import java.io.IOException;
-
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionheart.WorldType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.FactoryEntity;
+import java.util.Locale;
 
 /**
- * Represents the factory of item entity.
+ * List of folder types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class FactoryEntitySwamp
-        extends FactoryEntity<EntitySwampType>
+public enum FolderType
 {
+    /** Swamp folder. */
+    SWAMP,
+    /** Ancient town folder. */
+    ANCIENT_TOWN,
+    /** Player folder. */
+    PLAYERS,
+    /** None. */
+    NONE;
+
     /**
-     * Constructor.
+     * Get the folder enum from the class type.
+     * 
+     * @param type The class type.
+     * @return The enum folder type.
      */
-    public FactoryEntitySwamp()
+    public static FolderType getType(Class<? extends Foldered> type)
     {
-        super(EntitySwampType.class, EntitySwampType.values(), WorldType.SWAMP);
+        if (FolderSwamp.class.isAssignableFrom(type))
+        {
+            return SWAMP;
+        }
+        if (FolderPlayer.class.isAssignableFrom(type))
+        {
+            return PLAYERS;
+        }
+        return NONE;
     }
 
-    /*
-     * FactoryEntity
+    /**
+     * Get the world path.
+     * 
+     * @return The world path.
      */
-
-    @Override
-    public Entity createEntity(FileReading file) throws IOException
+    public String getPath()
     {
-        return create(EntitySwampType.load(file));
-    }
-
-    @Override
-    public Entity createEntityFromType(String type)
-    {
-        return create(EntitySwampType.valueOf(type));
+        return name().toLowerCase(Locale.ENGLISH);
     }
 }

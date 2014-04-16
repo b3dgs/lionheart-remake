@@ -17,26 +17,39 @@
  */
 package com.b3dgs.lionheart.entity.projectile;
 
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
+import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.FolderType;
 
 /**
  * Projectile factory.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
- * @param <T> The type used.
  */
-public abstract class FactoryProjectile<T extends Enum<T> & ProjectileType<T>>
-        extends FactoryObjectGame<T, SetupSurfaceGame, Projectile>
+public class FactoryProjectile
+        extends FactoryObjectGame<SetupSurfaceGame, Projectile>
 {
     /**
      * Constructor.
-     * 
-     * @param enumType The class of the enum type defined.
-     * @param folder The objects folder.
      */
-    public FactoryProjectile(Class<T> enumType, String folder)
+    public FactoryProjectile()
     {
-        super(enumType, folder);
+        super(AppLionheart.PROJECTILES_DIR);
+    }
+
+    /*
+     * FactoryObjectGame
+     */
+
+    @Override
+    protected SetupSurfaceGame createSetup(Class<? extends Projectile> type, Media config)
+    {
+        final FolderType theme = FolderType.getType(type);
+        final Media media = UtilityMedia.get(folder, theme.getPath(), type.getSimpleName() + ".xml");
+
+        return new SetupSurfaceGame(media);
     }
 }

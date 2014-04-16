@@ -47,11 +47,7 @@ import com.b3dgs.lionheart.Editor;
 import com.b3dgs.lionheart.Level;
 import com.b3dgs.lionheart.WorldData;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityType;
 import com.b3dgs.lionheart.entity.FactoryEntity;
-import com.b3dgs.lionheart.entity.ancient_town.FactoryEntityAncientTown;
-import com.b3dgs.lionheart.entity.ancient_town.launcher.FactoryLauncherAncientTown;
-import com.b3dgs.lionheart.entity.ancient_town.projectile.FactoryProjectileAncientTown;
 import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
@@ -117,13 +113,13 @@ public final class WorldPanel
     /** The entity handler reference. */
     public final Handler handlerEntity;
     /** The factory entity reference. */
-    public final FactoryEntity<?> factoryEntity;
+    public final FactoryEntity factoryEntity;
     /** The handler projectile reference. */
     public final HandlerProjectile handlerProjectile;
     /** The factory launcher reference. */
-    public final FactoryLauncher<?, ?> factoryLauncher;
+    public final FactoryLauncher factoryLauncher;
     /** The factory projectile reference. */
-    public final FactoryProjectile<?> factoryProjectile;
+    public final FactoryProjectile factoryProjectile;
     /** The editor reference. */
     private final Editor editor;
     /** Current horizontal mouse location. */
@@ -145,7 +141,7 @@ public final class WorldPanel
     /** Current player selection state. */
     private SelectionPlayerType playerSelection;
     /** Last selection for place mode. */
-    private EntityType<?> lastSelection;
+    private Class<? extends Entity> lastSelection;
     /** Last selection entity for place mode. */
     private Entity lastSelectionEntity;
     /** Selection starting horizontal location. */
@@ -167,12 +163,11 @@ public final class WorldPanel
         super();
         this.editor = editor;
         camera = new CameraPlatform(WorldPanel.DEFAULT_WIDTH, WorldPanel.DEFAULT_HEIGHT);
-        factoryEntity = new FactoryEntityAncientTown();
+        factoryEntity = new FactoryEntity();
         handlerEntity = new Handler(factoryEntity);
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
-        factoryProjectile = new FactoryProjectileAncientTown();
-        factoryLauncher = new FactoryLauncherAncientTown((FactoryProjectileAncientTown) factoryProjectile,
-                handlerProjectile);
+        factoryProjectile = new FactoryProjectile();
+        factoryLauncher = new FactoryLauncher(factoryProjectile, handlerProjectile);
         level = new Level(camera, factoryEntity, handlerEntity, factoryLauncher, factoryProjectile, 60);
         factoryEntity.setLevel(level);
         worldData = level.worldData;
@@ -353,12 +348,12 @@ public final class WorldPanel
         }
         if (editor.getSelectionState() == SelectionType.PLACE)
         {
-            final EntityType<?> selection = editor.getSelectedEntity();
+            final Class<? extends Entity> selection = editor.getSelectedEntity();
             if (selection != null)
             {
                 if (selection != lastSelection)
                 {
-                    lastSelectionEntity = editor.world.factoryEntity.createEntityFromType(selection.getType().name());
+                    lastSelectionEntity = editor.world.factoryEntity.create(selection);
                     lastSelection = selection;
                 }
                 final int tw = map.getTileWidth();
@@ -717,10 +712,10 @@ public final class WorldPanel
                 if (hitEntity(mx, my) == null)
                 {
                     unSelectEntities();
-                    final EntityType<?> selection = editor.getSelectedEntity();
+                    final Class<? extends Entity> selection = editor.getSelectedEntity();
                     if (selection != null)
                     {
-                        final Entity entity = factoryEntity.createEntityFromType(selection.getType().name());
+                        final Entity entity = factoryEntity.create(selection);
                         setEntityLocation(entity, x, y, 1);
                         handlerEntity.add(entity);
                         handlerEntity.update();

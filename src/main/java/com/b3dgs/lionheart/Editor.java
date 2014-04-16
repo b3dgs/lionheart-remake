@@ -39,7 +39,6 @@ import com.b3dgs.lionheart.editor.StateBar;
 import com.b3dgs.lionheart.editor.ToolBar;
 import com.b3dgs.lionheart.editor.WorldPanel;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityType;
 
 /**
  * Main editor frame.
@@ -70,7 +69,7 @@ public final class Editor
     /** State bar reference. */
     private final StateBar stateBar;
     /** Current selected entity data. */
-    private EntityType<?> selectedEntity;
+    private Class<? extends Entity> selectedEntity;
     /** Current state selection. */
     private SelectionType selectionState;
 
@@ -113,7 +112,7 @@ public final class Editor
      * 
      * @param type The selected entity type.
      */
-    public void setSelectedEntity(EntityType<?> type)
+    public void setSelectedEntity(Class<? extends Entity> type)
     {
         selectedEntity = type;
     }
@@ -163,7 +162,7 @@ public final class Editor
      * 
      * @return The selected entity type.
      */
-    public EntityType<?> getSelectedEntity()
+    public Class<? extends Entity> getSelectedEntity()
     {
         return selectedEntity;
     }

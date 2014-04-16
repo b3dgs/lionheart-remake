@@ -31,14 +31,10 @@ import com.b3dgs.lionheart.effect.HandlerEffect;
 import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
 import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
-import com.b3dgs.lionheart.entity.player.EntityPlayerType;
-import com.b3dgs.lionheart.entity.player.FactoryEntityPlayer;
 import com.b3dgs.lionheart.entity.player.StatsRenderer;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
-import com.b3dgs.lionheart.entity.swamp.FactoryEntitySwamp;
-import com.b3dgs.lionheart.entity.swamp.launcher.FactoryLauncherSwamp;
-import com.b3dgs.lionheart.entity.swamp.projectile.FactoryProjectileSwamp;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.map.Map;
@@ -62,9 +58,7 @@ final class World
     /** Map reference. */
     private final Map map;
     /** Entity factory. */
-    private final FactoryEntityPlayer factoryPlayer;
-    /** Entity factory. */
-    private final FactoryEntity<?> factoryEntity;
+    private final FactoryEntity factoryEntity;
     /** Handler entity. */
     private final HandlerEntity handlerEntity;
     /** Handler effect. */
@@ -72,9 +66,9 @@ final class World
     /** Handler projectile reference. */
     public final HandlerProjectile handlerProjectile;
     /** Factory projectile reference. */
-    public final FactoryProjectileSwamp factoryProjectile;
+    public final FactoryProjectile factoryProjectile;
     /** Factory launcher. */
-    public final FactoryLauncher<?, ?> factoryLauncher;
+    public final FactoryLauncher factoryLauncher;
     /** Stats renderer. */
     private final StatsRenderer statsRenderer;
     /** Landscape reference. */
@@ -95,12 +89,11 @@ final class World
         keyboard = sequence.getInputDevice(Keyboard.class);
         camera = new CameraPlatform(width, height);
         factoryLandscape = new FactoryLandscape(source, scaleH, scaleV, false);
-        factoryPlayer = new FactoryEntityPlayer();
-        factoryEntity = new FactoryEntitySwamp();
+        factoryEntity = new FactoryEntity();
         handlerEntity = new HandlerEntity(camera, factoryEntity);
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
-        factoryProjectile = new FactoryProjectileSwamp();
-        factoryLauncher = new FactoryLauncherSwamp(factoryProjectile, handlerProjectile);
+        factoryProjectile = new FactoryProjectile();
+        factoryLauncher = new FactoryLauncher(factoryProjectile, handlerProjectile);
         level = new Level(camera, factoryEntity, handlerEntity, factoryLauncher, factoryProjectile, source.getRate());
         factoryEntity.setLevel(level);
         map = level.map;
@@ -184,9 +177,8 @@ final class World
     protected void loading(FileReading file) throws IOException
     {
         level.load(file);
-        factoryPlayer.setLevel(level);
-        factoryPlayer.load();
-        player = (Valdyn) factoryPlayer.create(EntityPlayerType.VALDYN);
+        factoryEntity.setLevel(level);
+        player = factoryEntity.create(Valdyn.class);
         handlerEntity.setPlayer(player);
         landscape = factoryLandscape.createLandscape(level.getLandscape());
         player.setLandscape(landscape);

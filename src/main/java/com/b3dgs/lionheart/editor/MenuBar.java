@@ -265,7 +265,7 @@ public class MenuBar
         final LevelRipConverter<Tile> rip = new LevelRipConverter<>();
         try
         {
-            rip.start(media, map, UtilityMedia.get("tiles", editor.world.level.getWorld().getPathName()));
+            rip.start(media, map, UtilityMedia.get("tiles", editor.world.level.getWorld().getPath()));
             final int errors = rip.getErrors();
             if (errors == 0)
             {

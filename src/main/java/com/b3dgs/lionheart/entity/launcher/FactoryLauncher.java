@@ -17,28 +17,50 @@
  */
 package com.b3dgs.lionheart.entity.launcher;
 
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
-import com.b3dgs.lionheart.entity.projectile.LauncherProjectile;
-import com.b3dgs.lionheart.entity.swamp.projectile.ProjectileSwampType;
+import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.FolderType;
+import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
+import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
 
 /**
  * Factory launcher base.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
- * @param <T> The launcher type.
- * @param <S> The setup type.
  */
-public abstract class FactoryLauncher<T extends Enum<T> & LauncherType<T>, S extends SetupLauncher>
-        extends FactoryObjectGame<T, S, LauncherProjectile<ProjectileSwampType>>
+public class FactoryLauncher
+        extends FactoryObjectGame<SetupLauncher, Launcher>
 {
+    /** Factory projectile. */
+    private final FactoryProjectile factory;
+    /** Projectile handler. */
+    private final HandlerProjectile handler;
+
     /**
      * Constructor.
      * 
-     * @param enumType The class of the enum type defined.
-     * @param folder The objects folder.
+     * @param factory The factory projectile reference.
+     * @param handler The projectile handler reference.
      */
-    public FactoryLauncher(Class<T> enumType, String folder)
+    public FactoryLauncher(FactoryProjectile factory, HandlerProjectile handler)
     {
-        super(enumType, folder);
+        super(AppLionheart.LAUNCHERS_DIR);
+        this.factory = factory;
+        this.handler = handler;
+    }
+
+    /*
+     * FactoryObjectGame
+     */
+
+    @Override
+    protected SetupLauncher createSetup(Class<? extends Launcher> type, Media config)
+    {
+        final FolderType theme = FolderType.getType(type);
+        final Media media = UtilityMedia.get(folder, theme.getPath(), type.getSimpleName() + ".xml");
+
+        return new SetupLauncher(media, factory, handler);
     }
 }

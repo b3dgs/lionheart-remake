@@ -24,19 +24,18 @@ import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.FolderType;
 import com.b3dgs.lionheart.Level;
-import com.b3dgs.lionheart.WorldType;
-import com.b3dgs.lionheart.entity.player.EntityPlayerType;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
 /**
  * Handle the entity creation by containing all necessary object for their instantiation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
- * @param <T> The entity type used.
  */
-public abstract class FactoryEntity<T extends Enum<T> & EntityType<T>>
-        extends FactoryObjectGame<T, SetupEntity, Entity>
+public class FactoryEntity
+        extends FactoryObjectGame<SetupEntity, Entity>
 {
     /** Unknown entity error message. */
     public static final String UNKNOWN_ENTITY_ERROR = "Unknown entity: ";
@@ -48,26 +47,20 @@ public abstract class FactoryEntity<T extends Enum<T> & EntityType<T>>
 
     /**
      * Constructor.
-     * 
-     * @param keyType The key type.
-     * @param types The types.
-     * @param world The world type.
      */
-    protected FactoryEntity(Class<T> keyType, T[] types, WorldType world)
+    public FactoryEntity()
     {
-        super(keyType, Media.getPath(AppLionheart.ENTITIES_DIR, world.getPathName()));
+        super(AppLionheart.ENTITIES_DIR);
     }
 
     /**
      * Constructor.
      * 
-     * @param keyType The key type.
-     * @param types The types.
      * @param folder The folder name.
      */
-    protected FactoryEntity(Class<T> keyType, T[] types, String folder)
+    protected FactoryEntity(String folder)
     {
-        super(keyType, Media.getPath(AppLionheart.ENTITIES_DIR, folder));
+        super(Media.getPath(AppLionheart.ENTITIES_DIR, folder));
     }
 
     /**
@@ -77,15 +70,13 @@ public abstract class FactoryEntity<T extends Enum<T> & EntityType<T>>
      * @return The created entity.
      * @throws IOException If error.
      */
-    public abstract Entity createEntity(FileReading file) throws IOException;
+    public Entity createEntity(FileReading file) throws IOException
+    {
+        final String name = file.readString();
+        final Class<? extends Entity> type = EntityType.CONVERTER.getType(name);
 
-    /**
-     * Create an entity from a type.
-     * 
-     * @param type The type.
-     * @return The created entity.
-     */
-    public abstract Entity createEntityFromType(String type);
+        return create(type);
+    }
 
     /**
      * Set the level used.
@@ -112,10 +103,13 @@ public abstract class FactoryEntity<T extends Enum<T> & EntityType<T>>
      */
 
     @Override
-    protected SetupEntity createSetup(T type, Media media)
+    protected SetupEntity createSetup(Class<? extends Entity> type, Media config)
     {
+        final FolderType theme = FolderType.getType(type);
+        final Media media = UtilityMedia.get(folder, theme.getPath(), type.getSimpleName() + ".xml");
+
         final Media raster;
-        if (AppLionheart.RASTER_ENABLED && type != EntityPlayerType.VALDYN)
+        if (AppLionheart.RASTER_ENABLED && type != Valdyn.class)
         {
             raster = UtilityMedia.get(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }
@@ -123,6 +117,6 @@ public abstract class FactoryEntity<T extends Enum<T> & EntityType<T>>
         {
             raster = null;
         }
-        return new SetupEntity(media, raster, false, type, level);
+        return new SetupEntity(media, raster, false, level);
     }
 }

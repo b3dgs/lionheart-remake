@@ -30,7 +30,7 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class FactoryEffect
-        extends FactoryObjectGame<EffectType, SetupSurfaceRasteredGame, Effect>
+        extends FactoryObjectGame<SetupSurfaceRasteredGame, Effect>
 {
     /** Handler effect reference. */
     private final HandlerEffect handlerEffect;
@@ -44,7 +44,7 @@ public class FactoryEffect
      */
     public FactoryEffect(HandlerEffect handlerEffect)
     {
-        super(EffectType.class, AppLionheart.EFFECTS_DIR);
+        super(AppLionheart.EFFECTS_DIR);
         this.handlerEffect = handlerEffect;
     }
 
@@ -55,7 +55,7 @@ public class FactoryEffect
      * @param x The horizontal location.
      * @param y The vertical location.
      */
-    public void startEffect(EffectType type, int x, int y)
+    public void startEffect(Class<? extends Effect> type, int x, int y)
     {
         final Effect effect = create(type);
         effect.start(x, y);
@@ -77,7 +77,7 @@ public class FactoryEffect
      */
 
     @Override
-    protected SetupSurfaceRasteredGame createSetup(EffectType type, Media config)
+    protected SetupSurfaceRasteredGame createSetup(Class<? extends Effect> type, Media config)
     {
         final Media raster;
         if (AppLionheart.RASTER_ENABLED)

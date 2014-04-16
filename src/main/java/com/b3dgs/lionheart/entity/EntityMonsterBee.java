@@ -15,43 +15,48 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.player;
+package com.b3dgs.lionheart.entity;
 
-import java.io.IOException;
-
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.FactoryEntity;
+import com.b3dgs.lionheart.FolderSwamp;
+import com.b3dgs.lionheart.entity.patrol.Patrol;
 
 /**
- * Represents the factory of item entity.
+ * Bee monster base implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class FactoryEntityPlayer
-        extends FactoryEntity<EntityPlayerType>
+public abstract class EntityMonsterBee
+        extends EntityMonster
+        implements FolderSwamp
 {
     /**
-     * Constructor.
+     * @see Entity#Entity(SetupEntity)
      */
-    public FactoryEntityPlayer()
+    protected EntityMonsterBee(SetupEntity setup)
     {
-        super(EntityPlayerType.class, EntityPlayerType.values(), "players");
+        super(setup);
+        enableMovement(Patrol.HORIZONTAL);
+        enableMovement(Patrol.VERTICAL);
     }
 
     /*
-     * FactoryEntity
+     * EntityMonster
      */
 
     @Override
-    public Entity createEntity(FileReading file) throws IOException
+    protected void updateStates()
     {
-        return create(EntityPlayerType.load(file));
+        super.updateStates();
+        mirror(false);
+        if (status.getState() == EntityState.IDLE)
+        {
+            status.setState(EntityState.WALK);
+        }
     }
 
     @Override
-    public Entity createEntityFromType(String type)
+    protected void updateCollisions()
     {
-        return create(EntityPlayerType.valueOf(type));
+        // Nothing to do
     }
 }

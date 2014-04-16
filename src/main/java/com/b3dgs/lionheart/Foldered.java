@@ -15,34 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp.launcher;
-
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionheart.entity.launcher.SetupLauncher;
-import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
-import com.b3dgs.lionheart.entity.swamp.projectile.FactoryProjectileSwamp;
+package com.b3dgs.lionheart;
 
 /**
- * Setup swamp launcher implementation.
+ * Represents the folder type marker.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class SetupSwampLauncher
-        extends SetupLauncher
+public interface Foldered
 {
-    /** Factory projectile. */
-    public final FactoryProjectileSwamp factory;
-
-    /**
-     * Constructor.
-     * 
-     * @param config The config file.
-     * @param factory The factory reference.
-     * @param handler The handler reference.
-     */
-    public SetupSwampLauncher(Media config, FactoryProjectileSwamp factory, HandlerProjectile handler)
-    {
-        super(config, handler);
-        this.factory = factory;
-    }
+    // Marker
 }

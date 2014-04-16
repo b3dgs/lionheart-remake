@@ -22,11 +22,7 @@ import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.core.Config;
 import com.b3dgs.lionengine.core.Engine;
 import com.b3dgs.lionengine.core.Loader;
-import com.b3dgs.lionengine.editor.TileCollisionEditor;
 import com.b3dgs.lionengine.swing.Theme;
-import com.b3dgs.lionheart.map.Map;
-import com.b3dgs.lionheart.map.Tile;
-import com.b3dgs.lionheart.map.TileCollision;
 import com.b3dgs.lionheart.menu.Menu;
 
 /**
@@ -85,14 +81,14 @@ public final class AppLionheart
 
         final Resolution output = new Resolution(640, 480, 60);
         final Config config = new Config(output, 16, true);
-        final boolean enableEditor = false;
+        final boolean enableEditor = true;
         if (enableEditor)
         {
             AppLionheart.RASTER_ENABLED = false;
             Theme.set(Theme.SYSTEM);
-            // final Editor editor = new Editor();
-            final TileCollisionEditor<TileCollision, Tile> editor = new TileCollisionEditor<>(new Map(),
-                    TileCollision.class);
+            final Editor editor = new Editor();
+            // final TileCollisionEditor<TileCollision, Tile> editor = new TileCollisionEditor<>(new Map(),
+            // TileCollision.class);
             editor.start();
         }
         else

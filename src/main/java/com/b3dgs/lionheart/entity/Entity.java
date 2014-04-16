@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
+import com.b3dgs.lionheart.Foldered;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -39,9 +40,8 @@ import com.b3dgs.lionheart.map.Map;
  */
 public abstract class Entity
         extends EntityPlatformRastered
+        implements Foldered
 {
-    /** Entity type. */
-    public final EntityType<?> type;
     /** Map reference. */
     protected final Map map;
     /** Animations list. */
@@ -75,7 +75,6 @@ public abstract class Entity
     protected Entity(SetupEntity setup)
     {
         super(setup, Map.TILE_HEIGHT);
-        type = setup.type;
         map = setup.level.map;
         desiredFps = setup.level.desiredFps;
         status = new EntityStatus();

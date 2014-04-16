@@ -25,7 +25,7 @@ import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.effect.EffectType;
+import com.b3dgs.lionheart.effect.ExplodeBig;
 import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
@@ -231,8 +231,8 @@ public class EntityMonster
     @Override
     protected void updateDead()
     {
-        factoryEffect.startEffect(EffectType.EXPLODE_BIG, (int) dieLocation.getX() - getCollisionData().getWidth() / 2
-                - 5, (int) dieLocation.getY() - 5);
+        factoryEffect.startEffect(ExplodeBig.class, (int) dieLocation.getX() - getCollisionData().getWidth() / 2 - 5,
+                (int) dieLocation.getY() - 5);
         Sfx.EXPLODE.play();
         destroy();
     }

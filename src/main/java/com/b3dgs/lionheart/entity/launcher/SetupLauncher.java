@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.entity.launcher;
 
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.SetupGame;
+import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
 
 /**
@@ -29,6 +30,8 @@ import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
 public class SetupLauncher
         extends SetupGame
 {
+    /** Factory reference. */
+    public final FactoryProjectile factory;
     /** Handler reference. */
     public final HandlerProjectile handler;
 
@@ -36,11 +39,13 @@ public class SetupLauncher
      * Constructor.
      * 
      * @param config The configuration reference.
+     * @param factory The factory reference.
      * @param handler The projectile handler reference.
      */
-    public SetupLauncher(Media config, HandlerProjectile handler)
+    public SetupLauncher(Media config, FactoryProjectile factory, HandlerProjectile handler)
     {
         super(config);
+        this.factory = factory;
         this.handler = handler;
     }
 }

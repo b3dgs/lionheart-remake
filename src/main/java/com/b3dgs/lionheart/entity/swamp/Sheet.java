@@ -17,6 +17,8 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.FolderSwamp;
+import com.b3dgs.lionheart.entity.EntityScenerySheet;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
@@ -26,6 +28,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  */
 public final class Sheet
         extends EntityScenerySheet
+        implements FolderSwamp
 {
     /**
      * Constructor.

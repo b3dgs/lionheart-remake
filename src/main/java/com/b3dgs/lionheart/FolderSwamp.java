@@ -15,38 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.ancient_town.projectile;
-
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceGame;
-import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.WorldType;
-import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
+package com.b3dgs.lionheart;
 
 /**
- * Projectile ancient town factory.
+ * Represents the swamp folder marker.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class FactoryProjectileAncientTown
-        extends FactoryProjectile<ProjectileAncientTownType>
+public interface FolderSwamp
+        extends Foldered
 {
-    /**
-     * Constructor.
-     */
-    public FactoryProjectileAncientTown()
-    {
-        super(ProjectileAncientTownType.class, Media.getPath(AppLionheart.PROJECTILES_DIR,
-                WorldType.ANCIENT_TOWN.getPathName()));
-    }
-
-    /*
-     * FactoryObjectGame
-     */
-
-    @Override
-    protected SetupSurfaceGame createSetup(ProjectileAncientTownType type, Media config)
-    {
-        return new SetupSurfaceGame(config);
-    }
+    // Marker
 }

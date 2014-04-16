@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.game.platform.CollisionTileCategory;
 import com.b3dgs.lionengine.game.purview.Collidable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
+import com.b3dgs.lionheart.FolderPlayer;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityAction;
@@ -54,6 +55,7 @@ import com.b3dgs.lionheart.map.TileCollisionGroup;
  */
 public final class Valdyn
         extends EntityMover
+        implements FolderPlayer
 {
     /** The width of the tile extremity. */
     public static final int TILE_EXTREMITY_WIDTH = 3;
@@ -879,8 +881,8 @@ public final class Valdyn
             final boolean found = checkCollisionVertical(tile);
             if (!found)
             {
-                final Tile tileRight = checkCollisionExtremity(ValdynCollisionTileCategory.LEG_RIGHT, true);
-                final Tile tileLeft = checkCollisionExtremity(ValdynCollisionTileCategory.LEG_LEFT, false);
+                checkCollisionExtremity(ValdynCollisionTileCategory.LEG_RIGHT, true);
+                checkCollisionExtremity(ValdynCollisionTileCategory.LEG_LEFT, false);
             }
             tilt.updateCollisions(found, tile);
 

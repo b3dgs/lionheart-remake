@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
@@ -28,6 +29,7 @@ import com.b3dgs.lionheart.entity.patrol.Patrol;
  */
 public final class Fly
         extends EntityMonster
+        implements FolderSwamp
 {
     /**
      * Constructor.

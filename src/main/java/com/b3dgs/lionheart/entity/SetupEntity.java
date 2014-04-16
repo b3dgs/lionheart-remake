@@ -29,8 +29,6 @@ import com.b3dgs.lionheart.Level;
 public class SetupEntity
         extends SetupSurfaceRasteredGame
 {
-    /** Type. */
-    public final EntityType<?> type;
     /** Level. */
     public final Level level;
 
@@ -40,13 +38,11 @@ public class SetupEntity
      * @param config The config file.
      * @param rasterFile The raster file.
      * @param smoothRaster The smooth raster flag.
-     * @param type The entity type.
      * @param level The level reference.
      */
-    public SetupEntity(Media config, Media rasterFile, boolean smoothRaster, EntityType<?> type, Level level)
+    public SetupEntity(Media config, Media rasterFile, boolean smoothRaster, Level level)
     {
         super(config, rasterFile, smoothRaster);
-        this.type = type;
         this.level = level;
     }
 }

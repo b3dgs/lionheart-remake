@@ -15,37 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp.projectile;
-
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceGame;
-import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.WorldType;
-import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
+package com.b3dgs.lionheart;
 
 /**
- * Projectile swamp factory.
+ * Player folder marker.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class FactoryProjectileSwamp
-        extends FactoryProjectile<ProjectileSwampType>
+public interface FolderPlayer
+        extends Foldered
 {
-    /**
-     * Constructor.
-     */
-    public FactoryProjectileSwamp()
-    {
-        super(ProjectileSwampType.class, Media.getPath(AppLionheart.PROJECTILES_DIR, WorldType.SWAMP.getPathName()));
-    }
-
-    /*
-     * FactoryObjectGame
-     */
-
-    @Override
-    protected SetupSurfaceGame createSetup(ProjectileSwampType type, Media config)
-    {
-        return new SetupSurfaceGame(config);
-    }
+    // Marker
 }

@@ -17,9 +17,11 @@
  */
 package com.b3dgs.lionheart.entity.swamp.launcher;
 
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.projectile.LauncherProjectile;
-import com.b3dgs.lionheart.entity.swamp.projectile.ProjectileSwampType;
+import com.b3dgs.lionheart.entity.launcher.Launcher;
+import com.b3dgs.lionheart.entity.launcher.SetupLauncher;
+import com.b3dgs.lionheart.entity.swamp.projectile.Bullet;
 
 /**
  * Bullet launcher.
@@ -27,16 +29,17 @@ import com.b3dgs.lionheart.entity.swamp.projectile.ProjectileSwampType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class LauncherBullet
-        extends LauncherProjectile<ProjectileSwampType>
+        extends Launcher
+        implements FolderSwamp
 {
     /**
      * Constructor.
      * 
      * @param setup The setup reference.
      */
-    public LauncherBullet(SetupSwampLauncher setup)
+    public LauncherBullet(SetupLauncher setup)
     {
-        super(setup, setup.factory, setup.handler);
+        super(setup);
     }
 
     /*
@@ -46,6 +49,6 @@ public class LauncherBullet
     @Override
     protected void launchProjectile(Entity owner, Entity target)
     {
-        addProjectile(ProjectileSwampType.BULLET, 1, target, 1.0, 0, 0);
+        addProjectile(Bullet.class, 1, target, 1.0, 0, 0);
     }
 }

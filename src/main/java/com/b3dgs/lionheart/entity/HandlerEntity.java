@@ -39,7 +39,7 @@ public class HandlerEntity
     /** The camera reference. */
     private final CameraPlatform camera;
     /** The entity factory reference. */
-    private final FactoryEntity<?> factoryEntity;
+    private final FactoryEntity factoryEntity;
     /** The player reference. */
     private Valdyn player;
 
@@ -49,7 +49,7 @@ public class HandlerEntity
      * @param camera The camera reference.
      * @param factoryEntity The entity factory reference.
      */
-    public HandlerEntity(CameraPlatform camera, FactoryEntity<?> factoryEntity)
+    public HandlerEntity(CameraPlatform camera, FactoryEntity factoryEntity)
     {
         super(camera);
         this.camera = camera;
@@ -67,7 +67,7 @@ public class HandlerEntity
         file.writeShort((short) size());
         for (final Entity entity : list())
         {
-            entity.type.save(file);
+            file.writeString(entity.getClass().getName());
             entity.save(file);
         }
     }

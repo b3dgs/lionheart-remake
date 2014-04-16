@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.entity.swamp;
 
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntitySceneryBeetle;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.patrol.Patrol;

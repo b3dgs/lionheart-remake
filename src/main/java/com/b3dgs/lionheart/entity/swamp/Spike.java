@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.entity.swamp;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.AnimState;
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.EntityState;
@@ -31,6 +32,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  */
 abstract class Spike
         extends EntityScenery
+        implements FolderSwamp
 {
     /** Timer. */
     private final Timing timer;

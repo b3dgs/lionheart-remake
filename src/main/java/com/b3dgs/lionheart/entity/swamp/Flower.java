@@ -18,12 +18,12 @@
 package com.b3dgs.lionheart.entity.swamp;
 
 import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
-import com.b3dgs.lionheart.entity.swamp.launcher.FactoryLauncherSwamp;
+import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.entity.swamp.launcher.LauncherBullet;
-import com.b3dgs.lionheart.entity.swamp.launcher.LauncherSwampType;
 
 /**
  * Flower implementation.
@@ -32,6 +32,7 @@ import com.b3dgs.lionheart.entity.swamp.launcher.LauncherSwampType;
  */
 public final class Flower
         extends EntityMonster
+        implements FolderSwamp
 {
     /** Launcher bullet. */
     private final LauncherBullet launcher;
@@ -44,8 +45,8 @@ public final class Flower
     public Flower(SetupEntity setup)
     {
         super(setup);
-        final FactoryLauncherSwamp factoryLauncherSwamp = (FactoryLauncherSwamp) setup.level.factoryLauncher;
-        launcher = factoryLauncherSwamp.create(LauncherSwampType.BULLET_LAUNCHER);
+        final FactoryLauncher factoryLauncher = setup.level.factoryLauncher;
+        launcher = factoryLauncher.create(LauncherBullet.class);
         launcher.setOwner(this);
         launcher.setRate(2000);
     }

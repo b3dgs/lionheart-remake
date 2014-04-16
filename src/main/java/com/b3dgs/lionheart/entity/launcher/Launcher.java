@@ -15,45 +15,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.projectile;
+package com.b3dgs.lionheart.entity.launcher;
 
-import com.b3dgs.lionengine.game.SetupGame;
 import com.b3dgs.lionengine.game.projectile.LauncherProjectileGame;
+import com.b3dgs.lionheart.Foldered;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.projectile.Projectile;
 
 /**
- * Projectile launcher base.
+ * Bullet launcher.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
- * @param <T> The projectile types.
  */
-public abstract class LauncherProjectile<T extends Enum<T> & ProjectileType<T>>
-        extends LauncherProjectileGame<T, Entity, Entity, Projectile>
+public abstract class Launcher
+        extends LauncherProjectileGame<Entity, Entity, Projectile>
+        implements Foldered
 {
     /**
      * Constructor.
      * 
      * @param setup The setup reference.
-     * @param factory The factory reference.
-     * @param handler The handler reference.
      */
-    public LauncherProjectile(SetupGame setup, FactoryProjectile<T> factory, HandlerProjectile handler)
+    public Launcher(SetupLauncher setup)
     {
-        super(setup, factory, handler);
+        super(setup, setup.factory, setup.handler);
     }
 
     /*
-     * LauncherProjectileGame
+     * LauncherProjectile
      */
 
     @Override
     protected void launchProjectile(Entity owner)
-    {
-        // Nothing to do
-    }
-
-    @Override
-    protected void launchProjectile(Entity owner, Entity target)
     {
         // Nothing to do
     }

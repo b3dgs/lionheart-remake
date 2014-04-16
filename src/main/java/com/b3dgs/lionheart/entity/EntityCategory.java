@@ -17,7 +17,11 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionengine.game.ObjectTypeUtility;
+import java.util.Locale;
+
+import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.UtilityConversion;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * List of entity categories.
@@ -27,48 +31,43 @@ import com.b3dgs.lionengine.game.ObjectTypeUtility;
 public enum EntityCategory
 {
     /** Item (can be taken). */
-    ITEM("items"),
+    ITEM,
     /** Monster (can be destroyed and attack the player). */
-    MONSTER("monsters"),
+    MONSTER,
     /** Scenery (other objects that are required to complete a level). */
-    SCENERY("sceneries"),
+    SCENERY,
     /** Valdyn (player). */
-    PLAYER("players");
+    PLAYER;
 
-    /** Folder name. */
-    private final String folder;
+    /**
+     * Get the race enum from the class type.
+     * 
+     * @param type The class type.
+     * @return The enum race type.
+     */
+    public static EntityCategory getCategory(Class<? extends Entity> type)
+    {
+        if (EntityItem.class.isAssignableFrom(type))
+        {
+            return ITEM;
+        }
+        else if (EntityMonster.class.isAssignableFrom(type))
+        {
+            return MONSTER;
+        }
+        else if (EntityScenery.class.isAssignableFrom(type))
+        {
+            return SCENERY;
+        }
+        else if (Valdyn.class.isAssignableFrom(type))
+        {
+            return PLAYER;
+        }
+        throw new LionEngineException("Unknown category for ", type.getName());
+    }
+
     /** Count number. */
     private int count;
-
-    /**
-     * Constructor.
-     * 
-     * @param folder The folder name.
-     */
-    private EntityCategory(String folder)
-    {
-        this.folder = folder;
-    }
-
-    /**
-     * Get the folder name.
-     * 
-     * @return The folder name.
-     */
-    public String getFolder()
-    {
-        return folder;
-    }
-
-    /**
-     * Get the name as a path (lower case).
-     * 
-     * @return The name.
-     */
-    public String getPathName()
-    {
-        return ObjectTypeUtility.getPathName(this);
-    }
 
     /**
      * Get the count number.
@@ -89,13 +88,22 @@ public enum EntityCategory
     }
 
     /**
-     * Get the title name (first letter as upper).
+     * Get the race path.
      * 
-     * @return The title name.
+     * @return The race path.
      */
+    public String getPath()
+    {
+        return name().toLowerCase(Locale.ENGLISH);
+    }
+
+    /*
+     * Object
+     */
+
     @Override
     public String toString()
     {
-        return ObjectTypeUtility.toString(this);
+        return UtilityConversion.toTitleCase(name());
     }
 }

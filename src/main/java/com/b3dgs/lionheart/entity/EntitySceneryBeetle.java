@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.swamp;
+package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
 
@@ -24,11 +24,7 @@ import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityScenery;
-import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.SetupEntity;
-import com.b3dgs.lionheart.entity.State;
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
 import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
@@ -38,9 +34,9 @@ import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class EntitySceneryBeetle
+public abstract class EntitySceneryBeetle
         extends EntityScenery
-        implements Patrollable
+        implements Patrollable, FolderSwamp
 {
     /** Patrollable model. */
     protected final PatrollerModel patroller;
@@ -54,7 +50,7 @@ public class EntitySceneryBeetle
     /**
      * @see Entity#Entity(SetupEntity)
      */
-    EntitySceneryBeetle(SetupEntity setup)
+    protected EntitySceneryBeetle(SetupEntity setup)
     {
         super(setup);
         movement = new Movement();

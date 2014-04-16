@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionheart.effect.EffectType;
 import com.b3dgs.lionheart.effect.FactoryEffect;
+import com.b3dgs.lionheart.effect.Taken;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
@@ -80,8 +80,7 @@ public abstract class EntityItem
     @Override
     protected void updateDead()
     {
-        factoryEffect
-                .startEffect(EffectType.TAKEN, (int) dieLocation.getX() - getWidth() / 2, (int) dieLocation.getY());
+        factoryEffect.startEffect(Taken.class, (int) dieLocation.getX() - getWidth() / 2, (int) dieLocation.getY());
         destroy();
     }
 

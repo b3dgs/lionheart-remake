@@ -18,9 +18,11 @@
 package com.b3dgs.lionheart.entity.swamp;
 
 import com.b3dgs.lionengine.Timing;
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityCollisionTileCategory;
 import com.b3dgs.lionheart.entity.EntityMonster;
+import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
@@ -31,9 +33,10 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  */
 public class Nest
         extends EntityMonster
+        implements FolderSwamp
 {
     /** Entity factory. */
-    private final FactoryEntitySwamp factory;
+    private final FactoryEntity factory;
     /** Entity handler. */
     private final HandlerEntity handler;
     /** Fly timer. */
@@ -47,7 +50,7 @@ public class Nest
     public Nest(SetupEntity setup)
     {
         super(setup);
-        factory = (FactoryEntitySwamp) setup.level.factoryEntity;
+        factory = setup.level.factoryEntity;
         handler = setup.level.handlerEntity;
         timer = new Timing();
         timer.start();
@@ -63,7 +66,7 @@ public class Nest
         super.update(extrp);
         if (!isDead() && timer.elapsed(3000))
         {
-            final Fly entity = factory.create(EntitySwampType.FLY);
+            final Fly entity = factory.create(Fly.class);
             entity.teleport(getLocationX(), getLocationY() + 16);
             entity.setMovementForce(-1.0, 0.0);
             entity.setMovementSpeedMax(1.0);

@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.EntityState;
@@ -40,7 +41,7 @@ import com.b3dgs.lionheart.map.TileCollision;
  */
 public final class Crawling
         extends EntityMonster
-        implements Jumpable
+        implements Jumpable, FolderSwamp
 {
     /** Time before jump. */
     private static final int TIME_BEFORE_JUMP = 500;

@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.SetupEntity;
 
@@ -27,6 +28,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  */
 public final class Dragon
         extends EntityMonster
+        implements FolderSwamp
 {
     /**
      * Constructor.
