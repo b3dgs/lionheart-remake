@@ -30,12 +30,12 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.b3dgs.lionengine.ColorRgba;
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.UtilityMath;
-import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Mouse;
-import com.b3dgs.lionengine.core.UtilityImage;
 import com.b3dgs.lionengine.file.File;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
@@ -646,7 +646,7 @@ public final class WorldPanel
     @Override
     public void paintComponent(Graphics gd)
     {
-        final Graphic g = UtilityImage.createGraphic();
+        final Graphic g = Core.GRAPHIC.createGraphic();
         g.setGraphic((Graphics2D) gd);
         render(g);
     }

@@ -21,19 +21,18 @@ import java.awt.event.KeyEvent;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.ColorRgba;
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.Text;
 import com.b3dgs.lionengine.TextStyle;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
-import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Sequence;
-import com.b3dgs.lionengine.core.UtilityImage;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Text;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteFont;
@@ -78,9 +77,9 @@ public class Menu
     /** Error message. */
     private static final String ERROR_MESSAGE = "Unknown type: ";
     /** Font filename. */
-    private static final Media FONT_SPRITE = UtilityMedia.get("sprites", "font_big.png");
+    private static final Media FONT_SPRITE = Core.MEDIA.create("sprites", "font_big.png");
     /** Font data. */
-    private static final Media FONT_DATA = UtilityMedia.get("sprites", "fontdata_big.xml");
+    private static final Media FONT_DATA = Core.MEDIA.create("sprites", "fontdata_big.xml");
     /** Text color in menu option. */
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 170, 238);
     /** Alpha step speed. */
@@ -162,7 +161,7 @@ public class Menu
     {
         super(loader, Menu.MENU_DISPLAY);
         keyboard = getInputDevice(Keyboard.class);
-        text = UtilityImage.createText(Text.SERIF, 24, TextStyle.NORMAL);
+        text = Core.GRAPHIC.createText(Text.SERIF, 24, TextStyle.NORMAL);
         timerPressStart = new Timing();
         factorH = 2.0 * (getWidth() / (double) Menu.MENU_DISPLAY.getWidth());
         factorV = 2.0 * (getHeight() / (double) Menu.MENU_DISPLAY.getHeight());
@@ -172,13 +171,13 @@ public class Menu
         pics = new Sprite[1];
         for (int i = 0; i < 1; i++)
         {
-            pics[i] = Drawable.loadSprite(UtilityMedia.get("menu", "pic" + (i + 1) + ".png"));
+            pics[i] = Drawable.loadSprite(Core.MEDIA.create("menu", "pic" + (i + 1) + ".png"));
         }
 
         menus = new Sprite[3];
         for (int i = 0; i < 3; i++)
         {
-            menus[i] = Drawable.loadSprite(UtilityMedia.get("menu", "menu" + (i + 1) + ".png"));
+            menus[i] = Drawable.loadSprite(Core.MEDIA.create("menu", "menu" + (i + 1) + ".png"));
         }
         menusData = new Data[3];
 

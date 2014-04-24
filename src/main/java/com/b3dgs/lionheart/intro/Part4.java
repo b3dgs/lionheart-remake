@@ -18,9 +18,9 @@
 package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Align;
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.UtilityMath;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteFont;
@@ -44,12 +44,12 @@ public final class Part4
      */
     public Part4()
     {
-        font = Drawable.loadSpriteFont(UtilityMedia.get("sprites", "font.png"),
-                UtilityMedia.get("sprites", "fontdata.xml"), 12, 12);
+        font = Drawable.loadSpriteFont(Core.MEDIA.create("sprites", "font.png"),
+                Core.MEDIA.create("sprites", "fontdata.xml"), 12, 12);
         history = new Sprite[4];
         for (int i = 0; i < history.length; i++)
         {
-            history[i] = Drawable.loadSprite(UtilityMedia.get("intro", "part4", "history" + i + ".png"));
+            history[i] = Drawable.loadSprite(Core.MEDIA.create("intro", "part4", "history" + i + ".png"));
             history[i].load(false);
         }
     }

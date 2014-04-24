@@ -17,11 +17,11 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
@@ -75,23 +75,23 @@ public final class Part2
      */
     public Part2()
     {
-        mask = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "mask.png"));
-        door = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part2", "door.png"), 3, 2);
+        mask = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "mask.png"));
+        door = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part2", "door.png"), 3, 2);
         pillar = new Sprite[6];
         for (int i = 0; i < pillar.length; i++)
         {
-            pillar[i] = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "pillar.png"));
+            pillar[i] = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "pillar.png"));
             pillar[i].load(false);
         }
-        cave1 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "cave1.png"));
-        valdyn = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn.png"));
-        cave2 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "cave2.png"));
-        equipSword = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part2", "sword.png"), 3, 1);
-        equipFoot = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part2", "foot.png"), 3, 1);
-        equipHand = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part2", "hand.png"), 3, 1);
-        valdyn0 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn0.png"));
-        valdyn1 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn1.png"));
-        valdyn2 = Drawable.loadSprite(UtilityMedia.get("intro", "part2", "valdyn2.png"));
+        cave1 = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "cave1.png"));
+        valdyn = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "valdyn.png"));
+        cave2 = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "cave2.png"));
+        equipSword = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part2", "sword.png"), 3, 1);
+        equipFoot = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part2", "foot.png"), 3, 1);
+        equipHand = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part2", "hand.png"), 3, 1);
+        valdyn0 = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "valdyn0.png"));
+        valdyn1 = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "valdyn1.png"));
+        valdyn2 = Drawable.loadSprite(Core.MEDIA.create("intro", "part2", "valdyn2.png"));
         valdynCoord = Geom.createCoord(320, 240);
         z = new double[2 + pillar.length];
     }

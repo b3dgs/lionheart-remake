@@ -17,14 +17,13 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.UtilityFile;
 import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityFile;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
@@ -79,7 +78,7 @@ final class Foreground
         height = 0.0;
         depth = 4.0;
         speed = 0.02;
-        final String path = Media.getPath("foregrounds", theme);
+        final String path = UtilityFile.getPath("foregrounds", theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
         setScreenSize(source.getWidth(), source.getHeight());
@@ -206,7 +205,7 @@ final class Foreground
          */
         Primary(String path, Foreground water)
         {
-            final Sprite sprite = Drawable.loadSprite(UtilityMedia.get(path, "calc.png"));
+            final Sprite sprite = Drawable.loadSprite(Core.MEDIA.create(path, "calc.png"));
             sprite.load(false);
             data = new BackgroundElement(0, (int) Math.ceil(water.getNominal() * scaleV), sprite);
             top = data.getSprite().getHeight();
@@ -281,13 +280,13 @@ final class Foreground
          */
         Secondary(String path, Foreground water)
         {
-            final Sprite back = Drawable.loadSprite(UtilityMedia.get(path, "back.png"));
+            final Sprite back = Drawable.loadSprite(Core.MEDIA.create(path, "back.png"));
             back.load(false);
             data = new BackgroundElement(0, (int) Math.floor(water.getNominal() * scaleV), back);
 
-            if (UtilityFile.exists(Media.getPath(path, "effect.png")))
+            if (UtilityFile.exists(UtilityFile.getPath(path, "effect.png")))
             {
-                effect = Drawable.loadSprite(UtilityMedia.get(path, "effect.png"));
+                effect = Drawable.loadSprite(Core.MEDIA.create(path, "effect.png"));
                 effect.load(false);
             }
             else
@@ -296,7 +295,7 @@ final class Foreground
             }
 
             animation = Anim.createAnimation(1, 7, 0.25, false, true);
-            anim = Drawable.loadSpriteAnimated(UtilityMedia.get(path, "anim.png"), 7, 1);
+            anim = Drawable.loadSpriteAnimated(Core.MEDIA.create(path, "anim.png"), 7, 1);
             anim.load(false);
             anim.play(animation);
             this.water = water;

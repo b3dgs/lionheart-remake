@@ -19,10 +19,10 @@ package com.b3dgs.lionheart.menu;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.ColorRgba;
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.Text;
 import com.b3dgs.lionengine.TextStyle;
-import com.b3dgs.lionengine.core.UtilityImage;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Text;
 
 /**
  * Handle a group of choice, which represents the actions in a menu.
@@ -38,7 +38,7 @@ final class Data
     /** Text color on selection. */
     private static final ColorRgba COLOR_OVER = new ColorRgba(255, 255, 255);
     /** Text instance for the title. */
-    private static final Text TEXT_TITLE = UtilityImage.createText(Text.SERIF, 30, TextStyle.NORMAL);
+    private static final Text TEXT_TITLE = Core.GRAPHIC.createText(Text.SERIF, 30, TextStyle.NORMAL);
     /** Maximum number of choices. */
     final int choiceMax;
     /** Choices list. */

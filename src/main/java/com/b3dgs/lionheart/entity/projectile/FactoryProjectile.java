@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.entity.projectile;
 
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
 import com.b3dgs.lionheart.AppLionheart;
@@ -48,7 +48,7 @@ public class FactoryProjectile
     protected SetupSurfaceGame createSetup(Class<? extends Projectile> type, Media config)
     {
         final FolderType theme = FolderType.getType(type);
-        final Media media = UtilityMedia.get(folder, theme.getPath(), type.getSimpleName() + ".xml");
+        final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");
 
         return new SetupSurfaceGame(media);
     }

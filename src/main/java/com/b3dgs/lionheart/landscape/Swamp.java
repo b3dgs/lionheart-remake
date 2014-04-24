@@ -17,11 +17,11 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.UtilityFile;
 import com.b3dgs.lionengine.UtilityMath;
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.platform.background.BackgroundComponent;
@@ -69,7 +69,7 @@ final class Swamp
      */
     static ElementRastered createElementRastered(String path, String name, int x, int y, int rastersNumber)
     {
-        final Sprite sprite = Drawable.loadSprite(UtilityMedia.get(path, name));
+        final Sprite sprite = Drawable.loadSprite(Core.MEDIA.create(path, name));
         sprite.load(false);
         return new ElementRastered(x, y, sprite, rastersNumber);
     }
@@ -89,12 +89,12 @@ final class Swamp
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = Media.getPath(AppLionheart.BACKGROUNDS_DIR, "swamp", theme);
+        final String path = UtilityFile.getPath(AppLionheart.BACKGROUNDS_DIR, "swamp", theme);
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
         backdrop = new Backdrop(path, this.flickering, width);
-        clouds = new Clouds(UtilityMedia.get(path, "cloud.png"), width, 4);
-        parallax = new Parallax(source, UtilityMedia.get(path, "parallax.png"), parallaxsNumber, halfScreen, 124, 50,
+        clouds = new Clouds(Core.MEDIA.create(path, "cloud.png"), width, 4);
+        parallax = new Parallax(source, Core.MEDIA.create(path, "parallax.png"), parallaxsNumber, halfScreen, 124, 50,
                 100);
         add(backdrop);
         add(clouds);

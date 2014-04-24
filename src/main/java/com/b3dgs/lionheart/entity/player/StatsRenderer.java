@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.entity.player;
 
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteTiled;
 import com.b3dgs.lionheart.AppLionheart;
@@ -47,9 +47,9 @@ public class StatsRenderer
      */
     public StatsRenderer(int screenWidth)
     {
-        hud = Drawable.loadSpriteTiled(UtilityMedia.get(AppLionheart.SPRITES_DIR, "hud.png"), 16, 16);
-        heart = Drawable.loadSpriteTiled(UtilityMedia.get(AppLionheart.SPRITES_DIR, "health.png"), 8, 8);
-        number = Drawable.loadSpriteTiled(UtilityMedia.get(AppLionheart.SPRITES_DIR, "numbers.png"), 8, 16);
+        hud = Drawable.loadSpriteTiled(Core.MEDIA.create(AppLionheart.SPRITES_DIR, "hud.png"), 16, 16);
+        heart = Drawable.loadSpriteTiled(Core.MEDIA.create(AppLionheart.SPRITES_DIR, "health.png"), 8, 8);
+        number = Drawable.loadSpriteTiled(Core.MEDIA.create(AppLionheart.SPRITES_DIR, "numbers.png"), 8, 16);
         setScreenWidth(screenWidth);
     }
 

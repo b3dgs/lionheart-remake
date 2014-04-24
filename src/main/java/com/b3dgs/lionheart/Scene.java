@@ -17,12 +17,12 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
-import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionheart.menu.Menu;
 
 /**
@@ -65,7 +65,7 @@ public final class Scene
      */
     private void loadLevel(LevelType level)
     {
-        world.loadFromFile(UtilityMedia.get(AppLionheart.LEVELS_DIR, level.getFilename()));
+        world.loadFromFile(Core.MEDIA.create(AppLionheart.LEVELS_DIR, level.getFilename()));
     }
 
     /**

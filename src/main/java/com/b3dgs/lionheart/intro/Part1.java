@@ -18,12 +18,11 @@
 package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Align;
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.Text;
 import com.b3dgs.lionengine.TextStyle;
 import com.b3dgs.lionengine.UtilityMath;
-import com.b3dgs.lionengine.core.UtilityImage;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Text;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.CameraGame;
@@ -57,8 +56,8 @@ public final class Part1
      */
     public Part1()
     {
-        textLarge = UtilityImage.createText(Text.SERIF, 24, TextStyle.BOLD);
-        title = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "title.png"));
+        textLarge = Core.GRAPHIC.createText(Text.SERIF, 24, TextStyle.BOLD);
+        title = Drawable.loadSprite(Core.MEDIA.create("intro", "part1", "title.png"));
         backs = new Sprite[4];
         sceneries = new Sprite[6];
         cameraBack = new CameraGame();
@@ -73,12 +72,12 @@ public final class Part1
         title.load(true);
         for (int i = 0; i < backs.length; i++)
         {
-            backs[i] = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "back" + i + ".png"));
+            backs[i] = Drawable.loadSprite(Core.MEDIA.create("intro", "part1", "back" + i + ".png"));
             backs[i].load(false);
         }
         for (int i = 0; i < sceneries.length; i++)
         {
-            sceneries[i] = Drawable.loadSprite(UtilityMedia.get("intro", "part1", "scenery" + i + ".png"));
+            sceneries[i] = Drawable.loadSprite(Core.MEDIA.create("intro", "part1", "scenery" + i + ".png"));
             sceneries[i].load(false);
         }
     }

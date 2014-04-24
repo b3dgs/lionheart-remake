@@ -34,7 +34,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.swing.ComboItem;
 import com.b3dgs.lionengine.swing.UtilityMessageBox;
@@ -222,7 +223,7 @@ public class MenuBar
      */
     void fileSave()
     {
-        final Media media = UtilityMedia.get("test1.lrm");
+        final Media media = Core.MEDIA.create("test1.lrm");
         try
         {
             editor.world.save(media);
@@ -265,7 +266,7 @@ public class MenuBar
         final LevelRipConverter<Tile> rip = new LevelRipConverter<>();
         try
         {
-            rip.start(media, map, UtilityMedia.get("tiles", editor.world.level.getWorld().getPath()));
+            rip.start(media, map, Core.MEDIA.create("tiles", editor.world.level.getWorld().getPath()));
             final int errors = rip.getErrors();
             if (errors == 0)
             {

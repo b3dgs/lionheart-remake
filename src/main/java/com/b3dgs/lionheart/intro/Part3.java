@@ -17,12 +17,12 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
@@ -81,10 +81,10 @@ public final class Part3
      */
     public Part3()
     {
-        scene = Drawable.loadSprite(UtilityMedia.get("intro", "part3", "scene.png"));
-        valdyn = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part3", "valdyn.png"), 8, 3);
-        dragon1 = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part3", "dragon1.png"), 6, 3);
-        dragon2 = Drawable.loadSpriteAnimated(UtilityMedia.get("intro", "part3", "dragon2.png"), 5, 4);
+        scene = Drawable.loadSprite(Core.MEDIA.create("intro", "part3", "scene.png"));
+        valdyn = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part3", "valdyn.png"), 8, 3);
+        dragon1 = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part3", "dragon1.png"), 6, 3);
+        dragon2 = Drawable.loadSpriteAnimated(Core.MEDIA.create("intro", "part3", "dragon2.png"), 5, 4);
         valdynWalk = Anim.createAnimation(1, 10, 0.2f, false, true);
         valdynPrepare = Anim.createAnimation(11, 12, 0.2f, false, false);
         valdynPrepareLoop = Anim.createAnimation(13, 14, 0.1f, false, true);

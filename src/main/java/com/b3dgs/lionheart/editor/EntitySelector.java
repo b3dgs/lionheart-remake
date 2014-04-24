@@ -36,10 +36,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 
 import com.b3dgs.lionengine.ColorRgba;
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityImage;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Image;
 import com.b3dgs.lionengine.swing.ActionCombo;
@@ -147,7 +146,7 @@ final class EntitySelector
                 final EntityCategory entityCategory = EntityCategory.getCategory(type.getType());
                 if (entityCategory == category)
                 {
-                    final Media media = UtilityMedia.get(AppLionheart.ENTITIES_DIR, world.getPath(), type.name()
+                    final Media media = Core.MEDIA.create(AppLionheart.ENTITIES_DIR, world.getPath(), type.name()
                             .toLowerCase(Locale.ENGLISH) + "_ico.png");
                     ico.add(Drawable.loadImage(media));
                     length++;
@@ -282,7 +281,7 @@ final class EntitySelector
         {
             if (isEnabled())
             {
-                final Graphic g = UtilityImage.createGraphic();
+                final Graphic g = Core.GRAPHIC.createGraphic();
                 g.setGraphic(g2d);
                 render(g);
             }

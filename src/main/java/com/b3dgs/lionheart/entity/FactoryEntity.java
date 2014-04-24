@@ -19,8 +19,9 @@ package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.UtilityFile;
+import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionheart.AppLionheart;
@@ -60,7 +61,7 @@ public class FactoryEntity
      */
     protected FactoryEntity(String folder)
     {
-        super(Media.getPath(AppLionheart.ENTITIES_DIR, folder));
+        super(UtilityFile.getPath(AppLionheart.ENTITIES_DIR, folder));
     }
 
     /**
@@ -106,12 +107,12 @@ public class FactoryEntity
     protected SetupEntity createSetup(Class<? extends Entity> type, Media config)
     {
         final FolderType theme = FolderType.getType(type);
-        final Media media = UtilityMedia.get(folder, theme.getPath(), type.getSimpleName() + ".xml");
+        final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");
 
         final Media raster;
         if (AppLionheart.RASTER_ENABLED && type != Valdyn.class)
         {
-            raster = UtilityMedia.get(AppLionheart.RASTERS_DIR, landscape.getRaster());
+            raster = Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }
         else
         {

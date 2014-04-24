@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.effect;
 
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.AppLionheart;
@@ -82,7 +82,7 @@ public class FactoryEffect
         final Media raster;
         if (AppLionheart.RASTER_ENABLED)
         {
-            raster = UtilityMedia.get(AppLionheart.RASTERS_DIR, landscape.getRaster());
+            raster = Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }
         else
         {

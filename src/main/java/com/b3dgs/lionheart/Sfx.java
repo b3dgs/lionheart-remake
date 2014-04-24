@@ -17,10 +17,10 @@
  */
 package com.b3dgs.lionheart;
 
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.UtilityRandom;
 import com.b3dgs.lionengine.core.AudioWav;
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.core.UtilityMedia;
+import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Wav;
 
 /**
@@ -132,7 +132,7 @@ public enum Sfx
         this.sounds = new Wav[sounds.length];
         for (int i = 0; i < sounds.length; i++)
         {
-            final Media media = UtilityMedia.get(AppLionheart.SFX_DIR, sounds[i] + Sfx.AUDIO_FILE_EXTENSION);
+            final Media media = Core.MEDIA.create(AppLionheart.SFX_DIR, sounds[i] + Sfx.AUDIO_FILE_EXTENSION);
             this.sounds[i] = AudioWav.loadWav(media, count);
         }
     }
