@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.editor;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -647,7 +646,7 @@ public final class WorldPanel
     public void paintComponent(Graphics gd)
     {
         final Graphic g = Core.GRAPHIC.createGraphic();
-        g.setGraphic((Graphics2D) gd);
+        g.setGraphic(gd);
         render(g);
     }
 
