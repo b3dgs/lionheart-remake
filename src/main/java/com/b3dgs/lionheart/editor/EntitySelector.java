@@ -36,9 +36,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 
 import com.b3dgs.lionengine.ColorRgba;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Image;
 import com.b3dgs.lionengine.swing.ActionCombo;

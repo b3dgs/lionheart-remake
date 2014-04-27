@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.Level;
 

@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.launcher;
 
-import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.SetupGame;
 import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;

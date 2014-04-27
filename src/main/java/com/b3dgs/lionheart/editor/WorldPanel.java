@@ -30,10 +30,10 @@ import javax.swing.JPanel;
 
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.UtilityMath;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Mouse;
 import com.b3dgs.lionengine.file.File;
 import com.b3dgs.lionengine.file.FileReading;

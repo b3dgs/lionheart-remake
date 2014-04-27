@@ -19,9 +19,9 @@ package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.UtilityFile;
 import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionheart.AppLionheart;
