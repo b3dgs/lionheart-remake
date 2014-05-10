@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 
 /**
  * Sheet base scenery implementation.
@@ -79,7 +79,7 @@ public abstract class EntityScenerySheet
                 effectCounter = 0;
                 effectSide = 0;
             }
-            setLocationY(initialY - UtilityMath.sin(effectCounter) * EntityScenerySheet.AMPLITUDE);
+            setLocationY(initialY - UtilMath.sin(effectCounter) * EntityScenerySheet.AMPLITUDE);
         }
     }
 

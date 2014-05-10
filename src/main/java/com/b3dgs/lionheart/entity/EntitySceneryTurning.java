@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionengine.Timing;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionheart.Sfx;
 
@@ -87,7 +87,7 @@ public abstract class EntitySceneryTurning
                 shakeCounter = 4;
                 timerShake.start();
             }
-            setLocationY(initialY - UtilityMath.sin(effectCounter) * EntitySceneryTurning.SHAKE_AMPLITUDE);
+            setLocationY(initialY - UtilMath.sin(effectCounter) * EntitySceneryTurning.SHAKE_AMPLITUDE);
         }
     }
 

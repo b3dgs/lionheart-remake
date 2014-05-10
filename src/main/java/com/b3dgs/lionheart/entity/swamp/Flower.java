@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMonster;
@@ -62,11 +62,11 @@ public final class Flower
         final int frame = (getLocationIntX() - entity.getLocationIntX() + 12) / 16;
         if (frame > 0)
         {
-            setFrame(5 - UtilityMath.fixBetween(frame, 1, 4));
+            setFrame(5 - UtilMath.fixBetween(frame, 1, 4));
         }
         else
         {
-            setFrame(5 + UtilityMath.fixBetween(-frame, 0, 3));
+            setFrame(5 + UtilMath.fixBetween(-frame, 0, 3));
         }
         final int f = getFrame();
         if (f == 1)

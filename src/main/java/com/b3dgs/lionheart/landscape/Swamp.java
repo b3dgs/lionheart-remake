@@ -18,8 +18,8 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.UtilityFile;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilFile;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
@@ -89,7 +89,7 @@ final class Swamp
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = UtilityFile.getPath(AppLionheart.BACKGROUNDS_DIR, "swamp", theme);
+        final String path = UtilFile.getPath(AppLionheart.BACKGROUNDS_DIR, "swamp", theme);
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
         backdrop = new Backdrop(path, this.flickering, width);
@@ -200,7 +200,7 @@ final class Swamp
         {
             backcolorA.setOffsetY(y);
             moon.setOffsetY(-20 - moonOffset + getOffsetY());
-            mountain.setOffsetX(UtilityMath.wrapDouble(mountain.getOffsetX() + speed * 0.24, 0.0,
+            mountain.setOffsetX(UtilMath.wrapDouble(mountain.getOffsetX() + speed * 0.24, 0.0,
                     mountainSprite.getWidth()));
             mountain.setOffsetY(y);
 

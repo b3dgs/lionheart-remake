@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.TextStyle;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Text;
@@ -94,7 +94,7 @@ public final class Part1
         if (seek > 0 && seek < 2500)
         {
             alphaBack += 5.0;
-            alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
+            alphaBack = UtilMath.fixBetween(alphaBack, 0.0, 255.0);
         }
 
         // Text fades
@@ -230,7 +230,7 @@ public final class Part1
         {
             alphaText -= speed * extrp;
         }
-        alphaText = UtilityMath.fixBetween(alphaText, 0.0, 255.0);
+        alphaText = UtilMath.fixBetween(alphaText, 0.0, 255.0);
     }
 
     /**

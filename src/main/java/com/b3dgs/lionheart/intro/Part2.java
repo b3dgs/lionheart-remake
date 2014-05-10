@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
 import com.b3dgs.lionengine.core.Core;
@@ -139,7 +139,7 @@ public final class Part2
         if (seek > 48100 && z[0] > 2)
         {
             z[0] -= 0.08;
-            final int doorZ = (int) UtilityMath.fixBetween(1000 / z[0], 100, 800);
+            final int doorZ = (int) UtilMath.fixBetween(1000 / z[0], 100, 800);
             door.scale(doorZ);
             if (z[0] < 2)
             {
@@ -239,8 +239,8 @@ public final class Part2
             alpha2 -= 4.0;
         }
 
-        alpha = UtilityMath.fixBetween(alpha, 0.0, 255.0);
-        alpha2 = UtilityMath.fixBetween(alpha2, 0.0, 255.0);
+        alpha = UtilMath.fixBetween(alpha, 0.0, 255.0);
+        alpha2 = UtilMath.fixBetween(alpha2, 0.0, 255.0);
     }
 
     /**
@@ -266,7 +266,7 @@ public final class Part2
         {
             if (z[7] > 0)
             {
-                final int caveZ = (int) UtilityMath.fixBetween(1000 / z[7], 5, 100);
+                final int caveZ = (int) UtilMath.fixBetween(1000 / z[7], 5, 100);
                 if (caveZ < 100)
                 {
                     cave1.scale(caveZ);
@@ -277,8 +277,8 @@ public final class Part2
             // Render pillars
             for (int i = pillar.length - 1; i >= 0; i--)
             {
-                final double newPillarZ = UtilityMath.fixBetween(z[1 + i], 0.1, 500);
-                final double pillarZ = UtilityMath.fixBetween(1000 / newPillarZ, -15, 500);
+                final double newPillarZ = UtilMath.fixBetween(z[1 + i], 0.1, 500);
+                final double pillarZ = UtilMath.fixBetween(1000 / newPillarZ, -15, 500);
                 final double offset;
                 if (i % 2 == 1)
                 {
@@ -288,7 +288,7 @@ public final class Part2
                 {
                     offset = 7 + pillarZ;
                 }
-                final int scale = (int) UtilityMath.fixBetween(pillarZ, -5, 500);
+                final int scale = (int) UtilMath.fixBetween(pillarZ, -5, 500);
                 pillar[i].scale(10 + scale);
                 pillar[i].render(g, width / 2 - pillar[i].getWidth() / 2 + (int) offset,
                         height / 2 - pillar[i].getHeight() / 2);

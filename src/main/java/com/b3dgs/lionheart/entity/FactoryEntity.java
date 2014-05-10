@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.UtilityFile;
+import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.file.FileReading;
@@ -61,7 +61,7 @@ public class FactoryEntity
      */
     protected FactoryEntity(String folder)
     {
-        super(UtilityFile.getPath(AppLionheart.ENTITIES_DIR, folder));
+        super(UtilFile.getPath(AppLionheart.ENTITIES_DIR, folder));
     }
 
     /**

@@ -20,7 +20,7 @@ package com.b3dgs.lionheart.entity;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.UtilityConversion;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
@@ -104,6 +104,6 @@ public enum EntityCategory
     @Override
     public String toString()
     {
-        return UtilityConversion.toTitleCase(name());
+        return UtilConversion.toTitleCase(name());
     }
 }

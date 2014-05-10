@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.UtilityRandom;
+import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.core.AudioWav;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
@@ -152,7 +152,7 @@ public enum Sfx
             {
                 for (int i = 0; i < count; i++)
                 {
-                    final int rand = UtilityRandom.getRandomInteger(sounds.length - 1);
+                    final int rand = UtilRandom.getRandomInteger(sounds.length - 1);
                     sounds[rand].play(delay * i);
                 }
             }

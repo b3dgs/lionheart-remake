@@ -25,7 +25,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.TextStyle;
 import com.b3dgs.lionengine.Timing;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
@@ -247,7 +247,7 @@ public class Menu
         {
             value++;
         }
-        value = UtilityMath.fixBetween(value, min, max);
+        value = UtilMath.fixBetween(value, min, max);
         if (value != option)
         {
             Sfx.SELECT.play();
@@ -305,7 +305,7 @@ public class Menu
             }
         }
         final Data data = menusData[menuId];
-        choice = UtilityMath.fixBetween(choice, 0, data.choiceMax);
+        choice = UtilMath.fixBetween(choice, 0, data.choiceMax);
         if (choiceOld != choice)
         {
             Sfx.SELECT.play();
@@ -643,7 +643,7 @@ public class Menu
         renderMenus(g, id);
         if (transition != TransitionType.NONE)
         {
-            final int a = UtilityMath.fixBetween((int) alpha, 0, 255);
+            final int a = UtilMath.fixBetween((int) alpha, 0, 255);
             g.setColor(Menu.ALPHAS[a]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }

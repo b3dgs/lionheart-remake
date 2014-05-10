@@ -20,7 +20,7 @@ package com.b3dgs.lionheart.entity.player;
 import java.util.Collection;
 
 import com.b3dgs.lionengine.Timing;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.game.CameraGame;
@@ -430,7 +430,7 @@ public final class Valdyn
                 if (timerJump.elapsed(Valdyn.JUMP_TIME_MIN))
                 {
                     final double factor = timerJump.elapsed() / (double) Valdyn.JUMP_TIME_MAX;
-                    jumpForce.setForce(0.0, UtilityMath.fixBetween(jumpHeightMax * factor, 0.0, jumpHeightMax));
+                    jumpForce.setForce(0.0, UtilMath.fixBetween(jumpHeightMax * factor, 0.0, jumpHeightMax));
                     setGravityMax(gravityMax + jumpForce.getForceVertical());
                     timerJump.stop();
                 }
@@ -582,7 +582,7 @@ public final class Valdyn
             }
         }
         final CoordTile coord = getCollisionTileOffset(category);
-        if (coord != null && coord.getX() != 0 && isOnExtremity(-UtilityMath.getSign(coord.getX())))
+        if (coord != null && coord.getX() != 0 && isOnExtremity(-UtilMath.getSign(coord.getX())))
         {
             updateExtremity(mirror);
         }

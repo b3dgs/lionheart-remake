@@ -30,7 +30,7 @@ import javax.swing.JPanel;
 
 import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Media;
@@ -253,7 +253,7 @@ public final class WorldPanel
             {
                 g.setColor(WorldPanel.COLOR_ENTITY_SELECTION);
                 g.drawRect(sx - hOff - entity.getWidth() / 2,
-                        -sy + vOff - entity.getHeight() + UtilityMath.getRounded(height, th), entity.getWidth(),
+                        -sy + vOff - entity.getHeight() + UtilMath.getRounded(height, th), entity.getWidth(),
                         entity.getHeight(), true);
             }
             entity.render(g, camera);
@@ -283,23 +283,23 @@ public final class WorldPanel
             g.setColor(WorldPanel.COLOR_ENTITY_PATROL_AREA);
             if (mover.getPatrolType() == Patrol.HORIZONTAL)
             {
-                g.drawRect(sx - hOff - left - mover.getWidth() / 2, -sy + vOff + UtilityMath.getRounded(height, th)
+                g.drawRect(sx - hOff - left - mover.getWidth() / 2, -sy + vOff + UtilMath.getRounded(height, th)
                         - mover.getHeight(), mover.getWidth() + right, mover.getHeight(), true);
             }
             else if (mover.getPatrolType() == Patrol.VERTICAL)
             {
-                g.drawRect(sx - hOff - mover.getWidth() / 2, -sy + vOff - left + UtilityMath.getRounded(height, th)
+                g.drawRect(sx - hOff - mover.getWidth() / 2, -sy + vOff - left + UtilMath.getRounded(height, th)
                         - mover.getHeight(), mover.getWidth(), mover.getHeight() + right, true);
             }
 
             g.setColor(WorldPanel.COLOR_ENTITY_PATROL);
             if (mover.getPatrolType() == Patrol.HORIZONTAL)
             {
-                g.drawRect(sx - hOff - left, -sy + vOff + UtilityMath.getRounded(height, th), right, th, true);
+                g.drawRect(sx - hOff - left, -sy + vOff + UtilMath.getRounded(height, th), right, th, true);
             }
             else if (mover.getPatrolType() == Patrol.VERTICAL)
             {
-                g.drawRect(sx - hOff + mover.getWidth() / 2, -sy + vOff + UtilityMath.getRounded(height, th) - left
+                g.drawRect(sx - hOff + mover.getWidth() / 2, -sy + vOff + UtilMath.getRounded(height, th) - left
                         - mover.getHeight() / 2, tw, right, true);
             }
         }
@@ -320,8 +320,8 @@ public final class WorldPanel
         {
             if (mouseX >= 0 && mouseY >= 0 && mouseX < areaX && mouseY < areaY)
             {
-                final int mx = UtilityMath.getRounded(mouseX, tw);
-                final int my = UtilityMath.getRounded(mouseY, th);
+                final int mx = UtilMath.getRounded(mouseX, tw);
+                final int my = UtilMath.getRounded(mouseY, th);
 
                 g.setColor(WorldPanel.COLOR_MOUSE_SELECTION);
                 g.drawRect(mx, my, tw, th, true);
@@ -359,9 +359,9 @@ public final class WorldPanel
                 final int th = map.getTileHeight();
                 final int width = lastSelectionEntity.getWidth();
                 final int height = lastSelectionEntity.getHeight();
-                final int h = UtilityMath.getRounded(height, tw) - th;
-                final int x = UtilityMath.getRounded(mouseX, tw);
-                final int y = UtilityMath.getRounded(mouseY, th) - h;
+                final int h = UtilMath.getRounded(height, tw) - th;
+                final int x = UtilMath.getRounded(mouseX, tw);
+                final int y = UtilMath.getRounded(mouseY, th) - h;
 
                 g.setColor(ColorRgba.PURPLE);
                 g.drawRect(x, y, width, height, true);
@@ -379,8 +379,8 @@ public final class WorldPanel
     {
         if (!selecting)
         {
-            final int sx = UtilityMath.getRounded(mx, map.getTileWidth());
-            final int sy = UtilityMath.getRounded(my, map.getTileHeight());
+            final int sx = UtilMath.getRounded(mx, map.getTileWidth());
+            final int sy = UtilMath.getRounded(my, map.getTileHeight());
             selectStartX = sx;
             selectStartY = sy;
             selectEndX = sx;
@@ -400,8 +400,8 @@ public final class WorldPanel
     {
         if (selecting)
         {
-            selectEndX = UtilityMath.getRounded(mx + map.getTileWidth() / 2, map.getTileWidth());
-            selectEndY = UtilityMath.getRounded(my + map.getTileHeight() / 2, map.getTileHeight());
+            selectEndX = UtilMath.getRounded(mx + map.getTileWidth() / 2, map.getTileWidth());
+            selectEndY = UtilMath.getRounded(my + map.getTileHeight() / 2, map.getTileHeight());
             selecting = true;
             selected = true;
         }
@@ -419,8 +419,8 @@ public final class WorldPanel
         {
             int sx = selectStartX;
             int sy = selectStartY;
-            int ex = UtilityMath.getRounded(mx, map.getTileWidth());
-            int ey = UtilityMath.getRounded(my, map.getTileHeight());
+            int ex = UtilMath.getRounded(mx, map.getTileWidth());
+            int ey = UtilMath.getRounded(my, map.getTileHeight());
 
             // Ensure selection is positive
             if (ex < sx)
@@ -477,8 +477,8 @@ public final class WorldPanel
      */
     private Entity hitEntity(int x, int y)
     {
-        final int mx = UtilityMath.getRounded(x, map.getTileWidth());
-        final int my = UtilityMath.getRounded(getHeight() - y - 1, map.getTileHeight());
+        final int mx = UtilMath.getRounded(x, map.getTileWidth());
+        final int my = UtilMath.getRounded(getHeight() - y - 1, map.getTileHeight());
         for (final Entity entity : handlerEntity.list())
         {
             if (hitEntity(entity, mx, my, mx + map.getTileWidth(), my + map.getTileHeight()))
@@ -503,10 +503,9 @@ public final class WorldPanel
     {
         if (entity != null)
         {
-            final int x = UtilityMath.getRounded(entity.getLocationIntX() - entity.getWidth() / 2, map.getTileWidth())
+            final int x = UtilMath.getRounded(entity.getLocationIntX() - entity.getWidth() / 2, map.getTileWidth())
                     - editor.getOffsetViewH();
-            final int y = UtilityMath.getRounded(entity.getLocationIntY(), map.getTileHeight())
-                    - editor.getOffsetViewV();
+            final int y = UtilMath.getRounded(entity.getLocationIntY(), map.getTileHeight()) - editor.getOffsetViewV();
             final Rectangle r1 = Geom.createRectangle(x1, y1, x2 - x1, y2 - y1);
             final Rectangle r2 = Geom.createRectangle(x, y, entity.getWidth(), entity.getHeight());
             if (r1.intersects(r2))
@@ -526,11 +525,11 @@ public final class WorldPanel
         {
             entity.setSelection(false);
             final int th = map.getTileHeight();
-            final int offy = getHeight() - UtilityMath.getRounded(getHeight(), th);
-            final int sx = UtilityMath.getRounded(selectStartX, map.getTileWidth());
-            final int sy = UtilityMath.getRounded(getHeight() - selectStartY - offy, th);
-            final int ex = UtilityMath.getRounded(selectEndX, map.getTileWidth());
-            final int ey = UtilityMath.getRounded(getHeight() - selectEndY - offy, th);
+            final int offy = getHeight() - UtilMath.getRounded(getHeight(), th);
+            final int sx = UtilMath.getRounded(selectStartX, map.getTileWidth());
+            final int sy = UtilMath.getRounded(getHeight() - selectStartY - offy, th);
+            final int ex = UtilMath.getRounded(selectEndX, map.getTileWidth());
+            final int ey = UtilMath.getRounded(getHeight() - selectEndY - offy, th);
             if (hitEntity(entity, sx, sy, ex, ey))
             {
                 entity.setSelection(true);
@@ -561,8 +560,8 @@ public final class WorldPanel
     {
         final int tw = map.getTileWidth();
         final int th = map.getTileHeight();
-        entity.teleport(UtilityMath.getRounded(x + (side == 1 ? 0 : 1) * entity.getWidth() / 2 + tw / 2, tw) + side
-                * entity.getWidth() / 2, UtilityMath.getRounded(y + th / 2, th));
+        entity.teleport(UtilMath.getRounded(x + (side == 1 ? 0 : 1) * entity.getWidth() / 2 + tw / 2, tw) + side
+                * entity.getWidth() / 2, UtilMath.getRounded(y + th / 2, th));
     }
 
     /**
@@ -601,8 +600,8 @@ public final class WorldPanel
         final int th = map.getTileHeight();
         final int hOff = editor.getOffsetViewH();
         final int vOff = editor.getOffsetViewV();
-        final int areaX = UtilityMath.getRounded(width, tw);
-        final int areaY = UtilityMath.getRounded(height, th);
+        final int areaX = UtilMath.getRounded(width, tw);
+        final int areaY = UtilMath.getRounded(height, th);
         camera.setView(0, 0, areaX - tw, areaY);
 
         // Background
@@ -620,16 +619,16 @@ public final class WorldPanel
         }
         drawEntities(g, hOff, vOff, height);
         g.setColor(ColorRgba.GREEN);
-        g.drawRect(worldData.getStartX() - hOff, -worldData.getStartY() + vOff + UtilityMath.getRounded(height, th)
+        g.drawRect(worldData.getStartX() - hOff, -worldData.getStartY() + vOff + UtilMath.getRounded(height, th)
                 - Map.TILE_HEIGHT, Map.TILE_WIDTH, Map.TILE_HEIGHT, true);
         g.setColor(ColorRgba.RED);
-        g.drawRect(worldData.getEndX() - hOff, -worldData.getEndY() + vOff + UtilityMath.getRounded(height, th)
+        g.drawRect(worldData.getEndX() - hOff, -worldData.getEndY() + vOff + UtilMath.getRounded(height, th)
                 - Map.TILE_HEIGHT, Map.TILE_WIDTH, Map.TILE_HEIGHT, true);
 
         for (final CoordTile p : worldData.getCheckpoints())
         {
             g.setColor(ColorRgba.YELLOW);
-            g.drawRect(p.getX() - hOff, -p.getY() + vOff + UtilityMath.getRounded(height, th) - Map.TILE_HEIGHT,
+            g.drawRect(p.getX() - hOff, -p.getY() + vOff + UtilMath.getRounded(height, th) - Map.TILE_HEIGHT,
                     Map.TILE_WIDTH, Map.TILE_HEIGHT, true);
         }
 
@@ -679,9 +678,9 @@ public final class WorldPanel
         final int my = event.getY();
         final int tw = map.getTileWidth();
         final int th = map.getTileHeight();
-        final int h = UtilityMath.getRounded(getHeight(), th) - map.getTileHeight();
-        final int x = editor.getOffsetViewH() + UtilityMath.getRounded(mx, tw);
-        final int y = editor.getOffsetViewV() - UtilityMath.getRounded(my, th) + h;
+        final int h = UtilMath.getRounded(getHeight(), th) - map.getTileHeight();
+        final int x = editor.getOffsetViewH() + UtilMath.getRounded(mx, tw);
+        final int y = editor.getOffsetViewV() - UtilMath.getRounded(my, th) + h;
         clicking = true;
 
         switch (editor.getSelectionState())
@@ -781,11 +780,11 @@ public final class WorldPanel
         final int th = map.getTileHeight();
         final int mx = event.getX();
         final int my = event.getY();
-        final int areaY = UtilityMath.getRounded(getHeight(), th);
+        final int areaY = UtilMath.getRounded(getHeight(), th);
         if (!moving)
         {
-            movingOffsetX = UtilityMath.getRounded(mouseX, map.getTileWidth()) - mx;
-            movingOffsetY = my - UtilityMath.getRounded(mouseY, th) - th;
+            movingOffsetX = UtilMath.getRounded(mouseX, map.getTileWidth()) - mx;
+            movingOffsetY = my - UtilMath.getRounded(mouseY, th) - th;
             moving = true;
         }
         final int ox = mouseX + editor.getOffsetViewH() + movingOffsetX;
@@ -813,9 +812,9 @@ public final class WorldPanel
         final int th = map.getTileHeight();
         final int mx = event.getX();
         final int my = event.getY();
-        final int areaY = UtilityMath.getRounded(getHeight(), th);
-        final int x = UtilityMath.getRounded(mx, map.getTileWidth());
-        final int y = UtilityMath.getRounded(areaY - my - 1, th);
+        final int areaY = UtilMath.getRounded(getHeight(), th);
+        final int x = UtilMath.getRounded(mx, map.getTileWidth());
+        final int y = UtilMath.getRounded(areaY - my - 1, th);
 
         for (final Entity entity : handlerEntity.list())
         {

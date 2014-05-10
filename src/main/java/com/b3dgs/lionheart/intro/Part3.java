@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.anim.Animation;
@@ -225,7 +225,7 @@ public final class Part3
         {
             alphaBack -= 10.0;
         }
-        alphaBack = UtilityMath.fixBetween(alphaBack, 0.0, 255.0);
+        alphaBack = UtilMath.fixBetween(alphaBack, 0.0, 255.0);
     }
 
     /**

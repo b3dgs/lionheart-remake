@@ -18,8 +18,8 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.UtilityFile;
-import com.b3dgs.lionengine.UtilityMath;
+import com.b3dgs.lionengine.UtilFile;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
 import com.b3dgs.lionengine.core.Core;
@@ -78,7 +78,7 @@ final class Foreground
         height = 0.0;
         depth = 4.0;
         speed = 0.02;
-        final String path = UtilityFile.getPath("foregrounds", theme);
+        final String path = UtilFile.getPath("foregrounds", theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
         setScreenSize(source.getWidth(), source.getHeight());
@@ -284,7 +284,7 @@ final class Foreground
             back.load(false);
             data = new BackgroundElement(0, (int) Math.floor(water.getNominal() * scaleV), back);
 
-            if (UtilityFile.exists(UtilityFile.getPath(path, "effect.png")))
+            if (UtilFile.exists(UtilFile.getPath(path, "effect.png")))
             {
                 effect = Drawable.loadSprite(Core.MEDIA.create(path, "effect.png"));
                 effect.load(false);
@@ -325,7 +325,7 @@ final class Foreground
             final int oy = py + (int) water.getHeight();
             for (int y = screenHeight - 32 + getNominal() - 210 + oy; y < screenHeight; y++)
             {
-                final double inside = Math.cos(UtilityMath.wrapDouble(y + wx * frequency, 0.0, 360.0)) * amplitude;
+                final double inside = Math.cos(UtilMath.wrapDouble(y + wx * frequency, 0.0, 360.0)) * amplitude;
                 final double outside = Math.cos(wx) * offsetForce;
                 g.copyArea(0, y, screenWidth, 1, (int) (inside + outside), 0);
             }
@@ -341,11 +341,11 @@ final class Foreground
             anim.updateAnimation(extrp);
 
             data.setOffsetX(data.getOffsetX() + speed);
-            data.setOffsetX(UtilityMath.wrapDouble(data.getOffsetX(), 0.0, anim.getFrameWidth()));
+            data.setOffsetX(UtilMath.wrapDouble(data.getOffsetX(), 0.0, anim.getFrameWidth()));
             data.setOffsetY(y);
 
             height += water.getSpeed() * extrp;
-            height = UtilityMath.wrapDouble(height, 0.0, 360.0);
+            height = UtilMath.wrapDouble(height, 0.0, 360.0);
             water.setHeight(Math.sin(height) * water.getDepth());
             py = y;
             wx += 0.06 * extrp;

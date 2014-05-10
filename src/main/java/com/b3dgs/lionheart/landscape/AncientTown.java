@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.UtilityFile;
+import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.platform.background.BackgroundComponent;
@@ -59,7 +59,7 @@ final class AncientTown
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = UtilityFile.getPath(AppLionheart.BACKGROUNDS_DIR, "ancient_town", theme);
+        final String path = UtilFile.getPath(AppLionheart.BACKGROUNDS_DIR, "ancient_town", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, this.flickering, width);
         add(backdrop);
