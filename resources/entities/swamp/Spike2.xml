@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="spike2" surface="spike2.png">
+<entity surface="Spike2.png" icon="Spike2_ico.png">
 	<frames horizontal="16" vertical="2"/>
 	<size width="16" height="32"/>
 	<collision name="default" offsetX="4" offsetY="0" width="8" height="32" mirror="false" />

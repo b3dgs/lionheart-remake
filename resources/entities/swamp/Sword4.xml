@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="sword4" surface="sword4.png">
+<entity surface="Sword4.png" icon="Sword4_ico.png">
 	<frames horizontal="4" vertical="2"/>
 	<size width="16" height="32"/>
 	<collision name="default" offsetX="0" offsetY="0" width="16" height="32" mirror="false" />

@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.swamp;
 
+import com.b3dgs.lionheart.FolderSwamp;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntitySceneryTurning;
 import com.b3dgs.lionheart.entity.EntityState;
@@ -29,6 +30,7 @@ import com.b3dgs.lionheart.entity.SetupEntity;
  */
 public final class TurningHit
         extends EntitySceneryTurning
+        implements FolderSwamp
 {
     /**
      * Constructor.

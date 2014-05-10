@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="bee_little" surface="bee_little.png">
+<entity surface="BeeLittle.png" icon="BeeLittle_ico.png">
 	<frames horizontal="3" vertical="1"/>
 	<size width="16" height="32"/>
 	<data mass="0" gravityMax="0">

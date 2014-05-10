@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="potion_little" surface="potion_little.png">
+<entity surface="PotionLittle.png" icon="PotionLittle_ico.png">
 	<frames horizontal="4" vertical="2"/>
 	<size width="16" height="16"/>
 	<collision name="default" offsetX="0" offsetY="0" width="16" height="16" mirror="false" />

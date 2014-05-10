@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="nest_little" surface="nest_little.png">
+<entity surface="NestLittle.png" icon="NestLittle_ico.png">
 	<frames horizontal="1" vertical="1"/>
 	<size width="48" height="48"/>
 	<data mass="0" gravityMax="0">

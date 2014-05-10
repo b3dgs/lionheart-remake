@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="bird" surface="bird.png">
+<entity surface="Bird.png" icon="Bird_ico.png">
 	<frames horizontal="5" vertical="4"/>
 	<size width="32" height="32"/>
 	<data mass="0" gravityMax="0">

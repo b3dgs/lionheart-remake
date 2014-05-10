@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity name="crawling" surface="crawling.png">
+<entity surface="Crawling.png" icon="Crawling_ico.png">
 	<frames horizontal="6" vertical="4"/>
 	<size width="64" height="32"/>
 	<data mass="1" gravityMax="16.0">
