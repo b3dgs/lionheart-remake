@@ -25,9 +25,11 @@ import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.FolderType;
+import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.Level;
-import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.RaceType;
+import com.b3dgs.lionheart.ThemeType;
+import com.b3dgs.lionheart.entity.hero.player.Valdyn;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
 /**
@@ -106,8 +108,11 @@ public class FactoryEntity
     @Override
     protected SetupEntity createSetup(Class<? extends Entity> type, Media config)
     {
-        final FolderType theme = FolderType.getType(type);
-        final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");
+        final RaceType race = RaceType.getType(type);
+        final CategoryType category = CategoryType.getType(type);
+        final ThemeType theme = ThemeType.getType(type);
+        final Media media = Core.MEDIA.create(folder, race.getPath(), category.getPath(), theme.getPath(),
+                type.getSimpleName() + ".xml");
 
         final Media raster;
         if (AppLionheart.RASTER_ENABLED && type != Valdyn.class)

@@ -25,7 +25,7 @@ import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.game.platform.entity.HandlerEntityPlatform;
 import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.hero.player.Valdyn;
 import com.b3dgs.lionheart.map.Map;
 
 /**

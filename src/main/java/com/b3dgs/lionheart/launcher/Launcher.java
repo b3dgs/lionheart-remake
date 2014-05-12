@@ -15,47 +15,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.launcher;
 
-import com.b3dgs.lionheart.ThemeSwamp;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
+import com.b3dgs.lionengine.game.projectile.LauncherProjectileGame;
+import com.b3dgs.lionheart.Themed;
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.projectile.Projectile;
 
 /**
- * Bee monster base implementation.
+ * Bullet launcher.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public abstract class Launcher
+        extends LauncherProjectileGame<Entity, Entity, Projectile>
+        implements Themed
 {
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Constructor.
+     * 
+     * @param setup The setup reference.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public Launcher(SetupLauncher setup)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
+        super(setup, setup.factory, setup.handler);
     }
 
     /*
-     * EntityMonster
+     * LauncherProjectile
      */
 
     @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
-
-    @Override
-    protected void updateCollisions()
+    protected void launchProjectile(Entity owner)
     {
         // Nothing to do
     }

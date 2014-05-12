@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
-import com.b3dgs.lionheart.Foldered;
+import com.b3dgs.lionheart.Themed;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -40,7 +40,7 @@ import com.b3dgs.lionheart.map.Map;
  */
 public abstract class Entity
         extends EntityPlatformRastered
-        implements Foldered
+        implements Themed
 {
     /** Map reference. */
     protected final Map map;

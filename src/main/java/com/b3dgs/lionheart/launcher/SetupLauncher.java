@@ -15,48 +15,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.launcher;
 
-import com.b3dgs.lionheart.ThemeSwamp;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.game.SetupGame;
+import com.b3dgs.lionheart.projectile.FactoryProjectile;
+import com.b3dgs.lionheart.projectile.HandlerProjectile;
 
 /**
- * Bee monster base implementation.
+ * Setup launcher base.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public class SetupLauncher
+        extends SetupGame
 {
+    /** Factory reference. */
+    public final FactoryProjectile factory;
+    /** Handler reference. */
+    public final HandlerProjectile handler;
+
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Constructor.
+     * 
+     * @param config The configuration reference.
+     * @param factory The factory reference.
+     * @param handler The projectile handler reference.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public SetupLauncher(Media config, FactoryProjectile factory, HandlerProjectile handler)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
-
-    /*
-     * EntityMonster
-     */
-
-    @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
-
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
+        super(config);
+        this.factory = factory;
+        this.handler = handler;
     }
 }

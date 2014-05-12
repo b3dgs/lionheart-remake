@@ -47,12 +47,12 @@ import com.b3dgs.lionheart.Level;
 import com.b3dgs.lionheart.WorldData;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.FactoryEntity;
-import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
-import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
-import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
+import com.b3dgs.lionheart.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.map.Map;
+import com.b3dgs.lionheart.projectile.FactoryProjectile;
+import com.b3dgs.lionheart.projectile.HandlerProjectile;
 
 /**
  * Represents the world scene, containing the map and the entities.

@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
-import com.b3dgs.lionheart.FolderSwamp;
+import com.b3dgs.lionheart.ThemeSwamp;
 import com.b3dgs.lionheart.entity.patrol.Patrol;
 import com.b3dgs.lionheart.entity.patrol.Patrollable;
 import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
  */
 public abstract class EntitySceneryBeetle
         extends EntityScenery
-        implements Patrollable, FolderSwamp
+        implements Patrollable, ThemeSwamp
 {
     /** Patrollable model. */
     protected final PatrollerModel patroller;

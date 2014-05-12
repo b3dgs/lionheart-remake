@@ -15,48 +15,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.projectile;
 
-import com.b3dgs.lionheart.ThemeSwamp;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
+import com.b3dgs.lionengine.game.CameraGame;
+import com.b3dgs.lionengine.game.projectile.HandlerProjectileGame;
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.HandlerEntity;
 
 /**
- * Bee monster base implementation.
+ * Projectile handler implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public final class HandlerProjectile
+        extends HandlerProjectileGame<Entity, Projectile>
 {
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Constructor.
+     * 
+     * @param camera The camera reference.
+     * @param handlerEntity The entity handler reference.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public HandlerProjectile(CameraGame camera, HandlerEntity... handlerEntity)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
-
-    /*
-     * EntityMonster
-     */
-
-    @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
-
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
+        super(camera, handlerEntity);
     }
 }

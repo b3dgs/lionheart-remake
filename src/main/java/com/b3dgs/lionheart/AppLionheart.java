@@ -47,7 +47,7 @@ public final class AppLionheart
     /** Rasters directory. */
     public static final String RASTERS_DIR = "rasters";
     /** Main entity directory name. */
-    public static final String ENTITIES_DIR = "entities";
+    public static final String ENTITIES_DIR = "entity";
     /** Main entity directory name. */
     public static final String BACKGROUNDS_DIR = "backgrounds";
     /** Effects directory. */

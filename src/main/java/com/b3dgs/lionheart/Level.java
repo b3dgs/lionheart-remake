@@ -27,10 +27,10 @@ import com.b3dgs.lionheart.effect.HandlerEffect;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
-import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
-import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
 import com.b3dgs.lionheart.landscape.LandscapeType;
+import com.b3dgs.lionheart.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.map.Map;
+import com.b3dgs.lionheart.projectile.FactoryProjectile;
 
 /**
  * Represents a level and its data (world data, map, entities).

@@ -15,48 +15,46 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart;
 
-import com.b3dgs.lionheart.ThemeSwamp;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
+import java.util.Locale;
 
 /**
- * Bee monster base implementation.
+ * List of theme types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public enum ThemeType
 {
+    /** Swamp theme. */
+    SWAMP,
+    /** Ancient town theme. */
+    ANCIENT_TOWN,
+    /** Default. */
+    DEFAULT;
+
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Get the theme enum from the class type.
+     * 
+     * @param type The class type.
+     * @return The enum folder type.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public static ThemeType getType(Class<? extends Themed> type)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
-
-    /*
-     * EntityMonster
-     */
-
-    @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
+        if (ThemeSwamp.class.isAssignableFrom(type))
         {
-            status.setState(EntityState.WALK);
+            return SWAMP;
         }
+        return DEFAULT;
     }
 
-    @Override
-    protected void updateCollisions()
+    /**
+     * Get the theme path.
+     * 
+     * @return The theme path.
+     */
+    public String getPath()
     {
-        // Nothing to do
+        return name().toLowerCase(Locale.ENGLISH);
     }
 }

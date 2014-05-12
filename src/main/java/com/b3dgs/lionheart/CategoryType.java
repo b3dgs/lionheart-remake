@@ -15,95 +15,68 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart;
 
 import java.util.Locale;
 
-import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.UtilConversion;
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityItem;
+import com.b3dgs.lionheart.entity.EntityMonster;
+import com.b3dgs.lionheart.entity.EntityScenery;
 import com.b3dgs.lionheart.entity.hero.player.Valdyn;
 
 /**
- * List of entity categories.
+ * List of category types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum EntityCategory
+public enum CategoryType
 {
-    /** Item (can be taken). */
+    /** Player. */
+    PLAYER,
+    /** Item. */
     ITEM,
-    /** Monster (can be destroyed and attack the player). */
+    /** Monster. */
     MONSTER,
-    /** Scenery (other objects that are required to complete a level). */
+    /** Scenery. */
     SCENERY,
-    /** Valdyn (player). */
-    PLAYER;
+    /** None. */
+    NONE;
 
     /**
-     * Get the race enum from the class type.
+     * Get the folder enum from the class type.
      * 
      * @param type The class type.
-     * @return The enum race type.
+     * @return The enum folder type.
      */
-    public static EntityCategory getCategory(Class<? extends Entity> type)
+    public static CategoryType getType(Class<? extends Entity> type)
     {
         if (EntityItem.class.isAssignableFrom(type))
         {
             return ITEM;
         }
-        else if (EntityMonster.class.isAssignableFrom(type))
+        if (EntityMonster.class.isAssignableFrom(type))
         {
             return MONSTER;
         }
-        else if (EntityScenery.class.isAssignableFrom(type))
+        if (EntityScenery.class.isAssignableFrom(type))
         {
             return SCENERY;
         }
-        else if (Valdyn.class.isAssignableFrom(type))
+        if (Valdyn.class.isAssignableFrom(type))
         {
             return PLAYER;
         }
-        throw new LionEngineException("Unknown category for ", type.getName());
+        return NONE;
     }
 
-    /** Count number. */
-    private int count;
-
     /**
-     * Get the count number.
+     * Get the world path.
      * 
-     * @return The count number.
-     */
-    public int getCount()
-    {
-        return count;
-    }
-
-    /**
-     * Increase the count number.
-     */
-    public void increase()
-    {
-        count++;
-    }
-
-    /**
-     * Get the race path.
-     * 
-     * @return The race path.
+     * @return The world path.
      */
     public String getPath()
     {
         return name().toLowerCase(Locale.ENGLISH);
-    }
-
-    /*
-     * Object
-     */
-
-    @Override
-    public String toString()
-    {
-        return UtilConversion.toTitleCase(name());
     }
 }

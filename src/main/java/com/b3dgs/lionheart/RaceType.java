@@ -15,48 +15,47 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart;
 
-import com.b3dgs.lionheart.ThemeSwamp;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
+import java.util.Locale;
+
+import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.hero.player.Valdyn;
 
 /**
- * Bee monster base implementation.
+ * List of race types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public enum RaceType
 {
+    /** Hero. */
+    HERO,
+    /** Object. */
+    OBJECT;
+
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Get the folder enum from the class type.
+     * 
+     * @param type The class type.
+     * @return The enum folder type.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public static RaceType getType(Class<? extends Entity> type)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
-
-    /*
-     * EntityMonster
-     */
-
-    @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
+        if (Valdyn.class.isAssignableFrom(type))
         {
-            status.setState(EntityState.WALK);
+            return HERO;
         }
+        return OBJECT;
     }
 
-    @Override
-    protected void updateCollisions()
+    /**
+     * Get the race path.
+     * 
+     * @return The race path.
+     */
+    public String getPath()
     {
-        // Nothing to do
+        return name().toLowerCase(Locale.ENGLISH);
     }
 }

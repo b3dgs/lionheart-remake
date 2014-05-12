@@ -30,14 +30,14 @@ import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionheart.effect.HandlerEffect;
 import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
-import com.b3dgs.lionheart.entity.launcher.FactoryLauncher;
-import com.b3dgs.lionheart.entity.player.StatsRenderer;
-import com.b3dgs.lionheart.entity.player.Valdyn;
-import com.b3dgs.lionheart.entity.projectile.FactoryProjectile;
-import com.b3dgs.lionheart.entity.projectile.HandlerProjectile;
+import com.b3dgs.lionheart.entity.hero.StatsRenderer;
+import com.b3dgs.lionheart.entity.hero.player.Valdyn;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
+import com.b3dgs.lionheart.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.map.Map;
+import com.b3dgs.lionheart.projectile.FactoryProjectile;
+import com.b3dgs.lionheart.projectile.HandlerProjectile;
 
 /**
  * Represents the game layer, handling the landscape, the map, and the entities.
