@@ -27,9 +27,6 @@ import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.effect.ExplodeBig;
 import com.b3dgs.lionheart.effect.FactoryEffect;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
-import com.b3dgs.lionheart.entity.patrol.Patrollable;
-import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
 
 /**
  * Monster base implementation.

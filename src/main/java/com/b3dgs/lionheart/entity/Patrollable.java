@@ -17,45 +17,43 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionheart.ThemeSwamp;
+import com.b3dgs.lionengine.game.purview.Localizable;
+import com.b3dgs.lionengine.game.purview.Mirrorable;
 
 /**
- * Bee monster base implementation.
+ * Represents something that can patrol.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public interface Patrollable
+        extends Localizable, Mirrorable, Patroller
 {
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Set the movement force.
+     * 
+     * @param fh The horizontal force.
+     * @param fv The vertical force.
      */
-    protected EntityMonsterBee(SetupEntity setup)
-    {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
+    void setMovementForce(double fh, double fv);
 
-    /*
-     * EntityMonster
+    /**
+     * Set the maximum movement speed.
+     * 
+     * @param speed The maximum movement speed.
      */
+    void setMovementSpeedMax(double speed);
 
-    @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
+    /**
+     * Get the max movement speed.
+     * 
+     * @return The max movement speed.
+     */
+    double getMovementSpeedMax();
 
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
-    }
+    /**
+     * Get the horizontal movement force.
+     * 
+     * @return The horizontal movement force.
+     */
+    double getForceHorizontal();
 }

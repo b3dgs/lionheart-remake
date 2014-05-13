@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionengine.geom.Rectangle;
-import com.b3dgs.lionheart.entity.hero.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * Entity scenery base implementation.

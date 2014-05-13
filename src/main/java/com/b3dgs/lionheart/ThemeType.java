@@ -30,8 +30,8 @@ public enum ThemeType
     SWAMP,
     /** Ancient town theme. */
     ANCIENT_TOWN,
-    /** Default. */
-    DEFAULT;
+    /** None. */
+    NONE;
 
     /**
      * Get the theme enum from the class type.
@@ -45,7 +45,7 @@ public enum ThemeType
         {
             return SWAMP;
         }
-        return DEFAULT;
+        return NONE;
     }
 
     /**

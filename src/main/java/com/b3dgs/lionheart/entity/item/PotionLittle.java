@@ -15,47 +15,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.entity.item;
 
 import com.b3dgs.lionheart.ThemeSwamp;
+import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.entity.EntityItem;
+import com.b3dgs.lionheart.entity.SetupEntity;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
- * Bee monster base implementation.
+ * Little Potion item. Give a single heart to the player.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
+public final class PotionLittle
+        extends EntityItem
         implements ThemeSwamp
 {
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Constructor.
+     * 
+     * @param setup The setup reference.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public PotionLittle(SetupEntity setup)
     {
         super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
     }
 
     /*
-     * EntityMonster
+     * EntityItem
      */
 
     @Override
-    protected void updateStates()
+    protected void onTaken(Valdyn entity)
     {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
-
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
+        entity.stats.increaseHeart();
+        Sfx.ITEM_POTION_LITTLE.play();
     }
 }

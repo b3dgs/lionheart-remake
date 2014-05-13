@@ -17,45 +17,56 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionheart.ThemeSwamp;
-
 /**
- * Bee monster base implementation.
+ * List of entity movements.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+public enum Patrol
 {
+    /** No movement. */
+    NONE(0),
+    /** Horizontal movement. */
+    HORIZONTAL(1),
+    /** Vertical movement. */
+    VERTICAL(2),
+    /** Rotating movement. */
+    ROTATING(3);
+
+    /** Values. */
+    private static final Patrol[] VALUES = Patrol.values();
+
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Get the type from its index.
+     * 
+     * @param index The index.
+     * @return The type.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public static Patrol get(int index)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
+        return Patrol.VALUES[index];
     }
 
-    /*
-     * EntityMonster
-     */
+    /** Index value. */
+    private final int index;
 
-    @Override
-    protected void updateStates()
+    /**
+     * Constructor.
+     * 
+     * @param index The index value.
+     */
+    private Patrol(int index)
     {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
+        this.index = index;
     }
 
-    @Override
-    protected void updateCollisions()
+    /**
+     * Get the index value.
+     * 
+     * @return The index value.
+     */
+    public int getIndex()
     {
-        // Nothing to do
+        return index;
     }
 }

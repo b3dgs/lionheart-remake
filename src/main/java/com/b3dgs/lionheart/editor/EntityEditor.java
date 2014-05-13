@@ -39,9 +39,9 @@ import com.b3dgs.lionengine.swing.UtilitySwing;
 import com.b3dgs.lionheart.Editor;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.Jumpable;
-import com.b3dgs.lionheart.entity.object.monster.Crawling;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
-import com.b3dgs.lionheart.entity.patrol.Patrollable;
+import com.b3dgs.lionheart.entity.Patrol;
+import com.b3dgs.lionheart.entity.Patrollable;
+import com.b3dgs.lionheart.entity.monster.Crawling;
 
 /**
  * Entity editor.

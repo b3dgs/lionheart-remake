@@ -23,7 +23,7 @@ import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityItem;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.EntityScenery;
-import com.b3dgs.lionheart.entity.hero.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * List of category types.

@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.effect.Taken;
-import com.b3dgs.lionheart.entity.hero.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * Abstract implementation of an item.

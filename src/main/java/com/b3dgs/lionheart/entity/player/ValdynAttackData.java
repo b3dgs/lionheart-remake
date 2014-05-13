@@ -15,47 +15,52 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.entity.player;
 
-import com.b3dgs.lionheart.ThemeSwamp;
+import com.b3dgs.lionengine.file.XmlNode;
+import com.b3dgs.lionengine.game.CollisionData;
 
 /**
- * Bee monster base implementation.
+ * Attacks data.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+final class ValdynAttackData
 {
+    /** The frame index. */
+    private final int frame;
+    /** The collision data. */
+    private final CollisionData collision;
+
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Constructor.
+     * 
+     * @param attack The attack node.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    ValdynAttackData(XmlNode attack)
     {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
+        frame = attack.readInteger("frame");
+        collision = new CollisionData(attack.readInteger("x"), attack.readInteger("y"), attack.readInteger("width"),
+                attack.readInteger("height"), true);
     }
 
-    /*
-     * EntityMonster
+    /**
+     * Get the frame that contain a collision.
+     * 
+     * @return The frame containing a collision.
      */
-
-    @Override
-    protected void updateStates()
+    public int getFrame()
     {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
+        return frame;
     }
 
-    @Override
-    protected void updateCollisions()
+    /**
+     * Get the collision data.
+     * 
+     * @return The collision data.
+     */
+    public CollisionData getCollision()
     {
-        // Nothing to do
+        return collision;
     }
 }

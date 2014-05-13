@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionheart.entity.hero.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * List of entity categories.

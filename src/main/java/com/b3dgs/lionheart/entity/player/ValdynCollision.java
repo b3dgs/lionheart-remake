@@ -15,47 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.entity.player;
 
-import com.b3dgs.lionheart.ThemeSwamp;
+import java.util.Locale;
 
 /**
- * Bee monster base implementation.
+ * List of valdyn collision types.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
-        implements ThemeSwamp
+enum ValdynCollision
 {
-    /**
-     * @see Entity#Entity(SetupEntity)
-     */
-    protected EntityMonsterBee(SetupEntity setup)
-    {
-        super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
-
-    /*
-     * EntityMonster
-     */
+    /** Stand collision. */
+    STAND,
+    /** Crouch collision. */
+    CROUCH,
+    /** Fall attack collision. */
+    ATTACK_FALL;
 
     @Override
-    protected void updateStates()
+    public String toString()
     {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
-
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
+        return name().toLowerCase(Locale.ENGLISH);
     }
 }

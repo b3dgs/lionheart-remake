@@ -15,47 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.entity.scenery;
 
 import com.b3dgs.lionheart.ThemeSwamp;
+import com.b3dgs.lionheart.entity.EntityScenerySheet;
+import com.b3dgs.lionheart.entity.SetupEntity;
 
 /**
- * Bee monster base implementation.
+ * Sheet scenery implementation.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntityMonsterBee
-        extends EntityMonster
+public final class Sheet
+        extends EntityScenerySheet
         implements ThemeSwamp
 {
     /**
-     * @see Entity#Entity(SetupEntity)
+     * Constructor.
+     * 
+     * @param setup The setup reference.
      */
-    protected EntityMonsterBee(SetupEntity setup)
+    public Sheet(SetupEntity setup)
     {
         super(setup);
-        enableMovement(Patrol.HORIZONTAL);
-        enableMovement(Patrol.VERTICAL);
-    }
-
-    /*
-     * EntityMonster
-     */
-
-    @Override
-    protected void updateStates()
-    {
-        super.updateStates();
-        mirror(false);
-        if (status.getState() == EntityState.IDLE)
-        {
-            status.setState(EntityState.WALK);
-        }
-    }
-
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
     }
 }

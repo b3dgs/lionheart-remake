@@ -25,9 +25,6 @@ import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionheart.ThemeSwamp;
-import com.b3dgs.lionheart.entity.patrol.Patrol;
-import com.b3dgs.lionheart.entity.patrol.Patrollable;
-import com.b3dgs.lionheart.entity.patrol.PatrollerModel;
 
 /**
  * Beetle base implementation.
