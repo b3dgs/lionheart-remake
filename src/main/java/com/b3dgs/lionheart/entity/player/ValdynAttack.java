@@ -32,7 +32,6 @@ import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.file.XmlNode;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.Movement;
-import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.game.purview.Collidable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
 import com.b3dgs.lionheart.AppLionheart;
@@ -286,7 +285,7 @@ final class ValdynAttack
      * @param g The graphic output.
      * @param camera The camera reference.
      */
-    void render(Graphic g, CameraPlatform camera)
+    void render(Graphic g, CameraGame camera)
     {
         if (shade.getAnimState() == AnimState.PLAYING)
         {

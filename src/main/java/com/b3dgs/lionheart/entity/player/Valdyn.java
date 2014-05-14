@@ -690,7 +690,7 @@ public final class Valdyn
     }
 
     @Override
-    public void render(Graphic g, CameraPlatform camera)
+    public void render(Graphic g, CameraGame camera)
     {
         final boolean render = timerHurt.isStarted() && timerHurt.elapsed(Valdyn.HURT_TIME_BEFORE_EFFECT)
                 && hurtEffectCounter % Valdyn.HURT_EFFECT_FREQ == 0;

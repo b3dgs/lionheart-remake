@@ -68,6 +68,14 @@ public class Level
 
     /**
      * Constructor.
+     */
+    public Level()
+    {
+        this(null, null, null, null, null, 60);
+    }
+
+    /**
+     * Constructor.
      * 
      * @param camera The camera reference.
      * @param factoryEntity The entity factory reference.
