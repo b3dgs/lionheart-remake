@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.core.Text;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteFont;
+import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Scene;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.SonicArranger;
@@ -77,9 +78,9 @@ public class Menu
     /** Error message. */
     private static final String ERROR_MESSAGE = "Unknown type: ";
     /** Font filename. */
-    private static final Media FONT_SPRITE = Core.MEDIA.create("sprites", "font_big.png");
+    private static final Media FONT_SPRITE = Core.MEDIA.create(AppLionheart.SPRITES_DIR, "font_big.png");
     /** Font data. */
-    private static final Media FONT_DATA = Core.MEDIA.create("sprites", "fontdata_big.xml");
+    private static final Media FONT_DATA = Core.MEDIA.create(AppLionheart.SPRITES_DIR, "fontdata_big.xml");
     /** Text color in menu option. */
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 170, 238);
     /** Alpha step speed. */

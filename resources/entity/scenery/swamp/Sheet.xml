@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity surface="Sheet.png" icon="Sheet_ico.png">
-	<frames horizontal="1" vertical="1"/>
-	<size width="48" height="24"/>
-	<collision name="default" offsetX="11" offsetY="13" width="17" height="1" mirror="false" />
-	<animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-</entity>
+<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:surface image="Sheet.png" icon="Sheet_ico.png"/>
+	<lionengine:frames horizontal="1" vertical="1"/>
+	<lionengine:size width="48" height="24"/>
+	<lionengine:collision name="default" offsetX="11" offsetY="13" width="17" height="1" mirror="false" />
+	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+</lionengine:entity>

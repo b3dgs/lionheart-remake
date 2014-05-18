@@ -25,9 +25,9 @@ package com.b3dgs.lionheart.landscape;
 public enum ForegroundType
 {
     /** Water. */
-    WATER("Water"),
+    WATER("water"),
     /** Lava. */
-    LAVA("Lava");
+    LAVA("lava");
 
     /** Theme name. */
     private final String theme;

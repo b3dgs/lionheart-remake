@@ -119,6 +119,7 @@ public class FactoryEntity
             path.add(theme.getPath());
         }
         path.add(type.getSimpleName() + ".xml");
+
         final Media media = Core.MEDIA.create(path.toArray(new String[path.size()]));
 
         final Media raster;

@@ -39,25 +39,27 @@ public final class AppLionheart
     /** Application version. */
     public static final Version VERSION = Version.create(0, 1, 0);
     /** Sprites directory. */
-    public static final String SPRITES_DIR = "sprites";
+    public static final String SPRITES_DIR = "sprite";
     /** Levels directory. */
-    public static final String LEVELS_DIR = "levels";
+    public static final String LEVELS_DIR = "level";
     /** Sheets directory. */
-    public static final String TILES_DIR = "tiles";
+    public static final String TILES_DIR = "tile";
     /** Rasters directory. */
-    public static final String RASTERS_DIR = "rasters";
+    public static final String RASTERS_DIR = "raster";
     /** Main entity directory name. */
     public static final String ENTITIES_DIR = "entity";
-    /** Main entity directory name. */
-    public static final String BACKGROUNDS_DIR = "backgrounds";
+    /** Backgrounds directory name. */
+    public static final String BACKGROUNDS_DIR = "background";
+    /** Foregrounds directory name. */
+    public static final String FOREGROUNDS_DIR = "foreground";
     /** Effects directory. */
-    public static final String EFFECTS_DIR = "effects";
+    public static final String EFFECTS_DIR = "effect";
     /** Projectiles directory. */
-    public static final String PROJECTILES_DIR = "projectiles";
+    public static final String PROJECTILES_DIR = "projectile";
     /** Launchers directory. */
-    public static final String LAUNCHERS_DIR = "launchers";
+    public static final String LAUNCHERS_DIR = "launcher";
     /** Musics directory. */
-    public static final String MUSICS_DIR = "musics";
+    public static final String MUSICS_DIR = "music";
     /** Sound fx directory name. */
     public static final String SFX_DIR = "sfx";
     /** Show collision bounds. */

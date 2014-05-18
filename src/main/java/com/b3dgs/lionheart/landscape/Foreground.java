@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.platform.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.platform.background.BackgroundElement;
 import com.b3dgs.lionengine.game.platform.background.BackgroundPlatform;
+import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Scene;
 
 /**
@@ -78,7 +79,7 @@ final class Foreground
         height = 0.0;
         depth = 4.0;
         speed = 0.02;
-        final String path = UtilFile.getPath("foregrounds", theme);
+        final String path = UtilFile.getPath(AppLionheart.FOREGROUNDS_DIR, theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
         setScreenSize(source.getWidth(), source.getHeight());

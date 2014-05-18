@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<entity surface="Bird.png" icon="Bird_ico.png">
-	<frames horizontal="5" vertical="4"/>
-	<size width="32" height="32"/>
+<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:surface image="Bird.png" icon="Bird_ico.png"/>
+	<lionengine:frames horizontal="5" vertical="4"/>
+	<lionengine:size width="32" height="32"/>
+	<lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="32" mirror="false" />
+	<lionengine:animation name="idle" start="1" end="10" speed="0.25" reversed="false" repeat="false"/>
+	<lionengine:animation name="walk" start="11" end="20" speed="0.25" reversed="false" repeat="true"/>
 	<data mass="0" gravityMax="0">
 		<jump heightMax="0.0" />
 	</data>
 	<life normal="1" />
-	<collision name="default" offsetX="0" offsetY="0" width="32" height="32" mirror="false" />
-	<animation name="idle" start="1" end="10" speed="0.25" reversed="false" repeat="false"/>
-	<animation name="walk" start="11" end="20" speed="0.25" reversed="false" repeat="true"/>
-</entity>
+</lionengine:entity>

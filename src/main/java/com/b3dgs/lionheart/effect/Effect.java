@@ -52,8 +52,8 @@ public class Effect
     public Effect(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        final int horizontalFrames = getDataInteger("horizontal", "frames");
-        final int verticalFrames = getDataInteger("vertical", "frames");
+        final int horizontalFrames = getDataInteger("horizontal", "lionengine:frames");
+        final int verticalFrames = getDataInteger("vertical", "lionengine:frames");
         sprite = Drawable.loadSpriteAnimated(setup.surface, horizontalFrames, verticalFrames);
         rasterable = new RasterableModel(setup, Map.TILE_HEIGHT);
         setSize(sprite.getFrameWidth(), sprite.getFrameHeight());

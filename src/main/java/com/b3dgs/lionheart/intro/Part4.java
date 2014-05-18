@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteFont;
+import com.b3dgs.lionheart.AppLionheart;
 
 /**
  * Intro part 4 implementation.
@@ -44,8 +45,8 @@ public final class Part4
      */
     public Part4()
     {
-        font = Drawable.loadSpriteFont(Core.MEDIA.create("sprites", "font.png"),
-                Core.MEDIA.create("sprites", "fontdata.xml"), 12, 12);
+        font = Drawable.loadSpriteFont(Core.MEDIA.create(AppLionheart.SPRITES_DIR, "font.png"),
+                Core.MEDIA.create(AppLionheart.SPRITES_DIR, "fontdata.xml"), 12, 12);
         history = new Sprite[4];
         for (int i = 0; i < history.length; i++)
         {

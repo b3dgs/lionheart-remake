@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.entity.item;
 
-import com.b3dgs.lionheart.ThemeSwamp;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.ThemeSwamp;
 import com.b3dgs.lionheart.entity.EntityItem;
 import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.player.Valdyn;
