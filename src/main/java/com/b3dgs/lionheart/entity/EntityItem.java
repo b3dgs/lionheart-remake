@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
+import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.effect.Taken;
 import com.b3dgs.lionheart.entity.player.Valdyn;
@@ -41,7 +42,8 @@ public abstract class EntityItem
     {
         super(setup);
         factoryEffect = setup.level.factoryEffect;
-        play(getDataAnimation(status.getState().getAnimationName()));
+        final Configurable configurable = setup.getConfigurable();
+        play(configurable.getAnimation(status.getState().getAnimationName()));
     }
 
     /**

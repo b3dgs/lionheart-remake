@@ -22,6 +22,7 @@ import java.util.EnumMap;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.platform.CollisionTileCategory;
+import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
 
@@ -60,15 +61,16 @@ public abstract class EntityMover
         actions = new EnumMap<>(EntityAction.class);
         extraGravityForce = new Force();
         jumpForce = new Force();
-        jumpHeightMax = getDataDouble("heightMax", "data", "jump");
-        gravityMax = getDataDouble("gravityMax", "data");
+        final Configurable configurable = setup.getConfigurable();
+        jumpHeightMax = configurable.getDouble("heightMax", "data", "jump");
+        gravityMax = configurable.getDouble("gravityMax", "data");
         movement.setVelocity(0.2);
         movement.setSensibility(0.4);
         forces = new Force[]
         {
                 jumpForce, extraGravityForce, movement.getForce()
         };
-        setMass(getDataDouble("mass", "data"));
+        setMass(configurable.getDouble("mass", "data"));
         setGravityMax(gravityMax);
         addCollisionTile(EntityCollisionTileCategory.GROUND_CENTER, 0, 0);
     }

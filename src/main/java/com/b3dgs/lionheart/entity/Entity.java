@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.CollisionData;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
+import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionheart.Themed;
@@ -83,9 +84,10 @@ public abstract class Entity
         timerDie = new Timing();
         dieLocation = Geom.createCoord();
         forces = new Force[0];
-        loadCollisions(EntityCollision.values());
-        loadAnimations(EntityState.values());
-        setFrame(getDataAnimation(EntityState.IDLE.getAnimationName()).getFirst());
+        final Configurable configurable = setup.getConfigurable();
+        loadCollisions(configurable, EntityCollision.values());
+        loadAnimations(configurable, EntityState.values());
+        setFrame(configurable.getAnimation(EntityState.IDLE.getAnimationName()).getFirst());
     }
 
     /**
@@ -247,14 +249,15 @@ public abstract class Entity
      * Load all existing animations defined in the config file.
      * 
      * @param states The states to load.
+     * @param configurable The configurable reference.
      */
-    protected final void loadAnimations(State[] states)
+    protected final void loadAnimations(Configurable configurable, State[] states)
     {
         for (final State state : states)
         {
             try
             {
-                animations.put(state, getDataAnimation(state.getAnimationName()));
+                animations.put(state, configurable.getAnimation(state.getAnimationName()));
             }
             catch (final LionEngineException exception)
             {
@@ -267,14 +270,15 @@ public abstract class Entity
      * Load all collisions data.
      * 
      * @param values The collisions list.
+     * @param configurable The configurable reference.
      */
-    protected final void loadCollisions(Enum<?>[] values)
+    protected final void loadCollisions(Configurable configurable, Enum<?>[] values)
     {
         for (final Enum<?> collision : values)
         {
             try
             {
-                collisions.put(collision, getDataCollision(collision.toString()));
+                collisions.put(collision, configurable.getCollision(collision.toString()));
             }
             catch (final LionEngineException exception)
             {

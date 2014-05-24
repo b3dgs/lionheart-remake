@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.file.FileReading;
 import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Alterable;
+import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.effect.ExplodeBig;
 import com.b3dgs.lionheart.effect.FactoryEffect;
@@ -54,7 +55,8 @@ public class EntityMonster
     public EntityMonster(SetupEntity setup)
     {
         super(setup);
-        life = new Alterable(getDataInteger("normal", "life"));
+        final Configurable configurable = setup.getConfigurable();
+        life = new Alterable(configurable.getInteger("normal", "life"));
         timerHurt = new Timing();
         factoryEffect = setup.level.factoryEffect;
         patroller = new PatrollerModel(this);

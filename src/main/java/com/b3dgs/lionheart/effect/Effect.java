@@ -18,12 +18,14 @@
 package com.b3dgs.lionheart.effect;
 
 import com.b3dgs.lionengine.anim.AnimState;
+import com.b3dgs.lionengine.anim.Animation;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.effect.EffectGame;
+import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionengine.game.purview.Rasterable;
 import com.b3dgs.lionengine.game.purview.model.RasterableModel;
 import com.b3dgs.lionheart.map.Map;
@@ -41,6 +43,8 @@ public class Effect
     private final Rasterable rasterable;
     /** Sprite. */
     private final SpriteAnimated sprite;
+    /** Animation. */
+    private final Animation animStart;
     /** Index. */
     private int index;
 
@@ -52,8 +56,10 @@ public class Effect
     public Effect(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        final int horizontalFrames = getDataInteger("horizontal", "lionengine:frames");
-        final int verticalFrames = getDataInteger("vertical", "lionengine:frames");
+        final Configurable configurable = setup.getConfigurable();
+        final int horizontalFrames = configurable.getInteger("horizontal", "lionengine:frames");
+        final int verticalFrames = configurable.getInteger("vertical", "lionengine:frames");
+        animStart = configurable.getAnimation("start");
         sprite = Drawable.loadSpriteAnimated(setup.surface, horizontalFrames, verticalFrames);
         rasterable = new RasterableModel(setup, Map.TILE_HEIGHT);
         setSize(sprite.getFrameWidth(), sprite.getFrameHeight());
@@ -68,7 +74,7 @@ public class Effect
     public void start(int x, int y)
     {
         teleport(x, y);
-        sprite.play(getDataAnimation("start"));
+        sprite.play(animStart);
     }
 
     /*
