@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.map.Map;
 
 /**

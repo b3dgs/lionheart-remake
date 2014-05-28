@@ -23,14 +23,14 @@ import java.util.HashMap;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
-import com.b3dgs.lionengine.game.CollisionData;
+import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
-import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.Themed;
 import com.b3dgs.lionheart.map.Map;
 
@@ -48,7 +48,7 @@ public abstract class Entity
     /** Animations list. */
     protected final HashMap<State, Animation> animations;
     /** Collisions data. */
-    protected final HashMap<Enum<?>, CollisionData> collisions;
+    protected final HashMap<Enum<?>, Collision> collisions;
     /** Entity status. */
     public final EntityStatus status;
     /** Dead timer. */

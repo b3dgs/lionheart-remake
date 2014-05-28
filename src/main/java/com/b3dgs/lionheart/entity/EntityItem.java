@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import com.b3dgs.lionengine.game.purview.Configurable;
+import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.effect.Taken;
 import com.b3dgs.lionheart.entity.player.Valdyn;

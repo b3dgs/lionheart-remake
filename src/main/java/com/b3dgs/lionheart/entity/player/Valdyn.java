@@ -24,13 +24,13 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.game.CameraGame;
-import com.b3dgs.lionengine.game.CollisionData;
+import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.CoordTile;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.game.platform.CollisionTileCategory;
 import com.b3dgs.lionengine.game.purview.Collidable;
-import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.entity.Entity;
@@ -300,7 +300,7 @@ public final class Valdyn
      * @param key The collision key.
      * @return The collision data.
      */
-    CollisionData getCollisionData(Enum<?> key)
+    Collision getCollisionData(Enum<?> key)
     {
         return collisions.get(key);
     }

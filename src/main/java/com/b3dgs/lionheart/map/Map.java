@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.util.List;
 
 import com.b3dgs.lionengine.core.Core;
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
-import com.b3dgs.lionengine.file.XmlNode;
 import com.b3dgs.lionengine.game.map.MapTileGame;
 import com.b3dgs.lionengine.game.platform.map.MapTilePlatformRastered;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
+import com.b3dgs.lionengine.stream.XmlNode;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 

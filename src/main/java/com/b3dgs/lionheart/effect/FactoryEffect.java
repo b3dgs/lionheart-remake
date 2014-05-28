@@ -88,6 +88,6 @@ public class FactoryEffect
         {
             raster = null;
         }
-        return new SetupSurfaceRasteredGame(config, raster, false);
+        return new SetupSurfaceRasteredGame(config, false, raster, false);
     }
 }

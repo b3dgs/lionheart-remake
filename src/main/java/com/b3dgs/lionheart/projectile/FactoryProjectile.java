@@ -50,6 +50,6 @@ public class FactoryProjectile
         final ThemeType theme = ThemeType.getType(type);
         final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");
 
-        return new SetupSurfaceGame(media);
+        return new SetupSurfaceGame(media, false);
     }
 }

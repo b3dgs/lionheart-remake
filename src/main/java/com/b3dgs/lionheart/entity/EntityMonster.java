@@ -21,10 +21,10 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.AnimState;
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Alterable;
-import com.b3dgs.lionengine.game.purview.Configurable;
+import com.b3dgs.lionengine.game.configurable.Configurable;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.effect.ExplodeBig;
 import com.b3dgs.lionheart.effect.FactoryEffect;

@@ -35,13 +35,13 @@ import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Mouse;
-import com.b3dgs.lionengine.file.File;
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.CoordTile;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionengine.geom.Rectangle;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
+import com.b3dgs.lionengine.stream.Stream;
 import com.b3dgs.lionheart.Editor;
 import com.b3dgs.lionheart.Level;
 import com.b3dgs.lionheart.WorldData;
@@ -185,7 +185,7 @@ public final class WorldPanel
      */
     public void save(Media media) throws IOException
     {
-        try (final FileWriting file = File.createFileWriting(media);)
+        try (final FileWriting file = Stream.createFileWriting(media);)
         {
             level.save(file);
         }
@@ -199,7 +199,7 @@ public final class WorldPanel
      */
     public void load(Media media) throws IOException
     {
-        try (final FileReading file = File.createFileReading(media);)
+        try (final FileReading file = Stream.createFileReading(media);)
         {
             level.load(file);
         }

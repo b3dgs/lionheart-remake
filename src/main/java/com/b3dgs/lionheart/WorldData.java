@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeMap;
 
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.CoordTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.map.Map;
 
 /**

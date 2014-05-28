@@ -21,8 +21,8 @@ import java.util.EnumMap;
 
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
+import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.platform.CollisionTileCategory;
-import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
 

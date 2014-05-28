@@ -42,7 +42,7 @@ public class SetupEntity
      */
     public SetupEntity(Media config, Media rasterFile, boolean smoothRaster, Level level)
     {
-        super(config, rasterFile, smoothRaster);
+        super(config, false, rasterFile, smoothRaster);
         if (level == null)
         {
             this.level = new Level();

@@ -20,9 +20,9 @@ package com.b3dgs.lionheart.entity.monster;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.Timing;
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.ThemeSwamp;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.EntityMonster;

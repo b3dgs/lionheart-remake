@@ -29,12 +29,12 @@ import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
-import com.b3dgs.lionengine.file.XmlNode;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.Movement;
+import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.purview.Collidable;
-import com.b3dgs.lionengine.game.purview.Configurable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
+import com.b3dgs.lionengine.stream.XmlNode;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.Sfx;
@@ -512,7 +512,7 @@ final class ValdynAttack
      */
     private void loadAttacks(Configurable configurable)
     {
-        for (final XmlNode animation : configurable.getDataRoot().getChildren("animation"))
+        for (final XmlNode animation : configurable.getRoot().getChildren("animation"))
         {
             final Set<ValdynAttackData> set = new HashSet<>(1);
             for (final XmlNode attackNode : animation.getChildren("attack"))

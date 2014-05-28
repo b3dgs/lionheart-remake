@@ -20,10 +20,10 @@ package com.b3dgs.lionheart.entity;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.anim.AnimState;
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.ThemeSwamp;
 
 /**

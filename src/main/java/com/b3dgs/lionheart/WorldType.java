@@ -20,8 +20,8 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 import java.util.Locale;
 
-import com.b3dgs.lionengine.file.FileReading;
-import com.b3dgs.lionengine.file.FileWriting;
+import com.b3dgs.lionengine.stream.FileReading;
+import com.b3dgs.lionengine.stream.FileWriting;
 
 /**
  * List of world types.
