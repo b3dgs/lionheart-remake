@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.entity;
 
 import java.util.EnumSet;
 
-import com.b3dgs.lionengine.game.platform.CollisionTileCategory;
+import com.b3dgs.lionengine.game.map.CollisionTileCategory;
 import com.b3dgs.lionheart.map.TileCollision;
 
 /**

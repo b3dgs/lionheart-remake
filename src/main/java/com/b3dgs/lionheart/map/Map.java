@@ -22,7 +22,7 @@ import java.util.List;
 
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.game.map.MapTileGame;
-import com.b3dgs.lionengine.game.platform.map.MapTilePlatformRastered;
+import com.b3dgs.lionengine.game.map.MapTileGameRastered;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionengine.stream.XmlNode;
@@ -35,7 +35,7 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Map
-        extends MapTilePlatformRastered<TileCollision, Tile>
+        extends MapTileGameRastered<TileCollision, Tile>
 {
     /** Tile width. */
     public static final int TILE_WIDTH = 16;
