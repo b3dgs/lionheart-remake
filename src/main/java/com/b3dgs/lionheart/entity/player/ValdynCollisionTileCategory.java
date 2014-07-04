@@ -17,8 +17,9 @@
  */
 package com.b3dgs.lionheart.entity.player;
 
-import java.util.EnumSet;
+import java.util.Set;
 
+import com.b3dgs.lionengine.game.map.CollisionTile;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
 import com.b3dgs.lionheart.map.TileCollision;
 
@@ -27,7 +28,7 @@ import com.b3dgs.lionheart.map.TileCollision;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum ValdynCollisionTileCategory implements CollisionTileCategory<TileCollision>
+public enum ValdynCollisionTileCategory implements CollisionTileCategory
 {
     /** Ground leg left. */
     LEG_LEFT(TileCollision.COLLISION_VERTICAL),
@@ -45,20 +46,20 @@ public enum ValdynCollisionTileCategory implements CollisionTileCategory<TileCol
     HAND_GROUND_HOOCKABLE(TileCollision.COLLISION_GROUND_HOOCKABLE);
 
     /** The collisions list. */
-    private final EnumSet<TileCollision> collisions;
+    private final Set<CollisionTile> collisions;
 
     /**
      * Constructor.
      * 
      * @param collisions The collisions list.
      */
-    private ValdynCollisionTileCategory(EnumSet<TileCollision> collisions)
+    private ValdynCollisionTileCategory(Set<CollisionTile> collisions)
     {
         this.collisions = collisions;
     }
 
     @Override
-    public EnumSet<TileCollision> getCollisions()
+    public Set<CollisionTile> getCollisions()
     {
         return collisions;
     }

@@ -24,7 +24,6 @@ import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
 import com.b3dgs.lionheart.map.Tile;
-import com.b3dgs.lionheart.map.TileCollision;
 
 /**
  * Abstract entity base implementation designed to move around the map.
@@ -175,7 +174,7 @@ public abstract class EntityMover
      * @param category The collision category.
      * @return The tile found.
      */
-    protected Tile checkCollisionHorizontal(CollisionTileCategory<TileCollision> category)
+    protected Tile checkCollisionHorizontal(CollisionTileCategory category)
     {
         final Tile tile = getCollisionTile(map, category);
         if (tile != null)

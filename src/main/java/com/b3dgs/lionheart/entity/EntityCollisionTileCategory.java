@@ -17,8 +17,9 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import java.util.EnumSet;
+import java.util.Set;
 
+import com.b3dgs.lionengine.game.map.CollisionTile;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
 import com.b3dgs.lionheart.map.TileCollision;
 
@@ -27,26 +28,26 @@ import com.b3dgs.lionheart.map.TileCollision;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum EntityCollisionTileCategory implements CollisionTileCategory<TileCollision>
+public enum EntityCollisionTileCategory implements CollisionTileCategory
 {
     /** Default ground center collision. */
     GROUND_CENTER(TileCollision.COLLISION_VERTICAL);
 
     /** The collisions list. */
-    private final EnumSet<TileCollision> collisions;
+    private final Set<CollisionTile> collisions;
 
     /**
      * Constructor.
      * 
      * @param collisions The collisions list.
      */
-    private EntityCollisionTileCategory(EnumSet<TileCollision> collisions)
+    private EntityCollisionTileCategory(Set<CollisionTile> collisions)
     {
         this.collisions = collisions;
     }
 
     @Override
-    public EnumSet<TileCollision> getCollisions()
+    public Set<CollisionTile> getCollisions()
     {
         return collisions;
     }

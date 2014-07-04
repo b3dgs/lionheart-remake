@@ -555,7 +555,7 @@ public final class Valdyn
      * @param mirror The mirror to apply.
      * @return The tile hit.
      */
-    private Tile checkCollisionExtremity(CollisionTileCategory<TileCollision> category, boolean mirror)
+    private Tile checkCollisionExtremity(CollisionTileCategory category, boolean mirror)
     {
         final Tile tile = getCollisionTile(map, category);
         if (tile != null)

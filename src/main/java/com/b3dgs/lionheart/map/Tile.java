@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.map;
 
+import com.b3dgs.lionengine.game.map.CollisionTile;
 import com.b3dgs.lionengine.game.map.TileGame;
 import com.b3dgs.lionengine.game.purview.Localizable;
 
@@ -26,15 +27,15 @@ import com.b3dgs.lionengine.game.purview.Localizable;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Tile
-        extends TileGame<TileCollision>
+        extends TileGame
 {
     /** Half tile height, corresponding to the collision height location on tile. */
     protected final int halfTileHeight;
 
     /**
-     * @see TileGame#TileGame(int, int, Integer, int, Enum)
+     * @see TileGame#TileGame(int, int, Integer, int, CollisionTile)
      */
-    public Tile(int width, int height, Integer pattern, int number, TileCollision collision)
+    public Tile(int width, int height, Integer pattern, int number, CollisionTile collision)
     {
         super(width, height, pattern, number, collision);
         halfTileHeight = height / 2;
@@ -142,12 +143,18 @@ public class Tile
     }
 
     /*
-     * TilePlatform
+     * TileGame
      */
 
     @Override
     public int getTop()
     {
         return super.getBottom();
+    }
+
+    @Override
+    public TileCollision getCollision()
+    {
+        return (TileCollision) super.getCollision();
     }
 }

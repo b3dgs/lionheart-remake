@@ -21,7 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.b3dgs.lionengine.core.Core;
-import com.b3dgs.lionengine.game.map.MapTileGame;
+import com.b3dgs.lionengine.game.map.CollisionTile;
+import com.b3dgs.lionengine.game.map.MapTile;
 import com.b3dgs.lionengine.game.map.MapTileGameRastered;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
@@ -35,7 +36,7 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Map
-        extends MapTileGameRastered<TileCollision, Tile>
+        extends MapTileGameRastered<Tile>
 {
     /** Tile width. */
     public static final int TILE_WIDTH = 16;
@@ -69,7 +70,7 @@ public class Map
      */
     public Map()
     {
-        super(Map.TILE_WIDTH, Map.TILE_HEIGHT);
+        super(Map.TILE_WIDTH, Map.TILE_HEIGHT, TileCollision.values());
     }
 
     /**
@@ -86,11 +87,11 @@ public class Map
     }
 
     /*
-     * MapTilePlatformRastered
+     * MapTileGameRastered
      */
 
     @Override
-    public Tile createTile(int width, int height, Integer pattern, int number, TileCollision collision)
+    public Tile createTile(int width, int height, Integer pattern, int number, CollisionTile collision)
     {
         return new Tile(width, height, pattern, number, collision);
     }
@@ -114,7 +115,7 @@ public class Map
     {
         file.writeByte(Map.toByte(tile.getPattern().intValue()));
         file.writeByte(Map.toByte(tile.getNumber()));
-        file.writeByte(Map.toByte(tile.getX() / tileWidth % MapTileGame.BLOC_SIZE));
+        file.writeByte(Map.toByte(tile.getX() / tileWidth % MapTile.BLOC_SIZE));
         file.writeByte(Map.toByte(tile.getY() / tileHeight));
     }
 
@@ -128,7 +129,7 @@ public class Map
         final TileCollision collision = getCollisionFrom(getCollision(nodes, pattern, number));
         final Tile tile = createTile(tileWidth, tileHeight, Integer.valueOf(pattern), number, collision);
 
-        tile.setX((x + i * MapTileGame.BLOC_SIZE) * tileWidth);
+        tile.setX((x + i * MapTile.BLOC_SIZE) * tileWidth);
         tile.setY(y * tileHeight);
 
         return tile;
