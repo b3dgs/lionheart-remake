@@ -41,9 +41,6 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
 public class FactoryEntity
         extends FactoryObjectGame<SetupEntity, Entity>
 {
-    /** Unknown entity error message. */
-    public static final String UNKNOWN_ENTITY_ERROR = "Unknown entity: ";
-
     /** Level used. */
     protected Level level;
     /** Landscape used. */
