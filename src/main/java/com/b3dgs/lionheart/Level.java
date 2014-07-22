@@ -93,7 +93,8 @@ public class Level
         this.factoryLauncher = factoryLauncher;
         this.factoryProjectile = factoryProjectile;
         handlerEffect = new HandlerEffect(camera);
-        factoryEffect = new FactoryEffect(handlerEffect);
+        factoryEffect = new FactoryEffect();
+        factoryEffect.setHandlerEffect(handlerEffect);
         map = new Map();
         worldData = new WorldData(map);
         this.desiredFps = desiredFps;

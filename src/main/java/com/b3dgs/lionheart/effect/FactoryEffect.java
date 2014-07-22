@@ -33,19 +33,16 @@ public class FactoryEffect
         extends FactoryObjectGame<SetupSurfaceRasteredGame, Effect>
 {
     /** Handler effect reference. */
-    private final HandlerEffect handlerEffect;
+    private HandlerEffect handlerEffect;
     /** Landscape used. */
     private LandscapeType landscape;
 
     /**
      * Constructor.
-     * 
-     * @param handlerEffect The handler effect reference.
      */
-    public FactoryEffect(HandlerEffect handlerEffect)
+    public FactoryEffect()
     {
         super(AppLionheart.EFFECTS_DIR);
-        this.handlerEffect = handlerEffect;
     }
 
     /**
@@ -60,6 +57,16 @@ public class FactoryEffect
         final Effect effect = create(type);
         effect.start(x, y);
         handlerEffect.add(effect);
+    }
+
+    /**
+     * Set the handler effect type used.
+     * 
+     * @param handlerEffect The handler effect type used.
+     */
+    public void setHandlerEffect(HandlerEffect handlerEffect)
+    {
+        this.handlerEffect = handlerEffect;
     }
 
     /**
