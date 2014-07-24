@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.map.MapTileGameRastered;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionengine.stream.XmlNode;
+import com.b3dgs.lionengine.utility.UtilMapTile;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
@@ -126,7 +127,7 @@ public class Map
         final int number = Map.fromByte(file.readByte());
         final int x = Map.fromByte(file.readByte());
         final int y = Map.fromByte(file.readByte());
-        final TileCollision collision = getCollisionFrom(getCollision(nodes, pattern, number));
+        final TileCollision collision = getCollisionFrom(UtilMapTile.getCollision(nodes, pattern, number));
         final Tile tile = createTile(tileWidth, tileHeight, Integer.valueOf(pattern), number, collision);
 
         tile.setX((x + i * MapTile.BLOC_SIZE) * tileWidth);
