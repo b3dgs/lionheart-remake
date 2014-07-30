@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
+import com.b3dgs.lionengine.game.purview.Fabricable;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.CategoryType;
@@ -39,7 +40,7 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class FactoryEntity
-        extends FactoryObjectGame<SetupEntity, Entity>
+        extends FactoryObjectGame<SetupEntity>
 {
     /** Level used. */
     protected Level level;
@@ -104,7 +105,7 @@ public class FactoryEntity
      */
 
     @Override
-    protected SetupEntity createSetup(Class<? extends Entity> type, Media config)
+    protected SetupEntity createSetup(Class<? extends Fabricable> type, Media config)
     {
         final CategoryType category = CategoryType.getType(type);
         final ThemeType theme = ThemeType.getType(type);

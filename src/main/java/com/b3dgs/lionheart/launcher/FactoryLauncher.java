@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.launcher;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
+import com.b3dgs.lionengine.game.purview.Fabricable;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.projectile.FactoryProjectile;
@@ -31,7 +32,7 @@ import com.b3dgs.lionheart.projectile.HandlerProjectile;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class FactoryLauncher
-        extends FactoryObjectGame<SetupLauncher, Launcher>
+        extends FactoryObjectGame<SetupLauncher>
 {
     /** Factory projectile. */
     private final FactoryProjectile factory;
@@ -56,7 +57,7 @@ public class FactoryLauncher
      */
 
     @Override
-    protected SetupLauncher createSetup(Class<? extends Launcher> type, Media config)
+    protected SetupLauncher createSetup(Class<? extends Fabricable> type, Media config)
     {
         final ThemeType theme = ThemeType.getType(type);
         final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");

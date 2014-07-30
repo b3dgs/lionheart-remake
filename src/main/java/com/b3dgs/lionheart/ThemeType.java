@@ -39,7 +39,7 @@ public enum ThemeType
      * @param type The class type.
      * @return The enum folder type.
      */
-    public static ThemeType getType(Class<? extends Themed> type)
+    public static ThemeType getType(Class<?> type)
     {
         if (ThemeSwamp.class.isAssignableFrom(type))
         {

@@ -23,10 +23,10 @@ import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
+import com.b3dgs.lionengine.game.ObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.configurable.FramesData;
-import com.b3dgs.lionengine.game.effect.EffectGame;
 import com.b3dgs.lionengine.game.purview.Rasterable;
 import com.b3dgs.lionengine.game.purview.model.RasterableModel;
 import com.b3dgs.lionheart.map.Map;
@@ -37,7 +37,7 @@ import com.b3dgs.lionheart.map.Map;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Effect
-        extends EffectGame
+        extends ObjectGame
         implements Rasterable
 {
     /** Raster model. */

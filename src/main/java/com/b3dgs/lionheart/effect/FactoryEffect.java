@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
+import com.b3dgs.lionengine.game.purview.Fabricable;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
@@ -30,7 +31,7 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class FactoryEffect
-        extends FactoryObjectGame<SetupSurfaceRasteredGame, Effect>
+        extends FactoryObjectGame<SetupSurfaceRasteredGame>
 {
     /** Handler effect reference. */
     private HandlerEffect handlerEffect;
@@ -84,7 +85,7 @@ public class FactoryEffect
      */
 
     @Override
-    protected SetupSurfaceRasteredGame createSetup(Class<? extends Effect> type, Media config)
+    protected SetupSurfaceRasteredGame createSetup(Class<? extends Fabricable> type, Media config)
     {
         final Media raster;
         if (AppLionheart.RASTER_ENABLED)

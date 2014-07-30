@@ -19,7 +19,6 @@ package com.b3dgs.lionheart;
 
 import java.util.Locale;
 
-import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityItem;
 import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.EntityScenery;
@@ -49,7 +48,7 @@ public enum CategoryType
      * @param type The class type.
      * @return The enum folder type.
      */
-    public static CategoryType getType(Class<? extends Entity> type)
+    public static CategoryType getType(Class<?> type)
     {
         if (EntityItem.class.isAssignableFrom(type))
         {

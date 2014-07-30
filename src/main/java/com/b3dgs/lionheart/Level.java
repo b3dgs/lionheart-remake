@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
+import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
@@ -38,6 +39,7 @@ import com.b3dgs.lionheart.projectile.FactoryProjectile;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Level
+        implements ContextGame
 {
     /** Level file format. */
     public static final String FILE_FORMAT = "lrm";
