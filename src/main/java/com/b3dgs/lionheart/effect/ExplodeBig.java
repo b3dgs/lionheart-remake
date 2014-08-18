@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.effect;
 
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 
 /**
@@ -27,6 +28,9 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 public class ExplodeBig
         extends Effect
 {
+    /** Class media. */
+    public static final Media MEDIA = Effect.getConfig(ExplodeBig.class);
+
     /**
      * @see Effect#Effect(SetupSurfaceRasteredGame)
      */

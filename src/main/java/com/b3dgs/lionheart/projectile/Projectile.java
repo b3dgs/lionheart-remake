@@ -18,13 +18,17 @@
 package com.b3dgs.lionheart.projectile;
 
 import com.b3dgs.lionengine.anim.Anim;
+import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
+import com.b3dgs.lionengine.game.ContextGame;
+import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
 import com.b3dgs.lionengine.game.projectile.ProjectileGame;
-import com.b3dgs.lionheart.Themed;
+import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.entity.Entity;
 
 /**
@@ -34,8 +38,19 @@ import com.b3dgs.lionheart.entity.Entity;
  */
 public abstract class Projectile
         extends ProjectileGame<Entity, Entity>
-        implements Themed
 {
+    /**
+     * Get a projectile configuration file.
+     * 
+     * @param type The config associated class.
+     * @return The media config.
+     */
+    public static Media getConfig(Class<? extends Projectile> type)
+    {
+        return Core.MEDIA.create(AppLionheart.PROJECTILES_DIR, type.getSimpleName() + "."
+                + FactoryObjectGame.FILE_DATA_EXTENSION);
+    }
+
     /** Surface. */
     private final SpriteAnimated sprite;
 
@@ -54,6 +69,12 @@ public abstract class Projectile
     /*
      * ProjectileGame
      */
+
+    @Override
+    public void prepare(ContextGame context)
+    {
+        // Nothing to do
+    }
 
     @Override
     public void update(double extrp)

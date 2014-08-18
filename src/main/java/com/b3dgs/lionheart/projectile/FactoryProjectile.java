@@ -17,13 +17,10 @@
  */
 package com.b3dgs.lionheart.projectile;
 
-import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
-import com.b3dgs.lionengine.game.purview.Fabricable;
 import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.ThemeType;
 
 /**
  * Projectile factory.
@@ -46,11 +43,8 @@ public class FactoryProjectile
      */
 
     @Override
-    protected SetupSurfaceGame createSetup(Class<? extends Fabricable> type, Media config)
+    protected SetupSurfaceGame createSetup(Media config)
     {
-        final ThemeType theme = ThemeType.getType(type);
-        final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");
-
-        return new SetupSurfaceGame(media);
+        return new SetupSurfaceGame(config);
     }
 }

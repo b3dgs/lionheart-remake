@@ -21,6 +21,7 @@ import java.util.EnumMap;
 
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
+import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
 import com.b3dgs.lionheart.map.Tile;
@@ -51,9 +52,9 @@ public abstract class EntityMover
     protected double movementSpeedMax;
 
     /**
-     * @see Entity#Entity(SetupEntity)
+     * @see Entity#Entity(SetupSurfaceRasteredGame)
      */
-    public EntityMover(SetupEntity setup)
+    public EntityMover(SetupSurfaceRasteredGame setup)
     {
         super(setup);
         movement = new Movement();

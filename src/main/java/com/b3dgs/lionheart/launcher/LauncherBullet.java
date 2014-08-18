@@ -17,7 +17,8 @@
  */
 package com.b3dgs.lionheart.launcher;
 
-import com.b3dgs.lionheart.ThemeSwamp;
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.game.SetupGame;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.projectile.Bullet;
 
@@ -28,14 +29,16 @@ import com.b3dgs.lionheart.projectile.Bullet;
  */
 public class LauncherBullet
         extends Launcher
-        implements ThemeSwamp
 {
+    /** Class media. */
+    public static final Media MEDIA = Launcher.getConfig(LauncherBullet.class);
+
     /**
      * Constructor.
      * 
      * @param setup The setup reference.
      */
-    public LauncherBullet(SetupLauncher setup)
+    public LauncherBullet(SetupGame setup)
     {
         super(setup);
     }
@@ -47,6 +50,6 @@ public class LauncherBullet
     @Override
     protected void launchProjectile(Entity owner, Entity target)
     {
-        addProjectile(Bullet.class, 1, target, 1.0, 0, 0);
+        addProjectile(Bullet.MEDIA, 1, target, 1.0, 0, 0);
     }
 }

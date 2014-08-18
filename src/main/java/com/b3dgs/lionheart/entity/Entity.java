@@ -23,15 +23,22 @@ import java.util.HashMap;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.Animation;
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.Collision;
+import com.b3dgs.lionengine.game.ContextGame;
+import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
-import com.b3dgs.lionheart.Themed;
+import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.CategoryType;
+import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -41,10 +48,21 @@ import com.b3dgs.lionheart.map.Map;
  */
 public abstract class Entity
         extends EntityPlatformRastered
-        implements Themed
 {
-    /** Map reference. */
-    protected final Map map;
+    /**
+     * Get an entity configuration file.
+     * 
+     * @param category The category type.
+     * @param theme The theme type.
+     * @param type The config associated class.
+     * @return The media config.
+     */
+    protected static Media getConfig(CategoryType category, ThemeType theme, Class<? extends Entity> type)
+    {
+        return Core.MEDIA.create(AppLionheart.ENTITIES_DIR, category.getPath(), theme.getPath(), type.getSimpleName()
+                + "." + FactoryObjectGame.FILE_DATA_EXTENSION);
+    }
+
     /** Animations list. */
     protected final HashMap<State, Animation> animations;
     /** Collisions data. */
@@ -53,10 +71,10 @@ public abstract class Entity
     public final EntityStatus status;
     /** Dead timer. */
     protected final Timing timerDie;
-    /** Desired fps value. */
-    private final int desiredFps;
     /** Forces used. */
     private final Force[] forces;
+    /** Map reference. */
+    protected Map map;
     /** Mouse over state. */
     protected boolean over;
     /** Selected state. */
@@ -65,6 +83,8 @@ public abstract class Entity
     protected int stepDie;
     /** Die location. */
     protected Coord dieLocation;
+    /** Desired fps value. */
+    private int desiredFps;
     /** Dead flag. */
     private boolean dead;
 
@@ -73,11 +93,9 @@ public abstract class Entity
      * 
      * @param setup The setup reference.
      */
-    protected Entity(SetupEntity setup)
+    protected Entity(SetupSurfaceRasteredGame setup)
     {
         super(setup, Map.TILE_HEIGHT);
-        map = setup.level.map;
-        desiredFps = setup.level.desiredFps;
         status = new EntityStatus();
         animations = new HashMap<>(4);
         collisions = new HashMap<>(4);
@@ -301,6 +319,13 @@ public abstract class Entity
     /*
      * EntityPlatform
      */
+
+    @Override
+    public void prepare(ContextGame context)
+    {
+        map = context.getService(Map.class);
+        desiredFps = context.getService(Integer.class).intValue();
+    }
 
     @Override
     protected void handleActions(double extrp)

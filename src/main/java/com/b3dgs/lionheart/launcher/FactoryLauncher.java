@@ -17,14 +17,10 @@
  */
 package com.b3dgs.lionheart.launcher;
 
-import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
-import com.b3dgs.lionengine.game.purview.Fabricable;
+import com.b3dgs.lionengine.game.SetupGame;
 import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.projectile.FactoryProjectile;
-import com.b3dgs.lionheart.projectile.HandlerProjectile;
 
 /**
  * Factory launcher base.
@@ -32,24 +28,14 @@ import com.b3dgs.lionheart.projectile.HandlerProjectile;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class FactoryLauncher
-        extends FactoryObjectGame<SetupLauncher>
+        extends FactoryObjectGame<SetupGame>
 {
-    /** Factory projectile. */
-    private final FactoryProjectile factory;
-    /** Projectile handler. */
-    private final HandlerProjectile handler;
-
     /**
      * Constructor.
-     * 
-     * @param factory The factory projectile reference.
-     * @param handler The projectile handler reference.
      */
-    public FactoryLauncher(FactoryProjectile factory, HandlerProjectile handler)
+    public FactoryLauncher()
     {
         super(AppLionheart.LAUNCHERS_DIR);
-        this.factory = factory;
-        this.handler = handler;
     }
 
     /*
@@ -57,11 +43,8 @@ public class FactoryLauncher
      */
 
     @Override
-    protected SetupLauncher createSetup(Class<? extends Fabricable> type, Media config)
+    protected SetupGame createSetup(Media config)
     {
-        final ThemeType theme = ThemeType.getType(type);
-        final Media media = Core.MEDIA.create(folder, theme.getPath(), type.getSimpleName() + ".xml");
-
-        return new SetupLauncher(media, factory, handler);
+        return new SetupGame(config);
     }
 }

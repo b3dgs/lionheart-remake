@@ -21,7 +21,10 @@ import java.util.Locale;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilConversion;
+import com.b3dgs.lionheart.entity.item.EntityItem;
+import com.b3dgs.lionheart.entity.monster.EntityMonster;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.scenery.EntityScenery;
 
 /**
  * List of entity categories.

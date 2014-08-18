@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.projectile;
 
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.SetupSurfaceGame;
-import com.b3dgs.lionheart.ThemeSwamp;
 
 /**
  * Bullet projectile implementation.
@@ -27,8 +27,10 @@ import com.b3dgs.lionheart.ThemeSwamp;
  */
 public class Bullet
         extends Projectile
-        implements ThemeSwamp
 {
+    /** Class media. */
+    public static final Media MEDIA = Projectile.getConfig(Bullet.class);
+
     /**
      * Constructor.
      * 

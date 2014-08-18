@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.game.purview.Fabricable;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
@@ -49,13 +48,13 @@ public class FactoryEffect
     /**
      * Start an effect an the specified location.
      * 
-     * @param type The effect type.
+     * @param config The effect config.
      * @param x The horizontal location.
      * @param y The vertical location.
      */
-    public void startEffect(Class<? extends Effect> type, int x, int y)
+    public void startEffect(Media config, int x, int y)
     {
-        final Effect effect = create(type);
+        final Effect effect = create(config);
         effect.start(x, y);
         handlerEffect.add(effect);
     }
@@ -85,7 +84,7 @@ public class FactoryEffect
      */
 
     @Override
-    protected SetupSurfaceRasteredGame createSetup(Class<? extends Fabricable> type, Media config)
+    protected SetupSurfaceRasteredGame createSetup(Media config)
     {
         final Media raster;
         if (AppLionheart.RASTER_ENABLED)

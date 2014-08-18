@@ -19,10 +19,10 @@ package com.b3dgs.lionheart;
 
 import java.util.Locale;
 
-import com.b3dgs.lionheart.entity.EntityItem;
-import com.b3dgs.lionheart.entity.EntityMonster;
-import com.b3dgs.lionheart.entity.EntityScenery;
+import com.b3dgs.lionheart.entity.item.EntityItem;
+import com.b3dgs.lionheart.entity.monster.EntityMonster;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.scenery.EntityScenery;
 
 /**
  * List of category types.

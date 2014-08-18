@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.ColorRgba;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
 import com.b3dgs.lionengine.core.Sequence;
+import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.WorldGame;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.stream.FileReading;
@@ -93,12 +94,31 @@ final class World
         handlerEntity = new HandlerEntity(camera, factoryEntity);
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
         factoryProjectile = new FactoryProjectile();
-        factoryLauncher = new FactoryLauncher(factoryProjectile, handlerProjectile);
-        level = new Level(camera, factoryEntity, handlerEntity, factoryLauncher, factoryProjectile, source.getRate());
-        factoryEntity.setLevel(level);
+        factoryLauncher = new FactoryLauncher();
+        level = new Level(camera, factoryEntity, handlerEntity);
         map = level.map;
         statsRenderer = new StatsRenderer(width);
         handlerEffect = level.handlerEffect;
+
+        createContextsAndPreparators();
+    }
+
+    /**
+     * Create the contexts and assign them.
+     */
+    private void createContextsAndPreparators()
+    {
+        final ContextGame contextEntity = new ContextGame();
+        contextEntity.addService(camera);
+        contextEntity.addService(map);
+        contextEntity.addService(Integer.valueOf(source.getRate()));
+
+        final ContextGame contextLauncher = new ContextGame();
+        contextLauncher.addService(factoryProjectile);
+        contextLauncher.addService(handlerProjectile);
+
+        factoryEntity.setContext(contextEntity);
+        factoryLauncher.setContext(contextLauncher);
     }
 
     /**
@@ -177,8 +197,7 @@ final class World
     protected void loading(FileReading file) throws IOException
     {
         level.load(file);
-        factoryEntity.setLevel(level);
-        player = factoryEntity.create(Valdyn.class);
+        player = factoryEntity.create(Valdyn.MEDIA);
         handlerEntity.setPlayer(player);
         landscape = factoryLandscape.createLandscape(level.getLandscape());
         player.setLandscape(landscape);

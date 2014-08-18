@@ -25,7 +25,10 @@ import com.b3dgs.lionengine.game.platform.entity.HandlerEntityPlatform;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.entity.item.EntityItem;
+import com.b3dgs.lionheart.entity.monster.EntityMonster;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.scenery.EntityScenery;
 import com.b3dgs.lionheart.map.Map;
 
 /**

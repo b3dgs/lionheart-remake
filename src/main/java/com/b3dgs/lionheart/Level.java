@@ -19,7 +19,6 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
@@ -29,9 +28,7 @@ import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.FactoryEntity;
 import com.b3dgs.lionheart.entity.HandlerEntity;
 import com.b3dgs.lionheart.landscape.LandscapeType;
-import com.b3dgs.lionheart.launcher.FactoryLauncher;
 import com.b3dgs.lionheart.map.Map;
-import com.b3dgs.lionheart.projectile.FactoryProjectile;
 
 /**
  * Represents a level and its data (world data, map, entities).
@@ -39,7 +36,6 @@ import com.b3dgs.lionheart.projectile.FactoryProjectile;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Level
-        implements ContextGame
 {
     /** Level file format. */
     public static final String FILE_FORMAT = "lrm";
@@ -57,12 +53,6 @@ public class Level
     public final HandlerEntity handlerEntity;
     /** Handler effect reference. */
     public final HandlerEffect handlerEffect;
-    /** Factory launcher. */
-    public final FactoryLauncher factoryLauncher;
-    /** Factory projectile. */
-    public final FactoryProjectile factoryProjectile;
-    /** Desired fps value. */
-    public final int desiredFps;
     /** World type. */
     private WorldType world;
     /** Landscape type. */
@@ -73,7 +63,7 @@ public class Level
      */
     public Level()
     {
-        this(null, null, null, null, null, 60);
+        this(null, null, null);
     }
 
     /**
@@ -82,24 +72,17 @@ public class Level
      * @param camera The camera reference.
      * @param factoryEntity The entity factory reference.
      * @param handlerEntity The entity handler reference.
-     * @param factoryLauncher The launcher factory reference.
-     * @param factoryProjectile The projectile factory reference.
-     * @param desiredFps The desired fps value.
      */
-    public Level(CameraPlatform camera, FactoryEntity factoryEntity, HandlerEntity handlerEntity,
-            FactoryLauncher factoryLauncher, FactoryProjectile factoryProjectile, int desiredFps)
+    public Level(CameraPlatform camera, FactoryEntity factoryEntity, HandlerEntity handlerEntity)
     {
         this.camera = camera;
         this.factoryEntity = factoryEntity;
         this.handlerEntity = handlerEntity;
-        this.factoryLauncher = factoryLauncher;
-        this.factoryProjectile = factoryProjectile;
         handlerEffect = new HandlerEffect(camera);
         factoryEffect = new FactoryEffect();
         factoryEffect.setHandlerEffect(handlerEffect);
         map = new Map();
         worldData = new WorldData(map);
-        this.desiredFps = desiredFps;
     }
 
     /**

@@ -17,8 +17,13 @@
  */
 package com.b3dgs.lionheart.launcher;
 
+import com.b3dgs.lionengine.core.Core;
+import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.game.ContextGame;
+import com.b3dgs.lionengine.game.FactoryObjectGame;
+import com.b3dgs.lionengine.game.SetupGame;
 import com.b3dgs.lionengine.game.projectile.LauncherProjectileGame;
-import com.b3dgs.lionheart.Themed;
+import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.projectile.Projectile;
 
@@ -29,21 +34,38 @@ import com.b3dgs.lionheart.projectile.Projectile;
  */
 public abstract class Launcher
         extends LauncherProjectileGame<Entity, Entity, Projectile>
-        implements Themed
 {
+    /**
+     * Get a launcher configuration file.
+     * 
+     * @param type The config associated class.
+     * @return The media config.
+     */
+    public static Media getConfig(Class<? extends Launcher> type)
+    {
+        return Core.MEDIA.create(AppLionheart.LAUNCHERS_DIR, type.getSimpleName() + "."
+                + FactoryObjectGame.FILE_DATA_EXTENSION);
+    }
+
     /**
      * Constructor.
      * 
      * @param setup The setup reference.
      */
-    public Launcher(SetupLauncher setup)
+    public Launcher(SetupGame setup)
     {
-        super(setup, setup.factory, setup.handler);
+        super(setup);
     }
 
     /*
      * LauncherProjectile
      */
+
+    @Override
+    protected void prepareProjectile(ContextGame context)
+    {
+        // Nothing to do
+    }
 
     @Override
     protected void launchProjectile(Entity owner)

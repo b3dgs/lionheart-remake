@@ -89,10 +89,9 @@ public final class AppLionheart
         {
             AppLionheart.RASTER_ENABLED = false;
             Theme.set(Theme.SYSTEM);
-            final Editor editor = new Editor();
             // final TileCollisionEditor<TileCollision, Tile> editor = new TileCollisionEditor<>(new Map(),
             // TileCollision.class);
-            editor.start();
+            // editor.start();
         }
         else
         {

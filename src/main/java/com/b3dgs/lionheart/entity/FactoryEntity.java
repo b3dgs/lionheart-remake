@@ -18,20 +18,14 @@
 package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
-import com.b3dgs.lionengine.game.purview.Fabricable;
+import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Level;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
 /**
@@ -40,10 +34,8 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class FactoryEntity
-        extends FactoryObjectGame<SetupEntity>
+        extends FactoryObjectGame<SetupSurfaceRasteredGame>
 {
-    /** Level used. */
-    protected Level level;
     /** Landscape used. */
     protected LandscapeType landscape;
 
@@ -75,19 +67,8 @@ public class FactoryEntity
     public Entity createEntity(FileReading file) throws IOException
     {
         final String name = file.readString();
-        final Class<? extends Entity> type = EntityType.CONVERTER.getType(name);
-
-        return create(type);
-    }
-
-    /**
-     * Set the level used.
-     * 
-     * @param level The level used.
-     */
-    public void setLevel(Level level)
-    {
-        this.level = level;
+        final Media config = Core.MEDIA.create(AppLionheart.ENTITIES_DIR, name + FactoryObjectGame.FILE_DATA_EXTENSION);
+        return create(config);
     }
 
     /**
@@ -105,23 +86,10 @@ public class FactoryEntity
      */
 
     @Override
-    protected SetupEntity createSetup(Class<? extends Fabricable> type, Media config)
+    protected SetupSurfaceRasteredGame createSetup(Media config)
     {
-        final CategoryType category = CategoryType.getType(type);
-        final ThemeType theme = ThemeType.getType(type);
-        final List<String> path = new ArrayList<>(1);
-        path.add(folder);
-        path.add(category.getPath());
-        if (theme != ThemeType.NONE)
-        {
-            path.add(theme.getPath());
-        }
-        path.add(type.getSimpleName() + ".xml");
-
-        final Media media = Core.MEDIA.create(path.toArray(new String[path.size()]));
-
         final Media raster;
-        if (AppLionheart.RASTER_ENABLED && type != Valdyn.class)
+        if (AppLionheart.RASTER_ENABLED)
         {
             raster = Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }
@@ -129,6 +97,6 @@ public class FactoryEntity
         {
             raster = null;
         }
-        return new SetupEntity(media, raster, false, level);
+        return new SetupSurfaceRasteredGame(config, false, raster, false);
     }
 }

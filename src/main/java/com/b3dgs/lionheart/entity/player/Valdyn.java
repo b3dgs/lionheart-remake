@@ -23,25 +23,29 @@ import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Keyboard;
+import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.Collision;
+import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.CoordTile;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurable.Configurable;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
 import com.b3dgs.lionengine.game.purview.Collidable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
+import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityAction;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.EntityCollisionTileCategory;
-import com.b3dgs.lionheart.entity.EntityMonster;
 import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.SetupEntity;
 import com.b3dgs.lionheart.entity.State;
+import com.b3dgs.lionheart.entity.monster.EntityMonster;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
@@ -56,6 +60,8 @@ import com.b3dgs.lionheart.map.TileCollisionGroup;
 public final class Valdyn
         extends EntityMover
 {
+    /** Class media. */
+    public static final Media MEDIA = Entity.getConfig(CategoryType.PLAYER, ThemeType.DEFAULT, Valdyn.class);
     /** The width of the tile extremity. */
     public static final int TILE_EXTREMITY_WIDTH = 3;
     /** The fall time margin (in milli). */
@@ -74,14 +80,10 @@ public final class Valdyn
     private static final int JUMP_TIME_MAX = 200;
     /** Valdyn stats. */
     public final Stats stats;
-    /** Valdyn tilt. */
-    private final ValdynTilt tilt;
     /** Valdyn attack. */
     private final ValdynAttack attack;
     /** Leg collision with scenery. */
     private final Collidable legCollision;
-    /** Camera reference. */
-    private final CameraPlatform camera;
     /** Jump timer (accurate precision of jump force). */
     private final Timing timerJump;
     /** Fall timer (used to determinate the falling state). */
@@ -98,6 +100,10 @@ public final class Valdyn
     private final double sensibilityDecrease;
     /** Movement smooth. */
     private final double movementSmooth;
+    /** Camera reference. */
+    private CameraPlatform camera;
+    /** Valdyn tilt. */
+    private ValdynTilt tilt;
     /** Checkpoints. */
     private Collection<CoordTile> checkpoints;
     /** Last checkpoint. */
@@ -128,10 +134,9 @@ public final class Valdyn
      * 
      * @param setup The setup reference.
      */
-    public Valdyn(SetupEntity setup)
+    public Valdyn(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        camera = setup.level.camera;
         timerJump = new Timing();
         timerFall = new Timing();
         timerFallen = new Timing();
@@ -147,7 +152,6 @@ public final class Valdyn
         legCollision = new CollidableModel(this);
         legCollision.setCollision(configurable.getCollision("leg"));
         stats = new Stats(this);
-        tilt = new ValdynTilt(this, movement, setup.level.map);
         attack = new ValdynAttack(configurable, this, movement);
         addCollisionTile(ValdynCollisionTileCategory.LEG_LEFT, -Valdyn.TILE_EXTREMITY_WIDTH, 0);
         addCollisionTile(ValdynCollisionTileCategory.LEG_RIGHT, Valdyn.TILE_EXTREMITY_WIDTH, 0);
@@ -648,6 +652,14 @@ public final class Valdyn
     /*
      * Entity
      */
+
+    @Override
+    public void prepare(ContextGame context)
+    {
+        super.prepare(context);
+        camera = context.getService(CameraPlatform.class);
+        tilt = new ValdynTilt(this, movement, context.getService(Map.class));
+    }
 
     @Override
     public void respawn()

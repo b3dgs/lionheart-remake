@@ -30,23 +30,8 @@ public enum ThemeType
     SWAMP,
     /** Ancient town theme. */
     ANCIENT_TOWN,
-    /** None. */
-    NONE;
-
-    /**
-     * Get the theme enum from the class type.
-     * 
-     * @param type The class type.
-     * @return The enum folder type.
-     */
-    public static ThemeType getType(Class<?> type)
-    {
-        if (ThemeSwamp.class.isAssignableFrom(type))
-        {
-            return SWAMP;
-        }
-        return NONE;
-    }
+    /** Default. */
+    DEFAULT;
 
     /**
      * Get the theme path.

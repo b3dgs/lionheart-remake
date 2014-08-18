@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.stream.XmlNode;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.EntityAction;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.State;
@@ -90,8 +91,8 @@ final class ValdynAttack
 
         final Class<Valdyn> type = Valdyn.class;
         final CategoryType category = CategoryType.getType(type);
-        shade = Drawable.loadSpriteAnimated(
-                Core.MEDIA.create(AppLionheart.ENTITIES_DIR, category.getPath(), "shade.png"), 7, 7);
+        shade = Drawable.loadSpriteAnimated(Core.MEDIA.create(AppLionheart.ENTITIES_DIR, category.getPath(),
+                ThemeType.DEFAULT.getPath(), "shade.png"), 7, 7);
         shade.load(false);
         shades = new EnumMap<>(ValdynState.class);
         shadesEnabled = new EnumMap<>(ValdynState.class);
