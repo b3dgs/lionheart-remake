@@ -3,11 +3,12 @@
 
 <product name="Lionheart Remake Editor" uid="com.b3dgs.lionheart.editor.product" id="com.b3dgs.lionengine.editor.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="0.2.0.qualifier" useFeatures="false" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
-      <programArgs>-clearPersistedState
+      <programArgs>-clearPersistedState -showsplash ${project_loc}/splash.bmp -import C:/Users/DjThunder/git/lionheart-remake
       </programArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -15,8 +16,22 @@
 
    <windowImages/>
 
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+
    <plugins>
       <plugin id="com.b3dgs.lionengine.editor"/>
+      <plugin id="com.b3dgs.lionheart.editor"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
