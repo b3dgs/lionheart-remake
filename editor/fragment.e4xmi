@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_PL6tEDICEeSWn5KthPTSXA">
   <imports xsi:type="basic:Part" xmi:id="_GWnCkDoAEeSkzbfVjB08Ag" elementId="com.b3dgs.lionengine.editor.part.projects"/>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_VXlHYDoAEeSkzbfVjB08Ag"/>
+  <imports xsi:type="basic:PartStack" xmi:id="_vRFc0DxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionengine.editor.stack.right"/>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_VXlHYDoAEeSkzbfVjB08Ag" featurename="children" parentElementId="com.b3dgs.lionengine.editor.stack.right">
+    <elements xsi:type="basic:Part" xmi:id="_-YN0ADxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionheart.editor.part.checkpoints" label="%part.checkpoints"/>
+  </fragments>
 </fragment:ModelFragments>
