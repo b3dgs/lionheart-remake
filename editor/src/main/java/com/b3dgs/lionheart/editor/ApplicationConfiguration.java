@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.editor;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -25,12 +26,16 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.UIEvents;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.editor.project.ImportProjectHandler;
 import com.b3dgs.lionengine.editor.project.Project;
 
@@ -41,9 +46,17 @@ import com.b3dgs.lionengine.editor.project.Project;
  */
 public class ApplicationConfiguration
 {
+    /** Import project argument. */
+    private static final String ARG_IMPORT = "-import";
+    /** Path warning. */
+    private static final String WARNING_PATH = "Invalid path: ";
+
     /** Application reference. */
     @Inject
     MApplication application;
+    /** Model service reference. */
+    @Inject
+    EModelService modelService;
     /** Part service reference. */
     @Inject
     EPartService partService;
@@ -57,7 +70,10 @@ public class ApplicationConfiguration
     public void execute(IEventBroker eventBroker)
     {
         final MWindow existingWindow = application.getChildren().get(0);
-        existingWindow.setLabel("Lionheart Remake Editor");
+        existingWindow.setLabel(Activator.PLUGIN_NAME);
+
+        final MUIElement element = modelService.find("com.b3dgs.lionengine.editor.stack.right", application);
+        element.setContainerData("28");
 
         eventBroker.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE, new AppStartupCompleteEventHandler());
     }
@@ -82,19 +98,42 @@ public class ApplicationConfiguration
             final String[] args = Platform.getApplicationArgs();
             for (int i = 0; i < args.length; i++)
             {
-                if (args[i].equals("-import"))
+                if (ApplicationConfiguration.ARG_IMPORT.equals(args[i]))
                 {
                     i++;
                     if (i < args.length)
                     {
-                        final File path = new File(args[i]);
-                        if (path.isDirectory())
-                        {
-                            final Project project = Project.create(path);
-                            ImportProjectHandler.importProject(project, partService);
-                        }
+                        importProject(args[i]);
                     }
                 }
+            }
+        }
+
+        /**
+         * Import a project from a path.
+         * 
+         * @param projectPath The project path.
+         */
+        private void importProject(String projectPath)
+        {
+            final File path = new File(projectPath);
+            if (path.isDirectory())
+            {
+                try
+                {
+                    final Project project = Project.create(path.getCanonicalFile());
+                    ImportProjectHandler.importProject(project, partService);
+                }
+                catch (LionEngineException
+                       | IOException e)
+                {
+                    Verbose.exception(getClass(), ApplicationConfiguration.WARNING_PATH, e);
+                }
+            }
+            else
+            {
+                Verbose.warning(getClass(), "handleEvent", ApplicationConfiguration.WARNING_PATH,
+                        path.getAbsolutePath());
             }
         }
     }

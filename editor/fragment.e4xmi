@@ -3,6 +3,6 @@
   <imports xsi:type="basic:Part" xmi:id="_GWnCkDoAEeSkzbfVjB08Ag" elementId="com.b3dgs.lionengine.editor.part.projects"/>
   <imports xsi:type="basic:PartStack" xmi:id="_vRFc0DxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionengine.editor.stack.right"/>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_VXlHYDoAEeSkzbfVjB08Ag" featurename="children" parentElementId="com.b3dgs.lionengine.editor.stack.right">
-    <elements xsi:type="basic:Part" xmi:id="_-YN0ADxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionheart.editor.part.checkpoints" label="%part.checkpoints"/>
+    <elements xsi:type="basic:Part" xmi:id="_-YN0ADxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionheart.editor.part.checkpoints" containerData="" label="%part.checkpoints"/>
   </fragments>
 </fragment:ModelFragments>

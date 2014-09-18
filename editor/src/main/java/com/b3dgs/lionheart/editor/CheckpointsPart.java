@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Composite;
 public class CheckpointsPart
 {
     /** ID. */
-    public static final String ID = "com.b3dgs.lionheart.editor.part.checkpoints";
+    public static final String ID = Activator.PLUGIN_ID + ".part.checkpoints";
 
     /**
      * Create the composite.
@@ -42,6 +42,7 @@ public class CheckpointsPart
     @PostConstruct
     public void createComposite(Composite parent, EMenuService menuService)
     {
+        // TODO
     }
 
     /**
@@ -50,5 +51,6 @@ public class CheckpointsPart
     @Focus
     public void setFocus()
     {
+        // Nothing to do
     }
 }
