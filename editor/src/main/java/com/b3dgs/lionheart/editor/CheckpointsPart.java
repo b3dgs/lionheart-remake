@@ -21,7 +21,13 @@ import javax.annotation.PostConstruct;
 
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.services.EMenuService;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 
 /**
  * Represents the checkpoints list, including starting and ending points.
@@ -42,7 +48,45 @@ public class CheckpointsPart
     @PostConstruct
     public void createComposite(Composite parent, EMenuService menuService)
     {
-        // TODO
+        final Group infos = new Group(parent, SWT.NONE);
+        infos.setLayout(new GridLayout(1, false));
+        infos.setText(Messages.Checkpoints_Infos);
+
+        final Composite buttons = new Composite(parent, SWT.NONE);
+        buttons.setLayout(new GridLayout(1, false));
+
+        final Button placeStart = new Button(parent, SWT.TOGGLE);
+        placeStart.setText(Messages.Checkpoints_Start);
+        placeStart.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                // TODO set palette to start point selection
+            }
+        });
+
+        final Button placeEnd = new Button(parent, SWT.TOGGLE);
+        placeEnd.setText(Messages.Checkpoints_End);
+        placeEnd.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                // TODO set palette to end point selection
+            }
+        });
+
+        final Button placeCheckpoint = new Button(parent, SWT.TOGGLE);
+        placeCheckpoint.setText(Messages.Checkpoints_Place);
+        placeCheckpoint.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                // TODO set palette to checkpoints selection
+            }
+        });
     }
 
     /**
