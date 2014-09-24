@@ -17,40 +17,41 @@
  */
 package com.b3dgs.lionheart.editor;
 
-import org.eclipse.osgi.util.NLS;
+import com.b3dgs.lionengine.geom.Point;
 
 /**
- * Messages internationalization.
+ * Represents a checkpoint in the list viewer.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Messages
-        extends NLS
+public final class CheckpointElement
 {
-    /** Bundle name. */
-    private static final String BUNDLE_NAME = Activator.PLUGIN_ID + ".messages"; //$NON-NLS-1$
-    /** Checkpoint infos. */
-    public static String Checkpoints_Infos;
-    /** Place start. */
-    public static String Checkpoints_Start;
-    /** Place end. */
-    public static String Checkpoints_End;
-    /** Place checkpoint. */
-    public static String Checkpoints_Place;
-
-    /**
-     * Initialize.
-     */
-    static
-    {
-        NLS.initializeMessages(Messages.BUNDLE_NAME, Messages.class);
-    }
+    /** The checkpoint. */
+    private final Point point;
 
     /**
      * Constructor.
+     * 
+     * @param point The checkpoint object.
      */
-    private Messages()
+    public CheckpointElement(Point point)
     {
-        // Private constructor
+        this.point = point;
+    }
+
+    /**
+     * Get the checkpoint.
+     * 
+     * @return The checkpoint.
+     */
+    public Point getCheckpoint()
+    {
+        return point;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "[" + point.getX() + " " + point.getY() + "]";
     }
 }

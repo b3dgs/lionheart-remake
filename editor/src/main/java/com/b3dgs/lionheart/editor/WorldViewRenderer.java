@@ -20,6 +20,16 @@ package com.b3dgs.lionheart.editor;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Composite;
 
+import com.b3dgs.lionengine.ColorRgba;
+import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Mouse;
+import com.b3dgs.lionengine.editor.Tools;
+import com.b3dgs.lionengine.editor.UtilEclipse;
+import com.b3dgs.lionengine.editor.palette.PalettePart;
+import com.b3dgs.lionengine.game.CameraGame;
+import com.b3dgs.lionengine.game.map.MapTile;
+import com.b3dgs.lionengine.geom.Point;
+
 /**
  * World view renderer.
  * 
@@ -37,5 +47,59 @@ public final class WorldViewRenderer
     public WorldViewRenderer(Composite parent, EPartService partService)
     {
         super(parent, partService);
+    }
+
+    /*
+     * WorldViewRenderer
+     */
+
+    @Override
+    protected void updatePalettePointer(PalettePart part, int mx, int my)
+    {
+        super.updatePalettePointer(part, mx, my);
+        if (part.getActivePaletteId() == CheckpointsView.ID)
+        {
+            final MapTile<?> map = model.getMap();
+            final CameraGame camera = model.getCamera();
+            final Point tile = Tools.getMouseTile(map, camera, mx, my);
+
+            final CheckpointsView view = part.getPaletteView(CheckpointsView.class);
+            final CheckpointType type = view.getType();
+            final int click = getClick();
+            if (type == CheckpointType.START)
+            {
+                view.setStart(tile);
+            }
+            else if (type == CheckpointType.END)
+            {
+                view.setEnd(tile);
+            }
+            else if (type == CheckpointType.PLACE)
+            {
+                if (click == Mouse.LEFT)
+                {
+                    view.addCheckpoint(tile);
+                }
+                else if (click == Mouse.RIGHT)
+                {
+                    view.removeCheckpoint(tile);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void renderMap(Graphic g, CameraGame camera, MapTile<?> map, int areaX, int areaY)
+    {
+        super.renderMap(g, camera, map, areaX, areaY);
+
+        final PalettePart part = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
+        final CheckpointsView view = part.getPaletteView(CheckpointsView.ID, CheckpointsView.class);
+        g.setColor(ColorRgba.YELLOW);
+        for (final Point point : view.getCheckpoints())
+        {
+            g.drawRect(camera.getViewpointX(point.getX()), camera.getViewpointY(point.getY()) - map.getTileHeight(),
+                    map.getTileWidth(), map.getTileHeight(), true);
+        }
     }
 }

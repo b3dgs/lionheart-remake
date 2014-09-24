@@ -26,7 +26,6 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
@@ -36,6 +35,8 @@ import org.osgi.service.event.EventHandler;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.core.Verbose;
+import com.b3dgs.lionengine.editor.UtilEclipse;
+import com.b3dgs.lionengine.editor.palette.PalettePart;
 import com.b3dgs.lionengine.editor.project.ImportProjectHandler;
 import com.b3dgs.lionengine.editor.project.Project;
 
@@ -72,9 +73,6 @@ public class ApplicationConfiguration
         final MWindow existingWindow = application.getChildren().get(0);
         existingWindow.setLabel(Activator.PLUGIN_NAME);
 
-        final MUIElement element = modelService.find("com.b3dgs.lionengine.editor.stack.right", application);
-        element.setContainerData("28");
-
         eventBroker.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE, new AppStartupCompleteEventHandler());
     }
 
@@ -92,8 +90,10 @@ public class ApplicationConfiguration
             // Nothing to do
         }
 
-        @Override
-        public void handleEvent(Event event)
+        /**
+         * Check if there is a project to import.
+         */
+        private void checkProjectImport()
         {
             final String[] args = Platform.getApplicationArgs();
             for (int i = 0; i < args.length; i++)
@@ -135,6 +135,19 @@ public class ApplicationConfiguration
                 Verbose.warning(getClass(), "handleEvent", ApplicationConfiguration.WARNING_PATH,
                         path.getAbsolutePath());
             }
+        }
+
+        /*
+         * EventHandler
+         */
+
+        @Override
+        public void handleEvent(Event event)
+        {
+            checkProjectImport();
+            final PalettePart palette = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
+            final CheckpointsView checkpoints = new CheckpointsView();
+            palette.addPalette("Checkpoints", checkpoints);
         }
     }
 }
