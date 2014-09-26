@@ -146,7 +146,7 @@ public class ApplicationConfiguration
         {
             checkProjectImport();
             final PalettePart palette = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
-            final CheckpointsView checkpoints = new CheckpointsView();
+            final CheckpointsView checkpoints = new CheckpointsView(partService);
             palette.addPalette("Checkpoints", checkpoints);
         }
     }

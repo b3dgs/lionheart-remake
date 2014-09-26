@@ -20,7 +20,12 @@ package com.b3dgs.lionheart.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -30,7 +35,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.editor.UtilEclipse;
 import com.b3dgs.lionengine.editor.palette.PaletteView;
+import com.b3dgs.lionengine.editor.world.WorldViewModel;
+import com.b3dgs.lionengine.editor.world.WorldViewPart;
+import com.b3dgs.lionengine.game.CameraGame;
+import com.b3dgs.lionengine.game.map.MapTile;
 import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionengine.geom.Point;
 
@@ -45,6 +56,8 @@ public final class CheckpointsView
     /** ID. */
     public static final String ID = "checkpoints";
 
+    /** Part service. */
+    final EPartService partService;
     /** Starting point. */
     private final Point start;
     /** Ending point. */
@@ -58,9 +71,12 @@ public final class CheckpointsView
 
     /**
      * Constructor.
+     * 
+     * @param partService The part service.
      */
-    public CheckpointsView()
+    public CheckpointsView(EPartService partService)
     {
+        this.partService = partService;
         start = Geom.createPoint();
         end = Geom.createPoint();
         checkpoints = new ArrayList<>();
@@ -249,6 +265,32 @@ public final class CheckpointsView
 
         viewer = new ListViewer(infos, SWT.BORDER | SWT.V_SCROLL);
         viewer.getList().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        viewer.addDoubleClickListener(new IDoubleClickListener()
+        {
+            @Override
+            public void doubleClick(DoubleClickEvent event)
+            {
+                final ISelection selection = viewer.getSelection();
+                if (selection instanceof StructuredSelection)
+                {
+                    final Object object = ((StructuredSelection) selection).getFirstElement();
+                    if (object instanceof CheckpointElement)
+                    {
+                        final Point point = ((CheckpointElement) object).getCheckpoint();
+                        final CameraGame camera = WorldViewModel.INSTANCE.getCamera();
+                        final MapTile<?> map = WorldViewModel.INSTANCE.getMap();
+                        final int x = UtilMath.getRounded(point.getX() - camera.getViewWidth() / 2, map.getTileWidth());
+                        final int y = UtilMath.getRounded(point.getY() - camera.getViewHeight() / 2,
+                                map.getTileHeight());
+                        camera.setLocation(x, y);
+
+                        final WorldViewPart view = UtilEclipse.getPart(partService, WorldViewPart.ID,
+                                WorldViewPart.class);
+                        view.update();
+                    }
+                }
+            }
+        });
     }
 
     @Override
