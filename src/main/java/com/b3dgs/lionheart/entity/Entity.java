@@ -63,14 +63,16 @@ public abstract class Entity
                 + "." + FactoryObjectGame.FILE_DATA_EXTENSION);
     }
 
+    /** Entity status. */
+    public final EntityStatus status;
     /** Animations list. */
     protected final HashMap<State, Animation> animations;
     /** Collisions data. */
     protected final HashMap<Enum<?>, Collision> collisions;
-    /** Entity status. */
-    public final EntityStatus status;
     /** Dead timer. */
     protected final Timing timerDie;
+    /** Media reference. */
+    private final Media media;
     /** Forces used. */
     private final Force[] forces;
     /** Map reference. */
@@ -96,6 +98,7 @@ public abstract class Entity
     protected Entity(SetupSurfaceRasteredGame setup)
     {
         super(setup, Map.TILE_HEIGHT);
+        media = setup.getConfigFile();
         status = new EntityStatus();
         animations = new HashMap<>(4);
         collisions = new HashMap<>(4);
@@ -223,6 +226,16 @@ public abstract class Entity
     public void setOver(boolean over)
     {
         this.over = over;
+    }
+
+    /**
+     * Get the configuration file.
+     * 
+     * @return The configuration file.
+     */
+    public Media getConfig()
+    {
+        return media;
     }
 
     /**

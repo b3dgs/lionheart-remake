@@ -39,6 +39,20 @@ public final class WorldViewRenderer
         extends com.b3dgs.lionengine.editor.world.WorldViewRenderer
 {
     /**
+     * Render a single checkpoint.
+     * 
+     * @param g The graphic output.
+     * @param camera The camera reference.
+     * @param map The map reference.
+     * @param point The checkpoint to render.
+     */
+    private static void renderCheckpointsBox(Graphic g, CameraGame camera, MapTile<?> map, Point point)
+    {
+        g.drawRect(camera.getViewpointX(point.getX()), camera.getViewpointY(point.getY()) - map.getTileHeight(),
+                map.getTileWidth(), map.getTileHeight(), true);
+    }
+
+    /**
      * Constructor.
      * 
      * @param partService The part service.
@@ -47,6 +61,31 @@ public final class WorldViewRenderer
     public WorldViewRenderer(Composite parent, EPartService partService)
     {
         super(parent, partService);
+    }
+
+    /**
+     * Render all checkpoints.
+     * 
+     * @param g The graphic output.
+     * @param camera The camera reference.
+     * @param map The map reference.
+     */
+    private void renderCheckpoints(Graphic g, CameraGame camera, MapTile<?> map)
+    {
+        final PalettePart part = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
+        final CheckpointsView view = part.getPaletteView(CheckpointsView.ID, CheckpointsView.class);
+
+        g.setColor(ColorRgba.GREEN);
+        WorldViewRenderer.renderCheckpointsBox(g, camera, map, view.getStart());
+
+        g.setColor(ColorRgba.RED);
+        WorldViewRenderer.renderCheckpointsBox(g, camera, map, view.getEnd());
+
+        g.setColor(ColorRgba.YELLOW);
+        for (final Point point : view.getCheckpoints())
+        {
+            WorldViewRenderer.renderCheckpointsBox(g, camera, map, point);
+        }
     }
 
     /*
@@ -92,14 +131,6 @@ public final class WorldViewRenderer
     protected void renderMap(Graphic g, CameraGame camera, MapTile<?> map, int areaX, int areaY)
     {
         super.renderMap(g, camera, map, areaX, areaY);
-
-        final PalettePart part = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
-        final CheckpointsView view = part.getPaletteView(CheckpointsView.ID, CheckpointsView.class);
-        g.setColor(ColorRgba.YELLOW);
-        for (final Point point : view.getCheckpoints())
-        {
-            g.drawRect(camera.getViewpointX(point.getX()), camera.getViewpointY(point.getY()) - map.getTileHeight(),
-                    map.getTileWidth(), map.getTileHeight(), true);
-        }
+        renderCheckpoints(g, camera, map);
     }
 }

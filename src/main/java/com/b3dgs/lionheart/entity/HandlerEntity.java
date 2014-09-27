@@ -70,7 +70,7 @@ public class HandlerEntity
         file.writeShort((short) size());
         for (final Entity entity : list())
         {
-            file.writeString(entity.getClass().getName());
+            file.writeString(entity.getConfig().getPath());
             entity.save(file);
         }
     }

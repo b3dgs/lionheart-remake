@@ -63,7 +63,7 @@ public class Level
      */
     public Level()
     {
-        this(null, null, null);
+        this(null, null, null, new Map());
     }
 
     /**
@@ -72,8 +72,9 @@ public class Level
      * @param camera The camera reference.
      * @param factoryEntity The entity factory reference.
      * @param handlerEntity The entity handler reference.
+     * @param map The map reference.
      */
-    public Level(CameraPlatform camera, FactoryEntity factoryEntity, HandlerEntity handlerEntity)
+    public Level(CameraPlatform camera, FactoryEntity factoryEntity, HandlerEntity handlerEntity, Map map)
     {
         this.camera = camera;
         this.factoryEntity = factoryEntity;
@@ -81,7 +82,7 @@ public class Level
         handlerEffect = new HandlerEffect(camera);
         factoryEffect = new FactoryEffect();
         factoryEffect.setHandlerEffect(handlerEffect);
-        map = new Map();
+        this.map = map;
         worldData = new WorldData(map);
     }
 

@@ -66,8 +66,8 @@ public class FactoryEntity
      */
     public Entity createEntity(FileReading file) throws IOException
     {
-        final String name = file.readString();
-        final Media config = Core.MEDIA.create(AppLionheart.ENTITIES_DIR, name + FactoryObjectGame.FILE_DATA_EXTENSION);
+        final String path = file.readString();
+        final Media config = Core.MEDIA.create(path);
         return create(config);
     }
 

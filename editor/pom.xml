@@ -19,6 +19,11 @@
 			<artifactId>lionengine-core-swt</artifactId>
 			<version>${lionengine.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.b3dgs</groupId>
+			<artifactId>lionheart-remake</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

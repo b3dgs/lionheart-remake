@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_PL6tEDICEeSWn5KthPTSXA">
-  <imports xsi:type="basic:Part" xmi:id="_GWnCkDoAEeSkzbfVjB08Ag" elementId="com.b3dgs.lionengine.editor.part.projects"/>
-  <imports xsi:type="basic:PartStack" xmi:id="_vRFc0DxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionengine.editor.stack.right"/>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_VXlHYDoAEeSkzbfVjB08Ag" featurename="children" parentElementId="com.b3dgs.lionengine.editor.stack.right">
-    <elements xsi:type="basic:Part" xmi:id="_-YN0ADxBEeSRxNwRmXB0uw" elementId="com.b3dgs.lionheart.editor.part.checkpoints" containerData="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.CheckpointsPart" label="%part.checkpoints"/>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_PL6tEDICEeSWn5KthPTSXA">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_kEk98EPdEeSGkM-KZ-3cEw" featurename="children" parentElementId="com.b3dgs.lionengine.editor.part.world-view.toolbar">
+    <elements xsi:type="menu:DirectToolItem" xmi:id="_vkwrwEXOEeSgZZSdFI2NoQ" elementId="com.b3dgs.lionheart.editor.world-view-renderer.save-world" label="%save-world" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/world-save.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.SaveWorldHandler"/>
+    <elements xsi:type="menu:DirectToolItem" xmi:id="_zWIEkEXOEeSgZZSdFI2NoQ" elementId="com.b3dgs.lionheart.editor.world-view-renderer.load-world" label="%load-world" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/world-load.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.LoadWorldHandler"/>
   </fragments>
 </fragment:ModelFragments>

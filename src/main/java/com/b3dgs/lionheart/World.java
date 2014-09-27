@@ -95,7 +95,7 @@ final class World
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
         factoryProjectile = new FactoryProjectile();
         factoryLauncher = new FactoryLauncher();
-        level = new Level(camera, factoryEntity, handlerEntity);
+        level = new Level(camera, factoryEntity, handlerEntity, new Map());
         map = level.map;
         statsRenderer = new StatsRenderer(width);
         handlerEffect = level.handlerEffect;
