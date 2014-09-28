@@ -21,12 +21,15 @@ import java.io.IOException;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.swt.widgets.Shell;
 
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Verbose;
+import com.b3dgs.lionengine.editor.Tools;
 import com.b3dgs.lionengine.editor.UtilEclipse;
 import com.b3dgs.lionengine.editor.palette.PalettePart;
+import com.b3dgs.lionengine.editor.project.Project;
 import com.b3dgs.lionengine.editor.world.WorldViewModel;
 import com.b3dgs.lionengine.editor.world.WorldViewPart;
 import com.b3dgs.lionengine.game.platform.CameraPlatform;
@@ -134,16 +137,23 @@ public class SaveWorldHandler
      * Execute the handler.
      * 
      * @param partService The part service reference.
+     * @param shell The shell parent.
      */
     @Execute
-    public void execute(EPartService partService)
+    public void execute(EPartService partService, Shell shell)
     {
-        final Map map = (Map) WorldViewModel.INSTANCE.getMap();
-        final Level level = SaveWorldHandler.createLevel(partService, map);
-        SaveWorldHandler.fillLevel(partService, level, map);
+        final String file = Tools.selectFile(shell, Project.getActive().getResourcesPath().getAbsolutePath(), false,
+                "*." + Level.FILE_FORMAT);
+        if (file != null)
+        {
+            final Map map = (Map) WorldViewModel.INSTANCE.getMap();
+            final Level level = SaveWorldHandler.createLevel(partService, map);
+            SaveWorldHandler.fillLevel(partService, level, map);
 
-        final Media media = Core.MEDIA.create("world.lrm");
-        SaveWorldHandler.saveLevel(level, media);
-        Verbose.info(SaveWorldHandler.VERBOSE_LEVEL_SAVED, media.getPath());
+            final Media media = Core.MEDIA.create(file);
+            SaveWorldHandler.saveLevel(level, media);
+
+            Verbose.info(SaveWorldHandler.VERBOSE_LEVEL_SAVED, media.getPath());
+        }
     }
 }

@@ -21,10 +21,12 @@ import java.io.IOException;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.swt.widgets.Shell;
 
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.Verbose;
+import com.b3dgs.lionengine.editor.Tools;
 import com.b3dgs.lionengine.editor.UtilEclipse;
 import com.b3dgs.lionengine.editor.factory.FactoryView;
 import com.b3dgs.lionengine.editor.palette.PalettePart;
@@ -140,16 +142,23 @@ public class LoadWorldHandler
      * Execute the handler.
      * 
      * @param partService The part service reference.
+     * @param shell The shell parent.
      */
     @Execute
-    public void execute(EPartService partService)
+    public void execute(EPartService partService, Shell shell)
     {
-        final Map map = (Map) WorldViewModel.INSTANCE.getMap();
-        final Level level = LoadWorldHandler.createLevel(map);
-        final Media media = Core.MEDIA.create("world.lrm");
-        LoadWorldHandler.loadLevel(level, media);
-        LoadWorldHandler.fillWorld(partService, level, map);
-        map.createCollisionDraw();
-        Verbose.info(LoadWorldHandler.VERBOSE_LEVEL_LOADED, media.getPath());
+        final String file = Tools.selectFile(shell, Project.getActive().getResourcesPath().getAbsolutePath(), true,
+                "*." + Level.FILE_FORMAT);
+        if (file != null)
+        {
+            final Map map = (Map) WorldViewModel.INSTANCE.getMap();
+            final Level level = LoadWorldHandler.createLevel(map);
+            final Media media = Core.MEDIA.create(file);
+            LoadWorldHandler.loadLevel(level, media);
+            LoadWorldHandler.fillWorld(partService, level, map);
+            map.createCollisionDraw();
+
+            Verbose.info(LoadWorldHandler.VERBOSE_LEVEL_LOADED, media.getPath());
+        }
     }
 }
