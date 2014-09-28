@@ -122,7 +122,7 @@ public class SaveWorldHandler
      */
     private static void saveLevel(Level level, Media media)
     {
-        try (final FileWriting writing = Stream.createFileWriting(media))
+        try (FileWriting writing = Stream.createFileWriting(media))
         {
             level.save(writing);
         }

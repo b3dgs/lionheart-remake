@@ -126,7 +126,7 @@ public class LoadWorldHandler
      */
     private static void loadLevel(Level level, Media media)
     {
-        try (final FileReading reading = Stream.createFileReading(media))
+        try (FileReading reading = Stream.createFileReading(media))
         {
             level.load(reading);
             level.handlerEntity.update(1.0);
