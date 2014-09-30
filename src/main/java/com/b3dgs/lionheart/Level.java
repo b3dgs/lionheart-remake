@@ -35,7 +35,7 @@ import com.b3dgs.lionheart.map.Map;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class Level
+public final class Level
 {
     /** Level file format. */
     public static final String FILE_FORMAT = "lrm";
@@ -60,29 +60,21 @@ public class Level
 
     /**
      * Constructor.
-     */
-    public Level()
-    {
-        this(null, null, null, new Map());
-    }
-
-    /**
-     * Constructor.
      * 
      * @param camera The camera reference.
+     * @param map The map reference.
      * @param factoryEntity The entity factory reference.
      * @param handlerEntity The entity handler reference.
-     * @param map The map reference.
      */
-    public Level(CameraPlatform camera, FactoryEntity factoryEntity, HandlerEntity handlerEntity, Map map)
+    public Level(CameraPlatform camera, Map map, FactoryEntity factoryEntity, HandlerEntity handlerEntity)
     {
         this.camera = camera;
         this.factoryEntity = factoryEntity;
         this.handlerEntity = handlerEntity;
+        this.map = map;
         handlerEffect = new HandlerEffect(camera);
         factoryEffect = new FactoryEffect();
         factoryEffect.setHandlerEffect(handlerEffect);
-        this.map = map;
         worldData = new WorldData(map);
     }
 

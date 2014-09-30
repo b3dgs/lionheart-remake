@@ -54,10 +54,10 @@ final class World
     private final Keyboard keyboard;
     /** Camera reference. */
     private final CameraPlatform camera;
-    /** Background factory. */
-    private final FactoryLandscape factoryLandscape;
     /** Map reference. */
     private final Map map;
+    /** Background factory. */
+    private final FactoryLandscape factoryLandscape;
     /** Entity factory. */
     private final FactoryEntity factoryEntity;
     /** Handler entity. */
@@ -89,14 +89,14 @@ final class World
         final double scaleV = height / (double) Scene.SCENE_DISPLAY.getHeight();
         keyboard = sequence.getInputDevice(Keyboard.class);
         camera = new CameraPlatform(width, height);
+        map = new Map();
         factoryLandscape = new FactoryLandscape(source, scaleH, scaleV, false);
         factoryEntity = new FactoryEntity();
         handlerEntity = new HandlerEntity(camera, factoryEntity);
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
         factoryProjectile = new FactoryProjectile();
         factoryLauncher = new FactoryLauncher();
-        level = new Level(camera, factoryEntity, handlerEntity, new Map());
-        map = level.map;
+        level = new Level(camera, map, factoryEntity, handlerEntity);
         statsRenderer = new StatsRenderer(width);
         handlerEffect = level.handlerEffect;
 

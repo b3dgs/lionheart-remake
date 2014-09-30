@@ -73,7 +73,7 @@ public class LoadWorldHandler
         final CameraPlatform camera = new CameraPlatform(0, 0);
         final FactoryEntity factoryEntity = new FactoryEntity();
         final HandlerEntity entities = new HandlerEntity(camera, factoryEntity);
-        final Level level = new Level(camera, factoryEntity, entities, map);
+        final Level level = new Level(camera, map, factoryEntity, entities);
 
         final FactoryObjectGame<?> factory = level.factoryEntity;
         factory.setClassLoader(Project.getActive().getClassLoader());

@@ -84,7 +84,7 @@ public class SaveWorldHandler
         }
         entities.update(1.0);
 
-        return new Level(camera, factory, entities, map);
+        return new Level(camera, map, factory, entities);
     }
 
     /**
