@@ -195,15 +195,19 @@ public final class CheckpointsView
         parent.setLayout(new GridLayout(1, false));
 
         final Composite buttons = new Composite(parent, SWT.NONE);
-        buttons.setLayout(new GridLayout(1, false));
+        buttons.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        buttons.setLayout(new GridLayout(3, false));
 
         final Button placeStart = new Button(buttons, SWT.TOGGLE);
+        placeStart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
         placeStart.setText(Messages.Checkpoints_Start);
 
         final Button placeEnd = new Button(buttons, SWT.TOGGLE);
+        placeEnd.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
         placeEnd.setText(Messages.Checkpoints_End);
 
         final Button placeCheckpoint = new Button(buttons, SWT.TOGGLE);
+        placeCheckpoint.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
         placeCheckpoint.setText(Messages.Checkpoints_Place);
 
         placeStart.addSelectionListener(new SelectionAdapter()

@@ -144,10 +144,11 @@ public class ApplicationConfiguration
         @Override
         public void handleEvent(Event event)
         {
-            checkProjectImport();
             final PalettePart palette = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
             final CheckpointsView checkpoints = new CheckpointsView(partService);
             palette.addPalette("Checkpoints", checkpoints);
+
+            checkProjectImport();
         }
     }
 }
