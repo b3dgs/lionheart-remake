@@ -8,6 +8,7 @@
 	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
 	<lionengine:animation name="walk" start="1" end="24" speed="0.25" reversed="false" repeat="true"/>
 	<data mass="0" gravityMax="0">
+		<jump heightMax="0.0" />
 	</data>
 	<life normal="2" />
 </lionengine:entity>
