@@ -28,17 +28,17 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.UIEvents;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.editor.UtilEclipse;
 import com.b3dgs.lionengine.editor.palette.PalettePart;
 import com.b3dgs.lionengine.editor.project.ImportProjectHandler;
 import com.b3dgs.lionengine.editor.project.Project;
+import com.b3dgs.lionengine.editor.project.Property;
+import com.b3dgs.lionheart.Level;
 
 /**
  * Configure the editor with the right name.
@@ -49,18 +49,13 @@ public class ApplicationConfiguration
 {
     /** Import project argument. */
     private static final String ARG_IMPORT = "-import";
-    /** Path warning. */
-    private static final String WARNING_PATH = "Invalid path: ";
 
-    /** Application reference. */
-    @Inject
-    MApplication application;
-    /** Model service reference. */
-    @Inject
-    EModelService modelService;
     /** Part service reference. */
     @Inject
     EPartService partService;
+    /** Application reference. */
+    @Inject
+    private MApplication application;
 
     /**
      * Execute the injection.
@@ -70,6 +65,8 @@ public class ApplicationConfiguration
     @PostConstruct
     public void execute(IEventBroker eventBroker)
     {
+        Property.LEVEL.addExtension(Level.FILE_FORMAT);
+
         final MWindow existingWindow = application.getChildren().get(0);
         existingWindow.setLabel(Activator.PLUGIN_NAME);
 
@@ -117,23 +114,14 @@ public class ApplicationConfiguration
         private void importProject(String projectPath)
         {
             final File path = new File(projectPath);
-            if (path.isDirectory())
+            try
             {
-                try
-                {
-                    final Project project = Project.create(path.getCanonicalFile());
-                    ImportProjectHandler.importProject(project, partService);
-                }
-                catch (LionEngineException
-                       | IOException e)
-                {
-                    Verbose.exception(getClass(), ApplicationConfiguration.WARNING_PATH, e);
-                }
+                final Project project = Project.create(path.getCanonicalFile());
+                ImportProjectHandler.importProject(project, partService);
             }
-            else
+            catch (final IOException exception)
             {
-                Verbose.warning(getClass(), "handleEvent", ApplicationConfiguration.WARNING_PATH,
-                        path.getAbsolutePath());
+                Verbose.exception(getClass(), "importProject", exception);
             }
         }
 
