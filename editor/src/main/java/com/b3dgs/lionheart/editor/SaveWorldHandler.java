@@ -49,7 +49,7 @@ import com.b3dgs.lionheart.map.Map;
 /**
  * Save the world to an external file.
  * 
- * @author Pierre-Alexandre
+ * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class SaveWorldHandler
 {

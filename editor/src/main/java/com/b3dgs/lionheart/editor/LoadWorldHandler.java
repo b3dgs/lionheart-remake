@@ -49,7 +49,7 @@ import com.b3dgs.lionheart.map.Map;
 /**
  * Load the world from an external file.
  * 
- * @author Pierre-Alexandre
+ * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class LoadWorldHandler
 {

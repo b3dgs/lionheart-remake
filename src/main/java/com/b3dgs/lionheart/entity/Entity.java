@@ -30,6 +30,8 @@ import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
+import com.b3dgs.lionengine.game.configurer.ConfigAnimations;
+import com.b3dgs.lionengine.game.configurer.ConfigCollisions;
 import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
 import com.b3dgs.lionengine.geom.Coord;
@@ -106,9 +108,10 @@ public abstract class Entity
         dieLocation = Geom.createCoord();
         forces = new Force[0];
         final Configurer configurer = setup.getConfigurer();
+        final ConfigAnimations configAnimations = ConfigAnimations.create(configurer);
         loadCollisions(configurer, EntityCollision.values());
-        loadAnimations(configurer, EntityState.values());
-        setFrame(configurer.getAnimation(EntityState.IDLE.getAnimationName()).getFirst());
+        loadAnimations(configAnimations, EntityState.values());
+        setFrame(configAnimations.getAnimation(EntityState.IDLE.getAnimationName()).getFirst());
     }
 
     /**
@@ -280,15 +283,15 @@ public abstract class Entity
      * Load all existing animations defined in the config file.
      * 
      * @param states The states to load.
-     * @param configurer The configurer reference.
+     * @param configAnimations The configurer reference.
      */
-    protected final void loadAnimations(Configurer configurer, State[] states)
+    protected final void loadAnimations(ConfigAnimations configAnimations, State[] states)
     {
         for (final State state : states)
         {
             try
             {
-                animations.put(state, configurer.getAnimation(state.getAnimationName()));
+                animations.put(state, configAnimations.getAnimation(state.getAnimationName()));
             }
             catch (final LionEngineException exception)
             {
@@ -305,11 +308,12 @@ public abstract class Entity
      */
     protected final void loadCollisions(Configurer configurer, Enum<?>[] values)
     {
+        final ConfigCollisions configCollisions = ConfigCollisions.create(configurer);
         for (final Enum<?> collision : values)
         {
             try
             {
-                collisions.put(collision, configurer.getCollision(collision.toString()));
+                collisions.put(collision, configCollisions.getCollision(collision.toString()));
             }
             catch (final LionEngineException exception)
             {

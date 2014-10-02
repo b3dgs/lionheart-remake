@@ -48,7 +48,7 @@ import com.b3dgs.lionengine.geom.Point;
 /**
  * Represents the checkpoints list, including starting and ending points.
  * 
- * @author Pierre-Alexandre
+ * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class CheckpointsView
         implements PaletteView
