@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.Movement;
-import com.b3dgs.lionengine.game.configurable.Configurable;
+import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionengine.game.purview.Collidable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
 import com.b3dgs.lionengine.stream.XmlNode;
@@ -80,11 +80,11 @@ final class ValdynAttack
     /**
      * Constructor.
      * 
-     * @param configurable The configurable reference.
+     * @param configurer The configurer reference.
      * @param valdyn The valdyn reference.
      * @param movement The movement reference.
      */
-    ValdynAttack(Configurable configurable, Valdyn valdyn, Movement movement)
+    ValdynAttack(Configurer configurer, Valdyn valdyn, Movement movement)
     {
         this.valdyn = valdyn;
         this.movement = movement;
@@ -99,26 +99,26 @@ final class ValdynAttack
 
         attacks = new EnumMap<>(ValdynState.class);
         attackCollision = new CollidableModel(valdyn);
-        loadAttacks(configurable);
-        addShadeAnimation(configurable, ValdynState.ATTACK_UP, 1);
-        addShadeAnimation(configurable, ValdynState.ATTACK_HORIZONTAL, 1);
-        addShadeAnimation(configurable, ValdynState.ATTACK_TURNING, 2);
-        addShadeAnimation(configurable, ValdynState.ATTACK_JUMP, 1);
-        addShadeAnimation(configurable, ValdynState.ATTACK_SLIDE, 1);
-        addShadeAnimation(configurable, ValdynState.ATTACK_LIANA, 1);
-        addShadeAnimation(configurable, ValdynState.ATTACK_GROUNDHOOCKABLE, 2);
+        loadAttacks(configurer);
+        addShadeAnimation(configurer, ValdynState.ATTACK_UP, 1);
+        addShadeAnimation(configurer, ValdynState.ATTACK_HORIZONTAL, 1);
+        addShadeAnimation(configurer, ValdynState.ATTACK_TURNING, 2);
+        addShadeAnimation(configurer, ValdynState.ATTACK_JUMP, 1);
+        addShadeAnimation(configurer, ValdynState.ATTACK_SLIDE, 1);
+        addShadeAnimation(configurer, ValdynState.ATTACK_LIANA, 1);
+        addShadeAnimation(configurer, ValdynState.ATTACK_GROUNDHOOCKABLE, 2);
     }
 
     /**
      * Add a shade animation for the sword attack effect.
      * 
-     * @param configurable The configurable reference.
+     * @param configurer The configurer reference.
      * @param state The state enum.
      * @param startAtFrame The frame index (relative to current animation) where it should start.
      */
-    private void addShadeAnimation(Configurable configurable, ValdynState state, int startAtFrame)
+    private void addShadeAnimation(Configurer configurer, ValdynState state, int startAtFrame)
     {
-        shades.put(state, configurable.getAnimation("shade_" + state.getAnimationName()));
+        shades.put(state, configurer.getAnimation("shade_" + state.getAnimationName()));
         shadesEnabled.put(state, Integer.valueOf(startAtFrame));
     }
 
@@ -509,11 +509,11 @@ final class ValdynAttack
     /**
      * Load all attacks data.
      * 
-     * @param configurable The configurable reference.
+     * @param configurer The configurer reference.
      */
-    private void loadAttacks(Configurable configurable)
+    private void loadAttacks(Configurer configurer)
     {
-        for (final XmlNode animation : configurable.getRoot().getChildren("animation"))
+        for (final XmlNode animation : configurer.getRoot().getChildren("animation"))
         {
             final Set<ValdynAttackData> set = new HashSet<>(1);
             for (final XmlNode attackNode : animation.getChildren("attack"))

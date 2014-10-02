@@ -29,8 +29,8 @@ import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.ObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.game.configurable.Configurable;
-import com.b3dgs.lionengine.game.configurable.FramesData;
+import com.b3dgs.lionengine.game.configurer.ConfigFrames;
+import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionengine.game.purview.Rasterable;
 import com.b3dgs.lionengine.game.purview.model.RasterableModel;
 import com.b3dgs.lionheart.AppLionheart;
@@ -74,9 +74,9 @@ public class Effect
     public Effect(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        final Configurable configurable = setup.getConfigurable();
-        final FramesData framesData = configurable.getFrames();
-        animStart = configurable.getAnimation("start");
+        final Configurer configurer = setup.getConfigurer();
+        final ConfigFrames framesData = ConfigFrames.create(configurer);
+        animStart = configurer.getAnimation("start");
         sprite = Drawable.loadSpriteAnimated(setup.surface, framesData.getHorizontal(), framesData.getVertical());
         rasterable = new RasterableModel(setup, Map.TILE_HEIGHT);
         setSize(sprite.getFrameWidth(), sprite.getFrameHeight());

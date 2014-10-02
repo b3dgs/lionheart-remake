@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.game.configurable.Configurable;
+import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionengine.game.platform.entity.EntityPlatformRastered;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.geom.Geom;
@@ -105,10 +105,10 @@ public abstract class Entity
         timerDie = new Timing();
         dieLocation = Geom.createCoord();
         forces = new Force[0];
-        final Configurable configurable = setup.getConfigurable();
-        loadCollisions(configurable, EntityCollision.values());
-        loadAnimations(configurable, EntityState.values());
-        setFrame(configurable.getAnimation(EntityState.IDLE.getAnimationName()).getFirst());
+        final Configurer configurer = setup.getConfigurer();
+        loadCollisions(configurer, EntityCollision.values());
+        loadAnimations(configurer, EntityState.values());
+        setFrame(configurer.getAnimation(EntityState.IDLE.getAnimationName()).getFirst());
     }
 
     /**
@@ -280,15 +280,15 @@ public abstract class Entity
      * Load all existing animations defined in the config file.
      * 
      * @param states The states to load.
-     * @param configurable The configurable reference.
+     * @param configurer The configurer reference.
      */
-    protected final void loadAnimations(Configurable configurable, State[] states)
+    protected final void loadAnimations(Configurer configurer, State[] states)
     {
         for (final State state : states)
         {
             try
             {
-                animations.put(state, configurable.getAnimation(state.getAnimationName()));
+                animations.put(state, configurer.getAnimation(state.getAnimationName()));
             }
             catch (final LionEngineException exception)
             {
@@ -301,15 +301,15 @@ public abstract class Entity
      * Load all collisions data.
      * 
      * @param values The collisions list.
-     * @param configurable The configurable reference.
+     * @param configurer The configurer reference.
      */
-    protected final void loadCollisions(Configurable configurable, Enum<?>[] values)
+    protected final void loadCollisions(Configurer configurer, Enum<?>[] values)
     {
         for (final Enum<?> collision : values)
         {
             try
             {
-                collisions.put(collision, configurable.getCollision(collision.toString()));
+                collisions.put(collision, configurer.getCollision(collision.toString()));
             }
             catch (final LionEngineException exception)
             {

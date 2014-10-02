@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.game.configurable.Configurable;
+import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.Sfx;
@@ -64,8 +64,8 @@ public class EntityMonster
     public EntityMonster(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        final Configurable configurable = setup.getConfigurable();
-        life = new Alterable(configurable.getInteger("normal", "life"));
+        final Configurer configurer = setup.getConfigurer();
+        life = new Alterable(configurer.getInteger("normal", "life"));
         timerHurt = new Timing();
         patroller = new PatrollerModel(this);
     }

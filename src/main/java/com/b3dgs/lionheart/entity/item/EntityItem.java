@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.entity.item;
 
 import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.game.configurable.Configurable;
+import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.effect.Taken;
 import com.b3dgs.lionheart.entity.Entity;
@@ -44,8 +44,8 @@ public abstract class EntityItem
     public EntityItem(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        final Configurable configurable = setup.getConfigurable();
-        play(configurable.getAnimation(status.getState().getAnimationName()));
+        final Configurer configurer = setup.getConfigurer();
+        play(configurer.getAnimation(status.getState().getAnimationName()));
     }
 
     /**
