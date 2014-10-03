@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+<lionengine:entityPlatform xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.Spike2</lionengine:class>
     <lionengine:surface image="Spike2.png" icon="Spike2_ico.png"/>
 	<lionengine:frames horizontal="16" vertical="2"/>
@@ -9,4 +9,4 @@
 	<lionengine:animation name="walk" start="1" end="7" speed="0.75" reversed="false" repeat="false"/>
 	<lionengine:animation name="jump" start="7" end="32" speed="1.5" reversed="false" repeat="false"/>
 	<lionengine:animation name="turn" start="1" end="32" speed="0.75" reversed="true" repeat="false"/>
-</lionengine:entity>
+</lionengine:entityPlatform>

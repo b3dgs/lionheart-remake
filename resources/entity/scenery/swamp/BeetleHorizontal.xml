@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+<lionengine:entityPlatform xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.BeetleHorizontal</lionengine:class>
     <lionengine:surface image="BeetleHorizontal.png" icon="BeetleHorizontal_ico.png"/>
 	<lionengine:frames horizontal="5" vertical="2"/>
@@ -8,4 +8,4 @@
 	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
 	<lionengine:animation name="walk" start="1" end="7" speed="0.25" reversed="false" repeat="true"/>
 	<lionengine:animation name="turn" start="8" end="10" speed="0.25" reversed="false" repeat="false"/>
-</lionengine:entity>
+</lionengine:entityPlatform>

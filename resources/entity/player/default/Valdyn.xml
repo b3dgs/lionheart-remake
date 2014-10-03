@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+<lionengine:entityPlatform xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.entity.player.Valdyn</lionengine:class>
     <lionengine:surface image="Valdyn.png"/>
 	<lionengine:frames horizontal="13" vertical="12" />
@@ -97,4 +97,4 @@
 		<movement speedMax="1.75" smooth="0.15" sensibilityIncrease="0.4" sensibilityDecrease="0.15" />
 		<jump heightMax="7.0" />
 	</data>
-</lionengine:entity>
+</lionengine:entityPlatform>

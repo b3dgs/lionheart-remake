@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+<lionengine:entityPlatform xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.Nest</lionengine:class>
     <lionengine:surface image="Nest.png" icon="Nest_ico.png"/>
 	<lionengine:frames horizontal="1" vertical="1"/>
@@ -11,4 +11,4 @@
 		<jump heightMax="0.0" />
 	</data>
 	<life normal="1" />
-</lionengine:entity>
+</lionengine:entityPlatform>

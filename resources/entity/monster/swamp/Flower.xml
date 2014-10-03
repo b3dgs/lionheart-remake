@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:entity xmlns:lionengine="http://lionengine.b3dgs.com">
+<lionengine:entityPlatform xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.Flower</lionengine:class>
     <lionengine:surface image="Flower.png" icon="Flower_ico.png"/>
 	<lionengine:frames horizontal="5" vertical="2"/>
@@ -12,4 +12,4 @@
 		<jump heightMax="0.0" />
 	</data>
 	<life normal="2" />
-</lionengine:entity>
+</lionengine:entityPlatform>
