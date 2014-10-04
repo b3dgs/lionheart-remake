@@ -36,8 +36,8 @@ import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.editor.UtilEclipse;
 import com.b3dgs.lionengine.editor.palette.PalettePart;
 import com.b3dgs.lionengine.editor.project.Project;
-import com.b3dgs.lionengine.editor.project.ProjectImportHandler;
 import com.b3dgs.lionengine.editor.project.Property;
+import com.b3dgs.lionengine.editor.project.handler.ProjectImportHandler;
 import com.b3dgs.lionheart.Level;
 
 /**

@@ -17,14 +17,15 @@
  */
 package com.b3dgs.lionheart.editor;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Shell;
 
-import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.core.UtilityMedia;
 import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.editor.Tools;
 import com.b3dgs.lionengine.editor.UtilEclipse;
@@ -147,13 +148,18 @@ public class LoadWorldHandler
     @Execute
     public void execute(EPartService partService, Shell shell)
     {
-        final String file = Tools.selectFile(shell, Project.getActive().getResourcesPath().getAbsolutePath(), true,
-                "*." + Level.FILE_FORMAT);
+        final File file = Tools.selectResourceFile(shell, true, new String[]
+        {
+            "Level file  (*." + Level.FILE_FORMAT + ")"
+        }, new String[]
+        {
+            "*." + Level.FILE_FORMAT
+        });
         if (file != null)
         {
             final Map map = (Map) WorldViewModel.INSTANCE.getMap();
             final Level level = LoadWorldHandler.createLevel(map);
-            final Media media = Core.MEDIA.create(file);
+            final Media media = UtilityMedia.get(file);
             LoadWorldHandler.loadLevel(level, media);
             LoadWorldHandler.fillWorld(partService, level, map);
             map.createCollisionDraw();
