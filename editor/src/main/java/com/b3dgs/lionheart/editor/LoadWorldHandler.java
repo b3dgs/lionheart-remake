@@ -96,7 +96,7 @@ public class LoadWorldHandler
         final PalettePart palette = UtilEclipse.getPart(partService, PalettePart.ID, PalettePart.class);
         final CheckpointsView checkpoints = palette.getPaletteView(CheckpointsView.ID, CheckpointsView.class);
 
-        final FactoryView factoryView = new FactoryView();
+        final FactoryView factoryView = new FactoryView(partService);
         factoryView.setFactory(WorldViewModel.INSTANCE.getFactory());
         palette.addPalette("Factory", factoryView);
 
