@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.b3dgs.lionheart</groupId>
+		<artifactId>lionheart-remake</artifactId>
+		<version>0.2.0-SNAPSHOT</version>
+		<relativePath>../lionheart-remake-parent</relativePath>
+	</parent>
+
+	<artifactId>lionheart-remake-game</artifactId>
+	<name>Lionheart Remake Game</name>
+
+	<packaging>jar</packaging>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.b3dgs.lionengine</groupId>
+			<artifactId>lionengine-core-awt</artifactId>
+			<version>${lionengine.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Import-Package>
+							com.b3dgs.lionengine,
+							com.b3dgs.lionengine.anim,
+							com.b3dgs.lionengine.audio.sc68,
+							com.b3dgs.lionengine.audio.wav,
+							com.b3dgs.lionengine.core,
+							com.b3dgs.lionengine.drawable,
+							com.b3dgs.lionengine.game,
+							com.b3dgs.lionengine.game.configurer,
+							com.b3dgs.lionengine.game.map,
+							com.b3dgs.lionengine.game.platform,
+							com.b3dgs.lionengine.game.platform.background,
+							com.b3dgs.lionengine.game.platform.entity,
+							com.b3dgs.lionengine.game.projectile,
+							com.b3dgs.lionengine.game.purview,
+							com.b3dgs.lionengine.game.purview.model,
+							com.b3dgs.lionengine.game.utility,
+							com.b3dgs.lionengine.geom,
+							com.b3dgs.lionengine.stream
+						</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
