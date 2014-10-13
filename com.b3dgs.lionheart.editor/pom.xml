@@ -22,6 +22,16 @@
 		</repository>
 	</repositories>
 
+	<dependencies>
+
+		<dependency>
+			<groupId>com.b3dgs.lionheart</groupId>
+			<artifactId>lionheart-remake-game</artifactId>
+			<version>${lionheart.version}</version>
+		</dependency>
+
+	</dependencies>
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>

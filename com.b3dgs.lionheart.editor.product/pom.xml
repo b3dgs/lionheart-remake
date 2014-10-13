@@ -14,6 +14,16 @@
 
 	<packaging>eclipse-repository</packaging>
 
+	<dependencies>
+
+		<dependency>
+			<groupId>com.b3dgs.lionheart</groupId>
+			<artifactId>lionheart-remake-game</artifactId>
+			<version>${lionheart.version}</version>
+		</dependency>
+
+	</dependencies>
+
 	<build>
 		<plugins>
 

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Lionheart Remake Target Platform" sequenceNumber="16">
+<?pde version="3.8"?><target name="Lionheart Remake Target Platform" sequenceNumber="18">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcp.feature.group" version="4.4.0.v20140925-0400"/>
 <unit id="org.eclipse.jdt.feature.group" version="3.10.0.v20140925-0400"/>
 <unit id="org.eclipse.equinox.sdk.feature.group" version="3.10.0.v20140909-1633"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.b3dgs.lionengine.audio-wav" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.game" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.game-platform" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.core" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.game-pathfinding" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.audio-sc68" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.core.swt" version="7.0.1.201410131653"/>
+<unit id="com.b3dgs.lionengine.editor" version="7.0.1.201410131653"/>
+<unit id="com.b3dgs.lionengine.network" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.game-strategy" version="7.0.1.SNAPSHOT"/>
+<unit id="com.b3dgs.lionengine.audio-midi" version="7.0.1.SNAPSHOT"/>
+<repository location="jar:file:/C:/Users/DjThunder/git/lionengine/com.b3dgs.lionengine.repository/target/com.b3dgs.lionengine.repository-7.0.1-SNAPSHOT.zip!/"/>
 </location>
 </locations>
 </target>
