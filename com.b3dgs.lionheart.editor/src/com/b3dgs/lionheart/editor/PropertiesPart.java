@@ -21,12 +21,16 @@ import javax.annotation.PostConstruct;
 
 import org.eclipse.swt.widgets.Composite;
 
+import com.b3dgs.lionengine.editor.properties.PropertiesListener;
+import com.b3dgs.lionengine.game.configurer.Configurer;
+
 /**
  * Element properties part.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class PropertiesPart
+        implements PropertiesListener
 {
     /** ID. */
     public static final String ID = Activator.PLUGIN_ID + ".part.properties";
@@ -38,6 +42,12 @@ public class PropertiesPart
      */
     @PostConstruct
     public void createComposite(Composite parent)
+    {
+        // TODO
+    }
+
+    @Override
+    public void setInput(Configurer configurer)
     {
         // TODO
     }
