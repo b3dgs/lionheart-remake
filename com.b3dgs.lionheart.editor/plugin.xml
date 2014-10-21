@@ -46,11 +46,11 @@
       </implementation>
    </extension>
    <extension
-         id="com.b3dgs.lionheart.properties"
+         id="com.b3dgs.lionheart.editor.properties"
          name="Properties"
          point="com.b3dgs.lionengine.editor.properties">
       <implementation
-            properties="com.b3dgs.lionheart.editor.PropertiesPart">
+            id="com.b3dgs.lionheart.editor.part.properties">
       </implementation>
    </extension>
 </plugin>

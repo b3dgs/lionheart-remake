@@ -109,7 +109,7 @@ public class LoadWorldHandler
         }
 
         final WorldViewPart world = UtilEclipse.getPart(partService, WorldViewPart.ID, WorldViewPart.class);
-        final com.b3dgs.lionengine.editor.world.HandlerEntity handler = world.getRenderer().getHandler();
+        final com.b3dgs.lionengine.editor.world.HandlerObject handler = world.getRenderer().getHandler();
         for (final Entity entity : level.handlerEntity.list())
         {
             handler.add(entity);

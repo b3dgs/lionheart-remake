@@ -72,7 +72,7 @@ public class SaveWorldHandler
     private static Level createLevel(EPartService partService, Map map)
     {
         final WorldViewPart world = UtilEclipse.getPart(partService, WorldViewPart.ID, WorldViewPart.class);
-        final com.b3dgs.lionengine.editor.world.HandlerEntity handler = world.getRenderer().getHandler();
+        final com.b3dgs.lionengine.editor.world.HandlerObject handler = world.getRenderer().getHandler();
 
         final CameraPlatform camera = new CameraPlatform(0, 0);
         final FactoryEntity factory = new FactoryEntity();

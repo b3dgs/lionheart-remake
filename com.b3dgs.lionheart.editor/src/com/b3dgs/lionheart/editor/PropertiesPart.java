@@ -19,7 +19,10 @@ package com.b3dgs.lionheart.editor;
 
 import javax.annotation.PostConstruct;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.b3dgs.lionengine.editor.properties.PropertiesListener;
 import com.b3dgs.lionengine.game.configurer.Configurer;
@@ -36,6 +39,21 @@ public class PropertiesPart
     public static final String ID = Activator.PLUGIN_ID + ".part.properties";
 
     /**
+     * Create the patrol properties.
+     * 
+     * @param configurer The configurer reference.
+     * @param parent The parent reference.
+     */
+    private static void createPatrol(Configurer configurer, Composite parent)
+    {
+        final Composite patrol = new Composite(parent, SWT.NONE);
+        patrol.setLayout(new GridLayout(1, false));
+    }
+
+    /** The properties area. */
+    private Composite properties;
+
+    /**
      * Create the composite.
      * 
      * @param parent The parent reference.
@@ -43,12 +61,24 @@ public class PropertiesPart
     @PostConstruct
     public void createComposite(Composite parent)
     {
-        // TODO
+        properties = new Composite(parent, SWT.NONE);
+        properties.setLayout(new GridLayout(1, false));
     }
+
+    /*
+     * PropertiesListener
+     */
 
     @Override
     public void setInput(Configurer configurer)
     {
-        // TODO
+        for (final Control control : properties.getChildren())
+        {
+            control.dispose();
+        }
+        if (configurer != null)
+        {
+            createPatrol(configurer, properties);
+        }
     }
 }

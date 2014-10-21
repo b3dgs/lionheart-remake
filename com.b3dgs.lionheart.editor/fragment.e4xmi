@@ -5,6 +5,6 @@
     <elements xsi:type="menu:DirectToolItem" xmi:id="_zWIEkEXOEeSgZZSdFI2NoQ" elementId="com.b3dgs.lionheart.editor.world-view-renderer.load-world" label="%load-world" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/world-load.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.LoadWorldHandler"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_5Rwt4FiYEeS1cqBOfyK-aA" featurename="children" parentElementId="com.b3dgs.lionengine.editor.stack.right.properties">
-    <elements xsi:type="basic:Part" xmi:id="_CgMMUFiZEeS1cqBOfyK-aA" elementId="com.b3dgs.lionheart.editor.part.0" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.PropertiesPart" label="%advanced-properties" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties.png"/>
+    <elements xsi:type="basic:Part" xmi:id="_CgMMUFiZEeS1cqBOfyK-aA" elementId="com.b3dgs.lionheart.editor.part.properties" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.PropertiesPart" label="%advanced-properties" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties.png"/>
   </fragments>
 </fragment:ModelFragments>
