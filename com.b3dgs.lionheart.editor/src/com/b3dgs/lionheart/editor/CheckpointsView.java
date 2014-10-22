@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart.editor;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -63,7 +63,7 @@ public final class CheckpointsView
     /** Ending point. */
     private final Point end;
     /** Current checkpoints. */
-    private final List<Point> checkpoints;
+    private final Collection<Point> checkpoints;
     /** Current checkpoint type. */
     CheckpointType type;
     /** Checkpoints list viewer. */
@@ -101,7 +101,7 @@ public final class CheckpointsView
     public void removeCheckpoint(Point point)
     {
         final int size = checkpoints.size();
-        final List<Point> toRemove = new ArrayList<>();
+        final Collection<Point> toRemove = new ArrayList<>();
         for (final Point current : checkpoints)
         {
             if (point.getX() == current.getX() && point.getY() == current.getY())
@@ -109,7 +109,7 @@ public final class CheckpointsView
                 toRemove.add(current);
             }
         }
-        final List<CheckpointElement> toRemoveElement = new ArrayList<>();
+        final Collection<CheckpointElement> toRemoveElement = new ArrayList<>();
         for (int i = 0; i < size; i++)
         {
             final CheckpointElement element = (CheckpointElement) viewer.getElementAt(i);
@@ -180,7 +180,7 @@ public final class CheckpointsView
      * 
      * @return The checkpoints list.
      */
-    public List<Point> getCheckpoints()
+    public Collection<Point> getCheckpoints()
     {
         return checkpoints;
     }

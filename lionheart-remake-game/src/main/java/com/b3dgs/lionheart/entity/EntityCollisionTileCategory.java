@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity;
 
-import java.util.Set;
+import java.util.Collection;
 
 import com.b3dgs.lionengine.game.map.CollisionTile;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
@@ -34,20 +34,20 @@ public enum EntityCollisionTileCategory implements CollisionTileCategory
     GROUND_CENTER(TileCollision.COLLISION_VERTICAL);
 
     /** The collisions list. */
-    private final Set<CollisionTile> collisions;
+    private final Collection<CollisionTile> collisions;
 
     /**
      * Constructor.
      * 
      * @param collisions The collisions list.
      */
-    private EntityCollisionTileCategory(Set<CollisionTile> collisions)
+    private EntityCollisionTileCategory(Collection<CollisionTile> collisions)
     {
         this.collisions = collisions;
     }
 
     @Override
-    public Set<CollisionTile> getCollisions()
+    public Collection<CollisionTile> getCollisions()
     {
         return collisions;
     }

@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart.map;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.game.map.CollisionTile;
@@ -121,7 +121,7 @@ public class Map
     }
 
     @Override
-    public Tile loadTile(List<XmlNode> nodes, FileReading file, int i) throws IOException
+    public Tile loadTile(Collection<XmlNode> nodes, FileReading file, int i) throws IOException
     {
         final int pattern = Map.fromByte(file.readByte());
         final int number = Map.fromByte(file.readByte());

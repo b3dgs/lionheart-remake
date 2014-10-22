@@ -17,7 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.player;
 
-import java.util.Set;
+import java.util.Collection;
 
 import com.b3dgs.lionengine.game.map.CollisionTile;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
@@ -46,20 +46,20 @@ public enum ValdynCollisionTileCategory implements CollisionTileCategory
     HAND_GROUND_HOOCKABLE(TileCollision.COLLISION_GROUND_HOOCKABLE);
 
     /** The collisions list. */
-    private final Set<CollisionTile> collisions;
+    private final Collection<CollisionTile> collisions;
 
     /**
      * Constructor.
      * 
      * @param collisions The collisions list.
      */
-    private ValdynCollisionTileCategory(Set<CollisionTile> collisions)
+    private ValdynCollisionTileCategory(Collection<CollisionTile> collisions)
     {
         this.collisions = collisions;
     }
 
     @Override
-    public Set<CollisionTile> getCollisions()
+    public Collection<CollisionTile> getCollisions()
     {
         return collisions;
     }

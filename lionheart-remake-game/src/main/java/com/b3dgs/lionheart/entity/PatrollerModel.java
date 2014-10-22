@@ -18,8 +18,8 @@
 package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
@@ -36,7 +36,7 @@ public class PatrollerModel
     /** Entity owner. */
     private final Patrollable owner;
     /** Movement enabled used in patrol. */
-    private final Set<Patrol> enableMovement;
+    private final Collection<Patrol> enableMovement;
     /** Patrol current movement side. */
     private int side;
     /** Patrol minimum position. */

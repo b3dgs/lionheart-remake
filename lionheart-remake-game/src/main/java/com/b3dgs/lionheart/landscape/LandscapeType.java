@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.landscape;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.stream.FileReading;
@@ -54,7 +54,7 @@ public enum LandscapeType
      */
     public static LandscapeType[] getWorldLandscape(WorldType world)
     {
-        final List<LandscapeType> landscapes = new ArrayList<>(3);
+        final Collection<LandscapeType> landscapes = new ArrayList<>(3);
         for (final LandscapeType landscape : LandscapeType.values())
         {
             if (landscape.getWorld() == world)

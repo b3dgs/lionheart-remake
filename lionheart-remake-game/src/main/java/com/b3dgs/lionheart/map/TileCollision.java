@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.map;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import com.b3dgs.lionengine.game.map.CollisionFunction;
 import com.b3dgs.lionengine.game.map.CollisionTile;
@@ -107,15 +107,15 @@ public enum TileCollision implements CollisionTile
     LIANA_LEANING_LEFT_3(TileCollisionGroup.LIANA_LEANING, true);
 
     /** Vertical collisions list. */
-    public static final Set<CollisionTile> COLLISION_VERTICAL = new HashSet<>();
+    public static final Collection<CollisionTile> COLLISION_VERTICAL = new HashSet<>();
     /** Horizontal collisions list. */
-    public static final Set<CollisionTile> COLLISION_HORIZONTAL = new HashSet<>();
+    public static final Collection<CollisionTile> COLLISION_HORIZONTAL = new HashSet<>();
     /** Vertical collisions list. */
-    public static final Set<CollisionTile> COLLISION_LIANA_STEEP = new HashSet<>();
+    public static final Collection<CollisionTile> COLLISION_LIANA_STEEP = new HashSet<>();
     /** Vertical collisions list. */
-    public static final Set<CollisionTile> COLLISION_LIANA_LEANING = new HashSet<>();
+    public static final Collection<CollisionTile> COLLISION_LIANA_LEANING = new HashSet<>();
     /** Vertical collisions list. */
-    public static final Set<CollisionTile> COLLISION_GROUND_HOOCKABLE = new HashSet<>();
+    public static final Collection<CollisionTile> COLLISION_GROUND_HOOCKABLE = new HashSet<>();
 
     /**
      * Static init.
@@ -237,7 +237,7 @@ public enum TileCollision implements CollisionTile
     }
 
     @Override
-    public Set<CollisionFunction> getCollisionFunctions()
+    public Collection<CollisionFunction> getCollisionFunctions()
     {
         return model.getCollisionFunctions();
     }
