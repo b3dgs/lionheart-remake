@@ -45,12 +45,4 @@
             renderer="com.b3dgs.lionheart.editor.WorldViewRenderer">
       </implementation>
    </extension>
-   <extension
-         id="com.b3dgs.lionheart.editor.properties"
-         name="Properties"
-         point="com.b3dgs.lionengine.editor.properties">
-      <implementation
-            id="com.b3dgs.lionheart.editor.part.properties">
-      </implementation>
-   </extension>
 </plugin>

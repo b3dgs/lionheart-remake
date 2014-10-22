@@ -17,15 +17,20 @@
  */
 package com.b3dgs.lionheart.editor;
 
+import java.util.Collection;
+
 import javax.annotation.PostConstruct;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
-import com.b3dgs.lionengine.editor.properties.PropertiesListener;
-import com.b3dgs.lionengine.game.configurer.Configurer;
+import com.b3dgs.lionengine.editor.UtilSwt;
+import com.b3dgs.lionengine.editor.world.ObjectSelectionListener;
+import com.b3dgs.lionengine.game.ObjectGame;
+import com.b3dgs.lionheart.entity.Patrol;
+import com.b3dgs.lionheart.entity.Patroller;
 
 /**
  * Element properties part.
@@ -33,7 +38,7 @@ import com.b3dgs.lionengine.game.configurer.Configurer;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class PropertiesPart
-        implements PropertiesListener
+        implements ObjectSelectionListener
 {
     /** ID. */
     public static final String ID = Activator.PLUGIN_ID + ".part.properties";
@@ -41,13 +46,16 @@ public class PropertiesPart
     /**
      * Create the patrol properties.
      * 
-     * @param configurer The configurer reference.
+     * @param patroller The patroller reference.
      * @param parent The parent reference.
      */
-    private static void createPatrol(Configurer configurer, Composite parent)
+    private static void createPatrol(Patroller patroller, Composite parent)
     {
         final Composite patrol = new Composite(parent, SWT.NONE);
         patrol.setLayout(new GridLayout(1, false));
+
+        final Combo type = UtilSwt.createCombo(parent, Patrol.values());
+        type.setText(patroller.getPatrolType().name());
     }
 
     /** The properties area. */
@@ -66,19 +74,21 @@ public class PropertiesPart
     }
 
     /*
-     * PropertiesListener
+     * ObjectSelectionListener
      */
 
     @Override
-    public void setInput(Configurer configurer)
+    public void notifyObjectSelected(ObjectGame object)
     {
-        for (final Control control : properties.getChildren())
+        if (object instanceof Patroller)
         {
-            control.dispose();
+            createPatrol((Patroller) object, properties);
         }
-        if (configurer != null)
-        {
-            createPatrol(configurer, properties);
-        }
+    }
+
+    @Override
+    public void notifyObjectsSelected(Collection<ObjectGame> objects)
+    {
+        // Nothing to do
     }
 }
