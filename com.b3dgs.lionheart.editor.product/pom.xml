@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>com.b3dgs.lionheart</groupId>
 			<artifactId>lionheart-remake-game</artifactId>
-			<version>${lionheart.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 	</dependencies>

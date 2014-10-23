@@ -10,8 +10,7 @@
 		<jdk.version>1.7</jdk.version>
 		<tycho.version>0.21.0</tycho.version>
 		<tycho-extra.version>0.21.0</tycho-extra.version>
-		<lionengine.version>7.0.1-SNAPSHOT</lionengine.version>
-		<lionheart.version>0.2.0-SNAPSHOT</lionheart.version>
+		<lionengine.version>7.1.0-SNAPSHOT</lionengine.version>
 	</properties>
 
 	<groupId>com.b3dgs.lionheart</groupId>
@@ -182,7 +181,7 @@
 							<artifact>
 								<groupId>com.b3dgs.lionheart</groupId>
 								<artifactId>com.b3dgs.lionheart.platform</artifactId>
-								<version>${lionheart.version}</version>
+								<version>${project.version}</version>
 								<classifier>com.b3dgs.lionheart.base</classifier>
 							</artifact>
 						</target>
