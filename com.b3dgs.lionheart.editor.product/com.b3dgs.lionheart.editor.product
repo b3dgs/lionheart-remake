@@ -29,6 +29,7 @@
       <plugin id="com.b3dgs.lionengine.audio-sc68"/>
       <plugin id="com.b3dgs.lionengine.audio-wav"/>
       <plugin id="com.b3dgs.lionengine.core"/>
+      <plugin id="com.b3dgs.lionengine.core-awt"/>
       <plugin id="com.b3dgs.lionengine.core.swt"/>
       <plugin id="com.b3dgs.lionengine.editor"/>
       <plugin id="com.b3dgs.lionengine.game"/>

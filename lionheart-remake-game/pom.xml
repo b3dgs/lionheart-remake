@@ -39,6 +39,7 @@
 							com.b3dgs.lionengine.audio.sc68,
 							com.b3dgs.lionengine.audio.wav,
 							com.b3dgs.lionengine.core,
+							com.b3dgs.lionengine.core.awt,
 							com.b3dgs.lionengine.drawable,
 							com.b3dgs.lionengine.game,
 							com.b3dgs.lionengine.game.configurer,
