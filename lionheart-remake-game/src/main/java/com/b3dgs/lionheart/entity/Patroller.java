@@ -29,11 +29,6 @@ import com.b3dgs.lionengine.stream.FileWriting;
  */
 public interface Patroller
 {
-    /** Move left side. */
-    static final int MOVE_LEFT = -1;
-    /** Move right side. */
-    static final int MOVE_RIGHT = 1;
-
     /**
      * Save the patrol.
      * 
@@ -76,7 +71,7 @@ public interface Patroller
      * 
      * @param firstMove The first move.
      */
-    void setFirstMove(int firstMove);
+    void setFirstMove(PatrolSide firstMove);
 
     /**
      * Set the movement speed.
@@ -118,7 +113,7 @@ public interface Patroller
      * 
      * @return The first move.
      */
-    int getFirstMove();
+    PatrolSide getFirstMove();
 
     /**
      * Get the movement speed.

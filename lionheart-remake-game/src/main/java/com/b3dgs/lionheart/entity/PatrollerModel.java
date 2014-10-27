@@ -48,7 +48,7 @@ public class PatrollerModel
     /** Movement type. */
     private Patrol movementType;
     /** First move flag. */
-    private int firstMove;
+    private PatrolSide firstMove;
     /** Movement speed. */
     private int moveSpeed;
     /** Patrol left value. */
@@ -65,6 +65,7 @@ public class PatrollerModel
     {
         this.owner = owner;
         enableMovement = new HashSet<>(4);
+        firstMove = PatrolSide.LEFT;
         movementType = Patrol.NONE;
         enableMovement(Patrol.NONE);
     }
@@ -78,13 +79,13 @@ public class PatrollerModel
         owner.setMovementSpeedMax(getMoveSpeed() / 5.0);
 
         // Set side
-        if (firstMove == 0)
+        if (firstMove == PatrolSide.LEFT)
         {
-            side = Patroller.MOVE_LEFT;
+            side = PatrolSide.LEFT.getMove();
         }
-        else if (firstMove == 1)
+        else if (firstMove == PatrolSide.RIGHT)
         {
-            side = Patroller.MOVE_RIGHT;
+            side = PatrolSide.RIGHT.getMove();
         }
 
         // Set position interval
@@ -93,12 +94,12 @@ public class PatrollerModel
             posMin = owner.getLocationIntX() - getPatrolLeft() * Map.TILE_WIDTH;
             posMax = owner.getLocationIntX() + getPatrolRight() * Map.TILE_WIDTH;
             owner.setMovementForce(owner.getMovementSpeedMax() * side, 0.0);
-            if (side == Patroller.MOVE_LEFT)
+            if (side == PatrolSide.LEFT.getMove())
             {
                 owner.mirror(true);
                 owner.teleport(posMax - 1, owner.getLocationIntY());
             }
-            else if (side == Patroller.MOVE_RIGHT)
+            else if (side == PatrolSide.RIGHT.getMove())
             {
                 owner.teleport(posMin + 1, owner.getLocationIntY());
             }
@@ -108,12 +109,12 @@ public class PatrollerModel
             posMin = owner.getLocationIntY() - getPatrolLeft() * Map.TILE_WIDTH;
             posMax = owner.getLocationIntY() + getPatrolRight() * Map.TILE_WIDTH;
             owner.setMovementForce(0.0, owner.getMovementSpeedMax() * side);
-            if (side == Patroller.MOVE_LEFT)
+            if (side == PatrolSide.LEFT.getMove())
             {
                 owner.mirror(true);
                 owner.teleport(owner.getLocationIntX(), posMax - 1);
             }
-            else if (side == Patroller.MOVE_RIGHT)
+            else if (side == PatrolSide.RIGHT.getMove())
             {
                 owner.teleport(owner.getLocationIntX(), posMin + 1);
             }
@@ -135,7 +136,7 @@ public class PatrollerModel
         if (movementType != Patrol.NONE)
         {
             file.writeByte((byte) getMoveSpeed());
-            file.writeByte((byte) getFirstMove());
+            file.writeByte((byte) getFirstMove().getMove());
             file.writeByte((byte) getPatrolLeft());
             file.writeByte((byte) getPatrolRight());
         }
@@ -149,7 +150,7 @@ public class PatrollerModel
         if (movementType != Patrol.NONE)
         {
             setMoveSpeed(file.readByte());
-            setFirstMove(file.readByte());
+            setFirstMove(file.readByte() == PatrolSide.RIGHT.getMove() ? PatrolSide.RIGHT : PatrolSide.LEFT);
             setPatrolLeft(file.readByte());
             setPatrolRight(file.readByte());
         }
@@ -174,7 +175,7 @@ public class PatrollerModel
     }
 
     @Override
-    public void setFirstMove(int firstMove)
+    public void setFirstMove(PatrolSide firstMove)
     {
         this.firstMove = firstMove;
     }
@@ -210,7 +211,7 @@ public class PatrollerModel
     }
 
     @Override
-    public int getFirstMove()
+    public PatrolSide getFirstMove()
     {
         return firstMove;
     }

@@ -17,8 +17,6 @@
  */
 package com.b3dgs.lionheart.editor;
 
-import java.util.Collection;
-
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Composite;
 
@@ -28,9 +26,7 @@ import com.b3dgs.lionengine.core.swt.Mouse;
 import com.b3dgs.lionengine.editor.Tools;
 import com.b3dgs.lionengine.editor.UtilEclipse;
 import com.b3dgs.lionengine.editor.palette.PalettePart;
-import com.b3dgs.lionengine.editor.world.ObjectSelectionListener;
 import com.b3dgs.lionengine.game.CameraGame;
-import com.b3dgs.lionengine.game.ObjectGame;
 import com.b3dgs.lionengine.game.map.MapTile;
 import com.b3dgs.lionengine.geom.Point;
 
@@ -41,7 +37,6 @@ import com.b3dgs.lionengine.geom.Point;
  */
 public final class WorldViewRenderer
         extends com.b3dgs.lionengine.editor.world.WorldViewRenderer
-        implements ObjectSelectionListener
 {
     /**
      * Render a single checkpoint.
@@ -66,7 +61,8 @@ public final class WorldViewRenderer
     public WorldViewRenderer(Composite parent, EPartService partService)
     {
         super(parent, partService);
-        addListener(this);
+        final PropertiesPart part = UtilEclipse.getPart(partService, PropertiesPart.ID, PropertiesPart.class);
+        addListenerObject(part);
     }
 
     /**
@@ -138,21 +134,5 @@ public final class WorldViewRenderer
     {
         super.renderMap(g, camera, map, areaX, areaY);
         renderCheckpoints(g, camera, map);
-    }
-
-    /*
-     * ObjectSelectionListener
-     */
-
-    @Override
-    public void notifyObjectSelected(ObjectGame object)
-    {
-        // TODO
-    }
-
-    @Override
-    public void notifyObjectsSelected(Collection<ObjectGame> objects)
-    {
-        // TODO
     }
 }

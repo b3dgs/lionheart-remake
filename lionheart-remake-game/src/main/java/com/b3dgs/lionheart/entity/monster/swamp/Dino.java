@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.Patrol;
-import com.b3dgs.lionheart.entity.Patroller;
+import com.b3dgs.lionheart.entity.PatrolSide;
 import com.b3dgs.lionheart.entity.monster.EntityMonster;
 
 /**
@@ -67,11 +67,11 @@ public final class Dino
         final int side;
         if (entity.getLocationX() - getLocationX() < 0)
         {
-            side = Patroller.MOVE_RIGHT;
+            side = PatrolSide.RIGHT.getMove();
         }
         else
         {
-            side = Patroller.MOVE_LEFT;
+            side = PatrolSide.LEFT.getMove();
         }
         movement.getForce().setForce(3.0 * side, 0.0);
     }

@@ -34,6 +34,7 @@ import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.Patrol;
+import com.b3dgs.lionheart.entity.PatrolSide;
 import com.b3dgs.lionheart.entity.Patrollable;
 import com.b3dgs.lionheart.entity.PatrollerModel;
 import com.b3dgs.lionheart.entity.State;
@@ -313,7 +314,7 @@ public class EntityMonster
     }
 
     @Override
-    public void setFirstMove(int firstMove)
+    public void setFirstMove(PatrolSide firstMove)
     {
         patroller.setFirstMove(firstMove);
     }
@@ -349,7 +350,7 @@ public class EntityMonster
     }
 
     @Override
-    public int getFirstMove()
+    public PatrolSide getFirstMove()
     {
         return patroller.getFirstMove();
     }
