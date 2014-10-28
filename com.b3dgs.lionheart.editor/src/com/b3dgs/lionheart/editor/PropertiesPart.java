@@ -24,6 +24,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -36,7 +38,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.editor.InputValidator;
 import com.b3dgs.lionengine.editor.UtilSwt;
 import com.b3dgs.lionengine.editor.world.ObjectSelectionListener;
 import com.b3dgs.lionengine.game.ObjectGame;
@@ -45,7 +46,7 @@ import com.b3dgs.lionheart.entity.PatrolSide;
 import com.b3dgs.lionheart.entity.Patroller;
 
 /**
- * Element properties part.
+ * Map object properties part.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
@@ -71,6 +72,7 @@ public class PropertiesPart
         createPatrolType(patroller, group);
         createPatrolSide(patroller, group);
         createPatrolSpeed(patroller, group);
+        createPatrolPosition(patroller, group);
     }
 
     /**
@@ -79,7 +81,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolType(Patroller patroller, Composite parent)
+    private static void createPatrolType(final Patroller patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -100,6 +102,14 @@ public class PropertiesPart
         final Patrol patrol = patroller.getPatrolType();
         type.setText(UtilConversion.toTitleCase(patrol.name()));
         type.setData(patrol);
+        type.addModifyListener(new ModifyListener()
+        {
+            @Override
+            public void modifyText(ModifyEvent event)
+            {
+                patroller.setPatrolType((Patrol) type.getData());
+            }
+        });
     }
 
     /**
@@ -108,7 +118,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolSide(Patroller patroller, Composite parent)
+    private static void createPatrolSide(final Patroller patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -120,6 +130,14 @@ public class PropertiesPart
         final Combo side = UtilSwt.createCombo(composite, PatrolSide.values());
         side.setText(UtilConversion.toTitleCase(patroller.getFirstMove().name()));
         side.setData(patroller.getFirstMove());
+        side.addModifyListener(new ModifyListener()
+        {
+            @Override
+            public void modifyText(ModifyEvent event)
+            {
+                patroller.setFirstMove((PatrolSide) side.getData());
+            }
+        });
     }
 
     /**
@@ -128,7 +146,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolSpeed(Patroller patroller, Composite parent)
+    private static void createPatrolSpeed(final Patroller patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -138,16 +156,86 @@ public class PropertiesPart
         speedLabel.setText("Speed: ");
 
         final Text speed = new Text(composite, SWT.SINGLE);
-        speed.addVerifyListener(new VerifyListener()
+        speed.setTextLimit(6);
+        speed.setLayoutData(new GridData(48, 16));
+        speed.setText(String.valueOf(patroller.getMoveSpeed()));
+        speed.addVerifyListener(createVerify(speed, "[0-9]+"));
+        speed.addModifyListener(new ModifyListener()
+        {
+            @Override
+            public void modifyText(ModifyEvent event)
+            {
+                patroller.setMoveSpeed(Integer.parseInt(speed.getText()));
+            }
+        });
+    }
+
+    /**
+     * Create the patrol position range text.
+     * 
+     * @param patroller The patroller reference.
+     * @param parent The composite reference.
+     */
+    private static void createPatrolPosition(final Patroller patroller, Composite parent)
+    {
+        final Composite composite = new Composite(parent, SWT.NONE);
+        composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        composite.setLayout(new GridLayout(2, false));
+
+        final Label leftLabel = new Label(composite, SWT.NONE);
+        leftLabel.setText("Left: ");
+
+        final Text left = new Text(composite, SWT.SINGLE);
+        left.setTextLimit(6);
+        left.setLayoutData(new GridData(48, 16));
+        left.setText(String.valueOf(patroller.getPatrolLeft()));
+        left.addVerifyListener(createVerify(left, "[0-9]+"));
+        left.addModifyListener(new ModifyListener()
+        {
+            @Override
+            public void modifyText(ModifyEvent event)
+            {
+                patroller.setPatrolLeft(Integer.parseInt(left.getText()));
+            }
+        });
+
+        final Label rightLabel = new Label(composite, SWT.NONE);
+        rightLabel.setText("Right: ");
+
+        final Text right = new Text(composite, SWT.SINGLE);
+        right.setTextLimit(6);
+        right.setLayoutData(new GridData(48, 16));
+        right.setText(String.valueOf(patroller.getPatrolRight()));
+        right.addVerifyListener(createVerify(right, "[0-9]+"));
+        right.addModifyListener(new ModifyListener()
+        {
+            @Override
+            public void modifyText(ModifyEvent event)
+            {
+                patroller.setPatrolRight(Integer.parseInt(right.getText()));
+            }
+        });
+    }
+
+    /**
+     * Create a verify listener.
+     * 
+     * @param text The text to verify.
+     * @param match The expected match.
+     * @return The verify listener.
+     */
+    private static VerifyListener createVerify(final Text text, final String match)
+    {
+        return new VerifyListener()
         {
             @Override
             public void verifyText(VerifyEvent event)
             {
-                final String newText = speed.getText().substring(0, event.start) + event.text
-                        + speed.getText().substring(event.end);
-                event.doit = newText.matches(InputValidator.DOUBLE_MATCH) || newText.isEmpty();
+                final String init = text.getText();
+                final String newText = init.substring(0, event.start) + event.text + init.substring(event.end);
+                event.doit = newText.matches(match) || newText.isEmpty();
             }
-        });
+        };
     }
 
     /** The properties area. */
