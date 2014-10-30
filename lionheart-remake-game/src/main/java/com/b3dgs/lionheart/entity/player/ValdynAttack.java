@@ -49,14 +49,15 @@ import com.b3dgs.lionheart.entity.State;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-final class ValdynAttack
+public final class ValdynAttack
 {
+    /** Template shade file name. */
+    private static final String SHADE_IMAGE_TEMPLATE = "shadeX.png";
+
     /** Valdyn reference. */
     private final Valdyn valdyn;
     /** Valdyn movement. */
     private final Movement movement;
-    /** Shade surface. */
-    private final SpriteAnimated shade;
     /** Attack data. */
     private final EnumMap<ValdynState, Set<ValdynAttackData>> attacks;
     /** Animations shade list. */
@@ -65,6 +66,10 @@ final class ValdynAttack
     private final EnumMap<ValdynState, Integer> shadesEnabled;
     /** Attack collision with monster. */
     private final Collidable attackCollision;
+    /** Category path. */
+    private final String categoryPath;
+    /** Shade surface. */
+    private SpriteAnimated shade;
     /** Attack state. */
     private ValdynState attack;
     /** Attack prepared. */
@@ -92,15 +97,16 @@ final class ValdynAttack
 
         final Class<Valdyn> type = Valdyn.class;
         final CategoryType category = CategoryType.getType(type);
-        shade = Drawable.loadSpriteAnimated(Core.MEDIA.create(AppLionheart.ENTITIES_DIR, category.getPath(),
-                ThemeType.DEFAULT.getPath(), "shade.png"), 7, 7);
-        shade.load(false);
+
+        categoryPath = category.getPath();
         shades = new EnumMap<>(ValdynState.class);
         shadesEnabled = new EnumMap<>(ValdynState.class);
-
         attacks = new EnumMap<>(ValdynState.class);
         attackCollision = new CollidableModel(valdyn);
+
+        loadShade();
         loadAttacks(configurer);
+
         final ConfigAnimations configAnimations = ConfigAnimations.create(configurer);
         addShadeAnimation(configAnimations, ValdynState.ATTACK_UP, 1);
         addShadeAnimation(configAnimations, ValdynState.ATTACK_HORIZONTAL, 1);
@@ -112,16 +118,14 @@ final class ValdynAttack
     }
 
     /**
-     * Add a shade animation for the sword attack effect.
-     * 
-     * @param configAnimations The configurer reference.
-     * @param state The state enum.
-     * @param startAtFrame The frame index (relative to current animation) where it should start.
+     * Load the shade effect depending of the sword level.
      */
-    private void addShadeAnimation(ConfigAnimations configAnimations, ValdynState state, int startAtFrame)
+    public final void loadShade()
     {
-        shades.put(state, configAnimations.getAnimation("shade_" + state.getAnimationName()));
-        shadesEnabled.put(state, Integer.valueOf(startAtFrame));
+        shade = Drawable.loadSpriteAnimated(Core.MEDIA.create(AppLionheart.ENTITIES_DIR, categoryPath,
+                ThemeType.DEFAULT.getPath(),
+                SHADE_IMAGE_TEMPLATE.replace("X", String.valueOf(valdyn.stats.getSwordLevel()))), 7, 7);
+        shade.load(false);
     }
 
     /**
@@ -338,6 +342,19 @@ final class ValdynAttack
     boolean isAttacking()
     {
         return attacking;
+    }
+
+    /**
+     * Add a shade animation for the sword attack effect.
+     * 
+     * @param configAnimations The configurer reference.
+     * @param state The state enum.
+     * @param startAtFrame The frame index (relative to current animation) where it should start.
+     */
+    private void addShadeAnimation(ConfigAnimations configAnimations, ValdynState state, int startAtFrame)
+    {
+        shades.put(state, configAnimations.getAnimation("shade_" + state.getAnimationName()));
+        shadesEnabled.put(state, Integer.valueOf(startAtFrame));
     }
 
     /**

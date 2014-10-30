@@ -83,7 +83,7 @@ public final class Valdyn
     /** Valdyn stats. */
     public final Stats stats;
     /** Valdyn attack. */
-    private final ValdynAttack attack;
+    public final ValdynAttack attack;
     /** Leg collision with scenery. */
     private final Collidable legCollision;
     /** Jump timer (accurate precision of jump force). */

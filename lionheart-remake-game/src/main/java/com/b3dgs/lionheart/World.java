@@ -117,6 +117,7 @@ final class World
         contextEntity.addService(camera);
         contextEntity.addService(map);
         contextEntity.addService(Integer.valueOf(source.getRate()));
+        contextEntity.addService(level.factoryEffect);
 
         final ContextGame contextLauncher = new ContextGame();
         contextLauncher.addService(factoryProjectile);

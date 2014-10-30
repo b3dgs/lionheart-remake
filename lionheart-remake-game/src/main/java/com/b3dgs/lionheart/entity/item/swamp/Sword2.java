@@ -55,6 +55,7 @@ public final class Sword2
     protected void onTaken(Valdyn entity)
     {
         entity.stats.setSwordLevel(2);
+        entity.attack.loadShade();
         Sfx.ITEM_TAKEN.play();
     }
 }
