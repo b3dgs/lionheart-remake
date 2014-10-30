@@ -23,13 +23,12 @@ import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.core.awt.Engine;
-import com.b3dgs.lionengine.core.awt.Theme;
 import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Program starts here.
  * 
- * @version 0.1.0
+ * @version 0.2.0
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class AppLionheart
@@ -37,7 +36,9 @@ public final class AppLionheart
     /** Application name. */
     public static final String NAME = "Lionheart Remake";
     /** Application version. */
-    public static final Version VERSION = Version.create(0, 1, 0);
+    public static final Version VERSION = Version.create(0, 2, 0);
+    /** Resources directory. */
+    public static final String RESOURCES = "resources";
     /** Sprites directory. */
     public static final String SPRITES_DIR = "sprite";
     /** Levels directory. */
@@ -64,12 +65,10 @@ public final class AppLionheart
     public static final String SFX_DIR = "sfx";
     /** Show collision bounds. */
     public static final boolean SHOW_COLLISIONS = false;
+    /** Raster enabled. */
+    public static final boolean RASTER_ENABLED = true;
     /** Enable sound. */
     private static final boolean ENABLE_SOUND = true;
-    /** Resources directory. */
-    private static final String RESOURCES = "resources";
-    /** Raster enabled. */
-    public static boolean RASTER_ENABLED = false;
 
     /**
      * Main function.
@@ -84,20 +83,8 @@ public final class AppLionheart
 
         final Resolution output = new Resolution(640, 480, 60);
         final Config config = new Config(output, 16, true);
-        final boolean enableEditor = false;
-        if (enableEditor)
-        {
-            AppLionheart.RASTER_ENABLED = false;
-            Theme.set(Theme.SYSTEM);
-            // final TileCollisionEditor<TileCollision, Tile> editor = new TileCollisionEditor<>(new Map(),
-            // TileCollision.class);
-            // editor.start();
-        }
-        else
-        {
-            final Loader loader = new Loader(config);
-            loader.start(Menu.class);
-        }
+        final Loader loader = new Loader(config);
+        loader.start(Menu.class);
     }
 
     /**

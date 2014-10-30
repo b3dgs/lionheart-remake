@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionheart.AppLionheart;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
 /**
@@ -89,7 +90,7 @@ public class FactoryEntity
     protected SetupSurfaceRasteredGame createSetup(Media config)
     {
         final Media raster;
-        if (AppLionheart.RASTER_ENABLED)
+        if (AppLionheart.RASTER_ENABLED && !config.getPath().equals(Valdyn.MEDIA.getPath()))
         {
             raster = Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }
