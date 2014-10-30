@@ -326,7 +326,8 @@ final class Foreground
             final int oy = py + (int) water.getHeight();
             for (int y = screenHeight - 32 + getNominal() - 210 + oy; y < screenHeight; y++)
             {
-                final double inside = Math.cos(UtilMath.wrapDouble(y + wx * frequency, 0.0, 360.0)) * amplitude;
+                final double inside = Math.cos(UtilMath.wrapDouble(y - data.getOffsetY() + wx * frequency, 0.0, 360.0))
+                        * amplitude;
                 final double outside = Math.cos(wx) * offsetForce;
                 g.copyArea(0, y, screenWidth, 1, (int) (inside + outside), 0);
             }
