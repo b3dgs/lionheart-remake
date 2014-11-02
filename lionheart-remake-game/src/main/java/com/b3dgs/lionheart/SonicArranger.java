@@ -44,7 +44,8 @@ public final class SonicArranger
         if (enabled)
         {
             SonicArranger.sc68 = AudioSc68.createSc68Player();
-            SonicArranger.sc68.setVolume(40);
+            SonicArranger.sc68.setVolume(50);
+            SonicArranger.sc68.setConfig(false, false);
         }
     }
 
@@ -91,7 +92,7 @@ public final class SonicArranger
         if (SonicArranger.enabled)
         {
             SonicArranger.sc68.stop();
-            SonicArranger.sc68.setVolume(40);
+            SonicArranger.sc68.setVolume(50);
             SonicArranger.sc68.play(Core.MEDIA.create(AppLionheart.MUSICS_DIR, music.getFilename()));
         }
     }

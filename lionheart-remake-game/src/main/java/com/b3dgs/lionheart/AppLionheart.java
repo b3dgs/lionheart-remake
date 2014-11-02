@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.core.awt.Engine;
-import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Program starts here.
@@ -38,7 +37,7 @@ public final class AppLionheart
     /** Application version. */
     public static final Version VERSION = Version.create(0, 2, 0);
     /** Resources directory. */
-    public static final String RESOURCES = "resources";
+    public static final String RESOURCES_DIR = "resources";
     /** Sprites directory. */
     public static final String SPRITES_DIR = "sprite";
     /** Levels directory. */
@@ -64,11 +63,11 @@ public final class AppLionheart
     /** Sound fx directory name. */
     public static final String SFX_DIR = "sfx";
     /** Show collision bounds. */
-    public static final boolean SHOW_COLLISIONS = false;
+    public static final boolean SHOW_COLLISIONS = true;
     /** Raster enabled. */
-    public static final boolean RASTER_ENABLED = true;
+    public static final boolean ENABLE_RASTER = false;
     /** Enable sound. */
-    private static final boolean ENABLE_SOUND = true;
+    private static final boolean ENABLE_SOUND = false;
 
     /**
      * Main function.
@@ -77,14 +76,14 @@ public final class AppLionheart
      */
     public static void main(String[] args)
     {
-        Engine.start(AppLionheart.NAME, AppLionheart.VERSION, Verbose.CRITICAL, AppLionheart.RESOURCES);
-        Sfx.setEnabled(AppLionheart.ENABLE_SOUND);
-        SonicArranger.setEnabled(AppLionheart.ENABLE_SOUND);
+        Engine.start(NAME, VERSION, Verbose.CRITICAL, RESOURCES_DIR);
+        Sfx.setEnabled(ENABLE_SOUND);
+        SonicArranger.setEnabled(ENABLE_SOUND);
 
         final Resolution output = new Resolution(640, 480, 60);
         final Config config = new Config(output, 16, true);
         final Loader loader = new Loader(config);
-        loader.start(Menu.class);
+        loader.start(Scene.class);
     }
 
     /**

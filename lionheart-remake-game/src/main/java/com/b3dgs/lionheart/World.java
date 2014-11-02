@@ -97,6 +97,7 @@ final class World
         map = new Map();
         factoryLandscape = new FactoryLandscape(source, scaleH, scaleV, false);
         factoryEntity = new FactoryEntity();
+        factoryEntity.setRaster(AppLionheart.ENABLE_RASTER);
         handlerEntity = new HandlerEntity(camera, factoryEntity);
         handlerProjectile = new HandlerProjectile(camera, handlerEntity);
         factoryProjectile = new FactoryProjectile();

@@ -182,37 +182,37 @@ public class PropertiesPart
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         composite.setLayout(new GridLayout(2, false));
 
-        final Label leftLabel = new Label(composite, SWT.NONE);
-        leftLabel.setText("Left: ");
+        final Label minLabel = new Label(composite, SWT.NONE);
+        minLabel.setText("Min: ");
 
-        final Text left = new Text(composite, SWT.SINGLE);
-        left.setTextLimit(6);
-        left.setLayoutData(new GridData(48, 16));
-        left.setText(String.valueOf(patroller.getPatrolLeft()));
-        left.addVerifyListener(createVerify(left, "[0-9]+"));
-        left.addModifyListener(new ModifyListener()
+        final Text min = new Text(composite, SWT.SINGLE);
+        min.setTextLimit(6);
+        min.setLayoutData(new GridData(48, 16));
+        min.setText(String.valueOf(patroller.getPatrolLeft()));
+        min.addVerifyListener(createVerify(min, "[0-9]+"));
+        min.addModifyListener(new ModifyListener()
         {
             @Override
             public void modifyText(ModifyEvent event)
             {
-                patroller.setPatrolLeft(Integer.parseInt(left.getText()));
+                patroller.setPatrolLeft(Integer.parseInt(min.getText()));
             }
         });
 
-        final Label rightLabel = new Label(composite, SWT.NONE);
-        rightLabel.setText("Right: ");
+        final Label maxLabel = new Label(composite, SWT.NONE);
+        maxLabel.setText("Max: ");
 
-        final Text right = new Text(composite, SWT.SINGLE);
-        right.setTextLimit(6);
-        right.setLayoutData(new GridData(48, 16));
-        right.setText(String.valueOf(patroller.getPatrolRight()));
-        right.addVerifyListener(createVerify(right, "[0-9]+"));
-        right.addModifyListener(new ModifyListener()
+        final Text max = new Text(composite, SWT.SINGLE);
+        max.setTextLimit(6);
+        max.setLayoutData(new GridData(48, 16));
+        max.setText(String.valueOf(patroller.getPatrolRight()));
+        max.addVerifyListener(createVerify(max, "[0-9]+"));
+        max.addModifyListener(new ModifyListener()
         {
             @Override
             public void modifyText(ModifyEvent event)
             {
-                patroller.setPatrolRight(Integer.parseInt(right.getText()));
+                patroller.setPatrolRight(Integer.parseInt(max.getText()));
             }
         });
     }

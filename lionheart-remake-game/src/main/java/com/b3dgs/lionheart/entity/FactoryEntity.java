@@ -39,6 +39,8 @@ public class FactoryEntity
 {
     /** Landscape used. */
     protected LandscapeType landscape;
+    /** Raster enabled. */
+    private boolean hasRaster;
 
     /**
      * Constructor.
@@ -82,6 +84,16 @@ public class FactoryEntity
         this.landscape = landscape;
     }
 
+    /**
+     * Set the raster state.
+     * 
+     * @param hasRaster <code>true</code> to use raster, <code>false</code> else.
+     */
+    public void setRaster(boolean hasRaster)
+    {
+        this.hasRaster = hasRaster;
+    }
+
     /*
      * FactoryObjectGame
      */
@@ -90,7 +102,7 @@ public class FactoryEntity
     protected SetupSurfaceRasteredGame createSetup(Media config)
     {
         final Media raster;
-        if (AppLionheart.RASTER_ENABLED && !config.getPath().equals(Valdyn.MEDIA.getPath()))
+        if (hasRaster && !config.getPath().equals(Valdyn.MEDIA.getPath()))
         {
             raster = Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }

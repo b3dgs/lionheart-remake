@@ -87,7 +87,7 @@ public class FactoryEffect
     protected SetupSurfaceRasteredGame createSetup(Media config)
     {
         final Media raster;
-        if (AppLionheart.RASTER_ENABLED)
+        if (AppLionheart.ENABLE_RASTER)
         {
             raster = Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster());
         }

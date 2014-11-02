@@ -10,7 +10,7 @@
 		<jdk.version>1.7</jdk.version>
 		<tycho.version>0.21.0</tycho.version>
 		<tycho-extra.version>0.21.0</tycho-extra.version>
-		<lionengine.version>7.1.0-SNAPSHOT</lionengine.version>
+		<lionengine.version>7.1.4-SNAPSHOT</lionengine.version>
 	</properties>
 
 	<groupId>com.b3dgs.lionheart</groupId>

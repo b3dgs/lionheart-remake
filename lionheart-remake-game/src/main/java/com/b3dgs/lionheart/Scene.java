@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Loader;
 import com.b3dgs.lionengine.core.Sequence;
+import com.b3dgs.lionengine.core.awt.Engine;
 import com.b3dgs.lionengine.core.awt.Keyboard;
 import com.b3dgs.lionheart.menu.Menu;
 
@@ -130,6 +131,7 @@ public final class Scene
         if (!hasNextSequence)
         {
             Sfx.terminateAll();
+            Engine.terminate();
         }
     }
 }

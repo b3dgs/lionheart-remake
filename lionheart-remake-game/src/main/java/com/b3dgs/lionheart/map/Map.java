@@ -81,7 +81,7 @@ public class Map
      */
     public void setLandscape(LandscapeType landscape)
     {
-        if (AppLionheart.RASTER_ENABLED)
+        if (AppLionheart.ENABLE_RASTER)
         {
             setRaster(Core.MEDIA.create(AppLionheart.RASTERS_DIR, landscape.getRaster()), false);
         }
