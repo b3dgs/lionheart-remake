@@ -63,7 +63,7 @@ public final class AppLionheart
     /** Sound fx directory name. */
     public static final String SFX_DIR = "sfx";
     /** Show collision bounds. */
-    public static final boolean SHOW_COLLISIONS = true;
+    public static final boolean SHOW_COLLISIONS = false;
     /** Raster enabled. */
     public static final boolean ENABLE_RASTER = false;
     /** Enable sound. */

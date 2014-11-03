@@ -46,6 +46,7 @@ public final class BeetleVertical
     {
         super(setup);
         enableMovement(Patrol.VERTICAL);
+        sprite.setMirrorAxis(false);
     }
 
     /*

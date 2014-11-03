@@ -27,7 +27,9 @@ import java.util.Locale;
 public enum EntityCollision
 {
     /** Default collision. */
-    DEFAULT;
+    DEFAULT,
+    /** Bite collision. */
+    BITE;
 
     @Override
     public String toString()

@@ -225,6 +225,14 @@ public final class Valdyn
     }
 
     /**
+     * Reset the movement.
+     */
+    public void resetMovement()
+    {
+        tilt.resetMovement();
+    }
+
+    /**
      * Set the landscape reference.
      * 
      * @param landscape The landscape reference.

@@ -110,14 +110,15 @@ public abstract class EntitySceneryBeetle
             {
                 final int side = patroller.getSide();
                 setSide(-side);
-                mirror(side < 0);
                 if (getPatrolType() == Patrol.HORIZONTAL)
                 {
+                    mirror(side >= 0);
                     setMovementForce(movementSpeedMax * side, 0.0);
                     teleportX(getLocationIntX() + side);
                 }
                 else if (getPatrolType() == Patrol.VERTICAL)
                 {
+                    mirror(side < 0);
                     setMovementForce(0.0, movementSpeedMax * side);
                     teleportY(getLocationIntY() + side);
                 }

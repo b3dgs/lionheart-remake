@@ -67,11 +67,11 @@ public final class Dino
         final int side;
         if (entity.getLocationX() - getLocationX() < 0)
         {
-            side = PatrolSide.RIGHT.getMove();
+            side = PatrolSide.MIN.getMove();
         }
         else
         {
-            side = PatrolSide.LEFT.getMove();
+            side = PatrolSide.MAX.getMove();
         }
         movement.getForce().setForce(3.0 * side, 0.0);
     }

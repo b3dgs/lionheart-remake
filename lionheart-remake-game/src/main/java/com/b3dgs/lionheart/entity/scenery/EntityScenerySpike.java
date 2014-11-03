@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.entity.scenery;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.AnimState;
+import com.b3dgs.lionengine.anim.Animation;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
@@ -53,11 +54,12 @@ public abstract class EntityScenerySpike
     @Override
     public void updateAnimation(double extrp)
     {
-        super.updateAnimation(extrp);
         if (status.stateChanged() && status.getState() == EntityState.TURN)
         {
             setFrame(animations.get(status.getState()).getLast());
         }
+        super.updateAnimation(extrp);
+
     }
 
     @Override
@@ -97,7 +99,9 @@ public abstract class EntityScenerySpike
     @Override
     protected void onCollide(Entity entity)
     {
-        if (status.isState(EntityState.JUMP, EntityState.TURN) && getAnimState() != AnimState.FINISHED)
+        final Animation anim = animations.get(EntityState.JUMP);
+        final int frame = getFrame();
+        if (frame > anim.getFirst() && frame <= anim.getLast())
         {
             entity.hitBy(this);
         }

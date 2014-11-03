@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.entity;
 
 import com.b3dgs.lionengine.game.purview.Localizable;
-import com.b3dgs.lionengine.game.purview.Mirrorable;
 
 /**
  * Represents something that can patrol.
@@ -26,7 +25,7 @@ import com.b3dgs.lionengine.game.purview.Mirrorable;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public interface Patrollable
-        extends Localizable, Mirrorable, Patroller
+        extends Localizable, Patroller
 {
     /**
      * Set the movement force.

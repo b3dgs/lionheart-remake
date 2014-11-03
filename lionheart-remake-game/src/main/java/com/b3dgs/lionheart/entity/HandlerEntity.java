@@ -128,38 +128,41 @@ public class HandlerEntity
     protected void updatingEntity(Entity entity, double extrp)
     {
         // Scenery interaction (leg)
-        if (entity instanceof EntityScenery)
+        if (!player.isDead())
         {
-            if (player.getCollisionLeg().collide(entity))
+            if (entity instanceof EntityScenery)
             {
-                entity.hitThat(player);
+                if (player.getCollisionLeg().collide(entity))
+                {
+                    entity.hitThat(player);
+                }
+                if (player.getCollisionAttack().collide(entity))
+                {
+                    entity.hitBy(player);
+                }
             }
-            if (player.getCollisionAttack().collide(entity))
+            // Item interaction (player)
+            else if (entity instanceof EntityItem)
             {
-                entity.hitBy(player);
+                if (player.collide(entity))
+                {
+                    entity.hitBy(player);
+                }
             }
-        }
-        // Item interaction (player)
-        else if (entity instanceof EntityItem)
-        {
-            if (player.collide(entity))
+            // Monster interaction (player)
+            else if (entity instanceof EntityMonster)
             {
-                entity.hitBy(player);
-            }
-        }
-        // Monster interaction (player)
-        else if (entity instanceof EntityMonster)
-        {
-            ((EntityMonster) entity).update(player);
-            if (player.collide(entity))
-            {
-                entity.hitThat(player);
-                player.hitBy(entity);
-            }
-            if (player.getCollisionAttack().collide(entity))
-            {
-                player.hitThat(entity);
-                entity.hitBy(player);
+                ((EntityMonster) entity).update(player);
+                if (player.collide(entity))
+                {
+                    entity.hitThat(player);
+                    player.hitBy(entity);
+                }
+                if (player.getCollisionAttack().collide(entity))
+                {
+                    player.hitThat(entity);
+                    entity.hitBy(player);
+                }
             }
         }
         entity.onUpdated();

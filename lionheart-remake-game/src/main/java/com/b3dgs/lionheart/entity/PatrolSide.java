@@ -18,16 +18,16 @@
 package com.b3dgs.lionheart.entity;
 
 /**
- * Represents the two patrol side.
+ * Represents the patrol sides.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public enum PatrolSide
 {
-    /** Patrol to left. */
-    LEFT(-1),
-    /** Patrol to right. */
-    RIGHT(1);
+    /** Patrol to min. */
+    MIN(-1),
+    /** Patrol to max. */
+    MAX(1);
 
     /** Move value. */
     private final int move;
