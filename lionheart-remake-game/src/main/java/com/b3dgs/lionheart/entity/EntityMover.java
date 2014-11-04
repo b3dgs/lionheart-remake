@@ -120,6 +120,15 @@ public abstract class EntityMover
     }
 
     /**
+     * Force the entity to jump.
+     */
+    public void forceJump()
+    {
+        resetGravity();
+        jumpForce.setForce(0.0, jumpHeightMax * 0.8);
+    }
+
+    /**
      * Check if entity can jump.
      * 
      * @return <code>true</code> if can jump, <code>false</code> else.

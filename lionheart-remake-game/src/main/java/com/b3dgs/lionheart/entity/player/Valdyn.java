@@ -733,8 +733,7 @@ public final class Valdyn
         if (!isDead() && !timerHurt.isStarted())
         {
             Sfx.VALDYN_HURT.play();
-            resetGravity();
-            jumpForce.setForce(0.0, jumpHeightMax * 0.8);
+            forceJump();
             stats.decreaseHeart();
             timerHurt.start();
         }

@@ -17,11 +17,13 @@
  */
 package com.b3dgs.lionheart.entity.scenery.swamp;
 
+import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryTurning;
 
 /**
@@ -44,5 +46,28 @@ public final class TurningAuto
     {
         super(setup);
         timerShake.start();
+    }
+
+    /*
+     * EntitySceneryTurning
+     */
+
+    @Override
+    protected void updateStates()
+    {
+        // Turning, detect end turning
+        if (shakeCounter == 5)
+        {
+            effectStart = false;
+            if (getAnimState() == AnimState.FINISHED)
+            {
+                shakeCounter = 0;
+                shake = false;
+                status.setState(EntityState.IDLE);
+                effectSide = 1;
+                timerShake.start();
+            }
+        }
+        super.updateStates();
     }
 }

@@ -532,7 +532,7 @@ public final class ValdynAttack
      */
     private void loadAttacks(Configurer configurer)
     {
-        for (final XmlNode animation : configurer.getRoot().getChildren("animation"))
+        for (final XmlNode animation : configurer.getRoot().getChildren(ConfigAnimations.ANIMATION))
         {
             final Set<ValdynAttackData> set = new HashSet<>(1);
             for (final XmlNode attackNode : animation.getChildren("attack"))

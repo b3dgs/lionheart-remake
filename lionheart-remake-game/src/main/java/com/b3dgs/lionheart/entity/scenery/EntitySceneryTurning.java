@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.entity.scenery;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.entity.Entity;
@@ -88,6 +87,7 @@ public abstract class EntitySceneryTurning
             if (shakeCounter == 3)
             {
                 shakeCounter = 4;
+                shake = false;
                 timerShake.start();
             }
             setLocationY(initialY - UtilMath.sin(effectCounter) * EntitySceneryTurning.SHAKE_AMPLITUDE);
@@ -107,28 +107,21 @@ public abstract class EntitySceneryTurning
     protected void updateStates()
     {
         super.updateStates();
-        if (shake)
+        // Start turning
+        if (shakeCounter == 4 && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_TURNING))
         {
-            // Turning, detect end turning
-            if (shakeCounter == 5)
-            {
-                effectStart = false;
-                if (getAnimState() == AnimState.FINISHED)
-                {
-                    shakeCounter = 0;
-                    shake = false;
-                    status.setState(EntityState.IDLE);
-                    effectSide = 1;
-                    timerShake.start();
-                }
-            }
-            // Start turning
-            if (shakeCounter == 4 && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_TURNING))
-            {
-                shakeCounter = 5;
-                timerShake.stop();
-                status.setState(EntityState.TURN);
-            }
+            shakeCounter = 5;
+            timerShake.stop();
+            status.setState(EntityState.TURN);
+        }
+    }
+
+    @Override
+    protected void updateSheet(double extrp)
+    {
+        if (!shake)
+        {
+            super.updateSheet(extrp);
         }
     }
 }

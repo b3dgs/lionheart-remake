@@ -22,7 +22,9 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
+import com.b3dgs.lionheart.entity.player.ValdynState;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryTurning;
 
 /**
@@ -55,6 +57,10 @@ public final class TurningHit
     public void hitBy(Entity entity)
     {
         super.hitBy(entity);
+        if (entity instanceof EntityMover && entity.status.isState(ValdynState.ATTACK_FALL))
+        {
+            ((EntityMover) entity).forceJump();
+        }
         if (shakeCounter == 6)
         {
             shakeCounter = 7;
@@ -64,7 +70,6 @@ public final class TurningHit
     @Override
     protected void updateStates()
     {
-        super.updateStates();
         // Turning
         if (shakeCounter == 5)
         {
@@ -85,15 +90,6 @@ public final class TurningHit
                 timerShake.start();
             }
         }
-        if (shake)
-        {
-            // Start turning
-            if (shakeCounter == 4 && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_TURNING))
-            {
-                shakeCounter = 5;
-                timerShake.stop();
-                status.setState(EntityState.TURN);
-            }
-        }
+        super.updateStates();
     }
 }

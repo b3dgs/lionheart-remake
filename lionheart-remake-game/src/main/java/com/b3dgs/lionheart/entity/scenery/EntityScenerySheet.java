@@ -54,19 +54,13 @@ public abstract class EntityScenerySheet
         super(setup);
     }
 
-    /*
-     * EntityScenery
+    /**
+     * Update the sheet effect.
+     * 
+     * @param extrp The extrapolation value.
      */
-
-    @Override
-    public void update(double extrp)
+    protected void updateSheet(double extrp)
     {
-        // Keep original location y
-        if (initialY == Integer.MIN_VALUE)
-        {
-            initialY = getLocationIntY();
-        }
-        super.update(extrp);
         if (effectStart)
         {
             effectCounter += EntityScenerySheet.EFFECT_SPEED * effectSide * extrp;
@@ -83,6 +77,22 @@ public abstract class EntityScenerySheet
             }
             setLocationY(initialY - UtilMath.sin(effectCounter) * EntityScenerySheet.AMPLITUDE);
         }
+    }
+
+    /*
+     * EntityScenery
+     */
+
+    @Override
+    public void update(double extrp)
+    {
+        // Keep original location y
+        if (initialY == Integer.MIN_VALUE)
+        {
+            initialY = getLocationIntY();
+        }
+        super.update(extrp);
+        updateSheet(extrp);
     }
 
     @Override

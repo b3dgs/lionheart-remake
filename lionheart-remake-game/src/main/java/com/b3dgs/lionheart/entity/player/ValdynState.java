@@ -26,7 +26,7 @@ import com.b3dgs.lionheart.entity.State;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-enum ValdynState implements State
+public enum ValdynState implements State
 {
     /** Crouch state. */
     CROUCH,
