@@ -21,14 +21,15 @@ import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.purview.Collidable;
 import com.b3dgs.lionengine.game.purview.model.CollidableModel;
+import com.b3dgs.lionengine.geom.Rectangle;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityCollision;
+import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.entity.scenery.EntityScenery;
@@ -90,21 +91,24 @@ public final class CarnivorousPlant
             final Valdyn valdyn = (Valdyn) entity;
             if (bite.collide(valdyn.getCollisionLeg()))
             {
+                entity.applyVerticalCollision(Double.valueOf(bite.getCollisionBounds().getMaxY()));
                 entity.kill();
             }
+            final Rectangle coll = getCollisionBounds();
+            final Rectangle leg = valdyn.getCollisionLeg().getCollisionBounds();
+            final EntityCollisionTile collision = valdyn.status.getCollision();
+            final double xMin = leg.getMaxX();
+            final double xMax = leg.getMinX();
 
-            final Collision collision = getCollisionData();
-            if (entity.getLocationX() + entity.getWidth() > getLocationX() - collision.getOffsetX()
-                    && entity.getLocationX() + entity.getWidth() < getLocationX() + getWidth() / 2)
+            if (xMin > coll.getMinX() && xMin < coll.getMinX() + coll.getWidth() / 2)
             {
-                entity.teleportX(getLocationX() - entity.getWidth() - collision.getOffsetX());
-                valdyn.resetMovement();
+                valdyn.checkCollisionHorizontal(Double.valueOf(coll.getMinX() + (valdyn.getLocationX() - xMin + 1)),
+                        collision);
             }
-            else if (entity.getLocationX() > getLocationX() + getWidth() / 2 - collision.getOffsetX()
-                    && entity.getLocationX() < getLocationX() + getWidth())
+            else if (xMax <= coll.getMaxX() && xMax > coll.getMaxX() - coll.getWidth() / 2)
             {
-                entity.teleportX(getLocationX() + getWidth() - 6 - collision.getOffsetX());
-                valdyn.resetMovement();
+                valdyn.checkCollisionHorizontal(Double.valueOf(coll.getMaxX() + (valdyn.getLocationX() - xMax - 1)),
+                        collision);
             }
         }
     }

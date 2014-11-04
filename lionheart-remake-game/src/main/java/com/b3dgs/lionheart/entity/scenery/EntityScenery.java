@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.entity.scenery;
 
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.geom.Rectangle;
 import com.b3dgs.lionheart.entity.Entity;
@@ -32,6 +33,8 @@ import com.b3dgs.lionheart.entity.player.Valdyn;
 public abstract class EntityScenery
         extends Entity
 {
+    /** Border timer. */
+    private final Timing borderTimer;
     /** Collide state. */
     private boolean collide;
     /** Collide old state. */
@@ -43,6 +46,7 @@ public abstract class EntityScenery
     protected EntityScenery(SetupSurfaceRasteredGame setup)
     {
         super(setup);
+        borderTimer = new Timing();
     }
 
     /**
@@ -56,6 +60,51 @@ public abstract class EntityScenery
      * Called when lost collision.
      */
     protected abstract void onLostCollision();
+
+    /**
+     * Update the entity extremity position.
+     * 
+     * @param entity The entity reference.
+     */
+    private void updateExtremity(Entity entity)
+    {
+        if (entity instanceof Valdyn)
+        {
+            final Valdyn valdyn = (Valdyn) entity;
+            final int width = valdyn.getWidth() / 2;
+            final Rectangle collision = getCollisionBounds();
+            if (valdyn.getLocationX() < collision.getMinX() - width + Valdyn.TILE_EXTREMITY_WIDTH * 2)
+            {
+                checkExtremity(valdyn, true);
+            }
+            else if (valdyn.getLocationX() > collision.getMaxX() + width - Valdyn.TILE_EXTREMITY_WIDTH * 2)
+            {
+                checkExtremity(valdyn, false);
+            }
+            else
+            {
+                borderTimer.stop();
+            }
+        }
+    }
+
+    /**
+     * Check the extremity timer and apply it.
+     * 
+     * @param valdyn Valdyn reference.
+     * @param mirror The mirror to apply.
+     */
+    private void checkExtremity(Valdyn valdyn, boolean mirror)
+    {
+        if (!borderTimer.isStarted())
+        {
+            borderTimer.start();
+        }
+        if (borderTimer.elapsed(250))
+        {
+            valdyn.updateExtremity(true);
+        }
+    }
 
     /*
      * Entity
@@ -81,20 +130,7 @@ public abstract class EntityScenery
                 collide = true;
             }
         }
-        if (entity instanceof Valdyn)
-        {
-            final Valdyn valdyn = (Valdyn) entity;
-            final Rectangle collision = getCollisionBounds();
-            if (valdyn.getLocationX() < collision.getMinX() - valdyn.getWidth() / 2 + Valdyn.TILE_EXTREMITY_WIDTH * 2)
-            {
-                valdyn.updateExtremity(true);
-            }
-            else if (valdyn.getLocationX() > collision.getMaxX() + valdyn.getWidth() / 2 - Valdyn.TILE_EXTREMITY_WIDTH
-                    * 2)
-            {
-                valdyn.updateExtremity(false);
-            }
-        }
+        updateExtremity(entity);
     }
 
     @Override

@@ -518,14 +518,6 @@ final class ValdynTilt
     }
 
     /**
-     * Reset the movement.
-     */
-    void resetMovement()
-    {
-        movement.reset();
-    }
-
-    /**
      * Get the liana status.
      * 
      * @return The liana status.

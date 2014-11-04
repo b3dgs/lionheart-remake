@@ -102,6 +102,24 @@ public abstract class EntityMover
     }
 
     /**
+     * Check horizontal axis.
+     * 
+     * @param x The x location.
+     * @param collision The collision type.
+     * @return <code>true</code> if collision applied, <code>false</code> else.
+     */
+    public boolean checkCollisionHorizontal(Double x, EntityCollisionTile collision)
+    {
+        if (applyHorizontalCollision(x))
+        {
+            movement.reset();
+            status.setCollision(collision);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Check if entity can jump.
      * 
      * @return <code>true</code> if can jump, <code>false</code> else.
@@ -164,6 +182,23 @@ public abstract class EntityMover
         {
             final Double y = tile.getCollisionY(this);
             checkCollisionVertical(y, EntityCollisionTile.GROUND);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check horizontal axis.
+     * 
+     * @param tile The tile collision.
+     * @return <code>true</code> if collision occurred, <code>false</code> else.
+     */
+    protected boolean checkCollisionHorizontal(Tile tile)
+    {
+        if (tile != null)
+        {
+            final Double x = tile.getCollisionX(this);
+            checkCollisionHorizontal(x, EntityCollisionTile.GROUND);
             return true;
         }
         return false;

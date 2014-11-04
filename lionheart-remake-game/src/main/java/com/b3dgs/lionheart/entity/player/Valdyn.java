@@ -225,14 +225,6 @@ public final class Valdyn
     }
 
     /**
-     * Reset the movement.
-     */
-    public void resetMovement()
-    {
-        tilt.resetMovement();
-    }
-
-    /**
      * Set the landscape reference.
      * 
      * @param landscape The landscape reference.
@@ -598,7 +590,7 @@ public final class Valdyn
             }
         }
         final CoordTile coord = getCollisionTileOffset(category);
-        if (coord != null && coord.getX() != 0 && isOnExtremity(-UtilMath.getSign(coord.getX())))
+        if (tile != null && coord != null && coord.getX() != 0 && isOnExtremity(-UtilMath.getSign(coord.getX())))
         {
             updateExtremity(mirror);
         }
@@ -869,7 +861,7 @@ public final class Valdyn
             if (stepDie == 1 && timerDie.elapsed(2000))
             {
                 stats.decreaseLife();
-                if (stats.getLife() > 0)
+                if (stats.getLife() >= 0)
                 {
                     respawn();
                 }

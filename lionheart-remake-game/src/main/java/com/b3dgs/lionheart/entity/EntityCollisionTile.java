@@ -28,6 +28,8 @@ public enum EntityCollisionTile
     NONE,
     /** On ground. */
     GROUND,
+    /** On pillar. */
+    PILLAR,
     /** On liana. */
     LIANA;
 }
