@@ -29,7 +29,9 @@ public enum EntityCollision
     /** Default collision. */
     DEFAULT,
     /** Bite collision. */
-    BITE;
+    BITE,
+    /** Top collision. */
+    TOP;
 
     @Override
     public String toString()

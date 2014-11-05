@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.Patrol;
-import com.b3dgs.lionheart.entity.scenery.EntitySceneryBeetle;
+import com.b3dgs.lionheart.entity.scenery.EntitySceneryPatroller;
 
 /**
  * Beetle vertical implementation.
@@ -32,7 +32,7 @@ import com.b3dgs.lionheart.entity.scenery.EntitySceneryBeetle;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class BeetleVertical
-        extends EntitySceneryBeetle
+        extends EntitySceneryPatroller
 {
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.SCENERY, ThemeType.SWAMP, BeetleVertical.class);

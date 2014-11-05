@@ -38,23 +38,23 @@ import com.b3dgs.lionheart.entity.State;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public abstract class EntitySceneryBeetle
+public abstract class EntitySceneryPatroller
         extends EntityScenery
         implements Patrollable
 {
     /** Patrollable model. */
     protected final PatrollerModel patroller;
+    /** Movement force. */
+    protected final Movement movement;
     /** Forces list used. */
     private final Force[] forces;
-    /** Movement force. */
-    private final Movement movement;
     /** Movement max speed. */
-    private double movementSpeedMax;
+    protected double movementSpeedMax;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
      */
-    protected EntitySceneryBeetle(SetupSurfaceRasteredGame setup)
+    protected EntitySceneryPatroller(SetupSurfaceRasteredGame setup)
     {
         super(setup);
         movement = new Movement();
@@ -63,6 +63,43 @@ public abstract class EntitySceneryBeetle
             movement.getForce()
         };
         patroller = new PatrollerModel(this);
+    }
+
+    /**
+     * Check if patrol end has been reached.
+     */
+    protected void checkPatrolEnd()
+    {
+        final State state = status.getState();
+        if (state == EntityState.TURN)
+        {
+            movement.reset();
+            updatePatrolEnd();
+        }
+    }
+
+    /**
+     * Update the patrol when end has been reached.
+     */
+    protected void updatePatrolEnd()
+    {
+        if (getAnimState() == AnimState.FINISHED)
+        {
+            final int side = patroller.getSide();
+            setSide(-side);
+            if (getPatrolType() == Patrol.HORIZONTAL)
+            {
+                mirror(side >= 0);
+                setMovementForce(movementSpeedMax * side, 0.0);
+                teleportX(getLocationIntX() + side);
+            }
+            else if (getPatrolType() == Patrol.VERTICAL)
+            {
+                mirror(side < 0);
+                setMovementForce(0.0, movementSpeedMax * side);
+                teleportY(getLocationIntY() + side);
+            }
+        }
     }
 
     /*
@@ -102,28 +139,7 @@ public abstract class EntitySceneryBeetle
     @Override
     protected void handleActions(double extrp)
     {
-        final State state = status.getState();
-        if (state == EntityState.TURN)
-        {
-            movement.reset();
-            if (getAnimState() == AnimState.FINISHED)
-            {
-                final int side = patroller.getSide();
-                setSide(-side);
-                if (getPatrolType() == Patrol.HORIZONTAL)
-                {
-                    mirror(side >= 0);
-                    setMovementForce(movementSpeedMax * side, 0.0);
-                    teleportX(getLocationIntX() + side);
-                }
-                else if (getPatrolType() == Patrol.VERTICAL)
-                {
-                    mirror(side < 0);
-                    setMovementForce(0.0, movementSpeedMax * side);
-                    teleportY(getLocationIntY() + side);
-                }
-            }
-        }
+        checkPatrolEnd();
         super.handleActions(extrp);
     }
 
