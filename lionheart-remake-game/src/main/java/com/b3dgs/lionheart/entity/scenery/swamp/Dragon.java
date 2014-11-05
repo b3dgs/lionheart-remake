@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.monster.EntityMonster;
+import com.b3dgs.lionheart.entity.scenery.EntityScenery;
 
 /**
  * Dragon implementation.
@@ -30,7 +30,7 @@ import com.b3dgs.lionheart.entity.monster.EntityMonster;
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class Dragon
-        extends EntityMonster
+        extends EntityScenery
 {
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.SCENERY, ThemeType.SWAMP, Dragon.class);
@@ -43,5 +43,19 @@ public final class Dragon
     public Dragon(SetupSurfaceRasteredGame setup)
     {
         super(setup);
+    }
+
+    /*
+     * EntityScenery
+     */
+
+    @Override
+    protected void onCollide(Entity entity)
+    {
+    }
+
+    @Override
+    protected void onLostCollision()
+    {
     }
 }
