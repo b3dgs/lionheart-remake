@@ -728,9 +728,15 @@ public final class Valdyn
     }
 
     @Override
+    public void checkCollision(Valdyn player)
+    {
+        // Nothing to do
+    }
+
+    @Override
     public void hitBy(Entity entity)
     {
-        if (!isDead() && !timerHurt.isStarted())
+        if (!timerHurt.isStarted())
         {
             Sfx.VALDYN_HURT.play();
             forceJump();
@@ -742,7 +748,7 @@ public final class Valdyn
     @Override
     public void hitThat(Entity entity)
     {
-        if (!isDead() && entity instanceof EntityMonster && status.getState() == ValdynState.ATTACK_FALL)
+        if (entity instanceof EntityMonster && status.getState() == ValdynState.ATTACK_FALL)
         {
             resetGravity();
             jumpForce.setForce(0.0, jumpHeightMax * 0.8);

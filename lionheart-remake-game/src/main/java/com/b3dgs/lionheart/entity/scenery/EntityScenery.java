@@ -111,6 +111,19 @@ public abstract class EntityScenery
      */
 
     @Override
+    public void checkCollision(Valdyn player)
+    {
+        if (player.getCollisionLeg().collide(this))
+        {
+            hitThat(player);
+        }
+        if (player.getCollisionAttack().collide(this))
+        {
+            hitBy(player);
+        }
+    }
+
+    @Override
     public void hitBy(Entity entity)
     {
         // Nothing to do

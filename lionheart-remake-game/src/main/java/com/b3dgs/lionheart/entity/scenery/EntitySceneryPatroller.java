@@ -30,6 +30,7 @@ import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.Patrol;
 import com.b3dgs.lionheart.entity.PatrolSide;
 import com.b3dgs.lionheart.entity.Patrollable;
+import com.b3dgs.lionheart.entity.Patroller;
 import com.b3dgs.lionheart.entity.PatrollerModel;
 import com.b3dgs.lionheart.entity.State;
 
@@ -42,10 +43,10 @@ public abstract class EntitySceneryPatroller
         extends EntityScenery
         implements Patrollable
 {
-    /** Patrollable model. */
-    protected final PatrollerModel patroller;
     /** Movement force. */
     protected final Movement movement;
+    /** Patrollable model. */
+    private final Patroller patroller;
     /** Forces list used. */
     private final Force[] forces;
     /** Movement max speed. */

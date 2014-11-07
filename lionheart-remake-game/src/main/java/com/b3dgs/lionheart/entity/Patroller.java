@@ -30,6 +30,11 @@ import com.b3dgs.lionengine.stream.FileWriting;
 public interface Patroller
 {
     /**
+     * Prepare the patrol.
+     */
+    void prepare();
+
+    /**
      * Save the patrol.
      * 
      * @param file The file output.

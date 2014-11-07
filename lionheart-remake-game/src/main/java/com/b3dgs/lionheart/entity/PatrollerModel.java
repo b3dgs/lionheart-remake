@@ -70,9 +70,11 @@ public class PatrollerModel
         enableMovement(Patrol.NONE);
     }
 
-    /**
-     * Prepare the patrol.
+    /*
+     * Patroller
      */
+
+    @Override
     public void prepare()
     {
         hasPatrol = getPatrolLeft() != 0 || getPatrolRight() != 0;

@@ -41,6 +41,7 @@ import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -113,6 +114,13 @@ public abstract class Entity
         loadAnimations(configAnimations, EntityState.values());
         setFrame(configAnimations.getAnimation(EntityState.IDLE.getAnimationName()).getFirst());
     }
+
+    /**
+     * Check the collision with player.
+     * 
+     * @param entity The player to check collision with.
+     */
+    public abstract void checkCollision(Valdyn entity);
 
     /**
      * Called when this is hit by another entity.

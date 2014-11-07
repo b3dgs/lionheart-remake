@@ -69,6 +69,15 @@ public abstract class EntityItem
     }
 
     @Override
+    public void checkCollision(Valdyn player)
+    {
+        if (player.collide(this))
+        {
+            hitBy(player);
+        }
+    }
+
+    @Override
     public void hitBy(Entity entity)
     {
         if (!isDead())

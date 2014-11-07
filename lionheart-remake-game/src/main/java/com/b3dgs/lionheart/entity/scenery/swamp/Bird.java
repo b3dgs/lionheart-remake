@@ -18,13 +18,9 @@
 package com.b3dgs.lionheart.entity.scenery.swamp;
 
 import com.b3dgs.lionengine.Timing;
-import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.game.purview.Collidable;
-import com.b3dgs.lionengine.game.purview.model.CollidableModel;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
@@ -32,6 +28,7 @@ import com.b3dgs.lionheart.entity.EntityCollision;
 import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.Patrol;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.entity.player.ValdynState;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryPatroller;
 
@@ -46,8 +43,6 @@ public final class Bird
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.SCENERY, ThemeType.SWAMP, Bird.class);
 
-    /** Top surface. */
-    private final Collidable top;
     /** Hit timer. */
     private final Timing hit;
 
@@ -60,8 +55,6 @@ public final class Bird
     {
         super(setup);
         hit = new Timing();
-        top = new CollidableModel(this);
-        top.setCollision(collisions.get(EntityCollision.TOP));
         enableMovement(Patrol.VERTICAL);
     }
 
@@ -81,22 +74,9 @@ public final class Bird
      */
 
     @Override
-    public void updateCollision()
-    {
-        super.updateCollision();
-        top.updateCollision();
-    }
-
-    @Override
-    public void renderCollision(Graphic g, CameraGame camera)
-    {
-        top.renderCollision(g, camera);
-    }
-
-    @Override
     public void updateGravity(double extrp, int desiredFps, Force... forces)
     {
-        if (status.isState(EntityState.WALK))
+        if (status.isState(EntityState.TURN))
         {
             super.updateGravity(extrp, desiredFps, forces);
         }
@@ -105,7 +85,7 @@ public final class Bird
     @Override
     protected void handleActions(double extrp)
     {
-        if (status.isState(EntityState.WALK))
+        if (status.isState(EntityState.TURN))
         {
             final int y = getLocationIntY();
             if (y > getPositionMax())
@@ -128,19 +108,37 @@ public final class Bird
         super.updateStates();
         if (!hit.isStarted())
         {
-            status.setState(EntityState.WALK);
+            status.setState(EntityState.TURN);
         }
         else
         {
             if (hit.elapsed(3000))
             {
-                status.setState(EntityState.WALK);
+                status.setState(EntityState.TURN);
+                setCollision(collisions.get(EntityCollision.DEFAULT));
                 hit.stop();
             }
             else
             {
-                status.setState(EntityState.TURN);
+                status.setState(EntityState.WALK);
             }
+        }
+    }
+
+    @Override
+    public void checkCollision(Valdyn player)
+    {
+        if (status.isState(EntityState.WALK) && player.getCollisionLeg().collide(this))
+        {
+            hitThat(player);
+        }
+        if (status.isState(EntityState.TURN) && player.collide(this))
+        {
+            player.hitBy(this);
+        }
+        if (player.getCollisionAttack().collide(this))
+        {
+            hitBy(player);
         }
     }
 
@@ -152,6 +150,7 @@ public final class Bird
             ((EntityMover) entity).forceJump();
             if (!hit.isStarted())
             {
+                setCollision(collisions.get(EntityCollision.TOP));
                 hit.start();
             }
         }

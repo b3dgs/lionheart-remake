@@ -36,8 +36,10 @@ import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.Patrol;
 import com.b3dgs.lionheart.entity.PatrolSide;
 import com.b3dgs.lionheart.entity.Patrollable;
+import com.b3dgs.lionheart.entity.Patroller;
 import com.b3dgs.lionheart.entity.PatrollerModel;
 import com.b3dgs.lionheart.entity.State;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * Monster base implementation.
@@ -57,7 +59,7 @@ public class EntityMonster
     /** Effect factory. */
     private FactoryEffect factoryEffect;
     /** Patrol model. */
-    private final PatrollerModel patroller;
+    private final Patroller patroller;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
@@ -184,6 +186,22 @@ public class EntityMonster
                     teleportY(getPositionMin());
                 }
             }
+        }
+    }
+
+    @Override
+    public void checkCollision(Valdyn player)
+    {
+        update(player);
+        if (player.collide(this))
+        {
+            hitThat(player);
+            player.hitBy(this);
+        }
+        if (player.getCollisionAttack().collide(this))
+        {
+            player.hitThat(this);
+            hitBy(player);
         }
     }
 

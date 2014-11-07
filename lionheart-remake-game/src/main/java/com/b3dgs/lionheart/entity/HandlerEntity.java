@@ -25,10 +25,7 @@ import com.b3dgs.lionengine.game.platform.entity.HandlerEntityPlatform;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.AppLionheart;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.monster.EntityMonster;
 import com.b3dgs.lionheart.entity.player.Valdyn;
-import com.b3dgs.lionheart.entity.scenery.EntityScenery;
 import com.b3dgs.lionheart.map.Map;
 
 /**
@@ -127,43 +124,9 @@ public class HandlerEntity
     @Override
     protected void updatingEntity(Entity entity, double extrp)
     {
-        // Scenery interaction (leg)
         if (!player.isDead())
         {
-            if (entity instanceof EntityScenery)
-            {
-                if (player.getCollisionLeg().collide(entity))
-                {
-                    entity.hitThat(player);
-                }
-                if (player.getCollisionAttack().collide(entity))
-                {
-                    entity.hitBy(player);
-                }
-            }
-            // Item interaction (player)
-            else if (entity instanceof EntityItem)
-            {
-                if (player.collide(entity))
-                {
-                    entity.hitBy(player);
-                }
-            }
-            // Monster interaction (player)
-            else if (entity instanceof EntityMonster)
-            {
-                ((EntityMonster) entity).update(player);
-                if (player.collide(entity))
-                {
-                    entity.hitThat(player);
-                    player.hitBy(entity);
-                }
-                if (player.getCollisionAttack().collide(entity))
-                {
-                    player.hitThat(entity);
-                    entity.hitBy(player);
-                }
-            }
+            entity.checkCollision(player);
         }
         entity.onUpdated();
     }
