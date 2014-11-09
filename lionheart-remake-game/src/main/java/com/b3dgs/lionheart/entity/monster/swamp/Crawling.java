@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
@@ -144,14 +144,14 @@ public final class Crawling
             if (timerJump.elapsed(Crawling.TIME_BEFORE_JUMP))
             {
                 prepareJump = false;
-                jumpForce.setForce(0.0, 4.75);
+                jumpForce.setDirection(0.0, 4.75);
                 setMovementForce(jumpForceSpeed / 8.0 * side, 0.0);
                 if (status.collisionChangedFromTo(EntityCollisionTile.NONE, EntityCollisionTile.GROUND))
                 {
                     jumping = false;
-                    jumpForce.setForce(Force.ZERO);
+                    jumpForce.setDirection(Direction.ZERO);
                     timerJump.stop();
-                    movement.setForceToReach(getMovementSpeedMax() * side, 0.0);
+                    movement.setDirectionToReach(getMovementSpeedMax() * side, 0.0);
                     setMovementForce(getMovementSpeedMax() * side, 0.0);
                 }
             }

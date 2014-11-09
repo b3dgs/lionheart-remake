@@ -94,7 +94,7 @@ final class ValdynTilt
     {
         final boolean keyLeft = valdyn.isEnabled(EntityAction.MOVE_LEFT);
         final boolean keyRight = valdyn.isEnabled(EntityAction.MOVE_RIGHT);
-        final double forceH = movement.getForce().getForceHorizontal();
+        final double forceH = movement.getDirectionHorizontal();
         if (movement.isDecreasingHorizontal()
                 && (forceH > movementSpeedMax && keyRight || forceH < -movementSpeedMax && keyLeft))
         {
@@ -271,16 +271,16 @@ final class ValdynTilt
      */
     void updateActionJumpSlide(Force jumpForce, double jumpHeightMax)
     {
-        jumpForce.setForce(0.0, jumpHeightMax * 0.6);
+        jumpForce.setDirection(0.0, jumpHeightMax * 0.6);
         if (slide == Align.RIGHT)
         {
-            movement.getForce().setForce(jumpHeightMax * 0.6, 0.0);
-            movement.setForceToReach(jumpHeightMax * 0.6, 0.0);
+            movement.setForce(jumpHeightMax * 0.6, 0.0);
+            movement.setDirectionToReach(jumpHeightMax * 0.6, 0.0);
         }
         else if (slide == Align.LEFT)
         {
-            movement.getForce().setForce(-jumpHeightMax * 0.6, 0.0);
-            movement.setForceToReach(-jumpHeightMax * 0.6, 0.0);
+            movement.setForce(-jumpHeightMax * 0.6, 0.0);
+            movement.setDirectionToReach(-jumpHeightMax * 0.6, 0.0);
         }
     }
 

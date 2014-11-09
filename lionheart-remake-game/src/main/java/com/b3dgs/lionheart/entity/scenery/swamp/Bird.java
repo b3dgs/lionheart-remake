@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.entity.scenery.swamp;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
@@ -74,11 +74,11 @@ public final class Bird
      */
 
     @Override
-    public void updateGravity(double extrp, int desiredFps, Force... forces)
+    public void updateGravity(double extrp, int desiredFps, Direction... directions)
     {
         if (status.isState(EntityState.TURN))
         {
-            super.updateGravity(extrp, desiredFps, forces);
+            super.updateGravity(extrp, desiredFps, directions);
         }
     }
 

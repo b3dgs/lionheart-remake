@@ -73,7 +73,7 @@ public final class Dino
         {
             side = PatrolSide.MAX.getMove();
         }
-        movement.getForce().setForce(3.0 * side, 0.0);
+        movement.setForce(3.0 * side, 0.0);
     }
 
     @Override

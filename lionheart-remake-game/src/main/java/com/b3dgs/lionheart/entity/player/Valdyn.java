@@ -28,7 +28,7 @@ import com.b3dgs.lionengine.game.CameraGame;
 import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.CoordTile;
-import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurer.ConfigAnimations;
 import com.b3dgs.lionengine.game.configurer.ConfigCollisions;
@@ -287,7 +287,7 @@ public final class Valdyn
      */
     void resetJump()
     {
-        jumpForce.setForce(Force.ZERO);
+        jumpForce.setDirection(Direction.ZERO);
         jumped = true;
         timerJump.stop();
     }
@@ -387,7 +387,7 @@ public final class Valdyn
         movement.setSensibility(sensibility);
         movement.setVelocity(movementSmooth);
         speed = tilt.updateMovementSlope(speed, sensibility, movementSpeedMax, movementSmooth);
-        movement.setForceToReach(speed, 0);
+        movement.setDirectionToReach(speed, 0);
 
         // Crouch
         if (isOnGround() && !isSliding() && keyDown)
@@ -420,7 +420,7 @@ public final class Valdyn
                 {
                     if (tilt.getSlide() == null)
                     {
-                        jumpForce.setForce(0.0, jumpHeightMax);
+                        jumpForce.setDirection(0.0, jumpHeightMax);
                         tilt.stopLianaSoar();
                         tilt.stopGroundHoockableSoar();
                     }
@@ -438,8 +438,8 @@ public final class Valdyn
                 if (timerJump.elapsed(Valdyn.JUMP_TIME_MIN))
                 {
                     final double factor = timerJump.elapsed() / (double) Valdyn.JUMP_TIME_MAX;
-                    jumpForce.setForce(0.0, UtilMath.fixBetween(jumpHeightMax * factor, 0.0, jumpHeightMax));
-                    setGravityMax(gravityMax + jumpForce.getForceVertical());
+                    jumpForce.setDirection(0.0, UtilMath.fixBetween(jumpHeightMax * factor, 0.0, jumpHeightMax));
+                    setGravityMax(gravityMax + jumpForce.getDirectionVertical());
                     timerJump.stop();
                 }
             }
@@ -670,7 +670,7 @@ public final class Valdyn
     {
         super.respawn();
         timerJump.stop();
-        jumpForce.setForce(Force.ZERO);
+        jumpForce.setDirection(Direction.ZERO);
         attack.respawn();
         stats.fillHeart();
         hurtEffectCounter = 0;
@@ -751,7 +751,7 @@ public final class Valdyn
         if (entity instanceof EntityMonster && status.getState() == ValdynState.ATTACK_FALL)
         {
             resetGravity();
-            jumpForce.setForce(0.0, jumpHeightMax * 0.8);
+            jumpForce.setDirection(0.0, jumpHeightMax * 0.8);
         }
     }
 
@@ -844,14 +844,14 @@ public final class Valdyn
             if (getLocationY() < 0)
             {
                 movement.reset();
-                jumpForce.setForce(0.0, -0.4);
+                jumpForce.setDirection(0.0, -0.4);
                 stepDie = 1;
                 resetGravity();
             }
         }
         else
         {
-            jumpForce.setForce(-1.25, 2.75);
+            jumpForce.setDirection(-1.25, 2.75);
             resetGravity();
         }
         if (timerDie.elapsed(500))
@@ -860,7 +860,7 @@ public final class Valdyn
             if (!drownedDeath)
             {
                 resetGravity();
-                jumpForce.setForce(Force.ZERO);
+                jumpForce.setDirection(Direction.ZERO);
                 teleportY(getLocationOldY());
             }
             if (stepDie == 1 && timerDie.elapsed(2000))

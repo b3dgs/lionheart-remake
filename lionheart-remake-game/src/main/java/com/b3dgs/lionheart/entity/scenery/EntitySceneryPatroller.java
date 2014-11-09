@@ -20,7 +20,7 @@ package com.b3dgs.lionheart.entity.scenery;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.anim.AnimState;
-import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.stream.FileReading;
@@ -47,8 +47,8 @@ public abstract class EntitySceneryPatroller
     protected final Movement movement;
     /** Patrollable model. */
     private final Patroller patroller;
-    /** Forces list used. */
-    private final Force[] forces;
+    /** Directions list used. */
+    private final Direction[] directions;
     /** Movement max speed. */
     protected double movementSpeedMax;
 
@@ -59,9 +59,9 @@ public abstract class EntitySceneryPatroller
     {
         super(setup);
         movement = new Movement();
-        forces = new Force[]
+        directions = new Direction[]
         {
-            movement.getForce()
+            movement
         };
         patroller = new PatrollerModel(this);
     }
@@ -152,9 +152,9 @@ public abstract class EntitySceneryPatroller
     }
 
     @Override
-    protected Force[] getForces()
+    protected Direction[] getDirections()
     {
-        return forces;
+        return directions;
     }
 
     @Override
@@ -176,8 +176,8 @@ public abstract class EntitySceneryPatroller
     @Override
     public void setMovementForce(double fh, double fv)
     {
-        movement.getForce().setForce(fh, fv);
-        movement.setForceToReach(fh, fv);
+        movement.setForce(fh, fv);
+        movement.setDirectionToReach(fh, fv);
     }
 
     @Override
@@ -195,7 +195,7 @@ public abstract class EntitySceneryPatroller
     @Override
     public double getForceHorizontal()
     {
-        return movement.getForce().getForceHorizontal();
+        return movement.getDirectionHorizontal();
     }
 
     /*

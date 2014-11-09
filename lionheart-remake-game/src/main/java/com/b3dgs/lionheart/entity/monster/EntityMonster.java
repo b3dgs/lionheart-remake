@@ -109,7 +109,7 @@ public class EntityMonster
     {
         super.prepare();
         patroller.prepare();
-        movement.setForceToReach(movement.getForce());
+        movement.setDirectionToReach(movement.getDirectionHorizontal(), movement.getDirectionVertical());
         life.fill();
     }
 
@@ -145,13 +145,13 @@ public class EntityMonster
                 if (getPatrolType() == Patrol.HORIZONTAL)
                 {
                     setMovementForce(movementSpeedMax * side, 0.0);
-                    movement.setForceToReach(movementSpeedMax * side, 0.0);
+                    movement.setDirectionToReach(movementSpeedMax * side, 0.0);
                     teleportX(getLocationIntX() + side);
                 }
                 else if (getPatrolType() == Patrol.VERTICAL)
                 {
                     setMovementForce(0.0, movementSpeedMax * side);
-                    movement.setForceToReach(movementSpeedMax * side, 0.0);
+                    movement.setDirectionToReach(movementSpeedMax * side, 0.0);
                     teleportY(getLocationIntY() + side);
                 }
             }
@@ -288,7 +288,7 @@ public class EntityMonster
     @Override
     public void setMovementForce(double fh, double fv)
     {
-        movement.getForce().setForce(fh, fv);
+        movement.setForce(fh, fv);
     }
 
     @Override
@@ -306,7 +306,7 @@ public class EntityMonster
     @Override
     public double getForceHorizontal()
     {
-        return movement.getForce().getForceHorizontal();
+        return movement.getDirectionHorizontal();
     }
 
     /*

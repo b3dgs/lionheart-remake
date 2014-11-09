@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.ContextGame;
+import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
@@ -334,9 +335,9 @@ public abstract class Entity
     /**
      * Get forces involved in gravity and movement. Return empty array by default.
      * 
-     * @return The forces list.
+     * @return The directions list.
      */
-    protected Force[] getForces()
+    protected Direction[] getDirections()
     {
         return forces;
     }
@@ -362,7 +363,7 @@ public abstract class Entity
     @Override
     protected void handleMovements(double extrp)
     {
-        updateGravity(extrp, desiredFps, getForces());
+        updateGravity(extrp, desiredFps, getDirections());
         updateMirror();
         if (dead)
         {

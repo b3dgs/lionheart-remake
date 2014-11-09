@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.entity;
 
 import java.util.EnumMap;
 
+import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
@@ -46,8 +47,8 @@ public abstract class EntityMover
     protected final double gravityMax;
     /** Extra gravity force. */
     private final Force extraGravityForce;
-    /** Forces list used. */
-    private final Force[] forces;
+    /** Directions list used. */
+    private final Direction[] directions;
     /** Movement max speed. */
     protected double movementSpeedMax;
 
@@ -66,9 +67,9 @@ public abstract class EntityMover
         gravityMax = configurer.getDouble("gravityMax", "data");
         movement.setVelocity(0.2);
         movement.setSensibility(0.4);
-        forces = new Force[]
+        directions = new Direction[]
         {
-                jumpForce, extraGravityForce, movement.getForce()
+                jumpForce, extraGravityForce, movement
         };
         setMass(configurer.getDouble("mass", "data"));
         setGravityMax(gravityMax);
@@ -94,7 +95,7 @@ public abstract class EntityMover
         if (applyVerticalCollision(y))
         {
             resetGravity();
-            jumpForce.setForce(Force.ZERO);
+            jumpForce.setDirection(Direction.ZERO);
             status.setCollision(collision);
             return true;
         }
@@ -125,7 +126,7 @@ public abstract class EntityMover
     public void forceJump()
     {
         resetGravity();
-        jumpForce.setForce(0.0, jumpHeightMax * 0.8);
+        jumpForce.setDirection(0.0, jumpHeightMax * 0.8);
     }
 
     /**
@@ -240,7 +241,7 @@ public abstract class EntityMover
      */
     protected double getHorizontalForce()
     {
-        return movement.getForce().getForceHorizontal();
+        return movement.getDirectionHorizontal();
     }
 
     /**
@@ -311,8 +312,8 @@ public abstract class EntityMover
     }
 
     @Override
-    protected Force[] getForces()
+    protected Direction[] getDirections()
     {
-        return forces;
+        return directions;
     }
 }

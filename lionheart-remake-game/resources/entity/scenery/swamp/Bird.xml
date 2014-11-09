@@ -4,9 +4,9 @@
     <lionengine:surface image="Bird.png" icon="Bird_ico.png"/>
 	<lionengine:frames horizontal="5" vertical="4"/>
 	<lionengine:size width="32" height="32"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="32" mirror="false" />
-	<lionengine:collision name="top" offsetX="6" offsetY="20" width="20" height="1" mirror="false" />
+	<lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="24" mirror="false" />
+	<lionengine:collision name="top" offsetX="8" offsetY="16" width="8" height="1" mirror="false" />
 	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="walk" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
-	<lionengine:animation name="turn" start="11" end="20" speed="0.25" reversed="false" repeat="true"/>
+	<lionengine:animation name="turn" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+	<lionengine:animation name="walk" start="11" end="20" speed="0.25" reversed="false" repeat="true"/>
 </lionengine:entityPlatform>
