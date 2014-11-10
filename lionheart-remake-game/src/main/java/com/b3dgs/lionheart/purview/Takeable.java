@@ -15,40 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.purview;
+
+import com.b3dgs.lionheart.entity.player.Stats;
 
 /**
- * Jumpable ability for an entity.
+ * Represents something that can be taken.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public interface Jumpable
+public interface Takeable
 {
     /**
-     * Set the jumpable flag.
+     * Called when the item is taken by the entity.
      * 
-     * @param jumpable The jumpable flag.
+     * @param stats The stats reference.
      */
-    void setJumpable(boolean jumpable);
-
-    /**
-     * Set the jump force speed.
-     * 
-     * @param jumpForceSpeed The jump force speed.
-     */
-    void setJumpForceSpeed(int jumpForceSpeed);
-
-    /**
-     * Get the jump force.
-     * 
-     * @return The jump force.
-     */
-    int getJumpForceSpeed();
-
-    /**
-     * Check if crawling is jumpable.
-     * 
-     * @return <code>true</code> if jumpable, <code>false</code> else.
-     */
-    boolean isJumpable();
+    void onTaken(Stats stats);
 }

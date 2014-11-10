@@ -25,10 +25,8 @@ import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.core.awt.Keyboard;
 import com.b3dgs.lionengine.game.CameraGame;
-import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.CoordTile;
-import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurer.ConfigAnimations;
 import com.b3dgs.lionengine.game.configurer.ConfigCollisions;
@@ -53,6 +51,9 @@ import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
 import com.b3dgs.lionheart.map.TileCollisionGroup;
+import com.b3dgs.lionheart.purview.Borderer;
+import com.b3dgs.lionheart.purview.Hitable;
+import com.b3dgs.lionheart.purview.Hurtable;
 
 /**
  * Valdyn implementation (player).
@@ -61,11 +62,10 @@ import com.b3dgs.lionheart.map.TileCollisionGroup;
  */
 public final class Valdyn
         extends EntityMover
+        implements Hitable, Hurtable, Borderer
 {
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.PLAYER, ThemeType.DEFAULT, Valdyn.class);
-    /** The width of the tile extremity. */
-    public static final int TILE_EXTREMITY_WIDTH = 3;
     /** The fall time margin (in milli). */
     static final int FALL_TIME_MARGIN = 100;
     /** Hurt effect value (lower is faster). */
@@ -80,6 +80,7 @@ public final class Valdyn
     private static final int JUMP_TIME_MIN = 100;
     /** Maximum jump time (in milli). */
     private static final int JUMP_TIME_MAX = 200;
+
     /** Valdyn stats. */
     public final Stats stats;
     /** Valdyn attack. */
@@ -147,7 +148,7 @@ public final class Valdyn
         final ConfigAnimations configAnimations = ConfigAnimations.create(configurer);
         final ConfigCollisions configCollisions = ConfigCollisions.create(configurer);
         fallenDuration = configurer.getInteger("fallenDuration", "data");
-        movementSpeedMax = configurer.getDouble("speedMax", "data", "movement");
+        setMovementSpeedMax(configurer.getDouble("speedMax", "data", "movement"));
         movementSmooth = configurer.getDouble("smooth", "data", "movement");
         sensibilityIncrease = configurer.getDouble("sensibilityIncrease", "data", "movement");
         sensibilityDecrease = configurer.getDouble("sensibilityDecrease", "data", "movement");
@@ -155,12 +156,13 @@ public final class Valdyn
         loadAnimations(configAnimations, ValdynState.values());
         legCollision = new CollidableModel(this);
         legCollision.setCollision(configCollisions.getCollision("leg"));
-        stats = new Stats(this);
         attack = new ValdynAttack(configurer, this, movement);
-        addCollisionTile(ValdynCollisionTileCategory.LEG_LEFT, -Valdyn.TILE_EXTREMITY_WIDTH, 0);
-        addCollisionTile(ValdynCollisionTileCategory.LEG_RIGHT, Valdyn.TILE_EXTREMITY_WIDTH, 0);
-        addCollisionTile(ValdynCollisionTileCategory.KNEE_LEFT, -Valdyn.TILE_EXTREMITY_WIDTH * 2, 2);
-        addCollisionTile(ValdynCollisionTileCategory.KNEE_RIGHT, Valdyn.TILE_EXTREMITY_WIDTH * 2, 2);
+        stats = new Stats(this);
+        attack.loadShade();
+        addCollisionTile(ValdynCollisionTileCategory.LEG_LEFT, -Borderer.TILE_EXTREMITY_WIDTH, 0);
+        addCollisionTile(ValdynCollisionTileCategory.LEG_RIGHT, Borderer.TILE_EXTREMITY_WIDTH, 0);
+        addCollisionTile(ValdynCollisionTileCategory.KNEE_LEFT, -Borderer.TILE_EXTREMITY_WIDTH * 2, 2);
+        addCollisionTile(ValdynCollisionTileCategory.KNEE_RIGHT, Borderer.TILE_EXTREMITY_WIDTH * 2, 2);
         addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_LEANING, 0, 57);
         addCollisionTile(ValdynCollisionTileCategory.HAND_LIANA_STEEP, 0, 65);
         addCollisionTile(ValdynCollisionTileCategory.HAND_GROUND_HOOCKABLE, 0, 65);
@@ -192,20 +194,6 @@ public final class Valdyn
             keyDown = false;
         }
         attack.updateControl(keyboard);
-    }
-
-    /**
-     * Update the extremity state.
-     * 
-     * @param mirror The mirror to apply.
-     */
-    public void updateExtremity(boolean mirror)
-    {
-        if (!crouch && status.getState() == ValdynState.BORDER)
-        {
-            mirror(mirror);
-        }
-        extremity = true;
     }
 
     /**
@@ -265,16 +253,6 @@ public final class Valdyn
     }
 
     /**
-     * Get the death time elapsed.
-     * 
-     * @return The death time elapsed.
-     */
-    public long getDeathTime()
-    {
-        return timerDie.elapsed();
-    }
-
-    /**
      * Reset the timer fallen.
      */
     void stopTimerFallen()
@@ -287,7 +265,7 @@ public final class Valdyn
      */
     void resetJump()
     {
-        jumpForce.setDirection(Direction.ZERO);
+        resetJumpDirection();
         jumped = true;
         timerJump.stop();
     }
@@ -300,17 +278,6 @@ public final class Valdyn
     void setTimerFall(long time)
     {
         timerFall.set(time);
-    }
-
-    /**
-     * Get a collision data from its key.
-     * 
-     * @param key The collision key.
-     * @return The collision data.
-     */
-    Collision getCollisionData(Enum<?> key)
-    {
-        return collisions.get(key);
     }
 
     /**
@@ -363,11 +330,11 @@ public final class Valdyn
         // Horizontal movement
         if (keyRight && !keyLeft)
         {
-            speed = movementSpeedMax;
+            speed = getMovementSpeedMax();
         }
         else if (keyLeft && !keyRight)
         {
-            speed = -movementSpeedMax;
+            speed = -getMovementSpeedMax();
         }
         else
         {
@@ -386,7 +353,7 @@ public final class Valdyn
         speed = tilt.updateActionMovementGroundHoockable(speed);
         movement.setSensibility(sensibility);
         movement.setVelocity(movementSmooth);
-        speed = tilt.updateMovementSlope(speed, sensibility, movementSpeedMax, movementSmooth);
+        speed = tilt.updateMovementSlope(speed, sensibility, getMovementSpeedMax(), movementSmooth);
         movement.setDirectionToReach(speed, 0);
 
         // Crouch
@@ -413,20 +380,20 @@ public final class Valdyn
             {
                 if (!timerJump.isStarted())
                 {
-                    setGravityMax(gravityMax + jumpHeightMax);
+                    setGravityMax(getGravityMax() + getJumpHeightMax());
                     timerJump.start();
                 }
                 if (canJump() || tilt.getLianaSoared() || tilt.getGroundSoared())
                 {
                     if (tilt.getSlide() == null)
                     {
-                        jumpForce.setDirection(0.0, jumpHeightMax);
+                        setJumpDirection(0.0, getJumpHeightMax());
                         tilt.stopLianaSoar();
                         tilt.stopGroundHoockableSoar();
                     }
                     else
                     {
-                        tilt.updateActionJumpSlide(jumpForce, jumpHeightMax);
+                        tilt.updateActionJumpSlide(getJumpHeightMax());
                         jumped = true;
                     }
                     status.setCollision(EntityCollisionTile.NONE);
@@ -438,8 +405,8 @@ public final class Valdyn
                 if (timerJump.elapsed(Valdyn.JUMP_TIME_MIN))
                 {
                     final double factor = timerJump.elapsed() / (double) Valdyn.JUMP_TIME_MAX;
-                    jumpForce.setDirection(0.0, UtilMath.fixBetween(jumpHeightMax * factor, 0.0, jumpHeightMax));
-                    setGravityMax(gravityMax + jumpForce.getDirectionVertical());
+                    setJumpDirection(0.0, UtilMath.fixBetween(getJumpHeightMax() * factor, 0.0, getJumpHeightMax()));
+                    setGravityMax(getGravityMax() + getJumpDirectionVertical());
                     timerJump.stop();
                 }
             }
@@ -509,7 +476,7 @@ public final class Valdyn
      */
     private void updateStateDead()
     {
-        if (stepDie == 0 || getLocationY() < 0)
+        if (getStepDie() == 0 || getLocationY() < 0)
         {
             status.setState(EntityState.DIE);
         }
@@ -559,11 +526,12 @@ public final class Valdyn
     /**
      * Check the collision on the extremity.
      * 
+     * @param map The map reference.
      * @param category The collision category.
      * @param mirror The mirror to apply.
      * @return The tile hit.
      */
-    private Tile checkCollisionExtremity(CollisionTileCategory category, boolean mirror)
+    private Tile checkCollisionExtremity(Map map, CollisionTileCategory category, boolean mirror)
     {
         final Tile tile = getCollisionTile(map, category);
         if (tile != null)
@@ -590,7 +558,7 @@ public final class Valdyn
             }
         }
         final CoordTile coord = getCollisionTileOffset(category);
-        if (tile != null && coord != null && coord.getX() != 0 && isOnExtremity(-UtilMath.getSign(coord.getX())))
+        if (tile != null && coord != null && coord.getX() != 0 && isOnExtremity(map, -UtilMath.getSign(coord.getX())))
         {
             updateExtremity(mirror);
         }
@@ -600,10 +568,11 @@ public final class Valdyn
     /**
      * Check if there is a tile with a collision next to the player.
      * 
+     * @param map The map reference.
      * @param side -1 to check left, 1 to check right.
      * @return <code>true</code> if there is a tile with a collision, <code>false</code> else.
      */
-    private boolean isOnExtremity(int side)
+    private boolean isOnExtremity(Map map, int side)
     {
         final Tile tile = map.getTile(this, 0, 0);
 
@@ -638,16 +607,16 @@ public final class Valdyn
         final boolean noRight = tileRight == null || !tileRight.hasCollision(this);
         if (noLeft || noRight)
         {
-            final int tx = getLocationIntX() - tile.getX() + Valdyn.TILE_EXTREMITY_WIDTH * side;
+            final int tx = getLocationIntX() - tile.getX() + Borderer.TILE_EXTREMITY_WIDTH * side;
             final Tile next = map.getTile(tile.getX() / map.getTileWidth() + side, tile.getY() / map.getTileHeight());
             final boolean noNext = next == null || TileCollision.NONE == next.getCollision();
             if (side == -1)
             {
-                return noNext && tx <= Valdyn.TILE_EXTREMITY_WIDTH;
+                return noNext && tx <= Borderer.TILE_EXTREMITY_WIDTH;
             }
             else if (side == 1)
             {
-                return noNext && tx >= map.getTileWidth() - Valdyn.TILE_EXTREMITY_WIDTH;
+                return noNext && tx >= map.getTileWidth() - Borderer.TILE_EXTREMITY_WIDTH;
             }
         }
         return false;
@@ -670,7 +639,7 @@ public final class Valdyn
     {
         super.respawn();
         timerJump.stop();
-        jumpForce.setDirection(Direction.ZERO);
+        resetJumpDirection();
         attack.respawn();
         stats.fillHeart();
         hurtEffectCounter = 0;
@@ -746,12 +715,12 @@ public final class Valdyn
     }
 
     @Override
-    public void hitThat(Entity entity)
+    public void hitThat(EntityMover entity)
     {
         if (entity instanceof EntityMonster && status.getState() == ValdynState.ATTACK_FALL)
         {
             resetGravity();
-            jumpForce.setDirection(0.0, jumpHeightMax * 0.8);
+            setJumpDirection(0.0, getJumpHeightMax() * 0.8);
         }
     }
 
@@ -844,26 +813,26 @@ public final class Valdyn
             if (getLocationY() < 0)
             {
                 movement.reset();
-                jumpForce.setDirection(0.0, -0.4);
-                stepDie = 1;
+                setJumpDirection(0.0, -0.4);
+                resetStepDie();
                 resetGravity();
             }
         }
         else
         {
-            jumpForce.setDirection(-1.25, 2.75);
+            setJumpDirection(-1.25, 2.75);
             resetGravity();
         }
-        if (timerDie.elapsed(500))
+        if (isDeathTimeElapsed(500))
         {
-            stepDie = 1;
+            resetStepDie();
             if (!drownedDeath)
             {
                 resetGravity();
-                jumpForce.setDirection(Direction.ZERO);
+                resetJumpDirection();
                 teleportY(getLocationOldY());
             }
-            if (stepDie == 1 && timerDie.elapsed(2000))
+            if (getStepDie() == 1 && isDeathTimeElapsed(2000))
             {
                 stats.decreaseLife();
                 if (stats.getLife() >= 0)
@@ -879,7 +848,7 @@ public final class Valdyn
     }
 
     @Override
-    protected void updateCollisions()
+    protected void updateCollisions(Map map)
     {
         if (tilt.getLianaSoared() || tilt.getGroundSoared())
         {
@@ -902,8 +871,8 @@ public final class Valdyn
             final boolean found = checkCollisionVertical(tile);
             if (!found)
             {
-                checkCollisionExtremity(ValdynCollisionTileCategory.LEG_RIGHT, true);
-                checkCollisionExtremity(ValdynCollisionTileCategory.LEG_LEFT, false);
+                checkCollisionExtremity(map, ValdynCollisionTileCategory.LEG_RIGHT, true);
+                checkCollisionExtremity(map, ValdynCollisionTileCategory.LEG_LEFT, false);
             }
             tilt.updateCollisions(found, tile);
 
@@ -935,12 +904,12 @@ public final class Valdyn
                 || status.collisionChangedFromTo(EntityCollisionTile.NONE, EntityCollisionTile.LIANA))
         {
             timerJump.stop();
-            setGravityMax(gravityMax);
+            setGravityMax(getGravityMax());
         }
     }
 
     @Override
-    protected void updateAnimations(double extrp)
+    protected void handleAnimations(double extrp)
     {
         final State state = status.getState();
         if (state == EntityState.WALK || state == EntityState.TURN || state == ValdynState.LIANA_SLIDE)
@@ -949,12 +918,23 @@ public final class Valdyn
             setAnimSpeed(speed);
         }
         attack.updateAnimationShade(extrp);
+
+        super.handleAnimations(extrp);
+
+        tilt.updateAnimation(extrp);
     }
 
+    /*
+     * Borderer
+     */
+
     @Override
-    protected void handleAnimations(double extrp)
+    public void updateExtremity(boolean mirror)
     {
-        super.handleAnimations(extrp);
-        tilt.updateAnimation(extrp);
+        if (!crouch && status.getState() == ValdynState.BORDER)
+        {
+            mirror(mirror);
+        }
+        extremity = true;
     }
 }

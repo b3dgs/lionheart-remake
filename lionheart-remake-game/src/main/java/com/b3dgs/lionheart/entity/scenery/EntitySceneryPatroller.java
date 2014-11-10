@@ -20,19 +20,22 @@ package com.b3dgs.lionheart.entity.scenery;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.anim.AnimState;
-import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Patrol;
-import com.b3dgs.lionheart.entity.PatrolSide;
-import com.b3dgs.lionheart.entity.Patrollable;
-import com.b3dgs.lionheart.entity.Patroller;
-import com.b3dgs.lionheart.entity.PatrollerModel;
 import com.b3dgs.lionheart.entity.State;
+import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.purview.ascend.AscendableModel;
+import com.b3dgs.lionheart.purview.ascend.AscendableServices;
+import com.b3dgs.lionheart.purview.ascend.AscendableUsedServices;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
+import com.b3dgs.lionheart.purview.patrol.PatrolSide;
+import com.b3dgs.lionheart.purview.patrol.PatrollerModel;
+import com.b3dgs.lionheart.purview.patrol.PatrollerServices;
+import com.b3dgs.lionheart.purview.patrol.PatrollerUsedServices;
 
 /**
  * Beetle base implementation.
@@ -41,16 +44,16 @@ import com.b3dgs.lionheart.entity.State;
  */
 public abstract class EntitySceneryPatroller
         extends EntityScenery
-        implements Patrollable
+        implements PatrollerUsedServices, PatrollerServices, AscendableUsedServices
 {
     /** Movement force. */
-    protected final Movement movement;
+    private final Movement movement;
     /** Patrollable model. */
-    private final Patroller patroller;
-    /** Directions list used. */
-    private final Direction[] directions;
+    private final PatrollerServices patroller;
+    /** Ascendable model. */
+    private final AscendableServices ascendable;
     /** Movement max speed. */
-    protected double movementSpeedMax;
+    private double movementSpeedMax;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
@@ -59,11 +62,9 @@ public abstract class EntitySceneryPatroller
     {
         super(setup);
         movement = new Movement();
-        directions = new Direction[]
-        {
-            movement
-        };
         patroller = new PatrollerModel(this);
+        ascendable = new AscendableModel(this);
+        setDirections(movement);
     }
 
     /**
@@ -74,7 +75,7 @@ public abstract class EntitySceneryPatroller
         final State state = status.getState();
         if (state == EntityState.TURN)
         {
-            movement.reset();
+            resetMovement();
             updatePatrolEnd();
         }
     }
@@ -82,7 +83,7 @@ public abstract class EntitySceneryPatroller
     /**
      * Update the patrol when end has been reached.
      */
-    protected void updatePatrolEnd()
+    private void updatePatrolEnd()
     {
         if (getAnimState() == AnimState.FINISHED)
         {
@@ -103,23 +104,34 @@ public abstract class EntitySceneryPatroller
         }
     }
 
+    /**
+     * Reset the movement to zero.
+     */
+    protected final void resetMovement()
+    {
+        movement.reset();
+    }
+
     /*
-     * EntityScenery
+     * Preparable
      */
 
     @Override
     public void prepare()
     {
-        super.prepare();
         patroller.prepare();
     }
 
+    /*
+     * EntityScenery
+     */
+
     @Override
-    public void hitThat(Entity entity)
+    public void checkCollision(Valdyn player)
     {
         if (!status.isState(EntityState.TURN))
         {
-            super.hitThat(entity);
+            ascendable.checkAscendBy(player, player.getCollisionLeg());
         }
     }
 
@@ -151,51 +163,27 @@ public abstract class EntitySceneryPatroller
         super.handleMovements(extrp);
     }
 
-    @Override
-    protected Direction[] getDirections()
-    {
-        return directions;
-    }
-
-    @Override
-    protected void onCollide(Entity entity)
-    {
-        // Nothing to do
-    }
-
-    @Override
-    protected void onLostCollision()
-    {
-        // Nothing to do
-    }
-
     /*
      * Patrollable
      */
 
     @Override
-    public void setMovementForce(double fh, double fv)
+    public final void setMovementForce(double fh, double fv)
     {
         movement.setForce(fh, fv);
         movement.setDirectionToReach(fh, fv);
     }
 
     @Override
-    public void setMovementSpeedMax(double speed)
+    public final void setMovementSpeedMax(double speed)
     {
         movementSpeedMax = speed;
     }
 
     @Override
-    public double getMovementSpeedMax()
+    public final double getMovementSpeedMax()
     {
         return movementSpeedMax;
-    }
-
-    @Override
-    public double getForceHorizontal()
-    {
-        return movement.getDirectionHorizontal();
     }
 
     /*
@@ -203,109 +191,109 @@ public abstract class EntitySceneryPatroller
      */
 
     @Override
-    public void enableMovement(Patrol type)
+    public final void enableMovement(Patrol type)
     {
         patroller.enableMovement(type);
     }
 
     @Override
-    public void setSide(int side)
+    public final void setSide(int side)
     {
         patroller.setSide(side);
     }
 
     @Override
-    public void setPatrolType(Patrol movement)
+    public final void setPatrolType(Patrol movement)
     {
         patroller.setPatrolType(movement);
     }
 
     @Override
-    public void setFirstMove(PatrolSide firstMove)
+    public final void setFirstMove(PatrolSide firstMove)
     {
         patroller.setFirstMove(firstMove);
     }
 
     @Override
-    public void setMoveSpeed(int speed)
+    public final void setMoveSpeed(int speed)
     {
         patroller.setMoveSpeed(speed);
     }
 
     @Override
-    public void setPatrolLeft(int left)
+    public final void setPatrolLeft(int left)
     {
         patroller.setPatrolLeft(left);
     }
 
     @Override
-    public void setPatrolRight(int right)
+    public final void setPatrolRight(int right)
     {
         patroller.setPatrolRight(right);
     }
 
     @Override
-    public int getSide()
+    public final int getSide()
     {
         return patroller.getSide();
     }
 
     @Override
-    public Patrol getPatrolType()
+    public final Patrol getPatrolType()
     {
         return patroller.getPatrolType();
     }
 
     @Override
-    public PatrolSide getFirstMove()
+    public final PatrolSide getFirstMove()
     {
         return patroller.getFirstMove();
     }
 
     @Override
-    public int getMoveSpeed()
+    public final int getMoveSpeed()
     {
         return patroller.getMoveSpeed();
     }
 
     @Override
-    public int getPatrolLeft()
+    public final int getPatrolLeft()
     {
         return patroller.getPatrolLeft();
     }
 
     @Override
-    public int getPatrolRight()
+    public final int getPatrolRight()
     {
         return patroller.getPatrolRight();
     }
 
     @Override
-    public int getPositionMin()
+    public final int getPositionMin()
     {
         return patroller.getPositionMin();
     }
 
     @Override
-    public int getPositionMax()
+    public final int getPositionMax()
     {
         return patroller.getPositionMax();
     }
 
     @Override
-    public boolean hasPatrol()
+    public final boolean hasPatrol()
     {
         return patroller.hasPatrol();
     }
 
     @Override
-    public boolean isPatrolEnabled()
+    public final boolean isPatrolEnabled()
     {
         return patroller.isPatrolEnabled();
     }
 
     @Override
-    public boolean isPatrolEnabled(Patrol type)
+    public final boolean isPatrolEnabled(Patrol type)
     {
         return patroller.isPatrolEnabled(type);
     }

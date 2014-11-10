@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.Direction;
+import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
@@ -30,12 +30,12 @@ import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Jumpable;
-import com.b3dgs.lionheart.entity.Patrol;
 import com.b3dgs.lionheart.entity.monster.EntityMonster;
 import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
 import com.b3dgs.lionheart.map.TileCollision;
+import com.b3dgs.lionheart.purview.Jumpable;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
 
 /**
  * Crawling monster implementation.
@@ -53,6 +53,8 @@ public final class Crawling
     private static final int TIME_BEFORE_JUMP = 500;
     /** Jump timer. */
     private final Timing timerJump;
+    /** Map reference. */
+    private Map map;
     /** Prepare jump flag. */
     private boolean prepareJump;
     /** Jumping flag. */
@@ -104,6 +106,13 @@ public final class Crawling
      */
 
     @Override
+    public void prepare(ContextGame context)
+    {
+        super.prepare(context);
+        map = context.getService(Map.class);
+    }
+
+    @Override
     public void save(FileWriting file) throws IOException
     {
         super.save(file);
@@ -144,12 +153,12 @@ public final class Crawling
             if (timerJump.elapsed(Crawling.TIME_BEFORE_JUMP))
             {
                 prepareJump = false;
-                jumpForce.setDirection(0.0, 4.75);
+                setJumpDirection(0.0, 4.75);
                 setMovementForce(jumpForceSpeed / 8.0 * side, 0.0);
                 if (status.collisionChangedFromTo(EntityCollisionTile.NONE, EntityCollisionTile.GROUND))
                 {
                     jumping = false;
-                    jumpForce.setDirection(Direction.ZERO);
+                    resetJumpDirection();
                     timerJump.stop();
                     movement.setDirectionToReach(getMovementSpeedMax() * side, 0.0);
                     setMovementForce(getMovementSpeedMax() * side, 0.0);

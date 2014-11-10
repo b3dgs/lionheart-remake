@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.entity;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
@@ -38,7 +37,7 @@ public class FactoryEntity
         extends FactoryObjectGame<SetupSurfaceRasteredGame>
 {
     /** Landscape used. */
-    protected LandscapeType landscape;
+    private LandscapeType landscape;
     /** Raster enabled. */
     private boolean hasRaster;
 
@@ -48,16 +47,6 @@ public class FactoryEntity
     public FactoryEntity()
     {
         super(AppLionheart.ENTITIES_DIR);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param folder The folder name.
-     */
-    protected FactoryEntity(String folder)
-    {
-        super(UtilFile.getPath(AppLionheart.ENTITIES_DIR, folder));
     }
 
     /**

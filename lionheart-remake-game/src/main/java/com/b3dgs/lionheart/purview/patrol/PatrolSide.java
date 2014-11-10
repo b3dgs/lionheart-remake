@@ -15,45 +15,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.item.swamp;
-
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Stats;
+package com.b3dgs.lionheart.purview.patrol;
 
 /**
- * Fruit item.
+ * Represents the patrol sides.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Fruit
-        extends EntityItem
+public enum PatrolSide
 {
-    /** Class media. */
-    public static final Media MEDIA = Entity.getConfig(CategoryType.ITEM, ThemeType.SWAMP, Fruit.class);
+    /** Patrol to min. */
+    MIN(-1),
+    /** Patrol to max. */
+    MAX(1);
+
+    /** Move value. */
+    private final int move;
 
     /**
-     * Constructor.
+     * The movement value.
      * 
-     * @param setup The setup reference.
+     * @param move The movement value.
      */
-    public Fruit(SetupSurfaceRasteredGame setup)
+    private PatrolSide(int move)
     {
-        super(setup);
+        this.move = move;
     }
 
-    /*
-     * EntityItem
+    /**
+     * Get the move value.
+     * 
+     * @return The move value.
      */
-
-    @Override
-    public void onTaken(Stats stats)
+    public int getMove()
     {
-        Sfx.ITEM_TAKEN.play();
+        return move;
     }
 }

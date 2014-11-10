@@ -29,7 +29,6 @@ import com.b3dgs.lionengine.game.Collision;
 import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
-import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurer.ConfigAnimations;
 import com.b3dgs.lionengine.game.configurer.ConfigCollisions;
@@ -70,25 +69,25 @@ public abstract class Entity
     /** Entity status. */
     public final EntityStatus status;
     /** Animations list. */
-    protected final HashMap<State, Animation> animations;
+    private final HashMap<State, Animation> animations;
     /** Collisions data. */
-    protected final HashMap<Enum<?>, Collision> collisions;
+    private final HashMap<Enum<?>, Collision> collisions;
     /** Dead timer. */
-    protected final Timing timerDie;
+    private final Timing timerDie;
     /** Media reference. */
     private final Media media;
-    /** Forces used. */
-    private final Force[] forces;
-    /** Map reference. */
-    protected Map map;
-    /** Mouse over state. */
-    protected boolean over;
-    /** Selected state. */
-    protected boolean selected;
-    /** Dead step. */
-    protected int stepDie;
     /** Die location. */
-    protected Coord dieLocation;
+    private final Coord dieLocation;
+    /** Map reference. */
+    private Map map;
+    /** Mouse over state. */
+    private boolean over;
+    /** Selected state. */
+    private boolean selected;
+    /** Dead step. */
+    private int stepDie;
+    /** Directions used. */
+    private Direction[] directions;
     /** Desired fps value. */
     private int desiredFps;
     /** Dead flag. */
@@ -108,7 +107,7 @@ public abstract class Entity
         collisions = new HashMap<>(4);
         timerDie = new Timing();
         dieLocation = Geom.createCoord();
-        forces = new Force[0];
+        directions = new Direction[0];
         final Configurer configurer = setup.getConfigurer();
         final ConfigAnimations configAnimations = ConfigAnimations.create(configurer);
         loadCollisions(configurer, EntityCollision.values());
@@ -122,20 +121,6 @@ public abstract class Entity
      * @param entity The player to check collision with.
      */
     public abstract void checkCollision(Valdyn entity);
-
-    /**
-     * Called when this is hit by another entity.
-     * 
-     * @param entity The entity hit.
-     */
-    public abstract void hitBy(Entity entity);
-
-    /**
-     * Called when this hit that.
-     * 
-     * @param entity The entity hit.
-     */
-    public abstract void hitThat(Entity entity);
 
     /**
      * Update entity states.
@@ -152,23 +137,111 @@ public abstract class Entity
     /**
      * Update the collisions detection.
      * 
+     * @param map The map reference.
      * @see EntityCollisionTile
      */
-    protected abstract void updateCollisions();
+    protected abstract void updateCollisions(Map map);
 
     /**
-     * Update the animations handling.
+     * Get a collision data from its key.
      * 
-     * @param extrp The Extrapolation value.
+     * @param key The collision key.
+     * @return The collision data.
      */
-    protected abstract void updateAnimations(double extrp);
+    public final Collision getCollisionData(Enum<?> key)
+    {
+        return collisions.get(key);
+    }
 
     /**
-     * Called when all entities are loaded.
+     * Get an animation data from its key.
+     * 
+     * @param state The animation state.
+     * @return The animation data.
      */
-    public void prepare()
+    public final Animation getAnimationData(State state)
     {
-        // Nothing by default
+        return animations.get(state);
+    }
+
+    /**
+     * Get the death time elapsed.
+     * 
+     * @return The death time elapsed.
+     */
+    public final long getDeathTime()
+    {
+        return timerDie.elapsed();
+    }
+
+    /**
+     * Get the configuration file.
+     * 
+     * @return The configuration file.
+     */
+    public final Media getConfig()
+    {
+        return media;
+    }
+
+    /**
+     * Set selection state.
+     * 
+     * @param selected The selected state.
+     */
+    public final void setSelection(boolean selected)
+    {
+        this.selected = selected;
+    }
+
+    /**
+     * Set over flag.
+     * 
+     * @param over The over flag.
+     */
+    public final void setOver(boolean over)
+    {
+        this.over = over;
+    }
+
+    /**
+     * Set a collision data from its key.
+     * 
+     * @param key The collision key.
+     */
+    public final void setCollision(Enum<?> key)
+    {
+        setCollision(collisions.get(key));
+    }
+
+    /**
+     * Check if is over.
+     * 
+     * @return <code>true</code> if over, <code>false</code> else.
+     */
+    public final boolean isOver()
+    {
+        return over;
+    }
+
+    /**
+     * Check if is selected.
+     * 
+     * @return <code>true</code> if selected, <code>false</code> else.
+     */
+    public final boolean isSelected()
+    {
+        return selected;
+    }
+
+    /**
+     * Check if entity is dead.
+     * 
+     * @return <code>true</code> if dead, <code>false</code> else.
+     */
+    public final boolean isDead()
+    {
+        return dead;
     }
 
     /**
@@ -221,66 +294,6 @@ public abstract class Entity
     }
 
     /**
-     * Set selection state.
-     * 
-     * @param selected The selected state.
-     */
-    public void setSelection(boolean selected)
-    {
-        this.selected = selected;
-    }
-
-    /**
-     * Set over flag.
-     * 
-     * @param over The over flag.
-     */
-    public void setOver(boolean over)
-    {
-        this.over = over;
-    }
-
-    /**
-     * Get the configuration file.
-     * 
-     * @return The configuration file.
-     */
-    public Media getConfig()
-    {
-        return media;
-    }
-
-    /**
-     * Check if is over.
-     * 
-     * @return <code>true</code> if over, <code>false</code> else.
-     */
-    public boolean isOver()
-    {
-        return over;
-    }
-
-    /**
-     * Check if is selected.
-     * 
-     * @return <code>true</code> if selected, <code>false</code> else.
-     */
-    public boolean isSelected()
-    {
-        return selected;
-    }
-
-    /**
-     * Check if entity is dead.
-     * 
-     * @return <code>true</code> if dead, <code>false</code> else.
-     */
-    public boolean isDead()
-    {
-        return dead;
-    }
-
-    /**
      * Called when entity has been updated.
      */
     public void onUpdated()
@@ -329,17 +342,56 @@ public abstract class Entity
                 continue;
             }
         }
-        setCollision(collisions.get(EntityCollision.DEFAULT));
+        setCollision(EntityCollision.DEFAULT);
     }
 
     /**
-     * Get forces involved in gravity and movement. Return empty array by default.
+     * Get the death location.
      * 
-     * @return The directions list.
+     * @return The death location.
      */
-    protected Direction[] getDirections()
+    protected final Coord getDeathLocation()
     {
-        return forces;
+        return dieLocation;
+    }
+
+    /**
+     * Get the current die step.
+     * 
+     * @return The die step.
+     */
+    protected final int getStepDie()
+    {
+        return stepDie;
+    }
+
+    /**
+     * Reset the step die to 1.
+     */
+    protected final void resetStepDie()
+    {
+        stepDie = 1;
+    }
+
+    /**
+     * Set forces involved in gravity and movement.
+     * 
+     * @param directions The directions list.
+     */
+    protected final void setDirections(Direction... directions)
+    {
+        this.directions = directions;
+    }
+
+    /**
+     * Check if the death time is elapsed.
+     * 
+     * @param time The time to check.
+     * @return <code>true</code> if elapsed, <code>false</code> else.
+     */
+    protected final boolean isDeathTimeElapsed(long time)
+    {
+        return timerDie.elapsed(time);
     }
 
     /*
@@ -363,7 +415,7 @@ public abstract class Entity
     @Override
     protected void handleMovements(double extrp)
     {
-        updateGravity(extrp, desiredFps, getDirections());
+        updateGravity(extrp, desiredFps, directions);
         updateMirror();
         if (dead)
         {
@@ -377,17 +429,16 @@ public abstract class Entity
         status.backupCollision();
         if (!isDead())
         {
-            updateCollisions();
+            updateCollisions(map);
         }
     }
 
     @Override
     protected void handleAnimations(double extrp)
     {
-        updateAnimations(extrp);
         if (status.stateChanged())
         {
-            play(animations.get(status.getState()));
+            play(getAnimationData(status.getState()));
         }
         updateAnimation(extrp);
     }

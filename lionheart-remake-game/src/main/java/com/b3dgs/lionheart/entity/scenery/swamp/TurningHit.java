@@ -24,8 +24,10 @@ import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.entity.player.ValdynState;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryTurning;
+import com.b3dgs.lionheart.purview.Hitable;
 
 /**
  * Turning hit scenery implementation.
@@ -34,6 +36,7 @@ import com.b3dgs.lionheart.entity.scenery.EntitySceneryTurning;
  */
 public final class TurningHit
         extends EntitySceneryTurning
+        implements Hitable
 {
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.SCENERY, ThemeType.SWAMP, TurningHit.class);
@@ -46,7 +49,7 @@ public final class TurningHit
     public TurningHit(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        shakeCounter = 5;
+        setShakeCounter(5);
     }
 
     /*
@@ -54,16 +57,25 @@ public final class TurningHit
      */
 
     @Override
+    public void checkCollision(Valdyn player)
+    {
+        super.checkCollision(player);
+        if (player.getCollisionAttack().collide(this))
+        {
+            hitBy(player);
+        }
+    }
+
+    @Override
     public void hitBy(Entity entity)
     {
-        super.hitBy(entity);
         if (entity instanceof EntityMover && entity.status.isState(ValdynState.ATTACK_FALL))
         {
             ((EntityMover) entity).forceJump();
         }
-        if (shakeCounter == 6)
+        if (getShakeCounter() == 6)
         {
-            shakeCounter = 7;
+            setShakeCounter(7);
         }
     }
 
@@ -71,23 +83,19 @@ public final class TurningHit
     protected void updateStates()
     {
         // Turning
-        if (shakeCounter == 5)
+        if (getShakeCounter() == 5)
         {
             status.setState(EntityState.TURN);
-            shakeCounter = 6;
-            effectStart = false;
+            setShakeCounter(6);
+            resetEffectStart();
         }
         // Detect end turning
-        if (shakeCounter == 7)
+        if (getShakeCounter() == 7)
         {
-            effectStart = false;
+            resetEffectStart();
             if (getFrameAnim() == 1 || getFrameAnim() == 16)
             {
-                shakeCounter = 0;
-                shake = false;
-                status.setState(EntityState.IDLE);
-                effectSide = 1;
-                timerShake.start();
+                reset();
             }
         }
         super.updateStates();

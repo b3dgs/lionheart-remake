@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryTurning;
 
 /**
@@ -45,7 +44,7 @@ public final class TurningAuto
     public TurningAuto(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        timerShake.start();
+        resetShake();
     }
 
     /*
@@ -56,16 +55,12 @@ public final class TurningAuto
     protected void updateStates()
     {
         // Turning, detect end turning
-        if (shakeCounter == 5)
+        if (getShakeCounter() == 5)
         {
-            effectStart = false;
+            resetEffectStart();
             if (getAnimState() == AnimState.FINISHED)
             {
-                shakeCounter = 0;
-                shake = false;
-                status.setState(EntityState.IDLE);
-                effectSide = 1;
-                timerShake.start();
+                reset();
             }
         }
         super.updateStates();

@@ -93,12 +93,6 @@ public class Nest
     }
 
     @Override
-    protected void onHitBy(Entity entity)
-    {
-        kill();
-    }
-
-    @Override
     public void kill()
     {
         setMass(2.0);

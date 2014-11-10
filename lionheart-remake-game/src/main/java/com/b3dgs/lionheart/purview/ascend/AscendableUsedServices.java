@@ -15,45 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.item.swamp;
+package com.b3dgs.lionheart.purview.ascend;
 
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Stats;
+import com.b3dgs.lionengine.game.purview.Collidable;
+import com.b3dgs.lionengine.game.purview.Localizable;
+import com.b3dgs.lionheart.entity.EntityMover;
 
 /**
- * Fruit item.
+ * List of services provided by the ascendable user.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Fruit
-        extends EntityItem
+public interface AscendableUsedServices
+        extends Collidable, Localizable
 {
-    /** Class media. */
-    public static final Media MEDIA = Entity.getConfig(CategoryType.ITEM, ThemeType.SWAMP, Fruit.class);
+    /**
+     * Called when currently being ascending by the entity.
+     * 
+     * @param entity The ascending entity.
+     */
+    void onAscendingBy(EntityMover entity);
 
     /**
-     * Constructor.
+     * Called when descended from the ascendable.
      * 
-     * @param setup The setup reference.
+     * @param entity The descended entity.
      */
-    public Fruit(SetupSurfaceRasteredGame setup)
-    {
-        super(setup);
-    }
-
-    /*
-     * EntityItem
-     */
-
-    @Override
-    public void onTaken(Stats stats)
-    {
-        Sfx.ITEM_TAKEN.play();
-    }
+    void onDescended(EntityMover entity);
 }

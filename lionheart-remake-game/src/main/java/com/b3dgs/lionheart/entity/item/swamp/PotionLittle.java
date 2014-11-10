@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Stats;
 
 /**
  * Little Potion item. Give a single heart to the player.
@@ -52,9 +52,9 @@ public final class PotionLittle
      */
 
     @Override
-    protected void onTaken(Valdyn entity)
+    public void onTaken(Stats stats)
     {
-        entity.stats.increaseHeart();
+        stats.increaseHeart();
         Sfx.ITEM_POTION_LITTLE.play();
     }
 }

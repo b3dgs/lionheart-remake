@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.entity.scenery.EntityScenery;
 
 /**
@@ -50,12 +51,14 @@ public final class Dragon
      */
 
     @Override
-    protected void onCollide(Entity entity)
+    public void checkCollision(Valdyn entity)
     {
+        // Nothing to do
     }
 
     @Override
-    protected void onLostCollision()
+    protected void updateStates()
     {
+        // Nothing to do
     }
 }

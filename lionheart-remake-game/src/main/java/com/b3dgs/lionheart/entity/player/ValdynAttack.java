@@ -104,7 +104,6 @@ public final class ValdynAttack
         attacks = new EnumMap<>(ValdynState.class);
         attackCollision = new CollidableModel(valdyn);
 
-        loadShade();
         loadAttacks(configurer);
 
         final ConfigAnimations configAnimations = ConfigAnimations.create(configurer);
@@ -266,15 +265,15 @@ public final class ValdynAttack
         if (valdyn.status.isState(ValdynState.CROUCH, ValdynState.ATTACK_DOWN_LEG, ValdynState.ATTACK_PREPARING_DOWN,
                 ValdynState.ATTACK_PREPARED_DOWN))
         {
-            valdyn.setCollision(valdyn.getCollisionData(ValdynCollision.CROUCH));
+            valdyn.setCollision(ValdynCollision.CROUCH);
         }
         else if (valdyn.status.getState() == ValdynState.ATTACK_FALL)
         {
-            valdyn.setCollision(valdyn.getCollisionData(ValdynCollision.ATTACK_FALL));
+            valdyn.setCollision(ValdynCollision.ATTACK_FALL);
         }
         else
         {
-            valdyn.setCollision(valdyn.getCollisionData(ValdynCollision.STAND));
+            valdyn.setCollision(ValdynCollision.STAND);
         }
         attackCollision.setCollision(null);
         if (!valdyn.status.stateChanged() && valdyn.getAnimState() == AnimState.PLAYING)

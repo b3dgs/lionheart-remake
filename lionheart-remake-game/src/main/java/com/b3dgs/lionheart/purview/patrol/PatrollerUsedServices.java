@@ -15,40 +15,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.purview.patrol;
+
+import com.b3dgs.lionengine.game.purview.Localizable;
 
 /**
- * Represents the patrol sides.
+ * Services used by the patroller.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public enum PatrolSide
+public interface PatrollerUsedServices
+        extends Localizable
 {
-    /** Patrol to min. */
-    MIN(-1),
-    /** Patrol to max. */
-    MAX(1);
-
-    /** Move value. */
-    private final int move;
+    /**
+     * Set the movement force.
+     * 
+     * @param fh The horizontal force.
+     * @param fv The vertical force.
+     */
+    void setMovementForce(double fh, double fv);
 
     /**
-     * The movement value.
+     * Set the maximum movement speed.
      * 
-     * @param move The movement value.
+     * @param speed The maximum movement speed.
      */
-    private PatrolSide(int move)
-    {
-        this.move = move;
-    }
+    void setMovementSpeedMax(double speed);
 
     /**
-     * Get the move value.
+     * Get the max movement speed.
      * 
-     * @return The move value.
+     * @return The max movement speed.
      */
-    public int getMove()
-    {
-        return move;
-    }
+    double getMovementSpeedMax();
 }

@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
+import com.b3dgs.lionheart.entity.player.Valdyn;
 
 /**
  * Turning scenery implementation base.
@@ -33,19 +34,20 @@ public abstract class EntitySceneryTurning
         extends EntityScenerySheet
 {
     /** Shake amplitude. */
-    protected static final int SHAKE_AMPLITUDE = 5;
+    private static final int SHAKE_AMPLITUDE = 5;
     /** Time before start shake. */
-    protected static final int TIME_BEFORE_START_SHAKE = 2000;
+    private static final int TIME_BEFORE_START_SHAKE = 2000;
     /** Time before start turning. */
-    protected static final int TIME_BEFORE_TURNING = 1000;
+    private static final int TIME_BEFORE_TURNING = 1000;
     /** Shake speed. */
-    protected static final int SHAKE_SPEED = 30;
+    private static final int SHAKE_SPEED = 30;
+
     /** Shake timer. */
-    protected final Timing timerShake;
+    private final Timing timerShake;
     /** Shake counter. */
-    protected int shakeCounter;
+    private int shakeCounter;
     /** Shake started. */
-    protected boolean shake;
+    private boolean shake;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
@@ -54,6 +56,46 @@ public abstract class EntitySceneryTurning
     {
         super(setup);
         timerShake = new Timing();
+    }
+
+    /**
+     * Reset the shake state and start the timer.
+     */
+    protected final void resetShake()
+    {
+        shake = false;
+        timerShake.start();
+    }
+
+    /**
+     * Get the current shake counter.
+     * 
+     * @return The shake counter.
+     */
+    protected final int getShakeCounter()
+    {
+        return shakeCounter;
+    }
+
+    /**
+     * Set the shake counter.
+     * 
+     * @param value The new value.
+     */
+    protected final void setShakeCounter(int value)
+    {
+        shakeCounter = value;
+    }
+
+    /**
+     * Reset the effect.
+     */
+    protected final void reset()
+    {
+        setShakeCounter(0);
+        status.setState(EntityState.IDLE);
+        resetEffectSide();
+        resetShake();
     }
 
     /*
@@ -75,13 +117,13 @@ public abstract class EntitySceneryTurning
         {
             if (shakeCounter < 3)
             {
-                effectCounter += EntitySceneryTurning.SHAKE_SPEED * extrp;
-                if (effectCounter > EntityScenerySheet.HALF_CIRCLE)
+                increaseEffectCounter(EntitySceneryTurning.SHAKE_SPEED * extrp);
+                if (getEffectCounter() > EntityScenerySheet.HALF_CIRCLE)
                 {
                     shakeCounter++;
-                    effectCounter = 0;
+                    resetEffectCounter();
                 }
-                effectStart = false;
+                resetEffectStart();
             }
             // Prepare turning
             if (shakeCounter == 3)
@@ -90,23 +132,22 @@ public abstract class EntitySceneryTurning
                 shake = false;
                 timerShake.start();
             }
-            setLocationY(initialY - UtilMath.sin(effectCounter) * EntitySceneryTurning.SHAKE_AMPLITUDE);
+            setLocationY(getInitialY() - UtilMath.sin(getEffectCounter()) * EntitySceneryTurning.SHAKE_AMPLITUDE);
         }
     }
 
     @Override
-    public void hitThat(Entity entity)
+    public void checkCollision(Valdyn player)
     {
         if (shakeCounter < 5)
         {
-            super.hitThat(entity);
+            super.checkCollision(player);
         }
     }
 
     @Override
     protected void updateStates()
     {
-        super.updateStates();
         // Start turning
         if (shakeCounter == 4 && timerShake.elapsed(EntitySceneryTurning.TIME_BEFORE_TURNING))
         {

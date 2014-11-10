@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.purview.patrol;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -30,11 +30,11 @@ import com.b3dgs.lionheart.map.Map;
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class PatrollerModel
-        implements Patroller
+public final class PatrollerModel
+        implements PatrollerServices
 {
     /** Entity owner. */
-    private final Patrollable owner;
+    private final PatrollerUsedServices owner;
     /** Movement enabled used in patrol. */
     private final Collection<Patrol> enableMovement;
     /** Patrol current movement side. */
@@ -61,7 +61,7 @@ public class PatrollerModel
      * 
      * @param owner The owner reference.
      */
-    public PatrollerModel(Patrollable owner)
+    public PatrollerModel(PatrollerUsedServices owner)
     {
         this.owner = owner;
         enableMovement = new HashSet<>(4);

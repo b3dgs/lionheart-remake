@@ -25,6 +25,8 @@ import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.effect.Taken;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.map.Map;
+import com.b3dgs.lionheart.purview.Takeable;
 
 /**
  * Abstract implementation of an item.
@@ -33,6 +35,7 @@ import com.b3dgs.lionheart.entity.player.Valdyn;
  */
 public abstract class EntityItem
         extends Entity
+        implements Takeable
 {
     /** Effect factory. */
     private FactoryEffect factoryEffect;
@@ -50,13 +53,6 @@ public abstract class EntityItem
         play(configAnimations.getAnimation(status.getState().getAnimationName()));
     }
 
-    /**
-     * Called when the item is taken by the entity.
-     * 
-     * @param entity The entity.
-     */
-    protected abstract void onTaken(Valdyn entity);
-
     /*
      * Entity
      */
@@ -73,24 +69,9 @@ public abstract class EntityItem
     {
         if (player.collide(this))
         {
-            hitBy(player);
-        }
-    }
-
-    @Override
-    public void hitBy(Entity entity)
-    {
-        if (!isDead())
-        {
             kill();
-            onTaken((Valdyn) entity);
+            onTaken(player.stats);
         }
-    }
-
-    @Override
-    public void hitThat(Entity entity)
-    {
-        // Nothing to do
     }
 
     @Override
@@ -102,18 +83,12 @@ public abstract class EntityItem
     @Override
     protected void updateDead()
     {
-        factoryEffect.startEffect(Taken.MEDIA, (int) dieLocation.getX() - getWidth() / 2, (int) dieLocation.getY());
+        factoryEffect.startEffect(Taken.MEDIA, getDeathLocation(), -getWidth() / 2, 0);
         destroy();
     }
 
     @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
-    }
-
-    @Override
-    protected void updateAnimations(double extrp)
+    protected void updateCollisions(Map map)
     {
         // Nothing to do
     }

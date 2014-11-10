@@ -21,8 +21,11 @@ import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.AnimState;
 import com.b3dgs.lionengine.anim.Animation;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
+import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.purview.Hitable;
+import com.b3dgs.lionheart.purview.Hurtable;
 
 /**
  * Spike base implementation.
@@ -31,6 +34,7 @@ import com.b3dgs.lionheart.entity.EntityState;
  */
 public abstract class EntityScenerySpike
         extends EntityScenery
+        implements Hurtable
 {
     /** Timer. */
     private final Timing timer;
@@ -56,22 +60,35 @@ public abstract class EntityScenerySpike
     {
         if (status.stateChanged() && status.getState() == EntityState.TURN)
         {
-            setFrame(animations.get(status.getState()).getLast());
+            setFrame(getAnimationData(status.getState()).getLast());
         }
         super.updateAnimation(extrp);
 
     }
 
     @Override
-    public void hitThat(Entity entity)
+    public void checkCollision(Valdyn entity)
     {
-        onCollide(entity);
+        if (collide(entity))
+        {
+            hitThat(entity);
+        }
+    }
+
+    @Override
+    public void hitThat(EntityMover entity)
+    {
+        final Animation anim = getAnimationData(EntityState.JUMP);
+        final int frame = getFrame();
+        if (entity instanceof Hitable && frame > anim.getFirst() && frame <= anim.getLast())
+        {
+            ((Hitable) entity).hitBy(this);
+        }
     }
 
     @Override
     protected void updateStates()
     {
-        super.updateStates();
         if (status.isState(EntityState.IDLE))
         {
             status.setState(EntityState.WALK);
@@ -94,22 +111,5 @@ public abstract class EntityScenerySpike
                 timer.restart();
             }
         }
-    }
-
-    @Override
-    protected void onCollide(Entity entity)
-    {
-        final Animation anim = animations.get(EntityState.JUMP);
-        final int frame = getFrame();
-        if (frame > anim.getFirst() && frame <= anim.getLast())
-        {
-            entity.hitBy(this);
-        }
-    }
-
-    @Override
-    protected void onLostCollision()
-    {
-        // Nothing to do
     }
 }

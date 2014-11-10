@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.entity.player;
 
 import com.b3dgs.lionengine.game.Alterable;
-import com.b3dgs.lionheart.entity.Entity;
 
 /**
  * Player stats.
@@ -28,7 +27,7 @@ import com.b3dgs.lionheart.entity.Entity;
 public final class Stats
 {
     /** Entity owner. */
-    private final Entity entity;
+    private final Valdyn entity;
     /** Life number. */
     private final Alterable life;
     /** Heart number. */
@@ -45,7 +44,7 @@ public final class Stats
      * 
      * @param entity The entity owner.
      */
-    public Stats(Entity entity)
+    public Stats(Valdyn entity)
     {
         this.entity = entity;
         life = new Alterable(99);
@@ -125,6 +124,7 @@ public final class Stats
     public void setSwordLevel(int toLevel)
     {
         sword.set(toLevel);
+        entity.attack.loadShade();
     }
 
     /**

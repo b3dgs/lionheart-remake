@@ -22,9 +22,10 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Patrol;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryPatroller;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
 
 /**
  * Beetle vertical implementation.
@@ -74,7 +75,6 @@ public final class BeetleVertical
     @Override
     protected void updateStates()
     {
-        super.updateStates();
         final double diffVertical = getDiffVertical();
         final int y = getLocationIntY();
         if (hasPatrol() && (y == getPositionMin() || y == getPositionMax()))
@@ -89,5 +89,17 @@ public final class BeetleVertical
         {
             status.setState(EntityState.IDLE);
         }
+    }
+
+    @Override
+    public void onAscendingBy(EntityMover entity)
+    {
+        // Nothing to do
+    }
+
+    @Override
+    public void onDescended(EntityMover entity)
+    {
+        // Nothing to do
     }
 }

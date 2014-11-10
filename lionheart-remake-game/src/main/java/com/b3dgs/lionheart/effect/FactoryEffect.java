@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.core.Core;
 import com.b3dgs.lionengine.core.Media;
 import com.b3dgs.lionengine.game.FactoryObjectGame;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 
@@ -49,13 +50,14 @@ public class FactoryEffect
      * Start an effect an the specified location.
      * 
      * @param config The effect config.
-     * @param x The horizontal location.
-     * @param y The vertical location.
+     * @param coord The coord location.
+     * @param offsetX The horizontal offset.
+     * @param offsetY The vertical offset.
      */
-    public void startEffect(Media config, int x, int y)
+    public void startEffect(Media config, Coord coord, int offsetX, int offsetY)
     {
         final Effect effect = create(config);
-        effect.start(x, y);
+        effect.start((int) coord.getX() + offsetX, (int) coord.getY() + offsetY);
         handlerEffect.add(effect);
     }
 

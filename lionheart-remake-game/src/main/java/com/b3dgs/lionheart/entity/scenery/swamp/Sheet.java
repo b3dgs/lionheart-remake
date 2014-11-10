@@ -44,4 +44,14 @@ public final class Sheet
     {
         super(setup);
     }
+
+    /*
+     * EntityScenerySheet
+     */
+
+    @Override
+    protected void updateStates()
+    {
+        // Nothing to do
+    }
 }

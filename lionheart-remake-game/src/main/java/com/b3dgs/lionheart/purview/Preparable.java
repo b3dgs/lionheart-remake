@@ -15,45 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.item.swamp;
-
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Stats;
+package com.b3dgs.lionheart.purview;
 
 /**
- * Fruit item.
+ * Represents something that can be prepared.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Fruit
-        extends EntityItem
+public interface Preparable
 {
-    /** Class media. */
-    public static final Media MEDIA = Entity.getConfig(CategoryType.ITEM, ThemeType.SWAMP, Fruit.class);
-
     /**
-     * Constructor.
-     * 
-     * @param setup The setup reference.
+     * Prepare the element.
      */
-    public Fruit(SetupSurfaceRasteredGame setup)
-    {
-        super(setup);
-    }
-
-    /*
-     * EntityItem
-     */
-
-    @Override
-    public void onTaken(Stats stats)
-    {
-        Sfx.ITEM_TAKEN.play();
-    }
+    void prepare();
 }

@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Stats;
 
 /**
  * Sword2 item. Second level of the sword.
@@ -52,10 +52,9 @@ public final class Sword2
      */
 
     @Override
-    protected void onTaken(Valdyn entity)
+    public void onTaken(Stats stats)
     {
-        entity.stats.setSwordLevel(2);
-        entity.attack.loadShade();
+        stats.setSwordLevel(2);
         Sfx.ITEM_TAKEN.play();
     }
 }

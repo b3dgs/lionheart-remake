@@ -20,7 +20,8 @@ package com.b3dgs.lionheart.entity.monster;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Patrol;
+import com.b3dgs.lionheart.map.Map;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
 
 /**
  * Bee monster base implementation.
@@ -56,7 +57,7 @@ public abstract class EntityMonsterBee
     }
 
     @Override
-    protected void updateCollisions()
+    protected void updateCollisions(Map map)
     {
         // Nothing to do
     }

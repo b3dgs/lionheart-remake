@@ -15,44 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.purview;
 
-import com.b3dgs.lionengine.game.purview.Localizable;
+import com.b3dgs.lionheart.entity.Entity;
 
 /**
- * Represents something that can patrol.
+ * Represents something that can be hit by the object which enters in contact with this.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public interface Patrollable
-        extends Localizable, Patroller
+public interface Hitable
 {
     /**
-     * Set the movement force.
+     * Called when this is hit by another entity.
      * 
-     * @param fh The horizontal force.
-     * @param fv The vertical force.
+     * @param entity The entity hit.
      */
-    void setMovementForce(double fh, double fv);
-
-    /**
-     * Set the maximum movement speed.
-     * 
-     * @param speed The maximum movement speed.
-     */
-    void setMovementSpeedMax(double speed);
-
-    /**
-     * Get the max movement speed.
-     * 
-     * @return The max movement speed.
-     */
-    double getMovementSpeedMax();
-
-    /**
-     * Get the horizontal movement force.
-     * 
-     * @return The horizontal movement force.
-     */
-    double getForceHorizontal();
+    void hitBy(Entity entity);
 }

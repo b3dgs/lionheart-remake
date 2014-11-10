@@ -33,13 +33,14 @@ import com.b3dgs.lionheart.effect.FactoryEffect;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Patrol;
-import com.b3dgs.lionheart.entity.PatrolSide;
-import com.b3dgs.lionheart.entity.Patrollable;
-import com.b3dgs.lionheart.entity.Patroller;
-import com.b3dgs.lionheart.entity.PatrollerModel;
 import com.b3dgs.lionheart.entity.State;
 import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.purview.Hitable;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
+import com.b3dgs.lionheart.purview.patrol.PatrolSide;
+import com.b3dgs.lionheart.purview.patrol.PatrollerModel;
+import com.b3dgs.lionheart.purview.patrol.PatrollerServices;
+import com.b3dgs.lionheart.purview.patrol.PatrollerUsedServices;
 
 /**
  * Monster base implementation.
@@ -48,18 +49,19 @@ import com.b3dgs.lionheart.entity.player.Valdyn;
  */
 public class EntityMonster
         extends EntityMover
-        implements Patrollable
+        implements PatrollerUsedServices, PatrollerServices, Hitable
 {
     /** Hurt max time. */
     private static final int HURT_TIME = 200;
     /** Hurt timer. */
-    protected final Timing timerHurt;
+    private final Timing timerHurt;
     /** Life. */
     private final Alterable life;
+    /** Patrol model. */
+    private final PatrollerServices patroller;
+
     /** Effect factory. */
     private FactoryEffect factoryEffect;
-    /** Patrol model. */
-    private final Patroller patroller;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
@@ -93,6 +95,16 @@ public class EntityMonster
         // Nothing by default
     }
 
+    /**
+     * Check if hurt time has been started.
+     * 
+     * @return <code>true</code> if started, <code>false</code> else.
+     */
+    protected boolean isHurtStarted()
+    {
+        return timerHurt.isStarted();
+    }
+
     /*
      * EntityMover
      */
@@ -107,7 +119,6 @@ public class EntityMonster
     @Override
     public void prepare()
     {
-        super.prepare();
         patroller.prepare();
         movement.setDirectionToReach(movement.getDirectionHorizontal(), movement.getDirectionVertical());
         life.fill();
@@ -128,6 +139,21 @@ public class EntityMonster
     }
 
     @Override
+    public void checkCollision(Valdyn player)
+    {
+        update(player);
+        if (player.collide(this))
+        {
+            player.hitBy(this);
+        }
+        if (player.getCollisionAttack().collide(this))
+        {
+            player.hitThat(this);
+            hitBy(player);
+        }
+    }
+
+    @Override
     protected void updateActions()
     {
         if (timerHurt.isStarted() && timerHurt.elapsed(EntityMonster.HURT_TIME))
@@ -144,14 +170,14 @@ public class EntityMonster
                 mirror(side < 0);
                 if (getPatrolType() == Patrol.HORIZONTAL)
                 {
-                    setMovementForce(movementSpeedMax * side, 0.0);
-                    movement.setDirectionToReach(movementSpeedMax * side, 0.0);
+                    setMovementForce(getMovementSpeedMax() * side, 0.0);
+                    movement.setDirectionToReach(getMovementSpeedMax() * side, 0.0);
                     teleportX(getLocationIntX() + side);
                 }
                 else if (getPatrolType() == Patrol.VERTICAL)
                 {
-                    setMovementForce(0.0, movementSpeedMax * side);
-                    movement.setDirectionToReach(movementSpeedMax * side, 0.0);
+                    setMovementForce(0.0, getMovementSpeedMax() * side);
+                    movement.setDirectionToReach(getMovementSpeedMax() * side, 0.0);
                     teleportY(getLocationIntY() + side);
                 }
             }
@@ -190,47 +216,6 @@ public class EntityMonster
     }
 
     @Override
-    public void checkCollision(Valdyn player)
-    {
-        update(player);
-        if (player.collide(this))
-        {
-            hitThat(player);
-            player.hitBy(this);
-        }
-        if (player.getCollisionAttack().collide(this))
-        {
-            player.hitThat(this);
-            hitBy(player);
-        }
-    }
-
-    @Override
-    public void hitBy(Entity entity)
-    {
-        if (!timerHurt.isStarted())
-        {
-            timerHurt.start();
-            life.decrease(1);
-            if (life.isEmpty())
-            {
-                kill();
-            }
-            else
-            {
-                Sfx.MONSTER_HURT.play();
-                onHitBy(entity);
-            }
-        }
-    }
-
-    @Override
-    public void hitThat(Entity entity)
-    {
-        // Nothing to do
-    }
-
-    @Override
     protected void updateStates()
     {
         boolean willTurn = false;
@@ -264,14 +249,13 @@ public class EntityMonster
     @Override
     protected void updateDead()
     {
-        factoryEffect.startEffect(ExplodeBig.MEDIA, (int) dieLocation.getX() - getCollisionData().getWidth() / 2 - 5,
-                (int) dieLocation.getY() - 5);
+        factoryEffect.startEffect(ExplodeBig.MEDIA, getDeathLocation(), -getCollisionData().getWidth() / 2 - 5, -5);
         Sfx.EXPLODE.play();
         destroy();
     }
 
     @Override
-    protected void updateAnimations(double extrp)
+    protected void handleAnimations(double extrp)
     {
         final State state = status.getState();
         if (state == EntityState.WALK)
@@ -279,144 +263,150 @@ public class EntityMonster
             final double speed = Math.abs(getHorizontalForce()) / 3;
             setAnimSpeed(speed);
         }
+        super.handleAnimations(extrp);
     }
 
     /*
-     * Patrollable
+     * Hitable
      */
 
     @Override
-    public void setMovementForce(double fh, double fv)
+    public void hitBy(Entity entity)
+    {
+        if (!timerHurt.isStarted())
+        {
+            timerHurt.start();
+            life.decrease(1);
+            if (life.isEmpty())
+            {
+                kill();
+            }
+            else
+            {
+                Sfx.MONSTER_HURT.play();
+                onHitBy(entity);
+            }
+        }
+    }
+
+    /*
+     * PatrollerUsedServices
+     */
+
+    @Override
+    public final void setMovementForce(double fh, double fv)
     {
         movement.setForce(fh, fv);
     }
 
-    @Override
-    public void setMovementSpeedMax(double speed)
-    {
-        movementSpeedMax = speed;
-    }
-
-    @Override
-    public double getMovementSpeedMax()
-    {
-        return movementSpeedMax;
-    }
-
-    @Override
-    public double getForceHorizontal()
-    {
-        return movement.getDirectionHorizontal();
-    }
-
     /*
-     * Patroller
+     * PatrollerServices
      */
 
     @Override
-    public void enableMovement(Patrol type)
+    public final void enableMovement(Patrol type)
     {
         patroller.enableMovement(type);
     }
 
     @Override
-    public void setSide(int side)
+    public final void setSide(int side)
     {
         patroller.setSide(side);
     }
 
     @Override
-    public void setPatrolType(Patrol movement)
+    public final void setPatrolType(Patrol movement)
     {
         patroller.setPatrolType(movement);
     }
 
     @Override
-    public void setFirstMove(PatrolSide firstMove)
+    public final void setFirstMove(PatrolSide firstMove)
     {
         patroller.setFirstMove(firstMove);
     }
 
     @Override
-    public void setMoveSpeed(int speed)
+    public final void setMoveSpeed(int speed)
     {
         patroller.setMoveSpeed(speed);
     }
 
     @Override
-    public void setPatrolLeft(int left)
+    public final void setPatrolLeft(int left)
     {
         patroller.setPatrolLeft(left);
     }
 
     @Override
-    public void setPatrolRight(int right)
+    public final void setPatrolRight(int right)
     {
         patroller.setPatrolRight(right);
     }
 
     @Override
-    public int getSide()
+    public final int getSide()
     {
         return patroller.getSide();
     }
 
     @Override
-    public Patrol getPatrolType()
+    public final Patrol getPatrolType()
     {
         return patroller.getPatrolType();
     }
 
     @Override
-    public PatrolSide getFirstMove()
+    public final PatrolSide getFirstMove()
     {
         return patroller.getFirstMove();
     }
 
     @Override
-    public int getMoveSpeed()
+    public final int getMoveSpeed()
     {
         return patroller.getMoveSpeed();
     }
 
     @Override
-    public int getPatrolLeft()
+    public final int getPatrolLeft()
     {
         return patroller.getPatrolLeft();
     }
 
     @Override
-    public int getPatrolRight()
+    public final int getPatrolRight()
     {
         return patroller.getPatrolRight();
     }
 
     @Override
-    public int getPositionMin()
+    public final int getPositionMin()
     {
         return patroller.getPositionMin();
     }
 
     @Override
-    public int getPositionMax()
+    public final int getPositionMax()
     {
         return patroller.getPositionMax();
     }
 
     @Override
-    public boolean hasPatrol()
+    public final boolean hasPatrol()
     {
         return patroller.hasPatrol();
     }
 
     @Override
-    public boolean isPatrolEnabled()
+    public final boolean isPatrolEnabled()
     {
         return patroller.isPatrolEnabled();
     }
 
     @Override
-    public boolean isPatrolEnabled(Patrol type)
+    public final boolean isPatrolEnabled(Patrol type)
     {
         return patroller.isPatrolEnabled(type);
     }

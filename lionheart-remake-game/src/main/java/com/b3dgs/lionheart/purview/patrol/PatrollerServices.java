@@ -15,25 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity;
+package com.b3dgs.lionheart.purview.patrol;
 
 import java.io.IOException;
 
 import com.b3dgs.lionengine.stream.FileReading;
 import com.b3dgs.lionengine.stream.FileWriting;
+import com.b3dgs.lionheart.purview.Preparable;
 
 /**
  * Patroller interface, describing the ability of moving autonomously.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public interface Patroller
+public interface PatrollerServices
+        extends Preparable
 {
-    /**
-     * Prepare the patrol.
-     */
-    void prepare();
-
     /**
      * Save the patrol.
      * 

@@ -15,45 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.item.swamp;
+package com.b3dgs.lionheart.purview.ascend;
 
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Stats;
+import com.b3dgs.lionengine.game.purview.Collidable;
+import com.b3dgs.lionheart.entity.EntityMover;
 
 /**
- * Fruit item.
+ * Represents something that can be ascended, which means that the entity over it will be on its referential.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Fruit
-        extends EntityItem
+public interface AscendableServices
 {
-    /** Class media. */
-    public static final Media MEDIA = Entity.getConfig(CategoryType.ITEM, ThemeType.SWAMP, Fruit.class);
-
     /**
-     * Constructor.
+     * Called when this is ascended by entity.
      * 
-     * @param setup The setup reference.
+     * @param entity The entity that is ascending this.
+     * @param collidable The collision to use for the check.
      */
-    public Fruit(SetupSurfaceRasteredGame setup)
-    {
-        super(setup);
-    }
-
-    /*
-     * EntityItem
-     */
-
-    @Override
-    public void onTaken(Stats stats)
-    {
-        Sfx.ITEM_TAKEN.play();
-    }
+    void checkAscendBy(EntityMover entity, Collidable collidable);
 }

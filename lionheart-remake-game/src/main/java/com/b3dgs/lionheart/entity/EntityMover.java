@@ -19,12 +19,14 @@ package com.b3dgs.lionheart.entity;
 
 import java.util.EnumMap;
 
+import com.b3dgs.lionengine.game.ContextGame;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionengine.game.configurer.Configurer;
 import com.b3dgs.lionengine.game.map.CollisionTileCategory;
+import com.b3dgs.lionheart.map.Map;
 import com.b3dgs.lionheart.map.Tile;
 
 /**
@@ -40,17 +42,17 @@ public abstract class EntityMover
     /** Movement force. */
     protected final Movement movement;
     /** Movement jump force. */
-    protected final Force jumpForce;
+    private final Force jumpForce;
     /** Jump max force. */
-    protected final double jumpHeightMax;
+    private final double jumpHeightMax;
     /** Gravity max. */
-    protected final double gravityMax;
+    private final double gravityMax;
     /** Extra gravity force. */
     private final Force extraGravityForce;
-    /** Directions list used. */
-    private final Direction[] directions;
+    /** Map reference. */
+    private Map map;
     /** Movement max speed. */
-    protected double movementSpeedMax;
+    private double movementSpeedMax;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
@@ -67,10 +69,7 @@ public abstract class EntityMover
         gravityMax = configurer.getDouble("gravityMax", "data");
         movement.setVelocity(0.2);
         movement.setSensibility(0.4);
-        directions = new Direction[]
-        {
-                jumpForce, extraGravityForce, movement
-        };
+        setDirections(jumpForce, extraGravityForce, movement);
         setMass(configurer.getDouble("mass", "data"));
         setGravityMax(gravityMax);
         addCollisionTile(EntityCollisionTileCategory.GROUND_CENTER, 0, 0);
@@ -82,6 +81,77 @@ public abstract class EntityMover
      * @see EntityAction
      */
     protected abstract void updateActions();
+
+    /**
+     * Force the entity to jump.
+     */
+    public final void forceJump()
+    {
+        resetGravity();
+        jumpForce.setDirection(0.0, jumpHeightMax * 0.8);
+    }
+
+    /**
+     * Get the movement speed max.
+     * 
+     * @return The movement speed max.
+     */
+    public final double getMovementSpeedMax()
+    {
+        return movementSpeedMax;
+    }
+
+    /**
+     * Set the movement speed max.
+     * 
+     * @param max The movement speed max.
+     */
+    public final void setMovementSpeedMax(double max)
+    {
+        movementSpeedMax = max;
+    }
+
+    /**
+     * Set the jump direction.
+     * 
+     * @param fh The horizontal force.
+     * @param fv The vertical force.
+     */
+    public final void setJumpDirection(double fh, double fv)
+    {
+        jumpForce.setDirection(fh, fv);
+    }
+
+    /**
+     * Check if entity is jumping.
+     * 
+     * @return <code>true</code> if jumping, <code>false</code> else.
+     */
+    public final boolean isJumping()
+    {
+        return !isOnGround() && getLocationY() > getLocationOldY();
+    }
+
+    /**
+     * Check if entity is on ground.
+     * 
+     * @return <code>true</code> if on ground, <code>false</code> else.
+     */
+    public final boolean isOnGround()
+    {
+        return status.getCollision() == EntityCollisionTile.GROUND;
+    }
+
+    /**
+     * Check if the specified action is enabled.
+     * 
+     * @param action The action to check.
+     * @return <code>true</code> if enabled, <code>false</code> else.
+     */
+    public final boolean isEnabled(EntityAction action)
+    {
+        return actions.get(action).booleanValue();
+    }
 
     /**
      * Check vertical axis.
@@ -121,12 +191,13 @@ public abstract class EntityMover
     }
 
     /**
-     * Force the entity to jump.
+     * Check if entity is falling.
+     * 
+     * @return <code>true</code> if falling, <code>false</code> else.
      */
-    public void forceJump()
+    public boolean isFalling()
     {
-        resetGravity();
-        jumpForce.setDirection(0.0, jumpHeightMax * 0.8);
+        return !isOnGround() && getLocationY() < getLocationOldY();
     }
 
     /**
@@ -140,44 +211,11 @@ public abstract class EntityMover
     }
 
     /**
-     * Check if entity is jumping.
-     * 
-     * @return <code>true</code> if jumping, <code>false</code> else.
+     * Reset the jump direction.
      */
-    public boolean isJumping()
+    protected final void resetJumpDirection()
     {
-        return !isOnGround() && getLocationY() > getLocationOldY();
-    }
-
-    /**
-     * Check if entity is falling.
-     * 
-     * @return <code>true</code> if falling, <code>false</code> else.
-     */
-    public boolean isFalling()
-    {
-        return !isOnGround() && getLocationY() < getLocationOldY();
-    }
-
-    /**
-     * Check if entity is on ground.
-     * 
-     * @return <code>true</code> if on ground, <code>false</code> else.
-     */
-    public boolean isOnGround()
-    {
-        return status.getCollision() == EntityCollisionTile.GROUND;
-    }
-
-    /**
-     * Check if the specified action is enabled.
-     * 
-     * @param action The action to check.
-     * @return <code>true</code> if enabled, <code>false</code> else.
-     */
-    public boolean isEnabled(EntityAction action)
-    {
-        return actions.get(action).booleanValue();
+        jumpForce.setDirection(Direction.ZERO);
     }
 
     /**
@@ -186,7 +224,7 @@ public abstract class EntityMover
      * @param tile The tile collision.
      * @return <code>true</code> if collision occurred, <code>false</code> else.
      */
-    protected boolean checkCollisionVertical(Tile tile)
+    protected final boolean checkCollisionVertical(Tile tile)
     {
         if (tile != null)
         {
@@ -203,7 +241,7 @@ public abstract class EntityMover
      * @param tile The tile collision.
      * @return <code>true</code> if collision occurred, <code>false</code> else.
      */
-    protected boolean checkCollisionHorizontal(Tile tile)
+    protected final boolean checkCollisionHorizontal(Tile tile)
     {
         if (tile != null)
         {
@@ -220,7 +258,7 @@ public abstract class EntityMover
      * @param category The collision category.
      * @return The tile found.
      */
-    protected Tile checkCollisionHorizontal(CollisionTileCategory category)
+    protected final Tile checkCollisionHorizontal(CollisionTileCategory category)
     {
         final Tile tile = getCollisionTile(map, category);
         if (tile != null)
@@ -239,15 +277,47 @@ public abstract class EntityMover
      * 
      * @return The horizontal force.
      */
-    protected double getHorizontalForce()
+    protected final double getHorizontalForce()
     {
         return movement.getDirectionHorizontal();
     }
 
     /**
-     * Check the map limit and apply collision if necessary.
+     * Get the gravity max.
+     * 
+     * @return The gravity max.
      */
-    private void checkMapLimit()
+    protected final double getGravityMax()
+    {
+        return gravityMax;
+    }
+
+    /**
+     * Get the jump height max.
+     * 
+     * @return The jump height max.
+     */
+    protected final double getJumpHeightMax()
+    {
+        return jumpHeightMax;
+    }
+
+    /**
+     * Get the vertical jump direction.
+     * 
+     * @return The vertical jump direction.
+     */
+    protected final double getJumpDirectionVertical()
+    {
+        return jumpForce.getDirectionVertical();
+    }
+
+    /**
+     * Check the map limit and apply collision if necessary.
+     * 
+     * @param map The map reference.
+     */
+    private void checkMapLimit(Map map)
     {
         final int limitLeft = 0;
         if (getLocationX() < limitLeft)
@@ -268,6 +338,13 @@ public abstract class EntityMover
      */
 
     @Override
+    public void prepare(ContextGame context)
+    {
+        super.prepare(context);
+        map = context.getService(Map.class);
+    }
+
+    @Override
     public void kill()
     {
         super.kill();
@@ -282,9 +359,9 @@ public abstract class EntityMover
     }
 
     @Override
-    protected void updateCollisions()
+    protected void updateCollisions(Map map)
     {
-        checkMapLimit();
+        checkMapLimit(map);
         status.setCollision(EntityCollisionTile.NONE);
         // Vertical collision
         if (getDiffVertical() < 0 || isOnGround())
@@ -309,11 +386,5 @@ public abstract class EntityMover
     {
         movement.update(extrp);
         super.handleMovements(extrp);
-    }
-
-    @Override
-    protected Direction[] getDirections()
-    {
-        return directions;
     }
 }

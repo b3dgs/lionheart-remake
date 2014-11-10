@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.stream.FileWriting;
 import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.map.Map;
+import com.b3dgs.lionheart.purview.Preparable;
 
 /**
  * Handle all entity on the map.
@@ -97,7 +98,10 @@ public class HandlerEntity
     {
         for (final Entity entity : list())
         {
-            entity.prepare();
+            if (entity instanceof Preparable)
+            {
+                ((Preparable) entity).prepare();
+            }
         }
     }
 
@@ -124,7 +128,7 @@ public class HandlerEntity
     @Override
     protected void updatingEntity(Entity entity, double extrp)
     {
-        if (!player.isDead())
+        if (!player.isDead() && !entity.isDead())
         {
             entity.checkCollision(player);
         }

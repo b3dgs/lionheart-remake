@@ -15,45 +15,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.item.swamp;
-
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Stats;
+package com.b3dgs.lionheart.purview;
 
 /**
- * Fruit item.
+ * Jumpable ability for an entity.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Fruit
-        extends EntityItem
+public interface Jumpable
 {
-    /** Class media. */
-    public static final Media MEDIA = Entity.getConfig(CategoryType.ITEM, ThemeType.SWAMP, Fruit.class);
+    /**
+     * Set the jumpable flag.
+     * 
+     * @param jumpable The jumpable flag.
+     */
+    void setJumpable(boolean jumpable);
 
     /**
-     * Constructor.
+     * Set the jump force speed.
      * 
-     * @param setup The setup reference.
+     * @param jumpForceSpeed The jump force speed.
      */
-    public Fruit(SetupSurfaceRasteredGame setup)
-    {
-        super(setup);
-    }
+    void setJumpForceSpeed(int jumpForceSpeed);
 
-    /*
-     * EntityItem
+    /**
+     * Get the jump force.
+     * 
+     * @return The jump force.
      */
+    int getJumpForceSpeed();
 
-    @Override
-    public void onTaken(Stats stats)
-    {
-        Sfx.ITEM_TAKEN.play();
-    }
+    /**
+     * Check if crawling is jumpable.
+     * 
+     * @return <code>true</code> if jumpable, <code>false</code> else.
+     */
+    boolean isJumpable();
 }

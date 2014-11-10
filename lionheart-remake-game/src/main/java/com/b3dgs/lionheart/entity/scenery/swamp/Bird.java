@@ -27,10 +27,12 @@ import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityCollision;
 import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Patrol;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.entity.player.ValdynState;
 import com.b3dgs.lionheart.entity.scenery.EntitySceneryPatroller;
+import com.b3dgs.lionheart.purview.Hitable;
+import com.b3dgs.lionheart.purview.Hurtable;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
 
 /**
  * Bird implementation.
@@ -39,6 +41,7 @@ import com.b3dgs.lionheart.entity.scenery.EntitySceneryPatroller;
  */
 public final class Bird
         extends EntitySceneryPatroller
+        implements Hitable, Hurtable
 {
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.SCENERY, ThemeType.SWAMP, Bird.class);
@@ -63,9 +66,9 @@ public final class Bird
      */
     private void check()
     {
-        movement.reset();
+        resetMovement();
         setSide(-getSide());
-        setMovementForce(0.0, movementSpeedMax * getSide());
+        setMovementForce(0.0, getMovementSpeedMax() * getSide());
         teleportY(getLocationIntY() + getSide());
     }
 
@@ -105,7 +108,6 @@ public final class Bird
     @Override
     protected void updateStates()
     {
-        super.updateStates();
         if (!hit.isStarted())
         {
             status.setState(EntityState.TURN);
@@ -115,7 +117,7 @@ public final class Bird
             if (hit.elapsed(3000))
             {
                 status.setState(EntityState.TURN);
-                setCollision(collisions.get(EntityCollision.DEFAULT));
+                setCollision(EntityCollision.DEFAULT);
                 hit.stop();
             }
             else
@@ -128,13 +130,10 @@ public final class Bird
     @Override
     public void checkCollision(Valdyn player)
     {
-        if (status.isState(EntityState.WALK) && player.getCollisionLeg().collide(this))
-        {
-            hitThat(player);
-        }
+        super.checkCollision(player);
         if (status.isState(EntityState.TURN) && player.collide(this))
         {
-            player.hitBy(this);
+            hitThat(player);
         }
         if (player.getCollisionAttack().collide(this))
         {
@@ -150,14 +149,35 @@ public final class Bird
             ((EntityMover) entity).forceJump();
             if (!hit.isStarted())
             {
-                setCollision(collisions.get(EntityCollision.TOP));
+                setCollision(EntityCollision.TOP);
                 hit.start();
             }
         }
     }
 
     @Override
+    public void hitThat(EntityMover entity)
+    {
+        if (entity instanceof Hitable)
+        {
+            ((Hitable) entity).hitBy(entity);
+        }
+    }
+
+    @Override
     protected void checkPatrolEnd()
+    {
+        // Nothing to do
+    }
+
+    @Override
+    public void onAscendingBy(EntityMover entity)
+    {
+        // Nothing to do
+    }
+
+    @Override
+    public void onDescended(EntityMover entity)
     {
         // Nothing to do
     }

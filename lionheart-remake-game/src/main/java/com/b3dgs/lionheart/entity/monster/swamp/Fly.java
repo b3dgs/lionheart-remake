@@ -22,8 +22,8 @@ import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.Patrol;
 import com.b3dgs.lionheart.entity.monster.EntityMonster;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
 
 /**
  * Fly implementation.

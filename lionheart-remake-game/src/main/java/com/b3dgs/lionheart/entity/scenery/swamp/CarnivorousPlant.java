@@ -30,9 +30,11 @@ import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityCollision;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
+import com.b3dgs.lionheart.entity.EntityMover;
 import com.b3dgs.lionheart.entity.EntityState;
 import com.b3dgs.lionheart.entity.player.Valdyn;
 import com.b3dgs.lionheart.entity.scenery.EntityScenery;
+import com.b3dgs.lionheart.purview.Hurtable;
 
 /**
  * Carnivorous plant implementation.
@@ -41,6 +43,7 @@ import com.b3dgs.lionheart.entity.scenery.EntityScenery;
  */
 public final class CarnivorousPlant
         extends EntityScenery
+        implements Hurtable
 {
     /** Class media. */
     public static final Media MEDIA = Entity.getConfig(CategoryType.SCENERY, ThemeType.SWAMP, CarnivorousPlant.class);
@@ -67,7 +70,7 @@ public final class CarnivorousPlant
         super(setup);
         timer = new Timing();
         bite = new CollidableModel(this);
-        bite.setCollision(collisions.get(EntityCollision.BITE));
+        bite.setCollision(getCollisionData(EntityCollision.BITE));
         next = UtilRandom.getRandomInteger(2000) + 500;
         timer.start();
     }
@@ -77,6 +80,12 @@ public final class CarnivorousPlant
      */
 
     @Override
+    public void checkCollision(Valdyn entity)
+    {
+        hitThat(entity);
+    }
+
+    @Override
     public void updateCollision()
     {
         super.updateCollision();
@@ -84,43 +93,41 @@ public final class CarnivorousPlant
     }
 
     @Override
-    public void hitThat(Entity entity)
+    public void hitThat(EntityMover entity)
     {
         if (entity instanceof Valdyn)
         {
             final Valdyn valdyn = (Valdyn) entity;
-            if (bite.collide(valdyn.getCollisionLeg()))
+            final Rectangle leg = valdyn.getCollisionLeg().getCollisionBounds();
+            if (bite.collide(leg))
             {
                 entity.applyVerticalCollision(Double.valueOf(bite.getCollisionBounds().getMaxY()));
                 entity.kill();
             }
             final Rectangle coll = getCollisionBounds();
-            final Rectangle leg = valdyn.getCollisionLeg().getCollisionBounds();
-            final EntityCollisionTile collision = valdyn.status.getCollision();
-            final double xMin = leg.getMaxX();
-            final double xMax = leg.getMinX();
+            if (collide(valdyn))
+            {
+                final EntityCollisionTile collision = valdyn.status.getCollision();
+                final double xMin = leg.getMaxX();
+                final double xMax = leg.getMinX();
 
-            if (xMin > coll.getMinX() && xMin < coll.getMinX() + coll.getWidth() / 2)
-            {
-                valdyn.checkCollisionHorizontal(Double.valueOf(coll.getMinX() + (valdyn.getLocationX() - xMin + 1)),
-                        collision);
-            }
-            else if (xMax <= coll.getMaxX() && xMax > coll.getMaxX() - coll.getWidth() / 2)
-            {
-                valdyn.checkCollisionHorizontal(Double.valueOf(coll.getMaxX() + (valdyn.getLocationX() - xMax - 1)),
-                        collision);
+                if (xMin > coll.getMinX() && xMin < coll.getMinX() + coll.getWidth() / 2)
+                {
+                    entity.checkCollisionHorizontal(
+                            Double.valueOf(coll.getMinX() + (entity.getLocationX() - xMin + 1)), collision);
+                }
+                else if (xMax <= coll.getMaxX() && xMax > coll.getMaxX() - coll.getWidth() / 2)
+                {
+                    entity.checkCollisionHorizontal(
+                            Double.valueOf(coll.getMaxX() + (entity.getLocationX() - xMax - 1)), collision);
+                }
             }
         }
     }
 
-    /*
-     * EntityScenery
-     */
-
     @Override
     protected void updateStates()
     {
-        super.updateStates();
         if (status.isState(EntityState.WALK) && getAnimState() == AnimState.FINISHED)
         {
             status.setState(EntityState.IDLE);
@@ -132,17 +139,5 @@ public final class CarnivorousPlant
         {
             status.setState(EntityState.WALK);
         }
-    }
-
-    @Override
-    protected void onCollide(Entity entity)
-    {
-        // Nothing to do
-    }
-
-    @Override
-    protected void onLostCollision()
-    {
-        // Nothing to do
     }
 }

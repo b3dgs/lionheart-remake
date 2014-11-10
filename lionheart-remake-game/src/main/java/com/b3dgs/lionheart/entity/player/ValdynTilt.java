@@ -20,7 +20,6 @@ package com.b3dgs.lionheart.entity.player;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.anim.AnimState;
-import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.Movement;
 import com.b3dgs.lionheart.entity.EntityAction;
 import com.b3dgs.lionheart.entity.EntityCollisionTile;
@@ -266,12 +265,11 @@ final class ValdynTilt
     /**
      * Update the jump action on the slide.
      * 
-     * @param jumpForce The jump force reference.
      * @param jumpHeightMax The jump height max.
      */
-    void updateActionJumpSlide(Force jumpForce, double jumpHeightMax)
+    void updateActionJumpSlide(double jumpHeightMax)
     {
-        jumpForce.setDirection(0.0, jumpHeightMax * 0.6);
+        valdyn.setJumpDirection(0.0, jumpHeightMax * 0.6);
         if (slide == Align.RIGHT)
         {
             movement.setForce(jumpHeightMax * 0.6, 0.0);

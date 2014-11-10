@@ -23,9 +23,9 @@ import com.b3dgs.lionheart.CategoryType;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.EntityState;
-import com.b3dgs.lionheart.entity.Patrol;
-import com.b3dgs.lionheart.entity.PatrolSide;
 import com.b3dgs.lionheart.entity.monster.EntityMonster;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
+import com.b3dgs.lionheart.purview.patrol.PatrolSide;
 
 /**
  * Dino monster implementation.
@@ -79,7 +79,7 @@ public final class Dino
     @Override
     protected void updateStates()
     {
-        if (isFalling() || timerHurt.isStarted())
+        if (isFalling() || isHurtStarted())
         {
             status.setState(EntityState.FALL);
         }

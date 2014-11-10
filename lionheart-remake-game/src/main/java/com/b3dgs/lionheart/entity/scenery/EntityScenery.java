@@ -17,13 +17,9 @@
  */
 package com.b3dgs.lionheart.entity.scenery;
 
-import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionengine.geom.Rectangle;
 import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.EntityCollisionTile;
-import com.b3dgs.lionheart.entity.EntityMover;
-import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.map.Map;
 
 /**
  * Entity scenery base implementation.
@@ -33,77 +29,12 @@ import com.b3dgs.lionheart.entity.player.Valdyn;
 public abstract class EntityScenery
         extends Entity
 {
-    /** Border timer. */
-    private final Timing borderTimer;
-    /** Collide state. */
-    private boolean collide;
-    /** Collide old state. */
-    private boolean collideOld;
-
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
      */
     protected EntityScenery(SetupSurfaceRasteredGame setup)
     {
         super(setup);
-        borderTimer = new Timing();
-    }
-
-    /**
-     * Called when collision occurred.
-     * 
-     * @param entity The entity reference.
-     */
-    protected abstract void onCollide(Entity entity);
-
-    /**
-     * Called when lost collision.
-     */
-    protected abstract void onLostCollision();
-
-    /**
-     * Update the entity extremity position.
-     * 
-     * @param entity The entity reference.
-     */
-    private void updateExtremity(Entity entity)
-    {
-        if (entity instanceof Valdyn)
-        {
-            final Valdyn valdyn = (Valdyn) entity;
-            final int width = valdyn.getWidth() / 2;
-            final Rectangle collision = getCollisionBounds();
-            if (valdyn.getLocationX() < collision.getMinX() - width + Valdyn.TILE_EXTREMITY_WIDTH * 2)
-            {
-                checkExtremity(valdyn, true);
-            }
-            else if (valdyn.getLocationX() > collision.getMaxX() + width - Valdyn.TILE_EXTREMITY_WIDTH * 2)
-            {
-                checkExtremity(valdyn, false);
-            }
-            else
-            {
-                borderTimer.stop();
-            }
-        }
-    }
-
-    /**
-     * Check the extremity timer and apply it.
-     * 
-     * @param valdyn Valdyn reference.
-     * @param mirror The mirror to apply.
-     */
-    private void checkExtremity(Valdyn valdyn, boolean mirror)
-    {
-        if (!borderTimer.isStarted())
-        {
-            borderTimer.start();
-        }
-        if (borderTimer.elapsed(250))
-        {
-            valdyn.updateExtremity(true);
-        }
     }
 
     /*
@@ -111,72 +42,13 @@ public abstract class EntityScenery
      */
 
     @Override
-    public void checkCollision(Valdyn player)
-    {
-        if (player.getCollisionLeg().collide(this))
-        {
-            hitThat(player);
-        }
-        if (player.getCollisionAttack().collide(this))
-        {
-            hitBy(player);
-        }
-    }
-
-    @Override
-    public void hitBy(Entity entity)
+    protected final void updateDead()
     {
         // Nothing to do
     }
 
     @Override
-    public void hitThat(Entity entity)
-    {
-        if (entity instanceof EntityMover)
-        {
-            final EntityMover mover = (EntityMover) entity;
-            if (!mover.isJumping() && mover.getLocationY() > getLocationY())
-            {
-                onCollide(entity);
-                mover.checkCollisionVertical(Double.valueOf(getLocationY() + getCollisionData().getOffsetY()),
-                        EntityCollisionTile.GROUND);
-                collide = true;
-            }
-        }
-        updateExtremity(entity);
-    }
-
-    @Override
-    public void onUpdated()
-    {
-        if (!collide && collideOld)
-        {
-            onLostCollision();
-            collideOld = false;
-        }
-    }
-
-    @Override
-    protected void updateStates()
-    {
-        collideOld = collide;
-        collide = false;
-    }
-
-    @Override
-    protected void updateDead()
-    {
-        // Nothing to do
-    }
-
-    @Override
-    protected void updateCollisions()
-    {
-        // Nothing to do
-    }
-
-    @Override
-    protected void updateAnimations(double extrp)
+    protected final void updateCollisions(Map map)
     {
         // Nothing to do
     }

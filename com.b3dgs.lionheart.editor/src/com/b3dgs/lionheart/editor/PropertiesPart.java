@@ -41,9 +41,9 @@ import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.editor.UtilSwt;
 import com.b3dgs.lionengine.editor.world.ObjectSelectionListener;
 import com.b3dgs.lionengine.game.ObjectGame;
-import com.b3dgs.lionheart.entity.Patrol;
-import com.b3dgs.lionheart.entity.PatrolSide;
-import com.b3dgs.lionheart.entity.Patroller;
+import com.b3dgs.lionheart.purview.patrol.Patrol;
+import com.b3dgs.lionheart.purview.patrol.PatrolSide;
+import com.b3dgs.lionheart.purview.patrol.PatrollerServices;
 
 /**
  * Map object properties part.
@@ -62,7 +62,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The parent reference.
      */
-    private static void createPatrol(Patroller patroller, Composite parent)
+    private static void createPatrol(PatrollerServices patroller, Composite parent)
     {
         final Group group = new Group(parent, SWT.NONE);
         group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -81,7 +81,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolType(final Patroller patroller, Composite parent)
+    private static void createPatrolType(final PatrollerServices patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -118,7 +118,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolSide(final Patroller patroller, Composite parent)
+    private static void createPatrolSide(final PatrollerServices patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -146,7 +146,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolSpeed(final Patroller patroller, Composite parent)
+    private static void createPatrolSpeed(final PatrollerServices patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -176,7 +176,7 @@ public class PropertiesPart
      * @param patroller The patroller reference.
      * @param parent The composite reference.
      */
-    private static void createPatrolPosition(final Patroller patroller, Composite parent)
+    private static void createPatrolPosition(final PatrollerServices patroller, Composite parent)
     {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -277,9 +277,9 @@ public class PropertiesPart
         clear();
         if (properties != null)
         {
-            if (object instanceof Patroller)
+            if (object instanceof PatrollerServices)
             {
-                createPatrol((Patroller) object, properties);
+                createPatrol((PatrollerServices) object, properties);
             }
             properties.layout(true, true);
         }

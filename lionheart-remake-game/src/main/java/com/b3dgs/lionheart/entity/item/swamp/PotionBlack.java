@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.ThemeType;
 import com.b3dgs.lionheart.entity.Entity;
 import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.entity.player.Stats;
 
 /**
  * Potion black implementation.
@@ -52,7 +52,7 @@ public final class PotionBlack
      */
 
     @Override
-    protected void onTaken(Valdyn entity)
+    public void onTaken(Stats stats)
     {
         Sfx.ITEM_POTION_BIG.play();
     }

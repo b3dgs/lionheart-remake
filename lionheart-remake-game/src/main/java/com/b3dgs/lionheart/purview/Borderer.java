@@ -15,45 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.entity.item.swamp;
+package com.b3dgs.lionheart.purview;
 
-import com.b3dgs.lionengine.core.Media;
-import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
-import com.b3dgs.lionheart.CategoryType;
-import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.ThemeType;
-import com.b3dgs.lionheart.entity.Entity;
-import com.b3dgs.lionheart.entity.item.EntityItem;
-import com.b3dgs.lionheart.entity.player.Stats;
+import com.b3dgs.lionengine.game.purview.Localizable;
 
 /**
- * Fruit item.
+ * Represents something that support border detection.
  * 
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public final class Fruit
-        extends EntityItem
+public interface Borderer
+        extends Localizable
 {
-    /** Class media. */
-    public static final Media MEDIA = Entity.getConfig(CategoryType.ITEM, ThemeType.SWAMP, Fruit.class);
+    /** The width of the tile extremity. */
+    public static final int TILE_EXTREMITY_WIDTH = 3;
 
     /**
-     * Constructor.
+     * Update the extremity state.
      * 
-     * @param setup The setup reference.
+     * @param mirror The mirror to apply.
      */
-    public Fruit(SetupSurfaceRasteredGame setup)
-    {
-        super(setup);
-    }
-
-    /*
-     * EntityItem
-     */
-
-    @Override
-    public void onTaken(Stats stats)
-    {
-        Sfx.ITEM_TAKEN.play();
-    }
+    void updateExtremity(boolean mirror);
 }

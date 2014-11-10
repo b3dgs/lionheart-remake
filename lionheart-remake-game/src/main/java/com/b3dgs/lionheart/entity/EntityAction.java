@@ -37,7 +37,7 @@ public enum EntityAction
     /** Attack. */
     ATTACK(Keyboard.CONTROL);
 
-    /** Values. */
+    /** Values (must be accessed for read only). */
     public static final EntityAction[] VALUES = EntityAction.values();
     /** The key binding (used in case of control with keyboard). */
     private final Integer key;

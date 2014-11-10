@@ -20,6 +20,11 @@ package com.b3dgs.lionheart.entity.scenery;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.SetupSurfaceRasteredGame;
 import com.b3dgs.lionheart.entity.Entity;
+import com.b3dgs.lionheart.entity.EntityMover;
+import com.b3dgs.lionheart.entity.player.Valdyn;
+import com.b3dgs.lionheart.purview.ascend.AscendableModel;
+import com.b3dgs.lionheart.purview.ascend.AscendableServices;
+import com.b3dgs.lionheart.purview.ascend.AscendableUsedServices;
 
 /**
  * Sheet base scenery implementation.
@@ -28,6 +33,7 @@ import com.b3dgs.lionheart.entity.Entity;
  */
 public abstract class EntityScenerySheet
         extends EntityScenery
+        implements AscendableUsedServices
 {
     /** Half circle. */
     protected static final int HALF_CIRCLE = 180;
@@ -35,16 +41,19 @@ public abstract class EntityScenerySheet
     private static final int EFFECT_SPEED = 9;
     /** Effect amplitude. */
     private static final int AMPLITUDE = 6;
+
+    /** Ascendable model. */
+    private final AscendableServices ascendable;
     /** Initial vertical location, default sheet location y. */
-    protected int initialY = Integer.MIN_VALUE;
+    private int initialY = Integer.MIN_VALUE;
     /** Effect start flag, <code>true</code> when effect is occurring, <code>false</code> else. */
-    protected boolean effectStart;
+    private boolean effectStart;
     /** Effect counter, represent the value used to calculate the effect. */
-    protected double effectCounter;
+    private double effectCounter;
     /** Effect side, -1 to decrease, 1 to increase. */
-    protected int effectSide;
+    private int effectSide;
     /** First hit flag, when sheet is hit for the first time. */
-    protected boolean firstHit;
+    private boolean firstHit;
 
     /**
      * @see Entity#Entity(SetupSurfaceRasteredGame)
@@ -52,6 +61,7 @@ public abstract class EntityScenerySheet
     protected EntityScenerySheet(SetupSurfaceRasteredGame setup)
     {
         super(setup);
+        ascendable = new AscendableModel(this);
     }
 
     /**
@@ -63,7 +73,7 @@ public abstract class EntityScenerySheet
     {
         if (effectStart)
         {
-            effectCounter += EntityScenerySheet.EFFECT_SPEED * effectSide * extrp;
+            increaseEffectCounter(EntityScenerySheet.EFFECT_SPEED * effectSide * extrp);
             // Detect end
             if (effectCounter >= EntityScenerySheet.HALF_CIRCLE)
             {
@@ -77,6 +87,60 @@ public abstract class EntityScenerySheet
             }
             setLocationY(initialY - UtilMath.sin(effectCounter) * EntityScenerySheet.AMPLITUDE);
         }
+    }
+
+    /**
+     * Increase the effect counter value.
+     * 
+     * @param value The increment value.
+     */
+    protected final void increaseEffectCounter(double value)
+    {
+        effectCounter += value;
+    }
+
+    /**
+     * Reset the effect side value to its default (increase).
+     */
+    protected final void resetEffectSide()
+    {
+        effectSide = 1;
+    }
+
+    /**
+     * Reset the effect counter.
+     */
+    protected final void resetEffectCounter()
+    {
+        effectCounter = 0;
+    }
+
+    /**
+     * Reset the start effect flag.
+     */
+    protected final void resetEffectStart()
+    {
+        effectStart = false;
+    }
+
+    /**
+     * Get the effect counter value.
+     * 
+     * @return The effect counter value.
+     */
+    protected final double getEffectCounter()
+    {
+        return effectCounter;
+    }
+
+    /**
+     * Get the initial vertical location.
+     * 
+     * @return The default vertical location.
+     */
+    protected final int getInitialY()
+    {
+        return initialY;
     }
 
     /*
@@ -96,7 +160,17 @@ public abstract class EntityScenerySheet
     }
 
     @Override
-    protected void onCollide(Entity entity)
+    public void checkCollision(Valdyn entity)
+    {
+        ascendable.checkAscendBy(entity, entity.getCollisionLeg());
+    }
+
+    /*
+     * AscendableUser
+     */
+
+    @Override
+    public final void onAscendingBy(EntityMover entity)
     {
         if (!effectStart)
         {
@@ -119,7 +193,7 @@ public abstract class EntityScenerySheet
     }
 
     @Override
-    protected void onLostCollision()
+    public final void onDescended(EntityMover entity)
     {
         firstHit = false;
         if (effectStart)
