@@ -15,56 +15,51 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.editor;
+package com.b3dgs.lionheart;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
-
+import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
+import com.b3dgs.lionengine.core.Loader;
+import com.b3dgs.lionengine.core.awt.Engine;
 
 /**
- * Plugin activator.
+ * Program starts here.
  * 
+ * @version 0.2.0
  * @author Pierre-Alexandre (contact@b3dgs.com)
  */
-public class Activator implements BundleActivator
+public final class AppLionheart
 {
-    /** Plugin name. */
-    public static final String PLUGIN_NAME = "Lionheart Remake Editor";
-    /** Plugin version. */
-    public static final Version PLUGIN_VERSION = Version.create(0, 2, 0);
-    /** Plugin website. */
-    public static final String PLUGIN_WEBSITE = "www.b3dgs.com";
-    /** Plugin ID. */
-    public static final String PLUGIN_ID = "com.b3dgs.lionheart.editor";
-    /** Context reference. */
-    private static BundleContext context;
+    /** Application name. */
+    public static final String NAME = "Lionheart Remake";
+    /** Application version. */
+    public static final Version VERSION = Version.create(0, 2, 0);
+    /** Resources directory. */
+    public static final String RESOURCES_DIR = "resources";
 
     /**
-     * Get the context reference.
+     * Main function.
      * 
-     * @return The context reference.
+     * @param args The arguments (none).
      */
-    public static BundleContext getContext()
+    public static void main(String[] args)
     {
-        return Activator.context;
-    }
-
-    /*
-     * BundleActivator
-     */
-
-    @Override
-    public void start(BundleContext bundleContext) throws Exception
-    {
-        Activator.context = bundleContext;
+        Engine.start(NAME, VERSION, RESOURCES_DIR);
         LionEngineException.setIgnoreEngineTrace(false);
+
+        final Resolution output = new Resolution(640, 480, 60);
+        final Config config = new Config(output, 16, true);
+        final Loader loader = new Loader(config);
+        loader.start(Scene.class);
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) throws Exception
+    /**
+     * Private constructor.
+     */
+    private AppLionheart()
     {
-        Activator.context = null;
+        throw new RuntimeException();
     }
 }

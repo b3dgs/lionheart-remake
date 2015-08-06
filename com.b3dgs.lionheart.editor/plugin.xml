@@ -7,10 +7,6 @@
             application="org.eclipse.e4.ui.workbench.swt.E4Application"
             name="Lionheart Remake Editor">
          <property
-               name="applicationCSS"
-               value="platform:/plugin/com.b3dgs.lionheart.editor/css/default.css">
-         </property>
-         <property
                name="appName"
                value="Lionheart Remake Editor">
          </property>
@@ -36,13 +32,5 @@
             beforefragment="false"
             class="com.b3dgs.lionheart.editor.ApplicationConfiguration">
       </processor>
-   </extension>
-   <extension
-         id="com.b3dgs.lionheart.worldViewRenderer"
-         name="World View Renderer"
-         point="com.b3dgs.lionengine.editor.worldViewRenderer">
-      <implementation
-            renderer="com.b3dgs.lionheart.editor.WorldViewRenderer">
-      </implementation>
    </extension>
 </plugin>

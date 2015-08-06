@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lionengine:object xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.TurningAuto</lionengine:class>
+    <lionengine:surface image="TurningAuto.png" icon="TurningAuto_ico.png"/>
+	<lionengine:frames horizontal="4" vertical="4"/>
+	<lionengine:size width="32" height="32"/>
+	<lionengine:collision name="default" offsetX="8" offsetY="20" width="18" height="1" mirror="false" />
+	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+	<lionengine:animation name="turn" start="2" end="16" speed="0.50" reversed="false" repeat="false"/>
+</lionengine:object>
