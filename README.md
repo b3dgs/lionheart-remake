@@ -33,7 +33,7 @@ Each area has its own elements, monsters...
 
 * #### __Target__
 >  * Uses the [__LionEngine__](http://www.b3dgs.com/v6/page.php?lang=en&section=lionengine)
->  * Requires Java 7
+>  * Requires Java 8
 >  * Multiplatform (tested on Windows, Linux, Mac, Android)
 >  * Can be played from a browser (Firefox, IE...)
 >  * Need at least 32MB of RAM
