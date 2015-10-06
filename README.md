@@ -28,7 +28,7 @@ You will have to cross a lot of areas before to reach the end.
 The adventure is made up of 14 levels by including 9 distinct areas.
 Each area has its own elements, monsters...
 
-Note: This project is prototype, a use case for the [__LionEngine__](http://www.b3dgs.com/v6/page.php?lang=en&section=lionengine).
+**Note: This project is prototype, a use case for the [__LionEngine__](https://github.com/b3dgs/lionengine).**
 
 ## General features
 
