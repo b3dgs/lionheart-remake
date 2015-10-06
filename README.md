@@ -10,7 +10,6 @@
                     <li><a href="#presentation">Presentation</a></li>
                     <li><a href="#general-features">General features</a></li>
                     <li><a href="#screenshots">Screenshots</a></li>
-                    <li><a href="#downloads">Downloads</a></li>
                 </ul>
             </div>
         </td>
@@ -28,6 +27,8 @@ Indeed, your long tour is divided into several parts.
 You will have to cross a lot of areas before to reach the end.
 The adventure is made up of 14 levels by including 9 distinct areas.
 Each area has its own elements, monsters...
+
+Note: This project is prototype, a use case for the [__LionEngine__](http://www.b3dgs.com/v6/page.php?lang=en&section=lionengine).
 
 ## General features
 
@@ -68,7 +69,3 @@ Each area has its own elements, monsters...
 
 | [![img1](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/1.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/1.png) | [![img2](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/2.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/2.png) | [![img3](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/3.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/3.png)
 --- | --- | ---
-
-## Downloads
-
-* Coming soon !
