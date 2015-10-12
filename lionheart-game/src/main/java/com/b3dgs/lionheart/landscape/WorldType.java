@@ -59,7 +59,7 @@ public enum WorldType
      * @param title The displayed title.
      * @param music The music type.
      */
-    private WorldType(String title, Music music)
+    WorldType(String title, Music music)
     {
         this.title = title;
         this.music = music;

@@ -5,7 +5,7 @@
     <properties>
         <project-name>lionheart</project-name>
         <jdk.version>1.8</jdk.version>
-        <java.home>${JDK_8_HOME}</java.home>
+        <jdk.home>${JDK_8_HOME}</jdk.home>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <main-group-id>com.b3dgs.${project-name}</main-group-id>
@@ -28,7 +28,7 @@
         <checkstyle.version>6.8.1</checkstyle.version>
         <maven-eclipse.version>2.10</maven-eclipse.version>
         <pde-target-maven.version>1.0.1</pde-target-maven.version>
-        <lionengine.version>8.1.0-SNAPSHOT</lionengine.version>
+        <lionengine.version>8.2.0-SNAPSHOT</lionengine.version>
     </properties>
     <groupId>com.b3dgs.lionheart</groupId>
     <artifactId>lionheart-parent</artifactId>
@@ -248,7 +248,7 @@
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
-                        <executable>${java.home}/bin/javac</executable>
+                        <executable>${jdk.home}/bin/javac</executable>
                         <encoding>${encoding.type}</encoding>
                         <showDeprecation>true</showDeprecation>
                         <showWarnings>true</showWarnings>

@@ -93,7 +93,7 @@ public enum LandscapeType
      * @param raster The raster name.
      * @param water The water type.
      */
-    private LandscapeType(WorldType world, String theme, String raster, ForegroundType water)
+    LandscapeType(WorldType world, String theme, String raster, ForegroundType water)
     {
         this.world = world;
         this.theme = theme;

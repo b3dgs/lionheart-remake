@@ -39,7 +39,7 @@ public enum Music
      * 
      * @param filename The music filename.
      */
-    private Music(String filename)
+    Music(String filename)
     {
         this.filename = filename;
     }

@@ -37,7 +37,7 @@ public enum ForegroundType
      * 
      * @param theme The theme name.
      */
-    private ForegroundType(String theme)
+    ForegroundType(String theme)
     {
         this.theme = theme;
     }

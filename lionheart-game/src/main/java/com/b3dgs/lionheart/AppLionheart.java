@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.core.Loader;
-import com.b3dgs.lionengine.core.awt.Engine;
+import com.b3dgs.lionengine.core.awt.EngineAwt;
 
 /**
  * Program starts here.
@@ -46,7 +46,7 @@ public final class AppLionheart
      */
     public static void main(String[] args)
     {
-        Engine.start(NAME, VERSION, RESOURCES_DIR);
+        EngineAwt.start(NAME, VERSION, RESOURCES_DIR);
         LionEngineException.setIgnoreEngineTrace(false);
 
         final Resolution output = new Resolution(640, 480, 60);

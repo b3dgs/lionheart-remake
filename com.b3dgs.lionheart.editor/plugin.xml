@@ -21,7 +21,7 @@
       </product>
    </extension>
    <extension
-         id="com.b3dgs.lioheart.editor.fragment"
+         id="com.b3dgs.lionheart.editor.fragment"
          point="org.eclipse.e4.workbench.model">
       <fragment
             apply="always"

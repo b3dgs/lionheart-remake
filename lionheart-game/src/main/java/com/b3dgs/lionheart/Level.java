@@ -51,7 +51,7 @@ public enum Level
      * @param world The level world.
      * @param level The level file name.
      */
-    private Level(WorldType world, String level)
+    Level(WorldType world, String level)
     {
         this.level = Medias.create(DIR, world.getFolder(), level + EXTENSION);
         rip = Medias.create(DIR, world.getFolder(), level + ".png");
