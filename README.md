@@ -1,7 +1,7 @@
 <table>
     <tr>
         <td>
-            <a href="http://www.b3dgs.com/v6/page.php?lang=en&section=lionheart_remake" border="1"><img src="http://www.b3dgs.com/v6/projects/lionheart_remake/lionheart_remake.jpg"/></a>
+            <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake" border="1"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg"/></a>
         </td>
         <td>
             <h4 align="center">Summary</h4>
@@ -18,7 +18,7 @@
 
 ## Presentation
 
-[Lionheart Remake](http://www.b3dgs.com/v6/page.php?lang=en&section=lionheart_remake) is a __platform game__, keeping as much as possible elements of the [__original game__ (1992)](http://hol.abime.net/894).
+[Lionheart Remake](http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake) is a __platform game__, keeping as much as possible elements of the [__original game__ (1992)](http://hol.abime.net/894).
 The story is the same: You, a Cat-Man called Valdyn, got new capacity by The King, in order to destroy the growing threat of Norka, a monster wanting to destroy The Kingdom.
 Llene, promised woman of Valdyn has been kidnapped. Valdyn has to search for Norka, far of The Kingdom, in order to find her.
 But the trip won't be easy !
@@ -33,7 +33,7 @@ Each area has its own elements, monsters...
 ## General features
 
 * #### __Target__
->  * Uses the [__LionEngine__](http://www.b3dgs.com/v6/page.php?lang=en&section=lionengine)
+>  * Uses the [__LionEngine__](http://www.b3dgs.com/v7/page.php?lang=en&section=lionengine)
 >  * Requires Java 8
 >  * Multiplatform (tested on Windows, Linux, Mac, Android)
 >  * Can be played from a browser (Firefox, IE...)
@@ -67,5 +67,5 @@ Each area has its own elements, monsters...
 
 ## Screenshots
 
-| [![img1](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/1.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/1.png) | [![img2](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/2.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/2.png) | [![img3](http://www.b3dgs.com/v6/projects/lionengine/screens/mini/3.png)](http://www.b3dgs.com/v6/projects/lionengine/screens/3.png)
+| [![img1](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/1.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/1.png) | [![img2](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/2.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/2.png) | [![img3](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/3.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/3.png)
 --- | --- | ---
