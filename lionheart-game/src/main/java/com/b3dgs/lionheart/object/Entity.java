@@ -17,33 +17,31 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Renderable;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.InputDevice;
-import com.b3dgs.lionengine.core.Renderable;
-import com.b3dgs.lionengine.core.Updatable;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.configurer.ConfigFrames;
+import com.b3dgs.lionengine.game.collision.tile.TileCollidable;
+import com.b3dgs.lionengine.game.collision.tile.TileCollidableModel;
+import com.b3dgs.lionengine.game.object.FramesConfig;
 import com.b3dgs.lionengine.game.object.ObjectGame;
 import com.b3dgs.lionengine.game.object.Services;
 import com.b3dgs.lionengine.game.object.SetupSurfaceRastered;
+import com.b3dgs.lionengine.game.object.trait.body.Body;
+import com.b3dgs.lionengine.game.object.trait.body.BodyModel;
+import com.b3dgs.lionengine.game.object.trait.transformable.Transformable;
+import com.b3dgs.lionengine.game.object.trait.transformable.TransformableModel;
 import com.b3dgs.lionengine.game.state.StateAnimationBased;
 import com.b3dgs.lionengine.game.state.StateFactory;
 import com.b3dgs.lionengine.game.state.StateHandler;
-import com.b3dgs.lionengine.game.trait.body.Body;
-import com.b3dgs.lionengine.game.trait.body.BodyModel;
-import com.b3dgs.lionengine.game.trait.collidable.TileCollidable;
-import com.b3dgs.lionengine.game.trait.collidable.TileCollidableModel;
-import com.b3dgs.lionengine.game.trait.transformable.Transformable;
-import com.b3dgs.lionengine.game.trait.transformable.TransformableModel;
 
 /**
  * Entity base representation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public abstract class Entity extends ObjectGame implements Updatable, Renderable
 {
@@ -73,11 +71,11 @@ public abstract class Entity extends ObjectGame implements Updatable, Renderable
      * @param services The services reference.
      * @throws LionEngineException If error.
      */
-    public Entity(SetupSurfaceRastered setup, Services services) throws LionEngineException
+    public Entity(SetupSurfaceRastered setup, Services services)
     {
         super(setup, services);
 
-        final ConfigFrames frames = ConfigFrames.create(getConfigurer());
+        final FramesConfig frames = FramesConfig.imports(setup);
         surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
 
         body.setMass(2.0);

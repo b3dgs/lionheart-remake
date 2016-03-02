@@ -17,13 +17,13 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.anim.Anim;
 import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Medias;
+import com.b3dgs.lionengine.core.Resolution;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.drawable.SpriteAnimated;
@@ -34,8 +34,6 @@ import com.b3dgs.lionheart.Scene;
 
 /**
  * Water foreground implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 class Foreground extends BackgroundGame
 {
@@ -70,7 +68,7 @@ class Foreground extends BackgroundGame
      * @param scaleV The vertical factor.
      * @param theme The theme name.
      */
-    public Foreground(Resolution source, double scaleH, double scaleV, String theme)
+    Foreground(Resolution source, double scaleH, double scaleV, String theme)
     {
         super(theme, 0, 0);
         nominal = 180;
@@ -186,8 +184,6 @@ class Foreground extends BackgroundGame
 
     /**
      * First front component, including water effect.
-     * 
-     * @author Pierre-Alexandre (contact@b3dgs.com)
      */
     private final class Primary implements BackgroundComponent
     {
@@ -250,8 +246,6 @@ class Foreground extends BackgroundGame
 
     /**
      * Second front component, including water effect.
-     * 
-     * @author Pierre-Alexandre (contact@b3dgs.com)
      */
     private final class Secondary implements BackgroundComponent
     {

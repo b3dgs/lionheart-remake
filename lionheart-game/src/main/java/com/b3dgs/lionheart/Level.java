@@ -17,14 +17,12 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.core.Media;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.core.Medias;
 import com.b3dgs.lionheart.landscape.WorldType;
 
 /**
  * List of levels with their file.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public enum Level
 {

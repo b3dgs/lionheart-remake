@@ -17,9 +17,9 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.UtilFile;
-import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.core.Resolution;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
@@ -28,8 +28,6 @@ import com.b3dgs.lionheart.Scene;
 
 /**
  * Ancient Town full background implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 final class AncientTown extends BackgroundGame
 {
@@ -83,8 +81,6 @@ final class AncientTown extends BackgroundGame
 
     /**
      * Backdrop represents the back background plus top background elements.
-     * 
-     * @author Pierre-Alexandre (contact@b3dgs.com)
      */
     private final class Backdrop implements BackgroundComponent
     {
@@ -113,13 +109,13 @@ final class AncientTown extends BackgroundGame
             this.flickering = flickering;
             if (flickering)
             {
-                backcolorA = createElement(path, "backcolor_a.png", 0, 0, false);
-                backcolorB = createElement(path, "backcolor_b.png", 0, 0, false);
+                backcolorA = createElement(path, "backcolor_a.png", 0, 0);
+                backcolorB = createElement(path, "backcolor_b.png", 0, 0);
                 flickerCount = 0;
             }
             else
             {
-                backcolorA = createElement(path, "backcolor.png", 0, 0, false);
+                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
             setScreenWidth(screenWidth);

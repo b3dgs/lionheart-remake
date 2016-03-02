@@ -31,8 +31,8 @@ import org.eclipse.e4.ui.workbench.UIEvents;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.core.Medias;
-import com.b3dgs.lionengine.core.Verbose;
 import com.b3dgs.lionengine.editor.project.Project;
 import com.b3dgs.lionengine.editor.project.handler.ProjectImportHandler;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
@@ -40,14 +40,11 @@ import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.WorldPart;
 import com.b3dgs.lionengine.editor.world.handler.SetPointerCollisionHandler;
 import com.b3dgs.lionengine.editor.world.handler.SetShowCollisionsHandler;
+import com.b3dgs.lionengine.game.collision.tile.MapTileCollisionModel;
 import com.b3dgs.lionengine.game.map.MapTile;
-import com.b3dgs.lionengine.game.map.MapTileCollision;
-import com.b3dgs.lionengine.game.map.MapTileCollisionModel;
 
 /**
  * Configure the editor with the right name.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class ApplicationConfiguration
 {
@@ -79,9 +76,9 @@ public class ApplicationConfiguration
         /**
          * Constructor.
          */
-        public AppStartupCompleteEventHandler()
+        AppStartupCompleteEventHandler()
         {
-            // Nothing to do
+            super();
         }
 
         /**
@@ -101,9 +98,7 @@ public class ApplicationConfiguration
 
                         final MapTile map = WorldModel.INSTANCE.getMap();
                         map.create(Medias.create("levels", "swamp", "level1-1.png"));
-                        map.createFeature(MapTileCollisionModel.class)
-                           .loadCollisions(Medias.create("levels", "swamp", MapTileCollision.DEFAULT_FORMULAS_FILE),
-                                           Medias.create("levels", "swamp", MapTileCollision.DEFAULT_COLLISIONS_FILE));
+                        map.createFeature(MapTileCollisionModel.class).loadCollisions();
 
                         final WorldPart part = UtilPart.getPart(WorldPart.ID, WorldPart.class);
                         part.setToolItemEnabled(SetShowCollisionsHandler.ID, true);
@@ -129,7 +124,7 @@ public class ApplicationConfiguration
             }
             catch (final IOException exception)
             {
-                Verbose.exception(getClass(), "importProject", exception);
+                Verbose.exception(exception);
             }
         }
 

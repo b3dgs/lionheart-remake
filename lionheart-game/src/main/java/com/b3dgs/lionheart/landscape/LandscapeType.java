@@ -27,8 +27,6 @@ import com.b3dgs.lionengine.stream.FileWriting;
 
 /**
  * Types of landscapes.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public enum LandscapeType
 {

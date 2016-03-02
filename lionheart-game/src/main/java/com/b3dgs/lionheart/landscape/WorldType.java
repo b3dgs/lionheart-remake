@@ -26,8 +26,6 @@ import com.b3dgs.lionheart.Music;
 
 /**
  * List of world types.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public enum WorldType
 {

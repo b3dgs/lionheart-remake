@@ -17,14 +17,12 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.core.Graphic;
+import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.game.Camera;
 import com.b3dgs.lionengine.game.background.Background;
 
 /**
  * Represents a landscape by containing a background and a foreground.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Landscape
 {

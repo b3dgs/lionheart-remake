@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:collisions xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:collision group="ground">
-        <lionengine:formula>ground</lionengine:formula>
-    </lionengine:collision>
-    <lionengine:collision group="slope_right_1">
-        <lionengine:formula>slope_right_1</lionengine:formula>
-    </lionengine:collision>
-    <lionengine:collision group="slope_right_2">
-        <lionengine:formula>slope_right_2</lionengine:formula>
-    </lionengine:collision>
-    <lionengine:collision group="slope_right_3">
-        <lionengine:formula>slope_right_3</lionengine:formula>
-    </lionengine:collision>
     <lionengine:collision group="slope_left_1">
         <lionengine:formula>slope_left_1</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="slope_left_2">
         <lionengine:formula>slope_left_2</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="slope_left_3">
-        <lionengine:formula>slope_left_3</lionengine:formula>
+    <lionengine:collision group="slope_left_0">
+        <lionengine:formula>slope_left_0</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_3">
+        <lionengine:formula>slope_right_3</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_4">
+        <lionengine:formula>slope_right_4</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_5">
+        <lionengine:formula>slope_right_5</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_6">
+        <lionengine:formula>slope_right_6</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_7">
+        <lionengine:formula>slope_right_7</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_8">
+        <lionengine:formula>slope_right_8</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_9">
+        <lionengine:formula>slope_right_9</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_10">
+        <lionengine:formula>slope_right_10</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_0">
+        <lionengine:formula>slope_right_0</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_1">
+        <lionengine:formula>slope_right_1</lionengine:formula>
+    </lionengine:collision>
+<lionengine:collision group="slope_right_2">
+        <lionengine:formula>slope_right_2</lionengine:formula>
     </lionengine:collision>
 </lionengine:collisions>

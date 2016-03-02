@@ -18,13 +18,11 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.core.Resolution;
 import com.b3dgs.lionengine.game.background.Background;
 
 /**
  * Landscape factory.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class FactoryLandscape
 {

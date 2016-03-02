@@ -17,18 +17,15 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.Version;
+import com.b3dgs.lionengine.core.Config;
 import com.b3dgs.lionengine.core.Loader;
+import com.b3dgs.lionengine.core.Resolution;
+import com.b3dgs.lionengine.core.Version;
 import com.b3dgs.lionengine.core.awt.EngineAwt;
 
 /**
  * Program starts here.
- * 
- * @version 0.2.0
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class AppLionheart
 {
@@ -51,8 +48,8 @@ public final class AppLionheart
 
         final Resolution output = new Resolution(640, 480, 60);
         final Config config = new Config(output, 16, true);
-        final Loader loader = new Loader(config);
-        loader.start(Scene.class);
+        final Loader loader = new Loader();
+        loader.start(config, Scene.class);
     }
 
     /**

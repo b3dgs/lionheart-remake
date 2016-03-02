@@ -17,11 +17,11 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.core.Graphic;
 import com.b3dgs.lionengine.core.Medias;
+import com.b3dgs.lionengine.core.Resolution;
 import com.b3dgs.lionengine.drawable.Drawable;
 import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
@@ -32,8 +32,6 @@ import com.b3dgs.lionheart.Scene;
 
 /**
  * Swamp background implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 class Swamp extends BackgroundGame
 {
@@ -80,7 +78,7 @@ class Swamp extends BackgroundGame
      * @param theme The theme name.
      * @param flickering The flickering flag.
      */
-    public Swamp(Resolution source, double scaleH, double scaleV, String theme, boolean flickering)
+    Swamp(Resolution source, double scaleH, double scaleV, String theme, boolean flickering)
     {
         super(theme, 0, 512);
         this.scaleH = scaleH;
@@ -121,8 +119,6 @@ class Swamp extends BackgroundGame
 
     /**
      * Backdrop represents the back background plus top background elements.
-     * 
-     * @author Pierre-Alexandre (contact@b3dgs.com)
      */
     private final class Backdrop implements BackgroundComponent
     {
@@ -161,16 +157,16 @@ class Swamp extends BackgroundGame
             this.flickering = flickering;
             if (flickering)
             {
-                backcolorA = createElement(path, "backcolor_a.png", 0, 0, false);
-                backcolorB = createElement(path, "backcolor_b.png", 0, 0, false);
+                backcolorA = createElement(path, "backcolor_a.png", 0, 0);
+                backcolorB = createElement(path, "backcolor_b.png", 0, 0);
                 flickerCount = 0;
             }
             else
             {
-                backcolorA = createElement(path, "backcolor.png", 0, 0, false);
+                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
-            mountain = createElement(path, "mountain.png", 0, 124, false);
+            mountain = createElement(path, "mountain.png", 0, 124);
             final int x = (int) (208 * scaleH);
             moonOffset = 40;
             moon = createElementRastered(path, "moon.png", x, moonOffset, MOON_RASTERS);

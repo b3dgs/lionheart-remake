@@ -21,12 +21,10 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Version;
+import com.b3dgs.lionengine.core.Version;
 
 /**
  * Plugin activator.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Activator implements BundleActivator
 {

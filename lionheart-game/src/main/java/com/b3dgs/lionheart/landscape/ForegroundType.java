@@ -19,8 +19,6 @@ package com.b3dgs.lionheart.landscape;
 
 /**
  * Types of foregrounds.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public enum ForegroundType
 {

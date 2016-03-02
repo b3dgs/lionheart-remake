@@ -19,8 +19,6 @@ package com.b3dgs.lionheart;
 
 /**
  * List of available musics.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public enum Music
 {

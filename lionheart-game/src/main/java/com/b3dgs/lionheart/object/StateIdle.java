@@ -26,8 +26,6 @@ import com.b3dgs.lionengine.game.state.StateTransitionInputDirectionalChecker;
 
 /**
  * Idle state implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class StateIdle extends StateGame
 {
@@ -70,7 +68,7 @@ public class StateIdle extends StateGame
         /**
          * Create the transition.
          */
-        public IdleToWalk()
+        IdleToWalk()
         {
             super(EntityState.WALK);
         }
