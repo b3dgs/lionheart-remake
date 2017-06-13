@@ -4,24 +4,10 @@
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
         <artifactId>lionheart-parent</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.0.1</version>
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>lionheart-buildtools</artifactId>
     <name>Lionheart Remake Build Tools</name>
-    <packaging>pom</packaging>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>bundle-manifest</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
 </project>

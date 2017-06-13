@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,8 +20,7 @@ package com.b3dgs.lionheart.editor;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.core.Version;
+import com.b3dgs.lionengine.Version;
 
 /**
  * Plugin activator.
@@ -49,6 +48,14 @@ public class Activator implements BundleActivator
         return Activator.context;
     }
 
+    /**
+     * Constructor.
+     */
+    public Activator()
+    {
+        super();
+    }
+
     /*
      * BundleActivator
      */
@@ -57,7 +64,6 @@ public class Activator implements BundleActivator
     public void start(BundleContext bundleContext) throws Exception
     {
         Activator.context = bundleContext;
-        LionEngineException.setIgnoreEngineTrace(false);
     }
 
     @Override

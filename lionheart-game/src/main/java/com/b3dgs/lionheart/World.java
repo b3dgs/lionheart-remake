@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,25 +19,25 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.core.Config;
-import com.b3dgs.lionengine.core.awt.Keyboard;
-import com.b3dgs.lionengine.game.Camera;
-import com.b3dgs.lionengine.game.WorldGame;
-import com.b3dgs.lionengine.game.collision.object.ComponentCollision;
-import com.b3dgs.lionengine.game.collision.tile.MapTileCollision;
-import com.b3dgs.lionengine.game.collision.tile.MapTileCollisionModel;
-import com.b3dgs.lionengine.game.map.MapTile;
-import com.b3dgs.lionengine.game.map.MapTileGame;
-import com.b3dgs.lionengine.game.map.MapTileGroup;
-import com.b3dgs.lionengine.game.map.MapTileGroupModel;
-import com.b3dgs.lionengine.game.object.ComponentRenderer;
-import com.b3dgs.lionengine.game.object.ComponentUpdater;
-import com.b3dgs.lionengine.game.object.Factory;
-import com.b3dgs.lionengine.game.object.Handler;
-import com.b3dgs.lionengine.game.object.Services;
-import com.b3dgs.lionengine.stream.FileReading;
-import com.b3dgs.lionengine.stream.FileWriting;
+import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.core.Medias;
+import com.b3dgs.lionengine.core.sequence.ResolutionChanger;
+import com.b3dgs.lionengine.game.Services;
+import com.b3dgs.lionengine.game.feature.WorldGame;
+import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
+import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
+import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
+import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
+import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.io.InputDevicePointer;
+import com.b3dgs.lionengine.util.UtilMath;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.landscape.LandscapeType;
@@ -47,78 +47,94 @@ import com.b3dgs.lionheart.landscape.LandscapeType;
  */
 public class World extends WorldGame
 {
-    /** Services reference. */
-    private final Services services = new Services();
-    /** Camera reference. */
-    private final Camera camera = services.create(Camera.class);
-    /** Factory reference. */
-    private final Factory factory = services.create(Factory.class);
-    /** Handler reference. */
-    private final Handler handler = services.create(Handler.class);
+    /** Resolution changer. */
+    private final ResolutionChanger changer = services.get(ResolutionChanger.class);
     /** Map reference. */
     private final MapTile map = services.create(MapTileGame.class);
-    /** Map collision. */
-    private final MapTileGroup mapGroup = map.createFeature(MapTileGroupModel.class);
-    /** Map collision. */
-    private final MapTileCollision mapCollision = map.createFeature(MapTileCollisionModel.class);
+    /** Map viewer. */
+    private final MapTileViewer mapViewer = map.addFeatureAndGet(new MapTileViewerModel(services));
+    /** Map persister. */
+    private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterModel(services));
+    /** Map raster. */
+    private final MapTileRastered mapRaster = map.addFeatureAndGet(new MapTileRasteredModel(services));
+    /** Pointer device. */
+    private final InputDevicePointer pointer = getInputDevice(InputDevicePointer.class);
     /** Landscape factory. */
     private final FactoryLandscape factoryLandscape;
     /** Landscape. */
     private Landscape landscape;
 
+    private double scale = 1.0;
+
     /**
      * Create the world.
      * 
-     * @param config The config reference.
-     * @param keyboard The keyboard reference.
+     * @param context The context reference.
+     * @param services The services reference.
      */
-    public World(Config config, Keyboard keyboard)
+    public World(Context context, Services services)
     {
-        super(config);
+        super(context, services);
 
-        final double scaleH = width / (double) Scene.RESOLUTION.getWidth();
-        final double scaleV = height / (double) Scene.RESOLUTION.getHeight();
+        final double scaleH = config.getSource().getWidth() / (double) Constant.NATIVE.getWidth();
+        final double scaleV = config.getSource().getHeight() / (double) Constant.NATIVE.getHeight();
 
         factoryLandscape = new FactoryLandscape(source, scaleH, scaleV, false);
 
-        handler.addUpdatable(new ComponentUpdater());
-        handler.addUpdatable(new ComponentCollision());
-        handler.addRenderable(new ComponentRenderer());
-
-        services.add(keyboard);
+        handler.addComponent(new ComponentCollision());
+        handler.add(map);
     }
 
     @Override
     public void update(double extrp)
     {
-        handler.update(extrp);
+        pointer.update(extrp);
+        if (pointer.getClick() == 1)
+        {
+            camera.moveLocation(extrp, -pointer.getMoveX(), pointer.getMoveY());
+        }
+        else if (pointer.getClick() == 2)
+        {
+            scale = UtilMath.clamp(scale + pointer.getMoveY() / 100.0, 0.5, 1.42);
+            changer.setResolution(source.getScaled(scale, scale));
+        }
+        super.update(extrp);
         landscape.update(extrp, camera);
+        camera.moveLocation(extrp, 0.0, 0.0);
     }
 
     @Override
     public void render(Graphic g)
     {
         landscape.renderBackground(g);
-        map.render(g);
-        handler.render(g);
+        super.render(g);
         landscape.renderForeground(g);
     }
 
     @Override
     protected void saving(FileWriting file) throws IOException
     {
-        map.save(file);
+        mapPersister.save(file);
     }
 
     @Override
     protected void loading(FileReading file) throws IOException
     {
-        map.load(file);
+        mapPersister.load(file);
+        mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), "raster3.xml"), false);
+        mapViewer.clear();
+        mapViewer.addRenderer(mapRaster);
 
-        camera.setView(0, 0, width, height);
         camera.setLimits(map);
-        camera.setIntervals(width, 0);
+        camera.setIntervals(0, 0);
 
         landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DAY);
+    }
+
+    @Override
+    public void onResolutionChanged(int width, int height, int rate)
+    {
+        camera.setView(0, 0, width, height, height);
+        landscape.setScreenSize(width, height);
     }
 }

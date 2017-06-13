@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
         <artifactId>lionheart-parent</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.0.1</version>
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>com.b3dgs.lionheart.editor</artifactId>
@@ -21,7 +21,6 @@
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-game</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

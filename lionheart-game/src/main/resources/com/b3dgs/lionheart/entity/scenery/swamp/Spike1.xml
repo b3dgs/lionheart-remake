@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.Spike1</lionengine:class>
+    <lionengine:surface image="Spike1.png" icon="Spike1_ico.png"/>
+	<lionengine:frames horizontal="16" vertical="2"/>
+	<lionengine:size width="16" height="32"/>
+	<lionengine:collision name="default" offsetX="5" offsetY="0" width="6" height="20" mirror="false" />
+	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+	<lionengine:animation name="walk" start="2" end="8" speed="1.00" reversed="false" repeat="false"/>
+	<lionengine:animation name="jump" start="8" end="32" speed="2.00" reversed="false" repeat="false"/>
+	<lionengine:animation name="turn" start="2" end="32" speed="0.70" reversed="true" repeat="false"/>
+</lionengine:featurable>

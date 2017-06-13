@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,18 +17,18 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.UtilFile;
-import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.core.Medias;
-import com.b3dgs.lionengine.core.Resolution;
-import com.b3dgs.lionengine.drawable.Drawable;
-import com.b3dgs.lionengine.drawable.Sprite;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
+import com.b3dgs.lionengine.game.background.BackgroundElementRastered;
 import com.b3dgs.lionengine.game.background.BackgroundGame;
 import com.b3dgs.lionengine.game.background.Parallax;
-import com.b3dgs.lionheart.Scene;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Sprite;
+import com.b3dgs.lionengine.util.UtilFolder;
+import com.b3dgs.lionengine.util.UtilMath;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Swamp background implementation.
@@ -37,24 +37,6 @@ class Swamp extends BackgroundGame
 {
     /** Moon rasters. */
     private static final int MOON_RASTERS = 20;
-
-    /**
-     * Create a rastered element.
-     * 
-     * @param path The surface path.
-     * @param name The element name.
-     * @param x The location x.
-     * @param y The location y.
-     * @param rastersNumber The number of rasters to use.
-     * @return The created element.
-     */
-    static ElementRastered createElementRastered(String path, String name, int x, int y, int rastersNumber)
-    {
-        final Sprite sprite = Drawable.loadSprite(Medias.create(path, name));
-        sprite.load();
-        sprite.prepare();
-        return new ElementRastered(x, y, sprite, rastersNumber);
-    }
 
     /** Backdrop. */
     private final Backdrop backdrop;
@@ -83,20 +65,19 @@ class Swamp extends BackgroundGame
         super(theme, 0, 512);
         this.scaleH = scaleH;
         this.scaleV = scaleV;
+        totalHeight = 112;
+
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
-        this.scaleH = scaleH;
-        this.scaleV = scaleV;
-        setOffsetY(source.getHeight() - Scene.RESOLUTION_ORIGINAL.getHeight() + 72);
+        setOffsetY(Constant.NATIVE.getHeight() - 180);
 
-        final String path = UtilFile.getPath(Landscape.DIR_BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
+        final String path = UtilFolder.getPath(Landscape.DIR_BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
         backdrop = new Backdrop(path, flickering, width);
         clouds = new Clouds(Medias.create(path, "cloud.png"), width, 4);
         parallax = new Parallax(source, Medias.create(path, "parallax.png"), parallaxsNumber, halfScreen, 124, 50, 100);
         add(backdrop);
         add(clouds);
         add(parallax);
-        totalHeight = 120;
     }
 
     /**
@@ -107,11 +88,11 @@ class Swamp extends BackgroundGame
      */
     public void setScreenSize(int width, int height)
     {
-        final double scaleH = width / (double) Scene.RESOLUTION.getWidth();
-        final double scaleV = height / (double) Scene.RESOLUTION.getHeight();
+        final double scaleH = width / (double) Constant.NATIVE.getWidth();
+        final double scaleV = height / (double) Constant.NATIVE.getHeight();
         this.scaleH = scaleH;
         this.scaleV = scaleV;
-        setOffsetY(height - Scene.RESOLUTION.getHeight() + 72);
+        setOffsetY(height - Constant.NATIVE.getHeight() + 20);
         backdrop.setScreenWidth(width);
         clouds.setScreenWidth(width);
         parallax.setScreenSize(width, height);
@@ -129,7 +110,7 @@ class Swamp extends BackgroundGame
         /** Mountain element. */
         private final BackgroundElement mountain;
         /** Moon element. */
-        private final ElementRastered moon;
+        private final BackgroundElementRastered moon;
         /** Mountain sprite. */
         private final Sprite mountainSprite;
         /** Flickering flag. */
@@ -168,8 +149,12 @@ class Swamp extends BackgroundGame
             }
             mountain = createElement(path, "mountain.png", 0, 124);
             final int x = (int) (208 * scaleH);
-            moonOffset = 40;
-            moon = createElementRastered(path, "moon.png", x, moonOffset, MOON_RASTERS);
+            moonOffset = 50;
+            moon = new BackgroundElementRastered(x,
+                                                 moonOffset,
+                                                 Medias.create(path, "moon.png"),
+                                                 Medias.create(path, "raster3.xml"),
+                                                 MOON_RASTERS);
             mountainSprite = (Sprite) mountain.getRenderable();
             this.screenWidth = screenWidth;
             w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
@@ -190,7 +175,7 @@ class Swamp extends BackgroundGame
         public void update(double extrp, int x, int y, double speed)
         {
             backcolorA.setOffsetY(y);
-            moon.setOffsetY(-20 - moonOffset + getOffsetY());
+            moon.setOffsetY(moonOffset - totalHeight + getOffsetY());
             final double mx = mountain.getOffsetX() + speed * 0.24;
             mountain.setOffsetX(UtilMath.wrapDouble(mx, 0.0, mountainSprite.getWidth()));
             mountain.setOffsetY(y);
@@ -225,8 +210,9 @@ class Swamp extends BackgroundGame
                 sprite.setLocation(x, y);
                 sprite.render(g);
             }
+
             // Render moon
-            final int id = (int) ((mountain.getOffsetY() + (moonOffset - getOffsetY())) / 4 + MOON_RASTERS);
+            final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY())) / 6;
             final Sprite spriteMoon = moon.getRaster(id);
             spriteMoon.setLocation(moon.getMainX(), moon.getOffsetY() + moon.getMainY());
             spriteMoon.render(g);

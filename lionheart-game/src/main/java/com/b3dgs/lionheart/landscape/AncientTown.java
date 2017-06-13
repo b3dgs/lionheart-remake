@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,14 +17,14 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.UtilFile;
-import com.b3dgs.lionengine.core.Resolution;
-import com.b3dgs.lionengine.drawable.Sprite;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
 import com.b3dgs.lionengine.game.background.BackgroundGame;
-import com.b3dgs.lionheart.Scene;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Sprite;
+import com.b3dgs.lionengine.util.UtilFolder;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Ancient Town full background implementation.
@@ -55,7 +55,7 @@ final class AncientTown extends BackgroundGame
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = UtilFile.getPath(Landscape.DIR_BACKGROUNDS, "ancient_town", theme);
+        final String path = UtilFolder.getPath(Landscape.DIR_BACKGROUNDS, "ancient_town", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, this.flickering, width);
         add(backdrop);
@@ -71,11 +71,11 @@ final class AncientTown extends BackgroundGame
      */
     public void setScreenSize(int width, int height)
     {
-        final double scaleH = width / (double) Scene.RESOLUTION.getWidth();
-        final double scaleV = height / (double) Scene.RESOLUTION.getHeight();
+        final double scaleH = width / (double) Constant.NATIVE.getWidth();
+        final double scaleV = height / (double) Constant.NATIVE.getHeight();
         this.scaleH = scaleH;
         this.scaleV = scaleV;
-        setOffsetY(height - Scene.RESOLUTION.getHeight() + 72);
+        setOffsetY(height - Constant.NATIVE.getHeight() + 72);
         backdrop.setScreenWidth(width);
     }
 

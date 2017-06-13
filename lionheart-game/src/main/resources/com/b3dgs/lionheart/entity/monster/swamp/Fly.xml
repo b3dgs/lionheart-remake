@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.Fly</lionengine:class>
+    <lionengine:surface image="Fly.png" icon="Fly_ico.png"/>
+	<lionengine:frames horizontal="2" vertical="1"/>
+	<lionengine:size width="16" height="16"/>
+	<lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="16" mirror="false" />
+	<lionengine:animation name="idle" start="1" end="1" speed="0.10" reversed="false" repeat="false"/>
+	<lionengine:animation name="walk" start="1" end="2" speed="0.10" reversed="false" repeat="true"/>
+	<data mass="0" gravityMax="0">
+		<jump heightMax="0.0" />
+	</data>
+	<life normal="1" />
+</lionengine:featurable>

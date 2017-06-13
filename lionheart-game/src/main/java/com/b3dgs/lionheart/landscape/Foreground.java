@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,26 +17,42 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Graphic;
-import com.b3dgs.lionengine.UtilFile;
-import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.anim.Anim;
-import com.b3dgs.lionengine.anim.Animation;
+import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.core.Medias;
-import com.b3dgs.lionengine.core.Resolution;
-import com.b3dgs.lionengine.drawable.Drawable;
-import com.b3dgs.lionengine.drawable.Sprite;
-import com.b3dgs.lionengine.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.core.drawable.Drawable;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
 import com.b3dgs.lionengine.game.background.BackgroundGame;
-import com.b3dgs.lionheart.Scene;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Sprite;
+import com.b3dgs.lionengine.graphic.SpriteAnimated;
+import com.b3dgs.lionengine.util.UtilFolder;
+import com.b3dgs.lionengine.util.UtilMath;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Water foreground implementation.
  */
 class Foreground extends BackgroundGame
 {
+    private static final double WATER_EFFECT_SPEED = 0.06;
+    private static final double WATER_EFFECT_FREQUENCY = 1.5;
+    private static final double WATER_EFFECT_AMPLITUDE = 0.8;
+    private static final double WATER_EFFECT_OFFSET = 3.0;
+
+    private static final int UNKNOWN_OFFSET = 210;
+
+    /** Standard height. */
+    private final int nominal = 180;
+    /** Water depth. */
+    private final double depth = 4.0;
+    /** Water speed. */
+    private final double speed = 0.02;
+    /** Primary. */
+    private final Primary primary;
+    /** Secondary. */
+    private final Secondary secondary;
     /** Screen width. */
     int screenWidth;
     /** Screen height. */
@@ -47,18 +63,8 @@ class Foreground extends BackgroundGame
     double scaleV;
     /** Water top. */
     double top;
-    /** Primary. */
-    private final Primary primary;
-    /** Secondary. */
-    private final Secondary secondary;
-    /** Standard height. */
-    private final int nominal;
     /** Water height. */
     private double height;
-    /** Water depth. */
-    private final double depth;
-    /** Water speed. */
-    private final double speed;
 
     /**
      * Constructor.
@@ -71,14 +77,14 @@ class Foreground extends BackgroundGame
     Foreground(Resolution source, double scaleH, double scaleV, String theme)
     {
         super(theme, 0, 0);
-        nominal = 180;
-        height = 0.0;
-        depth = 4.0;
-        speed = 0.02;
 
-        final String path = UtilFile.getPath(Landscape.DIR_FOREGROUNDS, theme);
+        this.scaleH = scaleH;
+        this.scaleV = scaleV;
+
+        final String path = UtilFolder.getPath(Landscape.DIR_FOREGROUNDS, theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
+
         setScreenSize(source.getWidth(), source.getHeight());
         add(primary);
         add(secondary);
@@ -114,8 +120,9 @@ class Foreground extends BackgroundGame
     {
         screenWidth = width;
         screenHeight = height;
-        final double scaleH = width / (double) Scene.RESOLUTION_ORIGINAL.getWidth();
-        final double scaleV = height / (double) Scene.RESOLUTION_ORIGINAL.getHeight();
+        final double scaleH = width / (double) Constant.NATIVE.getWidth();
+        final double scaleV = height / (double) Constant.NATIVE.getHeight();
+
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         primary.updateMainY();
@@ -200,12 +207,13 @@ class Foreground extends BackgroundGame
          */
         Primary(String path, Foreground water)
         {
+            this.water = water;
+
             final Sprite sprite = Drawable.loadSprite(Medias.create(path, "calc.png"));
             sprite.load();
             sprite.prepare();
             data = new BackgroundElement(0, (int) Math.ceil(water.getNominal() * scaleV), sprite);
             top = data.getRenderable().getHeight();
-            this.water = water;
         }
 
         /**
@@ -232,7 +240,7 @@ class Foreground extends BackgroundGame
             // Render calc
             final Sprite sprite = (Sprite) data.getRenderable();
             final int w = (int) Math.ceil(screenWidth / (double) sprite.getWidth());
-            final int y = (int) (data.getOffsetY() + data.getMainY() + water.getHeight());
+            final int y = (int) (screenHeight + getNominal() - UNKNOWN_OFFSET + data.getOffsetY() + water.getHeight());
             if (y >= 0 && y < screenHeight)
             {
                 for (int j = 0; j < w; j++)
@@ -249,12 +257,12 @@ class Foreground extends BackgroundGame
      */
     private final class Secondary implements BackgroundComponent
     {
+        /** Animation data. */
+        private final Animation animation = new Animation(null, 1, 7, 0.25, false, true);
         /** Water element. */
         private final BackgroundElement data;
         /** Sprite. */
         private final SpriteAnimated anim;
-        /** Animation data. */
-        private final Animation animation;
         /** Water reference. */
         private final Foreground water;
         /** Height value. */
@@ -272,18 +280,16 @@ class Foreground extends BackgroundGame
          */
         Secondary(String path, Foreground water)
         {
+            this.water = water;
+
             final Sprite back = Drawable.loadSprite(Medias.create(path, "back.png"));
             back.load();
             back.prepare();
-            data = new BackgroundElement(0, (int) Math.floor(water.getNominal() * scaleV), back);
 
-            animation = Anim.createAnimation(null, 1, 7, 0.25, false, true);
-            anim = Drawable.loadSpriteAnimated(Medias.create(path, "anim.png"), 7, 1);
+            data = new BackgroundElement(0, (int) Math.floor(water.getNominal() * scaleV), back);
+            anim = Drawable.loadSpriteAnimated(Medias.create(path, "anim.png"), animation.getLast(), 1);
             anim.load();
             anim.play(animation);
-            this.water = water;
-            height = 0.0;
-            wx = 0.0;
         }
 
         /**
@@ -306,7 +312,7 @@ class Foreground extends BackgroundGame
         private void waterEffect(Graphic g, double speed, double frequency, double amplitude, double offsetForce)
         {
             final int oy = py + (int) water.getHeight();
-            for (int y = screenHeight + getNominal() - 210 + oy; y < screenHeight; y++)
+            for (int y = screenHeight + getNominal() - UNKNOWN_OFFSET + oy; y < screenHeight; y++)
             {
                 final double inside = Math.cos(UtilMath.wrapDouble(y + wx * frequency, 0.0, 360.0)) * amplitude;
                 final double outside = Math.cos(wx) * offsetForce;
@@ -324,14 +330,14 @@ class Foreground extends BackgroundGame
             anim.update(extrp);
 
             data.setOffsetX(data.getOffsetX() + speed);
-            data.setOffsetX(UtilMath.wrapDouble(data.getOffsetX(), 0.0, anim.getFrameWidth()));
+            data.setOffsetX(UtilMath.wrapDouble(data.getOffsetX(), 0.0, anim.getTileWidth()));
             data.setOffsetY(y);
 
             height += water.getSpeed() * extrp;
             height = UtilMath.wrapDouble(height, 0.0, 360.0);
             water.setHeight(Math.sin(height) * water.getDepth());
             py = y;
-            wx += 0.06 * extrp;
+            wx += WATER_EFFECT_SPEED * extrp;
         }
 
         @Override
@@ -340,7 +346,7 @@ class Foreground extends BackgroundGame
             // w number of renders used to fill screen
             final Sprite sprite = (Sprite) data.getRenderable();
             int w = (int) Math.ceil(screenWidth / (double) sprite.getWidth());
-            int y = (int) (data.getOffsetY() + data.getMainY() + water.getHeight());
+            int y = (int) (screenHeight + getNominal() - UNKNOWN_OFFSET + data.getOffsetY() + water.getHeight());
 
             if (y >= 0 && y <= screenHeight)
             {
@@ -352,20 +358,20 @@ class Foreground extends BackgroundGame
             }
 
             // animation rendering
-            w = (int) Math.ceil(screenWidth / (double) anim.getFrameWidth());
+            w = (int) Math.ceil(screenWidth / (double) anim.getTileWidth());
             final int x = (int) (-data.getOffsetX() + data.getMainX());
-            y = (int) (data.getOffsetY() + data.getMainY() - 16.0 + water.getHeight());
 
+            y -= anim.getTileHeight();
             if (y >= 0 && y <= screenHeight)
             {
                 for (int j = 0; j <= w; j++)
                 {
-                    anim.setLocation(x + anim.getFrameWidth() * j, y);
+                    anim.setLocation(x + anim.getTileWidth() * j, y);
                     anim.render(g);
                 }
             }
 
-            waterEffect(g, 0.06, 1.5, 0.8, 3.0);
+            waterEffect(g, WATER_EFFECT_SPEED, WATER_EFFECT_FREQUENCY, WATER_EFFECT_AMPLITUDE, WATER_EFFECT_OFFSET);
         }
     }
 }

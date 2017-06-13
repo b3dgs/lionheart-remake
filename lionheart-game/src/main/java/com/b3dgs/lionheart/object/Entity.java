@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,33 +17,33 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Graphic;
+import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Renderable;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.core.InputDevice;
-import com.b3dgs.lionengine.drawable.Drawable;
-import com.b3dgs.lionengine.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.core.drawable.Drawable;
+import com.b3dgs.lionengine.game.FeaturableModel;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.collision.tile.TileCollidable;
-import com.b3dgs.lionengine.game.collision.tile.TileCollidableModel;
-import com.b3dgs.lionengine.game.object.FramesConfig;
-import com.b3dgs.lionengine.game.object.ObjectGame;
-import com.b3dgs.lionengine.game.object.Services;
-import com.b3dgs.lionengine.game.object.SetupSurfaceRastered;
-import com.b3dgs.lionengine.game.object.trait.body.Body;
-import com.b3dgs.lionengine.game.object.trait.body.BodyModel;
-import com.b3dgs.lionengine.game.object.trait.transformable.Transformable;
-import com.b3dgs.lionengine.game.object.trait.transformable.TransformableModel;
+import com.b3dgs.lionengine.game.FramesConfig;
+import com.b3dgs.lionengine.game.Services;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.TransformableModel;
+import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.body.BodyModel;
+import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
 import com.b3dgs.lionengine.game.state.StateAnimationBased;
 import com.b3dgs.lionengine.game.state.StateFactory;
 import com.b3dgs.lionengine.game.state.StateHandler;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.SpriteAnimated;
 
 /**
  * Entity base representation.
  */
-public abstract class Entity extends ObjectGame implements Updatable, Renderable
+public abstract class Entity extends FeaturableModel implements Updatable, Renderable
 {
     /** Surface. */
     public final SpriteAnimated surface;
@@ -51,12 +51,12 @@ public abstract class Entity extends ObjectGame implements Updatable, Renderable
     public final Force movement = new Force();
     /** Jump force. */
     public final Force jump = new Force();
-    /** Transformable trait. */
-    private final Transformable transformable = addTrait(new TransformableModel());
-    /** Body trait. */
-    private final Body body = addTrait(new BodyModel());
-    /** Tile collidable trait. */
-    private final TileCollidable tileCollidable = addTrait(new TileCollidableModel());
+    /** Transformable reference. */
+    private final Transformable transformable = addFeatureAndGet(new TransformableModel());
+    /** Body reference. */
+    private final Body body = addFeatureAndGet(new BodyModel());
+    /** Tile collidable reference. */
+    private final TileCollidable tileCollidable;
     /** State factory. */
     private final StateFactory stateFactory = new StateFactory();
     /** States handler. */
@@ -67,16 +67,18 @@ public abstract class Entity extends ObjectGame implements Updatable, Renderable
     /**
      * Create an entity.
      * 
-     * @param setup The setup used.
      * @param services The services reference.
+     * @param setup The setup used.
      * @throws LionEngineException If error.
      */
-    public Entity(SetupSurfaceRastered setup, Services services)
+    public Entity(Services services, SetupSurfaceRastered setup)
     {
-        super(setup, services);
+        super();
 
         final FramesConfig frames = FramesConfig.imports(setup);
         surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
+
+        tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
 
         body.setMass(2.0);
         body.setGravityMax(7.0);
@@ -84,6 +86,11 @@ public abstract class Entity extends ObjectGame implements Updatable, Renderable
         body.setVectors(movement, jump);
 
         viewer = services.get(Viewer.class);
+
+        StateAnimationBased.Util.loadStates(EntityState.values(), stateFactory, this, setup);
+
+        stateHandler.addInput(getInput());
+        stateHandler.changeState(EntityState.IDLE);
     }
 
     /**
@@ -92,15 +99,6 @@ public abstract class Entity extends ObjectGame implements Updatable, Renderable
      * @return The input device used.
      */
     protected abstract InputDevice getInput();
-
-    @Override
-    protected void onPrepared()
-    {
-        StateAnimationBased.Util.loadStates(EntityState.values(), stateFactory, this);
-
-        stateHandler.addInput(getInput());
-        stateHandler.start(EntityState.IDLE);
-    }
 
     @Override
     public void update(double extrp)

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,16 +17,16 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.anim.Animator;
-import com.b3dgs.lionengine.core.InputDeviceDirectional;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.object.trait.mirrorable.Mirrorable;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.state.StateGame;
 import com.b3dgs.lionengine.game.state.StateInputDirectionalUpdater;
 import com.b3dgs.lionengine.game.state.StateTransition;
 import com.b3dgs.lionengine.game.state.StateTransitionInputDirectionalChecker;
+import com.b3dgs.lionengine.io.InputDeviceDirectional;
 
 /**
  * Walk state implementation.
@@ -37,7 +37,7 @@ public class StateWalk extends StateGame implements StateInputDirectionalUpdater
     private final Animator animator;
     /** Animation reference. */
     private final Animation animation;
-    /** Mirrorable trait. */
+    /** Mirrorable reference. */
     private final Mirrorable mirrorable;
     /** Movement force. */
     private final Force movement;
@@ -57,7 +57,7 @@ public class StateWalk extends StateGame implements StateInputDirectionalUpdater
         super(EntityState.IDLE);
         animator = entity.surface;
         this.animation = animation;
-        mirrorable = entity.getTrait(Mirrorable.class);
+        mirrorable = entity.getFeature(Mirrorable.class);
         movement = entity.movement;
         addTransition(new WalkToIdle());
     }

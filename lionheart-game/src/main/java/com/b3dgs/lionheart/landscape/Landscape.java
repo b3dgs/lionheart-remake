@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,9 +17,9 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Graphic;
 import com.b3dgs.lionengine.game.Camera;
 import com.b3dgs.lionengine.game.background.Background;
+import com.b3dgs.lionengine.graphic.Graphic;
 
 /**
  * Represents a landscape by containing a background and a foreground.
@@ -60,7 +60,7 @@ public class Landscape
      */
     public void update(double extrp, Camera camera)
     {
-        background.update(extrp, camera.getMovementHorizontal(), camera.getX());
+        background.update(extrp, camera.getMovementHorizontal(), camera.getY());
         foreground.update(extrp, camera.getMovementHorizontal(), camera.getY());
     }
 

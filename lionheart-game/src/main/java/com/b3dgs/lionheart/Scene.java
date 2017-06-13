@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,27 +19,23 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.Graphic;
+import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.core.Context;
-import com.b3dgs.lionengine.core.Resolution;
-import com.b3dgs.lionengine.core.Sequence;
-import com.b3dgs.lionengine.core.awt.Keyboard;
-import com.b3dgs.lionengine.game.map.MapTile;
-import com.b3dgs.lionengine.game.map.MapTileGame;
-import com.b3dgs.lionengine.stream.FileWriting;
-import com.b3dgs.lionengine.stream.Stream;
+import com.b3dgs.lionengine.game.Services;
+import com.b3dgs.lionengine.game.feature.SequenceGame;
+import com.b3dgs.lionengine.game.feature.WorldGame;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
+import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.util.UtilStream;
 
 /**
  * Game scene implementation.
  */
-public class Scene extends Sequence
+public class Scene extends SequenceGame
 {
-    /** Original display. */
-    public static final Resolution RESOLUTION_ORIGINAL = new Resolution(272, 208, 60);
-    /** Scene display. */
-    public static final Resolution RESOLUTION = new Resolution(320, 240, 60);
-
     /**
      * Import the level and save it.
      * 
@@ -47,20 +43,26 @@ public class Scene extends Sequence
      */
     private static void importLevelAndSave(Level level)
     {
-        final MapTile map = new MapTileGame();
+        final Services services = new Services();
+        final MapTile map = services.create(MapTileGame.class);
         map.create(level.getRip());
-        try (FileWriting writer = Stream.createFileWriting(level.getFile()))
+        final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterModel(services));
+        FileWriting output = null;
+        try
         {
-            map.save(writer);
+            output = new FileWriting(level.getFile());
+            mapPersister.save(output);
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            Verbose.exception(exception, "Error on saving map !");
+        }
+        finally
+        {
+            UtilStream.safeClose(output);
         }
     }
 
-    /** World instance. */
-    private final World world = new World(getConfig(), getInputDevice(Keyboard.class));
     /** Current level. */
     private final Level level;
 
@@ -71,8 +73,14 @@ public class Scene extends Sequence
      */
     public Scene(Context context)
     {
-        super(context, RESOLUTION_ORIGINAL);
-
+        super(context, Constant.NATIVE, new WorldCreator()
+        {
+            @Override
+            public WorldGame createWorld(Context context, Services services)
+            {
+                return new World(context, services);
+            }
+        });
         level = Level.SWAMP_1_1;
     }
 
@@ -84,17 +92,5 @@ public class Scene extends Sequence
             importLevelAndSave(level);
         }
         world.loadFromFile(level.getFile());
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        world.update(extrp);
-    }
-
-    @Override
-    public void render(Graphic g)
-    {
-        world.render(g);
     }
 }

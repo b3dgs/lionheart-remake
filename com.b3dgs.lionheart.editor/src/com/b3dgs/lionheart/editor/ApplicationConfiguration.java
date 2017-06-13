@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,15 +33,14 @@ import org.osgi.service.event.EventHandler;
 
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.core.Medias;
+import com.b3dgs.lionengine.editor.dialog.project.ProjectImportHandler;
 import com.b3dgs.lionengine.editor.project.Project;
-import com.b3dgs.lionengine.editor.project.handler.ProjectImportHandler;
-import com.b3dgs.lionengine.editor.utility.UtilPart;
+import com.b3dgs.lionengine.editor.project.ProjectFactory;
 import com.b3dgs.lionengine.editor.world.WorldModel;
-import com.b3dgs.lionengine.editor.world.WorldPart;
-import com.b3dgs.lionengine.editor.world.handler.SetPointerCollisionHandler;
-import com.b3dgs.lionengine.editor.world.handler.SetShowCollisionsHandler;
-import com.b3dgs.lionengine.game.collision.tile.MapTileCollisionModel;
-import com.b3dgs.lionengine.game.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
 
 /**
  * Configure the editor with the right name.
@@ -52,8 +51,15 @@ public class ApplicationConfiguration
     private static final String ARG_IMPORT = "-import";
 
     /** Application reference. */
-    @Inject
-    private MApplication application;
+    @Inject private MApplication application;
+
+    /**
+     * Constructor.
+     */
+    public ApplicationConfiguration()
+    {
+        super();
+    }
 
     /**
      * Execute the injection.
@@ -98,12 +104,13 @@ public class ApplicationConfiguration
 
                         final MapTile map = WorldModel.INSTANCE.getMap();
                         map.create(Medias.create("levels", "swamp", "level1-1.png"));
-                        map.createFeature(MapTileCollisionModel.class).loadCollisions();
-
-                        final WorldPart part = UtilPart.getPart(WorldPart.ID, WorldPart.class);
-                        part.setToolItemEnabled(SetShowCollisionsHandler.ID, true);
-                        part.setToolItemEnabled(SetPointerCollisionHandler.ID, true);
-                        part.update();
+                        map.getFeature(MapTileCollisionModel.class)
+                           .loadCollisions(CollisionFormulaConfig.imports(Medias.create("levels",
+                                                                                        "swamp",
+                                                                                        "formulas.xml")),
+                                           CollisionGroupConfig.imports(Medias.create("levels",
+                                                                                      "swamp",
+                                                                                      "collisions.xml")));
                     }
                 }
             }
@@ -119,7 +126,7 @@ public class ApplicationConfiguration
             final File path = new File(projectPath);
             try
             {
-                final Project project = Project.create(path.getCanonicalFile());
+                final Project project = ProjectFactory.create(path.getCanonicalFile());
                 ProjectImportHandler.importProject(project);
             }
             catch (final IOException exception)

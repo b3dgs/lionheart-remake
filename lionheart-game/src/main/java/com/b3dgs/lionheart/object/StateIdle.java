@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,12 +17,12 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.anim.Animation;
-import com.b3dgs.lionengine.anim.Animator;
-import com.b3dgs.lionengine.core.InputDeviceDirectional;
+import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.state.StateGame;
 import com.b3dgs.lionengine.game.state.StateTransition;
 import com.b3dgs.lionengine.game.state.StateTransitionInputDirectionalChecker;
+import com.b3dgs.lionengine.io.InputDeviceDirectional;
 
 /**
  * Idle state implementation.
