@@ -34,7 +34,7 @@ Each area has its own elements, monsters...
 
 * #### __Target__
 >  * Uses the [__LionEngine__](http://www.b3dgs.com/v7/page.php?lang=en&section=lionengine)
->  * Requires Java 8
+>  * Requires Java 6
 >  * Multiplatform (tested on Windows, Linux, Mac, Android)
 >  * Can be played from a browser (Firefox, IE...)
 >  * Need at least 32MB of RAM
@@ -54,13 +54,13 @@ Each area has its own elements, monsters...
 >  * 7 distinct attacks (horizontal, vertical, turning, on ground, jumping, sliding, falling)
 >  * Customizable keys
 >  * Movement feeling depends on were you are on the map (slides, slopes...)
->  * Many monsters & items per levels with their own utility
+>  * Many monsters & items per levels
 >  * 4 sword's levels (increasing damages)
 >  * Health up to 8 (hurt count before death)
->  * Talisments up to 99 (which increases the health capacity)
+>  * Talisments up to 99 (which increases the maximum health)
 >  * Lifes up to 99 (number of death before game over)
 >  * 1 hidden item for alternative ending
->  * 3 Big Boss
+>  * 4 Big Boss
 
 * #### __Special__
 >  * Level editor
