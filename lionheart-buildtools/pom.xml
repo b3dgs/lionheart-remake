@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
         <artifactId>lionheart-parent</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.2-SNAPSHOT</version>
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>lionheart-buildtools</artifactId>
