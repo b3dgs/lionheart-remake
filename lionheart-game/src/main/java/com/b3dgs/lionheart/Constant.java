@@ -34,7 +34,27 @@ public final class Constant
     public static final Resolution NATIVE = new Resolution(360, 200, 60);
 
     /** Sprites folder. */
-    public static final String FOLDER_SPRITE = "sprite";
+    public static final String FOLDER_SPRITES = "sprite";
+    /** Backgrounds folder. */
+    public static final String FOLDER_BACKGROUNDS = "background";
+    /** Backgrounds folder. */
+    public static final String FOLDER_FOREGROUNDS = "foreground";
+    /** Entities folder. */
+    public static final String FOLDER_ENTITIES = "entity";
+    /** Items folder. */
+    public static final String FOLDER_ITEMS = "item";
+    /** Monsters folder. */
+    public static final String FOLDER_MONSTERS = "monster";
+    /** Sceneries folder. */
+    public static final String FOLDER_SCENERIES = "scenery";
+    /** Players folder. */
+    public static final String FOLDER_PLAYERS = "player";
+    /** Levels folder. */
+    public static final String FOLDER_LEVELS = "levels";
+    /** Levels file extension (with dot). */
+    public static final String LEVEL_EXTENSION = ".lrl";
+    /** Musics file extension (with dot). */
+    public static final String MUSIC_EXTENSION = ".sc68";
 
     /**
      * Private constructor.

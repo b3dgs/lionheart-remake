@@ -21,21 +21,21 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.game.Services;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
-import com.b3dgs.lionengine.game.feature.WorldGame;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
 import com.b3dgs.lionengine.io.FileWriting;
-import com.b3dgs.lionengine.util.UtilStream;
 
 /**
  * Game scene implementation.
  */
-public class Scene extends SequenceGame
+final class Scene extends SequenceGame
 {
+    private static final String ERROR_SAVING_MAP = "Error on saving map !";
+    
     /**
      * Import the level and save it.
      * 
@@ -47,24 +47,18 @@ public class Scene extends SequenceGame
         final MapTile map = services.create(MapTileGame.class);
         map.create(level.getRip());
         final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterModel(services));
-        FileWriting output = null;
-        try
+        try (FileWriting output = new FileWriting(level.getFile()))
         {
-            output = new FileWriting(level.getFile());
             mapPersister.save(output);
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception, "Error on saving map !");
-        }
-        finally
-        {
-            UtilStream.safeClose(output);
+            Verbose.exception(exception, ERROR_SAVING_MAP);
         }
     }
 
     /** Current level. */
-    private final Level level;
+    private final Level level = Level.SWAMP_1_1;
 
     /**
      * Create the scene.
@@ -73,15 +67,7 @@ public class Scene extends SequenceGame
      */
     public Scene(Context context)
     {
-        super(context, Constant.NATIVE, new WorldCreator()
-        {
-            @Override
-            public WorldGame createWorld(Context context, Services services)
-            {
-                return new World(context, services);
-            }
-        });
-        level = Level.SWAMP_1_1;
+        super(context, Constant.NATIVE, services -> new World(services));
     }
 
     @Override

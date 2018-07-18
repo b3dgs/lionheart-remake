@@ -17,8 +17,8 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.game.Camera;
 import com.b3dgs.lionengine.game.background.Background;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.graphic.Graphic;
 
 /**
@@ -26,16 +26,8 @@ import com.b3dgs.lionengine.graphic.Graphic;
  */
 public class Landscape
 {
-    /** Backgrounds folder. */
-    public static final String DIR_BACKGROUNDS = "background";
-    /** Backgrounds folder. */
-    public static final String DIR_FOREGROUNDS = "foreground";
-
-    /** Landscape type. */
     private final LandscapeType type;
-    /** Background element. */
     private final Background background;
-    /** Foreground element. */
     private final Foreground foreground;
 
     /**
@@ -47,6 +39,8 @@ public class Landscape
      */
     public Landscape(LandscapeType type, Background background, Foreground foreground)
     {
+        super();
+        
         this.type = type;
         this.background = background;
         this.foreground = foreground;

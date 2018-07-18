@@ -94,10 +94,6 @@ public enum WorldType
         return name().toLowerCase(Locale.ENGLISH);
     }
 
-    /*
-     * Object
-     */
-
     @Override
     public String toString()
     {

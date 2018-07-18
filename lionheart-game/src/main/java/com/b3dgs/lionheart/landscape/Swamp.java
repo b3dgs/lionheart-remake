@@ -17,39 +17,32 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.core.Medias;
+import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilFolder;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.background.BackgroundAbstract;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
 import com.b3dgs.lionengine.game.background.BackgroundElementRastered;
-import com.b3dgs.lionengine.game.background.BackgroundGame;
 import com.b3dgs.lionengine.game.background.Parallax;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Sprite;
-import com.b3dgs.lionengine.util.UtilFolder;
-import com.b3dgs.lionengine.util.UtilMath;
+import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 
 /**
  * Swamp background implementation.
  */
-class Swamp extends BackgroundGame
+final class Swamp extends BackgroundAbstract
 {
-    /** Moon rasters. */
     private static final int MOON_RASTERS = 20;
+    private static final int PARALLAX_LINES = 96;
 
-    /** Backdrop. */
     private final Backdrop backdrop;
-    /** Clouds. */
     private final Clouds clouds;
-    /** Parallax. */
     private final Parallax parallax;
-    /** Number of parallax lines. */
-    private final int parallaxsNumber = 96;
-    /** The horizontal factor. */
-    double scaleH;
-    /** The vertical factor. */
-    double scaleV;
+    private double scaleH;
+    private double scaleV;
 
     /**
      * Constructor.
@@ -60,9 +53,10 @@ class Swamp extends BackgroundGame
      * @param theme The theme name.
      * @param flickering The flickering flag.
      */
-    Swamp(Resolution source, double scaleH, double scaleV, String theme, boolean flickering)
+    Swamp(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
         super(theme, 0, 512);
+
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         totalHeight = 112;
@@ -71,10 +65,10 @@ class Swamp extends BackgroundGame
         final int halfScreen = (int) (source.getWidth() / 3.5);
         setOffsetY(Constant.NATIVE.getHeight() - 180);
 
-        final String path = UtilFolder.getPath(Landscape.DIR_BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
+        final String path = UtilFolder.getPath(Constant.FOLDER_BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
         backdrop = new Backdrop(path, flickering, width);
         clouds = new Clouds(Medias.create(path, "cloud.png"), width, 4);
-        parallax = new Parallax(source, Medias.create(path, "parallax.png"), parallaxsNumber, halfScreen, 124, 50, 100);
+        parallax = new Parallax(source, Medias.create(path, "parallax.png"), PARALLAX_LINES, halfScreen, 124, 50, 100);
         add(backdrop);
         add(clouds);
         add(parallax);
@@ -103,27 +97,16 @@ class Swamp extends BackgroundGame
      */
     private final class Backdrop implements BackgroundComponent
     {
-        /** Backdrop color A. */
         private final BackgroundElement backcolorA;
-        /** Backdrop color B. */
         private final BackgroundElement backcolorB;
-        /** Mountain element. */
         private final BackgroundElement mountain;
-        /** Moon element. */
         private final BackgroundElementRastered moon;
-        /** Mountain sprite. */
         private final Sprite mountainSprite;
-        /** Flickering flag. */
         private final boolean flickering;
-        /** Original offset. */
         private final int moonOffset;
-        /** Screen wide value. */
         private int w;
-        /** Screen width. */
-        int screenWidth;
-        /** Flickering counter. */
+        private int screenWidth;
         private int flickerCount;
-        /** Flickering type. */
         private boolean flickerType;
 
         /**
@@ -135,6 +118,8 @@ class Swamp extends BackgroundGame
          */
         Backdrop(String path, boolean flickering, int screenWidth)
         {
+            super();
+
             this.flickering = flickering;
             if (flickering)
             {
@@ -165,10 +150,64 @@ class Swamp extends BackgroundGame
          * 
          * @param width The new width.
          */
-        void setScreenWidth(int width)
+        private void setScreenWidth(int width)
         {
             screenWidth = width;
             w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
+        }
+        
+        /**
+         * Render backdrop element.
+         * @param g The graphic output.
+         */
+        private void renderBackdrop(Graphic g)
+        {
+            final Sprite sprite;
+            if (flickerType || !flickering)
+            {
+                sprite = (Sprite) backcolorA.getRenderable();
+            }
+            else
+            {
+                sprite = (Sprite) backcolorB.getRenderable();
+            }
+            for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
+            {
+                final int x = backcolorA.getMainX() + i * sprite.getWidth();
+                final double y = backcolorA.getOffsetY() + backcolorA.getMainY();
+                sprite.setLocation(x, y);
+                sprite.render(g);
+            }
+        }
+
+        /**
+         * Render moon element.
+         * 
+         * @param g The graphic output.
+         */
+        private void renderMoon(Graphic g)
+        {
+            final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY())) / 6;
+            final Sprite spriteMoon = moon.getRaster(id);
+            spriteMoon.setLocation(moon.getMainX(), moon.getOffsetY() + moon.getMainY());
+            spriteMoon.render(g);
+        }
+
+        /**
+         * Render mountains element.
+         * 
+         * @param g The graphic output.
+         */
+        private void renderMountains(Graphic g)
+        {
+            final int oy = (int) (mountain.getOffsetY() + mountain.getMainY());
+            final int ox = (int) (-mountain.getOffsetX() + mountain.getMainX());
+            final int sx = mountainSprite.getWidth();
+            for (int j = 0; j < w; j++)
+            {
+                mountainSprite.setLocation(ox + sx * j, oy);
+                mountainSprite.render(g);
+            }
         }
 
         @Override
@@ -193,39 +232,9 @@ class Swamp extends BackgroundGame
         @Override
         public void render(Graphic g)
         {
-            // Render back background first
-            final Sprite sprite;
-            if (flickerType || !flickering)
-            {
-                sprite = (Sprite) backcolorA.getRenderable();
-            }
-            else
-            {
-                sprite = (Sprite) backcolorB.getRenderable();
-            }
-            for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
-            {
-                final int x = backcolorA.getMainX() + i * sprite.getWidth();
-                final double y = backcolorA.getOffsetY() + backcolorA.getMainY();
-                sprite.setLocation(x, y);
-                sprite.render(g);
-            }
-
-            // Render moon
-            final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY())) / 6;
-            final Sprite spriteMoon = moon.getRaster(id);
-            spriteMoon.setLocation(moon.getMainX(), moon.getOffsetY() + moon.getMainY());
-            spriteMoon.render(g);
-
-            // Render mountains
-            final int oy = (int) (mountain.getOffsetY() + mountain.getMainY());
-            final int ox = (int) (-mountain.getOffsetX() + mountain.getMainX());
-            final int sx = mountainSprite.getWidth();
-            for (int j = 0; j < w; j++)
-            {
-                mountainSprite.setLocation(ox + sx * j, oy);
-                mountainSprite.render(g);
-            }
+            renderBackdrop(g);
+            renderMoon(g);
+            renderMountains(g);
         }
     }
 }

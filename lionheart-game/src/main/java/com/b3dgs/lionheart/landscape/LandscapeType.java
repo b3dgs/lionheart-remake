@@ -51,7 +51,7 @@ public enum LandscapeType
      */
     public static LandscapeType[] getWorldLandscape(WorldType world)
     {
-        final Collection<LandscapeType> landscapes = new ArrayList<LandscapeType>(3);
+        final Collection<LandscapeType> landscapes = new ArrayList<>(3);
         for (final LandscapeType landscape : LandscapeType.values())
         {
             if (landscape.getWorld() == world)

@@ -19,14 +19,21 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.Context;
-import com.b3dgs.lionengine.core.Medias;
-import com.b3dgs.lionengine.core.sequence.ResolutionChanger;
-import com.b3dgs.lionengine.game.Services;
+import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.WorldGame;
 import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
+import com.b3dgs.lionengine.game.feature.tile.TileGroupsConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
@@ -34,34 +41,29 @@ import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.engine.Zooming;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.io.InputDeviceDirectional;
 import com.b3dgs.lionengine.io.InputDevicePointer;
-import com.b3dgs.lionengine.util.UtilMath;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.landscape.LandscapeType;
+import com.b3dgs.lionheart.landscape.WorldType;
+import com.b3dgs.lionheart.object.Entity;
 
 /**
  * World game representation.
  */
-public class World extends WorldGame
+final class World extends WorldGame
 {
-    /** Resolution changer. */
-    private final ResolutionChanger changer = services.get(ResolutionChanger.class);
-    /** Map reference. */
     private final MapTile map = services.create(MapTileGame.class);
-    /** Map viewer. */
     private final MapTileViewer mapViewer = map.addFeatureAndGet(new MapTileViewerModel(services));
-    /** Map persister. */
     private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterModel(services));
-    /** Map raster. */
     private final MapTileRastered mapRaster = map.addFeatureAndGet(new MapTileRasteredModel(services));
-    /** Pointer device. */
+    private final Zooming zooming = services.get(Zooming.class);
     private final InputDevicePointer pointer = getInputDevice(InputDevicePointer.class);
-    /** Landscape factory. */
     private final FactoryLandscape factoryLandscape;
-    /** Landscape. */
     private Landscape landscape;
 
     private double scale = 1.0;
@@ -69,17 +71,15 @@ public class World extends WorldGame
     /**
      * Create the world.
      * 
-     * @param context The context reference.
      * @param services The services reference.
      */
-    public World(Context context, Services services)
+    public World(Services services)
     {
-        super(context, services);
+        super(services);
 
-        final double scaleH = config.getSource().getWidth() / (double) Constant.NATIVE.getWidth();
-        final double scaleV = config.getSource().getHeight() / (double) Constant.NATIVE.getHeight();
+        services.add(getInputDevice(InputDeviceDirectional.class));
 
-        factoryLandscape = new FactoryLandscape(source, scaleH, scaleV, false);
+        factoryLandscape = new FactoryLandscape(source, false);
 
         handler.addComponent(new ComponentCollision());
         handler.add(map);
@@ -96,7 +96,7 @@ public class World extends WorldGame
         else if (pointer.getClick() == 2)
         {
             scale = UtilMath.clamp(scale + pointer.getMoveY() / 100.0, 0.5, 1.42);
-            changer.setResolution(source.getScaled(scale, scale));
+            zooming.setZoom(scale);
         }
         super.update(extrp);
         landscape.update(extrp, camera);
@@ -125,14 +125,34 @@ public class World extends WorldGame
         mapViewer.clear();
         mapViewer.addRenderer(mapRaster);
 
+        final String world = WorldType.SWAMP.getFolder();
+
+        map.addFeatureAndGet(new MapTileGroupModel())
+           .loadGroups(Medias.create(Constant.FOLDER_LEVELS, world, TileGroupsConfig.FILENAME));
+        map.addFeatureAndGet(new MapTileCollisionModel(services))
+           .loadCollisions(Medias.create(Constant.FOLDER_LEVELS, world, CollisionFormulaConfig.FILENAME),
+                           Medias.create(Constant.FOLDER_LEVELS, world, CollisionGroupConfig.FILENAME));
+
+        final MapTileCollisionRenderer mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
+        mapCollisionRenderer.createCollisionDraw();
+
+        mapViewer.addRenderer(mapCollisionRenderer);
+
         camera.setLimits(map);
         camera.setIntervals(0, 0);
 
         landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DAY);
+
+        final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_ENTITIES,
+                                                           Constant.FOLDER_PLAYERS,
+                                                           "default",
+                                                           "Valdyn.xml"));
+        valdyn.getFeature(Transformable.class).teleport(196, 96);
+        handler.add(valdyn);
     }
 
     @Override
-    public void onResolutionChanged(int width, int height, int rate)
+    public void onResolutionChanged(int width, int height)
     {
         camera.setView(0, 0, width, height, height);
         landscape.setScreenSize(width, height);

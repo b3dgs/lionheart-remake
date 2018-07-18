@@ -18,18 +18,20 @@
 package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Context;
-import com.b3dgs.lionengine.core.Medias;
-import com.b3dgs.lionengine.core.drawable.Drawable;
-import com.b3dgs.lionengine.core.sequence.Sequence;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Image;
+import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.Image;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
 
 /**
  * Loading screen.
  */
 public final class Loading extends Sequence
 {
-    private final Image loading = Drawable.loadImage(Medias.create(Constant.FOLDER_SPRITE, "loading.png"));
+    private static final String SPRITE_LOADING = "loading.png";
+    
+    private final Image loading = Drawable.loadImage(Medias.create(Constant.FOLDER_SPRITES, SPRITE_LOADING));
 
     private boolean loaded;
 

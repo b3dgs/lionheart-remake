@@ -18,12 +18,12 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.game.background.CloudsGame;
+import com.b3dgs.lionengine.game.background.CloudsAbstract;
 
 /**
  * Clouds implementation.
  */
-class Clouds extends CloudsGame
+final class Clouds extends CloudsAbstract
 {
     private static final int LINE_WIDTH = 160;
     private static final int LINE_HEIGHT = 26;

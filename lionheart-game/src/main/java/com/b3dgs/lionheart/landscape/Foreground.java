@@ -18,29 +18,28 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.core.Medias;
-import com.b3dgs.lionengine.core.drawable.Drawable;
+import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilFolder;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.background.BackgroundAbstract;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
-import com.b3dgs.lionengine.game.background.BackgroundGame;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Sprite;
-import com.b3dgs.lionengine.graphic.SpriteAnimated;
-import com.b3dgs.lionengine.util.UtilFolder;
-import com.b3dgs.lionengine.util.UtilMath;
+import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 
 /**
  * Water foreground implementation.
  */
-class Foreground extends BackgroundGame
+final class Foreground extends BackgroundAbstract
 {
     private static final double WATER_EFFECT_SPEED = 0.06;
     private static final double WATER_EFFECT_FREQUENCY = 1.5;
     private static final double WATER_EFFECT_AMPLITUDE = 0.8;
     private static final double WATER_EFFECT_OFFSET = 3.0;
-
     private static final int UNKNOWN_OFFSET = 210;
 
     /** Standard height. */
@@ -54,15 +53,15 @@ class Foreground extends BackgroundGame
     /** Secondary. */
     private final Secondary secondary;
     /** Screen width. */
-    int screenWidth;
+    private int screenWidth;
     /** Screen height. */
-    int screenHeight;
+    private int screenHeight;
     /** The horizontal factor. */
-    double scaleH;
+    private double scaleH;
     /** The horizontal factor. */
-    double scaleV;
+    private double scaleV;
     /** Water top. */
-    double top;
+    private double top;
     /** Water height. */
     private double height;
 
@@ -70,18 +69,16 @@ class Foreground extends BackgroundGame
      * Constructor.
      * 
      * @param source The resolution source reference.
-     * @param scaleH The horizontal factor.
-     * @param scaleV The vertical factor.
      * @param theme The theme name.
      */
-    Foreground(Resolution source, double scaleH, double scaleV, String theme)
+    Foreground(SourceResolutionProvider source, String theme)
     {
         super(theme, 0, 0);
 
-        this.scaleH = scaleH;
-        this.scaleV = scaleV;
+        scaleH = 1.0;
+        scaleV = 1.0;
 
-        final String path = UtilFolder.getPath(Landscape.DIR_FOREGROUNDS, theme);
+        final String path = UtilFolder.getPath(Constant.FOLDER_FOREGROUNDS, theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
 
@@ -207,6 +204,8 @@ class Foreground extends BackgroundGame
          */
         Primary(String path, Foreground water)
         {
+            super();
+            
             this.water = water;
 
             final Sprite sprite = Drawable.loadSprite(Medias.create(path, "calc.png"));
@@ -224,10 +223,6 @@ class Foreground extends BackgroundGame
             data.setMainY((int) Math.ceil(water.getNominal() * scaleV));
         }
 
-        /*
-         * BackgroundComponent
-         */
-
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
@@ -237,7 +232,6 @@ class Foreground extends BackgroundGame
         @Override
         public void render(Graphic g)
         {
-            // Render calc
             final Sprite sprite = (Sprite) data.getRenderable();
             final int w = (int) Math.ceil(screenWidth / (double) sprite.getWidth());
             final int y = (int) (screenHeight + getNominal() - UNKNOWN_OFFSET + data.getOffsetY() + water.getHeight());
@@ -258,7 +252,7 @@ class Foreground extends BackgroundGame
     private final class Secondary implements BackgroundComponent
     {
         /** Animation data. */
-        private final Animation animation = new Animation(null, 1, 7, 0.25, false, true);
+        private final Animation animation = new Animation(Animation.DEFAULT_NAME, 1, 7, 0.25, false, true);
         /** Water element. */
         private final BackgroundElement data;
         /** Sprite. */
@@ -280,6 +274,8 @@ class Foreground extends BackgroundGame
          */
         Secondary(String path, Foreground water)
         {
+            super();
+            
             this.water = water;
 
             final Sprite back = Drawable.loadSprite(Medias.create(path, "back.png"));
@@ -295,7 +291,7 @@ class Foreground extends BackgroundGame
         /**
          * Update the main vertical location.
          */
-        void updateMainY()
+        private void updateMainY()
         {
             data.setMainY((int) Math.floor(water.getNominal() * scaleV));
         }
@@ -319,10 +315,6 @@ class Foreground extends BackgroundGame
                 g.copyArea(0, y, screenWidth, 1, (int) (inside + outside), 0);
             }
         }
-
-        /*
-         * BackgroundComponent
-         */
 
         @Override
         public void update(double extrp, int x, int y, double speed)

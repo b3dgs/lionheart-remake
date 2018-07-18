@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.core.Medias;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionheart.landscape.WorldType;
 
 /**
@@ -33,11 +33,6 @@ public enum Level
     /** First swamp stage. */
     SWAMP_1_5(WorldType.SWAMP, "level1-5");
 
-    /** Levels folder. */
-    public static final String DIR = "levels";
-    /** Levels file extension. */
-    public static final String EXTENSION = ".lrl";
-
     /** Level file. */
     private final Media level;
     /** Level rip image. */
@@ -51,8 +46,8 @@ public enum Level
      */
     Level(WorldType world, String level)
     {
-        this.level = Medias.create(DIR, world.getFolder(), level + EXTENSION);
-        rip = Medias.create(DIR, world.getFolder(), level + ".png");
+        this.level = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + Constant.LEVEL_EXTENSION);
+        rip = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + ".png");
     }
 
     /**

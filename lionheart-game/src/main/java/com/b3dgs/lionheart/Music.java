@@ -23,11 +23,11 @@ package com.b3dgs.lionheart;
 public enum Music
 {
     /** Intro music. */
-    INTRO("intro.sc68"),
+    INTRO("intro"),
     /** Swamp music. */
-    SWAMP("swamp.sc68"),
+    SWAMP("swamp"),
     /** Ancient Town music. */
-    ANCIENT_TOWN("ancient_town.sc68");
+    ANCIENT_TOWN("ancient_town");
 
     /** Music filename. */
     private final String filename;
@@ -39,7 +39,7 @@ public enum Music
      */
     Music(String filename)
     {
-        this.filename = filename;
+        this.filename = filename + Constant.MUSIC_EXTENSION;
     }
 
     /**

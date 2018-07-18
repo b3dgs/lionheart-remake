@@ -17,28 +17,24 @@
  */
 package com.b3dgs.lionheart.landscape;
 
-import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.UtilFolder;
+import com.b3dgs.lionengine.game.background.BackgroundAbstract;
 import com.b3dgs.lionengine.game.background.BackgroundComponent;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
-import com.b3dgs.lionengine.game.background.BackgroundGame;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Sprite;
-import com.b3dgs.lionengine.util.UtilFolder;
+import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 
 /**
  * Ancient Town full background implementation.
  */
-final class AncientTown extends BackgroundGame
+final class AncientTown extends BackgroundAbstract
 {
-    /** Backdrop. */
     private final Backdrop backdrop;
-    /** Flickering flag. */
     private final boolean flickering;
-    /** The horizontal factor. */
-    double scaleH;
-    /** The vertical factor. */
-    double scaleV;
+    private double scaleH;
+    private double scaleV;
 
     /**
      * Constructor.
@@ -49,13 +45,14 @@ final class AncientTown extends BackgroundGame
      * @param theme The theme name.
      * @param flickering The flickering flag.
      */
-    AncientTown(Resolution source, double scaleH, double scaleV, String theme, boolean flickering)
+    AncientTown(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
         super(theme, 0, 512);
+
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = UtilFolder.getPath(Landscape.DIR_BACKGROUNDS, "ancient_town", theme);
+        final String path = UtilFolder.getPath(Constant.FOLDER_BACKGROUNDS, "ancient_town", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, this.flickering, width);
         add(backdrop);
@@ -84,17 +81,11 @@ final class AncientTown extends BackgroundGame
      */
     private final class Backdrop implements BackgroundComponent
     {
-        /** Backdrop color A. */
         private final BackgroundElement backcolorA;
-        /** Backdrop color B. */
         private final BackgroundElement backcolorB;
-        /** Flickering flag. */
         private final boolean flickering;
-        /** Screen width. */
-        int screenWidth;
-        /** Flickering counter. */
+        private int screenWidth;
         private int flickerCount;
-        /** Flickering type. */
         private boolean flickerType;
 
         /**
@@ -106,6 +97,8 @@ final class AncientTown extends BackgroundGame
          */
         Backdrop(String path, boolean flickering, int screenWidth)
         {
+            super();
+            
             this.flickering = flickering;
             if (flickering)
             {
@@ -126,7 +119,7 @@ final class AncientTown extends BackgroundGame
          * 
          * @param width The new width.
          */
-        void setScreenWidth(int width)
+        private void setScreenWidth(int width)
         {
             screenWidth = width;
         }
@@ -149,7 +142,6 @@ final class AncientTown extends BackgroundGame
         @Override
         public void render(Graphic g)
         {
-            // Render back background first
             final Sprite sprite;
             if (flickerType || !flickering)
             {
