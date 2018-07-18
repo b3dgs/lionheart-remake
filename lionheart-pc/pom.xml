@@ -9,8 +9,8 @@
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>lionheart-pc</artifactId>
-    <name>Lionheart PC</name>
     <packaging>jar</packaging>
+    <name>Lionheart PC</name>
     <dependencies>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
@@ -20,6 +20,17 @@
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
             <artifactId>lionengine-audio-wav</artifactId>
+            <version>${lionengine.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.b3dgs.lionengine</groupId>
+            <artifactId>lionengine-audio-sc68</artifactId>
+            <version>${lionengine.version}</version>
         </dependency>
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>

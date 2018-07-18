@@ -2,20 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <properties>
-        <buildtools-project>lionheart-buildtools</buildtools-project>
-        <lionengine.version>8.4.0</lionengine.version>
-    </properties>
     <parent>
         <groupId>com.b3dgs</groupId>
         <artifactId>b3dgs-parent</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.9-SNAPSHOT</version>
     </parent>
     <groupId>com.b3dgs.lionheart</groupId>
     <artifactId>lionheart-parent</artifactId>
-    <packaging>pom</packaging>
     <version>0.0.2-SNAPSHOT</version>
     <name>Lionheart Remake</name>
+    <packaging>pom</packaging>
     <description>Remake of the original Lionheart on the Amiga by Thalion</description>
     <url>https://github.com/b3dgs/lionheart-remake</url>
     <organization>
@@ -28,54 +24,13 @@
         <developerConnection>scm:git:git@github.com:b3dgs/lionheart-remake.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-    <profiles>
-        <profile>
-            <id>game</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>../lionheart-buildtools</module>
-                <module>../lionheart-game</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>plugins</id>
-            <modules>
-                <module>../com.b3dgs.lionheart.target</module>
-                <module>../com.b3dgs.lionheart.editor</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>editor</id>
-            <modules>
-                <module>../com.b3dgs.lionheart.target</module>
-                <module>../com.b3dgs.lionheart.editor</module>
-                <module>../com.b3dgs.lionheart.editor.product</module>
-            </modules>
-        </profile>
-		<profile>
-            <id>target</id>
-            <modules>
-                <module>../lionheart-buildtools</module>
-                <module>../lionheart-game</module>
-                <module>../lionheart-android</module>
-                <module>../lionheart-pc</module>
-            </modules>
-        </profile>
-    </profiles>
+    <properties>
+        <lionengine.version>9.0.0-SNAPSHOT</lionengine.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
             <artifactId>lionengine-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.b3dgs.lionengine</groupId>
-            <artifactId>lionengine-audio-sc68</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.b3dgs.lionengine</groupId>
-            <artifactId>lionengine-audio-wav</artifactId>
         </dependency>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
@@ -87,16 +42,6 @@
             <dependency>
                 <groupId>com.b3dgs.lionengine</groupId>
                 <artifactId>lionengine-core</artifactId>
-                <version>${lionengine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.b3dgs.lionengine</groupId>
-                <artifactId>lionengine-audio-wav</artifactId>
-                <version>${lionengine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.b3dgs.lionengine</groupId>
-                <artifactId>lionengine-audio-sc68</artifactId>
                 <version>${lionengine.version}</version>
             </dependency>
             <dependency>
@@ -117,6 +62,48 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>game</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>../lionheart-game</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>editor</id>
+            <modules>
+                <module>../com.b3dgs.lionheart.target</module>
+                <module>../com.b3dgs.lionheart.editor</module>
+                <module>../com.b3dgs.lionheart.editor.product</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>pc</id>
+            <modules>
+                <module>../lionheart-game</module>
+                <module>../lionheart-pc</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

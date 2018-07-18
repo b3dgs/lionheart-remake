@@ -8,8 +8,8 @@
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>com.b3dgs.lionheart.editor.product</artifactId>
-    <name>Lionheart Remake Editor Product</name>
     <packaging>eclipse-repository</packaging>
+    <name>Lionheart Editor Product</name>
     <dependencies>
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>

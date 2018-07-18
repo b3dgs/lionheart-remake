@@ -8,21 +8,21 @@
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>com.b3dgs.lionheart.editor</artifactId>
-    <name>Lionheart Remake Editor</name>
     <packaging>eclipse-plugin</packaging>
-    <repositories>
-        <repository>
-            <id>mars</id>
-            <url>http://download.eclipse.org/releases/mars</url>
-            <layout>p2</layout>
-        </repository>
-    </repositories>
+    <name>Lionheart Editor</name>
     <dependencies>
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-game</artifactId>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>oxygen</id>
+            <url>http://download.eclipse.org/releases/oxygen</url>
+            <layout>p2</layout>
+        </repository>
+    </repositories>
     <build>
         <sourceDirectory>src</sourceDirectory>
         <plugins>

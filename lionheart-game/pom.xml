@@ -9,15 +9,11 @@
         <relativePath>../lionheart-parent</relativePath>
     </parent>
     <artifactId>lionheart-game</artifactId>
-    <name>Lionheart Remake Game</name>
     <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>com.b3dgs.lionengine</groupId>
-            <artifactId>lionengine-core-awt</artifactId>
-            <version>${lionengine.version}</version>
-        </dependency>
-    </dependencies>
+    <name>Lionheart Game</name>
+    <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+    </properties>
     <build>
         <plugins>
             <plugin>
