@@ -1,20 +1,5 @@
-<table>
-    <tr>
-        <td>
-            <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake" border="1"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg"/></a>
-        </td>
-        <td>
-            <h4 align="center">Summary</h4>
-            <div align="left">
-                <ul>
-                    <li><a href="#presentation">Presentation</a></li>
-                    <li><a href="#general-features">General features</a></li>
-                    <li><a href="#screenshots">Screenshots</a></li>
-                </ul>
-            </div>
-        </td>
-    </tr>
-</table>
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=60/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots) |
+|:---|:---:|---:|
 
 ## Presentation
 
@@ -34,9 +19,8 @@ Each area has its own elements, monsters...
 
 * #### __Target__
 >  * Uses the [__LionEngine__](http://www.b3dgs.com/v7/page.php?lang=en&section=lionengine)
->  * Requires Java 6
->  * Multiplatform (tested on Windows, Linux, Mac, Android)
->  * Can be played from a browser (Firefox, IE...)
+>  * Requires Java 8
+>  * Multiplatform (tested on Windows, Linux, Android)
 >  * Need at least 32MB of RAM
 >  * Need at least 6MB of free disk space
 
@@ -68,4 +52,4 @@ Each area has its own elements, monsters...
 ## Screenshots
 
 | [![img1](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/1.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/1.png) | [![img2](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/2.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/2.png) | [![img3](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/3.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/3.png)
---- | --- | ---
+|---|---|---|
