@@ -22,56 +22,47 @@ import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionengine.game.state.StateGame;
-import com.b3dgs.lionengine.game.state.StateInputDirectionalUpdater;
-import com.b3dgs.lionengine.game.state.StateTransition;
-import com.b3dgs.lionengine.game.state.StateTransitionInputDirectionalChecker;
-import com.b3dgs.lionengine.io.InputDeviceDirectional;
+import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
  * Walk state implementation.
  */
-public class StateWalk extends StateGame implements StateInputDirectionalUpdater
+public class StateWalk extends StateAbstract
 {
-    /** Animator reference. */
+    private static final double SPEED = 2.0;
+    
+    private final EntityModel model;
     private final Animator animator;
-    /** Animation reference. */
     private final Animation animation;
-    /** Mirrorable reference. */
     private final Mirrorable mirrorable;
-    /** Movement force. */
     private final Force movement;
-    /** Animation played flag. */
     private boolean played;
-    /** Direction side. */
-    private double side;
 
     /**
      * Create the state.
      * 
-     * @param entity The entity reference.
+     * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateWalk(Entity entity, Animation animation)
+    public StateWalk(EntityModel model, Animation animation)
     {
-        super(EntityState.IDLE);
-        animator = entity.surface;
+        super();
+
+        this.model = model;
         this.animation = animation;
-        mirrorable = entity.getFeature(Mirrorable.class);
-        movement = entity.movement;
-        addTransition(new WalkToIdle());
+        animator = model.getSurface();
+        mirrorable = model.getFeature(Mirrorable.class);
+        movement = model.getMovement();
+        addTransition(StateIdle.class, () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) == 0);
     }
 
     @Override
     public void enter()
     {
         animator.play(animation);
-    }
-
-    @Override
-    public void updateInput(InputDeviceDirectional input)
-    {
-        side = input.getHorizontalDirection();
+        movement.setVelocity(10);
+        movement.setSensibility(0.1);
+        played = false;
     }
 
     @Override
@@ -82,8 +73,10 @@ public class StateWalk extends StateGame implements StateInputDirectionalUpdater
             animator.play(animation);
             played = true;
         }
-        movement.setDestination(side * 3, 0);
-        animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 12.0);
+        
+        final double side = model.getInput().getHorizontalDirection();
+        movement.setDestination(side * SPEED, 0);
+        animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 8.0);
 
         if (side < 0 && movement.getDirectionHorizontal() > 0.0)
         {
@@ -92,26 +85,6 @@ public class StateWalk extends StateGame implements StateInputDirectionalUpdater
         else if (side > 0 && movement.getDirectionHorizontal() < 0.0)
         {
             mirrorable.mirror(Mirror.NONE);
-        }
-    }
-
-    /**
-     * Transition from walk to idle state.
-     */
-    private static final class WalkToIdle extends StateTransition implements StateTransitionInputDirectionalChecker
-    {
-        /**
-         * Create the transition.
-         */
-        WalkToIdle()
-        {
-            super(EntityState.IDLE);
-        }
-
-        @Override
-        public boolean check(InputDeviceDirectional input)
-        {
-            return Double.compare(input.getHorizontalDirection(), 0.0) == 0;
         }
     }
 }

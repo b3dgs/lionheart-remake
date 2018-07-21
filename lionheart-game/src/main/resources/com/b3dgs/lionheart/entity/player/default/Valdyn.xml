@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.player.Valdyn</lionengine:class>
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
     <lionengine:surface image="Valdyn.png"/>
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
+    <lionengine:raster file="raster/raster1.xml" height="20" smooth="false"/>
 
-    <lionengine:category name="leg_right" axis="Y" x="6" y="0">
-        <lionengine:group>block</lionengine:group>
-    </lionengine:category>
-    <lionengine:category name="leg_left" axis="Y" x="-6" y="0">
-        <lionengine:group>block</lionengine:group>
-    </lionengine:category>
-    <lionengine:category name="knee_right" axis="X" x="6" y="0">
-        <lionengine:group>block</lionengine:group>
-    </lionengine:category>
-    <lionengine:category name="knee_left" axis="X" x="-6" y="0">
-        <lionengine:group>block</lionengine:group>
+	<lionengine:category name="center" axis="Y" x="0" y="0">
+		<lionengine:group>slope_left_0</lionengine:group>
+		<lionengine:group>slope_left_1</lionengine:group>
+		<lionengine:group>slope_left_2</lionengine:group>
+		<lionengine:group>slope_right_0</lionengine:group>
+		<lionengine:group>slope_right_1</lionengine:group>
+		<lionengine:group>slope_right_2</lionengine:group>
+		<lionengine:group>ground</lionengine:group>
     </lionengine:category>
 
 	<lionengine:collision name="stand" offsetX="0" offsetY="-2" width="20" height="53" mirror="false" />
@@ -25,7 +23,7 @@
 
 	<lionengine:animation name="idle" start="1" end="1" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="crouch" start="3" end="3" speed="0.125" reversed="false" repeat="false" />
-	<lionengine:animation name="fallen" start="21" end="21" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="land" start="21" end="21" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="walk" start="26" end="35" speed="0.25" reversed="false" repeat="true" />
 	<lionengine:animation name="turn" start="26" end="35" speed="0.25" reversed="false" repeat="true" />
 	<lionengine:animation name="jump" start="17" end="19" speed="0.125" reversed="false" repeat="false" />

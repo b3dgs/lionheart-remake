@@ -18,21 +18,21 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.FeatureGet;
 import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.Services;
 import com.b3dgs.lionengine.game.feature.Displayable;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 
 /**
- * Mario rendering implementation.
+ * Entity rendering implementation.
  */
-class MarioRenderer extends FeatureModel implements Displayable
+class EntityRenderer extends FeatureModel implements Displayable
 {
     private final SpriteAnimated surface;
     private final Viewer viewer;
@@ -46,7 +46,7 @@ class MarioRenderer extends FeatureModel implements Displayable
      * @param services The services reference.
      * @param model The model reference.
      */
-    public MarioRenderer(Services services, MarioModel model)
+    public EntityRenderer(Services services, EntityModel model)
     {
         super();
 

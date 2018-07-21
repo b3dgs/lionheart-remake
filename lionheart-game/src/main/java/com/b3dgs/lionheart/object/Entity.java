@@ -17,53 +17,36 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.InputDevice;
+import java.util.Locale;
+
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.core.drawable.Drawable;
-import com.b3dgs.lionengine.game.FeaturableModel;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.FramesConfig;
-import com.b3dgs.lionengine.game.Services;
+import com.b3dgs.lionengine.game.feature.DisplayableModel;
+import com.b3dgs.lionengine.game.feature.FeaturableModel;
+import com.b3dgs.lionengine.game.feature.LayerableModel;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.MirrorableModel;
+import com.b3dgs.lionengine.game.feature.RefreshableModel;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.TransformableModel;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.body.BodyModel;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionengine.game.feature.state.State;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
-import com.b3dgs.lionengine.game.state.StateAnimationBased;
-import com.b3dgs.lionengine.game.state.StateFactory;
-import com.b3dgs.lionengine.game.state.StateHandler;
-import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Renderable;
-import com.b3dgs.lionengine.graphic.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 
 /**
  * Entity base representation.
  */
-public abstract class Entity extends FeaturableModel implements Updatable, Renderable
+public class Entity extends FeaturableModel
 {
-    /** Surface. */
-    public final SpriteAnimated surface;
-    /** Movement force. */
-    public final Force movement = new Force();
-    /** Jump force. */
-    public final Force jump = new Force();
-    /** Transformable reference. */
-    private final Transformable transformable = addFeatureAndGet(new TransformableModel());
-    /** Body reference. */
-    private final Body body = addFeatureAndGet(new BodyModel());
-    /** Tile collidable reference. */
-    private final TileCollidable tileCollidable;
-    /** State factory. */
-    private final StateFactory stateFactory = new StateFactory();
-    /** States handler. */
-    private final StateHandler stateHandler = new StateHandler(stateFactory);
-    /** Viewer reference. */
-    private final Viewer viewer;
-
     /**
      * Create an entity.
      * 
@@ -73,44 +56,53 @@ public abstract class Entity extends FeaturableModel implements Updatable, Rende
      */
     public Entity(Services services, SetupSurfaceRastered setup)
     {
-        super();
+        super(services, setup);
 
-        final FramesConfig frames = FramesConfig.imports(setup);
-        surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
+        addFeature(new LayerableModel(5));
 
-        tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
+        final Mirrorable mirrorable = addFeatureAndGet(new MirrorableModel());
+        final Transformable transformable = addFeatureAndGet(new TransformableModel());
+        final Body body = addFeatureAndGet(new BodyModel());
+        final TileCollidable tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
 
-        body.setMass(2.0);
-        body.setGravityMax(7.0);
-        body.setDesiredFps(60);
-        body.setVectors(movement, jump);
+        addFeature(new CollidableModel(services, setup));
 
-        viewer = services.get(Viewer.class);
+        tileCollidable.addListener((tile, axis) ->
+        {
+            if (Axis.Y == axis)
+            {
+                body.resetGravity();
+            }
+        });
 
-        StateAnimationBased.Util.loadStates(EntityState.values(), stateFactory, this, setup);
+        final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
+       
+        final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup)
+        {
+            @Override
+            protected String getAnimationName(Class<? extends State> state)
+            {
+                return state.getSimpleName().replace("State", "").toLowerCase(Locale.ENGLISH);
+            }
+        });
+        stateHandler.changeState(StateIdle.class);
+        
+        final SpriteAnimated surface = model.getSurface();
+        final Force movement = model.getMovement();
+        final Viewer viewer = services.get(Viewer.class);
 
-        stateHandler.addInput(getInput());
-        stateHandler.changeState(EntityState.IDLE);
-    }
+        addFeature(new RefreshableModel(extrp ->
+        {
+            stateHandler.update(extrp);
+            mirrorable.update(extrp);
+            movement.update(extrp);
+            body.update(extrp);
+            tileCollidable.update(extrp);
+            surface.setLocation(viewer, transformable);
+            surface.setMirror(mirrorable.getMirror());
+            surface.update(extrp);
+        }));
 
-    /**
-     * Get the input device used.
-     * 
-     * @return The input device used.
-     */
-    protected abstract InputDevice getInput();
-
-    @Override
-    public void update(double extrp)
-    {
-        body.update(extrp);
-        tileCollidable.update(extrp);
-        surface.setLocation(viewer, transformable);
-    }
-
-    @Override
-    public void render(Graphic g)
-    {
-        surface.render(g);
+        addFeature(new DisplayableModel(g -> surface.render(g)));
     }
 }

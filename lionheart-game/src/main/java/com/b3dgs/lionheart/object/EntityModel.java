@@ -18,33 +18,55 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.core.drawable.Drawable;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.Setup;
-import com.b3dgs.lionengine.graphic.SpriteAnimated;
+import com.b3dgs.lionengine.game.FramesConfig;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.io.InputDeviceDirectional;
 
 /**
- * Mario model implementation.
+ * Entity model implementation.
  */
-public class MarioModel
+public class EntityModel extends FeatureModel
 {
+    private final SpriteAnimated surface;
     private final Force movement = new Force();
     private final Force jump = new Force();
-    private final SpriteAnimated surface;
+    private final InputDeviceDirectional input;
+
+    @FeatureGet private Body body;
 
     /**
      * Create model.
      * 
+     * @param services The services reference.
      * @param setup The setup reference.
      */
-    public MarioModel(Setup setup)
+    public EntityModel(Services services, Setup setup)
     {
-        surface = Drawable.loadSpriteAnimated(setup.getSurface(), 7, 1);
-        surface.setOrigin(Origin.CENTER_BOTTOM);
-        surface.setFrameOffsets(-1, 0);
+        super();
 
-        jump.setVelocity(0.1);
-        jump.setDestination(0.0, 0.0);
+        final FramesConfig frames = FramesConfig.imports(setup);
+        surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
+        surface.setOrigin(Origin.CENTER_BOTTOM);
+
+        input = services.get(InputDeviceDirectional.class);
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        body.setGravity(5.0);
+        body.setVectors(movement, jump);
+        body.setDesiredFps(60);
     }
 
     /**
@@ -75,5 +97,15 @@ public class MarioModel
     public SpriteAnimated getSurface()
     {
         return surface;
+    }
+
+    /**
+     * Get the input used.
+     * 
+     * @return The input used.
+     */
+    public InputDeviceDirectional getInput()
+    {
+        return input;
     }
 }

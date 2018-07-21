@@ -22,9 +22,9 @@ import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
- * Idle state implementation.
+ * Crouch state implementation.
  */
-public class StateIdle extends StateAbstract
+public class StateCrouch extends StateAbstract
 {
     private final Animator animator;
     private final Animation animation;
@@ -35,15 +35,14 @@ public class StateIdle extends StateAbstract
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateIdle(EntityModel model, Animation animation)
+    public StateCrouch(EntityModel model, Animation animation)
     {
         super();
-
+        
         this.animation = animation;
         animator = model.getSurface();
-        addTransition(StateWalk.class, () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) != 0);
-        addTransition(StateCrouch.class, () -> model.getInput().getVerticalDirection() < 0.0);
-        addTransition(StateJump.class, () -> model.getInput().getVerticalDirection() > 0.0);
+        
+        addTransition(StateCrouch.class, () -> Double.compare(model.getInput().getVerticalDirection(), 0.0) >= 0);
     }
 
     @Override

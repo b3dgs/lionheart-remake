@@ -17,50 +17,53 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.game.Direction;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.Services;
-import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Refreshable;
-import com.b3dgs.lionengine.io.awt.Keyboard;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
- * Mario controlling implementation.
+ * Jump state implementation.
  */
-class MarioController extends FeatureModel implements Refreshable
+public class StateJump extends StateAbstract
 {
-    private final Force movement;
+    private final AtomicBoolean ground = new AtomicBoolean();
+    private final Animator animator;
+    private final Animation animation;
+    private final Transformable transformable;
     private final Force jump;
-    private final Keyboard keyboard;
 
     /**
-     * Create updater.
+     * Create the state.
      * 
-     * @param services The services reference.
      * @param model The model reference.
+     * @param animation The animation reference.
      */
-    public MarioController(Services services, MarioModel model)
+    public StateJump(EntityModel model, Animation animation)
     {
-        movement = model.getMovement();
+        super();
+        
+        this.animation = animation;
+        animator = model.getSurface();
+        transformable = model.getFeature(Transformable.class);
         jump = model.getJump();
-        keyboard = services.get(Keyboard.class);
+        addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
+    }
+
+    @Override
+    public void enter()
+    {
+        animator.play(animation);
+        jump.setDirection(0.0, 5.0);
+        ground.set(false);
     }
 
     @Override
     public void update(double extrp)
     {
-        movement.setDirection(Direction.ZERO);
-        if (keyboard.isPressed(Keyboard.LEFT))
-        {
-            movement.setDirection(-2, 0);
-        }
-        if (keyboard.isPressed(Keyboard.RIGHT))
-        {
-            movement.setDirection(2, 0);
-        }
-        if (keyboard.isPressedOnce(Keyboard.UP))
-        {
-            jump.setDirection(0.0, 8.0);
-        }
+        // Nothing to do
     }
 }

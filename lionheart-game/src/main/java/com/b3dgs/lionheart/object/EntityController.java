@@ -17,44 +17,38 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
+import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Refreshable;
+import com.b3dgs.lionengine.game.feature.Services;
 
 /**
- * Idle state implementation.
+ * Entity controlling implementation.
  */
-public class StateIdle extends StateAbstract
+class EntityController extends FeatureModel implements Refreshable
 {
-    private final Animator animator;
-    private final Animation animation;
+    private final Force movement;
+    private final Force jump;
 
     /**
-     * Create the state.
+     * Create updater.
      * 
+     * @param services The services reference.
      * @param model The model reference.
-     * @param animation The animation reference.
      */
-    public StateIdle(EntityModel model, Animation animation)
+    public EntityController(Services services, EntityModel model)
     {
         super();
-
-        this.animation = animation;
-        animator = model.getSurface();
-        addTransition(StateWalk.class, () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) != 0);
-        addTransition(StateCrouch.class, () -> model.getInput().getVerticalDirection() < 0.0);
-        addTransition(StateJump.class, () -> model.getInput().getVerticalDirection() > 0.0);
-    }
-
-    @Override
-    public void enter()
-    {
-        animator.play(animation);
+        
+        movement = model.getMovement();
+        jump = model.getJump();
     }
 
     @Override
     public void update(double extrp)
     {
-        // Nothing to do
+        movement.setDirection(DirectionNone.INSTANCE);
+        jump.setDirection(DirectionNone.INSTANCE);
     }
 }

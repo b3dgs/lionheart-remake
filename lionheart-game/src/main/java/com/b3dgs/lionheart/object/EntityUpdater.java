@@ -17,15 +17,14 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.game.Direction;
-import com.b3dgs.lionengine.game.FeatureGet;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.Services;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Refreshable;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -33,21 +32,22 @@ import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
- * Mario updating implementation.
+ * Entity updating implementation.
  */
-class MarioUpdater extends FeatureModel implements Refreshable, TileCollidableListener
+class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
 {
-    private static final double GRAVITY = 5.0;
+    private static final double GRAVITY = 3.0;
 
     private final Force movement;
     private final Force jump;
-    private final Context context;
+    private final SourceResolutionProvider source;
 
     @FeatureGet private Body body;
     @FeatureGet private Transformable transformable;
-    @FeatureGet private MarioController controller;
+    @FeatureGet private EntityController controller;
     @FeatureGet private Collidable collidable;
     @FeatureGet private TileCollidable tileCollidable;
 
@@ -57,10 +57,11 @@ class MarioUpdater extends FeatureModel implements Refreshable, TileCollidableLi
      * @param services The services reference.
      * @param model The model reference.
      */
-    public MarioUpdater(Services services, MarioModel model)
+    public EntityUpdater(Services services, EntityModel model)
     {
-        context = services.get(Context.class);
-
+        super();
+        
+        source = services.get(SourceResolutionProvider.class);
         movement = model.getMovement();
         jump = model.getJump();
     }
@@ -73,7 +74,7 @@ class MarioUpdater extends FeatureModel implements Refreshable, TileCollidableLi
         collidable.setOrigin(Origin.CENTER_BOTTOM);
         transformable.teleport(80, 32);
 
-        body.setDesiredFps(context.getConfig().getSource().getRate());
+        body.setDesiredFps(source.getRate());
         body.setGravity(GRAVITY);
         body.setVectors(movement, jump);
     }
@@ -100,7 +101,7 @@ class MarioUpdater extends FeatureModel implements Refreshable, TileCollidableLi
         if (Axis.Y == axis && transformable.getY() < transformable.getOldY())
         {
             body.resetGravity();
-            jump.setDirection(Direction.ZERO);
+            jump.setDirection(DirectionNone.INSTANCE);
         }
     }
 }

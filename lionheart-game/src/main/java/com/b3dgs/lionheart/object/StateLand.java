@@ -17,46 +17,47 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.Locale;
-
-import com.b3dgs.lionengine.game.state.State;
-import com.b3dgs.lionengine.game.state.StateAnimationBased;
+import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Animator;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
- * Main entity states.
+ * Land state implementation.
  */
-public enum EntityState implements StateAnimationBased
+public class StateLand extends StateAbstract
 {
-    /** Idle state. */
-    IDLE(StateIdle.class),
-    /** Walk state. */
-    WALK(StateWalk.class);
-
-    /** State class. */
-    private final Class<? extends State> clazz;
-    /** Associated animation. */
-    private final String animation;
+    private static final long LAND_TICK = 10L;
+    
+    private final Tick landed = new Tick();
+    private final Animator animator;
+    private final Animation animation;
 
     /**
      * Create the state.
      * 
-     * @param clazz The state class.
+     * @param model The model reference.
+     * @param animation The animation reference.
      */
-    EntityState(Class<? extends State> clazz)
+    public StateLand(EntityModel model, Animation animation)
     {
-        this.clazz = clazz;
-        animation = name().toLowerCase(Locale.ENGLISH);
+        super();
+
+        this.animation = animation;
+        animator = model.getSurface();
+        addTransition(StateIdle.class, () -> landed.elapsed(LAND_TICK));
     }
 
     @Override
-    public Class<? extends State> getStateClass()
+    public void enter()
     {
-        return clazz;
+        animator.play(animation);
+        landed.restart();
     }
 
     @Override
-    public String getAnimationName()
+    public void update(double extrp)
     {
-        return animation;
+        landed.update(extrp);
     }
 }
