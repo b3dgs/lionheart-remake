@@ -38,7 +38,44 @@ public class EntityModel extends FeatureModel
     private final SpriteAnimated surface;
     private final Force movement = new Force();
     private final Force jump = new Force();
-    private final InputDeviceDirectional input;
+    private InputDeviceDirectional input = new InputDeviceDirectional()
+    {
+        @Override
+        public void setVerticalControlPositive(Integer code)
+        {
+            // Nothing to do
+        }
+
+        @Override
+        public void setVerticalControlNegative(Integer code)
+        {
+            // Nothing to do
+        }
+
+        @Override
+        public void setHorizontalControlPositive(Integer code)
+        {
+            // Nothing to do
+        }
+
+        @Override
+        public void setHorizontalControlNegative(Integer code)
+        {
+            // Nothing to do
+        }
+
+        @Override
+        public double getVerticalDirection()
+        {
+            return 0.0;
+        }
+
+        @Override
+        public double getHorizontalDirection()
+        {
+            return 0.0;
+        }
+    };
 
     @FeatureGet private Body body;
 
@@ -55,8 +92,6 @@ public class EntityModel extends FeatureModel
         final FramesConfig frames = FramesConfig.imports(setup);
         surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
         surface.setOrigin(Origin.CENTER_BOTTOM);
-
-        input = services.get(InputDeviceDirectional.class);
     }
 
     @Override
@@ -67,6 +102,16 @@ public class EntityModel extends FeatureModel
         body.setGravity(5.0);
         body.setVectors(movement, jump);
         body.setDesiredFps(60);
+    }
+
+    /**
+     * Set the input used.
+     * 
+     * @param input The input used.
+     */
+    public void setInput(InputDeviceDirectional input)
+    {
+        this.input = input;
     }
 
     /**

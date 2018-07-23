@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -77,7 +78,51 @@ final class World extends WorldGame
     {
         super(services);
 
-        services.add(getInputDevice(InputDeviceDirectional.class));
+        try
+        {
+            services.add(getInputDevice(InputDeviceDirectional.class));
+        }
+        catch (@SuppressWarnings("unused") LionEngineException exception)
+        {
+            services.add(new InputDeviceDirectional()
+            {
+                @Override
+                public void setVerticalControlPositive(Integer code)
+                {
+                    // Nothing to do
+                }
+
+                @Override
+                public void setVerticalControlNegative(Integer code)
+                {
+                    // Nothing to do
+                }
+
+                @Override
+                public void setHorizontalControlPositive(Integer code)
+                {
+                    // Nothing to do
+                }
+
+                @Override
+                public void setHorizontalControlNegative(Integer code)
+                {
+                    // Nothing to do
+                }
+
+                @Override
+                public double getVerticalDirection()
+                {
+                    return 0.0;
+                }
+
+                @Override
+                public double getHorizontalDirection()
+                {
+                    return 0.0;
+                }
+            });
+        }
 
         factoryLandscape = new FactoryLandscape(source, false);
 

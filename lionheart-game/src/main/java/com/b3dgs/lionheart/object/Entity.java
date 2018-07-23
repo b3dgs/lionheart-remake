@@ -61,12 +61,11 @@ public class Entity extends FeaturableModel
         addFeature(new LayerableModel(5));
 
         final Mirrorable mirrorable = addFeatureAndGet(new MirrorableModel());
-        final Transformable transformable = addFeatureAndGet(new TransformableModel());
-        final Body body = addFeatureAndGet(new BodyModel());
         final TileCollidable tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
 
         addFeature(new CollidableModel(services, setup));
 
+        final Body body = getFeature(BodyModel.class);
         tileCollidable.addListener((tile, axis) ->
         {
             if (Axis.Y == axis)
@@ -75,7 +74,7 @@ public class Entity extends FeaturableModel
             }
         });
 
-        final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
+        final EntityModel model = getFeature(EntityModel.class);
        
         final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup)
         {
@@ -91,6 +90,7 @@ public class Entity extends FeaturableModel
         final Force movement = model.getMovement();
         final Viewer viewer = services.get(Viewer.class);
 
+        final Transformable transformable = getFeature(TransformableModel.class);
         addFeature(new RefreshableModel(extrp ->
         {
             stateHandler.update(extrp);

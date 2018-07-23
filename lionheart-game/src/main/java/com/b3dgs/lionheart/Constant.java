@@ -29,7 +29,7 @@ public final class Constant
     /** Application name. */
     public static final String NAME = "Lionheart Remake";
     /** Application version. */
-    public static final Version VERSION = Version.create(0, 0, 1);
+    public static final Version VERSION = Version.create(0, 0, 2);
     /** Original display. */
     public static final Resolution NATIVE = new Resolution(360, 200, 60);
 
