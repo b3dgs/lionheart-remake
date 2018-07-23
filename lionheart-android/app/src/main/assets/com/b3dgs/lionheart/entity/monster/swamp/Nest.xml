@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.Nest</lionengine:class>
+    <lionengine:surface image="Nest.png" icon="Nest_ico.png"/>
+	<lionengine:frames horizontal="1" vertical="1"/>
+	<lionengine:size width="48" height="80"/>
+	<lionengine:collision name="default" offsetX="0" offsetY="0" width="48" height="80" mirror="false" />
+	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+	<lionengine:animation name="walk" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+	<data mass="0" gravityMax="0">
+		<jump heightMax="0.0" />
+	</data>
+	<life normal="1" />
+</lionengine:featurable>

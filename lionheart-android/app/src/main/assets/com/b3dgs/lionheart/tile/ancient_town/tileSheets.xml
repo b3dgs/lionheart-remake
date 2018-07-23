@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:tileSheets xmlns:lionengine="http://lionengine.b3dgs.com">
+    <lionengine:tileSheet>0.png</lionengine:tileSheet>
+    <lionengine:tileSheet>1.png</lionengine:tileSheet>
+    <lionengine:tileSheet>2.png</lionengine:tileSheet>
+    <lionengine:tileSheet>3.png</lionengine:tileSheet>
+    <lionengine:tileSheet>4.png</lionengine:tileSheet>
+</lionengine:tileSheets>
