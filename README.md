@@ -1,4 +1,4 @@
-| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=60/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots) |
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=60/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Downloads](#downloads) |
 |:---|:---:|---:|
 
 ## Presentation
@@ -53,3 +53,7 @@ Each area has its own elements, monsters...
 
 | [![img1](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/1.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/1.png) | [![img2](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/2.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/2.png) | [![img3](http://www.b3dgs.com/v7/projects/lionengine/screens/mini/3.png)](http://www.b3dgs.com/v7/projects/lionengine/screens/3.png)
 |---|---|---|
+
+## Downloads
+
+* Coming soon !
