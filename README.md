@@ -1,4 +1,4 @@
-| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=60/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Downloads](#downloads) |
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=65/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Downloads](#downloads) |
 |:---|:---:|---:|
 
 ## Presentation
