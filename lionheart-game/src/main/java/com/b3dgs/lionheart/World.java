@@ -22,6 +22,7 @@ import java.io.IOException;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.WorldGame;
@@ -82,46 +83,9 @@ final class World extends WorldGame
         {
             services.add(getInputDevice(InputDeviceDirectional.class));
         }
-        catch (@SuppressWarnings("unused") LionEngineException exception)
+        catch (@SuppressWarnings("unused") final LionEngineException exception)
         {
-            services.add(new InputDeviceDirectional()
-            {
-                @Override
-                public void setVerticalControlPositive(Integer code)
-                {
-                    // Nothing to do
-                }
-
-                @Override
-                public void setVerticalControlNegative(Integer code)
-                {
-                    // Nothing to do
-                }
-
-                @Override
-                public void setHorizontalControlPositive(Integer code)
-                {
-                    // Nothing to do
-                }
-
-                @Override
-                public void setHorizontalControlNegative(Integer code)
-                {
-                    // Nothing to do
-                }
-
-                @Override
-                public double getVerticalDirection()
-                {
-                    return 0.0;
-                }
-
-                @Override
-                public double getHorizontalDirection()
-                {
-                    return 0.0;
-                }
-            });
+            services.add(InputDeviceControlVoid.getInstance());
         }
 
         factoryLandscape = new FactoryLandscape(source, false);
@@ -134,11 +98,7 @@ final class World extends WorldGame
     public void update(double extrp)
     {
         pointer.update(extrp);
-        if (pointer.getClick() == 1)
-        {
-            camera.moveLocation(extrp, -pointer.getMoveX(), pointer.getMoveY());
-        }
-        else if (pointer.getClick() == 2)
+        if (pointer.getClick() == 2)
         {
             scale = UtilMath.clamp(scale + pointer.getMoveY() / 100.0, 0.5, 1.42);
             zooming.setZoom(scale);
@@ -192,8 +152,15 @@ final class World extends WorldGame
                                                            Constant.FOLDER_PLAYERS,
                                                            "default",
                                                            "Valdyn.xml"));
-        valdyn.getFeature(Transformable.class).teleport(196, 96);
+
+        final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
+        valdynTransformable.teleport(1500, 800);
         handler.add(valdyn);
+
+        final CameraTracker tracker = new CameraTracker(services);
+        tracker.setOffset(0, valdynTransformable.getHeight() / 2);
+        handler.add(tracker);
+        tracker.track(valdynTransformable);
     }
 
     @Override

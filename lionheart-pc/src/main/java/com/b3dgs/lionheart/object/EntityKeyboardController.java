@@ -17,22 +17,22 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.awt.Keyboard;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
-import com.b3dgs.lionengine.io.InputDeviceDirectional;
 
 /**
  * Entity updating implementation.
  */
-class EntityKeyboardController extends FeatureModel
+final class EntityKeyboardController extends FeatureModel
 {
-    private final InputDeviceDirectional input;
-    
+    private final KeyboardControler controller;
+
     @FeatureGet private EntityModel model;
-    
+
     /**
      * Create updater.
      * 
@@ -42,15 +42,16 @@ class EntityKeyboardController extends FeatureModel
     EntityKeyboardController(Services services, SetupSurfaceRastered setup)
     {
         super();
-        
-        input = services.get(InputDeviceDirectional.class);
+
+        final Keyboard keyboard = services.get(Keyboard.class);
+        controller = new KeyboardControler(keyboard);
     }
 
     @Override
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
-        
-        model.setInput(input);
+
+        model.setInput(controller);
     }
 }
