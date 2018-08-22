@@ -32,7 +32,7 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 /**
  * Entity rendering implementation.
  */
-class EntityRenderer extends FeatureModel implements Displayable
+final class EntityRenderer extends FeatureModel implements Displayable
 {
     private final SpriteAnimated surface;
     private final Viewer viewer;

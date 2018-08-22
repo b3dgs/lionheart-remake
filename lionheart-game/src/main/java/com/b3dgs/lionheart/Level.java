@@ -46,7 +46,7 @@ public enum Level
      */
     Level(WorldType world, String level)
     {
-        this.level = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + Constant.LEVEL_EXTENSION);
+        this.level = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + Constant.EXTENSION_LEVEL);
         rip = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + ".png");
     }
 

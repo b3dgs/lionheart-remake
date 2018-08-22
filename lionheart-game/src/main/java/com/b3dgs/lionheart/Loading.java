@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 public final class Loading extends Sequence
 {
     private static final String SPRITE_LOADING = "loading.png";
-    
+
     private final Image loading = Drawable.loadImage(Medias.create(Constant.FOLDER_SPRITES, SPRITE_LOADING));
 
     private boolean loaded;
@@ -42,7 +42,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context)
     {
-        super(context, Constant.NATIVE);
+        super(context, Constant.NATIVE_RESOLUTION);
 
         setSystemCursorVisible(false);
     }
@@ -73,8 +73,6 @@ public final class Loading extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
-        super.onTerminated(hasNextSequence);
-
         loading.dispose();
     }
 }

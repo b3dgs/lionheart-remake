@@ -39,7 +39,7 @@ public enum Music
      */
     Music(String filename)
     {
-        this.filename = filename + Constant.MUSIC_EXTENSION;
+        this.filename = filename + Constant.EXTENSION_MUSIC;
     }
 
     /**

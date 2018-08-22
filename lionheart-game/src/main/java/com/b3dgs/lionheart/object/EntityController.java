@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 /**
  * Entity controlling implementation.
  */
-class EntityController extends FeatureModel implements Refreshable
+final class EntityController extends FeatureModel implements Refreshable
 {
     private final Force movement;
     private final Force jump;
@@ -40,7 +40,7 @@ class EntityController extends FeatureModel implements Refreshable
     public EntityController(Services services, EntityModel model)
     {
         super();
-        
+
         movement = model.getMovement();
         jump = model.getJump();
     }

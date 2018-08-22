@@ -63,7 +63,7 @@ final class Swamp extends BackgroundAbstract
 
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
-        setOffsetY(Constant.NATIVE.getHeight() - 180);
+        setOffsetY(Constant.NATIVE_RESOLUTION.getHeight() - 180);
 
         final String path = UtilFolder.getPath(Constant.FOLDER_BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
         backdrop = new Backdrop(path, flickering, width);
@@ -82,11 +82,11 @@ final class Swamp extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        final double scaleH = width / (double) Constant.NATIVE.getWidth();
-        final double scaleV = height / (double) Constant.NATIVE.getHeight();
+        final double scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
+        final double scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
         this.scaleH = scaleH;
         this.scaleV = scaleV;
-        setOffsetY(height - Constant.NATIVE.getHeight() + 20);
+        setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight() + 20);
         backdrop.setScreenWidth(width);
         clouds.setScreenWidth(width);
         parallax.setScreenSize(width, height);
@@ -155,9 +155,10 @@ final class Swamp extends BackgroundAbstract
             screenWidth = width;
             w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
         }
-        
+
         /**
          * Render backdrop element.
+         * 
          * @param g The graphic output.
          */
         private void renderBackdrop(Graphic g)

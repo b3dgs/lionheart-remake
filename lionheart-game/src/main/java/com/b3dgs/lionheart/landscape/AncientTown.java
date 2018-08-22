@@ -68,11 +68,11 @@ final class AncientTown extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        final double scaleH = width / (double) Constant.NATIVE.getWidth();
-        final double scaleV = height / (double) Constant.NATIVE.getHeight();
+        final double scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
+        final double scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
         this.scaleH = scaleH;
         this.scaleV = scaleV;
-        setOffsetY(height - Constant.NATIVE.getHeight() + 72);
+        setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight() + 72);
         backdrop.setScreenWidth(width);
     }
 
@@ -98,7 +98,7 @@ final class AncientTown extends BackgroundAbstract
         Backdrop(String path, boolean flickering, int screenWidth)
         {
             super();
-            
+
             this.flickering = flickering;
             if (flickering)
             {

@@ -35,7 +35,7 @@ import com.b3dgs.lionengine.io.FileWriting;
 final class Scene extends SequenceGame
 {
     private static final String ERROR_SAVING_MAP = "Error on saving map !";
-    
+
     /**
      * Import the level and save it.
      * 
@@ -67,7 +67,7 @@ final class Scene extends SequenceGame
      */
     public Scene(Context context)
     {
-        super(context, Constant.NATIVE, services -> new World(services));
+        super(context, Constant.NATIVE_RESOLUTION, services -> new World(services));
     }
 
     @Override

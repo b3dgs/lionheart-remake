@@ -45,7 +45,7 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 /**
  * Entity base representation.
  */
-public class Entity extends FeaturableModel
+public final class Entity extends FeaturableModel
 {
     /**
      * Create an entity.
@@ -75,7 +75,7 @@ public class Entity extends FeaturableModel
         });
 
         final EntityModel model = getFeature(EntityModel.class);
-       
+
         final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup)
         {
             @Override
@@ -85,7 +85,7 @@ public class Entity extends FeaturableModel
             }
         });
         stateHandler.changeState(StateIdle.class);
-        
+
         final SpriteAnimated surface = model.getSurface();
         final Force movement = model.getMovement();
         final Viewer viewer = services.get(Viewer.class);

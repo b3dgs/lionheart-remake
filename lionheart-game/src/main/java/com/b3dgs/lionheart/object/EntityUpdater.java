@@ -37,7 +37,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 /**
  * Entity updating implementation.
  */
-class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
+final class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
 {
     private static final double GRAVITY = 3.0;
 
@@ -60,7 +60,7 @@ class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableL
     public EntityUpdater(Services services, EntityModel model)
     {
         super();
-        
+
         source = services.get(SourceResolutionProvider.class);
         movement = model.getMovement();
         jump = model.getJump();

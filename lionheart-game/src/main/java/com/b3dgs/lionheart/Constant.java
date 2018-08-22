@@ -27,11 +27,12 @@ import com.b3dgs.lionengine.Version;
 public final class Constant
 {
     /** Application name. */
-    public static final String NAME = "Lionheart Remake";
+    public static final String PROGRAM_NAME = "Lionheart Remake";
     /** Application version. */
-    public static final Version VERSION = Version.create(0, 0, 2);
+    public static final Version PROGRAM_VERSION = Version.create(0, 0, 3);
+
     /** Original display. */
-    public static final Resolution NATIVE = new Resolution(360, 200, 60);
+    public static final Resolution NATIVE_RESOLUTION = new Resolution(360, 200, 60);
 
     /** Sprites folder. */
     public static final String FOLDER_SPRITES = "sprite";
@@ -51,10 +52,11 @@ public final class Constant
     public static final String FOLDER_PLAYERS = "player";
     /** Levels folder. */
     public static final String FOLDER_LEVELS = "levels";
+
     /** Levels file extension (with dot). */
-    public static final String LEVEL_EXTENSION = ".lrl";
+    public static final String EXTENSION_LEVEL = ".lrl";
     /** Musics file extension (with dot). */
-    public static final String MUSIC_EXTENSION = ".sc68";
+    public static final String EXTENSION_MUSIC = ".sc68";
 
     /**
      * Private constructor.

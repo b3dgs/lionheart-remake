@@ -117,8 +117,8 @@ final class Foreground extends BackgroundAbstract
     {
         screenWidth = width;
         screenHeight = height;
-        final double scaleH = width / (double) Constant.NATIVE.getWidth();
-        final double scaleV = height / (double) Constant.NATIVE.getHeight();
+        final double scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
+        final double scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
 
         this.scaleH = scaleH;
         this.scaleV = scaleV;
@@ -205,7 +205,7 @@ final class Foreground extends BackgroundAbstract
         Primary(String path, Foreground water)
         {
             super();
-            
+
             this.water = water;
 
             final Sprite sprite = Drawable.loadSprite(Medias.create(path, "calc.png"));
@@ -275,7 +275,7 @@ final class Foreground extends BackgroundAbstract
         Secondary(String path, Foreground water)
         {
             super();
-            
+
             this.water = water;
 
             final Sprite back = Drawable.loadSprite(Medias.create(path, "back.png"));

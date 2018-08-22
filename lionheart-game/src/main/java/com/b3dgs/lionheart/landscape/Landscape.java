@@ -40,7 +40,7 @@ public class Landscape
     public Landscape(LandscapeType type, Background background, Foreground foreground)
     {
         super();
-        
+
         this.type = type;
         this.background = background;
         this.foreground = foreground;
