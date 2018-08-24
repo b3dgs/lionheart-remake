@@ -46,10 +46,11 @@
 	<lionengine:animation name="die" start="67" end="69" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="dead" start="70" end="71" speed="0.15" reversed="false" repeat="true" />
 
-	<lionengine:animation name="attack_preparing" start="83" end="84" speed="0.125" reversed="false" repeat="false" />
-	<lionengine:animation name="attack_preparing_down" start="85" end="86" speed="0.125" reversed="false" repeat="false" />
-	<lionengine:animation name="attack_prepared" start="84" end="84" speed="0.125" reversed="false" repeat="false" />
-	<lionengine:animation name="attack_prepared_down" start="86" end="86" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="attackprepare" start="83" end="84" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="attackunprepare" start="83" end="83" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="attackpreparedown" start="85" end="86" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="attackprepared" start="84" end="84" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="attackprepareddown" start="86" end="86" speed="0.125" reversed="false" repeat="false" />
 
 	<lionengine:animation name="attack_up" start="93" end="95" speed="0.35" reversed="true" repeat="false">
 		<attack frame="2" x="0" y="52" width="30" height="20" />

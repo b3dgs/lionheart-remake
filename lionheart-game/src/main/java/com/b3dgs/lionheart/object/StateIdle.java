@@ -18,17 +18,13 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
+import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
  * Idle state implementation.
  */
-public class StateIdle extends StateAbstract
+final class StateIdle extends State
 {
-    private final Animator animator;
-    private final Animation animation;
-
     /**
      * Create the state.
      * 
@@ -37,24 +33,12 @@ public class StateIdle extends StateAbstract
      */
     public StateIdle(EntityModel model, Animation animation)
     {
-        super();
+        super(model, animation);
 
-        this.animation = animation;
-        animator = model.getSurface();
-        addTransition(StateWalk.class, () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) != 0);
-        addTransition(StateCrouch.class, () -> model.getInput().getVerticalDirection() < 0.0);
-        addTransition(StateJump.class, () -> model.getInput().getVerticalDirection() > 0.0);
-    }
-
-    @Override
-    public void enter()
-    {
-        animator.play(animation);
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        // Nothing to do
+        final InputDeviceControl control = model.getInput();
+        addTransition(StateWalk.class, () -> Double.compare(control.getHorizontalDirection(), 0.0) != 0);
+        addTransition(StateCrouch.class, () -> control.getVerticalDirection() < 0.0);
+        addTransition(StateJump.class, () -> control.getVerticalDirection() > 0.0);
+        addTransition(StateAttackPrepare.class, control::isFireButton);
     }
 }

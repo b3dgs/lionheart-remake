@@ -18,17 +18,12 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
  * Crouch state implementation.
  */
-public class StateCrouch extends StateAbstract
+final class StateCrouch extends State
 {
-    private final Animator animator;
-    private final Animation animation;
-
     /**
      * Create the state.
      * 
@@ -37,23 +32,8 @@ public class StateCrouch extends StateAbstract
      */
     public StateCrouch(EntityModel model, Animation animation)
     {
-        super();
-        
-        this.animation = animation;
-        animator = model.getSurface();
-        
-        addTransition(StateCrouch.class, () -> Double.compare(model.getInput().getVerticalDirection(), 0.0) >= 0);
-    }
+        super(model, animation);
 
-    @Override
-    public void enter()
-    {
-        animator.play(animation);
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        // Nothing to do
+        addTransition(StateIdle.class, () -> Double.compare(model.getInput().getVerticalDirection(), 0.0) >= 0);
     }
 }

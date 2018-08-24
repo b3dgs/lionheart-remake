@@ -28,54 +28,18 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
-import com.b3dgs.lionengine.io.InputDeviceDirectional;
+import com.b3dgs.lionheart.InputDeviceControl;
+import com.b3dgs.lionheart.InputDeviceControlVoid;
 
 /**
  * Entity model implementation.
  */
-public class EntityModel extends FeatureModel
+final class EntityModel extends FeatureModel
 {
-    private final SpriteAnimated surface;
     private final Force movement = new Force();
     private final Force jump = new Force();
-    private InputDeviceDirectional input = new InputDeviceDirectional()
-    {
-        @Override
-        public void setVerticalControlPositive(Integer code)
-        {
-            // Nothing to do
-        }
-
-        @Override
-        public void setVerticalControlNegative(Integer code)
-        {
-            // Nothing to do
-        }
-
-        @Override
-        public void setHorizontalControlPositive(Integer code)
-        {
-            // Nothing to do
-        }
-
-        @Override
-        public void setHorizontalControlNegative(Integer code)
-        {
-            // Nothing to do
-        }
-
-        @Override
-        public double getVerticalDirection()
-        {
-            return 0.0;
-        }
-
-        @Override
-        public double getHorizontalDirection()
-        {
-            return 0.0;
-        }
-    };
+    private final SpriteAnimated surface;
+    private InputDeviceControl input = InputDeviceControlVoid.getInstance();
 
     @FeatureGet private Body body;
 
@@ -107,11 +71,18 @@ public class EntityModel extends FeatureModel
     /**
      * Set the input used.
      * 
-     * @param input The input used.
+     * @param input The input used (if <code>null</code>, {@link InputDeviceControlVoid#getInstance} is used).
      */
-    public void setInput(InputDeviceDirectional input)
+    public void setInput(InputDeviceControl input)
     {
-        this.input = input;
+        if (input == null)
+        {
+            this.input = InputDeviceControlVoid.getInstance();
+        }
+        else
+        {
+            this.input = input;
+        }
     }
 
     /**
@@ -149,7 +120,7 @@ public class EntityModel extends FeatureModel
      * 
      * @return The input used.
      */
-    public InputDeviceDirectional getInput()
+    public InputDeviceControl getInput()
     {
         return input;
     }

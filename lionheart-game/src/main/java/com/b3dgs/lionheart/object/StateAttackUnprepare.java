@@ -17,42 +17,24 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Tick;
 
 /**
- * Land state implementation.
+ * Unprepare attack state implementation.
  */
-final class StateLand extends State
+final class StateAttackUnprepare extends State
 {
-    private static final long LAND_TICK = 10L;
-
-    private final Tick landed = new Tick();
-
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateLand(EntityModel model, Animation animation)
+    public StateAttackUnprepare(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> landed.elapsed(LAND_TICK));
-    }
-
-    @Override
-    public void enter()
-    {
-        super.enter();
-
-        landed.restart();
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        landed.update(extrp);
+        addTransition(StateIdle.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
     }
 }

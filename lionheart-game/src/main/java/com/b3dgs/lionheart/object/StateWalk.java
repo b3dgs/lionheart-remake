@@ -18,22 +18,18 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
  * Walk state implementation.
  */
-public class StateWalk extends StateAbstract
+final class StateWalk extends State
 {
     private static final double SPEED = 2.0;
-    
+
     private final EntityModel model;
-    private final Animator animator;
-    private final Animation animation;
     private final Mirrorable mirrorable;
     private final Force movement;
     private boolean played;
@@ -46,20 +42,20 @@ public class StateWalk extends StateAbstract
      */
     public StateWalk(EntityModel model, Animation animation)
     {
-        super();
+        super(model, animation);
 
         this.model = model;
-        this.animation = animation;
-        animator = model.getSurface();
         mirrorable = model.getFeature(Mirrorable.class);
         movement = model.getMovement();
+
         addTransition(StateIdle.class, () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) == 0);
     }
 
     @Override
     public void enter()
     {
-        animator.play(animation);
+        super.enter();
+
         movement.setVelocity(10);
         movement.setSensibility(0.1);
         played = false;
@@ -73,7 +69,7 @@ public class StateWalk extends StateAbstract
             animator.play(animation);
             played = true;
         }
-        
+
         final double side = model.getInput().getHorizontalDirection();
         movement.setDestination(side * SPEED, 0);
         animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 8.0);

@@ -20,19 +20,15 @@ package com.b3dgs.lionheart.object;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
  * Jump state implementation.
  */
-public class StateJump extends StateAbstract
+final class StateJump extends State
 {
     private final AtomicBoolean ground = new AtomicBoolean();
-    private final Animator animator;
-    private final Animation animation;
     private final Transformable transformable;
     private final Force jump;
 
@@ -44,26 +40,20 @@ public class StateJump extends StateAbstract
      */
     public StateJump(EntityModel model, Animation animation)
     {
-        super();
-        
-        this.animation = animation;
-        animator = model.getSurface();
+        super(model, animation);
+
         transformable = model.getFeature(Transformable.class);
         jump = model.getJump();
+
         addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
     }
 
     @Override
     public void enter()
     {
-        animator.play(animation);
+        super.enter();
+
         jump.setDirection(0.0, 5.0);
         ground.set(false);
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        // Nothing to do
     }
 }

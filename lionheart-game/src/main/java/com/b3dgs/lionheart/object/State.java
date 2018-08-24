@@ -18,16 +18,18 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Animator;
+import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 
 /**
- * Land state implementation.
+ * Base state with animation implementation.
  */
-final class StateLand extends State
+abstract class State extends StateAbstract
 {
-    private static final long LAND_TICK = 10L;
-
-    private final Tick landed = new Tick();
+    /** Animator reference. */
+    protected final Animator animator;
+    /** State animation data. */
+    protected final Animation animation;
 
     /**
      * Create the state.
@@ -35,24 +37,26 @@ final class StateLand extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateLand(EntityModel model, Animation animation)
+    public State(EntityModel model, Animation animation)
     {
-        super(model, animation);
+        super();
 
-        addTransition(StateIdle.class, () -> landed.elapsed(LAND_TICK));
+        this.animation = animation;
+        animator = model.getSurface();
     }
 
     @Override
     public void enter()
     {
-        super.enter();
-
-        landed.restart();
+        animator.play(animation);
     }
 
+    /**
+     * {@inheritDoc} Does nothing by default.
+     */
     @Override
     public void update(double extrp)
     {
-        landed.update(extrp);
+        // Nothing by default
     }
 }

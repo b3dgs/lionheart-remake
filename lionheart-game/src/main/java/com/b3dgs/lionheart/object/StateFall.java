@@ -20,12 +20,10 @@ package com.b3dgs.lionheart.object;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
@@ -34,11 +32,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 /**
  * Fall state implementation.
  */
-public class StateFall extends StateAbstract implements TileCollidableListener
+final class StateFall extends State implements TileCollidableListener
 {
     private final AtomicBoolean ground = new AtomicBoolean();
-    private final Animator animator;
-    private final Animation animation;
     private final Transformable transformable;
     private final Body body;
     private final TileCollidable tileCollidable;
@@ -52,38 +48,32 @@ public class StateFall extends StateAbstract implements TileCollidableListener
      */
     public StateFall(EntityModel model, Animation animation)
     {
-        super();
+        super(model, animation);
 
-        this.animation = animation;
-        animator = model.getSurface();
-        jump= model.getJump();
+        jump = model.getJump();
         transformable = model.getFeature(Transformable.class);
         body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+
         addTransition(StateLand.class, () -> ground.get());
     }
 
     @Override
     public void enter()
     {
+        super.enter();
+
         tileCollidable.addListener(this);
-        animator.play(animation);
         jump.setDirection(0.0, 5.0);
         ground.set(false);
     }
-    
+
     @Override
     public void exit()
     {
         tileCollidable.removeListener(this);
     }
 
-    @Override
-    public void update(double extrp)
-    {
-        // Nothing to do
-    }
-    
     @Override
     public void notifyTileCollided(Tile tile, Axis axis)
     {
