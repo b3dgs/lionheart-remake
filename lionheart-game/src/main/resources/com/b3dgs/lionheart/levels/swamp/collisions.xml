@@ -6,19 +6,13 @@
     <lionengine:collision group="slope_left_1">
         <lionengine:formula>slope_left_1</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="slope_left_2">
-        <lionengine:formula>slope_left_2</lionengine:formula>
-    </lionengine:collision>
     <lionengine:collision group="ground">
         <lionengine:formula>line</lionengine:formula>
     </lionengine:collision>
-	<lionengine:collision group="slope_right_0">
+    <lionengine:collision group="slope_right_0">
         <lionengine:formula>slope_right_0</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="slope_right_1">
         <lionengine:formula>slope_right_1</lionengine:formula>
-    </lionengine:collision>
-    <lionengine:collision group="slope_right_2">
-        <lionengine:formula>slope_right_2</lionengine:formula>
     </lionengine:collision>
 </lionengine:collisions>

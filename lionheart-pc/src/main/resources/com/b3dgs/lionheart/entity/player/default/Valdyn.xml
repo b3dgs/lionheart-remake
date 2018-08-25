@@ -13,10 +13,8 @@
 	<lionengine:category name="center" axis="Y" x="0" y="0">
 		<lionengine:group>slope_left_0</lionengine:group>
 		<lionengine:group>slope_left_1</lionengine:group>
-		<lionengine:group>slope_left_2</lionengine:group>
 		<lionengine:group>slope_right_0</lionengine:group>
 		<lionengine:group>slope_right_1</lionengine:group>
-		<lionengine:group>slope_right_2</lionengine:group>
 		<lionengine:group>ground</lionengine:group>
     </lionengine:category>
 
