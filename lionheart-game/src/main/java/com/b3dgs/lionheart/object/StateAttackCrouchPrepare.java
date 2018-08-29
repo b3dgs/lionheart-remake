@@ -23,9 +23,9 @@ import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
- * Prepare attack state implementation.
+ * Prepare attack crouch state implementation.
  */
-final class StateAttackPrepare extends State
+final class StateAttackCrouchPrepare extends State
 {
     /**
      * Create the state.
@@ -33,15 +33,16 @@ final class StateAttackPrepare extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackPrepare(EntityModel model, Animation animation)
+    public StateAttackCrouchPrepare(EntityModel model, Animation animation)
     {
         super(model, animation);
 
         final InputDeviceControl control = model.getInput();
         final Animator animator = model.getSurface();
 
-        addTransition(StateAttackPrepared.class,
+        addTransition(StateAttackCrouchPrepared.class,
                       () -> control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
-        addTransition(StateIdle.class, () -> !control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
+        addTransition(StateCrouch.class,
+                      () -> !control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
     }
 }

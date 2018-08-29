@@ -19,29 +19,41 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
-import com.b3dgs.lionheart.InputDeviceControl;
+import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 
 /**
- * Prepare attack state implementation.
+ * Turning attack state implementation.
  */
-final class StateAttackPrepare extends State
+final class StateAttackTurning extends State
 {
+    private final Mirrorable mirrorable;
+
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackPrepare(EntityModel model, Animation animation)
+    public StateAttackTurning(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        final InputDeviceControl control = model.getInput();
-        final Animator animator = model.getSurface();
+        mirrorable = model.getFeature(Mirrorable.class);
 
-        addTransition(StateAttackPrepared.class,
-                      () -> control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
-        addTransition(StateIdle.class, () -> !control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
+        addTransition(StateAttackPrepared.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+    }
+
+    @Override
+    public void exit()
+    {
+        if (mirrorable.getMirror() == Mirror.NONE)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
     }
 }
