@@ -64,7 +64,7 @@
 		<attack frame="8" x="-25" y="36" width="20" height="12" />
 	</lionengine:animation>
 
-	<lionengine:animation name="attack_down_leg" start="88" end="92" speed="0.4" reversed="true" repeat="false">
+	<lionengine:animation name="attackcrouchhorizontal" start="88" end="92" speed="0.4" reversed="true" repeat="false">
 		<attack frame="5" x="22" y="0" width="20" height="8" />
 	</lionengine:animation>
 

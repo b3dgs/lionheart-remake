@@ -17,27 +17,47 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
- * Prepared attack crouch state implementation.
+ * Crouch horizontal attack state implementation.
  */
-final class StateAttackCrouchPrepared extends State
+final class StateAttackCrouchHorizontal extends State
 {
+    private final InputDeviceControl control;
+    private final Mirrorable mirrorable;
+
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackCrouchPrepared(EntityModel model, Animation animation)
+    public StateAttackCrouchHorizontal(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateAttackCrouchUnprepare.class, () -> !model.getInput().isFireButton());
-        addTransition(StateAttackCrouchHorizontal.class,
-                      () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) != 0);
-        addTransition(StateAttackPrepared.class,
-                      () -> Double.compare(model.getInput().getVerticalDirection(), 0.0) == 0);
+        control = model.getInput();
+        mirrorable = model.getFeature(Mirrorable.class);
+        addTransition(StateAttackCrouchPrepared.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        if (control.getHorizontalDirection() < 0 && mirrorable.getMirror() == Mirror.NONE)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (control.getHorizontalDirection() > 0 && mirrorable.getMirror() == Mirror.HORIZONTAL)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
     }
 }

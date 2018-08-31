@@ -59,6 +59,7 @@ final class StateAttackPrepared extends State
         addTransition(StateAttackHorizontal.class, () -> canAttackHorizontal(control, sprite));
         addTransition(StateAttackTurning.class, () -> canAttackTurning(control, sprite));
         addTransition(StateAttackTop.class, () -> model.getInput().getVerticalDirection() > 0.0);
+        addTransition(StateAttackCrouchPrepared.class, () -> model.getInput().getVerticalDirection() < 0.0);
         addTransition(StateAttackUnprepare.class, () -> !model.getInput().isFireButton());
     }
 }
