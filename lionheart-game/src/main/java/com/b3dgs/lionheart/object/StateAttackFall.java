@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
@@ -30,9 +31,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
- * Fall state implementation.
+ * Fall attack state implementation.
  */
-final class StateFall extends State implements TileCollidableListener
+final class StateAttackFall extends State implements TileCollidableListener
 {
     private final AtomicBoolean ground = new AtomicBoolean();
     private final Transformable transformable;
@@ -46,7 +47,7 @@ final class StateFall extends State implements TileCollidableListener
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateFall(EntityModel model, Animation animation)
+    public StateAttackFall(EntityModel model, Animation animation)
     {
         super(model, animation);
 
@@ -56,8 +57,7 @@ final class StateFall extends State implements TileCollidableListener
         tileCollidable = model.getFeature(TileCollidable.class);
 
         addTransition(StateLand.class, () -> ground.get());
-        addTransition(StateAttackFall.class,
-                      () -> model.getInput().isFireButton() && model.getInput().getVerticalDirection() < 0);
+        addTransition(StateFall.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
     }
 
     @Override

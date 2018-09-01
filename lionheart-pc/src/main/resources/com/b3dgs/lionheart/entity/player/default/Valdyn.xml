@@ -68,14 +68,14 @@
 		<attack frame="5" x="22" y="0" width="20" height="8" />
 	</lionengine:animation>
 
-	<lionengine:animation name="attack_jump" start="140" end="145" speed="0.35" reversed="false" repeat="false">
+	<lionengine:animation name="attackjump" start="140" end="145" speed="0.35" reversed="false" repeat="false">
 		<attack frame="2" x="0" y="55" width="26" height="25" />
 		<attack frame="3" x="10" y="55" width="26" height="25" />
 		<attack frame="4" x="15" y="25" width="26" height="25" />
 		<attack frame="5" x="15" y="5" width="26" height="15" />
 	</lionengine:animation>
 
-	<lionengine:animation name="attack_fall" start="87" end="87" speed="0.125" reversed="false" repeat="true">
+	<lionengine:animation name="attackfall" start="87" end="87" speed="0.125" reversed="false" repeat="true">
 		<attack frame="1" x="0" y="0" width="20" height="10" />
 	</lionengine:animation>
 
