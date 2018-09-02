@@ -50,14 +50,14 @@ final class StateFall extends State implements TileCollidableListener
     {
         super(model, animation);
 
-        jump = model.getJump();
         transformable = model.getFeature(Transformable.class);
         body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+        jump = model.getJump();
 
-        addTransition(StateLand.class, () -> ground.get());
-        addTransition(StateAttackFall.class,
-                      () -> model.getInput().isFireButton() && model.getInput().getVerticalDirection() < 0);
+        addTransition(StateLand.class, ground::get);
+        addTransition(StateAttackJump.class, () -> !ground.get() && control.isFireButton() && !isGoingDown());
+        addTransition(StateAttackFall.class, () -> !ground.get() && control.isFireButton() && isGoingDown());
     }
 
     @Override
@@ -74,6 +74,13 @@ final class StateFall extends State implements TileCollidableListener
     public void exit()
     {
         tileCollidable.removeListener(this);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        final double side = control.getHorizontalDirection();
+        movement.setDestination(side * 3.0, 0.0);
     }
 
     @Override

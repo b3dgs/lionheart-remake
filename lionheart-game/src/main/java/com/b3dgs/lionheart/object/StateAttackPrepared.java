@@ -19,30 +19,12 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
-import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
  * Prepared attack state implementation.
  */
 final class StateAttackPrepared extends State
 {
-    private static boolean canAttackHorizontal(InputDeviceControl control, SpriteAnimated sprite)
-    {
-        final Mirror mirror = sprite.getMirror();
-        final double directionH = control.getHorizontalDirection();
-
-        return mirror == Mirror.HORIZONTAL && directionH < 0 || mirror == Mirror.NONE && directionH > 0;
-    }
-
-    private static boolean canAttackTurning(InputDeviceControl control, SpriteAnimated sprite)
-    {
-        final Mirror mirror = sprite.getMirror();
-        final double directionH = control.getHorizontalDirection();
-
-        return mirror == Mirror.NONE && directionH < 0 || mirror == Mirror.HORIZONTAL && directionH > 0;
-    }
-
     /**
      * Create the state.
      * 
@@ -53,13 +35,24 @@ final class StateAttackPrepared extends State
     {
         super(model, animation);
 
-        final InputDeviceControl control = model.getInput();
-        final SpriteAnimated sprite = model.getSurface();
+        addTransition(StateAttackHorizontal.class, () -> control.isFireButton() && canAttackHorizontal());
+        addTransition(StateAttackTurning.class, () -> control.isFireButton() && canAttackTurning());
+        addTransition(StateAttackTop.class, () -> control.isFireButton() && isGoingUp());
+        addTransition(StateAttackCrouchPrepared.class, () -> isGoingDown());
+        addTransition(StateAttackUnprepare.class, () -> !control.isFireButton());
+    }
 
-        addTransition(StateAttackHorizontal.class, () -> canAttackHorizontal(control, sprite));
-        addTransition(StateAttackTurning.class, () -> canAttackTurning(control, sprite));
-        addTransition(StateAttackTop.class, () -> model.getInput().getVerticalDirection() > 0.0);
-        addTransition(StateAttackCrouchPrepared.class, () -> model.getInput().getVerticalDirection() < 0.0);
-        addTransition(StateAttackUnprepare.class, () -> !model.getInput().isFireButton());
+    private boolean canAttackHorizontal()
+    {
+        final Mirror mirror = sprite.getMirror();
+
+        return mirror == Mirror.HORIZONTAL && isGoingLeft() || mirror == Mirror.NONE && isGoingRight();
+    }
+
+    private boolean canAttackTurning()
+    {
+        final Mirror mirror = sprite.getMirror();
+
+        return mirror == Mirror.NONE && isGoingLeft() || mirror == Mirror.HORIZONTAL && isGoingRight();
     }
 }

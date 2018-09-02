@@ -57,7 +57,7 @@ final class StateAttackFall extends State implements TileCollidableListener
         tileCollidable = model.getFeature(TileCollidable.class);
 
         addTransition(StateLand.class, () -> ground.get());
-        addTransition(StateFall.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        addTransition(StateFall.class, () -> is(AnimState.FINISHED));
     }
 
     @Override

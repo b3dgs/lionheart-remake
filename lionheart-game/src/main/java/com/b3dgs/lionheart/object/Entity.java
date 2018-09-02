@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.DisplayableModel;
@@ -47,6 +48,24 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
  */
 public final class Entity extends FeaturableModel
 {
+    /**
+     * Update mirror depending of current mirror and movement.
+     * 
+     * @param mirrorable The mirrorable reference.
+     * @param movement The movement force reference.
+     */
+    private static void updateMirror(Mirrorable mirrorable, Force movement)
+    {
+        if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+    }
+
     /**
      * Create an entity.
      * 
@@ -90,12 +109,16 @@ public final class Entity extends FeaturableModel
         final Force movement = model.getMovement();
         final Viewer viewer = services.get(Viewer.class);
 
+        movement.setVelocity(10);
+        movement.setSensibility(0.1);
+
         final Transformable transformable = getFeature(TransformableModel.class);
         addFeature(new RefreshableModel(extrp ->
         {
             stateHandler.update(extrp);
-            mirrorable.update(extrp);
             movement.update(extrp);
+            updateMirror(mirrorable, movement);
+            mirrorable.update(extrp);
             body.update(extrp);
             tileCollidable.update(extrp);
             surface.setLocation(viewer, transformable);

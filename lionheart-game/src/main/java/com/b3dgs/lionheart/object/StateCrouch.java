@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
  * Crouch state implementation.
@@ -35,9 +34,7 @@ final class StateCrouch extends State
     {
         super(model, animation);
 
-        final InputDeviceControl control = model.getInput();
-
-        addTransition(StateIdle.class, () -> Double.compare(control.getVerticalDirection(), 0.0) >= 0);
+        addTransition(StateIdle.class, () -> !isGoingDown());
         addTransition(StateAttackCrouchPrepare.class, control::isFireButton);
     }
 }

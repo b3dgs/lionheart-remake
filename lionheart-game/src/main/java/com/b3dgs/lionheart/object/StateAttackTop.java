@@ -35,6 +35,6 @@ final class StateAttackTop extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackPrepared.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        addTransition(StateAttackPrepared.class, () -> is(AnimState.FINISHED));
     }
 }

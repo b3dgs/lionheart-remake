@@ -20,15 +20,12 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 
 /**
  * Turning attack state implementation.
  */
 final class StateAttackTurning extends State
 {
-    private final Mirrorable mirrorable;
-
     /**
      * Create the state.
      * 
@@ -39,9 +36,7 @@ final class StateAttackTurning extends State
     {
         super(model, animation);
 
-        mirrorable = model.getFeature(Mirrorable.class);
-
-        addTransition(StateAttackPrepared.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        addTransition(StateAttackPrepared.class, () -> is(AnimState.FINISHED));
     }
 
     @Override

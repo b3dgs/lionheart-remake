@@ -35,6 +35,6 @@ final class StateAttackUnprepare extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        addTransition(StateIdle.class, () -> is(AnimState.FINISHED));
     }
 }

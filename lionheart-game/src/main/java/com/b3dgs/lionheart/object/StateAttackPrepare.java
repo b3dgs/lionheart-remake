@@ -19,8 +19,6 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Animator;
-import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
  * Prepare attack state implementation.
@@ -37,11 +35,7 @@ final class StateAttackPrepare extends State
     {
         super(model, animation);
 
-        final InputDeviceControl control = model.getInput();
-        final Animator animator = model.getSurface();
-
-        addTransition(StateAttackPrepared.class,
-                      () -> control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
-        addTransition(StateIdle.class, () -> !control.isFireButton() && animator.getAnimState() == AnimState.FINISHED);
+        addTransition(StateAttackPrepared.class, () -> control.isFireButton() && is(AnimState.FINISHED));
+        addTransition(StateIdle.class, () -> !control.isFireButton() && is(AnimState.FINISHED));
     }
 }

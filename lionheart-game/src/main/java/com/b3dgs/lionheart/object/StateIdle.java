@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
  * Idle state implementation.
@@ -35,10 +34,9 @@ final class StateIdle extends State
     {
         super(model, animation);
 
-        final InputDeviceControl control = model.getInput();
-        addTransition(StateWalk.class, () -> Double.compare(control.getHorizontalDirection(), 0.0) != 0);
-        addTransition(StateCrouch.class, () -> control.getVerticalDirection() < 0.0);
-        addTransition(StateJump.class, () -> control.getVerticalDirection() > 0.0);
+        addTransition(StateWalk.class, this::isGoingHorizontal);
+        addTransition(StateCrouch.class, this::isGoingDown);
+        addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
     }
 }

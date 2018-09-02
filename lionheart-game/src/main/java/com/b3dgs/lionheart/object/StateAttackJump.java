@@ -17,14 +17,30 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.tile.Tile;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Jump attack state implementation.
  */
-final class StateAttackJump extends State
+final class StateAttackJump extends State implements TileCollidableListener
 {
+    private final AtomicBoolean ground = new AtomicBoolean();
+    private final Transformable transformable;
+    private final Body body;
+    private final TileCollidable tileCollidable;
+    private final Force jump;
+
     /**
      * Create the state.
      * 
@@ -35,6 +51,49 @@ final class StateAttackJump extends State
     {
         super(model, animation);
 
-        addTransition(StateJump.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        transformable = model.getFeature(Transformable.class);
+        body = model.getFeature(Body.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
+        jump = model.getJump();
+
+        addTransition(StateLand.class, () -> ground.get());
+        addTransition(StateFall.class, () -> is(AnimState.FINISHED));
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        tileCollidable.addListener(this);
+        jump.setDirection(0.0, 5.0);
+        ground.set(false);
+    }
+
+    @Override
+    public void exit()
+    {
+        tileCollidable.removeListener(this);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        final double side = control.getHorizontalDirection();
+        movement.setDestination(side * 3.0, 0.0);
+    }
+
+    @Override
+    public void notifyTileCollided(Tile tile, Axis axis)
+    {
+        if (Axis.Y == axis)
+        {
+            jump.setDirection(DirectionNone.INSTANCE);
+            body.resetGravity();
+            if (transformable.getY() < transformable.getOldY())
+            {
+                ground.set(true);
+            }
+        }
     }
 }

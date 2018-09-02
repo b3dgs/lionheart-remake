@@ -18,9 +18,6 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 
 /**
  * Walk state implementation.
@@ -29,9 +26,6 @@ final class StateWalk extends State
 {
     private static final double SPEED = 2.0;
 
-    private final EntityModel model;
-    private final Mirrorable mirrorable;
-    private final Force movement;
     private boolean played;
 
     /**
@@ -44,11 +38,8 @@ final class StateWalk extends State
     {
         super(model, animation);
 
-        this.model = model;
-        mirrorable = model.getFeature(Mirrorable.class);
-        movement = model.getMovement();
-
-        addTransition(StateIdle.class, () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) == 0);
+        addTransition(StateIdle.class, () -> !isGoingHorizontal());
+        addTransition(StateJump.class, this::isGoingUp);
     }
 
     @Override
@@ -56,8 +47,6 @@ final class StateWalk extends State
     {
         super.enter();
 
-        movement.setVelocity(10);
-        movement.setSensibility(0.1);
         played = false;
     }
 
@@ -66,21 +55,11 @@ final class StateWalk extends State
     {
         if (!played && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0)
         {
-            animator.play(animation);
+            sprite.play(animation);
             played = true;
         }
 
-        final double side = model.getInput().getHorizontalDirection();
-        movement.setDestination(side * SPEED, 0);
-        animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 8.0);
-
-        if (side < 0 && movement.getDirectionHorizontal() > 0.0)
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (side > 0 && movement.getDirectionHorizontal() < 0.0)
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0);
+        sprite.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 8.0);
     }
 }

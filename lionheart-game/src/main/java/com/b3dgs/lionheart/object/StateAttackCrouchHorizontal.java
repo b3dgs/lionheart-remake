@@ -20,17 +20,12 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionheart.InputDeviceControl;
 
 /**
  * Crouch horizontal attack state implementation.
  */
 final class StateAttackCrouchHorizontal extends State
 {
-    private final InputDeviceControl control;
-    private final Mirrorable mirrorable;
-
     /**
      * Create the state.
      * 
@@ -41,9 +36,7 @@ final class StateAttackCrouchHorizontal extends State
     {
         super(model, animation);
 
-        control = model.getInput();
-        mirrorable = model.getFeature(Mirrorable.class);
-        addTransition(StateAttackCrouchPrepared.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        addTransition(StateAttackCrouchPrepared.class, () -> is(AnimState.FINISHED));
     }
 
     @Override

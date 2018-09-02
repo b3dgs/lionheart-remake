@@ -34,10 +34,8 @@ final class StateAttackCrouchPrepared extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackCrouchUnprepare.class, () -> !model.getInput().isFireButton());
-        addTransition(StateAttackCrouchHorizontal.class,
-                      () -> Double.compare(model.getInput().getHorizontalDirection(), 0.0) != 0);
-        addTransition(StateAttackPrepared.class,
-                      () -> Double.compare(model.getInput().getVerticalDirection(), 0.0) == 0);
+        addTransition(StateAttackCrouchUnprepare.class, () -> !control.isFireButton());
+        addTransition(StateAttackCrouchHorizontal.class, () -> control.isFireButton() && isGoingHorizontal());
+        addTransition(StateAttackTop.class, () -> control.isFireButton() && isGoingUp());
     }
 }

@@ -17,8 +17,6 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -28,7 +26,6 @@ import com.b3dgs.lionengine.game.feature.Transformable;
  */
 final class StateJump extends State
 {
-    private final AtomicBoolean ground = new AtomicBoolean();
     private final Transformable transformable;
     private final Force jump;
 
@@ -46,7 +43,8 @@ final class StateJump extends State
         jump = model.getJump();
 
         addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
-        addTransition(StateAttackJump.class, model.getInput()::isFireButton);
+        addTransition(StateAttackJump.class, () -> control.isFireButton() && !isGoingDown());
+        addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
     }
 
     @Override
@@ -55,6 +53,12 @@ final class StateJump extends State
         super.enter();
 
         jump.setDirection(0.0, 5.0);
-        ground.set(false);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        final double side = control.getHorizontalDirection();
+        movement.setDestination(side * 3.0, 0.0);
     }
 }

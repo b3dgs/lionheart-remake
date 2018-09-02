@@ -35,6 +35,6 @@ final class StateAttackCrouchUnprepare extends State
     {
         super(model, animation);
 
-        addTransition(StateCrouch.class, () -> model.getSurface().getAnimState() == AnimState.FINISHED);
+        addTransition(StateCrouch.class, () -> is(AnimState.FINISHED));
     }
 }
