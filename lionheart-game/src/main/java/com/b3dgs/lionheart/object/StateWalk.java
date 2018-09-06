@@ -17,15 +17,23 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.tile.Tile;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Walk state implementation.
  */
-final class StateWalk extends State
+final class StateWalk extends State implements TileCollidableListener
 {
     private static final double SPEED = 2.0;
 
+    private final AtomicBoolean ground = new AtomicBoolean();
+    private final Transformable transformable;
     private boolean played;
 
     /**
@@ -38,8 +46,11 @@ final class StateWalk extends State
     {
         super(model, animation);
 
+        transformable = model.getFeature(Transformable.class);
+
         addTransition(StateIdle.class, () -> !isGoingHorizontal());
         addTransition(StateJump.class, this::isGoingUp);
+        addTransition(StateFall.class, () -> !ground.get() && transformable.getY() < transformable.getOldY());
     }
 
     @Override
@@ -61,5 +72,17 @@ final class StateWalk extends State
 
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0);
         sprite.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 8.0);
+    }
+
+    @Override
+    public void notifyTileCollided(Tile tile, Axis axis)
+    {
+        if (Axis.Y == axis)
+        {
+            if (transformable.getY() < transformable.getOldY())
+            {
+                ground.set(true);
+            }
+        }
     }
 }

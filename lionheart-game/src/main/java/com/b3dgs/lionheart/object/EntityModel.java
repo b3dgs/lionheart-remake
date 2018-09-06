@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlVoid;
 
@@ -36,9 +37,14 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
  */
 final class EntityModel extends FeatureModel
 {
+    private static final double GRAVITY = 4.0;
+    private static final double GRAVITY_MAX = 6.5;
+
     private final Force movement = new Force();
     private final Force jump = new Force();
     private final SpriteAnimated surface;
+
+    private final SourceResolutionProvider source;
     private InputDeviceControl input = InputDeviceControlVoid.getInstance();
 
     @FeatureGet private Body body;
@@ -56,6 +62,8 @@ final class EntityModel extends FeatureModel
         final FramesConfig frames = FramesConfig.imports(setup);
         surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
         surface.setOrigin(Origin.CENTER_BOTTOM);
+
+        source = services.get(SourceResolutionProvider.class);
     }
 
     @Override
@@ -63,9 +71,10 @@ final class EntityModel extends FeatureModel
     {
         super.prepare(provider);
 
-        body.setGravity(5.0);
+        body.setGravity(GRAVITY);
+        body.setGravityMax(GRAVITY_MAX);
         body.setVectors(movement, jump);
-        body.setDesiredFps(60);
+        body.setDesiredFps(source.getRate());
     }
 
     /**

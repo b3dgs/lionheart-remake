@@ -26,6 +26,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
  */
 final class StateJump extends State
 {
+    private static final double JUMP_MAX = 6.0;
+
     private final Transformable transformable;
     private final Force jump;
 
@@ -52,7 +54,7 @@ final class StateJump extends State
     {
         super.enter();
 
-        jump.setDirection(0.0, 5.0);
+        jump.setDirection(0.0, JUMP_MAX);
     }
 
     @Override

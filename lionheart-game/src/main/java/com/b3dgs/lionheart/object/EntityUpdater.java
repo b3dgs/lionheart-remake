@@ -32,18 +32,14 @@ import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
  * Entity updating implementation.
  */
 final class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
 {
-    private static final double GRAVITY = 3.0;
-
     private final Force movement;
     private final Force jump;
-    private final SourceResolutionProvider source;
 
     @FeatureGet private Body body;
     @FeatureGet private Transformable transformable;
@@ -61,7 +57,6 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     {
         super();
 
-        source = services.get(SourceResolutionProvider.class);
         movement = model.getMovement();
         jump = model.getJump();
     }
@@ -73,10 +68,6 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
 
         collidable.setOrigin(Origin.CENTER_BOTTOM);
         transformable.teleport(80, 32);
-
-        body.setDesiredFps(source.getRate());
-        body.setGravity(GRAVITY);
-        body.setVectors(movement, jump);
     }
 
     @Override

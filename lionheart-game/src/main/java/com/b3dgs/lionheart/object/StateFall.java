@@ -66,7 +66,8 @@ final class StateFall extends State implements TileCollidableListener
         super.enter();
 
         tileCollidable.addListener(this);
-        jump.setDirection(0.0, 5.0);
+        jump.setDirection(0.0, 0.0);
+        body.resetGravity();
         ground.set(false);
     }
 
