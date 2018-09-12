@@ -37,7 +37,7 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
  */
 final class EntityModel extends FeatureModel
 {
-    private static final double GRAVITY = 4.0;
+    private static final double GRAVITY = 5.5;
     private static final double GRAVITY_MAX = 6.5;
 
     private final Force movement = new Force();

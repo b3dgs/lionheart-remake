@@ -20,16 +20,18 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 
 /**
  * Jump state implementation.
  */
 final class StateJump extends State
 {
-    private static final double JUMP_MAX = 6.0;
+    private static final double JUMP_MAX = 5.4;
 
     private final Transformable transformable;
     private final Force jump;
+    private final Body body;
 
     /**
      * Create the state.
@@ -43,8 +45,11 @@ final class StateJump extends State
 
         transformable = model.getFeature(Transformable.class);
         jump = model.getJump();
+        body = model.getFeature(Body.class);
 
-        addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
+        addTransition(StateFall.class,
+                      () -> Double.compare(jump.getDirectionVertical(), 0.0) <= 0
+                            || transformable.getY() < transformable.getOldY());
         addTransition(StateAttackJump.class, () -> control.isFireButton() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
     }
@@ -54,6 +59,8 @@ final class StateJump extends State
     {
         super.enter();
 
+        jump.setSensibility(0.1);
+        jump.setVelocity(0.18);
         jump.setDirection(0.0, JUMP_MAX);
     }
 
@@ -62,5 +69,6 @@ final class StateJump extends State
     {
         final double side = control.getHorizontalDirection();
         movement.setDestination(side * 3.0, 0.0);
+        body.resetGravity();
     }
 }

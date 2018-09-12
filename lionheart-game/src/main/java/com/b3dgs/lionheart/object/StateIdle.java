@@ -17,13 +17,22 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.tile.Tile;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Idle state implementation.
  */
-final class StateIdle extends State
+final class StateIdle extends State implements TileCollidableListener
 {
+    private final AtomicBoolean ground = new AtomicBoolean();
+    private final Transformable transformable;
+
     /**
      * Create the state.
      * 
@@ -34,9 +43,24 @@ final class StateIdle extends State
     {
         super(model, animation);
 
+        transformable = model.getFeature(Transformable.class);
+
         addTransition(StateWalk.class, this::isGoingHorizontal);
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
+        addTransition(StateFall.class, () -> !ground.get() && transformable.getY() < transformable.getOldY());
+    }
+
+    @Override
+    public void notifyTileCollided(Tile tile, Axis axis)
+    {
+        if (Axis.Y == axis)
+        {
+            if (transformable.getY() < transformable.getOldY())
+            {
+                ground.set(true);
+            }
+        }
     }
 }

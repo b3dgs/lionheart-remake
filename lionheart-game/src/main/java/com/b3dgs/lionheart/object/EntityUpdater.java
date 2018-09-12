@@ -17,33 +17,59 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Refreshable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 
 /**
  * Entity updating implementation.
  */
 final class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
 {
+    /**
+     * Update mirror depending of current mirror and movement.
+     * 
+     * @param mirrorable The mirrorable reference.
+     * @param movement The movement force reference.
+     */
+    private static void updateMirror(Mirrorable mirrorable, Force movement)
+    {
+        if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+    }
+
     private final Force movement;
     private final Force jump;
+    private final SpriteAnimated surface;
+    private final Viewer viewer;
 
+    @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Body body;
+    @FeatureGet private StateHandler state;
     @FeatureGet private Transformable transformable;
-    @FeatureGet private EntityController controller;
     @FeatureGet private Collidable collidable;
     @FeatureGet private TileCollidable tileCollidable;
 
@@ -59,6 +85,8 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
 
         movement = model.getMovement();
         jump = model.getJump();
+        surface = model.getSurface();
+        viewer = services.get(Viewer.class);
     }
 
     @Override
@@ -73,8 +101,10 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     @Override
     public void update(double extrp)
     {
-        controller.update(extrp);
+        state.update(extrp);
         movement.update(extrp);
+        updateMirror(mirrorable, movement);
+        mirrorable.update(extrp);
         jump.update(extrp);
         body.update(extrp);
         tileCollidable.update(extrp);
@@ -84,6 +114,10 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
             transformable.teleportY(80);
             body.resetGravity();
         }
+
+        surface.setLocation(viewer, transformable);
+        surface.setMirror(mirrorable.getMirror());
+        surface.update(extrp);
     }
 
     @Override
