@@ -32,7 +32,9 @@ public final class Constant
     public static final Version PROGRAM_VERSION = Version.create(0, 0, 3);
 
     /** Original display. */
-    public static final Resolution NATIVE_RESOLUTION = new Resolution(360, 200, 60);
+    public static final Resolution NATIVE_RESOLUTION = new Resolution(280, 224, 60);
+    /** Default display. */
+    public static final Resolution DEFAULT_RESOLUTION = new Resolution(320, 256, 60);
 
     /** Sprites folder. */
     public static final String FOLDER_SPRITES = "sprite";
