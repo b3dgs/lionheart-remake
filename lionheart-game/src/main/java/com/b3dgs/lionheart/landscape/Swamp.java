@@ -133,8 +133,8 @@ final class Swamp extends BackgroundAbstract
                 backcolorB = null;
             }
             mountain = createElement(path, "mountain.png", 0, 124);
-            final int x = (int) (208 * scaleH);
-            moonOffset = 50;
+            final int x = (int) (165 * scaleH);
+            moonOffset = 45;
             moon = new BackgroundElementRastered(x,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
