@@ -59,7 +59,7 @@ final class EntityRenderer extends FeatureModel implements Displayable
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(true);
+        collidable.setCollisionVisibility(false);
     }
 
     @Override

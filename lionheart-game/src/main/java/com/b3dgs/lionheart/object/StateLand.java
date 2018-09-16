@@ -40,7 +40,7 @@ final class StateLand extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !this.isGoingDown() && landed.elapsed(LAND_TICK));
+        addTransition(StateIdle.class, () -> !isGoingDown() && landed.elapsed(LAND_TICK));
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateCrouch.class, this::isGoingDown);
     }
