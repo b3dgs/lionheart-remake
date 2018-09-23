@@ -30,7 +30,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class StateWalk extends State implements TileCollidableListener
 {
-    private static final double SPEED = 2.0;
+    private static final double SPEED = 5.0 / 3.0;
+    private static final double ANIM_SPEED_DIVISOR = 6.0;
 
     private final AtomicBoolean ground = new AtomicBoolean();
     private final Transformable transformable;
@@ -71,7 +72,7 @@ final class StateWalk extends State implements TileCollidableListener
         }
 
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0);
-        sprite.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / 8.0);
+        sprite.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
     @Override
