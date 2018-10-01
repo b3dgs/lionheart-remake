@@ -23,6 +23,8 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
@@ -35,6 +37,7 @@ final class StateWalk extends State implements TileCollidableListener
 
     private final AtomicBoolean ground = new AtomicBoolean();
     private final Transformable transformable;
+    private final TileCollidable tileCollidable;
     private boolean played;
 
     /**
@@ -48,6 +51,7 @@ final class StateWalk extends State implements TileCollidableListener
         super(model, animation);
 
         transformable = model.getFeature(Transformable.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
 
         addTransition(StateIdle.class, () -> !isGoingHorizontal());
         addTransition(StateJump.class, this::isGoingUp);
@@ -59,26 +63,35 @@ final class StateWalk extends State implements TileCollidableListener
     {
         super.enter();
 
+        tileCollidable.addListener(this);
+        ground.set(false);
         played = false;
+    }
+
+    @Override
+    public void exit()
+    {
+        tileCollidable.removeListener(this);
     }
 
     @Override
     public void update(double extrp)
     {
+        ground.set(false);
         if (!played && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0)
         {
             sprite.play(animation);
             played = true;
         }
 
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0);
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
         sprite.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
     @Override
-    public void notifyTileCollided(Tile tile, Axis axis)
+    public void notifyTileCollided(Tile tile, CollisionCategory category)
     {
-        if (Axis.Y == axis)
+        if (Axis.Y == category.getAxis())
         {
             if (transformable.getY() < transformable.getOldY())
             {

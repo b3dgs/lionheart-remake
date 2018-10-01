@@ -23,6 +23,8 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
@@ -30,8 +32,10 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class StateIdle extends State implements TileCollidableListener
 {
+    private final BorderDetection border = new BorderDetection();
     private final AtomicBoolean ground = new AtomicBoolean();
     private final Transformable transformable;
+    private final TileCollidable tileCollidable;
 
     /**
      * Create the state.
@@ -44,7 +48,9 @@ final class StateIdle extends State implements TileCollidableListener
         super(model, animation);
 
         transformable = model.getFeature(Transformable.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
 
+        addTransition(StateBorder.class, () -> !isGoingHorizontal() && border.is());
         addTransition(StateWalk.class, this::isGoingHorizontal);
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
@@ -53,9 +59,34 @@ final class StateIdle extends State implements TileCollidableListener
     }
 
     @Override
-    public void notifyTileCollided(Tile tile, Axis axis)
+    public void enter()
     {
-        if (Axis.Y == axis)
+        super.enter();
+
+        tileCollidable.addListener(this);
+        border.reset();
+        ground.set(false);
+    }
+
+    @Override
+    public void exit()
+    {
+        tileCollidable.removeListener(this);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        ground.set(false);
+    }
+
+    @Override
+    public void notifyTileCollided(Tile tile, CollisionCategory category)
+    {
+        border.notifyTileCollided(tile, category);
+        if (Axis.Y == category.getAxis())
         {
             if (transformable.getY() < transformable.getOldY())
             {

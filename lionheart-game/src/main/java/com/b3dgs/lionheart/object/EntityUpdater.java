@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
@@ -121,9 +122,9 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     }
 
     @Override
-    public void notifyTileCollided(Tile tile, Axis axis)
+    public void notifyTileCollided(Tile tile, CollisionCategory category)
     {
-        if (Axis.Y == axis && transformable.getY() < transformable.getOldY())
+        if (Axis.Y == category.getAxis() && transformable.getY() < transformable.getOldY())
         {
             body.resetGravity();
             jump.setDirection(DirectionNone.INSTANCE);

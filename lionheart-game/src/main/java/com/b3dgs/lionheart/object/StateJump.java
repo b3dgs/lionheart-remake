@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.body.Body;
  */
 final class StateJump extends State
 {
+    private static final double SPEED = 5.0 / 3.0;
     private static final double JUMP_MAX = 5.4;
 
     private final Transformable transformable;
@@ -67,8 +68,7 @@ final class StateJump extends State
     @Override
     public void update(double extrp)
     {
-        final double side = control.getHorizontalDirection();
-        movement.setDestination(side * 3.0, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
         body.resetGravity();
     }
 }

@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.Tick;
  */
 final class StateLand extends State
 {
+    private static final double SPEED = 5.0 / 3.0;
     private static final long LAND_TICK = 10L;
 
     private final Tick landed = new Tick();
@@ -58,8 +59,7 @@ final class StateLand extends State
     {
         landed.update(extrp);
 
-        final double side = control.getHorizontalDirection();
-        movement.setDestination(side * 3.0, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
 
         if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
         {

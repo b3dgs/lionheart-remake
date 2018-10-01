@@ -57,9 +57,9 @@ public final class Entity extends FeaturableModel
 
         final TileCollidable tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
         final Body body = getFeature(BodyModel.class);
-        tileCollidable.addListener((tile, axis) ->
+        tileCollidable.addListener((tile, category) ->
         {
-            if (Axis.Y == axis)
+            if (Axis.Y == category.getAxis())
             {
                 body.resetGravity();
             }

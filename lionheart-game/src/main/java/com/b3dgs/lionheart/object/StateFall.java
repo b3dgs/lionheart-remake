@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
@@ -34,6 +35,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class StateFall extends State implements TileCollidableListener
 {
+    private static final double SPEED = 5.0 / 3.0;
+
     private final AtomicBoolean ground = new AtomicBoolean();
     private final Transformable transformable;
     private final Body body;
@@ -80,14 +83,13 @@ final class StateFall extends State implements TileCollidableListener
     @Override
     public void update(double extrp)
     {
-        final double side = control.getHorizontalDirection();
-        movement.setDestination(side * 3.0, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 
     @Override
-    public void notifyTileCollided(Tile tile, Axis axis)
+    public void notifyTileCollided(Tile tile, CollisionCategory category)
     {
-        if (Axis.Y == axis)
+        if (Axis.Y == category.getAxis())
         {
             jump.setDirection(DirectionNone.INSTANCE);
             body.resetGravity();
