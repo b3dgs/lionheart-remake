@@ -19,10 +19,10 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -31,13 +31,13 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 
 /**
  * Entity updating implementation.
@@ -64,8 +64,6 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
 
     private final Force movement;
     private final Force jump;
-    private final SpriteAnimated surface;
-    private final Viewer viewer;
 
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Body body;
@@ -73,6 +71,8 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     @FeatureGet private Transformable transformable;
     @FeatureGet private Collidable collidable;
     @FeatureGet private TileCollidable tileCollidable;
+    @FeatureGet private Animatable animatable;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create updater.
@@ -86,8 +86,6 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
 
         movement = model.getMovement();
         jump = model.getJump();
-        surface = model.getSurface();
-        viewer = services.get(Viewer.class);
     }
 
     @Override
@@ -112,13 +110,12 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
 
         if (transformable.getY() < 0)
         {
-            transformable.teleportY(80);
+            transformable.teleportY(160);
             body.resetGravity();
         }
 
-        surface.setLocation(viewer, transformable);
-        surface.setMirror(mirrorable.getMirror());
-        surface.update(extrp);
+        animatable.update(extrp);
+        rasterable.update(extrp);
     }
 
     @Override

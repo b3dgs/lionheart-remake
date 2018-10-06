@@ -17,7 +17,6 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -25,20 +24,18 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 
 /**
  * Entity rendering implementation.
  */
 final class EntityRenderer extends FeatureModel implements Displayable
 {
-    private final SpriteAnimated surface;
-    private final Viewer viewer;
-
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Constructor.
@@ -49,9 +46,6 @@ final class EntityRenderer extends FeatureModel implements Displayable
     public EntityRenderer(Services services, EntityModel model)
     {
         super();
-
-        viewer = services.get(Viewer.class);
-        surface = model.getSurface();
     }
 
     @Override
@@ -65,8 +59,7 @@ final class EntityRenderer extends FeatureModel implements Displayable
     @Override
     public void render(Graphic g)
     {
-        surface.setLocation(viewer, transformable);
-        surface.render(g);
+        rasterable.render(g);
 
         g.setColor(ColorRgba.GREEN);
         collidable.render(g);

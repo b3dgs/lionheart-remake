@@ -19,11 +19,12 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.state.StateAbstract;
-import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionheart.InputDeviceControl;
+import com.b3dgs.lionheart.InputDeviceControlDelegate;
 
 /**
  * Base state with animation implementation.
@@ -32,8 +33,8 @@ abstract class State extends StateAbstract
 {
     /** Model reference. */
     protected final EntityModel model;
-    /** Surface reference. */
-    protected final SpriteAnimated sprite;
+    /** Animator reference. */
+    protected final Animator animator;
     /** Mirrorable reference. */
     protected final Mirrorable mirrorable;
     /** State animation data. */
@@ -55,10 +56,10 @@ abstract class State extends StateAbstract
 
         this.model = model;
         this.animation = animation;
-        sprite = model.getSurface();
-        control = model.getInput();
+        animator = model.getAnimator();
         movement = model.getMovement();
         mirrorable = model.getFeature(Mirrorable.class);
+        control = new InputDeviceControlDelegate(model::getInput);
     }
 
     /**
@@ -69,7 +70,7 @@ abstract class State extends StateAbstract
      */
     protected final boolean is(AnimState state)
     {
-        return sprite.getAnimState() == state;
+        return animator.getAnimState() == state;
     }
 
     /**
@@ -145,7 +146,7 @@ abstract class State extends StateAbstract
     @Override
     public void enter()
     {
-        sprite.play(animation);
+        animator.play(animation);
     }
 
     /**

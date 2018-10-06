@@ -17,17 +17,18 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.FramesConfig;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.graphic.drawable.Drawable;
-import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategoryConfig;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlVoid;
@@ -42,12 +43,14 @@ final class EntityModel extends FeatureModel
 
     private final Force movement = new Force();
     private final Force jump = new Force();
-    private final SpriteAnimated surface;
+    private final boolean hasGravity;
 
     private final SourceResolutionProvider source;
     private InputDeviceControl input = InputDeviceControlVoid.getInstance();
 
     @FeatureGet private Body body;
+    @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Animatable animatable;
 
     /**
      * Create model.
@@ -59,11 +62,8 @@ final class EntityModel extends FeatureModel
     {
         super();
 
-        final FramesConfig frames = FramesConfig.imports(setup);
-        surface = Drawable.loadSpriteAnimated(setup.getSurface(), frames.getHorizontal(), frames.getVertical());
-        surface.setOrigin(Origin.CENTER_BOTTOM);
-
         source = services.get(SourceResolutionProvider.class);
+        hasGravity = setup.hasNode(CollisionCategoryConfig.NODE_CATEGORY);
     }
 
     @Override
@@ -71,10 +71,18 @@ final class EntityModel extends FeatureModel
     {
         super.prepare(provider);
 
-        body.setGravity(GRAVITY);
-        body.setGravityMax(GRAVITY_MAX);
-        body.setVectors(movement, jump);
-        body.setDesiredFps(source.getRate());
+        rasterable.setOrigin(Origin.CENTER_BOTTOM);
+        if (hasGravity)
+        {
+            body.setGravity(GRAVITY);
+            body.setGravityMax(GRAVITY_MAX);
+            body.setVectors(movement, jump);
+            body.setDesiredFps(source.getRate());
+        }
+        else
+        {
+            body.setGravity(0.0);
+        }
     }
 
     /**
@@ -115,13 +123,13 @@ final class EntityModel extends FeatureModel
     }
 
     /**
-     * Get the surface.
+     * Get the animator.
      * 
-     * @return The surface.
+     * @return The animator.
      */
-    public SpriteAnimated getSurface()
+    public Animator getAnimator()
     {
-        return surface;
+        return animatable;
     }
 
     /**

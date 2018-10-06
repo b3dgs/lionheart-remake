@@ -21,23 +21,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Walk state implementation.
  */
-final class StateWalk extends State implements TileCollidableListener
+final class StateWalk extends State
 {
     private static final double SPEED = 5.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 6.0;
 
     private final AtomicBoolean ground = new AtomicBoolean();
-    private final Transformable transformable;
     private final TileCollidable tileCollidable;
+    private final TileCollidableListener listener;
     private boolean played;
 
     /**
@@ -50,8 +48,19 @@ final class StateWalk extends State implements TileCollidableListener
     {
         super(model, animation);
 
-        transformable = model.getFeature(Transformable.class);
+        final Transformable transformable = model.getFeature(Transformable.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+
+        listener = (tile, category) ->
+        {
+            if (Axis.Y == category.getAxis())
+            {
+                if (transformable.getY() < transformable.getOldY())
+                {
+                    ground.set(true);
+                }
+            }
+        };
 
         addTransition(StateIdle.class, () -> !isGoingHorizontal());
         addTransition(StateJump.class, this::isGoingUp);
@@ -63,7 +72,7 @@ final class StateWalk extends State implements TileCollidableListener
     {
         super.enter();
 
-        tileCollidable.addListener(this);
+        tileCollidable.addListener(listener);
         ground.set(false);
         played = false;
     }
@@ -71,7 +80,7 @@ final class StateWalk extends State implements TileCollidableListener
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(this);
+        tileCollidable.removeListener(listener);
     }
 
     @Override
@@ -80,23 +89,11 @@ final class StateWalk extends State implements TileCollidableListener
         ground.set(false);
         if (!played && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0)
         {
-            sprite.play(animation);
+            animator.play(animation);
             played = true;
         }
 
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
-        sprite.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
-    }
-
-    @Override
-    public void notifyTileCollided(Tile tile, CollisionCategory category)
-    {
-        if (Axis.Y == category.getAxis())
-        {
-            if (transformable.getY() < transformable.getOldY())
-            {
-                ground.set(true);
-            }
-        }
+        animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 }
