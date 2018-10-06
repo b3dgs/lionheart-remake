@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2018 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2017 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +26,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class BorderDetection implements TileCollidableListener
 {
+    private static final String LEG_LEFT = "leg_left";
+    private static final String LEG_RIGHT = "leg_right";
+
     private boolean legLeft;
     private boolean legRight;
 
@@ -79,11 +82,12 @@ final class BorderDetection implements TileCollidableListener
     @Override
     public void notifyTileCollided(Tile tile, CollisionCategory category)
     {
-        if (category.getName().equals("leg_left"))
+        final String name = category.getName();
+        if (LEG_LEFT.equals(name))
         {
             legLeft = true;
         }
-        if (category.getName().equals("leg_right"))
+        if (LEG_RIGHT.equals(name))
         {
             legRight = true;
         }

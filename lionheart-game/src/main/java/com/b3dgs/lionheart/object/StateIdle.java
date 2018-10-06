@@ -21,21 +21,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Idle state implementation.
  */
-final class StateIdle extends State implements TileCollidableListener
+final class StateIdle extends State
 {
     private final BorderDetection border = new BorderDetection();
     private final AtomicBoolean ground = new AtomicBoolean();
-    private final Transformable transformable;
     private final TileCollidable tileCollidable;
+    private final TileCollidableListener listener;
 
     /**
      * Create the state.
@@ -47,8 +45,20 @@ final class StateIdle extends State implements TileCollidableListener
     {
         super(model, animation);
 
-        transformable = model.getFeature(Transformable.class);
+        final Transformable transformable = model.getFeature(Transformable.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+
+        listener = (tile, category) ->
+        {
+            border.notifyTileCollided(tile, category);
+            if (Axis.Y == category.getAxis())
+            {
+                if (transformable.getY() < transformable.getOldY())
+                {
+                    ground.set(true);
+                }
+            }
+        };
 
         addTransition(StateBorder.class, () -> !isGoingHorizontal() && border.is());
         addTransition(StateWalk.class, this::isGoingHorizontal);
@@ -63,7 +73,7 @@ final class StateIdle extends State implements TileCollidableListener
     {
         super.enter();
 
-        tileCollidable.addListener(this);
+        tileCollidable.addListener(listener);
         border.reset();
         ground.set(false);
     }
@@ -71,7 +81,7 @@ final class StateIdle extends State implements TileCollidableListener
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(this);
+        tileCollidable.removeListener(listener);
     }
 
     @Override
@@ -80,18 +90,5 @@ final class StateIdle extends State implements TileCollidableListener
         super.update(extrp);
 
         ground.set(false);
-    }
-
-    @Override
-    public void notifyTileCollided(Tile tile, CollisionCategory category)
-    {
-        border.notifyTileCollided(tile, category);
-        if (Axis.Y == category.getAxis())
-        {
-            if (transformable.getY() < transformable.getOldY())
-            {
-                ground.set(true);
-            }
-        }
     }
 }

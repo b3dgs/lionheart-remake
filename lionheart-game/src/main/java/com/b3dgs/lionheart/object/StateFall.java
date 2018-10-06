@@ -24,24 +24,22 @@ import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Fall state implementation.
  */
-final class StateFall extends State implements TileCollidableListener
+final class StateFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
     private final AtomicBoolean ground = new AtomicBoolean();
-    private final Transformable transformable;
     private final Body body;
     private final TileCollidable tileCollidable;
     private final Force jump;
+    private final TileCollidableListener listener;
 
     /**
      * Create the state.
@@ -53,10 +51,23 @@ final class StateFall extends State implements TileCollidableListener
     {
         super(model, animation);
 
-        transformable = model.getFeature(Transformable.class);
+        final Transformable transformable = model.getFeature(Transformable.class);
         body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
         jump = model.getJump();
+
+        listener = (tile, category) ->
+        {
+            if (Axis.Y == category.getAxis())
+            {
+                jump.setDirection(DirectionNone.INSTANCE);
+                body.resetGravity();
+                if (transformable.getY() < transformable.getOldY())
+                {
+                    ground.set(true);
+                }
+            }
+        };
 
         addTransition(StateLand.class, ground::get);
         addTransition(StateAttackJump.class, () -> !ground.get() && control.isFireButton() && !isGoingDown());
@@ -68,7 +79,7 @@ final class StateFall extends State implements TileCollidableListener
     {
         super.enter();
 
-        tileCollidable.addListener(this);
+        tileCollidable.addListener(listener);
         jump.setDirection(0.0, 0.0);
         body.resetGravity();
         ground.set(false);
@@ -77,26 +88,12 @@ final class StateFall extends State implements TileCollidableListener
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(this);
+        tileCollidable.removeListener(listener);
     }
 
     @Override
     public void update(double extrp)
     {
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
-    }
-
-    @Override
-    public void notifyTileCollided(Tile tile, CollisionCategory category)
-    {
-        if (Axis.Y == category.getAxis())
-        {
-            jump.setDirection(DirectionNone.INSTANCE);
-            body.resetGravity();
-            if (transformable.getY() < transformable.getOldY())
-            {
-                ground.set(true);
-            }
-        }
     }
 }

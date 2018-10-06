@@ -25,22 +25,19 @@ import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Jump attack state implementation.
  */
-final class StateAttackJump extends State implements TileCollidableListener
+final class StateAttackJump extends State
 {
     private final AtomicBoolean ground = new AtomicBoolean();
-    private final Transformable transformable;
-    private final Body body;
     private final TileCollidable tileCollidable;
     private final Force jump;
+    private final TileCollidableListener listener;
 
     /**
      * Create the state.
@@ -52,10 +49,23 @@ final class StateAttackJump extends State implements TileCollidableListener
     {
         super(model, animation);
 
-        transformable = model.getFeature(Transformable.class);
-        body = model.getFeature(Body.class);
+        final Transformable transformable = model.getFeature(Transformable.class);
+        final Body body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
         jump = model.getJump();
+
+        listener = (tile, category) ->
+        {
+            if (Axis.Y == category.getAxis())
+            {
+                jump.setDirection(DirectionNone.INSTANCE);
+                body.resetGravity();
+                if (transformable.getY() < transformable.getOldY())
+                {
+                    ground.set(true);
+                }
+            }
+        };
 
         addTransition(StateLand.class, () -> ground.get());
         addTransition(StateFall.class, () -> is(AnimState.FINISHED));
@@ -66,7 +76,7 @@ final class StateAttackJump extends State implements TileCollidableListener
     {
         super.enter();
 
-        tileCollidable.addListener(this);
+        tileCollidable.addListener(listener);
         jump.setDirection(0.0, 5.0);
         ground.set(false);
     }
@@ -74,7 +84,7 @@ final class StateAttackJump extends State implements TileCollidableListener
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(this);
+        tileCollidable.removeListener(listener);
     }
 
     @Override
@@ -82,19 +92,5 @@ final class StateAttackJump extends State implements TileCollidableListener
     {
         final double side = control.getHorizontalDirection();
         movement.setDestination(side * 3.0, 0.0);
-    }
-
-    @Override
-    public void notifyTileCollided(Tile tile, CollisionCategory category)
-    {
-        if (Axis.Y == category.getAxis())
-        {
-            jump.setDirection(DirectionNone.INSTANCE);
-            body.resetGravity();
-            if (transformable.getY() < transformable.getOldY())
-            {
-                ground.set(true);
-            }
-        }
     }
 }
