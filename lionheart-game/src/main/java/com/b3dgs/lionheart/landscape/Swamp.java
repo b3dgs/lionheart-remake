@@ -137,7 +137,7 @@ final class Swamp extends BackgroundAbstract
             moon = new BackgroundElementRastered(x,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
-                                                 Medias.create(path, "raster3.xml"),
+                                                 Medias.create(path, "moon.xml"),
                                                  MOON_RASTERS);
             mountainSprite = (Sprite) mountain.getRenderable();
             this.screenWidth = screenWidth;
