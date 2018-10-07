@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animator;
-import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -27,7 +26,6 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategoryConfig;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.InputDeviceControl;
@@ -49,7 +47,6 @@ final class EntityModel extends FeatureModel
     private InputDeviceControl input = InputDeviceControlVoid.getInstance();
 
     @FeatureGet private Body body;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Animatable animatable;
 
     /**
@@ -71,7 +68,6 @@ final class EntityModel extends FeatureModel
     {
         super.prepare(provider);
 
-        rasterable.setOrigin(Origin.CENTER_BOTTOM);
         if (hasGravity)
         {
             body.setGravity(GRAVITY);

@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.AnimatableModel;
 import com.b3dgs.lionengine.game.feature.FeaturableModel;
@@ -32,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.body.BodyModel;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.State;
@@ -81,9 +83,11 @@ public final class Entity extends FeaturableModel
             addFeature(new LayerableModel(2, 1));
         }
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
+        collidable.setOrigin(Origin.CENTER_BOTTOM);
         collidable.addAccept(1);
 
-        addFeature(new RasterableModel(services, setup));
+        final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
+        rasterable.setOrigin(Origin.CENTER_BOTTOM);
 
         final Body body = addFeatureAndGet(new BodyModel());
         final TileCollidable tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));

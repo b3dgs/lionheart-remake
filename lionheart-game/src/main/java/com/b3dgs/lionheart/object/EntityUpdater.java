@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
@@ -30,7 +29,6 @@ import com.b3dgs.lionengine.game.feature.Refreshable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
@@ -69,7 +67,6 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     @FeatureGet private Body body;
     @FeatureGet private StateHandler state;
     @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
@@ -93,7 +90,6 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     {
         super.prepare(provider);
 
-        collidable.setOrigin(Origin.CENTER_BOTTOM);
         transformable.teleport(80, 32);
     }
 

@@ -68,7 +68,7 @@ final class World extends WorldGame
     private final FactoryLandscape factoryLandscape;
     private Landscape landscape;
 
-    private double scale = 1.0;
+    private double scale = 1;
 
     /**
      * Create the world.
@@ -126,7 +126,7 @@ final class World extends WorldGame
     protected void loading(FileReading file) throws IOException
     {
         mapPersister.load(file);
-        mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), "raster3.xml"), false);
+        mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), "raster1.xml"), false);
         mapViewer.clear();
         mapViewer.addRenderer(mapRaster);
 
@@ -138,7 +138,8 @@ final class World extends WorldGame
            .loadCollisions(Medias.create(Constant.FOLDER_LEVELS, world, CollisionFormulaConfig.FILENAME),
                            Medias.create(Constant.FOLDER_LEVELS, world, CollisionGroupConfig.FILENAME));
 
-        final MapTileCollisionRenderer mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
+        final MapTileCollisionRenderer mapCollisionRenderer;
+        mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
         mapCollisionRenderer.createCollisionDraw();
 
         mapViewer.addRenderer(mapCollisionRenderer);
@@ -146,7 +147,7 @@ final class World extends WorldGame
         camera.setLimits(map);
         camera.setIntervals(0, 0);
 
-        landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DAY);
+        landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DUSK);
 
         final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_ENTITIES,
                                                            Constant.FOLDER_PLAYERS,
@@ -154,13 +155,22 @@ final class World extends WorldGame
                                                            "Valdyn.xml"));
 
         final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
-        valdynTransformable.teleport(1500, 800);
+        valdynTransformable.teleport(960, 130);
         handler.add(valdyn);
+
+        final Entity entity = factory.create(Medias.create(Constant.FOLDER_ENTITIES,
+                                                           Constant.FOLDER_ITEMS,
+                                                           "swamp",
+                                                           "PotionBig.xml"));
+        entity.getFeature(Transformable.class).teleport(1050, 160);
+        handler.add(entity);
 
         final CameraTracker tracker = new CameraTracker(services);
         tracker.setOffset(0, valdynTransformable.getHeight() / 2);
         handler.add(tracker);
         tracker.track(valdynTransformable);
+
+        zooming.setZoom(scale);
     }
 
     @Override

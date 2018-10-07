@@ -17,42 +17,32 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.game.feature.Displayable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.graphic.ColorRgba;
-import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 
 /**
- * Entity rendering implementation.
+ * Potion feature implementation.
  */
-final class EntityRenderer extends FeatureModel implements Displayable
+public final class Potion extends FeatureModel implements CollidableListener
 {
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
-
     /**
-     * Constructor.
+     * Create model.
      * 
      * @param services The services reference.
-     * @param model The model reference.
+     * @param setup The setup reference.
      */
-    public EntityRenderer(Services services, EntityModel model)
+    public Potion(Services services, Setup setup)
     {
         super();
     }
 
     @Override
-    public void render(Graphic g)
+    public void notifyCollided(Collidable collidable)
     {
-        rasterable.render(g);
-
-        g.setColor(ColorRgba.GREEN);
-        collidable.render(g);
+        getFeature(Identifiable.class).destroy();
     }
 }
