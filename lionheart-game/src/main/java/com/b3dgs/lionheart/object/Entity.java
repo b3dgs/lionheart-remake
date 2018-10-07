@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.LayerableConfig;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.MirrorableModel;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.TransformableModel;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.body.BodyModel;
@@ -89,6 +90,8 @@ public final class Entity extends FeaturableModel
         final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
         rasterable.setOrigin(Origin.CENTER_BOTTOM);
 
+        addFeature(new EntityRenderer());
+
         final Body body = addFeatureAndGet(new BodyModel());
         final TileCollidable tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
         tileCollidable.addListener((tile, category) ->
@@ -106,8 +109,16 @@ public final class Entity extends FeaturableModel
 
         final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup, Entity::getAnimationName));
         stateHandler.changeState(StateIdle.class);
+    }
 
+    @Override
+    public void addAfter(Services services, Setup setup)
+    {
+        if (!hasFeature(Routine.class))
+        {
+            addFeature(new RoutineVoid());
+        }
+        final EntityModel model = getFeature(EntityModel.class);
         addFeature(new EntityUpdater(services, model));
-        addFeature(new EntityRenderer(services, model));
     }
 }

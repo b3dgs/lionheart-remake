@@ -17,30 +17,46 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.game.feature.Displayable;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.graphic.ColorRgba;
-import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionheart.InputDeviceControlVoid;
 
 /**
- * Entity rendering implementation.
+ * Patrol feature implementation.
  */
-final class EntityRenderer extends FeatureModel implements Displayable
+public final class Patrol extends FeatureModel implements Routine
 {
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
+    private final Tick change = new Tick();
+    private double direction = 0.3;
+
+    @FeatureGet private EntityModel model;
 
     @Override
-    public void render(Graphic g)
+    public void prepare(FeatureProvider provider)
     {
-        rasterable.render(g);
+        super.prepare(provider);
 
-        g.setColor(ColorRgba.GREEN);
-        collidable.render(g);
+        model.setInput(new InputDeviceControlVoid()
+        {
+            @Override
+            public double getHorizontalDirection()
+            {
+                return direction;
+            }
+        });
+        change.start();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        change.update(extrp);
+        if (change.elapsed(100L))
+        {
+            direction = -direction;
+            change.restart();
+        }
     }
 }

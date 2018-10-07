@@ -70,6 +70,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Routine routine;
 
     /**
      * Create updater.
@@ -96,6 +97,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     @Override
     public void update(double extrp)
     {
+        routine.update(extrp);
         state.update(extrp);
         movement.update(extrp);
         updateMirror(mirrorable, movement);

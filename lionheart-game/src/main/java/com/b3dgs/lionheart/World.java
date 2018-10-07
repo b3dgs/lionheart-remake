@@ -159,10 +159,10 @@ final class World extends WorldGame
         handler.add(valdyn);
 
         final Entity entity = factory.create(Medias.create(Constant.FOLDER_ENTITIES,
-                                                           Constant.FOLDER_ITEMS,
+                                                           Constant.FOLDER_MONSTERS,
                                                            "swamp",
-                                                           "PotionBig.xml"));
-        entity.getFeature(Transformable.class).teleport(1050, 160);
+                                                           "Crawling.xml"));
+        entity.getFeature(Transformable.class).teleport(1000, 160);
         handler.add(entity);
 
         final CameraTracker tracker = new CameraTracker(services);
