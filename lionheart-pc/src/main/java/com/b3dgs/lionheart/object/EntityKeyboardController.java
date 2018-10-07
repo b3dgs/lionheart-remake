@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionengine.game.feature.Setup;
 
 /**
  * Entity updating implementation.
@@ -39,7 +39,7 @@ final class EntityKeyboardController extends FeatureModel
      * @param services The services reference.
      * @param setup The setup reference.
      */
-    EntityKeyboardController(Services services, SetupSurfaceRastered setup)
+    EntityKeyboardController(Services services, Setup setup)
     {
         super();
 

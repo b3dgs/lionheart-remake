@@ -19,8 +19,6 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
-import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 
@@ -29,17 +27,6 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
  */
 public final class Potion extends FeatureModel implements CollidableListener
 {
-    /**
-     * Create model.
-     * 
-     * @param services The services reference.
-     * @param setup The setup reference.
-     */
-    public Potion(Services services, Setup setup)
-    {
-        super();
-    }
-
     @Override
     public void notifyCollided(Collidable collidable)
     {
