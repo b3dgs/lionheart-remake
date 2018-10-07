@@ -14,4 +14,5 @@ org.sonar.ide.eclipse.core.prefs
 .classpath
 .checkstyle
 .sonar
+.lionengine
 built-jar.properties
