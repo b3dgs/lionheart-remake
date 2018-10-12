@@ -74,7 +74,7 @@ public final class Entity extends FeaturableModel
 
         addFeature(new MirrorableModel());
         addFeature(new TransformableModel(setup));
-        addFeature(new AnimatableModel(services, setup));
+        addFeature(new AnimatableModel());
         if (setup.hasNode(LayerableConfig.NODE_LAYERABLE))
         {
             addFeature(new LayerableModel(services, setup));
@@ -85,7 +85,9 @@ public final class Entity extends FeaturableModel
         }
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
         collidable.setOrigin(Origin.CENTER_BOTTOM);
+        collidable.setGroup(1);
         collidable.addAccept(1);
+        collidable.setCollisionVisibility(true);
 
         final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
         rasterable.setOrigin(Origin.CENTER_BOTTOM);

@@ -24,6 +24,8 @@ import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -38,8 +40,10 @@ final class StateFall extends State
     private final AtomicBoolean ground = new AtomicBoolean();
     private final Body body;
     private final TileCollidable tileCollidable;
+    private final Collidable collidable;
     private final Force jump;
-    private final TileCollidableListener listener;
+    private final TileCollidableListener listenerTileCollidable;
+    private final CollidableListener listenerCollidable;
 
     /**
      * Create the state.
@@ -54,9 +58,10 @@ final class StateFall extends State
         final Transformable transformable = model.getFeature(Transformable.class);
         body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+        collidable = model.getFeature(Collidable.class);
         jump = model.getJump();
 
-        listener = (tile, category) ->
+        listenerTileCollidable = (tile, category) ->
         {
             if (Axis.Y == category.getAxis())
             {
@@ -66,6 +71,13 @@ final class StateFall extends State
                 {
                     ground.set(true);
                 }
+            }
+        };
+        listenerCollidable = (collidable, collision) ->
+        {
+            if (collidable.hasFeature(Sheet.class))
+            {
+                ground.set(true);
             }
         };
 
@@ -79,7 +91,8 @@ final class StateFall extends State
     {
         super.enter();
 
-        tileCollidable.addListener(listener);
+        tileCollidable.addListener(listenerTileCollidable);
+        collidable.addListener(listenerCollidable);
         jump.setDirection(0.0, 0.0);
         body.resetGravity();
         ground.set(false);
@@ -88,7 +101,8 @@ final class StateFall extends State
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listener);
+        tileCollidable.removeListener(listenerTileCollidable);
+        collidable.removeListener(listenerCollidable);
     }
 
     @Override
