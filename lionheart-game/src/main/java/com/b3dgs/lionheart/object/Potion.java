@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 
 /**
  * Potion feature implementation.
@@ -28,7 +29,7 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 public final class Potion extends FeatureModel implements CollidableListener
 {
     @Override
-    public void notifyCollided(Collidable collidable)
+    public void notifyCollided(Collidable collidable, Collision collision)
     {
         getFeature(Identifiable.class).destroy();
     }
