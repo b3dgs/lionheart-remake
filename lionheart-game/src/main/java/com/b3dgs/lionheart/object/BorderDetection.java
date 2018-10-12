@@ -17,6 +17,9 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -24,7 +27,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 /**
  * Handle borders detection.
  */
-final class BorderDetection implements TileCollidableListener
+final class BorderDetection implements TileCollidableListener, CollidableListener
 {
     private static final String LEG_LEFT = "leg_left";
     private static final String LEG_RIGHT = "leg_right";
@@ -83,6 +86,20 @@ final class BorderDetection implements TileCollidableListener
     public void notifyTileCollided(Tile tile, CollisionCategory category)
     {
         final String name = category.getName();
+        if (LEG_LEFT.equals(name))
+        {
+            legLeft = true;
+        }
+        if (LEG_RIGHT.equals(name))
+        {
+            legRight = true;
+        }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision collision)
+    {
+        final String name = collision.getName();
         if (LEG_LEFT.equals(name))
         {
             legLeft = true;

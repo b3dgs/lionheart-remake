@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 
 /**
@@ -30,6 +31,7 @@ final class StateBorder extends State
     private final BorderDetection border = new BorderDetection();
     private final Mirrorable mirrorable;
     private final TileCollidable tileCollidable;
+    private final Collidable collidable;
 
     /**
      * Create the state.
@@ -43,6 +45,7 @@ final class StateBorder extends State
 
         mirrorable = model.getFeature(Mirrorable.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+        collidable = model.getFeature(Collidable.class);
 
         addTransition(StateWalk.class, this::isGoingHorizontal);
         addTransition(StateCrouch.class, this::isGoingDown);
@@ -56,6 +59,7 @@ final class StateBorder extends State
         super.enter();
 
         tileCollidable.addListener(border);
+        collidable.addListener(border);
         border.reset();
     }
 
@@ -63,6 +67,7 @@ final class StateBorder extends State
     public void exit()
     {
         tileCollidable.removeListener(border);
+        collidable.removeListener(border);
     }
 
     @Override
