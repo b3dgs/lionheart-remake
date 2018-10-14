@@ -36,6 +36,9 @@ public final class Constant
     /** Default display. */
     public static final Resolution DEFAULT_RESOLUTION = new Resolution(320, 256, 60);
 
+    /** Debug flag (shows collisions). */
+    public static final boolean DEBUG = false;
+
     /** Sprites folder. */
     public static final String FOLDER_SPRITES = "sprite";
     /** Backgrounds folder. */

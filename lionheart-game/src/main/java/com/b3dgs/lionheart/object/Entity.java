@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Entity base representation.
@@ -87,7 +88,7 @@ public final class Entity extends FeaturableModel
         collidable.setOrigin(Origin.CENTER_BOTTOM);
         collidable.setGroup(1);
         collidable.addAccept(1);
-        collidable.setCollisionVisibility(true);
+        collidable.setCollisionVisibility(Constant.DEBUG);
 
         final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
         rasterable.setOrigin(Origin.CENTER_BOTTOM);

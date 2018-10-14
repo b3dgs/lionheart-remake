@@ -140,11 +140,13 @@ final class World extends WorldGame
            .loadCollisions(Medias.create(Constant.FOLDER_LEVELS, world, CollisionFormulaConfig.FILENAME),
                            Medias.create(Constant.FOLDER_LEVELS, world, CollisionGroupConfig.FILENAME));
 
-        final MapTileCollisionRenderer mapCollisionRenderer;
-        mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
-        mapCollisionRenderer.createCollisionDraw();
-
-        mapViewer.addRenderer(mapCollisionRenderer);
+        if (Constant.DEBUG)
+        {
+            final MapTileCollisionRenderer mapCollisionRenderer;
+            mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
+            mapCollisionRenderer.createCollisionDraw();
+            mapViewer.addRenderer(mapCollisionRenderer);
+        }
 
         camera.setLimits(map);
         camera.setIntervals(0, 0);
