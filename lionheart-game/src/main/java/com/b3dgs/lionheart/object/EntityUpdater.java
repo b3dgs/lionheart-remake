@@ -42,24 +42,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
 {
-    /**
-     * Update mirror depending of current mirror and movement.
-     * 
-     * @param mirrorable The mirrorable reference.
-     * @param movement The movement force reference.
-     */
-    private static void updateMirror(Mirrorable mirrorable, Force movement)
-    {
-        if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
-    }
-
     private final Force movement;
     private final Force jump;
 
@@ -86,6 +68,24 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
         jump = model.getJump();
     }
 
+    /**
+     * Update mirror depending of current mirror and movement.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateMirror(double extrp)
+    {
+        if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+        mirrorable.update(extrp);
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
@@ -99,10 +99,8 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
     {
         routine.update(extrp);
         state.update(extrp);
-        movement.update(extrp);
-        updateMirror(mirrorable, movement);
-        mirrorable.update(extrp);
         jump.update(extrp);
+        movement.update(extrp);
         body.update(extrp);
         tileCollidable.update(extrp);
 
@@ -112,6 +110,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
             body.resetGravity();
         }
 
+        updateMirror(extrp);
         animatable.update(extrp);
         rasterable.update(extrp);
     }
