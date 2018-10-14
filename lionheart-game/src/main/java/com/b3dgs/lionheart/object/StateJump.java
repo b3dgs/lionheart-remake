@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
@@ -33,6 +34,12 @@ final class StateJump extends State
     private final Transformable transformable;
     private final Force jump;
     private final Body body;
+    private final Updatable checkJumpStopped;
+    private final Updatable checkNone = extrp ->
+    {
+        // Nothing to do
+    };
+    private Updatable check;
 
     /**
      * Create the state.
@@ -53,6 +60,16 @@ final class StateJump extends State
                             || transformable.getY() < transformable.getOldY());
         addTransition(StateAttackJump.class, () -> control.isFireButton() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
+
+        checkJumpStopped = extrp ->
+        {
+            if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
+            {
+                jump.setVelocity(0.09);
+                check = checkNone;
+            }
+            body.resetGravity();
+        };
     }
 
     @Override
@@ -60,6 +77,7 @@ final class StateJump extends State
     {
         super.enter();
 
+        check = checkJumpStopped;
         jump.setSensibility(0.1);
         jump.setVelocity(0.18);
         jump.setDirection(0.0, JUMP_MAX);
@@ -68,7 +86,7 @@ final class StateJump extends State
     @Override
     public void update(double extrp)
     {
+        check.update(extrp);
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
-        body.resetGravity();
     }
 }
