@@ -149,7 +149,7 @@ final class World extends WorldGame
         }
 
         camera.setLimits(map);
-        camera.setIntervals(0, 0);
+        camera.setIntervals(16, 0);
 
         landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DUSK);
 
