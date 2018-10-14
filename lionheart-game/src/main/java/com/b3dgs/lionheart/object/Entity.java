@@ -81,7 +81,7 @@ public final class Entity extends FeaturableModel
         }
         else
         {
-            addFeature(new LayerableModel(2, 1));
+            addFeature(new LayerableModel(2, 2));
         }
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
         collidable.setOrigin(Origin.CENTER_BOTTOM);

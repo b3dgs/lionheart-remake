@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
+import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.WorldGame;
@@ -132,6 +133,7 @@ final class World extends WorldGame
 
         final String world = WorldType.SWAMP.getFolder();
 
+        map.addFeature(new LayerableModel(3, 1));
         map.addFeatureAndGet(new MapTileGroupModel())
            .loadGroups(Medias.create(Constant.FOLDER_LEVELS, world, TileGroupsConfig.FILENAME));
         map.addFeatureAndGet(new MapTileCollisionModel(services))
@@ -166,9 +168,10 @@ final class World extends WorldGame
         handler.add(entity);
 
         final CameraTracker tracker = new CameraTracker(services);
+        tracker.addFeature(new LayerableModel(2));
         tracker.setOffset(0, valdynTransformable.getHeight() / 2);
-        handler.add(tracker);
         tracker.track(valdynTransformable);
+        handler.add(tracker);
 
         zooming.setZoom(scale);
     }
