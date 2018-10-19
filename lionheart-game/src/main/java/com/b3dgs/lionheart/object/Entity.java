@@ -107,8 +107,8 @@ public final class Entity extends FeaturableModel
 
         final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
         final Force movement = model.getMovement();
-        movement.setVelocity(10);
-        movement.setSensibility(0.1);
+        movement.setVelocity(0.1);
+        movement.setSensibility(0.01);
 
         final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup, Entity::getAnimationName));
         stateHandler.changeState(StateIdle.class);

@@ -34,6 +34,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class StateAttackJump extends State
 {
+    private static final double SPEED = 5.0 / 3.0;
+
     private final AtomicBoolean ground = new AtomicBoolean();
     private final TileCollidable tileCollidable;
     private final Force jump;
@@ -77,7 +79,6 @@ final class StateAttackJump extends State
         super.enter();
 
         tileCollidable.addListener(listener);
-        jump.setDirection(0.0, 5.0);
         ground.set(false);
     }
 
@@ -90,7 +91,6 @@ final class StateAttackJump extends State
     @Override
     public void update(double extrp)
     {
-        final double side = control.getHorizontalDirection();
-        movement.setDestination(side * 3.0, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 }

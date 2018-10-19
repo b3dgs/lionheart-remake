@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.DirectionNone;
 
 /**
  * Crouch state implementation.
@@ -36,5 +37,14 @@ final class StateCrouch extends State
 
         addTransition(StateIdle.class, () -> !isGoingDown());
         addTransition(StateAttackCrouchPrepare.class, control::isFireButton);
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        movement.setDestination(0.0, 0.0);
+        movement.setDirection(DirectionNone.INSTANCE);
     }
 }

@@ -93,8 +93,6 @@ final class StateFall extends State
 
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
-        jump.setDirection(0.0, 0.0);
-        body.resetGravity();
         ground.set(false);
     }
 
@@ -108,6 +106,14 @@ final class StateFall extends State
     @Override
     public void update(double extrp)
     {
+        if (isGoingHorizontal())
+        {
+            movement.setVelocity(0.12);
+        }
+        else
+        {
+            movement.setVelocity(0.07);
+        }
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 }

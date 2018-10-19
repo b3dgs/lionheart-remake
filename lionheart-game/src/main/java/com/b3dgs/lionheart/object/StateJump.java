@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
@@ -29,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 final class StateJump extends State
 {
     private static final double SPEED = 5.0 / 3.0;
+    private static final double JUMP_MIN = 2.5;
     private static final double JUMP_MAX = 5.4;
 
     private final Transformable transformable;
@@ -65,10 +67,12 @@ final class StateJump extends State
         {
             if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
             {
-                jump.setVelocity(0.09);
                 check = checkNone;
+                jump.setDirectionMaximum(new Force(0.0,
+                                                   UtilMath.clamp(JUMP_MAX - jump.getDirectionVertical(),
+                                                                  JUMP_MIN,
+                                                                  JUMP_MAX)));
             }
-            body.resetGravity();
         };
     }
 
@@ -78,15 +82,26 @@ final class StateJump extends State
         super.enter();
 
         check = checkJumpStopped;
+
         jump.setSensibility(0.1);
         jump.setVelocity(0.18);
         jump.setDirection(0.0, JUMP_MAX);
+        jump.setDestination(0.0, 0.0);
+
+        movement.setVelocity(0.12);
+    }
+
+    @Override
+    public void exit()
+    {
+        jump.setDirectionMaximum(new Force(0.0, JUMP_MAX));
     }
 
     @Override
     public void update(double extrp)
     {
         check.update(extrp);
+        body.resetGravity();
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 }

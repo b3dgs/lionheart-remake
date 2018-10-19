@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
@@ -32,6 +33,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
  */
 final class StateIdle extends State
 {
+    private static final double SPEED = 5.0 / 3.0;
+    private static final double WALK_MIN_SPEED = 0.75;
+
     private final BorderDetection border = new BorderDetection();
     private final AtomicBoolean ground = new AtomicBoolean();
     private final TileCollidable tileCollidable;
@@ -71,11 +75,17 @@ final class StateIdle extends State
         };
 
         addTransition(StateBorder.class, () -> !isGoingHorizontal() && border.is());
-        addTransition(StateWalk.class, this::isGoingHorizontal);
+        addTransition(StateWalk.class, this::isWalkingFastEnough);
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class, () -> !ground.get() && transformable.getY() < transformable.getOldY());
+    }
+
+    private boolean isWalkingFastEnough()
+    {
+        final double speedH = movement.getDirectionHorizontal();
+        return isGoingHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -83,6 +93,7 @@ final class StateIdle extends State
     {
         super.enter();
 
+        movement.setVelocity(0.16);
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
         border.reset();
@@ -101,6 +112,7 @@ final class StateIdle extends State
     {
         super.update(extrp);
 
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
         ground.set(false);
     }
 }

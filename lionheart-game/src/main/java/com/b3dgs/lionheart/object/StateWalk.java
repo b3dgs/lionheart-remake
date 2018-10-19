@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
@@ -32,6 +33,7 @@ final class StateWalk extends State
 {
     private static final double SPEED = 5.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 6.0;
+    private static final double WALK_MIN_SPEED = 0.005;
 
     private final AtomicBoolean ground = new AtomicBoolean();
     private final TileCollidable tileCollidable;
@@ -62,9 +64,15 @@ final class StateWalk extends State
             }
         };
 
-        addTransition(StateIdle.class, () -> !isGoingHorizontal());
+        addTransition(StateIdle.class, this::isWalkingSlowEnough);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateFall.class, () -> !ground.get() && transformable.getY() < transformable.getOldY());
+    }
+
+    private boolean isWalkingSlowEnough()
+    {
+        final double speedH = movement.getDirectionHorizontal();
+        return !isGoingHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -91,6 +99,14 @@ final class StateWalk extends State
         {
             animator.play(animation);
             played = true;
+        }
+        if (isGoingHorizontal())
+        {
+            movement.setVelocity(0.14);
+        }
+        else
+        {
+            movement.setVelocity(0.12);
         }
 
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
