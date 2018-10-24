@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:effect xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.effect.Taken</lionengine:class>
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:feature>com.b3dgs.lionheart.object.Effect</lionengine:feature>
     <lionengine:surface image="Taken.png"/>
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="4" vertical="2"/>
-	<lionengine:animation name="start" start="1" end="8" speed="0.25" reversed="false" repeat="false"/>
+	<lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="false"/>
 </lionengine:effect>

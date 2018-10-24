@@ -17,20 +17,54 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.game.feature.Factory;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Handler;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Potion feature implementation.
  */
 public final class Potion extends FeatureModel implements CollidableListener
 {
+    private static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "Taken.xml");
+
+    private final Factory factory;
+    private final Handler handler;
+
+    @FeatureGet private Transformable transformable;
+
+    /**
+     * Create potion.
+     * 
+     * @param services The services reference.
+     * @param setup The setup reference.
+     */
+    public Potion(Services services, SetupSurfaceRastered setup)
+    {
+        super();
+
+        factory = services.get(Factory.class);
+        handler = services.get(Handler.class);
+    }
+
     @Override
     public void notifyCollided(Collidable collidable, Collision collision)
     {
         getFeature(Identifiable.class).destroy();
+
+        final Entity taken = factory.create(EFFECT);
+        taken.getFeature(Transformable.class).teleport(transformable.getX(), transformable.getY());
+        handler.add(taken);
     }
 }

@@ -55,6 +55,8 @@ public final class Constant
     public static final String FOLDER_SCENERIES = "scenery";
     /** Players folder. */
     public static final String FOLDER_PLAYERS = "player";
+    /** Effects folder. */
+    public static final String FOLDER_EFFECTS = "effect";
     /** Levels folder. */
     public static final String FOLDER_LEVELS = "levels";
 
