@@ -19,12 +19,11 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Handler;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
@@ -39,8 +38,7 @@ public final class Potion extends FeatureModel implements CollidableListener
 {
     private static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "Taken.xml");
 
-    private final Factory factory;
-    private final Handler handler;
+    private final Spawner spawner;
 
     @FeatureGet private Transformable transformable;
 
@@ -54,17 +52,13 @@ public final class Potion extends FeatureModel implements CollidableListener
     {
         super();
 
-        factory = services.get(Factory.class);
-        handler = services.get(Handler.class);
+        spawner = services.get(Spawner.class);
     }
 
     @Override
     public void notifyCollided(Collidable collidable, Collision collision)
     {
         getFeature(Identifiable.class).destroy();
-
-        final Entity taken = factory.create(EFFECT);
-        taken.getFeature(Transformable.class).teleport(transformable.getX(), transformable.getY());
-        handler.add(taken);
+        spawner.spawn(EFFECT, transformable.getX(), transformable.getY());
     }
 }

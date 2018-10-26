@@ -20,7 +20,6 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
@@ -163,8 +162,9 @@ final class World extends WorldGame
         valdynTransformable.teleport(960, 130);
         handler.add(valdyn);
 
-        add(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_SCENERIES, "swamp", "Sheet.xml"), 1050, 160);
-        add(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_ITEMS, "swamp", "PotionBig.xml"), 1000, 160);
+        spawn(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_SCENERIES, "swamp", "Sheet.xml"), 1050, 160);
+        spawn(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_ITEMS, "swamp", "PotionBig.xml"), 1000, 160);
+        spawn(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_MONSTERS, "swamp", "Crawling.xml"), 1000, 116);
 
         final CameraTracker tracker = new CameraTracker(services);
         tracker.addFeature(new LayerableModel(2));
@@ -173,13 +173,6 @@ final class World extends WorldGame
         handler.add(tracker);
 
         zooming.setZoom(scale);
-    }
-
-    private void add(Media media, int x, int y)
-    {
-        final Entity entity = factory.create(media);
-        entity.getFeature(Transformable.class).teleport(x, y);
-        handler.add(entity);
     }
 
     @Override
