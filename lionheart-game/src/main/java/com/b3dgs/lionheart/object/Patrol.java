@@ -17,21 +17,51 @@
  */
 package com.b3dgs.lionheart.object;
 
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Spawner;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.InputDeviceControlVoid;
 
 /**
  * Patrol feature implementation.
  */
-public final class Patrol extends FeatureModel implements Routine
+public final class Patrol extends FeatureModel implements Routine, CollidableListener
 {
+    private static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "ExplodeBig.xml");
+
     private final Tick change = new Tick();
+
+    private final Spawner spawner;
+
+    @FeatureGet private Transformable transformable;
+    @FeatureGet private EntityModel model;
+
     private double direction = 0.3;
 
-    @FeatureGet private EntityModel model;
+    /**
+     * Create patrol.
+     * 
+     * @param services The services reference.
+     * @param setup The setup reference.
+     */
+    public Patrol(Services services, SetupSurfaceRastered setup)
+    {
+        super();
+
+        spawner = services.get(Spawner.class);
+    }
 
     @Override
     public void prepare(FeatureProvider provider)
@@ -58,5 +88,12 @@ public final class Patrol extends FeatureModel implements Routine
             direction = -direction;
             change.restart();
         }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision collision)
+    {
+        getFeature(Identifiable.class).destroy();
+        spawner.spawn(EFFECT, transformable.getX(), transformable.getY() - transformable.getHeight() / 2);
     }
 }
