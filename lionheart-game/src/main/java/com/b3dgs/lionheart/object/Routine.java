@@ -19,10 +19,12 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
 
 /**
  * Routine interface representing a feature aimed to be updated.
  */
+@FeatureInterface
 public interface Routine extends Feature, Updatable
 {
     // Marker interface

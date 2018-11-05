@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.awt.Keyboard;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
@@ -27,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 /**
  * Entity updating implementation.
  */
+@FeatureInterface
 final class EntityKeyboardController extends FeatureModel
 {
     private final KeyboardControler controller;

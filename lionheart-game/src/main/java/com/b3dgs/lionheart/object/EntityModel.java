@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
@@ -34,6 +35,7 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
 /**
  * Entity model implementation.
  */
+@FeatureInterface
 final class EntityModel extends FeatureModel
 {
     private static final double GRAVITY = 5.5;
