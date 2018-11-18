@@ -91,6 +91,7 @@ final class StateFall extends State
     {
         super.enter();
 
+        tileCollidable.setEnabled(true);
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
         ground.set(false);

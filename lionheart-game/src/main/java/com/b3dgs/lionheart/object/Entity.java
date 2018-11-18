@@ -27,10 +27,10 @@ import com.b3dgs.lionengine.game.feature.FeaturableModel;
 import com.b3dgs.lionengine.game.feature.LayerableConfig;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.MirrorableModel;
+import com.b3dgs.lionengine.game.feature.Recycler;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.TransformableModel;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.body.BodyModel;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
@@ -39,8 +39,6 @@ import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
 import com.b3dgs.lionheart.Constant;
 
@@ -73,6 +71,7 @@ public final class Entity extends FeaturableModel
     {
         super(services, setup);
 
+        addFeature(new Recycler());
         addFeature(new MirrorableModel());
         addFeature(new TransformableModel(setup));
         addFeature(new AnimatableModel());
@@ -94,16 +93,8 @@ public final class Entity extends FeaturableModel
         rasterable.setOrigin(Origin.CENTER_BOTTOM);
 
         addFeature(new EntityRenderer());
-
-        final Body body = addFeatureAndGet(new BodyModel());
-        final TileCollidable tileCollidable = addFeatureAndGet(new TileCollidableModel(services, setup));
-        tileCollidable.addListener((tile, category) ->
-        {
-            if (Axis.Y == category.getAxis())
-            {
-                body.resetGravity();
-            }
-        });
+        addFeature(new BodyModel());
+        addFeature(new TileCollidableModel(services, setup));
 
         final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
         final Force movement = model.getMovement();

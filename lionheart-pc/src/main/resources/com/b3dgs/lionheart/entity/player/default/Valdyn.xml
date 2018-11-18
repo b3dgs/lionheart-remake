@@ -6,12 +6,19 @@
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
-	<lionengine:category name="leg_left" axis="Y" x="-5" y="0">
-		<lionengine:group>slope_left_0</lionengine:group>
-		<lionengine:group>slope_left_1</lionengine:group>
-		<lionengine:group>slope_right_0</lionengine:group>
-		<lionengine:group>slope_right_1</lionengine:group>
-		<lionengine:group>ground</lionengine:group>
+    <lionengine:category name="leg_center" axis="Y" x="0" y="0">
+        <lionengine:group>ground</lionengine:group>
+        <lionengine:group>slope_left_0</lionengine:group>
+        <lionengine:group>slope_left_1</lionengine:group>
+        <lionengine:group>slope_right_0</lionengine:group>
+        <lionengine:group>slope_right_1</lionengine:group>
+    </lionengine:category>
+    <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
+        <lionengine:group>slope_left_0</lionengine:group>
+        <lionengine:group>slope_left_1</lionengine:group>
+        <lionengine:group>slope_right_0</lionengine:group>
+        <lionengine:group>slope_right_1</lionengine:group>
+        <lionengine:group>ground</lionengine:group>
     </lionengine:category>
     <lionengine:category name="leg_right" axis="Y" x="5" y="0">
         <lionengine:group>slope_left_0</lionengine:group>
@@ -26,7 +33,7 @@
 	<lionengine:animation name="idle" start="1" end="1" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="crouch" start="3" end="3" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="land" start="21" end="21" speed="0.125" reversed="false" repeat="false" />
-	<lionengine:animation name="walk" start="26" end="35" speed="0.25" reversed="false" repeat="true" />
+    <lionengine:animation name="walk" start="26" end="35" speed="0.25" reversed="false" repeat="true" />
 	<lionengine:animation name="turn" start="26" end="35" speed="0.25" reversed="false" repeat="true" />
 	<lionengine:animation name="jump" start="17" end="19" speed="0.25" reversed="false" repeat="false" />
 	<lionengine:animation name="fall" start="20" end="20" speed="0.125" reversed="false" repeat="false" />

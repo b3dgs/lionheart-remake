@@ -1,22 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:formulas xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:formula name="line">
-        <lionengine:range maxX="16" maxY="1" minX="0" minY="0" output="Y" />
+    <lionengine:formula name="ground">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
         <lionengine:function a="0.0" b="0.0" type="LINEAR" />
     </lionengine:formula>
     <lionengine:formula name="slope_left_0">
-        <lionengine:range maxX="16" maxY="8" minX="0" minY="0" output="Y" />
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
         <lionengine:function a="0.5" b="0.0" type="LINEAR" />
     </lionengine:formula>
     <lionengine:formula name="slope_left_1">
-        <lionengine:range maxX="16" maxY="16" minX="0" minY="8" output="Y" />
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
         <lionengine:function a="0.5" b="8.0" type="LINEAR" />
     </lionengine:formula>
     <lionengine:formula name="slope_right_0">
-        <lionengine:range maxX="16" maxY="8" minX="0" minY="0" output="Y" />
-        <lionengine:function a="-0.5" b="7.5" type="LINEAR" />
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
+        <lionengine:function a="-0.5" b="8.0" type="LINEAR" />
     </lionengine:formula>
     <lionengine:formula name="slope_right_1">
-        <lionengine:range maxX="16" maxY="16" minX="0" minY="8" output="Y" />
-        <lionengine:function a="-0.5" b="15.5" type="LINEAR" />
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
+        <lionengine:function a="-0.5" b="16.0" type="LINEAR" />
+    </lionengine:formula>
+    <lionengine:formula name="steep_left">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
+        <lionengine:function a="1.0" b="0.0" type="LINEAR" />
+    </lionengine:formula>
+    <lionengine:formula name="steep_right">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y" />
+        <lionengine:function a="-1.0" b="16.0" type="LINEAR" />
     </lionengine:formula>
 </lionengine:formulas>

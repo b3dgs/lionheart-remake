@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.feature.Transformable;
 
 /**
  * Land state implementation.
@@ -41,9 +42,12 @@ final class StateLand extends State
     {
         super(model, animation);
 
+        final Transformable transformable = model.getFeature(Transformable.class);
+
         addTransition(StateIdle.class, () -> !isGoingDown() && landed.elapsed(LAND_TICK));
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateCrouch.class, this::isGoingDown);
+        addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
     }
 
     @Override

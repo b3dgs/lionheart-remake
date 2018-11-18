@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 
@@ -47,10 +48,13 @@ final class StateBorder extends State
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
 
+        final Transformable transformable = model.getFeature(Transformable.class);
+
         addTransition(StateWalk.class, this::isGoingHorizontal);
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
+        addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
     }
 
     @Override

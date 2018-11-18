@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 
 /**
  * Jump state implementation.
@@ -36,6 +37,7 @@ final class StateJump extends State
     private final Transformable transformable;
     private final Force jump;
     private final Body body;
+    private final TileCollidable tileCollidable;
     private final Updatable checkJumpStopped;
     private final Updatable checkNone = extrp ->
     {
@@ -56,6 +58,7 @@ final class StateJump extends State
         transformable = model.getFeature(Transformable.class);
         jump = model.getJump();
         body = model.getFeature(Body.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
 
         addTransition(StateFall.class,
                       () -> Double.compare(jump.getDirectionVertical(), 0.0) <= 0
@@ -89,6 +92,7 @@ final class StateJump extends State
         jump.setDestination(0.0, 0.0);
 
         movement.setVelocity(0.12);
+        tileCollidable.setEnabled(false);
     }
 
     @Override

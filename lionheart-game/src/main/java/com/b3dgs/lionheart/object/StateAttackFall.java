@@ -78,6 +78,7 @@ final class StateAttackFall extends State
     {
         super.enter();
 
+        tileCollidable.setEnabled(true);
         tileCollidable.addListener(listener);
         ground.set(false);
     }
