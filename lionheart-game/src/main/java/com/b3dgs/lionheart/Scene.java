@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
+import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
@@ -27,6 +28,10 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
+import com.b3dgs.lionengine.graphic.ColorRgba;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.io.FileWriting;
 
 /**
@@ -35,6 +40,29 @@ import com.b3dgs.lionengine.io.FileWriting;
 final class Scene extends SequenceGame
 {
     private static final String ERROR_SAVING_MAP = "Error on saving map !";
+    private static final String NAME = Constant.PROGRAM_NAME
+                                       + com.b3dgs.lionengine.Constant.SPACE
+                                       + Constant.PROGRAM_VERSION;
+    private static final String ENGINE = com.b3dgs.lionengine.Constant.ENGINE_NAME
+                                         + com.b3dgs.lionengine.Constant.SPACE
+                                         + com.b3dgs.lionengine.Constant.ENGINE_VERSION;
+
+    /**
+     * Set text data.
+     * 
+     * @param text The text object.
+     * @param value The text value.
+     * @param x The horizontal location.
+     * @param y The vertical location.
+     * @param align The align used.
+     */
+    private static void setText(Text text, String value, int x, int y, Align align)
+    {
+        text.setLocation(x, y);
+        text.setAlign(align);
+        text.setText(value);
+        text.setColor(ColorRgba.GRAY_LIGHT);
+    }
 
     /**
      * Import the level and save it.
@@ -57,6 +85,8 @@ final class Scene extends SequenceGame
         }
     }
 
+    private final Text textName = Graphics.createText(9);
+    private final Text textEngine = Graphics.createText(9);
     /** Current level. */
     private final Level level = Level.SWAMP_1_1;
 
@@ -78,5 +108,17 @@ final class Scene extends SequenceGame
             importLevelAndSave(level);
         }
         world.loadFromFile(level.getFile());
+
+        setText(textEngine, ENGINE, 0, getHeight() - textEngine.getSize(), Align.LEFT);
+        setText(textName, NAME, getWidth(), getHeight() - textName.getSize(), Align.RIGHT);
+    }
+
+    @Override
+    public void render(Graphic g)
+    {
+        super.render(g);
+
+        textEngine.render(g);
+        textName.render(g);
     }
 }
