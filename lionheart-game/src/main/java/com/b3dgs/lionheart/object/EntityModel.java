@@ -74,7 +74,6 @@ final class EntityModel extends FeatureModel
         {
             body.setGravity(GRAVITY);
             body.setGravityMax(GRAVITY_MAX);
-            body.setVectors(movement, jump);
             body.setDesiredFps(source.getRate());
         }
         else

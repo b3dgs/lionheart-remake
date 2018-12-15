@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -31,16 +30,12 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionengine.game.feature.tile.Tile;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Entity updating implementation.
  */
-final class EntityUpdater extends FeatureModel implements Refreshable, TileCollidableListener
+final class EntityUpdater extends FeatureModel implements Refreshable
 {
     private final Force movement;
     private final Force jump;
@@ -101,8 +96,9 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
         state.update(extrp);
         jump.update(extrp);
         movement.update(extrp);
-        body.update(extrp);
+        transformable.moveLocation(extrp, body, movement, jump);
         tileCollidable.update(extrp);
+        state.postUpdate();
 
         if (transformable.getY() < 0)
         {
@@ -113,15 +109,5 @@ final class EntityUpdater extends FeatureModel implements Refreshable, TileColli
         updateMirror(extrp);
         animatable.update(extrp);
         rasterable.update(extrp);
-    }
-
-    @Override
-    public void notifyTileCollided(Tile tile, CollisionCategory category)
-    {
-        if (Axis.Y == category.getAxis() && transformable.getY() < transformable.getOldY())
-        {
-            body.resetGravity();
-            jump.setDirection(DirectionNone.INSTANCE);
-        }
     }
 }

@@ -20,8 +20,8 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
-import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
@@ -83,7 +83,7 @@ final class BorderDetection implements TileCollidableListener, CollidableListene
     }
 
     @Override
-    public void notifyTileCollided(Tile tile, CollisionCategory category)
+    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
         final String name = category.getName();
         if (LEG_LEFT.equals(name))

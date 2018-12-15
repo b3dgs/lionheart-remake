@@ -56,7 +56,7 @@ final class StateAttackFall extends State
         final Body body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
 
-        listener = (tile, category) ->
+        listener = (result, category) ->
         {
             if (Axis.Y == category.getAxis())
             {

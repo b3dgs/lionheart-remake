@@ -56,7 +56,7 @@ final class StateAttackJump extends State
         tileCollidable = model.getFeature(TileCollidable.class);
         jump = model.getJump();
 
-        listener = (tile, category) ->
+        listener = (result, category) ->
         {
             if (Axis.Y == category.getAxis())
             {

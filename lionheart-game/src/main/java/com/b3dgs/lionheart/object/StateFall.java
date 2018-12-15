@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
@@ -37,7 +36,7 @@ final class StateFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
-    private final AtomicBoolean ground = new AtomicBoolean();
+    private final AtomicBoolean collideY = new AtomicBoolean();
     private final Body body;
     private final TileCollidable tileCollidable;
     private final Collidable collidable;
@@ -55,35 +54,32 @@ final class StateFall extends State
     {
         super(model, animation);
 
-        final Transformable transformable = model.getFeature(Transformable.class);
         body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
         jump = model.getJump();
 
-        listenerTileCollidable = (tile, category) ->
+        listenerTileCollidable = (result, category) ->
         {
             if (Axis.Y == category.getAxis())
             {
+                tileCollidable.apply(result);
                 jump.setDirection(DirectionNone.INSTANCE);
                 body.resetGravity();
-                if (transformable.getY() < transformable.getOldY())
-                {
-                    ground.set(true);
-                }
+                collideY.set(true);
             }
         };
         listenerCollidable = (collidable, collision) ->
         {
             if (collidable.hasFeature(Sheet.class))
             {
-                ground.set(true);
+                collideY.set(true);
             }
         };
 
-        addTransition(StateLand.class, ground::get);
-        addTransition(StateAttackJump.class, () -> !ground.get() && control.isFireButton() && !isGoingDown());
-        addTransition(StateAttackFall.class, () -> !ground.get() && control.isFireButton() && isGoingDown());
+        addTransition(StateLand.class, collideY::get);
+        addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButton() && !isGoingDown());
+        addTransition(StateAttackFall.class, () -> !collideY.get() && control.isFireButton() && isGoingDown());
     }
 
     @Override
@@ -94,7 +90,7 @@ final class StateFall extends State
         tileCollidable.setEnabled(true);
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
-        ground.set(false);
+        collideY.set(false);
     }
 
     @Override
@@ -107,6 +103,7 @@ final class StateFall extends State
     @Override
     public void update(double extrp)
     {
+        body.update(extrp);
         if (isGoingHorizontal())
         {
             movement.setVelocity(0.12);

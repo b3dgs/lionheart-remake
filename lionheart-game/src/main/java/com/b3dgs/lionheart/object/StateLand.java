@@ -17,20 +17,28 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Land state implementation.
  */
-final class StateLand extends State
+final class StateLand extends State implements TileCollidableListener
 {
     private static final double SPEED = 5.0 / 3.0;
     private static final long LAND_TICK = 10L;
 
+    private final AtomicBoolean collideY = new AtomicBoolean();
     private final Tick landed = new Tick();
+    private final TileCollidable tileCollidable;
 
     /**
      * Create the state.
@@ -42,12 +50,13 @@ final class StateLand extends State
     {
         super(model, animation);
 
-        final Transformable transformable = model.getFeature(Transformable.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
 
         addTransition(StateIdle.class, () -> !isGoingDown() && landed.elapsed(LAND_TICK));
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateCrouch.class, this::isGoingDown);
-        addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
+        addTransition(StateFall.class,
+                      () -> !collideY.get() && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
     }
 
     @Override
@@ -55,7 +64,14 @@ final class StateLand extends State
     {
         super.enter();
 
+        tileCollidable.addListener(this);
         landed.restart();
+    }
+
+    @Override
+    public void exit()
+    {
+        tileCollidable.removeListener(this);
     }
 
     @Override
@@ -72,6 +88,16 @@ final class StateLand extends State
         else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
         {
             mirrorable.mirror(Mirror.NONE);
+        }
+    }
+
+    @Override
+    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
+    {
+        if (Axis.Y == category.getAxis())
+        {
+            tileCollidable.apply(result);
+            collideY.set(true);
         }
     }
 }
