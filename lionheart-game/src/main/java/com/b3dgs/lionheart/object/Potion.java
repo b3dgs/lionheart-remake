@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -34,13 +35,17 @@ import com.b3dgs.lionheart.Constant;
 /**
  * Potion feature implementation.
  */
-public final class Potion extends FeatureModel implements CollidableListener
+public final class Potion extends FeatureModel implements CollidableListener, Recyclable
 {
-    private static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "Taken.xml");
+    /** Taken effect. */
+    public static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "Taken.xml");
 
     private final Spawner spawner;
 
+    @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
+
+    private boolean spawned;
 
     /**
      * Create potion.
@@ -58,7 +63,17 @@ public final class Potion extends FeatureModel implements CollidableListener
     @Override
     public void notifyCollided(Collidable collidable, Collision collision)
     {
-        getFeature(Identifiable.class).destroy();
-        spawner.spawn(EFFECT, transformable.getX(), transformable.getY());
+        if (!spawned)
+        {
+            spawner.spawn(EFFECT, transformable.getX(), transformable.getY());
+            identifiable.destroy();
+            spawned = true;
+        }
+    }
+
+    @Override
+    public void recycle()
+    {
+        spawned = false;
     }
 }
