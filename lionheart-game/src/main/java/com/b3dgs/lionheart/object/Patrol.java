@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -37,18 +38,20 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
 /**
  * Patrol feature implementation.
  */
-public final class Patrol extends FeatureModel implements Routine, CollidableListener
+public final class Patrol extends FeatureModel implements Routine, CollidableListener, Recyclable
 {
-    private static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "ExplodeBig.xml");
+    /** Explode effect. */
+    public static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "ExplodeBig.xml");
 
     private final Tick change = new Tick();
-
     private final Spawner spawner;
 
+    @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
 
     private double direction = 0.3;
+    private boolean spawned;
 
     /**
      * Create patrol.
@@ -93,7 +96,17 @@ public final class Patrol extends FeatureModel implements Routine, CollidableLis
     @Override
     public void notifyCollided(Collidable collidable, Collision collision)
     {
-        getFeature(Identifiable.class).destroy();
-        spawner.spawn(EFFECT, transformable.getX(), transformable.getY() - transformable.getHeight() / 2);
+        if (!spawned)
+        {
+            spawner.spawn(EFFECT, transformable.getX(), transformable.getY() - transformable.getHeight() / 2);
+            identifiable.destroy();
+            spawned = true;
+        }
+    }
+
+    @Override
+    public void recycle()
+    {
+        spawned = false;
     }
 }
