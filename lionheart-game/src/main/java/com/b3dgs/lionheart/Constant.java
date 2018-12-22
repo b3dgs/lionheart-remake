@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.UtilFolder;
 import com.b3dgs.lionengine.Version;
 
 /**
@@ -37,7 +38,7 @@ public final class Constant
     public static final Resolution DEFAULT_RESOLUTION = new Resolution(320, 256, NATIVE_RESOLUTION.getRate());
 
     /** Debug flag (shows collisions). */
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     /** Sprites folder. */
     public static final String FOLDER_SPRITES = "sprite";
@@ -48,13 +49,13 @@ public final class Constant
     /** Entities folder. */
     public static final String FOLDER_ENTITIES = "entity";
     /** Items folder. */
-    public static final String FOLDER_ITEMS = "item";
+    public static final String FOLDER_ITEMS = UtilFolder.getPath(FOLDER_ENTITIES, "item");
     /** Monsters folder. */
-    public static final String FOLDER_MONSTERS = "monster";
+    public static final String FOLDER_MONSTERS = UtilFolder.getPath(FOLDER_ENTITIES, "monster");
     /** Sceneries folder. */
-    public static final String FOLDER_SCENERIES = "scenery";
+    public static final String FOLDER_SCENERIES = UtilFolder.getPath(FOLDER_ENTITIES, "scenery");
     /** Players folder. */
-    public static final String FOLDER_PLAYERS = "player";
+    public static final String FOLDER_PLAYERS = UtilFolder.getPath(FOLDER_ENTITIES, "player");
     /** Effects folder. */
     public static final String FOLDER_EFFECTS = "effect";
     /** Levels folder. */

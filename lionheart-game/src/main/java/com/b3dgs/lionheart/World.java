@@ -153,18 +153,15 @@ final class World extends WorldGame
 
         landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DUSK);
 
-        final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_ENTITIES,
-                                                           Constant.FOLDER_PLAYERS,
-                                                           "default",
-                                                           "Valdyn.xml"));
+        final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
 
         final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
-        valdynTransformable.teleport(960, 130);
+        valdynTransformable.teleport(960, 112);
         handler.add(valdyn);
 
-        spawn(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_SCENERIES, "swamp", "Sheet.xml"), 1050, 160);
-        spawn(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_ITEMS, "swamp", "PotionBig.xml"), 1000, 160);
-        spawn(Medias.create(Constant.FOLDER_ENTITIES, Constant.FOLDER_MONSTERS, "swamp", "Crawling.xml"), 1000, 116);
+        spawn(Medias.create(Constant.FOLDER_SCENERIES, "swamp", "Sheet.xml"), 1050, 160);
+        spawn(Medias.create(Constant.FOLDER_ITEMS, "swamp", "PotionBig.xml"), 1000, 160);
+        spawn(Medias.create(Constant.FOLDER_MONSTERS, "swamp", "Crawling.xml"), 1000, 116);
 
         final CameraTracker tracker = new CameraTracker(services);
         tracker.addFeature(new LayerableModel(2));
