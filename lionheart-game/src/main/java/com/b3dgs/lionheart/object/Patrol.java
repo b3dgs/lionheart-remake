@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -38,6 +39,7 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
 /**
  * Patrol feature implementation.
  */
+@FeatureInterface
 public final class Patrol extends FeatureModel implements Routine, CollidableListener, Recyclable
 {
     /** Explode effect. */

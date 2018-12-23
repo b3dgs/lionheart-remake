@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -35,6 +36,7 @@ import com.b3dgs.lionheart.Constant;
 /**
  * Potion feature implementation.
  */
+@FeatureInterface
 public final class Potion extends FeatureModel implements CollidableListener, Recyclable
 {
     /** Taken effect. */
