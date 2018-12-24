@@ -20,7 +20,7 @@
         <lionengine:group>slope_right_1</lionengine:group>
         <lionengine:group>ground</lionengine:group>
     </lionengine:category>
-	<lionengine:collision name="default" offsetX="10" offsetY="-4" width="40" height="24" mirror="false" />
+	<lionengine:collision name="default" offsetX="0" offsetY="0" width="40" height="24" mirror="false" />
 	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
 	<lionengine:animation name="walk" start="1" end="16" speed="0.25" reversed="false" repeat="true"/>
 	<lionengine:animation name="turn" start="17" end="20" speed="0.25" reversed="false" repeat="false"/>
