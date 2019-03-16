@@ -6,21 +6,21 @@
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
-    <lionengine:category name="leg_center" axis="Y" x="0" y="0">
+    <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
         <lionengine:group>ground</lionengine:group>
         <lionengine:group>slope_left_0</lionengine:group>
         <lionengine:group>slope_left_1</lionengine:group>
         <lionengine:group>slope_right_0</lionengine:group>
         <lionengine:group>slope_right_1</lionengine:group>
     </lionengine:category>
-    <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
+    <lionengine:category name="leg_left" axis="Y" x="-5" y="0" glue="true">
         <lionengine:group>slope_left_0</lionengine:group>
         <lionengine:group>slope_left_1</lionengine:group>
         <lionengine:group>slope_right_0</lionengine:group>
         <lionengine:group>slope_right_1</lionengine:group>
         <lionengine:group>ground</lionengine:group>
     </lionengine:category>
-    <lionengine:category name="leg_right" axis="Y" x="5" y="0">
+    <lionengine:category name="leg_right" axis="Y" x="5" y="0" glue="true">
         <lionengine:group>slope_left_0</lionengine:group>
         <lionengine:group>slope_left_1</lionengine:group>
         <lionengine:group>slope_right_0</lionengine:group>
