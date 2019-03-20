@@ -73,6 +73,30 @@ public final class InputDeviceControlDelegate implements InputDeviceControl
     }
 
     @Override
+    public Integer getHorizontalControlPositive()
+    {
+        return get().getHorizontalControlPositive();
+    }
+
+    @Override
+    public Integer getHorizontalControlNegative()
+    {
+        return get().getHorizontalControlNegative();
+    }
+
+    @Override
+    public Integer getVerticalControlPositive()
+    {
+        return get().getVerticalControlPositive();
+    }
+
+    @Override
+    public Integer getVerticalControlNegative()
+    {
+        return get().getVerticalControlNegative();
+    }
+
+    @Override
     public double getHorizontalDirection()
     {
         return get().getHorizontalDirection();

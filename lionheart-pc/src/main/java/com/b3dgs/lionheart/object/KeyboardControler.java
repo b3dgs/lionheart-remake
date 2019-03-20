@@ -66,6 +66,30 @@ public final class KeyboardControler implements InputDeviceControl
     }
 
     @Override
+    public Integer getHorizontalControlPositive()
+    {
+        return keyboard.getHorizontalControlPositive();
+    }
+
+    @Override
+    public Integer getHorizontalControlNegative()
+    {
+        return keyboard.getHorizontalControlNegative();
+    }
+
+    @Override
+    public Integer getVerticalControlPositive()
+    {
+        return keyboard.getVerticalControlPositive();
+    }
+
+    @Override
+    public Integer getVerticalControlNegative()
+    {
+        return keyboard.getVerticalControlNegative();
+    }
+
+    @Override
     public double getHorizontalDirection()
     {
         return keyboard.getHorizontalDirection();

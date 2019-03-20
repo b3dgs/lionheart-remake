@@ -67,6 +67,30 @@ public class InputDeviceControlVoid implements InputDeviceControl
     }
 
     @Override
+    public Integer getHorizontalControlPositive()
+    {
+        return null;
+    }
+
+    @Override
+    public Integer getHorizontalControlNegative()
+    {
+        return null;
+    }
+
+    @Override
+    public Integer getVerticalControlPositive()
+    {
+        return null;
+    }
+
+    @Override
+    public Integer getVerticalControlNegative()
+    {
+        return null;
+    }
+
+    @Override
     public double getHorizontalDirection()
     {
         return 0.0;
