@@ -2,6 +2,7 @@
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
     <lionengine:feature>com.b3dgs.lionheart.object.EntityKeyboardController</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.SwordShade</lionengine:feature>
     <lionengine:surface image="Valdyn.png"/>
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
@@ -96,10 +97,10 @@
 		<attack frame="4" x="15" y="25" width="26" height="25" />
 		<attack frame="5" x="15" y="5" width="26" height="15" />
 	</lionengine:animation>
-	<lionengine:animation name="shade_attack_up" start="1" end="2" speed="0.35" reversed="true" repeat="false" />
-	<lionengine:animation name="shade_attack_horizontal" start="9" end="12" speed="0.4" reversed="true" repeat="false" />
-	<lionengine:animation name="shade_attack_turning" start="24" end="30" speed="0.3" reversed="false" repeat="false" />
-	<lionengine:animation name="shade_attack_jump" start="31" end="35" speed="0.3" reversed="false" repeat="false" />
+	<lionengine:animation name="shade_attacktop" start="1" end="2" speed="0.35" reversed="true" repeat="false" />
+	<lionengine:animation name="shade_attackhorizontal" start="9" end="12" speed="0.4" reversed="true" repeat="false" />
+	<lionengine:animation name="shade_attackturning" start="24" end="30" speed="0.3" reversed="false" repeat="false" />
+	<lionengine:animation name="shade_attackjump" start="31" end="35" speed="0.3" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attack_slide" start="40" end="43" speed="0.3" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attack_liana" start="32" end="35" speed="0.3" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attack_groundhoockable" start="13" end="15" speed="0.4" reversed="false" repeat="false" />

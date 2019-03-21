@@ -34,6 +34,7 @@ final class EntityRenderer extends FeatureModel implements Displayable
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Routine routine;
 
     @Override
     public void render(Graphic g)
@@ -42,5 +43,7 @@ final class EntityRenderer extends FeatureModel implements Displayable
 
         g.setColor(ColorRgba.GREEN);
         collidable.render(g);
+
+        routine.render(g);
     }
 }

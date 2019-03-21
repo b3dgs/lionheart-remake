@@ -20,12 +20,18 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
 
 /**
- * Routine interface representing a feature aimed to be updated.
+ * Routine interface representing a feature aimed to be updated and rendered.
  */
 @FeatureInterface
-public interface Routine extends Feature, Updatable
+public interface Routine extends Feature, Updatable, Renderable
 {
-    // Marker interface
+    @Override
+    default void render(Graphic g)
+    {
+        // Nothing by default
+    }
 }

@@ -55,7 +55,7 @@ public final class Entity extends FeaturableModel
      * @param state The state class.
      * @return The animation name.
      */
-    private static String getAnimationName(Class<? extends State> state)
+    static String getAnimationName(Class<? extends State> state)
     {
         return state.getSimpleName().substring(PREFIX).toLowerCase(Locale.ENGLISH);
     }
@@ -92,7 +92,6 @@ public final class Entity extends FeaturableModel
         final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
         rasterable.setOrigin(Origin.CENTER_BOTTOM);
 
-        addFeature(new EntityRenderer());
         addFeature(new BodyModel());
         addFeature(new TileCollidableModel(services, setup));
 
@@ -114,5 +113,6 @@ public final class Entity extends FeaturableModel
         }
         final EntityModel model = getFeature(EntityModel.class);
         addFeature(new EntityUpdater(services, model));
+        addFeature(new EntityRenderer());
     }
 }
