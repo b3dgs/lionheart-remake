@@ -32,9 +32,44 @@ public interface InputDeviceControl extends InputDeviceDirectional
     void setFireButton(Integer code);
 
     /**
+     * Check if up button is enabled one time.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    boolean isUpButtonOnce();
+
+    /**
+     * Check if down button is enabled one time.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    boolean isDownButtonOnce();
+
+    /**
+     * Check if left button is enabled one time.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    boolean isLeftButtonOnce();
+
+    /**
+     * Check if right button is enabled one time.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    boolean isRightButtonOnce();
+
+    /**
      * Check if fire button is enabled.
      * 
      * @return <code>true</code> if active, <code>false</code> else.
      */
     boolean isFireButton();
+
+    /**
+     * Check if fire button is enabled one time.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    boolean isFireButtonOnce();
 }

@@ -108,8 +108,38 @@ public final class KeyboardControler implements InputDeviceControl
     }
 
     @Override
+    public boolean isUpButtonOnce()
+    {
+        return keyboard.isPressedOnce(keyboard.getVerticalControlPositive());
+    }
+
+    @Override
+    public boolean isDownButtonOnce()
+    {
+        return keyboard.isPressedOnce(keyboard.getVerticalControlNegative());
+    }
+
+    @Override
+    public boolean isLeftButtonOnce()
+    {
+        return keyboard.isPressedOnce(keyboard.getHorizontalControlNegative());
+    }
+
+    @Override
+    public boolean isRightButtonOnce()
+    {
+        return keyboard.isPressedOnce(keyboard.getHorizontalControlPositive());
+    }
+
+    @Override
     public boolean isFireButton()
     {
         return keyboard.isPressed(fire);
+    }
+
+    @Override
+    public boolean isFireButtonOnce()
+    {
+        return keyboard.isPressedOnce(fire);
     }
 }

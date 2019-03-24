@@ -115,8 +115,38 @@ public final class InputDeviceControlDelegate implements InputDeviceControl
     }
 
     @Override
+    public boolean isUpButtonOnce()
+    {
+        return get().isUpButtonOnce();
+    }
+
+    @Override
+    public boolean isDownButtonOnce()
+    {
+        return get().isDownButtonOnce();
+    }
+
+    @Override
+    public boolean isLeftButtonOnce()
+    {
+        return get().isLeftButtonOnce();
+    }
+
+    @Override
+    public boolean isRightButtonOnce()
+    {
+        return get().isRightButtonOnce();
+    }
+
+    @Override
     public boolean isFireButton()
     {
         return get().isFireButton();
+    }
+
+    @Override
+    public boolean isFireButtonOnce()
+    {
+        return get().isFireButtonOnce();
     }
 }

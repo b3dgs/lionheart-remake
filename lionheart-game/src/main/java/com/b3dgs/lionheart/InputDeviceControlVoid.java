@@ -109,7 +109,37 @@ public class InputDeviceControlVoid implements InputDeviceControl
     }
 
     @Override
+    public boolean isUpButtonOnce()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isDownButtonOnce()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isLeftButtonOnce()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isRightButtonOnce()
+    {
+        return false;
+    }
+
+    @Override
     public boolean isFireButton()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isFireButtonOnce()
     {
         return false;
     }

@@ -143,6 +143,46 @@ abstract class State extends StateAbstract
         return Double.compare(control.getVerticalDirection(), 0.0) < 0;
     }
 
+    /**
+     * Check if going up one time.
+     * 
+     * @return <code>true</code> if going to up, <code>false</code> else.
+     */
+    protected final boolean isGoingUpOnce()
+    {
+        return control.isUpButtonOnce();
+    }
+
+    /**
+     * Check if going down one time.
+     * 
+     * @return <code>true</code> if going to down, <code>false</code> else.
+     */
+    protected final boolean isGoingDownOnce()
+    {
+        return control.isUpButtonOnce();
+    }
+
+    /**
+     * Check if going left once.
+     * 
+     * @return <code>true</code> if going to left, <code>false</code> else.
+     */
+    protected final boolean isGoingLeftOnce()
+    {
+        return control.isLeftButtonOnce();
+    }
+
+    /**
+     * Check if going right once.
+     * 
+     * @return <code>true</code> if going to right, <code>false</code> else.
+     */
+    protected final boolean isGoingRightOnce()
+    {
+        return control.isRightButtonOnce();
+    }
+
     @Override
     public void enter()
     {
