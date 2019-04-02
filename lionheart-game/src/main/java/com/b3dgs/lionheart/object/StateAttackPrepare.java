@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.DirectionNone;
 
 /**
  * Prepare attack state implementation.
@@ -37,5 +38,14 @@ final class StateAttackPrepare extends State
 
         addTransition(StateAttackPrepared.class, () -> control.isFireButton() && is(AnimState.FINISHED));
         addTransition(StateIdle.class, () -> !control.isFireButton() && is(AnimState.FINISHED));
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        movement.setDestination(0.0, 0.0);
+        movement.setDirection(DirectionNone.INSTANCE);
     }
 }

@@ -78,7 +78,7 @@ final class StateFall extends State
         };
 
         addTransition(StateLand.class, collideY::get);
-        addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButton() && !isGoingDown());
+        addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> !collideY.get() && control.isFireButton() && isGoingDown());
     }
 
@@ -87,7 +87,6 @@ final class StateFall extends State
     {
         super.enter();
 
-        tileCollidable.setEnabled(true);
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
         collideY.set(false);

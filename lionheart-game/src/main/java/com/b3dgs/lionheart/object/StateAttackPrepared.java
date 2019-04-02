@@ -37,7 +37,7 @@ final class StateAttackPrepared extends State
 
         addTransition(StateAttackHorizontal.class, () -> control.isFireButton() && canAttackHorizontal());
         addTransition(StateAttackTurning.class, () -> control.isFireButton() && canAttackTurning());
-        addTransition(StateAttackTop.class, () -> control.isFireButton() && isGoingUp());
+        addTransition(StateAttackTop.class, () -> control.isFireButton() && isGoingUpOnce());
         addTransition(StateAttackCrouchPrepared.class, () -> isGoingDown());
         addTransition(StateAttackUnprepare.class, () -> !control.isFireButton());
     }
@@ -46,13 +46,13 @@ final class StateAttackPrepared extends State
     {
         final Mirror mirror = mirrorable.getMirror();
 
-        return mirror == Mirror.HORIZONTAL && isGoingLeft() || mirror == Mirror.NONE && isGoingRight();
+        return mirror == Mirror.HORIZONTAL && isGoingLeftOnce() || mirror == Mirror.NONE && isGoingRightOnce();
     }
 
     private boolean canAttackTurning()
     {
         final Mirror mirror = mirrorable.getMirror();
 
-        return mirror == Mirror.NONE && isGoingLeft() || mirror == Mirror.HORIZONTAL && isGoingRight();
+        return mirror == Mirror.NONE && isGoingLeftOnce() || mirror == Mirror.HORIZONTAL && isGoingRightOnce();
     }
 }

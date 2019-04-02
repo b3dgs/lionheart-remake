@@ -60,7 +60,7 @@ final class StateJump extends State
         addTransition(StateFall.class,
                       () -> Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                             || transformable.getY() < transformable.getOldY());
-        addTransition(StateAttackJump.class, () -> control.isFireButton() && !isGoingDown());
+        addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
 
         checkJumpStopped = extrp ->

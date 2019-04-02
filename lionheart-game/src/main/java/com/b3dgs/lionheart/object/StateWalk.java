@@ -21,23 +21,26 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 
 /**
  * Walk state implementation.
  */
-final class StateWalk extends State implements TileCollidableListener
+final class StateWalk extends State
 {
     private static final double SPEED = 5.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.005;
 
     private final AtomicBoolean collideY = new AtomicBoolean();
+    private final Collidable collidable;
     private final TileCollidable tileCollidable;
+    private final TileCollidableListener listenerTileCollidable;
+    private final CollidableListener listenerCollidable;
 
     /**
      * Create the state.
@@ -50,10 +53,29 @@ final class StateWalk extends State implements TileCollidableListener
         super(model, animation);
 
         tileCollidable = model.getFeature(TileCollidable.class);
+        collidable = model.getFeature(Collidable.class);
+
+        listenerTileCollidable = (result, category) ->
+        {
+            if (Axis.Y == category.getAxis())
+            {
+                tileCollidable.apply(result);
+                collideY.set(true);
+            }
+        };
+        listenerCollidable = (collidable, collision) ->
+        {
+            if (collidable.hasFeature(Sheet.class))
+            {
+                collideY.set(true);
+            }
+        };
 
         addTransition(StateIdle.class, this::isWalkingSlowEnough);
         addTransition(StateJump.class, this::isGoingUp);
-        addTransition(StateFall.class, () -> !collideY.get());
+        addTransition(StateAttackPrepare.class, control::isFireButton);
+        addTransition(StateFall.class,
+                      () -> Double.compare(movement.getDirectionHorizontal(), 0.0) != 0 && !collideY.get());
     }
 
     private boolean isWalkingSlowEnough()
@@ -68,19 +90,20 @@ final class StateWalk extends State implements TileCollidableListener
         super.enter();
 
         movement.setVelocity(0.16);
-        tileCollidable.addListener(this);
+        tileCollidable.addListener(listenerTileCollidable);
+        collidable.addListener(listenerCollidable);
     }
 
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(this);
+        tileCollidable.removeListener(listenerTileCollidable);
+        collidable.removeListener(listenerCollidable);
     }
 
     @Override
     public void update(double extrp)
     {
-        collideY.set(false);
         if (isGoingHorizontal())
         {
             movement.setVelocity(0.14);
@@ -94,12 +117,8 @@ final class StateWalk extends State implements TileCollidableListener
     }
 
     @Override
-    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
+    protected void postUpdate()
     {
-        if (Axis.Y == category.getAxis())
-        {
-            tileCollidable.apply(result);
-            collideY.set(true);
-        }
+        collideY.set(false);
     }
 }

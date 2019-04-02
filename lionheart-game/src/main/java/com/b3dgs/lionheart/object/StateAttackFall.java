@@ -19,12 +19,12 @@ package com.b3dgs.lionheart.object;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -36,10 +36,13 @@ final class StateAttackFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
-    private final AtomicBoolean ground = new AtomicBoolean();
+    private final AtomicBoolean collideY = new AtomicBoolean();
     private final TileCollidable tileCollidable;
+    private final Collidable collidable;
+    private final Body body;
     private final Force jump;
     private final TileCollidableListener listener;
+    private final CollidableListener listenerCollidable;
 
     /**
      * Create the state.
@@ -51,26 +54,32 @@ final class StateAttackFall extends State
     {
         super(model, animation);
 
-        jump = model.getJump();
-        final Transformable transformable = model.getFeature(Transformable.class);
-        final Body body = model.getFeature(Body.class);
+        body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
+        collidable = model.getFeature(Collidable.class);
+        jump = model.getJump();
 
         listener = (result, category) ->
         {
             if (Axis.Y == category.getAxis())
             {
+                tileCollidable.apply(result);
                 jump.setDirection(DirectionNone.INSTANCE);
                 body.resetGravity();
-                if (transformable.getY() < transformable.getOldY())
-                {
-                    ground.set(true);
-                }
+                collideY.set(true);
+            }
+        };
+        listenerCollidable = (collidable, collision) ->
+        {
+            if (collidable.hasFeature(Sheet.class))
+            {
+                collideY.set(true);
             }
         };
 
-        addTransition(StateLand.class, () -> ground.get());
-        addTransition(StateFall.class, () -> is(AnimState.FINISHED));
+        addTransition(StateLand.class, () -> !isGoingDown() && collideY.get());
+        addTransition(StateCrouch.class, () -> isGoingDown() && collideY.get());
+        addTransition(StateFall.class, () -> !control.isFireButton());
     }
 
     @Override
@@ -78,20 +87,30 @@ final class StateAttackFall extends State
     {
         super.enter();
 
-        tileCollidable.setEnabled(true);
         tileCollidable.addListener(listener);
-        ground.set(false);
+        collidable.addListener(listenerCollidable);
+        collideY.set(false);
     }
 
     @Override
     public void exit()
     {
         tileCollidable.removeListener(listener);
+        collidable.removeListener(listenerCollidable);
     }
 
     @Override
     public void update(double extrp)
     {
+        body.update(extrp);
+        if (isGoingHorizontal())
+        {
+            movement.setVelocity(0.12);
+        }
+        else
+        {
+            movement.setVelocity(0.07);
+        }
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 }
