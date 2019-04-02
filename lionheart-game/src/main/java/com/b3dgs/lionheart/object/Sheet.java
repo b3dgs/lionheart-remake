@@ -33,11 +33,13 @@ import com.b3dgs.lionheart.object.Glue.GlueListener;
 public final class Sheet extends FeatureModel implements Routine, CollidableListener
 {
     private static final double CURVE_FORCE = 8.0;
+    private static final double CURVE_SPEED = 6.0;
 
     private Glue glue;
     private boolean start;
     private boolean done;
     private double curve;
+    private boolean abord;
 
     @FeatureGet private Transformable transformable;
 
@@ -54,12 +56,14 @@ public final class Sheet extends FeatureModel implements Routine, CollidableList
                 start = true;
                 done = false;
                 glue.setGlue(true);
+                abord = false;
             }
 
             @Override
             public void notifyEnd(Transformable transformable)
             {
                 glue.setGlue(false);
+                abord = true;
             }
         });
     }
@@ -80,14 +84,21 @@ public final class Sheet extends FeatureModel implements Routine, CollidableList
         if (start)
         {
             glue.update(extrp);
-            if (curve > 180)
+            if (curve < 0 || curve > 180)
             {
                 curve = 0.0;
                 done = true;
             }
             if (!done)
             {
-                curve += 6;
+                if (abord && Double.compare(curve, 90) < 0)
+                {
+                    curve -= CURVE_SPEED;
+                }
+                else
+                {
+                    curve += CURVE_SPEED;
+                }
             }
         }
     }
