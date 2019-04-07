@@ -18,10 +18,12 @@
 package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.AnimState;
+import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -44,9 +46,13 @@ public final class SwordShade extends FeatureModel implements Routine
     private final AnimationConfig config;
     private final Viewer viewer;
 
+    private Animation anim;
+    private boolean played = true;
+
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private Animatable animatable;
 
     /**
      * Create sword shade.
@@ -78,7 +84,8 @@ public final class SwordShade extends FeatureModel implements Routine
             final String name = SHADE_ANIM_PREFIX + Entity.getAnimationName(to);
             if (config.hasAnimation(name))
             {
-                shade.play(config.getAnimation(name));
+                anim = config.getAnimation(name);
+                played = false;
             }
         });
     }
@@ -86,6 +93,11 @@ public final class SwordShade extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
+        if (!played && animatable.getFrameAnim() > 1)
+        {
+            shade.play(anim);
+            played = true;
+        }
         shade.setMirror(mirrorable.getMirror());
         shade.update(extrp);
     }
