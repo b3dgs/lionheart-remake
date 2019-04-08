@@ -85,8 +85,14 @@ public final class Entity extends FeaturableModel
         }
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
         collidable.setOrigin(Origin.CENTER_BOTTOM);
-        collidable.setGroup(1);
-        collidable.addAccept(1);
+        if (collidable.getGroup().intValue() == 1)
+        {
+            collidable.addAccept(2);
+        }
+        else
+        {
+            collidable.addAccept(1);
+        }
         collidable.setCollisionVisibility(Constant.DEBUG);
 
         final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
