@@ -22,13 +22,16 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 
 /**
  * Effect feature implementation.
  */
-public final class Effect extends FeatureModel implements Routine
+public final class Effect extends FeatureModel implements Routine, Recyclable
 {
     @FeatureGet private Animatable animatable;
+    @FeatureGet private StateHandler stateHandler;
 
     @Override
     public void update(double extrp)
@@ -37,5 +40,11 @@ public final class Effect extends FeatureModel implements Routine
         {
             getFeature(Identifiable.class).destroy();
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        stateHandler.changeState(StateIdle.class);
     }
 }
