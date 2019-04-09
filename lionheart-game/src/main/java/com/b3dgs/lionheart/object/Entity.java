@@ -75,6 +75,7 @@ public final class Entity extends FeaturableModel
         addFeature(new MirrorableModel());
         addFeature(new TransformableModel(setup));
         addFeature(new AnimatableModel());
+        addFeature(new StatsModel(setup));
         if (setup.hasNode(LayerableConfig.NODE_LAYERABLE))
         {
             addFeature(new LayerableModel(services, setup));
