@@ -34,15 +34,16 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionheart.Constant;
 
 /**
- * Potion feature implementation.
+ * Takeable feature implementation.
  */
 @FeatureInterface
-public final class Potion extends FeatureModel implements CollidableListener, Recyclable
+public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
     /** Taken effect. */
     public static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "Taken.xml");
 
     private final Spawner spawner;
+    private final StatsConfig stats;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -50,16 +51,17 @@ public final class Potion extends FeatureModel implements CollidableListener, Re
     private boolean spawned;
 
     /**
-     * Create potion.
+     * Create takeable.
      * 
      * @param services The services reference.
      * @param setup The setup reference.
      */
-    public Potion(Services services, SetupSurfaceRastered setup)
+    public Takeable(Services services, SetupSurfaceRastered setup)
     {
         super();
 
         spawner = services.get(Spawner.class);
+        stats = StatsConfig.imports(setup);
     }
 
     @Override
@@ -67,6 +69,7 @@ public final class Potion extends FeatureModel implements CollidableListener, Re
     {
         if (!spawned)
         {
+            collidable.getFeature(StatsModel.class).apply(stats);
             spawner.spawn(EFFECT, transformable.getX(), transformable.getY());
             identifiable.destroy();
             spawned = true;
