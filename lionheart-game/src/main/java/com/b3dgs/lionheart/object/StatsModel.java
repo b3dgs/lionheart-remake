@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 @FeatureInterface
 public final class StatsModel extends FeatureModel
 {
+    private final Alterable life;
     private final Alterable health;
 
     /**
@@ -40,6 +41,7 @@ public final class StatsModel extends FeatureModel
         super();
 
         final StatsConfig config = StatsConfig.imports(setup);
+        life = new Alterable(config.getLife());
         health = new Alterable(config.getHealth());
         health.fill();
     }
@@ -51,7 +53,18 @@ public final class StatsModel extends FeatureModel
      */
     public void apply(StatsConfig stats)
     {
+        life.increase(stats.getLife());
         health.increase(stats.getHealth());
+    }
+
+    /**
+     * Get the current life.
+     * 
+     * @return The current life.
+     */
+    public int getLife()
+    {
+        return life.getCurrent();
     }
 
     /**
