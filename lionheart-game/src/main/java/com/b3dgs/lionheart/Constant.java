@@ -61,6 +61,9 @@ public final class Constant
     /** Levels folder. */
     public static final String FOLDER_LEVELS = "levels";
 
+    /** Animation name walk. */
+    public static final String ANIM_NAME_TURN = "turn";
+
     /** Levels file extension (with dot). */
     public static final String EXTENSION_LEVEL = ".lrl";
     /** Musics file extension (with dot). */

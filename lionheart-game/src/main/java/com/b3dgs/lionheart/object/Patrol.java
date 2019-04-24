@@ -17,22 +17,19 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Identifiable;
-import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.InputDeviceControlVoid;
 
@@ -40,20 +37,19 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
  * Patrol feature implementation.
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel implements Routine, CollidableListener, Recyclable
+public final class Patrol extends FeatureModel implements Routine
 {
-    /** Explode effect. */
-    public static final Media EFFECT = Medias.create(Constant.FOLDER_EFFECTS, "ExplodeBig.xml");
-
     private final Tick change = new Tick();
-    private final Spawner spawner;
 
-    @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
+    @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private Collidable collidable;
+    @FeatureGet private Mirrorable mirrorable;
+    @FeatureGet private Body body;
 
-    private double direction = 0.3;
-    private boolean spawned;
+    private double sh;
+    private double sv;
 
     /**
      * Create patrol.
@@ -65,7 +61,32 @@ public final class Patrol extends FeatureModel implements Routine, CollidableLis
     {
         super();
 
-        spawner = services.get(Spawner.class);
+        final PatrolConfig config = PatrolConfig.imports(setup);
+        sh = config.getSh();
+        sv = config.getSv();
+    }
+
+    /**
+     * Perform mirror computation depending of movement side.
+     */
+    public void applyMirror()
+    {
+        if (sh < 0 && mirrorable.getMirror() == Mirror.HORIZONTAL)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+        else if (sh > 0 && mirrorable.getMirror() == Mirror.NONE)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (sv < 0 && mirrorable.getMirror() == Mirror.NONE)
+        {
+            mirrorable.mirror(Mirror.VERTICAL);
+        }
+        else if (sv > 0 && mirrorable.getMirror() == Mirror.VERTICAL)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
     }
 
     @Override
@@ -73,12 +94,24 @@ public final class Patrol extends FeatureModel implements Routine, CollidableLis
     {
         super.prepare(provider);
 
+        stateHandler.changeState(StatePatrol.class);
+        stateHandler.addListener((from, to) ->
+        {
+            collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
+        });
+        body.setGravity(0.0);
         model.setInput(new InputDeviceControlVoid()
         {
             @Override
             public double getHorizontalDirection()
             {
-                return direction;
+                return sh;
+            }
+
+            @Override
+            public double getVerticalDirection()
+            {
+                return sv;
             }
         });
         change.start();
@@ -90,25 +123,16 @@ public final class Patrol extends FeatureModel implements Routine, CollidableLis
         change.update(extrp);
         if (change.elapsed(100L))
         {
-            direction = -direction;
+            if (Double.compare(sh, 0.0) != 0)
+            {
+                sh = -sh;
+            }
+            if (Double.compare(sv, 0.0) != 0)
+            {
+                sv = -sv;
+            }
+            stateHandler.changeState(StateTurn.class);
             change.restart();
         }
-    }
-
-    @Override
-    public void notifyCollided(Collidable collidable, Collision collision)
-    {
-        if (!spawned)
-        {
-            spawner.spawn(EFFECT, transformable.getX(), transformable.getY() - transformable.getHeight() / 2);
-            identifiable.destroy();
-            spawned = true;
-        }
-    }
-
-    @Override
-    public void recycle()
-    {
-        spawned = false;
     }
 }

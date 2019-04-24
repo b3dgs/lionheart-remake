@@ -17,60 +17,48 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.graphic.ColorRgba;
-import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Constant;
 
 /**
- * Entity rendering implementation.
+ * Turning feature implementation.
  */
-final class EntityRenderer extends FeatureModel implements Displayable
+@FeatureInterface
+public final class Turning extends FeatureModel implements Routine
 {
-    private final List<Routine> routines = new ArrayList<>();
+    private static final int DELAY = 100;
 
-    private int routinesCount;
+    private final Tick tick = new Tick();
 
+    @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
 
     @Override
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
 
-        transformable.teleport(80, 32);
-        for (Feature feature : provider.getFeatures())
+        stateHandler.addListener((from, to) ->
         {
-            if (feature instanceof Routine)
-            {
-                routines.add((Routine) feature);
-            }
-        }
-        routinesCount = routines.size();
+            collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
+        });
+        tick.start();
     }
 
     @Override
-    public void render(Graphic g)
+    public void update(double extrp)
     {
-        rasterable.render(g);
-
-        g.setColor(ColorRgba.GREEN);
-        collidable.render(g);
-
-        for (int i = 0; i < routinesCount; i++)
+        tick.update(extrp);
+        if (tick.elapsed(DELAY))
         {
-            routines.get(i).render(g);
+            stateHandler.changeState(StateTurn.class);
+            tick.restart();
         }
     }
 }

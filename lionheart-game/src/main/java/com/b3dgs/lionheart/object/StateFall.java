@@ -71,7 +71,7 @@ final class StateFall extends State
         };
         listenerCollidable = (collidable, collision) ->
         {
-            if (collidable.hasFeature(Sheet.class))
+            if (collidable.hasFeature(Glue.class))
             {
                 collideY.set(true);
             }

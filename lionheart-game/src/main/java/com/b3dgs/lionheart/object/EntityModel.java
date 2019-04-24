@@ -138,4 +138,14 @@ final class EntityModel extends FeatureModel
     {
         return input;
     }
+
+    /**
+     * Check if has gravity.
+     * 
+     * @return <code>true</code> if has gravity, <code>false</code> else.
+     */
+    public boolean hasGravity()
+    {
+        return hasGravity;
+    }
 }

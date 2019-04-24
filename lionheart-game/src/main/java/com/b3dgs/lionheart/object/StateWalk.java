@@ -65,7 +65,7 @@ final class StateWalk extends State
         };
         listenerCollidable = (collidable, collision) ->
         {
-            if (collidable.hasFeature(Sheet.class))
+            if (collidable.hasFeature(Glue.class))
             {
                 collideY.set(true);
             }
@@ -75,7 +75,9 @@ final class StateWalk extends State
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
-                      () -> Double.compare(movement.getDirectionHorizontal(), 0.0) != 0 && !collideY.get());
+                      () -> model.hasGravity()
+                            && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
+                            && !collideY.get());
     }
 
     private boolean isWalkingSlowEnough()

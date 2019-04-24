@@ -114,10 +114,6 @@ public final class Entity extends FeaturableModel
     @Override
     public void addAfter(Services services, Setup setup)
     {
-        if (!hasFeature(Routine.class))
-        {
-            addFeature(new RoutineVoid());
-        }
         final EntityModel model = getFeature(EntityModel.class);
         addFeature(new EntityUpdater(services, model));
         addFeature(new EntityRenderer());

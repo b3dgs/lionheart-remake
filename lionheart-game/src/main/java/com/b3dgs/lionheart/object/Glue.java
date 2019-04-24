@@ -17,22 +17,28 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Updatable;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.FeatureInterface;
+import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 
 /**
- * Glue collision implementation.
+ * Glue feature implementation.
  */
-public final class Glue implements Updatable, CollidableListener
+@FeatureInterface
+public final class Glue extends FeatureModel implements Routine, CollidableListener
 {
-    private final Transformable reference;
-    private final TransformY transformY;
-    private final GlueListener listener;
+    private final Collection<GlueListener> listeners = new ArrayList<>();
 
+    private TransformY transformY;
     private double referenceY;
     private boolean first = true;
     private Transformable other;
@@ -41,20 +47,37 @@ public final class Glue implements Updatable, CollidableListener
     private boolean glue;
     private boolean started;
 
+    @FeatureGet private Transformable reference;
+    @FeatureGet private Collidable collidable;
+
     /**
-     * Create glue component.
-     * 
-     * @param reference The glue reference.
-     * @param transformY The transform Y function.
-     * @param listener The listener callback.
+     * Create glue feature.
      */
-    public Glue(Transformable reference, TransformY transformY, GlueListener listener)
+    public Glue()
     {
         super();
 
-        this.reference = reference;
+        glue = true;
+    }
+
+    /**
+     * Add glue listener.
+     * 
+     * @param listener The listener reference.
+     */
+    public void addListener(GlueListener listener)
+    {
+        listeners.add(listener);
+    }
+
+    /**
+     * Set the vertical transform.
+     * 
+     * @param transformY The vertical transform.
+     */
+    public void setTransformY(TransformY transformY)
+    {
         this.transformY = transformY;
-        this.listener = listener;
     }
 
     /**
@@ -70,20 +93,32 @@ public final class Glue implements Updatable, CollidableListener
     @Override
     public void update(double extrp)
     {
-        reference.teleportY(referenceY - transformY.transformY());
+        if (!first && transformY != null)
+        {
+            reference.teleportY(referenceY - transformY.transformY());
+        }
 
         if (!collide && started)
         {
-            listener.notifyEnd(other);
+            listeners.forEach(l -> l.notifyEnd(other));
             started = false;
         }
         else if (glue && collide)
         {
+            other.moveLocationX(extrp, reference.getX() - reference.getOldX());
             if (Double.compare(other.getFeature(EntityModel.class).getInput().getVerticalDirection(), 0.0) <= 0)
             {
                 other.getFeature(Body.class).resetGravity();
                 other.teleportY(reference.getY() + offsetY);
             }
+        }
+        if (!collidable.isEnabled() && other != null)
+        {
+            if (Double.compare(other.getY(), other.getOldY()) == 0)
+            {
+                other.getFeature(StateHandler.class).changeState(StateFall.class);
+            }
+            other = null;
         }
 
         collide = false;
@@ -102,7 +137,7 @@ public final class Glue implements Updatable, CollidableListener
 
             if (!started)
             {
-                listener.notifyStart(other);
+                listeners.forEach(l -> l.notifyStart(other));
                 started = true;
             }
             if (first)

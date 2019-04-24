@@ -67,7 +67,7 @@ final class StateIdle extends State
         };
         listenerCollidable = (collidable, collision) ->
         {
-            if (collidable.hasFeature(Sheet.class))
+            if (collidable.hasFeature(Glue.class))
             {
                 collideY.set(true);
             }
@@ -80,7 +80,9 @@ final class StateIdle extends State
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
-                      () -> !collideY.get() && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
+                      () -> model.hasGravity()
+                            && !collideY.get()
+                            && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
     }
 
     private boolean isWalkingFastEnough()

@@ -85,7 +85,7 @@ final class StateAttackJump extends State
         };
         listenerCollidable = (collidable, collision) ->
         {
-            if (transformable.getY() < transformable.getOldY() && collidable.hasFeature(Sheet.class))
+            if (transformable.getY() < transformable.getOldY() && collidable.hasFeature(Glue.class))
             {
                 collideY.set(true);
             }
