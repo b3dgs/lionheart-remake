@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategoryConfig;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlVoid;
@@ -62,7 +61,7 @@ final class EntityModel extends FeatureModel
         super();
 
         source = services.get(SourceResolutionProvider.class);
-        hasGravity = setup.hasNode(CollisionCategoryConfig.NODE_CATEGORY);
+        hasGravity = setup.hasNode("data");
     }
 
     @Override

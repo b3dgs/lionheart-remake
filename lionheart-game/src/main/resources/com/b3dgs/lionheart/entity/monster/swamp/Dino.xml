@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.Dino</lionengine:class>
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:feature>com.b3dgs.lionheart.object.Patrol</lionengine:feature>
     <lionengine:surface image="Dino.png" icon="Dino_ico.png"/>
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="4" vertical="4"/>
 	<lionengine:size width="48" height="48"/>
+	<lionengine:category name="leg_left" axis="Y" x="-5" y="0">
+        <lionengine:group>slope_left_0</lionengine:group>
+        <lionengine:group>slope_left_1</lionengine:group>
+        <lionengine:group>slope_right_0</lionengine:group>
+        <lionengine:group>slope_right_1</lionengine:group>
+        <lionengine:group>ground</lionengine:group>
+    </lionengine:category>
+    <lionengine:category name="leg_right" axis="Y" x="5" y="0">
+        <lionengine:group>slope_left_0</lionengine:group>
+        <lionengine:group>slope_left_1</lionengine:group>
+        <lionengine:group>slope_right_0</lionengine:group>
+        <lionengine:group>slope_right_1</lionengine:group>
+        <lionengine:group>ground</lionengine:group>
+    </lionengine:category>
 	<lionengine:collision name="default" offsetX="4" offsetY="-4" width="38" height="48" mirror="false" />
 	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="walk" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+	<lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
 	<lionengine:animation name="turn" start="13" end="15" speed="0.25" reversed="false" repeat="false"/>
 	<lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
 	<lionengine:animation name="slide" start="12" end="12" speed="0.25" reversed="false" repeat="false"/>
@@ -15,4 +31,5 @@
 		<jump heightMax="7.0" />
 	</data>
 	<life normal="2" />
+	<patrol sh="-0.3"/>
 </lionengine:featurable>

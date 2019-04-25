@@ -68,6 +68,11 @@ final class StatePatrol extends State
                 collideY.set(true);
             }
         };
+
+        addTransition(StateFall.class,
+                      () -> model.hasGravity()
+                            && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
+                            && !collideY.get());
     }
 
     @Override

@@ -77,7 +77,8 @@ final class StateFall extends State
             }
         };
 
-        addTransition(StateLand.class, collideY::get);
+        addTransition(StateLand.class, () -> collideY.get() && !model.hasFeature(Patrol.class));
+        addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
         addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> !collideY.get() && control.isFireButton() && isGoingDown());
     }

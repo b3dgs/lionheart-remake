@@ -99,7 +99,6 @@ public final class Patrol extends FeatureModel implements Routine
         {
             collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
         });
-        body.setGravity(0.0);
         model.setInput(new InputDeviceControlVoid()
         {
             @Override
