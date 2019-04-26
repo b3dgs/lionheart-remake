@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionheart.object.Glue</lionengine:feature>
-    <lionengine:feature>com.b3dgs.lionheart.object.Sheet</lionengine:feature>
-    <lionengine:feature>com.b3dgs.lionheart.object.Turning</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Sheet</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Turning</lionengine:feature>
     <lionengine:surface image="TurningAuto.png" icon="TurningAuto_ico.png"/>
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="4" vertical="4"/>

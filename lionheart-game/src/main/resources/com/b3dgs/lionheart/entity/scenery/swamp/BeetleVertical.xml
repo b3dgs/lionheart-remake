@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionheart.object.Glue</lionengine:feature>
-    <lionengine:feature>com.b3dgs.lionheart.object.Patrol</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
     <lionengine:surface image="BeetleVertical.png" icon="BeetleVertical_ico.png"/>
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="5" vertical="2"/>

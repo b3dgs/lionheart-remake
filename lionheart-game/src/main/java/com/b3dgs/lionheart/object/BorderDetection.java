@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 /**
  * Handle borders detection.
  */
-final class BorderDetection implements TileCollidableListener, CollidableListener
+public final class BorderDetection implements TileCollidableListener, CollidableListener
 {
     private static final String LEG_LEFT = "leg_left";
     private static final String LEG_RIGHT = "leg_right";

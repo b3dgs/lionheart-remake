@@ -41,6 +41,8 @@ import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.object.feature.Stats;
+import com.b3dgs.lionheart.object.state.StateIdle;
 
 /**
  * Entity base representation.
@@ -55,7 +57,7 @@ public final class Entity extends FeaturableModel
      * @param state The state class.
      * @return The animation name.
      */
-    static String getAnimationName(Class<? extends State> state)
+    public static String getAnimationName(Class<? extends State> state)
     {
         return state.getSimpleName().substring(PREFIX).toLowerCase(Locale.ENGLISH);
     }
@@ -75,7 +77,7 @@ public final class Entity extends FeaturableModel
         addFeature(new MirrorableModel());
         addFeature(new TransformableModel(setup));
         addFeature(new AnimatableModel());
-        addFeature(new StatsModel(setup));
+        addFeature(new Stats(setup));
         if (setup.hasNode(LayerableConfig.NODE_LAYERABLE))
         {
             addFeature(new LayerableModel(services, setup));

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionheart.object.Takeable</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Takeable</lionengine:feature>
     <lionengine:surface image="PotionBig.png" icon="PotionBig_ico.png"/>
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="4" vertical="2"/>
 	<lionengine:size width="16" height="32"/>
 	<lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="24" mirror="false" />
 	<lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="true"/>
-	<stats health="-1"/>
+	<takeable effect="effect/Taken.xml" health="-1"/>
 </lionengine:featurable>

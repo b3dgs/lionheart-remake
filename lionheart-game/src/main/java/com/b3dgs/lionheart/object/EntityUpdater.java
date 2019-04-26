@@ -92,8 +92,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable
     {
         super.prepare(provider);
 
-        transformable.teleport(80, 32);
-        for (Feature feature : provider.getFeatures())
+        for (final Feature feature : provider.getFeatures())
         {
             if (feature instanceof Routine)
             {

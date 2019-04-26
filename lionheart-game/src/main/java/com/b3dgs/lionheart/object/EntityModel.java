@@ -35,7 +35,7 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
  * Entity model implementation.
  */
 @FeatureInterface
-final class EntityModel extends FeatureModel
+public final class EntityModel extends FeatureModel
 {
     private static final double GRAVITY = 5.5;
     private static final double GRAVITY_MAX = 6.5;
