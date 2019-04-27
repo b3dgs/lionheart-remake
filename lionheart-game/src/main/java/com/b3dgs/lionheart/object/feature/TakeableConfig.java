@@ -80,13 +80,14 @@ public final class TakeableConfig
 
     /**
      * Get the effect media.
+     * 
      * @return The effect media.
      */
     public Media getEffect()
     {
         return effect;
     }
-    
+
     /**
      * Get the health modifier.
      * 

@@ -72,7 +72,7 @@ public final class Patrol extends FeatureModel implements Routine
         final PatrolConfig config = PatrolConfig.imports(setup);
         sh = config.getSh();
         sv = config.getSv();
-        
+
         final AnimationConfig anim = AnimationConfig.imports(setup);
         if (anim.hasAnimation(Constant.ANIM_NAME_TURN))
         {
@@ -80,7 +80,10 @@ public final class Patrol extends FeatureModel implements Routine
         }
         else
         {
-            stateChanger = extrp -> {};
+            stateChanger = extrp ->
+            {
+                // Nothing to do
+            };
         }
     }
 

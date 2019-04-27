@@ -84,7 +84,7 @@ final class World extends WorldGame
         {
             services.add(getInputDevice(InputDeviceDirectional.class));
         }
-        catch (@SuppressWarnings("unused") final LionEngineException exception)
+        catch (final LionEngineException exception)
         {
             services.add(InputDeviceControlVoid.getInstance());
         }
