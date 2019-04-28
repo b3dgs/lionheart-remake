@@ -121,10 +121,10 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
             {
                 other.getFeature(StateHandler.class).changeState(StateFall.class);
             }
-            other = null;
         }
 
         collide = false;
+        other = null;
     }
 
     @Override
