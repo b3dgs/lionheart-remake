@@ -28,12 +28,14 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
+import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
 
 /**
  * Land state implementation.
  */
-final class StateLand extends State
+public final class StateLand extends State
 {
     private static final double SPEED = 5.0 / 3.0;
     private static final long LAND_TICK = 10L;

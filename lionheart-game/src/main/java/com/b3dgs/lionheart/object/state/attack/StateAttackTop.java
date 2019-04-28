@@ -15,16 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
 
 /**
- * Unprepare attack state implementation.
+ * Top attack state implementation.
  */
-final class StateAttackUnprepare extends State
+final class StateAttackTop extends State
 {
     /**
      * Create the state.
@@ -32,10 +33,10 @@ final class StateAttackUnprepare extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackUnprepare(EntityModel model, Animation animation)
+    public StateAttackTop(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> is(AnimState.FINISHED));
+        addTransition(StateAttackPrepared.class, () -> is(AnimState.FINISHED));
     }
 }

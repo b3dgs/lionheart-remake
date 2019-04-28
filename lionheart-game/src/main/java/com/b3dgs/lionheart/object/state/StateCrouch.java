@@ -20,11 +20,13 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.attack.StateAttackCrouchPrepare;
 
 /**
  * Crouch state implementation.
  */
-final class StateCrouch extends State
+public final class StateCrouch extends State
 {
     /**
      * Create the state.

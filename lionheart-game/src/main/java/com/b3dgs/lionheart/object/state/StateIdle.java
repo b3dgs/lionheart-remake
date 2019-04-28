@@ -28,7 +28,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.object.BorderDetection;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
+import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
 
 /**
  * Idle state implementation.

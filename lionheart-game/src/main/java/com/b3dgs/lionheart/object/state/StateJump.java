@@ -24,6 +24,9 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
+import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
 
 /**
  * Jump state implementation.

@@ -15,17 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
@@ -33,31 +29,26 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
+import com.b3dgs.lionheart.object.state.StateCrouch;
+import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateLand;
 
 /**
- * Jump attack state implementation.
+ * Fall attack state implementation.
  */
-final class StateAttackJump extends State
+public final class StateAttackFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
-    private static final double JUMP_MIN = 2.5;
-    private static final double JUMP_MAX = 5.4;
 
     private final AtomicBoolean collideY = new AtomicBoolean();
-    private final Transformable transformable;
     private final TileCollidable tileCollidable;
     private final Collidable collidable;
     private final Body body;
     private final Force jump;
     private final TileCollidableListener listener;
     private final CollidableListener listenerCollidable;
-    private final Updatable checkJumpStopped;
-    private final Updatable checkNone = extrp ->
-    {
-        // Nothing to do
-    };
-    private Updatable check;
 
     /**
      * Create the state.
@@ -65,11 +56,10 @@ final class StateAttackJump extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackJump(EntityModel model, Animation animation)
+    public StateAttackFall(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        transformable = model.getFeature(Transformable.class);
         body = model.getFeature(Body.class);
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
@@ -87,34 +77,21 @@ final class StateAttackJump extends State
         };
         listenerCollidable = (collidable, collision) ->
         {
-            if (transformable.getY() < transformable.getOldY() && collidable.hasFeature(Glue.class))
+            if (collidable.hasFeature(Glue.class))
             {
                 collideY.set(true);
             }
         };
 
-        checkJumpStopped = extrp ->
-        {
-            if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
-            {
-                check = checkNone;
-                jump.setDirectionMaximum(new Force(0.0,
-                                                   UtilMath.clamp(JUMP_MAX - jump.getDirectionVertical(),
-                                                                  JUMP_MIN,
-                                                                  JUMP_MAX)));
-            }
-        };
-
-        addTransition(StateLand.class, () -> collideY.get());
-        addTransition(StateFall.class, () -> is(AnimState.FINISHED));
+        addTransition(StateLand.class, () -> !isGoingDown() && collideY.get());
+        addTransition(StateCrouch.class, () -> isGoingDown() && collideY.get());
+        addTransition(StateFall.class, () -> !control.isFireButton());
     }
 
     @Override
     public void enter()
     {
         super.enter();
-
-        check = checkJumpStopped;
 
         tileCollidable.addListener(listener);
         collidable.addListener(listenerCollidable);
@@ -126,21 +103,12 @@ final class StateAttackJump extends State
     {
         tileCollidable.removeListener(listener);
         collidable.removeListener(listenerCollidable);
-        jump.setDirectionMaximum(new Force(0.0, JUMP_MAX));
     }
 
     @Override
     public void update(double extrp)
     {
-        check.update(extrp);
-        if (Double.compare(jump.getDirectionVertical(), 0.0) <= 0 || transformable.getY() < transformable.getOldY())
-        {
-            body.update(extrp);
-        }
-        else
-        {
-            body.resetGravity();
-        }
+        body.update(extrp);
         if (isGoingHorizontal())
         {
             movement.setVelocity(0.12);

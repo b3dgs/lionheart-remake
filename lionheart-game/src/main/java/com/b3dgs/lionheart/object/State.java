@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
@@ -25,12 +25,11 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlDelegate;
-import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Base state with animation implementation.
  */
-abstract class State extends StateAbstract
+public abstract class State extends StateAbstract
 {
     /** Model reference. */
     protected final EntityModel model;

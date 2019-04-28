@@ -15,17 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.StateIdle;
 
 /**
- * Crouch horizontal attack state implementation.
+ * Unprepare attack state implementation.
  */
-final class StateAttackCrouchHorizontal extends State
+final class StateAttackUnprepare extends State
 {
     /**
      * Create the state.
@@ -33,25 +34,10 @@ final class StateAttackCrouchHorizontal extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackCrouchHorizontal(EntityModel model, Animation animation)
+    public StateAttackUnprepare(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateAttackCrouchPrepared.class, () -> is(AnimState.FINISHED));
-    }
-
-    @Override
-    public void enter()
-    {
-        super.enter();
-
-        if (control.getHorizontalDirection() < 0 && mirrorable.getMirror() == Mirror.NONE)
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (control.getHorizontalDirection() > 0 && mirrorable.getMirror() == Mirror.HORIZONTAL)
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
+        addTransition(StateIdle.class, () -> is(AnimState.FINISHED));
     }
 }

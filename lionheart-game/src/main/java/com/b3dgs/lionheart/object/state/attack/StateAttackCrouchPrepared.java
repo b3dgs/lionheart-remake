@@ -15,16 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
-import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
 
 /**
- * Top attack state implementation.
+ * Prepared attack crouch state implementation.
  */
-final class StateAttackTop extends State
+final class StateAttackCrouchPrepared extends State
 {
     /**
      * Create the state.
@@ -32,10 +32,13 @@ final class StateAttackTop extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackTop(EntityModel model, Animation animation)
+    public StateAttackCrouchPrepared(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateAttackPrepared.class, () -> is(AnimState.FINISHED));
+        addTransition(StateAttackCrouchUnprepare.class, () -> !control.isFireButton());
+        addTransition(StateAttackCrouchHorizontal.class,
+                      () -> control.isFireButton() && (isGoingLeftOnce() || isGoingRightOnce()));
+        addTransition(StateAttackTop.class, () -> control.isFireButton() && isGoingUp());
     }
 }

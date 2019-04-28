@@ -15,17 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
- * Turning attack state implementation.
+ * Prepare attack crouch state implementation.
  */
-final class StateAttackTurning extends State
+public final class StateAttackCrouchPrepare extends State
 {
     /**
      * Create the state.
@@ -33,23 +34,11 @@ final class StateAttackTurning extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackTurning(EntityModel model, Animation animation)
+    public StateAttackCrouchPrepare(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateAttackPrepared.class, () -> is(AnimState.FINISHED));
-    }
-
-    @Override
-    public void exit()
-    {
-        if (mirrorable.getMirror() == Mirror.NONE)
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
+        addTransition(StateAttackCrouchPrepared.class, () -> control.isFireButton() && is(AnimState.FINISHED));
+        addTransition(StateCrouch.class, () -> !control.isFireButton() && is(AnimState.FINISHED));
     }
 }
