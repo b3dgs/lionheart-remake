@@ -49,7 +49,7 @@ public final class Stats extends FeatureModel
     /**
      * Apply config.
      * 
-     * @param stats The config to apply.
+     * @param config The config to apply.
      */
     public void apply(TakeableConfig config)
     {
