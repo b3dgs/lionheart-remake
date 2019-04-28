@@ -17,8 +17,12 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -35,12 +39,67 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 @FeatureInterface
 public final class Turning extends FeatureModel implements Routine
 {
-    private static final int DELAY = 100;
+    private static final double CURVE_FORCE = 4.0;
+    private static final double CURVE_SPEED = 50.0;
+    private static final int DELAY_BEFORE_ROTATE = 50;
+    private static final int DELAY_BEFORE_SHAKE = 100;
+    private static final int SHAKE_MAX_COUNT = 3;
 
     private final Tick tick = new Tick();
+    private final Updatable checkRotate;
+    private final Updatable shake;
+    private Updatable checkShake;
+    private Updatable current;
+    private double curve;
 
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
+    @FeatureGet private Animatable animatable;
+    @FeatureGet private Glue glue;
+
+    /**
+     * Create turning.
+     */
+    public Turning()
+    {
+        super();
+
+        checkRotate = extrp ->
+        {
+            tick.update(extrp);
+            if (tick.elapsed(DELAY_BEFORE_ROTATE))
+            {
+                stateHandler.changeState(StateTurn.class);
+                tick.restart();
+                glue.stop();
+                glue.setGlue(false);
+                collidable.setEnabled(false);
+                current = checkShake;
+            }
+        };
+        shake = extrp ->
+        {
+            curve += CURVE_SPEED;
+            if (curve > SHAKE_MAX_COUNT * com.b3dgs.lionengine.Constant.MAX_DEGREE)
+            {
+                current = checkRotate;
+                curve = 0;
+                tick.start();
+            }
+        };
+        checkShake = extrp ->
+        {
+            tick.update(extrp);
+            if (tick.elapsed(DELAY_BEFORE_SHAKE) && animatable.getAnimState() == AnimState.FINISHED)
+            {
+                glue.start();
+                glue.setTransformY(() -> UtilMath.sin(curve) * CURVE_FORCE);
+                tick.stop();
+                current = shake;
+            }
+        };
+        current = checkShake;
+    }
 
     @Override
     public void prepare(FeatureProvider provider)
@@ -57,11 +116,6 @@ public final class Turning extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-        if (tick.elapsed(DELAY))
-        {
-            stateHandler.changeState(StateTurn.class);
-            tick.restart();
-        }
+        current.update(extrp);
     }
 }

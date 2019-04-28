@@ -53,6 +53,7 @@ public final class Sheet extends FeatureModel implements Routine
             @Override
             public void notifyStart(Transformable transformable)
             {
+                glue.setTransformY(() -> UtilMath.sin(curve) * CURVE_FORCE);
                 start = true;
                 done = false;
                 glue.setGlue(true);
@@ -66,7 +67,6 @@ public final class Sheet extends FeatureModel implements Routine
                 abord = true;
             }
         });
-        glue.setTransformY(() -> UtilMath.sin(curve) * CURVE_FORCE);
     }
 
     @Override

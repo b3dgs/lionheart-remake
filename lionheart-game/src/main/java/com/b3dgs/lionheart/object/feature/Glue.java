@@ -47,7 +47,7 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
     private Transformable other;
     private int offsetY;
     private boolean collide;
-    private boolean glue;
+    private boolean glue = true;
     private boolean started;
 
     @FeatureGet private Transformable reference;
@@ -59,8 +59,6 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
     public Glue()
     {
         super();
-
-        glue = true;
     }
 
     /**
@@ -84,13 +82,39 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
     }
 
     /**
-     * Set glue activation.
+     * Set glue state.
      * 
-     * @param glue <code>true</code> to enable glue, <code>false</code> else.
+     * @param glue <code>true</code> to enable, <code>false</code> to disable.
      */
     public void setGlue(boolean glue)
     {
         this.glue = glue;
+    }
+
+    /**
+     * Start glue.
+     */
+    public void start()
+    {
+        if (first)
+        {
+            referenceY = reference.getY();
+            first = false;
+        }
+        if (!started)
+        {
+            listeners.forEach(l -> l.notifyStart(other));
+            started = true;
+        }
+    }
+
+    /**
+     * Stop glue.
+     */
+    public void stop()
+    {
+        listeners.forEach(l -> l.notifyEnd(other));
+        started = false;
     }
 
     @Override
@@ -103,8 +127,7 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
 
         if (!collide && started)
         {
-            listeners.forEach(l -> l.notifyEnd(other));
-            started = false;
+            stop();
         }
         else if (glue && collide)
         {
@@ -138,16 +161,7 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
             other.getFeature(Body.class).resetGravity();
             other.teleportY(reference.getY() + offsetY);
 
-            if (!started)
-            {
-                listeners.forEach(l -> l.notifyStart(other));
-                started = true;
-            }
-            if (first)
-            {
-                referenceY = reference.getY();
-                first = false;
-            }
+            start();
         }
     }
 
