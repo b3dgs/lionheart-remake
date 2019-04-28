@@ -31,5 +31,5 @@
 		<jump heightMax="7.0" />
 	</data>
 	<life normal="2" />
-	<patrol sh="-0.3"/>
+	<patrol sh="-0.3" turn="false"/>
 </lionengine:featurable>

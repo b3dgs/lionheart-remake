@@ -35,7 +35,7 @@ import com.b3dgs.lionheart.object.feature.Glue;
 public final class StatePatrol extends State
 {
     private static final double SPEED = 5.0 / 3.0;
-    private static final double ANIM_SPEED_DIVISOR = 6.0;
+    private static final double ANIM_SPEED_DIVISOR = 3.0;
 
     private final AtomicBoolean collideY = new AtomicBoolean();
     private final Collidable collidable;

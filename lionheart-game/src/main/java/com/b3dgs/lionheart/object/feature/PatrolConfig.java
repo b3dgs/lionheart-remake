@@ -32,6 +32,8 @@ public class PatrolConfig
     private static final String ATT_VX = "sh";
     /** Vertical speed attribute name. */
     private static final String ATT_VY = "sv";
+    /** Turn attribute name. */
+    private static final String ATT_TURN = "turn";
 
     /**
      * Imports the config from configurer.
@@ -46,27 +48,32 @@ public class PatrolConfig
 
         final double sh = configurer.getDoubleDefault(0.0, ATT_VX, NODE_STATS);
         final double sv = configurer.getDoubleDefault(0.0, ATT_VY, NODE_STATS);
+        final boolean turn = configurer.getBooleanDefault(true, ATT_TURN, NODE_STATS);
 
-        return new PatrolConfig(sh, sv);
+        return new PatrolConfig(sh, sv, turn);
     }
 
     /** Horizontal speed. */
     private final double sh;
     /** Vertical speed. */
     private final double sv;
+    /** Turn enabled. */
+    private final boolean turn;
 
     /**
      * Create config.
      * 
      * @param sh The horizontal speed.
      * @param sv The vertical speed.
+     * @param turn The turn flag.
      */
-    private PatrolConfig(double sh, double sv)
+    private PatrolConfig(double sh, double sv, boolean turn)
     {
         super();
 
         this.sh = sh;
         this.sv = sv;
+        this.turn = turn;
     }
 
     /**
@@ -87,5 +94,15 @@ public class PatrolConfig
     public double getSv()
     {
         return sv;
+    }
+
+    /**
+     * Check if turn is enabled.
+     * 
+     * @return <code>true</code> to enable turn, <code>false</code> to continue straight on.
+     */
+    public boolean hasTurn()
+    {
+        return turn;
     }
 }

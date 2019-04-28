@@ -47,7 +47,10 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 public final class Patrol extends FeatureModel implements Routine
 {
     private final Tick change = new Tick();
-    private final Updatable stateChanger;
+    private final Updatable checker;
+    private final boolean turn;
+    private double sh;
+    private double sv;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
@@ -55,9 +58,6 @@ public final class Patrol extends FeatureModel implements Routine
     @FeatureGet private Collidable collidable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Body body;
-
-    private double sh;
-    private double sv;
 
     /**
      * Create patrol.
@@ -72,15 +72,27 @@ public final class Patrol extends FeatureModel implements Routine
         final PatrolConfig config = PatrolConfig.imports(setup);
         sh = config.getSh();
         sv = config.getSv();
+        turn = config.hasTurn();
 
         final AnimationConfig anim = AnimationConfig.imports(setup);
-        if (anim.hasAnimation(Constant.ANIM_NAME_TURN))
+        if (turn && anim.hasAnimation(Constant.ANIM_NAME_TURN))
         {
-            stateChanger = extrp -> stateHandler.changeState(StateTurn.class);
+            checker = extrp ->
+            {
+                if (Double.compare(sh, 0.0) != 0)
+                {
+                    sh = -sh;
+                }
+                if (Double.compare(sv, 0.0) != 0)
+                {
+                    sv = -sv;
+                }
+                stateHandler.changeState(StateTurn.class);
+            };
         }
         else
         {
-            stateChanger = extrp ->
+            checker = extrp ->
             {
                 // Nothing to do
             };
@@ -143,15 +155,7 @@ public final class Patrol extends FeatureModel implements Routine
         change.update(extrp);
         if (change.elapsed(100L))
         {
-            if (Double.compare(sh, 0.0) != 0)
-            {
-                sh = -sh;
-            }
-            if (Double.compare(sv, 0.0) != 0)
-            {
-                sv = -sv;
-            }
-            stateChanger.update(extrp);
+            checker.update(extrp);
             change.restart();
         }
     }
