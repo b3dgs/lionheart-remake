@@ -58,44 +58,44 @@
 	<lionengine:animation name="attackcrouchprepared" start="86" end="86" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="attackcrouchunprepare" start="85" end="85" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="attacktop" start="93" end="95" speed="0.35" reversed="true" repeat="false">
-		<attack frame="2" x="0" y="52" width="30" height="20" />
-		<attack frame="3" x="25" y="50" width="15" height="10" />
+		<lionengine:collisionFramed number="2" x="0" y="52" width="30" height="20" />
+		<lionengine:collisionFramed number="3" x="25" y="50" width="15" height="10" />
 	</lionengine:animation>
 	<lionengine:animation name="attackhorizontal" start="107" end="111" speed="0.4" reversed="true" repeat="false">
-		<attack frame="5" x="22" y="26" width="22" height="12" />
+		<lionengine:collisionFramed number="5" x="22" y="26" width="22" height="12" />
 	</lionengine:animation>
 	<lionengine:animation name="attackturning" start="130" end="139" speed="0.35" reversed="false" repeat="false">
-		<attack frame="8" x="-25" y="36" width="20" height="12" />
+		<lionengine:collisionFramed number="8" x="-25" y="36" width="20" height="12" />
 	</lionengine:animation>
 	<lionengine:animation name="attackcrouchhorizontal" start="88" end="92" speed="0.4" reversed="true" repeat="false">
-		<attack frame="5" x="22" y="0" width="20" height="8" />
+		<lionengine:collisionFramed number="5" x="22" y="0" width="20" height="8" />
 	</lionengine:animation>
 	<lionengine:animation name="attackjump" start="140" end="145" speed="0.35" reversed="false" repeat="false">
-		<attack frame="2" x="0" y="55" width="26" height="25" />
-		<attack frame="3" x="10" y="55" width="26" height="25" />
-		<attack frame="4" x="15" y="25" width="26" height="25" />
-		<attack frame="5" x="15" y="5" width="26" height="15" />
+		<lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25" />
+		<lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15" />
 	</lionengine:animation>
 	<lionengine:animation name="attackfall" start="87" end="87" speed="0.125" reversed="false" repeat="true">
-		<attack frame="1" x="0" y="0" width="20" height="10" />
+		<lionengine:collisionFramed number="1" x="0" y="0" width="20" height="10" />
 	</lionengine:animation>
 	<lionengine:animation name="attack_slide" start="121" end="125" speed="0.3" reversed="false" repeat="false">
-		<attack frame="2" x="0" y="55" width="26" height="25" />
-		<attack frame="3" x="10" y="55" width="26" height="25" />
-		<attack frame="4" x="15" y="25" width="26" height="25" />
-		<attack frame="5" x="15" y="5" width="26" height="15" />
+		<lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25" />
+		<lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15" />
 	</lionengine:animation>
 	<lionengine:animation name="attack_liana" start="146" end="150" speed="0.3" reversed="false" repeat="false">
-		<attack frame="2" x="0" y="55" width="26" height="25" />
-		<attack frame="3" x="10" y="55" width="26" height="25" />
-		<attack frame="4" x="15" y="25" width="26" height="25" />
-		<attack frame="5" x="15" y="5" width="26" height="15" />
+		<lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25" />
+		<lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15" />
 	</lionengine:animation>
 	<lionengine:animation name="attack_groundhoockable" start="112" end="116" speed="0.4" reversed="true" repeat="false">
-		<attack frame="2" x="0" y="55" width="26" height="25" />
-		<attack frame="3" x="10" y="55" width="26" height="25" />
-		<attack frame="4" x="15" y="25" width="26" height="25" />
-		<attack frame="5" x="15" y="5" width="26" height="15" />
+		<lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25" />
+		<lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25" />
+		<lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15" />
 	</lionengine:animation>
 	<lionengine:animation name="shade_attacktop" start="1" end="2" speed="0.35" reversed="true" repeat="false" />
 	<lionengine:animation name="shade_attackhorizontal" start="9" end="12" speed="0.4" reversed="true" repeat="false" />

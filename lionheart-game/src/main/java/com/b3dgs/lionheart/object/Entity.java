@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.TransformableModel;
 import com.b3dgs.lionengine.game.feature.body.BodyModel;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
+import com.b3dgs.lionengine.game.feature.collidable.framed.CollidableFramedModel;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
@@ -103,6 +104,7 @@ public final class Entity extends FeaturableModel
 
         addFeature(new BodyModel());
         addFeature(new TileCollidableModel(services, setup));
+        addFeature(new CollidableFramedModel(services, setup));
 
         final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
         final Force movement = model.getMovement();
