@@ -75,7 +75,7 @@ public final class StateAttackFall extends State
                 collideY.set(true);
             }
         };
-        listenerCollidable = (collidable, collision) ->
+        listenerCollidable = (collidable, with, by) ->
         {
             if (collidable.hasFeature(Glue.class))
             {

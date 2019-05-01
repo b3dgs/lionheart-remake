@@ -36,13 +36,14 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 @FeatureInterface
 public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
+    private final CollidableListener take;
     private final Spawner spawner;
     private final TakeableConfig config;
 
+    private CollidableListener current;
+
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
-
-    private boolean spawned;
 
     /**
      * Create takeable.
@@ -56,23 +57,27 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
 
         spawner = services.get(Spawner.class);
         config = TakeableConfig.imports(setup);
-    }
 
-    @Override
-    public void notifyCollided(Collidable collidable, Collision collision)
-    {
-        if (!spawned)
+        take = (collidable, with, by) ->
         {
             collidable.getFeature(Stats.class).apply(config);
             spawner.spawn(config.getEffect(), transformable.getX(), transformable.getY());
             identifiable.destroy();
-            spawned = true;
-        }
+            current = CollidableListener.VOID;
+        };
+
+        recycle();
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        current.notifyCollided(collidable, with, by);
     }
 
     @Override
     public void recycle()
     {
-        spawned = false;
+        current = take;
     }
 }

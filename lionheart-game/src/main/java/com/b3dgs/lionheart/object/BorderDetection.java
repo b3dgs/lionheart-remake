@@ -97,9 +97,9 @@ public final class BorderDetection implements TileCollidableListener, Collidable
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision collision)
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        final String name = collision.getName();
+        final String name = with.getName();
         if (LEG_LEFT.equals(name))
         {
             legLeft = true;

@@ -151,13 +151,13 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision collision)
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         other = collidable.getFeature(Transformable.class);
         if (Double.compare(other.getY(), other.getOldY()) <= 0)
         {
             collide = true;
-            offsetY = collision.getOffsetY();
+            offsetY = with.getOffsetY();
             other.getFeature(Body.class).resetGravity();
             other.teleportY(reference.getY() + offsetY);
 
