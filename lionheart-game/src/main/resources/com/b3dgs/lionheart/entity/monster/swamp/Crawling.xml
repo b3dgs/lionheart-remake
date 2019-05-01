@@ -2,11 +2,13 @@
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
-    <lionengine:surface image="Crawling.png" icon="Crawling_ico.png"/>
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
-	<lionengine:frames horizontal="6" vertical="4"/>
-	<lionengine:size width="64" height="32"/>
-	<lionengine:category name="leg_left" axis="Y" x="-5" y="3">
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    <lionengine:surface image="Crawling.png" icon="Crawling_ico.png" />
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
+    <lionengine:frames horizontal="6" vertical="4" />
+    <lionengine:size width="64" height="32" />
+    <lionengine:group>2</lionengine:group>
+    <lionengine:category name="leg_left" axis="Y" x="-5" y="3">
         <lionengine:group>slope_left_0</lionengine:group>
         <lionengine:group>slope_left_1</lionengine:group>
         <lionengine:group>slope_right_0</lionengine:group>
@@ -20,18 +22,19 @@
         <lionengine:group>slope_right_1</lionengine:group>
         <lionengine:group>ground</lionengine:group>
     </lionengine:category>
-	<lionengine:collision name="default" offsetX="0" offsetY="3" width="40" height="20" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="patrol" start="1" end="16" speed="0.25" reversed="false" repeat="true"/>
-	<lionengine:animation name="turn" start="17" end="20" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="prepare_jump" start="21" end="21" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="jump" start="22" end="23" speed="0.05" reversed="false" repeat="false"/>
-	<lionengine:animation name="fall" start="24" end="24" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="land" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<data mass="1" gravityMax="16.0">
-		<movement speedMax="1.5" />
-		<jump heightMax="7.0" />
-	</data>
-	<life normal="1" />
-	<patrol sh="0.3"/>
+    <lionengine:collision name="default" offsetX="0" offsetY="3" width="40" height="20" mirror="false" />
+    <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="patrol" start="1" end="16" speed="0.25" reversed="false" repeat="true" />
+    <lionengine:animation name="turn" start="17" end="20" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="prepare_jump" start="21" end="21" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="jump" start="22" end="23" speed="0.05" reversed="false" repeat="false" />
+    <lionengine:animation name="fall" start="24" end="24" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="land" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
+    <data mass="1" gravityMax="16.0">
+        <movement speedMax="1.5" />
+        <jump heightMax="7.0" />
+    </data>
+    <life normal="1" />
+    <patrol sh="0.3" />
+    <takeable effect="effect/ExplodeBig.xml" health="1" />
 </lionengine:featurable>
