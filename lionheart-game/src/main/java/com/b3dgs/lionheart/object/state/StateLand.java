@@ -20,7 +20,6 @@ package com.b3dgs.lionheart.object.state;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
@@ -108,14 +107,5 @@ public final class StateLand extends State
         landed.update(extrp);
 
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
-
-        if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
     }
 }

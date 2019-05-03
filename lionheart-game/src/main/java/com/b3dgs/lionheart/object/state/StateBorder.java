@@ -87,7 +87,7 @@ final class StateBorder extends State
         {
             mirrorable.mirror(Mirror.NONE);
         }
-        if (border.isRight())
+        else if (border.isRight())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
