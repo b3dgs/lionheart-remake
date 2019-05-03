@@ -3,14 +3,14 @@
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
-    <lionengine:surface image="BeetleHorizontal.png" icon="BeetleHorizontal_ico.png"/>
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
-	<lionengine:frames horizontal="5" vertical="2"/>
-	<lionengine:size width="24" height="24"/>
-	<lionengine:group>2</lionengine:group>
-	<lionengine:collision name="default" offsetX="0" offsetY="20" width="26" height="1" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="patrol" start="1" end="7" speed="0.25" reversed="false" repeat="true"/>
-	<lionengine:animation name="turn" start="8" end="10" speed="0.2" reversed="false" repeat="false"/>
-	<patrol sh="0.3"/>
+    <lionengine:surface image="BeetleHorizontal.png" icon="BeetleHorizontal_ico.png" />
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
+    <lionengine:frames horizontal="5" vertical="2" />
+    <lionengine:size width="24" height="24" />
+    <lionengine:group>2</lionengine:group>
+    <lionengine:collision name="default" offsetX="0" offsetY="20" width="26" height="1" mirror="false" />
+    <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="patrol" start="1" end="7" speed="0.25" reversed="false" repeat="true" />
+    <lionengine:animation name="turn" start="8" end="10" speed="0.2" reversed="false" repeat="false" />
+    <patrol sh="0.3" />
 </lionengine:featurable>
