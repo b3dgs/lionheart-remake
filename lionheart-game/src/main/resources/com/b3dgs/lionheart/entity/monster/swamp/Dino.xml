@@ -2,11 +2,11 @@
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
-    <lionengine:surface image="Dino.png" icon="Dino_ico.png"/>
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
-	<lionengine:frames horizontal="4" vertical="4"/>
-	<lionengine:size width="48" height="48"/>
-	<lionengine:category name="leg_left" axis="Y" x="-5" y="0">
+    <lionengine:surface image="Dino.png" icon="Dino_ico.png" />
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
+    <lionengine:frames horizontal="4" vertical="4" />
+    <lionengine:size width="48" height="48" />
+    <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
         <lionengine:group>slope_left_0</lionengine:group>
         <lionengine:group>slope_left_1</lionengine:group>
         <lionengine:group>slope_right_0</lionengine:group>
@@ -20,16 +20,16 @@
         <lionengine:group>slope_right_1</lionengine:group>
         <lionengine:group>ground</lionengine:group>
     </lionengine:category>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="44" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
-	<lionengine:animation name="turn" start="13" end="15" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="slide" start="12" end="12" speed="0.25" reversed="false" repeat="false"/>
-	<data mass="1.85" gravityMax="16.0">
-		<movement speedMax="1.5" />
-		<jump heightMax="7.0" />
-	</data>
-	<life normal="2" />
-	<patrol sh="-0.3" turn="false"/>
+    <lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="44" mirror="false" />
+    <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true" />
+    <lionengine:animation name="turn" start="13" end="15" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="slide" start="12" end="12" speed="0.25" reversed="false" repeat="false" />
+    <data mass="1.85" gravityMax="16.0">
+        <movement speedMax="1.5" />
+        <jump heightMax="7.0" />
+    </data>
+    <life normal="2" />
+    <patrol sh="-0.3" turn="false" />
 </lionengine:featurable>
