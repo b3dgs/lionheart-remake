@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Hurtable feature implementation.
@@ -38,13 +39,13 @@ public final class Hurtable extends FeatureModel implements CollidableListener, 
 {
     private final CollidableListener hurt;
 
+    private CollidableListener current;
+
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
 
-    private CollidableListener current;
-
     /**
-     * Create takeable.
+     * Create hurtable.
      * 
      * @param services The services reference.
      * @param setup The setup reference.
@@ -54,12 +55,13 @@ public final class Hurtable extends FeatureModel implements CollidableListener, 
         super();
 
         final Spawner spawner = services.get(Spawner.class);
-        final TakeableConfig config = TakeableConfig.imports(setup);
+        final HurtableConfig config = HurtableConfig.imports(setup);
+
         hurt = (collidable, with, by) ->
         {
-            if (by.getName().startsWith("attack"))
+            if (by.getName().startsWith(Constant.ANIM_PREFIX_ATTACK))
             {
-                spawner.spawn(config.getEffect(), transformable.getX(), transformable.getY());
+                spawner.spawn(config.getEffect(), transformable);
                 identifiable.destroy();
                 current = CollidableListener.VOID;
             }

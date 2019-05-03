@@ -22,6 +22,8 @@
         <lionengine:group>slope_right_1</lionengine:group>
         <lionengine:group>ground</lionengine:group>
     </lionengine:category>
+    <lionengine:collision name="leg_left" offsetX="-3" offsetY="0" width="1" height="1" mirror="false" />
+    <lionengine:collision name="leg_right" offsetX="3" offsetY="0" width="1" height="1" mirror="false" />
     <lionengine:collision name="default" offsetX="0" offsetY="3" width="40" height="20" mirror="false" />
     <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
     <lionengine:animation name="patrol" start="1" end="16" speed="0.25" reversed="false" repeat="true" />
@@ -36,5 +38,5 @@
     </data>
     <life normal="1" />
     <patrol sh="0.3" />
-    <takeable effect="effect/ExplodeBig.xml" health="1" />
+    <hurtable effect="ExplodeBig" />
 </lionengine:featurable>
