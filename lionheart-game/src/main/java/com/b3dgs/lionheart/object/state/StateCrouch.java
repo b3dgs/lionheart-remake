@@ -18,7 +18,9 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackCrouchPrepare;
@@ -28,6 +30,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackCrouchPrepare;
  */
 public final class StateCrouch extends State
 {
+    private final Mirrorable mirrorable;
+
     /**
      * Create the state.
      * 
@@ -37,6 +41,8 @@ public final class StateCrouch extends State
     public StateCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
+
+        mirrorable = model.getFeature(Mirrorable.class);
 
         addTransition(StateIdle.class, () -> !isGoingDown());
         addTransition(StateAttackCrouchPrepare.class, control::isFireButton);
@@ -49,5 +55,20 @@ public final class StateCrouch extends State
 
         movement.setDestination(0.0, 0.0);
         movement.setDirection(DirectionNone.INSTANCE);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        if (isGoingLeft())
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (isGoingRight())
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
     }
 }

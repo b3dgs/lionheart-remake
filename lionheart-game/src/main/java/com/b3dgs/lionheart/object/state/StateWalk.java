@@ -77,6 +77,7 @@ final class StateWalk extends State
         };
 
         addTransition(StateIdle.class, this::isWalkingSlowEnough);
+        addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
