@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Takeable feature implementation.
@@ -37,8 +38,6 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
     private final CollidableListener take;
-    private final Spawner spawner;
-    private final TakeableConfig config;
 
     private CollidableListener current;
 
@@ -55,15 +54,18 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
     {
         super();
 
-        spawner = services.get(Spawner.class);
-        config = TakeableConfig.imports(setup);
+        final Spawner spawner = services.get(Spawner.class);
+        final TakeableConfig config = TakeableConfig.imports(setup);
 
         take = (collidable, with, by) ->
         {
-            collidable.getFeature(Stats.class).apply(config);
-            spawner.spawn(config.getEffect(), transformable.getX(), transformable.getY());
-            identifiable.destroy();
-            current = CollidableListener.VOID;
+            if (by.getName().startsWith(Constant.ANIM_NAME_TAKE))
+            {
+                collidable.getFeature(Stats.class).apply(config);
+                spawner.spawn(config.getEffect(), transformable);
+                identifiable.destroy();
+                current = CollidableListener.VOID;
+            }
         };
 
         recycle();

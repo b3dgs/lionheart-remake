@@ -23,14 +23,15 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Handle borders detection.
  */
 public final class BorderDetection implements TileCollidableListener, CollidableListener
 {
-    private static final String LEG_LEFT = "leg_left";
-    private static final String LEG_RIGHT = "leg_right";
+    private static final String LEG_LEFT = Constant.ANIM_PREFIX_LEG + "_left";
+    private static final String LEG_RIGHT = Constant.ANIM_PREFIX_LEG + "_right";
 
     private boolean legLeft;
     private boolean legRight;
