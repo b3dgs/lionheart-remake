@@ -49,6 +49,7 @@ public final class Patrol extends FeatureModel implements Routine
     private final Tick change = new Tick();
     private final Updatable checker;
     private final boolean turn;
+    private final boolean mirror;
     private double sh;
     private double sv;
 
@@ -73,9 +74,10 @@ public final class Patrol extends FeatureModel implements Routine
         sh = config.getSh();
         sv = config.getSv();
         turn = config.hasTurn();
+        mirror = config.hasMirror();
 
         final AnimationConfig anim = AnimationConfig.imports(setup);
-        if (turn && anim.hasAnimation(Constant.ANIM_NAME_TURN))
+        if (turn)
         {
             checker = extrp ->
             {
@@ -87,38 +89,33 @@ public final class Patrol extends FeatureModel implements Routine
                 {
                     sv = -sv;
                 }
-                stateHandler.changeState(StateTurn.class);
+                if (anim.hasAnimation(Constant.ANIM_NAME_TURN))
+                {
+                    stateHandler.changeState(StateTurn.class);
+                }
             };
         }
         else
         {
-            checker = extrp ->
-            {
-                // Nothing to do
-            };
+            checker = Updatable.VOID;
         }
     }
 
     /**
-     * Perform mirror computation depending of movement side.
+     * Perform mirror computation if required.
      */
     public void applyMirror()
     {
-        if (sh < 0 && mirrorable.getMirror() == Mirror.HORIZONTAL)
+        if (mirror)
         {
-            mirrorable.mirror(Mirror.NONE);
-        }
-        else if (sh > 0 && mirrorable.getMirror() == Mirror.NONE)
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (sv < 0 && mirrorable.getMirror() == Mirror.NONE)
-        {
-            mirrorable.mirror(Mirror.VERTICAL);
-        }
-        else if (sv > 0 && mirrorable.getMirror() == Mirror.VERTICAL)
-        {
-            mirrorable.mirror(Mirror.NONE);
+            if (sv < 0 && mirrorable.getMirror() == Mirror.NONE)
+            {
+                mirrorable.mirror(Mirror.VERTICAL);
+            }
+            else if (sv > 0 && mirrorable.getMirror() == Mirror.VERTICAL)
+            {
+                mirrorable.mirror(Mirror.NONE);
+            }
         }
     }
 

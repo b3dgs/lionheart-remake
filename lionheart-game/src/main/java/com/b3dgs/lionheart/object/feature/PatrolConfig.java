@@ -34,6 +34,8 @@ public class PatrolConfig
     private static final String ATT_VY = "sv";
     /** Turn attribute name. */
     private static final String ATT_TURN = "turn";
+    /** Mirror attribute name. */
+    private static final String ATT_MIRROR = "mirror";
 
     /**
      * Imports the config from configurer.
@@ -49,8 +51,9 @@ public class PatrolConfig
         final double sh = configurer.getDoubleDefault(0.0, ATT_VX, NODE_STATS);
         final double sv = configurer.getDoubleDefault(0.0, ATT_VY, NODE_STATS);
         final boolean turn = configurer.getBooleanDefault(true, ATT_TURN, NODE_STATS);
+        final boolean mirror = configurer.getBooleanDefault(false, ATT_MIRROR, NODE_STATS);
 
-        return new PatrolConfig(sh, sv, turn);
+        return new PatrolConfig(sh, sv, turn, mirror);
     }
 
     /** Horizontal speed. */
@@ -59,6 +62,8 @@ public class PatrolConfig
     private final double sv;
     /** Turn enabled. */
     private final boolean turn;
+    /** Mirror vertical. */
+    private final boolean mirror;
 
     /**
      * Create config.
@@ -66,14 +71,16 @@ public class PatrolConfig
      * @param sh The horizontal speed.
      * @param sv The vertical speed.
      * @param turn The turn flag.
+     * @param mirror The mirror vertical flag.
      */
-    private PatrolConfig(double sh, double sv, boolean turn)
+    private PatrolConfig(double sh, double sv, boolean turn, boolean mirror)
     {
         super();
 
         this.sh = sh;
         this.sv = sv;
         this.turn = turn;
+        this.mirror = mirror;
     }
 
     /**
@@ -104,5 +111,15 @@ public class PatrolConfig
     public boolean hasTurn()
     {
         return turn;
+    }
+
+    /**
+     * Check if mirror is enabled.
+     * 
+     * @return <code>true</code> to enable mirror, <code>false</code> to disable.
+     */
+    public boolean hasMirror()
+    {
+        return mirror;
     }
 }
