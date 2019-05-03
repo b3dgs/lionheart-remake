@@ -2,6 +2,7 @@
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     <lionengine:surface image="Dino.png" icon="Dino_ico.png" />
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
     <lionengine:frames horizontal="4" vertical="4" />
@@ -32,4 +33,5 @@
     </data>
     <life normal="2" />
     <patrol sh="-0.3" turn="false" />
+    <hurtable effect="ExplodeBig" />
 </lionengine:featurable>
