@@ -2,14 +2,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.b3dgs.lionheart</groupId>
-        <artifactId>lionheart-parent</artifactId>
+        <groupId>com.b3dgs.lionheart.editor</groupId>
+        <artifactId>lionheart-editor-parent</artifactId>
         <version>0.0.12-SNAPSHOT</version>
-        <relativePath>../lionheart-parent</relativePath>
+        <relativePath>../lionheart-editor-parent</relativePath>
     </parent>
-    <artifactId>com.b3dgs.lionheart.platform</artifactId>
+    <artifactId>com.b3dgs.lionheart.editor.target</artifactId>
     <packaging>eclipse-target-definition</packaging>
-    <name>Lionheart Target Platform</name>
+    <name>Lionheart Remake Target Platform</name>
     <build>
         <plugins>
             <plugin>

@@ -30,7 +30,7 @@ public class Activator implements BundleActivator
     /** Plugin name. */
     public static final String PLUGIN_NAME = "Lionheart Remake Editor";
     /** Plugin version. */
-    public static final Version PLUGIN_VERSION = Version.create(0, 2, 0);
+    public static final Version PLUGIN_VERSION = Version.create(0, 0, 12);
     /** Plugin website. */
     public static final String PLUGIN_WEBSITE = "www.b3dgs.com";
     /** Plugin ID. */

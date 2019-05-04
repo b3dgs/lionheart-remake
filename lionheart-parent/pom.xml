@@ -91,14 +91,6 @@
             </modules>
         </profile>
         <profile>
-            <id>editor</id>
-            <modules>
-                <module>../com.b3dgs.lionheart.target</module>
-                <module>../com.b3dgs.lionheart.editor</module>
-                <module>../com.b3dgs.lionheart.editor.product</module>
-            </modules>
-        </profile>
-        <profile>
             <id>pc</id>
             <modules>
                 <module>../lionheart-game</module>
