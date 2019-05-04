@@ -21,6 +21,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.b3dgs.lionengine.Version;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Plugin activator.
@@ -30,7 +31,7 @@ public class Activator implements BundleActivator
     /** Plugin name. */
     public static final String PLUGIN_NAME = "Lionheart Remake Editor";
     /** Plugin version. */
-    public static final Version PLUGIN_VERSION = Version.create(0, 0, 12);
+    public static final Version PLUGIN_VERSION = Constant.PROGRAM_VERSION;
     /** Plugin website. */
     public static final String PLUGIN_WEBSITE = "www.b3dgs.com";
     /** Plugin ID. */

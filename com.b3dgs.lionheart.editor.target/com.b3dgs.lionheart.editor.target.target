@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?><target name="Lionheart Remake Editor Target Platform" sequenceNumber="24">
 <locations>
-<location path="C:\Users\DjThunder\.m2\repository\com\b3dgs\lionheart\lionheart-game\0.0.12-SNAPSHOT" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\com\b3dgs\lionengine\lionengine-game\9.0.1-SNAPSHOT" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.4.2" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\org\junit\platform\junit-platform-launcher\1.4.2" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\org\hamcrest\hamcrest-core\1.3" type="Directory"/>
+<location path="C:\Users\DjThunder\.m2\repository\com\b3dgs\lionheart\lionheart-game\0.0.13-SNAPSHOT" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\org\junit\platform\junit-platform-engine\1.4.2" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\junit\junit\4.12" type="Directory"/>
 <location path="C:\Users\DjThunder\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.4.2" type="Directory"/>
