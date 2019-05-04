@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionheart.Constant;
@@ -63,7 +64,7 @@ public final class Hurtable extends FeatureModel implements CollidableListener, 
             {
                 spawner.spawn(config.getEffect(), transformable);
                 identifiable.destroy();
-                current = CollidableListener.VOID;
+                current = CollidableListenerVoid.getInstance();
             }
         };
 

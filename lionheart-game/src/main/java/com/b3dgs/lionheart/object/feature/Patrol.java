@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -97,7 +98,7 @@ public final class Patrol extends FeatureModel implements Routine
         }
         else
         {
-            checker = Updatable.VOID;
+            checker = UpdatableVoid.getInstance();
         }
     }
 
