@@ -4,4 +4,4 @@ org.eclipse.core.resources.prefs
 org.eclipse.m2e.core.prefs
 org.sonar.ide.eclipse.core.prefs
 org.eclipse.jdt.core.prefs
-com.b3dgs.lionheart.target.target
+com.b3dgs.lionheart.editor.target.target
