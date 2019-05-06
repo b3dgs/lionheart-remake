@@ -31,7 +31,6 @@ import org.eclipse.e4.ui.workbench.UIEvents;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.editor.dialog.project.ProjectImportHandler;
 import com.b3dgs.lionengine.editor.project.Project;
@@ -40,8 +39,7 @@ import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
+import com.b3dgs.lionheart.MapTilePersisterOptimized;
 
 /**
  * Configure the editor with the right name.
@@ -104,11 +102,13 @@ public class ApplicationConfiguration
                         importProject(args[i]);
 
                         final MapTile map = WorldModel.INSTANCE.getMap();
-                        map.create(Medias.create("levels", "swamp", "level1-1.png"));
-                        map.getFeature(MapTileGroup.class).loadGroups(Medias.create("levels", "swamp", "groups.xml"));
-                        map.getFeature(MapTileCollision.class)
-                           .loadCollisions(Medias.create("levels", "swamp", "formulas.xml"),
-                                           Medias.create("levels", "swamp", "collisions.xml"));
+                        map.addFeature(new MapTilePersisterOptimized(WorldModel.INSTANCE.getServices()));
+                        // map.create(Medias.create("levels", "swamp", "level1-1.png"));
+                        // map.getFeature(MapTileGroup.class).loadGroups(Medias.create("levels", "swamp",
+                        // "groups.xml"));
+                        // map.getFeature(MapTileCollision.class)
+                        // .loadCollisions(Medias.create("levels", "swamp", "formulas.xml"),
+                        // Medias.create("levels", "swamp", "collisions.xml"));
                         UtilPart.getPart(WorldPart.ID, WorldPart.class).update();
                     }
                 }
