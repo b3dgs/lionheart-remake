@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
-import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
@@ -74,7 +73,7 @@ final class Scene extends SequenceGame
         final Services services = new Services();
         final MapTile map = services.create(MapTileGame.class);
         map.create(level.getRip());
-        final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterModel(services));
+        final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
         try (FileWriting output = new FileWriting(level.getFile()))
         {
             mapPersister.save(output);

@@ -38,7 +38,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionMode
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
-import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
@@ -62,7 +61,7 @@ final class World extends WorldGame
 {
     private final MapTile map = services.create(MapTileGame.class);
     private final MapTileViewer mapViewer = map.addFeatureAndGet(new MapTileViewerModel(services));
-    private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterModel(services));
+    private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
     private final MapTileRastered mapRaster = map.addFeatureAndGet(new MapTileRasteredModel(services));
     private final Zooming zooming = services.get(Zooming.class);
     private final InputDevicePointer pointer = getInputDevice(InputDevicePointer.class);
