@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
+import com.b3dgs.lionengine.game.feature.HandlerPersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionheart.editor.Util;
@@ -47,10 +48,13 @@ public final class WorldSaveHandler
      */
     private static void save(Shell shell, Media media)
     {
-        final MapTilePersister persister = WorldModel.INSTANCE.getMap().getFeature(MapTilePersister.class);
+        final MapTilePersister mapPersister = WorldModel.INSTANCE.getMap().getFeature(MapTilePersister.class);
+        final HandlerPersister handlerPersister = WorldModel.INSTANCE.getHandlerPersister();
+
         try (final FileWriting writing = new FileWriting(media))
         {
-            persister.save(writing);
+            mapPersister.save(writing);
+            handlerPersister.save(writing);
         }
         catch (final IOException exception)
         {
