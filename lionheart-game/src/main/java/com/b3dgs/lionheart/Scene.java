@@ -22,6 +22,9 @@ import java.io.IOException;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.game.feature.Factory;
+import com.b3dgs.lionengine.game.feature.Handler;
+import com.b3dgs.lionengine.game.feature.HandlerPersister;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -71,12 +74,16 @@ final class Scene extends SequenceGame
     private static void importLevelAndSave(Level level)
     {
         final Services services = new Services();
+        services.add(new Factory(services));
+        services.add(new Handler(services));
         final MapTile map = services.create(MapTileGame.class);
         map.create(level.getRip());
         final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
+        final HandlerPersister handlerPersister = new HandlerPersister(services);
         try (FileWriting output = new FileWriting(level.getFile()))
         {
             mapPersister.save(output);
+            handlerPersister.save(output);
         }
         catch (final IOException exception)
         {
