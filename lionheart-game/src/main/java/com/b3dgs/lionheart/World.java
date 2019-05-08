@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
+import com.b3dgs.lionengine.game.feature.HandlerPersister;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -152,15 +153,14 @@ final class World extends WorldGame
 
         landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DUSK);
 
+        final HandlerPersister handlerPersister = new HandlerPersister(services);
+        handlerPersister.load(file);
+
         final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
 
         final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
         valdynTransformable.teleport(960, 112);
         handler.add(valdyn);
-
-        spawn(Medias.create(Constant.FOLDER_SCENERIES, "swamp", "Sheet.xml"), 1050, 160);
-        spawn(Medias.create(Constant.FOLDER_ITEMS, "swamp", "PotionBig.xml"), 1000, 160);
-        spawn(Medias.create(Constant.FOLDER_MONSTERS, "swamp", "Crawling.xml"), 1000, 116);
 
         final CameraTracker tracker = new CameraTracker(services);
         tracker.addFeature(new LayerableModel(2));
