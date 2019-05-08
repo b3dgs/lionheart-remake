@@ -94,7 +94,7 @@ final class Scene extends SequenceGame
     private final Text textName = Graphics.createText(9);
     private final Text textEngine = Graphics.createText(9);
     /** Current level. */
-    private final Level level = Level.SWAMP_1_1;
+    private final Level level = Level.SWAMP_DEMO;
 
     /**
      * Create the scene.

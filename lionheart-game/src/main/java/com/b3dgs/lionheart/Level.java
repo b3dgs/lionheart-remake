@@ -26,6 +26,8 @@ import com.b3dgs.lionheart.landscape.WorldType;
  */
 public enum Level
 {
+    /** Swamp demo stage. */
+    SWAMP_DEMO(WorldType.SWAMP, "level1-demo"),
     /** First swamp stage. */
     SWAMP_1_1(WorldType.SWAMP, "level1-1"),
     /** First swamp stage. */
