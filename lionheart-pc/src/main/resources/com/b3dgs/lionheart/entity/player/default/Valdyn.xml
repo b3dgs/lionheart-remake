@@ -109,5 +109,5 @@
 		<movement speedMax="1.75" smooth="0.15" sensibilityIncrease="0.4" sensibilityDecrease="0.15" />
 		<jump heightMax="7.0" />
 	</data>
-	<stats health="1" />
+	<stats health="4" life="2" />
 </lionengine:featurable>

@@ -67,6 +67,7 @@ final class World extends WorldGame
     private final Zooming zooming = services.get(Zooming.class);
     private final InputDevicePointer pointer = getInputDevice(InputDevicePointer.class);
     private final FactoryLandscape factoryLandscape;
+    private final Hud hud = new Hud();
     private Landscape landscape;
 
     private double scale = 1;
@@ -107,6 +108,7 @@ final class World extends WorldGame
         super.update(extrp);
         landscape.update(extrp, camera);
         camera.moveLocation(extrp, 0.0, 0.0);
+        hud.update(extrp);
     }
 
     @Override
@@ -115,6 +117,7 @@ final class World extends WorldGame
         landscape.renderBackground(g);
         super.render(g);
         landscape.renderForeground(g);
+        hud.render(g);
     }
 
     @Override
@@ -161,6 +164,7 @@ final class World extends WorldGame
         final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
         valdynTransformable.teleport(960, 112);
         handler.add(valdyn);
+        hud.setFeaturable(valdyn);
 
         final CameraTracker tracker = new CameraTracker(services);
         tracker.addFeature(new LayerableModel(2));

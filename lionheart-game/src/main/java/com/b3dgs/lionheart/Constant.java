@@ -38,7 +38,7 @@ public final class Constant
     public static final Resolution DEFAULT_RESOLUTION = new Resolution(320, 256, NATIVE_RESOLUTION.getRate());
 
     /** Debug flag (shows collisions). */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     /** Sprites folder. */
     public static final String FOLDER_SPRITES = "sprite";
@@ -77,8 +77,12 @@ public final class Constant
     /** Musics file extension (with dot). */
     public static final String EXTENSION_MUSIC = ".sc68";
 
+    /** Maximum stats health. */
+    public static final int MAX_STATS_HEALTH = 99;
     /** Maximum stats talisment. */
     public static final int MAX_STATS_TALISMENT = 99;
+    /** Maximum stats life. */
+    public static final int MAX_STATS_LIFE = 99;
 
     /**
      * Private constructor.

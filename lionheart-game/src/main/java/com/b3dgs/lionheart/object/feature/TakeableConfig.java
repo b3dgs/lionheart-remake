@@ -34,10 +34,10 @@ public final class TakeableConfig
     private static final String ATT_EFFECT = "effect";
     /** Health attribute name. */
     private static final String ATT_HEALTH = "health";
-    /** Life attribute name. */
-    private static final String ATT_LIFE = "life";
     /** Talisment attribute name. */
     private static final String ATT_TALISMENT = "talisment";
+    /** Life attribute name. */
+    private static final String ATT_LIFE = "life";
 
     /**
      * Imports from configurer.
@@ -52,37 +52,37 @@ public final class TakeableConfig
 
         final Media effect = Medias.create(configurer.getString(ATT_EFFECT, NODE_TAKEABLE));
         final int health = configurer.getIntegerDefault(0, ATT_HEALTH, NODE_TAKEABLE);
-        final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_TAKEABLE);
         final int talisment = configurer.getIntegerDefault(0, ATT_TALISMENT, NODE_TAKEABLE);
+        final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_TAKEABLE);
 
-        return new TakeableConfig(effect, health, life, talisment);
+        return new TakeableConfig(effect, health, talisment, life);
     }
 
     /** Effect media. */
     private final Media effect;
     /** Health modifier. */
     private final int health;
-    /** Life modifier. */
-    private final int life;
     /** Talisment modifier. */
     private final int talisment;
+    /** Life modifier. */
+    private final int life;
 
     /**
      * Create config.
      * 
      * @param effect The effect media.
      * @param health The health modifier.
-     * @param life The life modifier.
      * @param talisment The Talisment modifier.
+     * @param life The life modifier.
      */
-    private TakeableConfig(Media effect, int health, int life, int talisment)
+    private TakeableConfig(Media effect, int health, int talisment, int life)
     {
         super();
 
         this.effect = effect;
         this.health = health < 0 ? Integer.MAX_VALUE : health;
-        this.life = life;
         this.talisment = talisment;
+        this.life = life;
     }
 
     /**
@@ -106,16 +106,6 @@ public final class TakeableConfig
     }
 
     /**
-     * Get the life modifier.
-     * 
-     * @return The life modifier.
-     */
-    public int getLife()
-    {
-        return life;
-    }
-
-    /**
      * Get the talisment modifier.
      * 
      * @return The talisment modifier.
@@ -123,5 +113,15 @@ public final class TakeableConfig
     public int getTalisment()
     {
         return talisment;
+    }
+
+    /**
+     * Get the life modifier.
+     * 
+     * @return The life modifier.
+     */
+    public int getLife()
+    {
+        return life;
     }
 }

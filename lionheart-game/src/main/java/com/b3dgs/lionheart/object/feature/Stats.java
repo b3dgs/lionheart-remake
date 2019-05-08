@@ -29,9 +29,9 @@ import com.b3dgs.lionheart.Constant;
 @FeatureInterface
 public final class Stats extends FeatureModel
 {
-    private final Alterable life;
     private final Alterable health;
     private final Alterable talisment = new Alterable(Constant.MAX_STATS_TALISMENT);
+    private final Alterable life = new Alterable(Constant.MAX_STATS_LIFE);
 
     /**
      * Create stats.
@@ -43,9 +43,9 @@ public final class Stats extends FeatureModel
         super();
 
         final StatsConfig config = StatsConfig.imports(setup);
-        life = new Alterable(config.getLife());
         health = new Alterable(config.getHealth());
         health.fill();
+        life.set(config.getLife());
     }
 
     /**
@@ -55,19 +55,9 @@ public final class Stats extends FeatureModel
      */
     public void apply(TakeableConfig config)
     {
-        life.increase(config.getLife());
         health.increase(config.getHealth());
         talisment.increase(config.getTalisment());
-    }
-
-    /**
-     * Get the current life.
-     * 
-     * @return The current life.
-     */
-    public int getLife()
-    {
-        return life.getCurrent();
+        life.increase(config.getLife());
     }
 
     /**
@@ -81,6 +71,16 @@ public final class Stats extends FeatureModel
     }
 
     /**
+     * Get the max health.
+     * 
+     * @return The max health.
+     */
+    public int getHealthMax()
+    {
+        return health.getMax();
+    }
+
+    /**
      * Get the current talisment.
      * 
      * @return The current talisment.
@@ -88,5 +88,25 @@ public final class Stats extends FeatureModel
     public int getTalisment()
     {
         return talisment.getCurrent();
+    }
+
+    /**
+     * Get the current life.
+     * 
+     * @return The current life.
+     */
+    public int getLife()
+    {
+        return life.getCurrent();
+    }
+
+    /**
+     * Get the max life.
+     * 
+     * @return The max life.
+     */
+    public int getLifeMax()
+    {
+        return life.getMax();
     }
 }
