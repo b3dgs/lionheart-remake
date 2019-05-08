@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Stats feature implementation.
@@ -30,6 +31,7 @@ public final class Stats extends FeatureModel
 {
     private final Alterable life;
     private final Alterable health;
+    private final Alterable talisment = new Alterable(Constant.MAX_STATS_TALISMENT);
 
     /**
      * Create stats.
@@ -55,6 +57,7 @@ public final class Stats extends FeatureModel
     {
         life.increase(config.getLife());
         health.increase(config.getHealth());
+        talisment.increase(config.getTalisment());
     }
 
     /**
@@ -75,5 +78,15 @@ public final class Stats extends FeatureModel
     public int getHealth()
     {
         return health.getCurrent();
+    }
+
+    /**
+     * Get the current talisment.
+     * 
+     * @return The current talisment.
+     */
+    public int getTalisment()
+    {
+        return talisment.getCurrent();
     }
 }

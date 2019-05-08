@@ -77,6 +77,9 @@ public final class Constant
     /** Musics file extension (with dot). */
     public static final String EXTENSION_MUSIC = ".sc68";
 
+    /** Maximum stats talisment. */
+    public static final int MAX_STATS_TALISMENT = 99;
+
     /**
      * Private constructor.
      */
