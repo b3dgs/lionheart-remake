@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.game.Alterable;
+import com.b3dgs.lionengine.game.Damages;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
@@ -32,6 +33,7 @@ public final class Stats extends FeatureModel
     private final Alterable health;
     private final Alterable talisment = new Alterable(Constant.MAX_STATS_TALISMENT);
     private final Alterable life = new Alterable(Constant.MAX_STATS_LIFE);
+    private final Damages damages = new Damages(1, 1);
 
     /**
      * Create stats.
@@ -58,6 +60,18 @@ public final class Stats extends FeatureModel
         health.increase(config.getHealth());
         talisment.increase(config.getTalisment());
         life.increase(config.getLife());
+    }
+
+    /**
+     * Apply damages.
+     * 
+     * @param damages The damages to apply.
+     * @return <code>true</code> if empty health, <code>false</code> else.
+     */
+    public boolean applyDamages(int damages)
+    {
+        health.decrease(damages);
+        return health.isEmpty();
     }
 
     /**
@@ -108,5 +122,15 @@ public final class Stats extends FeatureModel
     public int getLifeMax()
     {
         return life.getMax();
+    }
+
+    /**
+     * Get random damages.
+     * 
+     * @return The random damages.
+     */
+    public int getDamages()
+    {
+        return damages.getRandom();
     }
 }

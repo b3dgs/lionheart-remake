@@ -33,6 +33,8 @@ public final class HurtableConfig
     private static final String NODE_HURTABLE = "hurtable";
     /** Effect attribute name. */
     private static final String ATT_EFFECT = "effect";
+    /** Move backward attribute name. */
+    private static final String ATT_BACKWARD = "backward";
 
     /**
      * Imports from configurer.
@@ -46,23 +48,28 @@ public final class HurtableConfig
         Check.notNull(configurer);
 
         final String effect = configurer.getString(ATT_EFFECT, NODE_HURTABLE);
+        final boolean backward = configurer.getBooleanDefault(false, ATT_BACKWARD, NODE_HURTABLE);
 
-        return new HurtableConfig(effect);
+        return new HurtableConfig(effect, backward);
     }
 
     /** Effect media. */
     private final Media effect;
+    /** Move backward flag. */
+    private final boolean backward;
 
     /**
      * Create config.
      * 
      * @param effect The effect media.
+     * @param backward The move backward flag.
      */
-    private HurtableConfig(String effect)
+    private HurtableConfig(String effect, boolean backward)
     {
         super();
 
         this.effect = Medias.create(Constant.FOLDER_EFFECTS, effect + Constant.EXTENSION_XML);
+        this.backward = backward;
     }
 
     /**
@@ -73,5 +80,15 @@ public final class HurtableConfig
     public Media getEffect()
     {
         return effect;
+    }
+
+    /**
+     * Get the backward flag.
+     * 
+     * @return The backward flag.
+     */
+    public boolean hasBackward()
+    {
+        return backward;
     }
 }
