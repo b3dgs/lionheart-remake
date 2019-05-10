@@ -17,11 +17,14 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -50,6 +53,7 @@ public final class Hurtable extends FeatureModel implements Routine, CollidableL
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private EntityModel model;
     @FeatureGet private Stats stats;
@@ -78,8 +82,14 @@ public final class Hurtable extends FeatureModel implements Routine, CollidableL
                     identifiable.destroy();
                     current = CollidableListenerVoid.getInstance();
                 }
+                if (model.getMovement().isDecreasingHorizontal())
+                {
+                    mirrorable.mirror(Mirror.NONE);
+                }
                 stateHandler.changeState(StateHurt.class);
-                hurtForce.setDirection(1.8, 0.0);
+                final int side = UtilMath.getSign(transformable.getX()
+                                                  - collidable.getFeature(Transformable.class).getX());
+                hurtForce.setDirection(1.8 * side, 0.0);
             }
         };
         hurtForce.setDestination(0.0, 0.0);
@@ -87,6 +97,17 @@ public final class Hurtable extends FeatureModel implements Routine, CollidableL
         hurtForce.setVelocity(0.5);
 
         recycle();
+    }
+
+    /**
+     * Check if hurting.
+     * 
+     * @return <code>true</code> if hurting, <code>false</code> else.
+     */
+    public boolean isHurting()
+    {
+        return model.getMovement().isIncreasingHorizontal() && mirrorable.getMirror() == Mirror.NONE
+               || model.getMovement().isDecreasingHorizontal() && mirrorable.getMirror() == Mirror.HORIZONTAL;
     }
 
     @Override

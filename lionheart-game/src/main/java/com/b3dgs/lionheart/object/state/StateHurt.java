@@ -20,7 +20,6 @@ package com.b3dgs.lionheart.object.state;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
@@ -31,6 +30,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
+import com.b3dgs.lionheart.object.feature.Hurtable;
 
 /**
  * Hurt state implementation.
@@ -42,7 +42,6 @@ public final class StateHurt extends State
     private final Collidable collidable;
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
-    private final Transformable transformable;
 
     /**
      * Create the state.
@@ -56,7 +55,6 @@ public final class StateHurt extends State
 
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
-        transformable = model.getFeature(Transformable.class);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -74,7 +72,7 @@ public final class StateHurt extends State
             }
         };
 
-        addTransition(StateLast.class, () -> transformable.getX() < transformable.getOldX());
+        addTransition(StateLast.class, () -> !model.getFeature(Hurtable.class).isHurting());
     }
 
     @Override
