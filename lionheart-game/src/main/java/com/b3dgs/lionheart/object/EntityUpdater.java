@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Refreshable;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -42,12 +43,15 @@ import com.b3dgs.lionheart.object.state.StateHurt;
  */
 final class EntityUpdater extends FeatureModel implements Refreshable
 {
+    private final int DESTROY_Y = -100;
+
     private final List<Routine> routines = new ArrayList<>();
     private final Force movement;
     private final Force jump;
 
     private int routinesCount;
 
+    @FeatureGet private Identifiable identifiable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Body body;
     @FeatureGet private StateHandler state;
@@ -120,14 +124,13 @@ final class EntityUpdater extends FeatureModel implements Refreshable
         tileCollidable.update(extrp);
         state.postUpdate();
 
-        if (transformable.getY() < 0)
-        {
-            transformable.teleportY(160);
-            body.resetGravity();
-        }
-
         updateMirror(extrp);
         animatable.update(extrp);
         rasterable.update(extrp);
+
+        if (transformable.getY() < DESTROY_Y)
+        {
+            identifiable.destroy();
+        }
     }
 }
