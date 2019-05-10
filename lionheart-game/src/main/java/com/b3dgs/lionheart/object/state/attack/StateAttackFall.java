@@ -32,6 +32,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
+import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateLand;
@@ -76,11 +77,17 @@ public final class StateAttackFall extends State
                 collideY.set(true);
             }
         };
+
         listenerCollidable = (collidable, with, by) ->
         {
             if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
             {
                 collideY.set(true);
+            }
+            if (collidable.hasFeature(Hurtable.class)
+                && with.getName().startsWith(Constant.ANIM_PREFIX_ATTACK + "fall"))
+            {
+                jump.setDirection(new Force(0, Constant.JUMP_HIT));
             }
         };
 
@@ -109,7 +116,14 @@ public final class StateAttackFall extends State
     @Override
     public void update(double extrp)
     {
-        body.update(extrp);
+        if (jump.getDirectionVertical() < 0.1)
+        {
+            body.update(extrp);
+        }
+        else
+        {
+            body.resetGravity();
+        }
         if (isGoingHorizontal())
         {
             movement.setVelocity(0.12);

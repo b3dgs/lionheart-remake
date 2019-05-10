@@ -19,10 +19,12 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
@@ -34,17 +36,11 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
 final class StateJump extends State
 {
     private static final double SPEED = 5.0 / 3.0;
-    private static final double JUMP_MIN = 2.5;
-    private static final double JUMP_MAX = 5.4;
 
     private final Transformable transformable;
     private final Force jump;
     private final Body body;
     private final Updatable checkJumpStopped;
-    private final Updatable checkNone = extrp ->
-    {
-        // Nothing to do
-    };
     private Updatable check;
 
     /**
@@ -71,11 +67,11 @@ final class StateJump extends State
         {
             if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
             {
-                check = checkNone;
+                check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
-                                                   UtilMath.clamp(JUMP_MAX - jump.getDirectionVertical(),
-                                                                  JUMP_MIN,
-                                                                  JUMP_MAX)));
+                                                   UtilMath.clamp(Constant.JUMP_MAX - jump.getDirectionVertical(),
+                                                                  Constant.JUMP_MIN,
+                                                                  Constant.JUMP_MAX)));
             }
         };
     }
@@ -89,7 +85,7 @@ final class StateJump extends State
 
         jump.setSensibility(0.1);
         jump.setVelocity(0.18);
-        jump.setDirection(0.0, JUMP_MAX);
+        jump.setDirection(0.0, Constant.JUMP_MAX);
         jump.setDestination(0.0, 0.0);
 
         movement.setVelocity(0.12);
@@ -98,7 +94,7 @@ final class StateJump extends State
     @Override
     public void exit()
     {
-        jump.setDirectionMaximum(new Force(0.0, JUMP_MAX));
+        jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
     }
 
     @Override

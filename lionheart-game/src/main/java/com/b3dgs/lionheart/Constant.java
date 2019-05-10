@@ -84,6 +84,13 @@ public final class Constant
     /** Maximum stats life. */
     public static final int MAX_STATS_LIFE = 99;
 
+    /** Jump minimum height. */
+    public static final double JUMP_MIN = 2.5;
+    /** Jump maximum height on hit. */
+    public static final double JUMP_HIT = 4.0;
+    /** Jump maximum height. */
+    public static final double JUMP_MAX = 5.4;
+
     /**
      * Private constructor.
      */
