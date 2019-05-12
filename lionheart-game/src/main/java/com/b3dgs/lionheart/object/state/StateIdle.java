@@ -21,6 +21,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
@@ -48,6 +50,7 @@ public final class StateIdle extends State
     private final Collidable collidable;
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
+    private final Body body;
 
     /**
      * Create the state.
@@ -61,6 +64,7 @@ public final class StateIdle extends State
 
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
+        body = model.getFeature(Body.class);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -74,6 +78,7 @@ public final class StateIdle extends State
             if (Axis.Y == category.getAxis())
             {
                 tileCollidable.apply(result);
+                body.resetGravity();
                 collideY.set(true);
             }
         };
@@ -86,6 +91,8 @@ public final class StateIdle extends State
         };
         collidable.addListener(border);
 
+        final Transformable transformable = model.getFeature(Transformable.class);
+
         addTransition(StateBorder.class, () -> collideY.get() && !isGoingHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
         addTransition(StateCrouch.class, this::isGoingDown);
@@ -94,7 +101,7 @@ public final class StateIdle extends State
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && !collideY.get()
-                            && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
+                            && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
     }
 
     private boolean isWalkingFastEnough()
@@ -112,6 +119,8 @@ public final class StateIdle extends State
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
         border.reset();
+        collideX.set(false);
+        collideY.set(false);
     }
 
     @Override
@@ -124,6 +133,7 @@ public final class StateIdle extends State
     @Override
     public void update(double extrp)
     {
+        body.update(extrp);
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 

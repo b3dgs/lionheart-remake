@@ -18,13 +18,14 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.state.StateDie;
 import com.b3dgs.lionheart.object.state.StateIdle;
@@ -43,6 +44,8 @@ public class Drownable extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private EntityModel model;
+    @FeatureGet private Body body;
 
     /**
      * Create drownable.
@@ -55,8 +58,6 @@ public class Drownable extends FeatureModel implements Routine, Recyclable
         {
             if (transformable.getY() < DROWN_END_Y)
             {
-                current = UpdatableVoid.getInstance();
-                transformable.teleport(670, 64);
                 stateHandler.changeState(StateIdle.class);
                 recycle();
             }
