@@ -47,10 +47,14 @@ public final class HurtableConfig
     {
         Check.notNull(configurer);
 
-        final String effect = configurer.getString(ATT_EFFECT, NODE_HURTABLE);
-        final boolean backward = configurer.getBooleanDefault(false, ATT_BACKWARD, NODE_HURTABLE);
+        if (configurer.hasNode(NODE_HURTABLE))
+        {
+            final String effect = configurer.getStringDefault(null, ATT_EFFECT, NODE_HURTABLE);
+            final boolean backward = configurer.getBooleanDefault(false, ATT_BACKWARD, NODE_HURTABLE);
 
-        return new HurtableConfig(effect, backward);
+            return new HurtableConfig(effect, backward);
+        }
+        return new HurtableConfig(null, false);
     }
 
     /** Effect media. */
@@ -68,7 +72,14 @@ public final class HurtableConfig
     {
         super();
 
-        this.effect = Medias.create(Constant.FOLDER_EFFECTS, effect + Constant.EXTENSION_XML);
+        if (effect != null)
+        {
+            this.effect = Medias.create(Constant.FOLDER_EFFECTS, effect + Constant.EXTENSION_XML);
+        }
+        else
+        {
+            this.effect = null;
+        }
         this.backward = backward;
     }
 

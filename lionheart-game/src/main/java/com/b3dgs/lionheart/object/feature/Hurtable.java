@@ -35,6 +35,9 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Routine;
@@ -44,12 +47,15 @@ import com.b3dgs.lionheart.object.state.StateHurt;
  * Hurtable feature implementation.
  */
 @FeatureInterface
-public final class Hurtable extends FeatureModel implements Routine, CollidableListener, Recyclable
+public final class Hurtable extends FeatureModel
+                            implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
     private final Force hurtForce = new Force();
     private final CollidableListener hurt;
+    private final TileCollidableListener hurtTile;
 
     private CollidableListener current;
+    private TileCollidableListener currentTile;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -92,6 +98,18 @@ public final class Hurtable extends FeatureModel implements Routine, CollidableL
                 hurtForce.setDirection(1.8 * side, 0.0);
             }
         };
+        hurtTile = (result, tile) ->
+        {
+            if (Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0 && result.startWith("spike"))
+            {
+                stateHandler.changeState(StateHurt.class);
+                model.getJump().setSensibility(0.1);
+                model.getJump().setVelocity(0.18);
+                model.getJump().setDestination(0.0, 0.0);
+                model.getJump().setDirection(0.0, 4);
+                model.getJump().setDirectionMaximum(new Force(0.0, 4));
+            }
+        };
         hurtForce.setDestination(0.0, 0.0);
         hurtForce.setSensibility(0.1);
         hurtForce.setVelocity(0.5);
@@ -106,7 +124,8 @@ public final class Hurtable extends FeatureModel implements Routine, CollidableL
      */
     public boolean isHurting()
     {
-        return model.getMovement().isIncreasingHorizontal() && mirrorable.getMirror() == Mirror.NONE
+        return model.getJump().getDirectionVertical() > 0
+               || model.getMovement().isIncreasingHorizontal() && mirrorable.getMirror() == Mirror.NONE
                || model.getMovement().isDecreasingHorizontal() && mirrorable.getMirror() == Mirror.HORIZONTAL;
     }
 
@@ -124,8 +143,15 @@ public final class Hurtable extends FeatureModel implements Routine, CollidableL
     }
 
     @Override
+    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
+    {
+        currentTile.notifyTileCollided(result, category);
+    }
+
+    @Override
     public void recycle()
     {
         current = hurt;
+        currentTile = hurtTile;
     }
 }

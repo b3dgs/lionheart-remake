@@ -17,19 +17,11 @@
  */
 package com.b3dgs.lionheart.object.state;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 
 /**
@@ -37,11 +29,7 @@ import com.b3dgs.lionheart.object.feature.Hurtable;
  */
 public final class StateHurt extends State
 {
-    private final AtomicBoolean collideY = new AtomicBoolean();
-    private final TileCollidable tileCollidable;
-    private final Collidable collidable;
-    private final TileCollidableListener listenerTileCollidable;
-    private final CollidableListener listenerCollidable;
+    private final Body body;
 
     /**
      * Create the state.
@@ -53,47 +41,16 @@ public final class StateHurt extends State
     {
         super(model, animation);
 
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                collideY.set(true);
-            }
-        };
-        listenerCollidable = (collidable, with, by) ->
-        {
-            if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
-            {
-                collideY.set(true);
-            }
-        };
+        body = model.getFeature(Body.class);
 
         addTransition(StateLast.class, () -> !model.getFeature(Hurtable.class).isHurting());
     }
 
     @Override
-    public void enter()
+    public void update(double extrp)
     {
-        super.enter();
+        super.update(extrp);
 
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(listenerCollidable);
-    }
-
-    @Override
-    public void exit()
-    {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(listenerCollidable);
-    }
-
-    @Override
-    protected void postUpdate()
-    {
-        collideY.set(false);
+        body.resetGravity();
     }
 }

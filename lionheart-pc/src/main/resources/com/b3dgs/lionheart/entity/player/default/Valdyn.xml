@@ -4,6 +4,7 @@
     <lionengine:feature>com.b3dgs.lionheart.object.EntityKeyboardController</lionengine:feature>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
     <lionengine:feature>com.b3dgs.lionheart.object.feature.Drownable</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     <lionengine:surface image="Valdyn.png"/>
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
