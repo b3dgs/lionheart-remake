@@ -62,6 +62,10 @@ public final class StateLand extends State
 
         listenerTileCollidable = (result, category) ->
         {
+            if (Axis.X == category.getAxis())
+            {
+                tileCollidable.apply(result);
+            }
             if (Axis.Y == category.getAxis())
             {
                 tileCollidable.apply(result);

@@ -21,8 +21,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -59,9 +61,16 @@ final class StateWalk extends State
 
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
+        final StateHandler stateHandler = model.getFeature(StateHandler.class);
 
         listenerTileCollidable = (result, category) ->
         {
+            if (Axis.X == category.getAxis())
+            {
+                tileCollidable.apply(result);
+                model.getMovement().setDirection(DirectionNone.INSTANCE);
+                stateHandler.changeState(StateIdle.class);
+            }
             if (Axis.Y == category.getAxis())
             {
                 tileCollidable.apply(result);

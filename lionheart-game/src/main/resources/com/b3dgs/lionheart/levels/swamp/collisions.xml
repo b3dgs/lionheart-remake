@@ -15,4 +15,10 @@
     <lionengine:collision group="slope_right_1">
         <lionengine:formula>slope_right_1</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="spike">
+        <lionengine:formula>ground</lionengine:formula>
+        <lionengine:formula>spike</lionengine:formula>
+        <lionengine:formula>spike_vertical_left</lionengine:formula>
+        <lionengine:formula>spike_vertical_right</lionengine:formula>
+    </lionengine:collision>
 </lionengine:collisions>

@@ -41,6 +41,7 @@ public final class StateIdle extends State
     private static final double SPEED = 5.0 / 3.0;
     private static final double WALK_MIN_SPEED = 0.75;
 
+    private final AtomicBoolean collideX = new AtomicBoolean();
     private final AtomicBoolean collideY = new AtomicBoolean();
     private final BorderDetection border = new BorderDetection();
     private final TileCollidable tileCollidable;
@@ -65,6 +66,11 @@ public final class StateIdle extends State
         {
             border.notifyTileCollided(result, category);
 
+            if (Axis.X == category.getAxis())
+            {
+                tileCollidable.apply(result);
+                collideX.set(true);
+            }
             if (Axis.Y == category.getAxis())
             {
                 tileCollidable.apply(result);
@@ -81,7 +87,7 @@ public final class StateIdle extends State
         collidable.addListener(border);
 
         addTransition(StateBorder.class, () -> collideY.get() && !isGoingHorizontal() && border.is());
-        addTransition(StateWalk.class, this::isWalkingFastEnough);
+        addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
@@ -124,6 +130,7 @@ public final class StateIdle extends State
     @Override
     protected void postUpdate()
     {
+        collideX.set(false);
         collideY.set(false);
     }
 }
