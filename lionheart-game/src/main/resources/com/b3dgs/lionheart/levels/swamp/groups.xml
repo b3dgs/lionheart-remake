@@ -747,4 +747,29 @@
         <lionengine:tile number="488" sheet="0"/>
         <lionengine:tile number="489" sheet="0"/>
     </lionengine:group>
+    <lionengine:group name="steep_right_0" type="NONE">
+        <lionengine:tile number="503" sheet="0"/>
+        <lionengine:tile number="666" sheet="0"/>
+        <lionengine:tile number="454" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="steep_right_1" type="NONE">
+        <lionengine:tile number="474" sheet="0"/>
+        <lionengine:tile number="661" sheet="0"/>
+        <lionengine:tile number="437" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="steep_left_0" type="NONE">
+        <lionengine:tile number="470" sheet="0"/>
+        <lionengine:tile number="219" sheet="0"/>
+        <lionengine:tile number="295" sheet="0"/>
+        <lionengine:tile number="525" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="steep_left_1" type="NONE">
+        <lionengine:tile number="499" sheet="0"/>
+        <lionengine:tile number="256" sheet="0"/>
+        <lionengine:tile number="744" sheet="0"/>
+        <lionengine:tile number="318" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="steep_left_ground" type="NONE">
+        <lionengine:tile number="732" sheet="0"/>
+    </lionengine:group>
 </lionengine:groups>

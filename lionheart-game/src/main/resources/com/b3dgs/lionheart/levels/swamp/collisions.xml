@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:collisions xmlns:lionengine="http://lionengine.b3dgs.com">
-     <lionengine:collision group="ground">
+    <lionengine:collision group="steep_right_1">
+        <lionengine:formula>steep_right_1</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="steep_right_0">
+        <lionengine:formula>steep_right_0</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="steep_left_ground">
+        <lionengine:formula>steep_left_0</lionengine:formula>
         <lionengine:formula>ground</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="ground">
+        <lionengine:formula>ground</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_right_1">
+        <lionengine:formula>slope_right_1</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="slope_left_0">
         <lionengine:formula>slope_left_0</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="slope_left_1">
-        <lionengine:formula>slope_left_1</lionengine:formula>
-    </lionengine:collision>
     <lionengine:collision group="slope_right_0">
         <lionengine:formula>slope_right_0</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="slope_right_1">
-        <lionengine:formula>slope_right_1</lionengine:formula>
+    <lionengine:collision group="steep_left_0">
+        <lionengine:formula>steep_left_0</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_left_1">
+        <lionengine:formula>slope_left_1</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="steep_left_1">
+        <lionengine:formula>steep_left_1</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="spike">
         <lionengine:formula>ground</lionengine:formula>
