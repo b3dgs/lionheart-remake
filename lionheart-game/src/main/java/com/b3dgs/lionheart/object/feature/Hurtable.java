@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -50,6 +51,8 @@ import com.b3dgs.lionheart.object.state.StateHurt;
 public final class Hurtable extends FeatureModel
                             implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
+    private static final double HURT_JUMP_FORCE = 3.5;
+
     private final Force hurtForce = new Force();
     private final CollidableListener hurt;
     private final TileCollidableListener hurtTile;
@@ -103,11 +106,13 @@ public final class Hurtable extends FeatureModel
             if (Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0 && result.startWith("spike"))
             {
                 stateHandler.changeState(StateHurt.class);
+                model.getMovement().setDirection(DirectionNone.INSTANCE);
+                model.getMovement().setDestination(0.0, 0.0);
                 model.getJump().setSensibility(0.1);
                 model.getJump().setVelocity(0.18);
                 model.getJump().setDestination(0.0, 0.0);
-                model.getJump().setDirection(0.0, 4);
-                model.getJump().setDirectionMaximum(new Force(0.0, 4));
+                model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
+                model.getJump().setDirectionMaximum(new Force(0.0, HURT_JUMP_FORCE));
             }
         };
         hurtForce.setDestination(0.0, 0.0);
