@@ -69,6 +69,8 @@ public final class Constant
     public static final String ANIM_PREFIX_LEG = "leg";
     /** Animation attack prefix. */
     public static final String ANIM_PREFIX_ATTACK = "attack";
+    /** Animation body prefix. */
+    public static final String ANIM_PREFIX_BODY = "body";
 
     /** Configuration files extension (with dot). */
     public static final String EXTENSION_XML = ".xml";
