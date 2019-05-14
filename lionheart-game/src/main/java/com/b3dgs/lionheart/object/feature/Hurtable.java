@@ -17,6 +17,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
@@ -65,12 +66,12 @@ public final class Hurtable extends FeatureModel
     private final Force hurtForce = new Force();
     private final Tick recover = new Tick();
     private final Tick flicker = new Tick();
-    private final CollidableListener hurt;
-    private final TileCollidableListener hurtTile;
+    private final Spawner spawner;
+    private final Media effect;
 
-    private CollidableListener current;
+    private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
-    private Updatable flickerCurrent = UpdatableVoid.getInstance();
+    private Updatable flickerCurrent;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -90,65 +91,10 @@ public final class Hurtable extends FeatureModel
     {
         super();
 
-        final Spawner spawner = services.get(Spawner.class);
         final HurtableConfig config = HurtableConfig.imports(setup);
+        effect = config.getEffect();
+        spawner = services.get(Spawner.class);
 
-        hurt = (collidable, with, by) ->
-        {
-            if (recover.elapsed(HURT_RECOVER_TICK)
-                && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
-                && by.getName().startsWith(Constant.ANIM_PREFIX_ATTACK))
-            {
-                if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
-                {
-                    spawner.spawn(config.getEffect(), transformable);
-                    identifiable.destroy();
-                    current = CollidableListenerVoid.getInstance();
-                }
-                if (model.getMovement().isDecreasingHorizontal())
-                {
-                    mirrorable.mirror(Mirror.NONE);
-                }
-                stateHandler.changeState(StateHurt.class);
-                final int side = UtilMath.getSign(transformable.getX()
-                                                  - collidable.getFeature(Transformable.class).getX());
-                hurtForce.setDirection(1.8 * side, 0.0);
-                recover.restart();
-            }
-            if (recover.elapsed(HURT_RECOVER_TICK) && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
-            {
-                if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
-                {
-                    stateHandler.changeState(StateDie.class);
-                }
-                else
-                {
-                    stateHandler.changeState(StateHurt.class);
-                    hurtJump();
-                }
-                recover.restart();
-            }
-        };
-        hurtTile = (result, tile) ->
-        {
-            if (recover.elapsed(HURT_RECOVER_TICK)
-                && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
-                && result.startWith("spike"))
-            {
-                model.getMovement().setDirection(DirectionNone.INSTANCE);
-                model.getMovement().setDestination(0.0, 0.0);
-                if (stats.applyDamages(SPIKE_DAMAGES))
-                {
-                    stateHandler.changeState(StateDie.class);
-                }
-                else
-                {
-                    stateHandler.changeState(StateHurt.class);
-                    hurtJump();
-                }
-                recover.restart();
-            }
-        };
         hurtForce.setDestination(0.0, 0.0);
         hurtForce.setSensibility(0.1);
         hurtForce.setVelocity(0.5);
@@ -166,6 +112,96 @@ public final class Hurtable extends FeatureModel
         return model.getJump().getDirectionVertical() > 0
                || model.getMovement().isIncreasingHorizontal() && mirrorable.getMirror() == Mirror.NONE
                || model.getMovement().isDecreasingHorizontal() && mirrorable.getMirror() == Mirror.HORIZONTAL;
+    }
+
+    /**
+     * Update collidable checking.
+     * 
+     * @param collidable The collidable reference.
+     * @param with The collision with.
+     * @param by The collision by.
+     */
+    private void updateCollide(Collidable collidable, Collision with, Collision by)
+    {
+        if (recover.elapsed(HURT_RECOVER_TICK)
+            && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
+            && by.getName().startsWith(Constant.ANIM_PREFIX_ATTACK))
+        {
+            updateCollideAttack(collidable);
+        }
+        if (recover.elapsed(HURT_RECOVER_TICK) && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
+        {
+            updateCollideBody(collidable);
+        }
+    }
+
+    /**
+     * Update collide with sword.
+     * 
+     * @param collidable The collidable reference.
+     */
+    private void updateCollideAttack(Collidable collidable)
+    {
+        if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
+        {
+            spawner.spawn(effect, transformable);
+            identifiable.destroy();
+            currentCollide = CollidableListenerVoid.getInstance();
+        }
+        if (model.getMovement().isDecreasingHorizontal())
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+        stateHandler.changeState(StateHurt.class);
+        final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
+        hurtForce.setDirection(1.8 * side, 0.0);
+        recover.restart();
+    }
+
+    /**
+     * Update collide with body.
+     * 
+     * @param collidable The collidable reference.
+     */
+    private void updateCollideBody(Collidable collidable)
+    {
+        if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
+        {
+            stateHandler.changeState(StateDie.class);
+        }
+        else
+        {
+            stateHandler.changeState(StateHurt.class);
+            hurtJump();
+        }
+        recover.restart();
+    }
+
+    /**
+     * Update tile collision checking.
+     * 
+     * @param result The collision result.
+     * @param category The category reference.
+     */
+    private void updateTile(CollisionResult result, CollisionCategory category)
+    {
+        if (recover.elapsed(HURT_RECOVER_TICK)
+            && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
+            && result.startWith("spike"))
+        {
+            model.getMovement().setDirection(DirectionNone.INSTANCE);
+            model.getMovement().setDestination(0.0, 0.0);
+            if (stats.applyDamages(SPIKE_DAMAGES))
+            {
+                stateHandler.changeState(StateDie.class);
+            }
+            else
+            {
+                stateHandler.changeState(StateHurt.class);
+                hurtJump();
+            }
+            recover.restart();
+        }
     }
 
     /**
@@ -213,7 +249,7 @@ public final class Hurtable extends FeatureModel
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        current.notifyCollided(collidable, with, by);
+        currentCollide.notifyCollided(collidable, with, by);
     }
 
     @Override
@@ -225,8 +261,9 @@ public final class Hurtable extends FeatureModel
     @Override
     public void recycle()
     {
-        current = hurt;
-        currentTile = hurtTile;
+        currentCollide = this::updateCollide;
+        currentTile = this::updateTile;
+        flickerCurrent = UpdatableVoid.getInstance();
         recover.restart();
         recover.set(HURT_RECOVER_TICK);
     }
