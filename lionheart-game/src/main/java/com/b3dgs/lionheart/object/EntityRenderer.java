@@ -34,15 +34,26 @@ import com.b3dgs.lionengine.graphic.Graphic;
 /**
  * Entity rendering implementation.
  */
-final class EntityRenderer extends FeatureModel implements Displayable
+public final class EntityRenderer extends FeatureModel implements Displayable
 {
     private final List<Routine> routines = new ArrayList<>();
 
     private int routinesCount;
+    private boolean visible = true;
 
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
+
+    /**
+     * Set visibility state.
+     * 
+     * @param visible <code>true</code> if visible, <code>false</code> else.
+     */
+    public void setVisible(boolean visible)
+    {
+        this.visible = visible;
+    }
 
     @Override
     public void prepare(FeatureProvider provider)
@@ -62,7 +73,10 @@ final class EntityRenderer extends FeatureModel implements Displayable
     @Override
     public void render(Graphic g)
     {
-        rasterable.render(g);
+        if (visible)
+        {
+            rasterable.render(g);
+        }
 
         g.setColor(ColorRgba.GREEN);
         collidable.render(g);

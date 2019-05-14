@@ -18,7 +18,9 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Hurtable;
@@ -31,6 +33,7 @@ public final class StateHurt extends State
     private static final double SPEED = 5.0 / 3.0;
 
     private final Body body;
+    private final Force jump;
 
     /**
      * Create the state.
@@ -43,6 +46,7 @@ public final class StateHurt extends State
         super(model, animation);
 
         body = model.getFeature(Body.class);
+        jump = model.getJump();
 
         addTransition(StateFall.class, () -> !model.getFeature(Hurtable.class).isHurting());
     }
@@ -53,6 +57,12 @@ public final class StateHurt extends State
         super.enter();
 
         movement.setVelocity(0.12);
+    }
+
+    @Override
+    public void exit()
+    {
+        jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
     }
 
     @Override

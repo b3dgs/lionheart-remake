@@ -19,6 +19,8 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
@@ -42,6 +44,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.EntityRenderer;
 import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.state.StateDie;
 import com.b3dgs.lionheart.object.state.StateHurt;
@@ -55,20 +58,26 @@ public final class Hurtable extends FeatureModel
 {
     private static final double HURT_JUMP_FORCE = 3.5;
     private static final long HURT_RECOVER_TICK = 70L;
+    private static final long HURT_FLICKER_TICK_DURATION = 70L;
+    private static final long HURT_FLICKER_TICK_SWITCH = 8;
+    private static final int SPIKE_DAMAGES = 1;
 
     private final Force hurtForce = new Force();
     private final Tick recover = new Tick();
+    private final Tick flicker = new Tick();
     private final CollidableListener hurt;
     private final TileCollidableListener hurtTile;
 
     private CollidableListener current;
     private TileCollidableListener currentTile;
+    private Updatable flickerCurrent = UpdatableVoid.getInstance();
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private EntityModel model;
+    @FeatureGet private EntityRenderer renderer;
     @FeatureGet private Stats stats;
 
     /**
@@ -128,7 +137,7 @@ public final class Hurtable extends FeatureModel
             {
                 model.getMovement().setDirection(DirectionNone.INSTANCE);
                 model.getMovement().setDestination(0.0, 0.0);
-                if (stats.applyDamages(1))
+                if (stats.applyDamages(SPIKE_DAMAGES))
                 {
                     stateHandler.changeState(StateDie.class);
                 }
@@ -148,18 +157,6 @@ public final class Hurtable extends FeatureModel
     }
 
     /**
-     * Force jump on hurt.
-     */
-    private void hurtJump()
-    {
-        model.getJump().setSensibility(0.1);
-        model.getJump().setVelocity(0.18);
-        model.getJump().setDestination(0.0, 0.0);
-        model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
-        model.getJump().setDirectionMaximum(new Force(0.0, HURT_JUMP_FORCE));
-    }
-
-    /**
      * Check if hurting.
      * 
      * @return <code>true</code> if hurting, <code>false</code> else.
@@ -171,11 +168,45 @@ public final class Hurtable extends FeatureModel
                || model.getMovement().isDecreasingHorizontal() && mirrorable.getMirror() == Mirror.HORIZONTAL;
     }
 
+    /**
+     * Force jump on hurt.
+     */
+    private void hurtJump()
+    {
+        model.getJump().setSensibility(0.1);
+        model.getJump().setVelocity(0.18);
+        model.getJump().setDestination(0.0, 0.0);
+        model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
+        model.getJump().setDirectionMaximum(new Force(0.0, HURT_JUMP_FORCE));
+        flicker.restart();
+        flickerCurrent = this::updateFlicker;
+    }
+
+    /**
+     * Update flicker effect on hurt.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFlicker(double extrp)
+    {
+        flicker.update(extrp);
+        if (!stateHandler.isState(StateHurt.class))
+        {
+            renderer.setVisible(flicker.elapsed() % HURT_FLICKER_TICK_SWITCH < HURT_FLICKER_TICK_SWITCH / 2);
+        }
+        if (flicker.elapsed(HURT_FLICKER_TICK_DURATION))
+        {
+            flickerCurrent = UpdatableVoid.getInstance();
+            renderer.setVisible(true);
+        }
+    }
+
     @Override
     public void update(double extrp)
     {
         hurtForce.update(extrp);
         recover.update(extrp);
+        flickerCurrent.update(extrp);
         model.getMovement().addDirection(extrp, hurtForce);
     }
 

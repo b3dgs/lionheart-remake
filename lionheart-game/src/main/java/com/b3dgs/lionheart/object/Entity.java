@@ -113,6 +113,8 @@ public final class Entity extends FeaturableModel
 
         final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup, Entity::getAnimationName));
         stateHandler.changeState(StateIdle.class);
+
+        addFeature(new EntityRenderer());
     }
 
     @Override
@@ -120,6 +122,5 @@ public final class Entity extends FeaturableModel
     {
         final EntityModel model = getFeature(EntityModel.class);
         addFeature(new EntityUpdater(services, model));
-        addFeature(new EntityRenderer());
     }
 }
