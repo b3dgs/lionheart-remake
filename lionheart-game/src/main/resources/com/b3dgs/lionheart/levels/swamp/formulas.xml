@@ -8,6 +8,10 @@
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="-2.0" b="32.0" type="LINEAR"/>
     </lionengine:formula>
+    <lionengine:formula name="steep_right_vertical">
+        <lionengine:range maxX="0" maxY="2" minX="0" minY="1" output="X"/>
+        <lionengine:function a="0.0" b="4.0" type="LINEAR"/>
+    </lionengine:formula>
     <lionengine:formula name="ground">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.0" b="0.0" type="LINEAR"/>

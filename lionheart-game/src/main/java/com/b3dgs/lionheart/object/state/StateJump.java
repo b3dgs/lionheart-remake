@@ -17,13 +17,20 @@
  */
 package com.b3dgs.lionheart.object.state;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -37,9 +44,16 @@ final class StateJump extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
+    private final AtomicBoolean collideX = new AtomicBoolean();
+    private final AtomicBoolean steep = new AtomicBoolean();
+    private final AtomicBoolean steepLeft = new AtomicBoolean();
+    private final AtomicBoolean steepRight = new AtomicBoolean();
+
     private final Transformable transformable;
     private final Force jump;
     private final Body body;
+    private final TileCollidable tileCollidable;
+    private final TileCollidableListener listenerTileCollidable;
     private final Updatable checkJumpStopped;
     private Updatable check;
 
@@ -56,7 +70,28 @@ final class StateJump extends State
         transformable = model.getFeature(Transformable.class);
         jump = model.getJump();
         body = model.getFeature(Body.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
 
+        listenerTileCollidable = (result, category) ->
+        {
+            if (Axis.Y == category.getAxis() && result.startWith(Constant.COLL_PREFIX_STEEP))
+            {
+                tileCollidable.apply(result);
+                body.resetGravity();
+                if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+                {
+                    steep.set(true);
+                    steepLeft.set(true);
+                }
+                else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+                {
+                    steep.set(true);
+                    steepRight.set(true);
+                }
+            }
+        };
+
+        addTransition(StateSlide.class, steep::get);
         addTransition(StateFall.class,
                       () -> Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                             || transformable.getY() < transformable.getOldY());
@@ -81,6 +116,8 @@ final class StateJump extends State
     {
         super.enter();
 
+        tileCollidable.addListener(listenerTileCollidable);
+
         check = checkJumpStopped;
 
         jump.setSensibility(0.1);
@@ -89,12 +126,32 @@ final class StateJump extends State
         jump.setDestination(0.0, 0.0);
 
         movement.setVelocity(0.12);
+
+        collideX.set(false);
+        steep.set(false);
+        steepLeft.set(false);
+        steepRight.set(false);
     }
 
     @Override
     public void exit()
     {
+        tileCollidable.removeListener(listenerTileCollidable);
+
         jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
+
+        if (mirrorable.getMirror() == Mirror.NONE && steepLeft.get())
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+            movement.setDirection(DirectionNone.INSTANCE);
+            movement.setDestination(0.0, 0.0);
+        }
+        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && steepRight.get())
+        {
+            mirrorable.mirror(Mirror.NONE);
+            movement.setDirection(DirectionNone.INSTANCE);
+            movement.setDestination(0.0, 0.0);
+        }
     }
 
     @Override
@@ -102,6 +159,9 @@ final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        if (!collideX.get())
+        {
+            movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        }
     }
 }

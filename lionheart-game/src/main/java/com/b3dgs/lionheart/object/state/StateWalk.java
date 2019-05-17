@@ -24,7 +24,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -43,6 +42,7 @@ final class StateWalk extends State
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.005;
 
+    private final AtomicBoolean collideX = new AtomicBoolean();
     private final AtomicBoolean collideY = new AtomicBoolean();
     private final Collidable collidable;
     private final TileCollidable tileCollidable;
@@ -61,15 +61,18 @@ final class StateWalk extends State
 
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
-        final StateHandler stateHandler = model.getFeature(StateHandler.class);
 
         listenerTileCollidable = (result, category) ->
         {
             if (Axis.X == category.getAxis())
             {
-                tileCollidable.apply(result);
-                model.getMovement().setDirection(DirectionNone.INSTANCE);
-                stateHandler.changeState(StateIdle.class);
+                if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
+                    || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+                {
+                    tileCollidable.apply(result);
+                    model.getMovement().setDirection(DirectionNone.INSTANCE);
+                }
+                collideX.set(true);
             }
             if (Axis.Y == category.getAxis())
             {
@@ -85,7 +88,7 @@ final class StateWalk extends State
             }
         };
 
-        addTransition(StateIdle.class, this::isWalkingSlowEnough);
+        addTransition(StateIdle.class, () -> collideX.get() || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
@@ -109,6 +112,9 @@ final class StateWalk extends State
         movement.setVelocity(0.16);
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
+
+        collideX.set(false);
+        collideY.set(false);
     }
 
     @Override
@@ -136,6 +142,7 @@ final class StateWalk extends State
     @Override
     protected void postUpdate()
     {
+        collideX.set(false);
         collideY.set(false);
     }
 }

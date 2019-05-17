@@ -11,12 +11,15 @@
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
     <lionengine:category name="knee_left" axis="X" x="-12" y="1">
         <lionengine:group>spike</lionengine:group>
+        <lionengine:group>steep_right_0</lionengine:group>
     </lionengine:category>
     <lionengine:category name="knee_right" axis="X" x="12" y="1">
         <lionengine:group>spike</lionengine:group>
+        <lionengine:group>steep_right_0</lionengine:group>
     </lionengine:category>
     <lionengine:category name="knee_center" axis="X" x="0" y="1">
         <lionengine:group>spike</lionengine:group>
+        <lionengine:group>steep_right_0</lionengine:group>
     </lionengine:category>
     <lionengine:category name="leg_left" axis="Y" x="-4" y="0" glue="true">
         <lionengine:group>slope_left_0</lionengine:group>
@@ -69,8 +72,8 @@
         <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55" />
     </lionengine:animation>
 	<lionengine:animation name="slide" start="24" end="24" speed="0.1" reversed="false" repeat="false" />
-	<lionengine:animation name="slide_fast" start="25" end="25" speed="0.1" reversed="false" repeat="false" />
-	<lionengine:animation name="slide_slow" start="23" end="23" speed="0.1" reversed="false" repeat="false" />
+	<lionengine:animation name="slidefast" start="25" end="25" speed="0.1" reversed="false" repeat="false" />
+	<lionengine:animation name="slideslow" start="23" end="23" speed="0.1" reversed="false" repeat="false" />
 	<lionengine:animation name="liana_idle" start="56" end="56" speed="0.2" reversed="false" repeat="false" />
 	<lionengine:animation name="liana_walk" start="36" end="44" speed="0.2" reversed="false" repeat="true" />
 	<lionengine:animation name="liana_slide" start="53" end="59" speed="0.2" reversed="true" repeat="true" />

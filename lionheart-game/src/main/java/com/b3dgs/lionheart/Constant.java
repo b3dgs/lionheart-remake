@@ -72,6 +72,13 @@ public final class Constant
     /** Animation body prefix. */
     public static final String ANIM_PREFIX_BODY = "body";
 
+    /** Collision steep prefix. */
+    public static final String COLL_PREFIX_STEEP = "steep";
+    /** Collision steep prefix. */
+    public static final String COLL_PREFIX_STEEP_LEFT = COLL_PREFIX_STEEP + "_left";
+    /** Collision steep prefix. */
+    public static final String COLL_PREFIX_STEEP_RIGHT = COLL_PREFIX_STEEP + "_right";
+
     /** Configuration files extension (with dot). */
     public static final String EXTENSION_XML = ".xml";
     /** Levels file extension (with dot). */

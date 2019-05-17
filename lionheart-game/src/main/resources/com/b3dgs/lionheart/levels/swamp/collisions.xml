@@ -2,9 +2,11 @@
 <lionengine:collisions xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:collision group="steep_right_1">
         <lionengine:formula>steep_right_1</lionengine:formula>
+        <lionengine:formula>steep_right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_right_0">
         <lionengine:formula>steep_right_0</lionengine:formula>
+        <lionengine:formula>steep_right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_left_ground">
         <lionengine:formula>steep_left_0</lionengine:formula>

@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -72,7 +73,12 @@ public final class StateIdle extends State
 
             if (Axis.X == category.getAxis())
             {
-                tileCollidable.apply(result);
+                if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
+                    || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+                {
+                    tileCollidable.apply(result);
+                    movement.setDirection(DirectionNone.INSTANCE);
+                }
                 collideX.set(true);
             }
             if (Axis.Y == category.getAxis())

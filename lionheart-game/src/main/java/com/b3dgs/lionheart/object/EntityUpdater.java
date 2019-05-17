@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionheart.object.state.StateHurt;
+import com.b3dgs.lionheart.object.state.StateSlide;
 
 /**
  * Entity updating implementation.
@@ -81,7 +82,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable
      */
     private void updateMirror(double extrp)
     {
-        if (!state.isState(StateHurt.class))
+        if (!state.isState(StateHurt.class) && !state.isState(StateSlide.class))
         {
             if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
             {
