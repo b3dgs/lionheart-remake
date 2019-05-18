@@ -154,8 +154,9 @@ final class StateWalk extends State
     @Override
     protected void postUpdate()
     {
-        if (!(movement.getDirectionHorizontal() < 0 && isGoingRight()
-              || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+        if (isGoingHorizontal()
+            && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
+                 || movement.getDirectionHorizontal() > 0 && isGoingLeft())
             && Math.abs(movement.getDirectionHorizontal()) > SPEED
             && movement.isDecreasingHorizontal())
         {
