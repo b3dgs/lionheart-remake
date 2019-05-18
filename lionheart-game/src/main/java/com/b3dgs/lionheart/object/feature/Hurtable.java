@@ -58,8 +58,8 @@ public final class Hurtable extends FeatureModel
                             implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
     private static final double HURT_JUMP_FORCE = 3.5;
-    private static final long HURT_RECOVER_TICK = 70L;
-    private static final long HURT_FLICKER_TICK_DURATION = 70L;
+    private static final long HURT_RECOVER_TICK = 120L;
+    private static final long HURT_FLICKER_TICK_DURATION = 120L;
     private static final long HURT_FLICKER_TICK_SWITCH = 8;
     private static final int SPIKE_DAMAGES = 1;
 
