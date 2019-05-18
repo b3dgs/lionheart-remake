@@ -72,6 +72,12 @@ public final class Constant
     /** Animation body prefix. */
     public static final String ANIM_PREFIX_BODY = "body";
 
+    /** Collision slope prefix. */
+    public static final String COLL_PREFIX_SLOPE = "slope";
+    /** Collision slope prefix. */
+    public static final String COLL_PREFIX_SLOPE_LEFT = COLL_PREFIX_SLOPE + "_left";
+    /** Collision slope prefix. */
+    public static final String COLL_PREFIX_SLOPE_RIGHT = COLL_PREFIX_SLOPE + "_right";
     /** Collision steep prefix. */
     public static final String COLL_PREFIX_STEEP = "steep";
     /** Collision steep prefix. */

@@ -44,10 +44,14 @@ final class StateWalk extends State
 
     private final AtomicBoolean collideX = new AtomicBoolean();
     private final AtomicBoolean collideY = new AtomicBoolean();
+    private final AtomicBoolean slopeRising = new AtomicBoolean();
+    private final AtomicBoolean slopeDescending = new AtomicBoolean();
     private final Collidable collidable;
     private final TileCollidable tileCollidable;
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
+
+    private double speedSlope = 0.0;
 
     /**
      * Create the state.
@@ -78,6 +82,22 @@ final class StateWalk extends State
             {
                 tileCollidable.apply(result);
                 collideY.set(true);
+                if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT)
+                    || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT))
+                {
+                    slopeRising.set(true);
+                    speedSlope = -0.3;
+                }
+                else if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT)
+                         || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT))
+                {
+                    slopeDescending.set(true);
+                    speedSlope = 0.3;
+                }
+                else
+                {
+                    speedSlope = 0.0;
+                }
             }
         };
         listenerCollidable = (collidable, with, by) ->
@@ -109,12 +129,12 @@ final class StateWalk extends State
     {
         super.enter();
 
-        movement.setVelocity(0.16);
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
 
         collideX.set(false);
         collideY.set(false);
+        speedSlope = 0.0;
     }
 
     @Override
@@ -127,22 +147,28 @@ final class StateWalk extends State
     @Override
     public void update(double extrp)
     {
-        if (isGoingHorizontal())
-        {
-            movement.setVelocity(0.14);
-        }
-        else
-        {
-            movement.setVelocity(0.12);
-        }
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * (SPEED + speedSlope), 0.0);
         animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
     @Override
     protected void postUpdate()
     {
+        if (!(movement.getDirectionHorizontal() < 0 && isGoingRight()
+              || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+            && Math.abs(movement.getDirectionHorizontal()) > SPEED
+            && movement.isDecreasingHorizontal())
+        {
+            movement.setVelocity(0.001);
+        }
+        else
+        {
+            movement.setVelocity(0.12);
+        }
+
         collideX.set(false);
         collideY.set(false);
+        slopeRising.set(false);
+        slopeDescending.set(false);
     }
 }

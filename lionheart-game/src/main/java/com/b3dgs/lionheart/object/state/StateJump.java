@@ -125,8 +125,6 @@ final class StateJump extends State
         jump.setDirection(0.0, Constant.JUMP_MAX);
         jump.setDestination(0.0, 0.0);
 
-        movement.setVelocity(0.12);
-
         collideX.set(false);
         steep.set(false);
         steepLeft.set(false);
@@ -162,6 +160,22 @@ final class StateJump extends State
         if (!collideX.get())
         {
             movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        }
+    }
+
+    @Override
+    protected void postUpdate()
+    {
+        if (!(movement.getDirectionHorizontal() < 0 && isGoingRight()
+              || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+            && Math.abs(movement.getDirectionHorizontal()) > SPEED
+            && movement.isDecreasingHorizontal())
+        {
+            movement.setVelocity(0.001);
+        }
+        else
+        {
+            movement.setVelocity(0.12);
         }
     }
 }
