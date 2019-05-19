@@ -82,6 +82,10 @@ public final class EntityModel extends FeatureModel
         {
             body.setGravity(0.0);
         }
+
+        jump.setSensibility(0.1);
+        jump.setVelocity(0.18);
+        jump.setDestination(0.0, 0.0);
     }
 
     /**

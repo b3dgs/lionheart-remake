@@ -212,11 +212,7 @@ public final class Hurtable extends FeatureModel
      */
     private void hurtJump()
     {
-        model.getJump().setSensibility(0.1);
-        model.getJump().setVelocity(0.18);
-        model.getJump().setDestination(0.0, 0.0);
         model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
-        model.getJump().setDirectionMaximum(new Force(0.0, HURT_JUMP_FORCE));
         flicker.restart();
         flickerCurrent = this::updateFlicker;
     }

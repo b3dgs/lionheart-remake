@@ -120,10 +120,8 @@ final class StateJump extends State
 
         check = checkJumpStopped;
 
-        jump.setSensibility(0.1);
-        jump.setVelocity(0.18);
         jump.setDirection(0.0, Constant.JUMP_MAX);
-        jump.setDestination(0.0, 0.0);
+        jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
 
         collideX.set(false);
         steep.set(false);
