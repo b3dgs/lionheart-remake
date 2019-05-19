@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.b3dgs.lionengine.game.Feature;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -46,21 +45,11 @@ public final class EntityRenderer extends FeatureModel implements Displayable
     @FeatureGet private Rasterable rasterable;
 
     /**
-     * Set visibility state.
-     * 
-     * @param visible <code>true</code> if visible, <code>false</code> else.
+     * Load routines.
      */
-    public void setVisible(boolean visible)
+    public void loadRoutines()
     {
-        this.visible = visible;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        for (final Feature feature : provider.getFeatures())
+        for (final Feature feature : getFeatures())
         {
             if (feature instanceof Routine)
             {
@@ -68,6 +57,16 @@ public final class EntityRenderer extends FeatureModel implements Displayable
             }
         }
         routinesCount = routines.size();
+    }
+
+    /**
+     * Set visibility state.
+     * 
+     * @param visible <code>true</code> if visible, <code>false</code> else.
+     */
+    public void setVisible(boolean visible)
+    {
+        this.visible = visible;
     }
 
     @Override

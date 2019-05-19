@@ -121,5 +121,6 @@ public final class Entity extends FeaturableModel
     {
         final EntityModel model = getFeature(EntityModel.class);
         addFeature(new EntityUpdater(services, model));
+        getFeature(EntityRenderer.class).loadRoutines();
     }
 }
