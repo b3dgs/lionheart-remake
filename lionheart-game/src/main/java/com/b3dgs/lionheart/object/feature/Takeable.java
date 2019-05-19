@@ -60,7 +60,7 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
 
         take = (collidable, with, by) ->
         {
-            if (by.getName().startsWith(Constant.ANIM_NAME_TAKE))
+            if (by.getName().startsWith(Constant.ANIM_PREFIX_BODY))
             {
                 collidable.getFeature(Stats.class).apply(config);
                 spawner.spawn(config.getEffect(), transformable);

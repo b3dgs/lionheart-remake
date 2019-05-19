@@ -6,7 +6,7 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
     <lionengine:frames horizontal="4" vertical="2" />
     <lionengine:size width="16" height="16" />
-    <lionengine:group>2</lionengine:group>
+    <lionengine:group>3</lionengine:group>
     <lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="16" mirror="false" />
     <lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="true" />
     <takeable effect="effect/Taken.xml" health="1" />

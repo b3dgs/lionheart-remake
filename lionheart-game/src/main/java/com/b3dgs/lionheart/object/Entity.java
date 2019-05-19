@@ -89,13 +89,14 @@ public final class Entity extends FeaturableModel
         }
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
         collidable.setOrigin(Origin.CENTER_BOTTOM);
-        if (collidable.getGroup().intValue() == 1)
+        if (collidable.getGroup().intValue() == Constant.COLL_GROUP_PLAYER)
         {
-            collidable.addAccept(2);
+            collidable.addAccept(Constant.COLL_GROUP_BACKGROUND);
+            collidable.addAccept(Constant.COLL_GROUP_ENEMIES);
         }
         else
         {
-            collidable.addAccept(1);
+            collidable.addAccept(Constant.COLL_GROUP_PLAYER);
         }
         collidable.setCollisionVisibility(Constant.DEBUG);
 

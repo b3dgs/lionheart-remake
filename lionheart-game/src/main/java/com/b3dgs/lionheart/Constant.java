@@ -61,6 +61,13 @@ public final class Constant
     /** Levels folder. */
     public static final String FOLDER_LEVELS = "levels";
 
+    /** Collision group player. */
+    public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
+    /** Collision group enemies. */
+    public static final Integer COLL_GROUP_ENEMIES = Integer.valueOf(2);
+    /** Collision group background. */
+    public static final Integer COLL_GROUP_BACKGROUND = Integer.valueOf(3);
+
     /** Animation name take. */
     public static final String ANIM_NAME_TAKE = "take";
     /** Animation name walk. */

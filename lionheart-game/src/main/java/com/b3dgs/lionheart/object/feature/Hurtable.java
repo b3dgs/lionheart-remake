@@ -130,7 +130,9 @@ public final class Hurtable extends FeatureModel
         {
             updateCollideAttack(collidable);
         }
-        if (recover.elapsed(HURT_RECOVER_BODY_TICK) && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
+        if (collidable.getGroup() == Constant.COLL_GROUP_ENEMIES
+            && recover.elapsed(HURT_RECOVER_BODY_TICK)
+            && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
         {
             updateCollideBody(collidable);
         }
