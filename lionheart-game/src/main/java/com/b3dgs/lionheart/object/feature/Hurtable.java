@@ -99,8 +99,6 @@ public final class Hurtable extends FeatureModel
         hurtForce.setDestination(0.0, 0.0);
         hurtForce.setSensibility(0.1);
         hurtForce.setVelocity(0.5);
-
-        recycle();
     }
 
     /**

@@ -70,7 +70,6 @@ public class Drownable extends FeatureModel implements Routine, Recyclable
                 stateHandler.changeState(StateDie.class);
             }
         };
-        recycle();
     }
 
     @Override

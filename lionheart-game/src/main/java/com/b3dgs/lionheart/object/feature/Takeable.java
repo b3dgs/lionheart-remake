@@ -68,8 +68,6 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
                 current = CollidableListenerVoid.getInstance();
             }
         };
-
-        recycle();
     }
 
     @Override
