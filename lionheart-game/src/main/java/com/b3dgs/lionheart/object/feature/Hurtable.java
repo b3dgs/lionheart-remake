@@ -58,7 +58,8 @@ public final class Hurtable extends FeatureModel
                             implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
     private static final double HURT_JUMP_FORCE = 3.5;
-    private static final long HURT_RECOVER_TICK = 120L;
+    private static final long HURT_RECOVER_ATTACK_TICK = 20L;
+    private static final long HURT_RECOVER_BODY_TICK = 120L;
     private static final long HURT_FLICKER_TICK_DURATION = 120L;
     private static final long HURT_FLICKER_TICK_SWITCH = 8;
     private static final int SPIKE_DAMAGES = 1;
@@ -123,13 +124,13 @@ public final class Hurtable extends FeatureModel
      */
     private void updateCollide(Collidable collidable, Collision with, Collision by)
     {
-        if (recover.elapsed(HURT_RECOVER_TICK)
+        if (recover.elapsed(HURT_RECOVER_ATTACK_TICK)
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
             && by.getName().startsWith(Constant.ANIM_PREFIX_ATTACK))
         {
             updateCollideAttack(collidable);
         }
-        if (recover.elapsed(HURT_RECOVER_TICK) && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
+        if (recover.elapsed(HURT_RECOVER_BODY_TICK) && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
         {
             updateCollideBody(collidable);
         }
@@ -185,9 +186,9 @@ public final class Hurtable extends FeatureModel
      */
     private void updateTile(CollisionResult result, CollisionCategory category)
     {
-        if (recover.elapsed(HURT_RECOVER_TICK)
+        if (recover.elapsed(HURT_RECOVER_BODY_TICK)
             && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
-            && result.startWith("spike"))
+            && result.startWith(Constant.COLL_PREFIX_SPIKE))
         {
             model.getMovement().setDirection(DirectionNone.INSTANCE);
             model.getMovement().setDestination(0.0, 0.0);
@@ -265,6 +266,6 @@ public final class Hurtable extends FeatureModel
         currentTile = this::updateTile;
         flickerCurrent = UpdatableVoid.getInstance();
         recover.restart();
-        recover.set(HURT_RECOVER_TICK);
+        recover.set(HURT_RECOVER_BODY_TICK);
     }
 }
