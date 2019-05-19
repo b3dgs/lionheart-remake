@@ -17,10 +17,8 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.Animator;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -50,7 +48,6 @@ public final class EntityModel extends FeatureModel
     private InputDeviceControl input = InputDeviceControlVoid.getInstance();
 
     @FeatureGet private Body body;
-    @FeatureGet private Animatable animatable;
 
     /**
      * Create model.
@@ -128,21 +125,11 @@ public final class EntityModel extends FeatureModel
     /**
      * Get the jump force.
      * 
-     * @return THe jump force.
+     * @return The jump force.
      */
     public Force getJump()
     {
         return jump;
-    }
-
-    /**
-     * Get the animator.
-     * 
-     * @return The animator.
-     */
-    public Animator getAnimator()
-    {
-        return animatable;
     }
 
     /**

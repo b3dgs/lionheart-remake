@@ -99,7 +99,7 @@ public final class StatePatrol extends State
     public void update(double extrp)
     {
         movement.setDestination(control.getHorizontalDirection() * SPEED, control.getVerticalDirection() * SPEED);
-        animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
+        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
                               / ANIM_SPEED_DIVISOR);
     }
 

@@ -71,7 +71,7 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
     private void checkShake(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(DELAY_BEFORE_SHAKE) && animatable.getAnimState() == AnimState.FINISHED)
+        if (tick.elapsed(DELAY_BEFORE_SHAKE) && animatable.is(AnimState.FINISHED))
         {
             glue.start();
             glue.setTransformY(this::computeCurve);

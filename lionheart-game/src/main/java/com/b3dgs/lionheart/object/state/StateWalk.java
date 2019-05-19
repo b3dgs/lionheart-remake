@@ -148,7 +148,7 @@ final class StateWalk extends State
     public void update(double extrp)
     {
         movement.setDestination(control.getHorizontalDirection() * (SPEED + speedSlope), 0.0);
-        animator.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
+        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
     @Override
