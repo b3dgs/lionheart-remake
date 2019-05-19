@@ -103,12 +103,12 @@ public final class Constant
     /** Musics file extension (with dot). */
     public static final String EXTENSION_MUSIC = ".sc68";
 
-    /** Maximum stats health. */
-    public static final int MAX_STATS_HEALTH = 99;
-    /** Maximum stats talisment. */
-    public static final int MAX_STATS_TALISMENT = 99;
-    /** Maximum stats life. */
-    public static final int MAX_STATS_LIFE = 99;
+    /** Stats maximum health. */
+    public static final int STATS_MAX_HEALTH = 99;
+    /** Stats maximum talisment. */
+    public static final int STATS_MAX_TALISMENT = 99;
+    /** Stats maximum life. */
+    public static final int STATS_MAX_LIFE = 99;
 
     /** Jump minimum height. */
     public static final double JUMP_MIN = 2.5;

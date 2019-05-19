@@ -31,8 +31,8 @@ import com.b3dgs.lionheart.Constant;
 public final class Stats extends FeatureModel
 {
     private final Alterable health;
-    private final Alterable talisment = new Alterable(Constant.MAX_STATS_TALISMENT);
-    private final Alterable life = new Alterable(Constant.MAX_STATS_LIFE);
+    private final Alterable talisment = new Alterable(Constant.STATS_MAX_TALISMENT);
+    private final Alterable life = new Alterable(Constant.STATS_MAX_LIFE);
     private final Damages damages = new Damages(1, 1);
 
     /**
