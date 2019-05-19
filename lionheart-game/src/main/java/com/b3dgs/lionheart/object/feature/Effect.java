@@ -18,38 +18,47 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
+import com.b3dgs.lionengine.AnimatorListener;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
-import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.state.StateIdle;
 
 /**
  * Effect feature implementation.
  */
 @FeatureInterface
-public final class Effect extends FeatureModel implements Routine, Recyclable
+public final class Effect extends FeatureModel
 {
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private StateHandler stateHandler;
-
     @Override
-    public void update(double extrp)
+    public void prepare(FeatureProvider provider)
     {
-        if (animatable.getAnimState() == AnimState.FINISHED)
+        super.prepare(provider);
+
+        final Identifiable identifiable = provider.getFeature(Identifiable.class);
+        final Animatable animatable = provider.getFeature(Animatable.class);
+        final StateHandler stateHandler = provider.getFeature(StateHandler.class);
+
+        animatable.addListener(new AnimatorListener()
         {
-            identifiable.destroy();
-        }
-    }
+            @Override
+            public void notifyAnimState(AnimState state)
+            {
+                if (AnimState.FINISHED == state)
+                {
+                    stateHandler.changeState(StateIdle.class);
+                    identifiable.destroy();
+                }
+            }
 
-    @Override
-    public void recycle()
-    {
-        stateHandler.changeState(StateIdle.class);
+            @Override
+            public void notifyAnimFrame(int frame)
+            {
+                // Nothing to do
+            }
+        });
     }
 }
