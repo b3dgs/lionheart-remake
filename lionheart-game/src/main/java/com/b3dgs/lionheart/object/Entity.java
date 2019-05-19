@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.game.feature.FeaturableModel;
 import com.b3dgs.lionengine.game.feature.LayerableConfig;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.MirrorableModel;
-import com.b3dgs.lionengine.game.feature.Recycler;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.TransformableModel;
@@ -74,7 +73,6 @@ public final class Entity extends FeaturableModel
     {
         super(services, setup);
 
-        addFeature(new Recycler());
         addFeature(new MirrorableModel());
         addFeature(new TransformableModel(setup));
         addFeature(new AnimatableModel());
