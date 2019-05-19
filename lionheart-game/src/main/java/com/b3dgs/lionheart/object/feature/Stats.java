@@ -75,6 +75,22 @@ public final class Stats extends FeatureModel
     }
 
     /**
+     * Remove one life.
+     */
+    public void decreaseLife()
+    {
+        life.decrease(1);
+    }
+
+    /**
+     * Fill health to max value.
+     */
+    public void fillHealth()
+    {
+        health.fill();
+    }
+
+    /**
      * Get the current health.
      * 
      * @return The current health.

@@ -23,14 +23,18 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Stats;
 
 /**
  * Die state implementation.
  */
 public final class StateDie extends State
 {
+    private static final double DEATH_FALL_SPEED = -0.7;
+
     private final Body body;
     private final Transformable transformable;
+    private final Stats stats;
 
     /**
      * Create the state.
@@ -44,6 +48,7 @@ public final class StateDie extends State
 
         body = model.getFeature(Body.class);
         transformable = model.getFeature(Transformable.class);
+        stats = model.getFeature(Stats.class);
     }
 
     @Override
@@ -51,6 +56,7 @@ public final class StateDie extends State
     {
         super.enter();
 
+        stats.applyDamages(stats.getHealth());
         movement.setDirection(DirectionNone.INSTANCE);
     }
 
@@ -60,12 +66,14 @@ public final class StateDie extends State
         super.exit();
 
         transformable.teleport(670, 64);
+        stats.fillHealth();
+        stats.decreaseLife();
     }
 
     @Override
     public void update(double extrp)
     {
         body.resetGravity();
-        movement.setDestination(0.0, -0.7);
+        movement.setDestination(0.0, DEATH_FALL_SPEED);
     }
 }
