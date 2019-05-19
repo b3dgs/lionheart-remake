@@ -26,7 +26,9 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.Entity;
@@ -35,9 +37,16 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
  * Turning feature implementation.
+ * <ol>
+ * <li>Wait for a delay before start shaking.</li>
+ * <li>Shake a defined number of times.</li>
+ * <li>Wait for a delay before start rotating.</li>
+ * <li>Rotate one time with disabled collision.</li>
+ * <li>Once rotated, enable collision and go to step 1.</li>
+ * </ol>
  */
 @FeatureInterface
-public final class Turning extends FeatureModel implements Routine
+public final class Turning extends FeatureModel implements Routine, Recyclable
 {
     private static final double CURVE_FORCE = 4.0;
     private static final double CURVE_SPEED = 50.0;
@@ -46,9 +55,6 @@ public final class Turning extends FeatureModel implements Routine
     private static final int SHAKE_MAX_COUNT = 3;
 
     private final Tick tick = new Tick();
-    private final Updatable checkRotate;
-    private final Updatable shake;
-    private Updatable checkShake;
     private Updatable current;
     private double curve;
 
@@ -58,47 +64,76 @@ public final class Turning extends FeatureModel implements Routine
     @FeatureGet private Glue glue;
 
     /**
-     * Create turning.
+     * Check delay before start shaking.
+     * 
+     * @param extrp The extrapolation value.
      */
-    public Turning()
+    private void checkShake(double extrp)
     {
-        super();
+        tick.update(extrp);
+        if (tick.elapsed(DELAY_BEFORE_SHAKE) && animatable.getAnimState() == AnimState.FINISHED)
+        {
+            glue.start();
+            glue.setTransformY(this::computeCurve);
+            tick.stop();
+            current = this::updateShake;
+        }
+    }
 
-        checkRotate = extrp ->
+    /**
+     * Update shake effect once shake started.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateShake(double extrp)
+    {
+        curve += CURVE_SPEED;
+        if (curve > SHAKE_MAX_COUNT * com.b3dgs.lionengine.Constant.MAX_DEGREE)
         {
-            tick.update(extrp);
-            if (tick.elapsed(DELAY_BEFORE_ROTATE))
-            {
-                stateHandler.changeState(StateTurn.class);
-                tick.restart();
-                glue.stop();
-                glue.setGlue(false);
-                collidable.setEnabled(false);
-                current = checkShake;
-            }
-        };
-        shake = extrp ->
+            current = this::checkRotate;
+            curve = 0.0;
+            tick.start();
+        }
+    }
+
+    /**
+     * Check delay before rotate once shake ended.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void checkRotate(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsed(DELAY_BEFORE_ROTATE))
         {
-            curve += CURVE_SPEED;
-            if (curve > SHAKE_MAX_COUNT * com.b3dgs.lionengine.Constant.MAX_DEGREE)
-            {
-                current = checkRotate;
-                curve = 0;
-                tick.start();
-            }
-        };
-        checkShake = extrp ->
-        {
-            tick.update(extrp);
-            if (tick.elapsed(DELAY_BEFORE_SHAKE) && animatable.getAnimState() == AnimState.FINISHED)
-            {
-                glue.start();
-                glue.setTransformY(() -> UtilMath.sin(curve) * CURVE_FORCE);
-                tick.stop();
-                current = shake;
-            }
-        };
-        current = checkShake;
+            current = this::checkShake;
+            stateHandler.changeState(StateTurn.class);
+            glue.stop();
+            glue.setGlue(false);
+            collidable.setEnabled(false);
+            tick.restart();
+        }
+    }
+
+    /**
+     * Compute curve value with current force.
+     * 
+     * @return The current computed curve value.
+     */
+    private double computeCurve()
+    {
+        return UtilMath.sin(curve) * CURVE_FORCE;
+    }
+
+    /**
+     * Check if enable collide depending of next state. Disabled if turning.
+     * 
+     * @param from The state from.
+     * @param to The next state.
+     */
+    private void checkCollideEnabled(Class<? extends State> from, Class<? extends State> to)
+    {
+        collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
     }
 
     @Override
@@ -106,16 +141,20 @@ public final class Turning extends FeatureModel implements Routine
     {
         super.prepare(provider);
 
-        stateHandler.addListener((from, to) ->
-        {
-            collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
-        });
-        tick.start();
+        stateHandler.addListener(this::checkCollideEnabled);
     }
 
     @Override
     public void update(double extrp)
     {
         current.update(extrp);
+    }
+
+    @Override
+    public void recycle()
+    {
+        current = this::checkShake;
+        tick.restart();
+        curve = 0.0;
     }
 }
