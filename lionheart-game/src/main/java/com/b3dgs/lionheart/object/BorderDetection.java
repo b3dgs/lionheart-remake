@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -30,18 +31,24 @@ import com.b3dgs.lionheart.Constant;
  */
 public final class BorderDetection implements TileCollidableListener, CollidableListener
 {
+    private static final String LEG_CENTER = Constant.ANIM_PREFIX_LEG + "_center";
     private static final String LEG_LEFT = Constant.ANIM_PREFIX_LEG + "_left";
     private static final String LEG_RIGHT = Constant.ANIM_PREFIX_LEG + "_right";
 
-    private boolean legLeft;
-    private boolean legRight;
+    private final MapTile map;
+    private boolean legLeftGround;
+    private boolean legRightGround;
 
     /**
      * Create detection.
+     * 
+     * @param map The map tile reference.
      */
-    public BorderDetection()
+    public BorderDetection(MapTile map)
     {
         super();
+
+        this.map = map;
     }
 
     /**
@@ -49,8 +56,8 @@ public final class BorderDetection implements TileCollidableListener, Collidable
      */
     public void reset()
     {
-        legLeft = false;
-        legRight = false;
+        legLeftGround = false;
+        legRightGround = false;
     }
 
     /**
@@ -70,7 +77,7 @@ public final class BorderDetection implements TileCollidableListener, Collidable
      */
     public boolean isLeft()
     {
-        return legLeft && !legRight;
+        return !legLeftGround && legRightGround;
     }
 
     /**
@@ -80,20 +87,31 @@ public final class BorderDetection implements TileCollidableListener, Collidable
      */
     public boolean isRight()
     {
-        return legRight && !legLeft;
+        return !legRightGround && legLeftGround;
     }
 
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
         final String name = category.getName();
-        if (LEG_LEFT.equals(name))
+        if (LEG_CENTER.equals(name))
         {
-            legLeft = true;
+            legLeftGround = true;
+            legRightGround = true;
         }
-        if (LEG_RIGHT.equals(name))
+        if (LEG_LEFT.equals(name)
+            && (result.startWith(Constant.COLL_PREFIX_SLOPE)
+                && map.getTile(result.getTile().getInTileX() + 1, result.getTile().getInTileY()) == null
+                || result.startWith(Constant.COLL_PREFIX_GROUND)))
         {
-            legRight = true;
+            legLeftGround = true;
+        }
+        if (LEG_RIGHT.equals(name)
+            && (result.startWith(Constant.COLL_PREFIX_SLOPE)
+                && map.getTile(result.getTile().getInTileX() - 1, result.getTile().getInTileY()) == null
+                || result.startWith(Constant.COLL_PREFIX_GROUND)))
+        {
+            legRightGround = true;
         }
     }
 
@@ -103,11 +121,11 @@ public final class BorderDetection implements TileCollidableListener, Collidable
         final String name = with.getName();
         if (LEG_LEFT.equals(name))
         {
-            legLeft = true;
+            legLeftGround = true;
         }
         if (LEG_RIGHT.equals(name))
         {
-            legRight = true;
+            legRightGround = true;
         }
     }
 }

@@ -18,12 +18,7 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
-import com.b3dgs.lionheart.object.BorderDetection;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
@@ -33,11 +28,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 final class StateBorder extends State
 {
-    private final BorderDetection border = new BorderDetection();
-    private final Mirrorable mirrorable;
-    private final TileCollidable tileCollidable;
-    private final Collidable collidable;
-
     /**
      * Create the state.
      * 
@@ -48,10 +38,6 @@ final class StateBorder extends State
     {
         super(model, animation);
 
-        mirrorable = model.getFeature(Mirrorable.class);
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-
         final Transformable transformable = model.getFeature(Transformable.class);
 
         addTransition(StateWalk.class, this::isGoingHorizontal);
@@ -59,37 +45,5 @@ final class StateBorder extends State
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
-    }
-
-    @Override
-    public void enter()
-    {
-        super.enter();
-
-        tileCollidable.addListener(border);
-        collidable.addListener(border);
-        border.reset();
-    }
-
-    @Override
-    public void exit()
-    {
-        tileCollidable.removeListener(border);
-        collidable.removeListener(border);
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        super.update(extrp);
-
-        if (border.isLeft())
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
-        else if (border.isRight())
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
     }
 }

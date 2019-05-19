@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlVoid;
@@ -42,6 +43,7 @@ public final class EntityModel extends FeatureModel
 
     private final Force movement = new Force();
     private final Force jump = new Force();
+    private final MapTile map;
     private final boolean hasGravity;
 
     private final SourceResolutionProvider source;
@@ -60,6 +62,7 @@ public final class EntityModel extends FeatureModel
     {
         super();
 
+        map = services.get(MapTile.class);
         source = services.get(SourceResolutionProvider.class);
         hasGravity = setup.hasNode("data");
     }
@@ -96,6 +99,16 @@ public final class EntityModel extends FeatureModel
         {
             this.input = input;
         }
+    }
+
+    /**
+     * Get the map reference.
+     * 
+     * @return The map reference.
+     */
+    public MapTile getMap()
+    {
+        return map;
     }
 
     /**

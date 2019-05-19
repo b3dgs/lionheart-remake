@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object.state;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -46,7 +47,7 @@ public final class StateIdle extends State
 
     private final AtomicBoolean collideX = new AtomicBoolean();
     private final AtomicBoolean collideY = new AtomicBoolean();
-    private final BorderDetection border = new BorderDetection();
+    private final BorderDetection border;
     private final TileCollidable tileCollidable;
     private final Collidable collidable;
     private final TileCollidableListener listenerTileCollidable;
@@ -63,6 +64,7 @@ public final class StateIdle extends State
     {
         super(model, animation);
 
+        border = new BorderDetection(model.getMap());
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
         body = model.getFeature(Body.class);
@@ -134,6 +136,15 @@ public final class StateIdle extends State
     {
         tileCollidable.removeListener(listenerTileCollidable);
         collidable.removeListener(listenerCollidable);
+
+        if (border.isLeft())
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (border.isRight())
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
     }
 
     @Override
@@ -148,5 +159,6 @@ public final class StateIdle extends State
     {
         collideX.set(false);
         collideY.set(false);
+        border.reset();
     }
 }
