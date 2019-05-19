@@ -35,6 +35,7 @@ import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StateLand;
 
 /**
@@ -45,6 +46,7 @@ public final class StateAttackFall extends State
     private static final double SPEED = 5.0 / 3.0;
 
     private final AtomicBoolean collideY = new AtomicBoolean();
+    private final AtomicBoolean collideSword = new AtomicBoolean();
     private final TileCollidable tileCollidable;
     private final Collidable collidable;
     private final Body body;
@@ -87,13 +89,19 @@ public final class StateAttackFall extends State
             if (collidable.hasFeature(Hurtable.class)
                 && with.getName().startsWith(Constant.ANIM_PREFIX_ATTACK + "fall"))
             {
+                body.resetGravity();
                 jump.setDirection(new Force(0, Constant.JUMP_HIT));
+                jump.setDirectionMaximum(new Force(0, Constant.JUMP_HIT));
+                collideSword.set(true);
             }
         };
 
         addTransition(StateLand.class, () -> !isGoingDown() && collideY.get());
         addTransition(StateCrouch.class, () -> isGoingDown() && collideY.get());
-        addTransition(StateFall.class, () -> !control.isFireButton());
+        addTransition(StateJump.class,
+                      () -> collideSword.get() && Double.compare(jump.getDirectionVertical(), 0.0) > 0);
+        addTransition(StateFall.class,
+                      () -> !control.isFireButton() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
     }
 
     @Override
@@ -104,6 +112,7 @@ public final class StateAttackFall extends State
         tileCollidable.addListener(listener);
         collidable.addListener(listenerCollidable);
         collideY.set(false);
+        collideSword.set(false);
     }
 
     @Override
@@ -116,7 +125,7 @@ public final class StateAttackFall extends State
     @Override
     public void update(double extrp)
     {
-        if (jump.getDirectionVertical() < 0.1)
+        if (Double.compare(jump.getDirectionVertical(), 0.0) <= 0)
         {
             body.update(extrp);
         }

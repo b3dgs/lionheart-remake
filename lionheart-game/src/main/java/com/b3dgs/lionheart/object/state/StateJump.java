@@ -40,7 +40,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
 /**
  * Jump state implementation.
  */
-final class StateJump extends State
+public final class StateJump extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
@@ -96,11 +96,11 @@ final class StateJump extends State
                       () -> Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                             || transformable.getY() < transformable.getOldY());
         addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoingDown());
-        addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
+        addTransition(StateAttackFall.class, () -> control.isFireButtonOnce() && isGoingDown());
 
         checkJumpStopped = extrp ->
         {
-            if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
+            if (!control.isFireButton() && Double.compare(control.getVerticalDirection(), 0.0) <= 0)
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,

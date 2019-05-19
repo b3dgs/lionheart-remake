@@ -113,7 +113,7 @@ public final class Constant
     /** Jump minimum height. */
     public static final double JUMP_MIN = 2.5;
     /** Jump maximum height on hit. */
-    public static final double JUMP_HIT = 4.0;
+    public static final double JUMP_HIT = 3.75;
     /** Jump maximum height. */
     public static final double JUMP_MAX = 5.4;
 
