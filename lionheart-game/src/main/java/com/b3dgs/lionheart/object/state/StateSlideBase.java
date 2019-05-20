@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -39,9 +38,7 @@ public class StateSlideBase extends State
 
     private final AtomicBoolean steep = new AtomicBoolean();
 
-    private final TileCollidable tileCollidable;
     private final TileCollidableListener listenerTileCollidable;
-    private final Force jump;
 
     private double speed = 0.5;
 
@@ -54,9 +51,6 @@ public class StateSlideBase extends State
     public StateSlideBase(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        tileCollidable = model.getFeature(TileCollidable.class);
-        jump = model.getJump();
 
         listenerTileCollidable = (result, category) ->
         {

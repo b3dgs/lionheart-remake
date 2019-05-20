@@ -28,7 +28,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 /**
  * Loading screen.
  */
-public final class Loading extends Sequence
+final class Loading extends Sequence
 {
     private static final String SPRITE_LOADING = "logo.png";
 
@@ -77,5 +77,6 @@ public final class Loading extends Sequence
     public void onTerminated(boolean hasNextSequence)
     {
         loading.dispose();
+        loaded = false;
     }
 }

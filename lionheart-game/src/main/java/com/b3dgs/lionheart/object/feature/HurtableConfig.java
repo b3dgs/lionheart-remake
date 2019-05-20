@@ -31,7 +31,7 @@ public final class HurtableConfig
 {
     /** Hurtable node name. */
     private static final String NODE_HURTABLE = "hurtable";
-    /** Effect attribute name. */
+    /** Effect attribute name (can be <code>null</code>). */
     private static final String ATT_EFFECT = "effect";
     /** Move backward attribute name. */
     private static final String ATT_BACKWARD = "backward";
@@ -65,7 +65,7 @@ public final class HurtableConfig
     /**
      * Create config.
      * 
-     * @param effect The effect media.
+     * @param effect The effect media (can be <code>null</code>).
      * @param backward The move backward flag.
      */
     private HurtableConfig(String effect, boolean backward)
@@ -86,7 +86,7 @@ public final class HurtableConfig
     /**
      * Get the effect media.
      * 
-     * @return The effect media.
+     * @return The effect media, <code>null</code> if not defined.
      */
     public Media getEffect()
     {

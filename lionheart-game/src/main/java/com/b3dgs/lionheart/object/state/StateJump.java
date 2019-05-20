@@ -26,10 +26,7 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -49,10 +46,6 @@ public final class StateJump extends State
     private final AtomicBoolean steepLeft = new AtomicBoolean();
     private final AtomicBoolean steepRight = new AtomicBoolean();
 
-    private final Transformable transformable;
-    private final Force jump;
-    private final Body body;
-    private final TileCollidable tileCollidable;
     private final TileCollidableListener listenerTileCollidable;
     private final Updatable checkJumpStopped;
     private Updatable check;
@@ -66,11 +59,6 @@ public final class StateJump extends State
     public StateJump(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        transformable = model.getFeature(Transformable.class);
-        jump = model.getJump();
-        body = model.getFeature(Body.class);
-        tileCollidable = model.getFeature(TileCollidable.class);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -136,13 +124,13 @@ public final class StateJump extends State
 
         jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
 
-        if (mirrorable.getMirror() == Mirror.NONE && steepLeft.get())
+        if (mirrorable.is(Mirror.NONE) && steepLeft.get())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
             movement.setDirection(DirectionNone.INSTANCE);
             movement.setDestination(0.0, 0.0);
         }
-        else if (mirrorable.getMirror() == Mirror.HORIZONTAL && steepRight.get())
+        else if (mirrorable.is(Mirror.HORIZONTAL) && steepRight.get())
         {
             mirrorable.mirror(Mirror.NONE);
             movement.setDirection(DirectionNone.INSTANCE);

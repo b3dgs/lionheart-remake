@@ -22,6 +22,7 @@ package com.b3dgs.lionheart;
  */
 public class InputDeviceControlVoid implements InputDeviceControl
 {
+    /** Void instance. */
     private static final InputDeviceControlVoid INSTANCE = new InputDeviceControlVoid();
 
     /**
@@ -35,7 +36,7 @@ public class InputDeviceControlVoid implements InputDeviceControl
     }
 
     /**
-     * Private constructor.
+     * Create void device.
      */
     public InputDeviceControlVoid()
     {

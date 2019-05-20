@@ -87,7 +87,7 @@ public final class Entity extends FeaturableModel
         }
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
         collidable.setOrigin(Origin.CENTER_BOTTOM);
-        if (collidable.getGroup().intValue() == Constant.COLL_GROUP_PLAYER)
+        if (Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup()))
         {
             collidable.addAccept(Constant.COLL_GROUP_BACKGROUND);
             collidable.addAccept(Constant.COLL_GROUP_ENEMIES);

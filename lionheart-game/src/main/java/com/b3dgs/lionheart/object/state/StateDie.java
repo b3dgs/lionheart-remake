@@ -19,8 +19,6 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -32,8 +30,6 @@ public final class StateDie extends State
 {
     private static final double DEATH_FALL_SPEED = -0.7;
 
-    private final Body body;
-    private final Transformable transformable;
     private final Stats stats;
 
     /**
@@ -46,8 +42,6 @@ public final class StateDie extends State
     {
         super(model, animation);
 
-        body = model.getFeature(Body.class);
-        transformable = model.getFeature(Transformable.class);
         stats = model.getFeature(Stats.class);
     }
 

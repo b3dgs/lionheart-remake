@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.Damages;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionheart.Constant;
 
@@ -28,12 +29,13 @@ import com.b3dgs.lionheart.Constant;
  * Stats feature implementation.
  */
 @FeatureInterface
-public final class Stats extends FeatureModel
+public final class Stats extends FeatureModel implements Recyclable
 {
-    private final Alterable health;
+    private final Alterable health = new Alterable(Constant.STATS_MAX_HEALTH);
     private final Alterable talisment = new Alterable(Constant.STATS_MAX_TALISMENT);
     private final Alterable life = new Alterable(Constant.STATS_MAX_LIFE);
     private final Damages damages = new Damages(1, 1);
+    private final StatsConfig config;
 
     /**
      * Create stats.
@@ -44,10 +46,7 @@ public final class Stats extends FeatureModel
     {
         super();
 
-        final StatsConfig config = StatsConfig.imports(setup);
-        health = new Alterable(config.getHealth());
-        health.fill();
-        life.set(config.getLife());
+        config = StatsConfig.imports(setup);
     }
 
     /**
@@ -148,5 +147,13 @@ public final class Stats extends FeatureModel
     public int getDamages()
     {
         return damages.getRandom();
+    }
+
+    @Override
+    public void recycle()
+    {
+        health.setMax(config.getHealth());
+        health.fill();
+        life.set(config.getLife());
     }
 }

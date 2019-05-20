@@ -22,10 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -46,8 +44,7 @@ final class StateWalk extends State
     private final AtomicBoolean collideY = new AtomicBoolean();
     private final AtomicBoolean slopeRising = new AtomicBoolean();
     private final AtomicBoolean slopeDescending = new AtomicBoolean();
-    private final Collidable collidable;
-    private final TileCollidable tileCollidable;
+
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
 
@@ -63,9 +60,6 @@ final class StateWalk extends State
     {
         super(model, animation);
 
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-
         listenerTileCollidable = (result, category) ->
         {
             if (Axis.X == category.getAxis())
@@ -74,7 +68,7 @@ final class StateWalk extends State
                     || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
                 {
                     tileCollidable.apply(result);
-                    model.getMovement().setDirection(DirectionNone.INSTANCE);
+                    movement.setDirection(DirectionNone.INSTANCE);
                 }
                 collideX.set(true);
             }

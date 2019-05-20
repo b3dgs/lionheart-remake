@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
@@ -37,8 +36,6 @@ final class StateBorder extends State
     public StateBorder(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        final Transformable transformable = model.getFeature(Transformable.class);
 
         addTransition(StateWalk.class, this::isGoingHorizontal);
         addTransition(StateCrouch.class, this::isGoingDown);

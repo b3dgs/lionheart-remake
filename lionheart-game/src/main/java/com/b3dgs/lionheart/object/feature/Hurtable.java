@@ -109,8 +109,8 @@ public final class Hurtable extends FeatureModel
     public boolean isHurting()
     {
         return model.getJump().getDirectionVertical() > 0
-               || model.getMovement().isIncreasingHorizontal() && mirrorable.getMirror() == Mirror.NONE
-               || model.getMovement().isDecreasingHorizontal() && mirrorable.getMirror() == Mirror.HORIZONTAL;
+               || model.getMovement().isIncreasingHorizontal() && mirrorable.is(Mirror.NONE)
+               || model.getMovement().isDecreasingHorizontal() && mirrorable.is(Mirror.HORIZONTAL);
     }
 
     /**

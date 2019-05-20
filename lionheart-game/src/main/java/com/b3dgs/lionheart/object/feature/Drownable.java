@@ -23,64 +23,71 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.state.StateDie;
 import com.b3dgs.lionheart.object.state.StateIdle;
 
 /**
  * Drownable feature implementation.
+ * <ol>
+ * <li>Check if current position is under drown start.</li>
+ * <li>Trigger {@link StateDie}.</li>
+ * <li>Check if current position is under drown end.</li>
+ * <li>Trigger {@link StateIdle} with respawn.</li>
+ * </ol>
  */
 @FeatureInterface
-public class Drownable extends FeatureModel implements Routine, Recyclable
+public final class Drownable extends FeatureModel implements Routine, Recyclable
 {
-    private final int DROWN_START_Y = -10;
-    private final int DROWN_END_Y = -60;
-    private final Updatable start;
-    private final Updatable end;
-    private Updatable current;
+    /** Top limit drown vertical position. */
+    private static final int DROWN_START_Y = -10;
+    /** Down limit drown vertical position. */
+    private static final int DROWN_END_Y = -60;
+
+    /** Current drown check. */
+    private Updatable check;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Body body;
 
     /**
-     * Create drownable.
+     * Check start drown.
+     * 
+     * @param extrp The extrapolation value.
      */
-    public Drownable()
+    private void checkStart(double extrp)
     {
-        super();
+        if (transformable.getY() < DROWN_START_Y)
+        {
+            stateHandler.changeState(StateDie.class);
+            check = this::checkEnd;
+        }
+    }
 
-        end = extrp ->
+    /**
+     * Check end drown.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void checkEnd(double extrp)
+    {
+        if (transformable.getY() < DROWN_END_Y)
         {
-            if (transformable.getY() < DROWN_END_Y)
-            {
-                stateHandler.changeState(StateIdle.class);
-                recycle();
-            }
-        };
-        start = extrp ->
-        {
-            if (transformable.getY() < DROWN_START_Y)
-            {
-                current = end;
-                stateHandler.changeState(StateDie.class);
-            }
-        };
+            stateHandler.changeState(StateIdle.class);
+            check = this::checkStart;
+        }
     }
 
     @Override
     public void update(double extrp)
     {
-        current.update(extrp);
+        check.update(extrp);
     }
 
     @Override
     public void recycle()
     {
-        current = start;
+        check = this::checkStart;
     }
 }

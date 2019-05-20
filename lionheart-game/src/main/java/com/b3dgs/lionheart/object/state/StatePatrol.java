@@ -20,10 +20,8 @@ package com.b3dgs.lionheart.object.state;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -39,8 +37,7 @@ public final class StatePatrol extends State
     private static final double ANIM_SPEED_DIVISOR = 3.0;
 
     private final AtomicBoolean collideY = new AtomicBoolean();
-    private final Collidable collidable;
-    private final TileCollidable tileCollidable;
+
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
 
@@ -53,9 +50,6 @@ public final class StatePatrol extends State
     public StatePatrol(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -100,7 +94,7 @@ public final class StatePatrol extends State
     {
         movement.setDestination(control.getHorizontalDirection() * SPEED, control.getVerticalDirection() * SPEED);
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
-                              / ANIM_SPEED_DIVISOR);
+                                / ANIM_SPEED_DIVISOR);
     }
 
     @Override

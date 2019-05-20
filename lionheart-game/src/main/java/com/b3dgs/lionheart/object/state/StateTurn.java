@@ -22,11 +22,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -40,8 +38,7 @@ import com.b3dgs.lionheart.object.feature.Patrol;
 public final class StateTurn extends State
 {
     private final AtomicBoolean collideY = new AtomicBoolean();
-    private final TileCollidable tileCollidable;
-    private final Collidable collidable;
+
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
 
@@ -54,9 +51,6 @@ public final class StateTurn extends State
     public StateTurn(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -94,6 +88,7 @@ public final class StateTurn extends State
     {
         tileCollidable.removeListener(listenerTileCollidable);
         collidable.removeListener(listenerCollidable);
+
         if (model.hasFeature(Patrol.class))
         {
             model.getFeature(Patrol.class).applyMirror();

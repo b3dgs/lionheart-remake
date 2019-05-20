@@ -60,6 +60,8 @@ public final class Constant
     public static final String FOLDER_EFFECTS = "effect";
     /** Levels folder. */
     public static final String FOLDER_LEVELS = "levels";
+    /** Musics folder. */
+    public static final String FOLDER_MUSICS = "music";
 
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
@@ -78,6 +80,8 @@ public final class Constant
     public static final String ANIM_PREFIX_ATTACK = "attack";
     /** Animation body prefix. */
     public static final String ANIM_PREFIX_BODY = "body";
+    /** Animation shade prefix. */
+    public static final String ANIM_PREFIX_SHADE = "shade_";
 
     /** Collision ground prefix. */
     public static final String COLL_PREFIX_GROUND = "ground";

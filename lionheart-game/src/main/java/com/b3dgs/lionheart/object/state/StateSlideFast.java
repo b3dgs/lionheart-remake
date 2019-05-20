@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 /**
  * Slide fast state implementation.
  */
-public final class StateSlideFast extends StateSlideBase
+final class StateSlideFast extends StateSlideBase
 {
     /**
      * Create the state.
@@ -38,8 +38,8 @@ public final class StateSlideFast extends StateSlideBase
 
         addTransition(StateSlide.class, this::isGoingNone);
         addTransition(StateSlideSlow.class,
-                      () -> mirrorable.getMirror() == Mirror.HORIZONTAL && isGoingRight()
-                            || mirrorable.getMirror() == Mirror.NONE && isGoingLeft());
+                      () -> mirrorable.is(Mirror.HORIZONTAL) && isGoingRight()
+                            || mirrorable.is(Mirror.NONE) && isGoingLeft());
         setSpeed(1.0);
     }
 }

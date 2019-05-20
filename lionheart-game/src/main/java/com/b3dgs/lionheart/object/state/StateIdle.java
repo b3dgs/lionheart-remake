@@ -23,12 +23,8 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.BorderDetection;
@@ -47,12 +43,10 @@ public final class StateIdle extends State
 
     private final AtomicBoolean collideX = new AtomicBoolean();
     private final AtomicBoolean collideY = new AtomicBoolean();
-    private final BorderDetection border;
-    private final TileCollidable tileCollidable;
-    private final Collidable collidable;
+    private final BorderDetection border = new BorderDetection(model.getMap());
+
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
-    private final Body body;
 
     /**
      * Create the state.
@@ -63,11 +57,6 @@ public final class StateIdle extends State
     public StateIdle(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        border = new BorderDetection(model.getMap());
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-        body = model.getFeature(Body.class);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -98,8 +87,6 @@ public final class StateIdle extends State
             }
         };
         collidable.addListener(border);
-
-        final Transformable transformable = model.getFeature(Transformable.class);
 
         addTransition(StateBorder.class, () -> collideY.get() && !isGoingHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());

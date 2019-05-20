@@ -76,10 +76,12 @@ final class Scene extends SequenceGame
         final Services services = new Services();
         services.add(new Factory(services));
         services.add(new Handler(services));
+
         final MapTile map = services.create(MapTileGame.class);
-        map.create(level.getRip());
         final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
         final HandlerPersister handlerPersister = new HandlerPersister(services);
+        map.create(level.getRip());
+
         try (FileWriting output = new FileWriting(level.getFile()))
         {
             mapPersister.save(output);

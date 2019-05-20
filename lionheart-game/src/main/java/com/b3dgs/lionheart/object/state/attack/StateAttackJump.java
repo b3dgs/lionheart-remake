@@ -25,12 +25,8 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -49,11 +45,6 @@ public final class StateAttackJump extends State
     private static final double JUMP_MAX = 5.4;
 
     private final AtomicBoolean collideY = new AtomicBoolean();
-    private final Transformable transformable;
-    private final TileCollidable tileCollidable;
-    private final Collidable collidable;
-    private final Body body;
-    private final Force jump;
     private final TileCollidableListener listener;
     private final CollidableListener listenerCollidable;
     private final Updatable checkJumpStopped;
@@ -72,12 +63,6 @@ public final class StateAttackJump extends State
     public StateAttackJump(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        transformable = model.getFeature(Transformable.class);
-        body = model.getFeature(Body.class);
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-        jump = model.getJump();
 
         listener = (result, category) ->
         {

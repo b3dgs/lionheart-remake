@@ -22,7 +22,11 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateAbstract;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlDelegate;
 
@@ -35,12 +39,22 @@ public abstract class State extends StateAbstract
     protected final EntityModel model;
     /** Animator reference. */
     protected final Animatable animatable;
+    /** Transformable reference. */
+    protected final Transformable transformable;
+    /** Body reference. */
+    protected final Body body;
     /** Mirrorable reference. */
     protected final Mirrorable mirrorable;
+    /** Tile collidable reference. */
+    protected final TileCollidable tileCollidable;
+    /** Collidable reference. */
+    protected final Collidable collidable;
     /** State animation data. */
     protected final Animation animation;
     /** Movement reference. */
     protected final Force movement;
+    /** Jump reference. */
+    protected final Force jump;
     /** Input device control. */
     protected final InputDeviceControl control;
 
@@ -57,8 +71,13 @@ public abstract class State extends StateAbstract
         this.model = model;
         this.animation = animation;
         movement = model.getMovement();
+        jump = model.getJump();
         animatable = model.getFeature(Animatable.class);
+        transformable = model.getFeature(Transformable.class);
+        body = model.getFeature(Body.class);
         mirrorable = model.getFeature(Mirrorable.class);
+        tileCollidable = model.getFeature(TileCollidable.class);
+        collidable = model.getFeature(Collidable.class);
         control = new InputDeviceControlDelegate(model::getInput);
     }
 

@@ -22,11 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -47,10 +44,7 @@ public final class StateAttackFall extends State
 
     private final AtomicBoolean collideY = new AtomicBoolean();
     private final AtomicBoolean collideSword = new AtomicBoolean();
-    private final TileCollidable tileCollidable;
-    private final Collidable collidable;
-    private final Body body;
-    private final Force jump;
+
     private final TileCollidableListener listener;
     private final CollidableListener listenerCollidable;
 
@@ -63,11 +57,6 @@ public final class StateAttackFall extends State
     public StateAttackFall(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        body = model.getFeature(Body.class);
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-        jump = model.getJump();
 
         listener = (result, category) ->
         {

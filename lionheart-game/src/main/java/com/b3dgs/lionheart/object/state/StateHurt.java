@@ -33,7 +33,6 @@ public final class StateHurt extends State
     private static final double SPEED = 5.0 / 3.0;
 
     private final Body body;
-    private final Force jump;
 
     /**
      * Create the state.
@@ -46,7 +45,6 @@ public final class StateHurt extends State
         super(model, animation);
 
         body = model.getFeature(Body.class);
-        jump = model.getJump();
 
         addTransition(StateFall.class, () -> !model.getFeature(Hurtable.class).isHurting());
     }

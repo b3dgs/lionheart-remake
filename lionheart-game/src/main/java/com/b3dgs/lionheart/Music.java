@@ -17,38 +17,33 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.Locale;
+
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
+
 /**
  * List of available musics.
+ * <p>
+ * Music file name is enum name in lower case.
+ * </p>
  */
 public enum Music
 {
     /** Intro music. */
-    INTRO("intro"),
+    INTRO,
     /** Swamp music. */
-    SWAMP("swamp"),
+    SWAMP,
     /** Ancient Town music. */
-    ANCIENT_TOWN("ancient_town");
-
-    /** Music filename. */
-    private final String filename;
+    ANCIENT_TOWN;
 
     /**
-     * Constructor.
+     * Get the music media.
      * 
-     * @param filename The music filename.
+     * @return The music media.
      */
-    Music(String filename)
+    public Media get()
     {
-        this.filename = filename + Constant.EXTENSION_MUSIC;
-    }
-
-    /**
-     * Get the music filename.
-     * 
-     * @return The music filename.
-     */
-    public String getFilename()
-    {
-        return filename;
+        return Medias.create(Constant.FOLDER_MUSICS, name().toLowerCase(Locale.ENGLISH) + Constant.EXTENSION_MUSIC);
     }
 }

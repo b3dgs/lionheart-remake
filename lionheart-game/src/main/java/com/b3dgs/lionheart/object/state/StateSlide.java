@@ -37,11 +37,11 @@ public class StateSlide extends StateSlideBase
         super(model, animation);
 
         addTransition(StateSlideFast.class,
-                      () -> mirrorable.getMirror() == Mirror.NONE && isGoingRight()
-                            || mirrorable.getMirror() == Mirror.HORIZONTAL && isGoingLeft());
+                      () -> mirrorable.is(Mirror.NONE) && isGoingRight()
+                            || mirrorable.is(Mirror.HORIZONTAL) && isGoingLeft());
         addTransition(StateSlideSlow.class,
-                      () -> mirrorable.getMirror() == Mirror.HORIZONTAL && isGoingRight()
-                            || mirrorable.getMirror() == Mirror.NONE && isGoingLeft());
+                      () -> mirrorable.is(Mirror.HORIZONTAL) && isGoingRight()
+                            || mirrorable.is(Mirror.NONE) && isGoingLeft());
         setSpeed(0.5);
     }
 }

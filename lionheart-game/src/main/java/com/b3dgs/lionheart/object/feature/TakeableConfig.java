@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Takeable configuration.
@@ -70,14 +71,23 @@ public final class TakeableConfig
     /**
      * Create config.
      * 
-     * @param effect The effect media.
-     * @param health The health modifier.
-     * @param talisment The Talisment modifier.
-     * @param life The life modifier.
+     * @param effect The effect media (must not be <code>null</code>).
+     * @param health The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
+     * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
+     * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
      */
     private TakeableConfig(Media effect, int health, int talisment, int life)
     {
         super();
+
+        Check.superiorOrEqual(health, 0);
+        Check.inferiorOrEqual(health, Constant.STATS_MAX_HEALTH);
+
+        Check.superiorOrEqual(talisment, 0);
+        Check.inferiorOrEqual(talisment, Constant.STATS_MAX_TALISMENT);
+
+        Check.superiorOrEqual(life, 0);
+        Check.inferiorOrEqual(life, Constant.STATS_MAX_LIFE);
 
         this.effect = effect;
         this.health = health < 0 ? Integer.MAX_VALUE : health;

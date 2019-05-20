@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
@@ -30,7 +31,7 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
  * Sheet feature implementation.
  */
 @FeatureInterface
-public final class Sheet extends FeatureModel implements Routine
+public final class Sheet extends FeatureModel implements Routine, Recyclable
 {
     private static final double CURVE_FORCE = 8.0;
     private static final double CURVE_SPEED = 6.0;
@@ -91,5 +92,14 @@ public final class Sheet extends FeatureModel implements Routine
                 }
             }
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        start = false;
+        done = false;
+        curve = 0.0;
+        abord = false;
     }
 }

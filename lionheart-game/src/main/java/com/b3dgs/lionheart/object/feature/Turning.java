@@ -48,14 +48,22 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 @FeatureInterface
 public final class Turning extends FeatureModel implements Routine, Recyclable
 {
+    /** Max shake amplitude in height. */
     private static final double CURVE_FORCE = 4.0;
+    /** Shake curve speed value. */
     private static final double CURVE_SPEED = 50.0;
+    /** Tick delay before starting rotation. */
     private static final int DELAY_BEFORE_ROTATE = 50;
+    /** Tick delay before starting to shake. */
     private static final int DELAY_BEFORE_SHAKE = 100;
+    /** Total number of shakes in shaking state. */
     private static final int SHAKE_MAX_COUNT = 3;
 
+    /** Shake and rotate tick. */
     private final Tick tick = new Tick();
-    private Updatable current;
+    /** Current turning check. */
+    private Updatable check;
+    /** Current shake curve value. */
     private double curve;
 
     @FeatureGet private StateHandler stateHandler;
@@ -76,7 +84,7 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
             glue.start();
             glue.setTransformY(this::computeCurve);
             tick.stop();
-            current = this::updateShake;
+            check = this::updateShake;
         }
     }
 
@@ -90,7 +98,7 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
         curve += CURVE_SPEED;
         if (curve > SHAKE_MAX_COUNT * com.b3dgs.lionengine.Constant.MAX_DEGREE)
         {
-            current = this::checkRotate;
+            check = this::checkRotate;
             curve = 0.0;
             tick.start();
         }
@@ -106,7 +114,7 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         if (tick.elapsed(DELAY_BEFORE_ROTATE))
         {
-            current = this::checkShake;
+            check = this::checkShake;
             stateHandler.changeState(StateTurn.class);
             glue.stop();
             glue.setGlue(false);
@@ -147,14 +155,14 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        current.update(extrp);
+        check.update(extrp);
     }
 
     @Override
     public void recycle()
     {
-        current = this::checkShake;
-        tick.restart();
+        check = this::checkShake;
         curve = 0.0;
+        tick.restart();
     }
 }

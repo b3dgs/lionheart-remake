@@ -46,15 +46,13 @@ final class StateAttackPrepared extends State
 
     private boolean canAttackHorizontal()
     {
-        final Mirror mirror = mirrorable.getMirror();
-
-        return mirror == Mirror.HORIZONTAL && isGoingLeftOnce() || mirror == Mirror.NONE && isGoingRightOnce();
+        return mirrorable.is(Mirror.HORIZONTAL) && isGoingLeftOnce()
+               || mirrorable.is(Mirror.NONE) && isGoingRightOnce();
     }
 
     private boolean canAttackTurning()
     {
-        final Mirror mirror = mirrorable.getMirror();
-
-        return mirror == Mirror.NONE && isGoingLeftOnce() || mirror == Mirror.HORIZONTAL && isGoingRightOnce();
+        return mirrorable.is(Mirror.NONE) && isGoingLeftOnce()
+               || mirrorable.is(Mirror.HORIZONTAL) && isGoingRightOnce();
     }
 }

@@ -44,7 +44,7 @@ import com.b3dgs.lionheart.object.state.StateSlide;
  */
 final class EntityUpdater extends FeatureModel implements Refreshable
 {
-    private final int DESTROY_Y = -100;
+    private static final int DESTROY_Y = -100;
 
     private final List<Routine> routines = new ArrayList<>();
     private final Force movement;
@@ -84,11 +84,11 @@ final class EntityUpdater extends FeatureModel implements Refreshable
     {
         if (!state.isState(StateHurt.class) && !state.isState(StateSlide.class))
         {
-            if (mirrorable.getMirror() == Mirror.NONE && movement.getDirectionHorizontal() < 0.0)
+            if (mirrorable.is(Mirror.NONE) && movement.getDirectionHorizontal() < 0.0)
             {
                 mirrorable.mirror(Mirror.HORIZONTAL);
             }
-            else if (mirrorable.getMirror() == Mirror.HORIZONTAL && movement.getDirectionHorizontal() > 0.0)
+            else if (mirrorable.is(Mirror.HORIZONTAL) && movement.getDirectionHorizontal() > 0.0)
             {
                 mirrorable.mirror(Mirror.NONE);
             }

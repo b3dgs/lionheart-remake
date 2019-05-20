@@ -24,6 +24,7 @@ import java.util.function.Supplier;
  */
 public final class InputDeviceControlDelegate implements InputDeviceControl
 {
+    /** The provider reference. */
     private final Supplier<InputDeviceControl> provider;
 
     /**

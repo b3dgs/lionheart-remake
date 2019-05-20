@@ -109,11 +109,11 @@ public final class Patrol extends FeatureModel implements Routine
     {
         if (mirror)
         {
-            if (sv < 0 && mirrorable.getMirror() == Mirror.NONE)
+            if (sv < 0 && mirrorable.is(Mirror.NONE))
             {
                 mirrorable.mirror(Mirror.VERTICAL);
             }
-            else if (sv > 0 && mirrorable.getMirror() == Mirror.VERTICAL)
+            else if (sv > 0 && mirrorable.is(Mirror.VERTICAL))
             {
                 mirrorable.mirror(Mirror.NONE);
             }

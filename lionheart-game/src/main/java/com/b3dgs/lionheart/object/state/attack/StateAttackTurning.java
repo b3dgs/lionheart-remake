@@ -44,7 +44,7 @@ final class StateAttackTurning extends State
     @Override
     public void exit()
     {
-        if (mirrorable.getMirror() == Mirror.NONE)
+        if (mirrorable.is(Mirror.NONE))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }

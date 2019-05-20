@@ -23,6 +23,7 @@ import java.util.Collection;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -38,29 +39,21 @@ import com.b3dgs.lionheart.object.state.StateFall;
  * Glue feature implementation.
  */
 @FeatureInterface
-public final class Glue extends FeatureModel implements Routine, CollidableListener
+public final class Glue extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private final Collection<GlueListener> listeners = new ArrayList<>();
 
     private TransformY transformY;
     private double referenceY;
-    private boolean first = true;
+    private boolean first;
     private Transformable other;
     private int offsetY;
     private boolean collide;
-    private boolean glue = true;
+    private boolean glue;
     private boolean started;
 
     @FeatureGet private Transformable reference;
     @FeatureGet private Collidable collidable;
-
-    /**
-     * Create glue feature.
-     */
-    public Glue()
-    {
-        super();
-    }
 
     /**
      * Add glue listener.
@@ -164,6 +157,19 @@ public final class Glue extends FeatureModel implements Routine, CollidableListe
 
             start();
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        transformY = null;
+        referenceY = 0.0;
+        other = null;
+        first = true;
+        offsetY = 0;
+        glue = true;
+        collide = false;
+        started = false;
     }
 
     /**

@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Stats configuration.
@@ -58,12 +59,19 @@ public class StatsConfig
     /**
      * Create config.
      * 
-     * @param health The health.
-     * @param life The life.
+     * @param health The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
+     * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
+     * @throws LionEngineException If invalid arguments.
      */
     private StatsConfig(int health, int life)
     {
         super();
+
+        Check.superiorOrEqual(health, 0);
+        Check.inferiorOrEqual(health, Constant.STATS_MAX_HEALTH);
+
+        Check.superiorOrEqual(life, 0);
+        Check.inferiorOrEqual(life, Constant.STATS_MAX_LIFE);
 
         this.health = health < 0 ? Integer.MAX_VALUE : health;
         this.life = life;

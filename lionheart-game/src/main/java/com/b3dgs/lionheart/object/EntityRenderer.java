@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -33,12 +34,12 @@ import com.b3dgs.lionengine.graphic.Graphic;
 /**
  * Entity rendering implementation.
  */
-public final class EntityRenderer extends FeatureModel implements Displayable
+public final class EntityRenderer extends FeatureModel implements Displayable, Recyclable
 {
     private final List<Routine> routines = new ArrayList<>();
 
     private int routinesCount;
-    private boolean visible = true;
+    private boolean visible;
 
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
@@ -84,5 +85,11 @@ public final class EntityRenderer extends FeatureModel implements Displayable
         {
             routines.get(i).render(g);
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        visible = true;
     }
 }

@@ -34,12 +34,18 @@ import com.b3dgs.lionheart.Constant;
 
 /**
  * Takeable feature implementation.
+ * <ol>
+ * <li>Listen to {@link CollidableListener}.</li>
+ * <li>Check if collided by {@link Constant#ANIM_PREFIX_BODY}.</li>
+ * <li>Apply taken stats, spawn effect, destroy.</li>
+ * </ol>
  */
 @FeatureInterface
 public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
+    /** Take listener check. */
     private final CollidableListener take;
-
+    /** Current listener check. */
     private CollidableListener current;
 
     @FeatureGet private Identifiable identifiable;
