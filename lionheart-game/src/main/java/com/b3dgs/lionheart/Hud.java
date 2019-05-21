@@ -21,6 +21,8 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
@@ -45,10 +47,8 @@ public final class Hud implements Updatable, Renderable
     private final SpriteTiled[] health = new SpriteTiled[HEALTH_MAX];
     private final SpriteTiled talisment;
     private final SpriteTiled life;
-    private final SpriteTiled numberTalisment0;
-    private final SpriteTiled numberTalisment1;
-    private final SpriteTiled numberLife0;
-    private final SpriteTiled numberLife1;
+    private final SpriteDigit numberTalisment;
+    private final SpriteDigit numberLife;
 
     private Stats stats;
 
@@ -71,33 +71,25 @@ public final class Hud implements Updatable, Renderable
             health[i].setTile(2);
         }
 
-        final Image hudSurface = Drawable.loadImage(Medias.create(Constant.FOLDER_SPRITES, "hud.png"));
-        hudSurface.load();
+        final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Constant.FOLDER_SPRITES, "hud.png"));
         hudSurface.prepare();
 
-        talisment = Drawable.loadSpriteTiled(hudSurface.getSurface(), 16, 16);
+        talisment = Drawable.loadSpriteTiled(hudSurface, 16, 16);
         talisment.setLocation(TALISMENT_X, TALISMENT_Y + 2);
         talisment.setTile(0);
 
-        life = Drawable.loadSpriteTiled(hudSurface.getSurface(), 16, 16);
+        life = Drawable.loadSpriteTiled(hudSurface, 16, 16);
         life.setLocation(LIFE_X, LIFE_Y);
         life.setTile(6);
 
-        final Image numberSurface = Drawable.loadImage(Medias.create(Constant.FOLDER_SPRITES, "numbers.png"));
-        numberSurface.load();
-        numberSurface.prepare();
+        final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Constant.FOLDER_SPRITES, "numbers.png"));
+        number.prepare();
 
-        numberTalisment0 = Drawable.loadSpriteTiled(numberSurface.getSurface(), 8, 16);
-        numberTalisment0.setLocation(TALISMENT_X + talisment.getTileWidth() + 1, TALISMENT_Y + 1);
+        numberTalisment = new SpriteDigit(number, 8, 16, 2);
+        numberTalisment.setLocation(TALISMENT_X + talisment.getTileWidth() + 1, TALISMENT_Y + 1);
 
-        numberTalisment1 = Drawable.loadSpriteTiled(numberSurface.getSurface(), 8, 16);
-        numberTalisment1.setLocation(numberTalisment0.getX() + numberTalisment0.getTileWidth(), TALISMENT_Y + 1);
-
-        numberLife0 = Drawable.loadSpriteTiled(numberSurface.getSurface(), 8, 16);
-        numberLife0.setLocation(LIFE_X + life.getTileWidth() + 1, LIFE_Y + 1);
-
-        numberLife1 = Drawable.loadSpriteTiled(numberSurface.getSurface(), 8, 16);
-        numberLife1.setLocation(numberLife0.getX() + numberLife0.getTileWidth(), LIFE_Y + 1);
+        numberLife = new SpriteDigit(number, 8, 16, 2);
+        numberLife.setLocation(LIFE_X + life.getTileWidth() + 1, LIFE_Y + 1);
     }
 
     /**
@@ -113,30 +105,24 @@ public final class Hud implements Updatable, Renderable
     @Override
     public void update(double extrp)
     {
-        if (stats != null)
+        for (int i = 0; i < HEALTH_MAX; i++)
         {
-            for (int i = 0; i < HEALTH_MAX; i++)
+            if (i < stats.getHealth())
             {
-                if (i < stats.getHealth())
-                {
-                    health[i].setTile(0);
-                }
-                else if (i < stats.getHealthMax())
-                {
-                    health[i].setTile(1);
-                }
-                else
-                {
-                    health[i].setTile(2);
-                }
+                health[i].setTile(0);
             }
-
-            numberTalisment0.setTile(1 + stats.getTalisment() / com.b3dgs.lionengine.Constant.DECADE);
-            numberTalisment1.setTile(1 + stats.getTalisment() % com.b3dgs.lionengine.Constant.DECADE);
-
-            numberLife0.setTile(1 + stats.getLife() / com.b3dgs.lionengine.Constant.DECADE);
-            numberLife1.setTile(1 + stats.getLife() % com.b3dgs.lionengine.Constant.DECADE);
+            else if (i < stats.getHealthMax())
+            {
+                health[i].setTile(1);
+            }
+            else
+            {
+                health[i].setTile(2);
+            }
         }
+
+        numberTalisment.setValue(stats.getTalisment());
+        numberLife.setValue(stats.getLife());
     }
 
     @Override
@@ -148,11 +134,9 @@ public final class Hud implements Updatable, Renderable
         }
 
         talisment.render(g);
-        numberTalisment0.render(g);
-        numberTalisment1.render(g);
+        numberTalisment.render(g);
 
         life.render(g);
-        numberLife0.render(g);
-        numberLife1.render(g);
+        numberLife.render(g);
     }
 }
