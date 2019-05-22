@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -41,6 +42,7 @@ public final class EntityModel extends FeatureModel
 
     private final Force movement = new Force();
     private final Force jump = new Force();
+    private final Camera camera;
     private final MapTile map;
     private final boolean hasGravity;
 
@@ -59,6 +61,7 @@ public final class EntityModel extends FeatureModel
     {
         super();
 
+        camera = services.get(Camera.class);
         map = services.get(MapTile.class);
         source = services.get(SourceResolutionProvider.class);
         hasGravity = setup.hasNode("data");
@@ -100,6 +103,16 @@ public final class EntityModel extends FeatureModel
         {
             this.input = input;
         }
+    }
+
+    /**
+     * Get the camera reference.
+     * 
+     * @return The camera reference.
+     */
+    public Camera getCamera()
+    {
+        return camera;
     }
 
     /**
