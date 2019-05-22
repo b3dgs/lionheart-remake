@@ -21,9 +21,11 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.AnimatorStateListener;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.object.state.StateIdle;
 
@@ -35,24 +37,29 @@ import com.b3dgs.lionheart.object.state.StateIdle;
  * </ol>
  */
 @FeatureInterface
-public final class Effect extends FeatureModel
+public final class Effect extends FeatureModel implements Recyclable
 {
+    @FeatureGet private Identifiable identifiable;
+    @FeatureGet private Animatable animatable;
+    @FeatureGet private StateHandler stateHandler;
+
     @Override
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
 
-        final Identifiable identifiable = provider.getFeature(Identifiable.class);
-        final Animatable animatable = provider.getFeature(Animatable.class);
-        final StateHandler stateHandler = provider.getFeature(StateHandler.class);
-
         animatable.addListener((AnimatorStateListener) state ->
         {
             if (AnimState.FINISHED == state)
             {
-                stateHandler.changeState(StateIdle.class);
                 identifiable.destroy();
             }
         });
+    }
+
+    @Override
+    public void recycle()
+    {
+        stateHandler.changeState(StateIdle.class);
     }
 }
