@@ -44,6 +44,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.EntityRenderer;
 import com.b3dgs.lionheart.object.Routine;
@@ -149,6 +150,10 @@ public final class Hurtable extends FeatureModel
             identifiable.destroy();
             currentCollide = CollidableListenerVoid.getInstance();
         }
+        else
+        {
+            Sfx.MONSTER_HURT.play();
+        }
         if (model.getMovement().isDecreasingHorizontal())
         {
             mirrorable.mirror(Mirror.NONE);
@@ -168,10 +173,12 @@ public final class Hurtable extends FeatureModel
     {
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
+            Sfx.VALDYN_DIE.play();
             stateHandler.changeState(StateDie.class);
         }
         else
         {
+            Sfx.VALDYN_HURT.play();
             stateHandler.changeState(StateHurt.class);
             hurtJump();
         }
@@ -194,10 +201,12 @@ public final class Hurtable extends FeatureModel
             model.getMovement().setDestination(0.0, 0.0);
             if (stats.applyDamages(SPIKE_DAMAGES))
             {
+                Sfx.VALDYN_DIE.play();
                 stateHandler.changeState(StateDie.class);
             }
             else
             {
+                Sfx.VALDYN_HURT.play();
                 stateHandler.changeState(StateHurt.class);
                 hurtJump();
             }

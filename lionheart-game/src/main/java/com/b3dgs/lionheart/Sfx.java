@@ -17,37 +17,60 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.Config;
-import com.b3dgs.lionengine.LionEngineException;
+import java.util.Locale;
+
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
-import com.b3dgs.lionengine.audio.sc68.Sc68Format;
-import com.b3dgs.lionengine.audio.wav.WavFormat;
-import com.b3dgs.lionengine.awt.graphic.EngineAwt;
-import com.b3dgs.lionengine.graphic.engine.Loader;
 
 /**
- * Program starts here.
+ * List of available sounds fx.
+ * <p>
+ * Sound file name is enum name in lower case.
+ * </p>
  */
-public final class AppLionheartPc
+public enum Sfx
 {
+    /** Sword attack. */
+    VALDYN_ATTACK,
+    /** Valdyn hurt. */
+    VALDYN_HURT,
+    /** Valdyn die. */
+    VALDYN_DIE,
+    /** Item potion little. */
+    ITEM_POTION,
+    /** Item talisment. */
+    ITEM_TAKEN,
+    /** Monster hurt. */
+    MONSTER_HURT;
+
+    /** Audio handler. */
+    private final Audio audio;
+
     /**
-     * Main function.
-     * 
-     * @param args The arguments (none).
+     * Create Sfx.
      */
-    public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
+    Sfx()
     {
-        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheartPc.class);
-        Loader.start(Config.windowed(Constant.DEFAULT_RESOLUTION.get3x()), Loading.class);
-        AudioFactory.addFormat(new WavFormat());
-        AudioFactory.addFormat(new Sc68Format());
+        audio = AudioFactory.loadAudio(get());
     }
 
     /**
-     * Private constructor.
+     * Get the music media.
+     * 
+     * @return The music media.
      */
-    private AppLionheartPc()
+    public Media get()
     {
-        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
+        return Medias.create(Constant.FOLDER_SOUNDS, name().toLowerCase(Locale.ENGLISH) + Constant.EXTENSION_SFX);
+    }
+
+    /**
+     * Play sound.
+     */
+    public void play()
+    {
+        audio.play();
     }
 }

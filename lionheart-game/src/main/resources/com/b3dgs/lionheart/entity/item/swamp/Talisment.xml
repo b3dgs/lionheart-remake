@@ -9,5 +9,5 @@
     <lionengine:group>3</lionengine:group>
 	<lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="16" mirror="false" />
 	<lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="true"/>
-    <takeable effect="effect/Taken.xml" talisment="1" />
+    <takeable effect="effect/Taken.xml" sfx="ITEM_TAKEN"  talisment="1" />
 </lionengine:featurable>

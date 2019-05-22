@@ -60,6 +60,8 @@ public final class Constant
     public static final String FOLDER_EFFECTS = "effect";
     /** Levels folder. */
     public static final String FOLDER_LEVELS = "levels";
+    /** Sounds folder. */
+    public static final String FOLDER_SOUNDS = "sfx";
     /** Musics folder. */
     public static final String FOLDER_MUSICS = "music";
 
@@ -100,10 +102,10 @@ public final class Constant
     /** Collision steep prefix. */
     public static final String COLL_PREFIX_STEEP_RIGHT = COLL_PREFIX_STEEP + "_right";
 
-    /** Configuration files extension (with dot). */
-    public static final String EXTENSION_XML = ".xml";
     /** Levels file extension (with dot). */
     public static final String EXTENSION_LEVEL = ".lrl";
+    /** Sounds file extension (with dot). */
+    public static final String EXTENSION_SFX = ".wav";
     /** Musics file extension (with dot). */
     public static final String EXTENSION_MUSIC = ".sc68";
 

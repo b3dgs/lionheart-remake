@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.Routine;
 
@@ -98,6 +99,7 @@ public final class SwordShade extends FeatureModel implements Routine
     {
         if (!played && animatable.getFrameAnim() > 1)
         {
+            Sfx.VALDYN_ATTACK.play();
             shade.play(anim);
             played = true;
         }

@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Sfx;
 
 /**
  * Takeable configuration.
@@ -33,6 +34,8 @@ public final class TakeableConfig
     private static final String NODE_TAKEABLE = "takeable";
     /** Effect attribute name. */
     private static final String ATT_EFFECT = "effect";
+    /** Sound attribute name. */
+    private static final String ATT_SFX = "sfx";
     /** Health attribute name. */
     private static final String ATT_HEALTH = "health";
     /** Talisment attribute name. */
@@ -52,15 +55,18 @@ public final class TakeableConfig
         Check.notNull(configurer);
 
         final Media effect = Medias.create(configurer.getString(ATT_EFFECT, NODE_TAKEABLE));
+        final String sfx = configurer.getStringDefault(null, ATT_SFX, NODE_TAKEABLE);
         final int health = configurer.getIntegerDefault(0, ATT_HEALTH, NODE_TAKEABLE);
         final int talisment = configurer.getIntegerDefault(0, ATT_TALISMENT, NODE_TAKEABLE);
         final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_TAKEABLE);
 
-        return new TakeableConfig(effect, health, talisment, life);
+        return new TakeableConfig(effect, sfx, health, talisment, life);
     }
 
     /** Effect media. */
     private final Media effect;
+    /** Effect sound. */
+    private final Sfx sfx;
     /** Health modifier. */
     private final int health;
     /** Talisment modifier. */
@@ -72,11 +78,12 @@ public final class TakeableConfig
      * Create config.
      * 
      * @param effect The effect media (must not be <code>null</code>).
+     * @param sfx The sound type (<code>null</code> if none).
      * @param health The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
      */
-    private TakeableConfig(Media effect, int health, int talisment, int life)
+    private TakeableConfig(Media effect, String sfx, int health, int talisment, int life)
     {
         super();
 
@@ -90,6 +97,7 @@ public final class TakeableConfig
         Check.inferiorOrEqual(life, Constant.STATS_MAX_LIFE);
 
         this.effect = effect;
+        this.sfx = Sfx.valueOf(sfx);
         this.health = health < 0 ? Integer.MAX_VALUE : health;
         this.talisment = talisment;
         this.life = life;
@@ -103,6 +111,16 @@ public final class TakeableConfig
     public Media getEffect()
     {
         return effect;
+    }
+
+    /**
+     * Get the effect sound.
+     * 
+     * @return The effect sound.
+     */
+    public Sfx getSfx()
+    {
+        return sfx;
     }
 
     /**
