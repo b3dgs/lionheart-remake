@@ -22,6 +22,8 @@ import java.io.IOException;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.audio.Audio;
+import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.HandlerPersister;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
@@ -69,6 +71,7 @@ final class World extends WorldGame
     private final FactoryLandscape factoryLandscape;
     private final Hud hud = new Hud();
     private Landscape landscape;
+    private Audio audio;
 
     private double scale = 1;
 
@@ -162,7 +165,7 @@ final class World extends WorldGame
         final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
 
         final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
-        valdynTransformable.teleport(960, 112);
+        valdynTransformable.teleport(200, 64);
         handler.add(valdyn);
         hud.setFeaturable(valdyn);
 
@@ -171,6 +174,10 @@ final class World extends WorldGame
         tracker.setOffset(0, valdynTransformable.getHeight() / 2);
         tracker.track(valdynTransformable);
         handler.add(tracker);
+
+        audio = AudioFactory.loadAudio(Music.SWAMP.get());
+        audio.setVolume(50);
+        audio.play();
 
         zooming.setZoom(scale);
     }
