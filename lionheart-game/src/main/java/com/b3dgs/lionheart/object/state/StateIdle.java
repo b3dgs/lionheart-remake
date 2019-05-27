@@ -17,15 +17,14 @@
  */
 package com.b3dgs.lionheart.object.state;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.BorderDetection;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -41,12 +40,7 @@ public final class StateIdle extends State
     private static final double SPEED = 5.0 / 3.0;
     private static final double WALK_MIN_SPEED = 0.75;
 
-    private final AtomicBoolean collideX = new AtomicBoolean();
-    private final AtomicBoolean collideY = new AtomicBoolean();
     private final BorderDetection border = new BorderDetection(model.getMap());
-
-    private final TileCollidableListener listenerTileCollidable;
-    private final CollidableListener listenerCollidable;
 
     /**
      * Create the state.
@@ -57,36 +51,6 @@ public final class StateIdle extends State
     public StateIdle(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        listenerTileCollidable = (result, category) ->
-        {
-            border.notifyTileCollided(result, category);
-
-            if (Axis.X == category.getAxis())
-            {
-                if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
-                    || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
-                {
-                    tileCollidable.apply(result);
-                    movement.setDirection(DirectionNone.INSTANCE);
-                }
-                collideX.set(true);
-            }
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                body.resetGravity();
-                collideY.set(true);
-            }
-        };
-        listenerCollidable = (collidable, with, by) ->
-        {
-            if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
-            {
-                collideY.set(true);
-            }
-        };
-        collidable.addListener(border);
 
         addTransition(StateBorder.class, () -> collideY.get() && !isGoingHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
@@ -106,23 +70,53 @@ public final class StateIdle extends State
     }
 
     @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideKnee(result, category);
+
+        if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
+            || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        {
+            tileCollidable.apply(result);
+            movement.setDirection(DirectionNone.INSTANCE);
+        }
+    }
+
+    @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        border.notifyTileCollided(result, category);
+        tileCollidable.apply(result);
+        body.resetGravity();
+    }
+
+    @Override
+    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    {
+        super.onCollided(collidable, with, by);
+
+        border.notifyCollided(collidable, with, by);
+        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
+        {
+            collideY.set(true);
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
 
         movement.setVelocity(0.16);
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(listenerCollidable);
         border.reset();
-        collideX.set(false);
-        collideY.set(false);
     }
 
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(listenerCollidable);
+        super.exit();
 
         if (border.isLeft())
         {
@@ -144,8 +138,8 @@ public final class StateIdle extends State
     @Override
     protected void postUpdate()
     {
-        collideX.set(false);
-        collideY.set(false);
+        super.postUpdate();
+
         border.reset();
     }
 }

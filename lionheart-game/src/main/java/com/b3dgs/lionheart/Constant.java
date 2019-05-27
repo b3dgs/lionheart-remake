@@ -85,6 +85,13 @@ public final class Constant
     /** Animation shade prefix. */
     public static final String ANIM_PREFIX_SHADE = "shade_";
 
+    /** Category collision leg prefix. */
+    public static final String COLL_CATEGORY_PREFIX_LEG = "leg";
+    /** Category collision knee prefix. */
+    public static final String COLL_CATEGORY_PREFIX_KNEE = "knee";
+    /** Category collision hand prefix. */
+    public static final String COLL_CATEGORY_PREFIX_HAND = "hand";
+
     /** Collision ground prefix. */
     public static final String COLL_PREFIX_GROUND = "ground";
     /** Collision spike prefix. */

@@ -22,9 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -40,9 +39,6 @@ public class StateLianaSlide extends State
 
     private final AtomicBoolean liana = new AtomicBoolean();
 
-    private final Transformable transformable;
-    private final TileCollidableListener listenerTileCollidable;
-
     private double speed = 1.0;
 
     /**
@@ -55,20 +51,18 @@ public class StateLianaSlide extends State
     {
         super(model, animation);
 
-        transformable = model.getFeature(Transformable.class);
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                if (result.startWith(Constant.COLL_PREFIX_LIANA))
-                {
-                    liana.set(true);
-                }
-            }
-        };
-
         addTransition(StateFall.class, () -> !liana.get() || isGoingDown());
+    }
+
+    @Override
+    protected void onCollideHand(CollisionResult result, CollisionCategory category)
+    {
+        if (result.startWith(Constant.COLL_PREFIX_LIANA))
+        {
+            tileCollidable.apply(result);
+            body.resetGravity();
+            liana.set(true);
+        }
     }
 
     @Override
@@ -77,14 +71,14 @@ public class StateLianaSlide extends State
         super.enter();
 
         movement.setDirection(DirectionNone.INSTANCE);
-        tileCollidable.addListener(listenerTileCollidable);
         liana.set(false);
     }
 
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listenerTileCollidable);
+        super.exit();
+
         if (isGoingUp())
         {
             movement.setDestination(0.0, 0.0);
@@ -114,6 +108,8 @@ public class StateLianaSlide extends State
     @Override
     protected void postUpdate()
     {
+        super.postUpdate();
+
         liana.set(false);
     }
 }

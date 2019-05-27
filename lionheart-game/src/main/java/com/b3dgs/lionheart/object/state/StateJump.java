@@ -26,8 +26,8 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -41,13 +41,12 @@ public final class StateJump extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
-    private final AtomicBoolean collideX = new AtomicBoolean();
     private final AtomicBoolean steep = new AtomicBoolean();
     private final AtomicBoolean steepLeft = new AtomicBoolean();
     private final AtomicBoolean steepRight = new AtomicBoolean();
 
-    private final TileCollidableListener listenerTileCollidable;
     private final Updatable checkJumpStopped;
+
     private Updatable check;
 
     /**
@@ -59,25 +58,6 @@ public final class StateJump extends State
     public StateJump(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.Y == category.getAxis() && result.startWith(Constant.COLL_PREFIX_STEEP))
-            {
-                tileCollidable.apply(result);
-                body.resetGravity();
-                if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
-                {
-                    steep.set(true);
-                    steepLeft.set(true);
-                }
-                else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
-                {
-                    steep.set(true);
-                    steepRight.set(true);
-                }
-            }
-        };
 
         addTransition(StateSlide.class, steep::get);
         addTransition(StateFall.class,
@@ -100,18 +80,38 @@ public final class StateJump extends State
     }
 
     @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        if (result.startWith(Constant.COLL_PREFIX_STEEP))
+        {
+            tileCollidable.apply(result);
+            body.resetGravity();
+
+            if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+            {
+                steep.set(true);
+                steepLeft.set(true);
+            }
+            else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+            {
+                steep.set(true);
+                steepRight.set(true);
+            }
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
-
-        tileCollidable.addListener(listenerTileCollidable);
 
         check = checkJumpStopped;
 
         jump.setDirection(0.0, Constant.JUMP_MAX);
         jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
 
-        collideX.set(false);
         steep.set(false);
         steepLeft.set(false);
         steepRight.set(false);
@@ -120,7 +120,7 @@ public final class StateJump extends State
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listenerTileCollidable);
+        super.exit();
 
         jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
 
@@ -143,6 +143,7 @@ public final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
+
         if (!collideX.get())
         {
             movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
@@ -152,6 +153,8 @@ public final class StateJump extends State
     @Override
     protected void postUpdate()
     {
+        super.postUpdate();
+
         if (isGoingHorizontal()
             && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
                  || movement.getDirectionHorizontal() > 0 && isGoingLeft())

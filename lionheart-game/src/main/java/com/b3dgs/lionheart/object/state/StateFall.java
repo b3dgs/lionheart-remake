@@ -22,9 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -40,16 +41,13 @@ public final class StateFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
-    private final AtomicBoolean collideY = new AtomicBoolean();
     private final AtomicBoolean steep = new AtomicBoolean();
     private final AtomicBoolean steepLeft = new AtomicBoolean();
     private final AtomicBoolean steepRight = new AtomicBoolean();
+
     private final AtomicBoolean liana = new AtomicBoolean();
     private final AtomicBoolean lianaLeft = new AtomicBoolean();
     private final AtomicBoolean lianaRight = new AtomicBoolean();
-
-    private final TileCollidableListener listenerTileCollidable;
-    private final CollidableListener listenerCollidable;
 
     /**
      * Create the state.
@@ -61,50 +59,7 @@ public final class StateFall extends State
     {
         super(model, animation);
 
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                jump.setDirection(DirectionNone.INSTANCE);
-                body.resetGravity();
-                collideY.set(true);
-                if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
-                {
-                    steep.set(true);
-                    steepLeft.set(true);
-                }
-                else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
-                {
-                    steep.set(true);
-                    steepRight.set(true);
-                }
-                else if (result.startWith(Constant.COLL_PREFIX_LIANA_LEFT))
-                {
-                    liana.set(true);
-                    lianaLeft.set(true);
-                }
-                else if (result.startWith(Constant.COLL_PREFIX_LIANA_RIGHT))
-                {
-                    liana.set(true);
-                    lianaRight.set(true);
-                }
-                else if (result.startWith(Constant.COLL_PREFIX_LIANA))
-                {
-                    liana.set(true);
-                }
-            }
-        };
-        listenerCollidable = (collidable, with, by) ->
-        {
-            if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
-            {
-                collideY.set(true);
-            }
-        };
-
-        addTransition(StateLand.class,
-                      () -> !liana.get() && !steep.get() && collideY.get() && !model.hasFeature(Patrol.class));
+        addTransition(StateLand.class, () -> !steep.get() && collideY.get() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
         addTransition(StateSlide.class, steep::get);
         addTransition(StateLianaIdle.class,
@@ -115,13 +70,60 @@ public final class StateFall extends State
     }
 
     @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        tileCollidable.apply(result);
+        jump.setDirection(DirectionNone.INSTANCE);
+        body.resetGravity();
+
+        if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        {
+            steep.set(true);
+            steepLeft.set(true);
+        }
+        else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+        {
+            steep.set(true);
+            steepRight.set(true);
+        }
+    }
+
+    @Override
+    protected void onCollideHand(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideHand(result, category);
+
+        if (result.startWith(Constant.COLL_PREFIX_LIANA))
+        {
+            liana.set(true);
+        }
+        if (result.startWith(Constant.COLL_PREFIX_LIANA_LEFT))
+        {
+            lianaLeft.set(true);
+        }
+        else if (result.startWith(Constant.COLL_PREFIX_LIANA_RIGHT))
+        {
+            lianaRight.set(true);
+        }
+    }
+
+    @Override
+    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    {
+        super.onCollided(collidable, with, by);
+
+        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
+        {
+            collideY.set(true);
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
-
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(listenerCollidable);
-        collideY.set(false);
 
         steep.set(false);
         steepLeft.set(false);
@@ -135,8 +137,7 @@ public final class StateFall extends State
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(listenerCollidable);
+        super.exit();
 
         if (mirrorable.is(Mirror.NONE) && (steepLeft.get() || lianaLeft.get()))
         {

@@ -22,13 +22,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
 
 /**
  * Liana walk state implementation.
@@ -39,10 +37,7 @@ final class StateLianaWalk extends State
     private static final double ANIM_SPEED_DIVISOR = 4.0;
     private static final double WALK_MIN_SPEED = 0.005;
 
-    private final AtomicBoolean collideY = new AtomicBoolean();
-
-    private final TileCollidableListener listenerTileCollidable;
-    private final CollidableListener listenerCollidable;
+    private final AtomicBoolean liana = new AtomicBoolean();
 
     /**
      * Create the state.
@@ -54,24 +49,8 @@ final class StateLianaWalk extends State
     {
         super(model, animation);
 
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                collideY.set(true);
-            }
-        };
-        listenerCollidable = (collidable, with, by) ->
-        {
-            if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
-            {
-                collideY.set(true);
-            }
-        };
-
         addTransition(StateLianaIdle.class, () -> isWalkingSlowEnough());
-        addTransition(StateFall.class, () -> !collideY.get() || isGoingDown());
+        addTransition(StateFall.class, () -> !liana.get() || isGoingDown());
     }
 
     private boolean isWalkingSlowEnough()
@@ -81,22 +60,30 @@ final class StateLianaWalk extends State
     }
 
     @Override
+    protected void onCollideHand(CollisionResult result, CollisionCategory category)
+    {
+        if (result.startWith(Constant.COLL_PREFIX_LIANA))
+        {
+            tileCollidable.apply(result);
+            body.resetGravity();
+            liana.set(true);
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
 
         movement.setDirection(DirectionNone.INSTANCE);
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(listenerCollidable);
-
-        collideY.set(false);
+        liana.set(false);
     }
 
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(listenerCollidable);
+        super.exit();
+
         if (isGoingDown())
         {
             transformable.teleportY(transformable.getY() - 1.0);
@@ -113,6 +100,8 @@ final class StateLianaWalk extends State
     @Override
     protected void postUpdate()
     {
-        collideY.set(false);
+        super.postUpdate();
+
+        liana.set(false);
     }
 }

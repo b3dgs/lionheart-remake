@@ -17,6 +17,8 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
@@ -25,8 +27,14 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateAbstract;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.InputDeviceControl;
 import com.b3dgs.lionheart.InputDeviceControlDelegate;
 
@@ -57,6 +65,13 @@ public abstract class State extends StateAbstract
     protected final Force jump;
     /** Input device control. */
     protected final InputDeviceControl control;
+    /** Horizontal collision flag. */
+    protected final AtomicBoolean collideX = new AtomicBoolean();
+    /** Vertical collision flag. */
+    protected final AtomicBoolean collideY = new AtomicBoolean();
+
+    /** Tile collidable listener. */
+    private final TileCollidableListener listenerTileCollidable;
 
     /**
      * Create the state.
@@ -79,6 +94,73 @@ public abstract class State extends StateAbstract
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
         control = new InputDeviceControlDelegate(model::getInput);
+
+        listenerTileCollidable = (result, category) ->
+        {
+            if (Axis.X == category.getAxis())
+            {
+                if (category.getName().startsWith(Constant.COLL_CATEGORY_PREFIX_KNEE))
+                {
+                    onCollideKnee(result, category);
+                }
+            }
+            else if (Axis.Y == category.getAxis())
+            {
+                if (category.getName().startsWith(Constant.COLL_CATEGORY_PREFIX_LEG))
+                {
+                    onCollideLeg(result, category);
+                }
+                else if (category.getName().startsWith(Constant.COLL_CATEGORY_PREFIX_HAND))
+                {
+                    onCollideHand(result, category);
+                }
+            }
+        };
+    }
+
+    /**
+     * Called when a tile collision occurred on horizontal axis with knee.
+     * 
+     * @param result The collided tile.
+     * @param category The collided axis.
+     */
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        collideX.set(true);
+    }
+
+    /**
+     * Called when a tile collision occurred on vertical axis with leg.
+     * 
+     * @param result The collided tile.
+     * @param category The collided axis.
+     */
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        collideY.set(true);
+    }
+
+    /**
+     * Called when a tile collision occurred on vertical axis with hand.
+     * 
+     * @param result The collided tile.
+     * @param category The collided axis.
+     */
+    protected void onCollideHand(CollisionResult result, CollisionCategory category)
+    {
+        // Nothing by default
+    }
+
+    /**
+     * Called when a collision occurred with another {@link Collidable}. Does nothing by default.
+     * 
+     * @param collidable The collidable reference.
+     * @param with The collision collided with (source).
+     * @param by The collision collided by (other).
+     */
+    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    {
+        // Nothing by default
     }
 
     /**
@@ -206,6 +288,17 @@ public abstract class State extends StateAbstract
     public void enter()
     {
         animatable.play(animation);
+        tileCollidable.addListener(listenerTileCollidable);
+        collidable.addListener(this::onCollided);
+        collideX.set(false);
+        collideY.set(false);
+    }
+
+    @Override
+    public void exit()
+    {
+        tileCollidable.removeListener(listenerTileCollidable);
+        collidable.removeListener(this::onCollided);
     }
 
     /**
@@ -215,5 +308,12 @@ public abstract class State extends StateAbstract
     public void update(double extrp)
     {
         // Nothing by default
+    }
+
+    @Override
+    protected void postUpdate()
+    {
+        collideX.set(false);
+        collideY.set(false);
     }
 }

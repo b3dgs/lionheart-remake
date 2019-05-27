@@ -22,8 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -38,8 +38,6 @@ public class StateSlideBase extends State
 
     private final AtomicBoolean steep = new AtomicBoolean();
 
-    private final TileCollidableListener listenerTileCollidable;
-
     private double speed = 0.5;
 
     /**
@@ -51,18 +49,6 @@ public class StateSlideBase extends State
     public StateSlideBase(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-            }
-            if (result.startWith(Constant.COLL_PREFIX_STEEP))
-            {
-                steep.set(true);
-            }
-        };
 
         addTransition(StateLand.class, () -> !steep.get());
         addTransition(StateJump.class, this::isGoingUp);
@@ -79,18 +65,30 @@ public class StateSlideBase extends State
     }
 
     @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        tileCollidable.apply(result);
+        if (result.startWith(Constant.COLL_PREFIX_STEEP))
+        {
+            steep.set(true);
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
 
-        tileCollidable.addListener(listenerTileCollidable);
         steep.set(false);
     }
 
     @Override
     public void exit()
     {
-        tileCollidable.removeListener(listenerTileCollidable);
+        super.exit();
+
         if (isGoingUp())
         {
             movement.setDestination(0.0, 0.0);
@@ -108,6 +106,8 @@ public class StateSlideBase extends State
     @Override
     protected void postUpdate()
     {
+        super.postUpdate();
+
         steep.set(false);
     }
 }

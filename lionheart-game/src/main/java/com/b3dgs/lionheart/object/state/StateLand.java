@@ -17,13 +17,12 @@
  */
 package com.b3dgs.lionheart.object.state;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -38,11 +37,7 @@ public final class StateLand extends State
     private static final double SPEED = 5.0 / 3.0;
     private static final long LAND_TICK = 10L;
 
-    private final AtomicBoolean collideY = new AtomicBoolean();
     private final Tick landed = new Tick();
-
-    private final TileCollidableListener listenerTileCollidable;
-    private final CollidableListener listenerCollidable;
 
     /**
      * Create the state.
@@ -54,26 +49,6 @@ public final class StateLand extends State
     {
         super(model, animation);
 
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.X == category.getAxis())
-            {
-                tileCollidable.apply(result);
-            }
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                collideY.set(true);
-            }
-        };
-        listenerCollidable = (collidable, with, by) ->
-        {
-            if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
-            {
-                collideY.set(true);
-            }
-        };
-
         addTransition(StateIdle.class, () -> !isGoingDown() && landed.elapsed(LAND_TICK));
         addTransition(StateJump.class, this::isGoingUpOnce);
         addTransition(StateCrouch.class, this::isGoingDown);
@@ -83,20 +58,38 @@ public final class StateLand extends State
     }
 
     @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideKnee(result, category);
+
+        tileCollidable.apply(result);
+    }
+
+    @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        tileCollidable.apply(result);
+    }
+
+    @Override
+    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    {
+        super.onCollided(collidable, with, by);
+
+        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
+        {
+            collideY.set(true);
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
 
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(listenerCollidable);
         landed.restart();
-    }
-
-    @Override
-    public void exit()
-    {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(listenerCollidable);
     }
 
     @Override

@@ -22,9 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -40,13 +41,8 @@ final class StateWalk extends State
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.005;
 
-    private final AtomicBoolean collideX = new AtomicBoolean();
-    private final AtomicBoolean collideY = new AtomicBoolean();
     private final AtomicBoolean slopeRising = new AtomicBoolean();
     private final AtomicBoolean slopeDescending = new AtomicBoolean();
-
-    private final TileCollidableListener listenerTileCollidable;
-    private final CollidableListener listenerCollidable;
 
     private double speedSlope = 0.0;
 
@@ -59,48 +55,6 @@ final class StateWalk extends State
     public StateWalk(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.X == category.getAxis())
-            {
-                if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
-                    || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
-                {
-                    tileCollidable.apply(result);
-                    movement.setDirection(DirectionNone.INSTANCE);
-                }
-                collideX.set(true);
-            }
-            if (Axis.Y == category.getAxis())
-            {
-                tileCollidable.apply(result);
-                collideY.set(true);
-                if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT)
-                    || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT))
-                {
-                    slopeRising.set(true);
-                    speedSlope = -0.3;
-                }
-                else if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT)
-                         || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT))
-                {
-                    slopeDescending.set(true);
-                    speedSlope = 0.3;
-                }
-                else
-                {
-                    speedSlope = 0.0;
-                }
-            }
-        };
-        listenerCollidable = (collidable, with, by) ->
-        {
-            if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
-            {
-                collideY.set(true);
-            }
-        };
 
         addTransition(StateIdle.class, () -> collideX.get() || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoingDown);
@@ -119,23 +73,60 @@ final class StateWalk extends State
     }
 
     @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideKnee(result, category);
+
+        if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
+            || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        {
+            tileCollidable.apply(result);
+            movement.setDirection(DirectionNone.INSTANCE);
+        }
+    }
+
+    @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        tileCollidable.apply(result);
+
+        if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT)
+            || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT))
+        {
+            slopeRising.set(true);
+            speedSlope = -0.3;
+        }
+        else if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT)
+                 || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT))
+        {
+            slopeDescending.set(true);
+            speedSlope = 0.3;
+        }
+        else
+        {
+            speedSlope = 0.0;
+        }
+    }
+
+    @Override
+    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    {
+        super.onCollided(collidable, with, by);
+
+        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
+        {
+            collideY.set(true);
+        }
+    }
+
+    @Override
     public void enter()
     {
         super.enter();
 
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(listenerCollidable);
-
-        collideX.set(false);
-        collideY.set(false);
         speedSlope = 0.0;
-    }
-
-    @Override
-    public void exit()
-    {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(listenerCollidable);
     }
 
     @Override
@@ -148,6 +139,8 @@ final class StateWalk extends State
     @Override
     protected void postUpdate()
     {
+        super.postUpdate();
+
         if (isGoingHorizontal()
             && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
                  || movement.getDirectionHorizontal() > 0 && isGoingLeft())
@@ -161,8 +154,6 @@ final class StateWalk extends State
             movement.setVelocity(0.12);
         }
 
-        collideX.set(false);
-        collideY.set(false);
         slopeRising.set(false);
         slopeDescending.set(false);
     }
