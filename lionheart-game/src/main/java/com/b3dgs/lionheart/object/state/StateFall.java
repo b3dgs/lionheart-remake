@@ -44,6 +44,9 @@ public final class StateFall extends State
     private final AtomicBoolean steep = new AtomicBoolean();
     private final AtomicBoolean steepLeft = new AtomicBoolean();
     private final AtomicBoolean steepRight = new AtomicBoolean();
+    private final AtomicBoolean liana = new AtomicBoolean();
+    private final AtomicBoolean lianaLeft = new AtomicBoolean();
+    private final AtomicBoolean lianaRight = new AtomicBoolean();
 
     private final TileCollidableListener listenerTileCollidable;
     private final CollidableListener listenerCollidable;
@@ -76,6 +79,20 @@ public final class StateFall extends State
                     steep.set(true);
                     steepRight.set(true);
                 }
+                else if (result.startWith(Constant.COLL_PREFIX_LIANA_LEFT))
+                {
+                    liana.set(true);
+                    lianaLeft.set(true);
+                }
+                else if (result.startWith(Constant.COLL_PREFIX_LIANA_RIGHT))
+                {
+                    liana.set(true);
+                    lianaRight.set(true);
+                }
+                else if (result.startWith(Constant.COLL_PREFIX_LIANA))
+                {
+                    liana.set(true);
+                }
             }
         };
         listenerCollidable = (collidable, with, by) ->
@@ -86,9 +103,13 @@ public final class StateFall extends State
             }
         };
 
-        addTransition(StateLand.class, () -> !steep.get() && collideY.get() && !model.hasFeature(Patrol.class));
+        addTransition(StateLand.class,
+                      () -> !liana.get() && !steep.get() && collideY.get() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
         addTransition(StateSlide.class, steep::get);
+        addTransition(StateLianaIdle.class,
+                      () -> liana.get() && !lianaLeft.get() && !lianaRight.get() && !isGoingDown());
+        addTransition(StateLianaSlide.class, () -> (lianaLeft.get() || lianaRight.get()) && !isGoingDown());
         addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> !collideY.get() && control.isFireButton() && isGoingDown());
     }
@@ -101,9 +122,14 @@ public final class StateFall extends State
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(listenerCollidable);
         collideY.set(false);
+
         steep.set(false);
         steepLeft.set(false);
         steepRight.set(false);
+
+        liana.set(false);
+        lianaLeft.set(false);
+        lianaRight.set(false);
     }
 
     @Override
@@ -112,13 +138,13 @@ public final class StateFall extends State
         tileCollidable.removeListener(listenerTileCollidable);
         collidable.removeListener(listenerCollidable);
 
-        if (mirrorable.is(Mirror.NONE) && steepLeft.get())
+        if (mirrorable.is(Mirror.NONE) && (steepLeft.get() || lianaLeft.get()))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
             movement.setDirection(DirectionNone.INSTANCE);
             movement.setDestination(0.0, 0.0);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && steepRight.get())
+        else if (mirrorable.is(Mirror.HORIZONTAL) && (steepRight.get() || lianaRight.get()))
         {
             mirrorable.mirror(Mirror.NONE);
             movement.setDirection(DirectionNone.INSTANCE);

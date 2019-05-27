@@ -101,6 +101,12 @@ public final class Constant
     public static final String COLL_PREFIX_STEEP_LEFT = COLL_PREFIX_STEEP + "_left";
     /** Collision steep prefix. */
     public static final String COLL_PREFIX_STEEP_RIGHT = COLL_PREFIX_STEEP + "_right";
+    /** Collision steep prefix. */
+    public static final String COLL_PREFIX_LIANA = "liana";
+    /** Collision steep prefix. */
+    public static final String COLL_PREFIX_LIANA_LEFT = COLL_PREFIX_LIANA + "_left";
+    /** Collision steep prefix. */
+    public static final String COLL_PREFIX_LIANA_RIGHT = COLL_PREFIX_LIANA + "_right";
 
     /** Levels file extension (with dot). */
     public static final String EXTENSION_LEVEL = ".lrl";

@@ -9,7 +9,7 @@
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
-    <lionengine:category name="hand_center" axis="Y" x="0" y="80" glue="true">
+    <lionengine:category name="hand_center" axis="Y" x="0" y="62" glue="true">
         <lionengine:group>liana_left</lionengine:group>
         <lionengine:group>liana_right</lionengine:group>
         <lionengine:group>liana_horizontal</lionengine:group>
@@ -79,9 +79,9 @@
 	<lionengine:animation name="slide" start="24" end="24" speed="0.1" reversed="false" repeat="false" />
 	<lionengine:animation name="slidefast" start="25" end="25" speed="0.1" reversed="false" repeat="false" />
 	<lionengine:animation name="slideslow" start="23" end="23" speed="0.1" reversed="false" repeat="false" />
-	<lionengine:animation name="liana_idle" start="56" end="56" speed="0.2" reversed="false" repeat="false" />
-	<lionengine:animation name="liana_walk" start="36" end="44" speed="0.2" reversed="false" repeat="true" />
-	<lionengine:animation name="liana_slide" start="53" end="59" speed="0.2" reversed="true" repeat="true" />
+	<lionengine:animation name="lianaidle" start="56" end="56" speed="0.2" reversed="false" repeat="false" />
+	<lionengine:animation name="lianawalk" start="36" end="44" speed="0.2" reversed="false" repeat="true" />
+	<lionengine:animation name="lianaslide" start="53" end="59" speed="0.2" reversed="true" repeat="true" />
 	<lionengine:animation name="liana_soar" start="72" end="82" speed="0.2" reversed="false" repeat="false" />
 	<lionengine:animation name="groundhoockable_idle" start="72" end="72" speed="0.2" reversed="false" repeat="false" />
 	<lionengine:animation name="ground_soar" start="72" end="82" speed="0.2" reversed="false" repeat="false" />
