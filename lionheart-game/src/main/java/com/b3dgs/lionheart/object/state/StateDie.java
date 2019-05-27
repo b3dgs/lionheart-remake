@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -52,6 +53,7 @@ public final class StateDie extends State
 
         stats.applyDamages(stats.getHealth());
         movement.setDirection(DirectionNone.INSTANCE);
+        Sfx.VALDYN_DIE.play();
     }
 
     @Override
