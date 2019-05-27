@@ -9,6 +9,11 @@
 	<lionengine:frames horizontal="13" vertical="12" />
 	<lionengine:size width="20" height="55" />
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
+    <lionengine:category name="hand_center" axis="Y" x="0" y="80" glue="true">
+        <lionengine:group>liana_left</lionengine:group>
+        <lionengine:group>liana_right</lionengine:group>
+        <lionengine:group>liana_horizontal</lionengine:group>
+    </lionengine:category>
     <lionengine:category name="knee_left" axis="X" x="-12" y="1">
         <lionengine:group>spike</lionengine:group>
         <lionengine:group>steep_right_0</lionengine:group>
