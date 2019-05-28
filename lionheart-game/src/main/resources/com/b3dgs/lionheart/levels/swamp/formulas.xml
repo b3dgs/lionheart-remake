@@ -12,6 +12,10 @@
         <lionengine:range maxX="0" maxY="16" minX="0" minY="0" output="X"/>
         <lionengine:function a="0.0" b="0.0" type="LINEAR"/>
     </lionengine:formula>
+    <lionengine:formula name="steep_left_vertical">
+        <lionengine:range maxX="0" maxY="2" minX="0" minY="1" output="X"/>
+        <lionengine:function a="0.0" b="12.0" type="LINEAR"/>
+    </lionengine:formula>
     <lionengine:formula name="steep_right_vertical">
         <lionengine:range maxX="0" maxY="2" minX="0" minY="1" output="X"/>
         <lionengine:function a="0.0" b="4.0" type="LINEAR"/>
@@ -36,6 +40,10 @@
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="2.0" b="-16.0" type="LINEAR"/>
     </lionengine:formula>
+    <lionengine:formula name="liana_right">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="-1.0" b="16.0" type="LINEAR"/>
+    </lionengine:formula>
     <lionengine:formula name="slope_left_1">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.5" b="8.0" type="LINEAR"/>
@@ -59,9 +67,5 @@
     <lionengine:formula name="spike_vertical_right">
         <lionengine:range maxX="0" maxY="16" minX="0" minY="0" output="X"/>
         <lionengine:function a="0.0" b="16.0" type="LINEAR"/>
-    </lionengine:formula>
-    <lionengine:formula name="liana_right">
-        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
-        <lionengine:function a="-1.0" b="16.0" type="LINEAR"/>
     </lionengine:formula>
 </lionengine:formulas>
