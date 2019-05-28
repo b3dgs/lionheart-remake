@@ -39,6 +39,7 @@ public class StateSlideBase extends State
     private final AtomicBoolean steep = new AtomicBoolean();
 
     private double speed = 0.5;
+    private int side = 1;
 
     /**
      * Create the state.
@@ -74,6 +75,14 @@ public class StateSlideBase extends State
         {
             steep.set(true);
         }
+        if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        {
+            side = -1;
+        }
+        else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+        {
+            side = 1;
+        }
     }
 
     @Override
@@ -92,7 +101,7 @@ public class StateSlideBase extends State
         if (isGoingUp())
         {
             movement.setDestination(0.0, 0.0);
-            movement.setDirection(SPEED_JUMP_X, 0.0);
+            movement.setDirection(SPEED_JUMP_X * side, 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);
         }
     }
@@ -100,7 +109,7 @@ public class StateSlideBase extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(speed, -speed * 2.0);
+        movement.setDestination(speed * side, -speed * 2.0);
     }
 
     @Override
