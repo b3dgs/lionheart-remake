@@ -2,16 +2,16 @@
 <lionengine:collisions xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:collision group="steep_right_1">
         <lionengine:formula>steep_right_1</lionengine:formula>
-        <lionengine:formula>steep_right_vertical</lionengine:formula>
+        <lionengine:formula>steep_right_1_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_right_0">
         <lionengine:formula>steep_right_0</lionengine:formula>
-        <lionengine:formula>steep_right_vertical</lionengine:formula>
+        <lionengine:formula>steep_right_0_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_left_ground">
         <lionengine:formula>steep_left_0</lionengine:formula>
-        <lionengine:formula>ground</lionengine:formula>
-        <lionengine:formula>steep_left_vertical</lionengine:formula>
+        <lionengine:formula>steep_left_0_vertical</lionengine:formula>
+        <lionengine:formula>steep_left_ground</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="slope_right_1">
         <lionengine:formula>slope_right_1</lionengine:formula>
@@ -19,25 +19,25 @@
     <lionengine:collision group="liana_horizontal">
         <lionengine:formula>liana_horizontal</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="steep_left_0">
+        <lionengine:formula>steep_left_0</lionengine:formula>
+        <lionengine:formula>steep_left_0_vertical</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="slope_left_0">
         <lionengine:formula>slope_left_0</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="slope_right_0">
         <lionengine:formula>slope_right_0</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="steep_left_0">
-        <lionengine:formula>steep_left_0</lionengine:formula>
-        <lionengine:formula>steep_left_vertical</lionengine:formula>
-    </lionengine:collision>
     <lionengine:collision group="liana_right">
         <lionengine:formula>liana_right</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="slope_left_1">
-        <lionengine:formula>slope_left_1</lionengine:formula>
-    </lionengine:collision>
     <lionengine:collision group="steep_left_1">
         <lionengine:formula>steep_left_1</lionengine:formula>
-        <lionengine:formula>steep_left_vertical</lionengine:formula>
+        <lionengine:formula>steep_left_1_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="slope_left_1">
+        <lionengine:formula>slope_left_1</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="spike">
         <lionengine:formula>ground</lionengine:formula>
@@ -47,6 +47,9 @@
     </lionengine:collision>
     <lionengine:collision group="liana_left">
         <lionengine:formula>liana_left</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="steep_vertical">
+        <lionengine:formula>steep_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="ground">
         <lionengine:formula>ground</lionengine:formula>

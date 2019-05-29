@@ -56,7 +56,10 @@ final class StateWalk extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> collideX.get() || isWalkingSlowEnough());
+        addTransition(StateIdle.class,
+                      () -> isGoingRight() && collideXright.get()
+                            || isGoingLeft() && collideXleft.get()
+                            || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
@@ -77,11 +80,12 @@ final class StateWalk extends State
     {
         super.onCollideKnee(result, category);
 
-        if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
-            || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
+            || movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
         {
             tileCollidable.apply(result);
             movement.setDirection(DirectionNone.INSTANCE);
+            movement.setDestination(0.0, 0.0);
         }
     }
 
@@ -92,14 +96,14 @@ final class StateWalk extends State
 
         tileCollidable.apply(result);
 
-        if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT)
-            || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT))
+        if (movement.getDirectionHorizontal() > 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_LEFT)
+            || movement.getDirectionHorizontal() < 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_RIGHT))
         {
             slopeRising.set(true);
             speedSlope = -0.3;
         }
-        else if (isGoingRight() && result.startWith(Constant.COLL_PREFIX_SLOPE_RIGHT)
-                 || isGoingLeft() && result.startWith(Constant.COLL_PREFIX_SLOPE_LEFT))
+        else if (movement.getDirectionHorizontal() > 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_RIGHT)
+                 || movement.getDirectionHorizontal() < 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_LEFT))
         {
             slopeDescending.set(true);
             speedSlope = 0.3;

@@ -98,21 +98,25 @@ public final class Constant
     public static final String COLL_PREFIX_SPIKE = "spike";
     /** Collision slope prefix. */
     public static final String COLL_PREFIX_SLOPE = "slope";
-    /** Collision slope prefix. */
+    /** Collision slope left prefix. */
     public static final String COLL_PREFIX_SLOPE_LEFT = COLL_PREFIX_SLOPE + "_left";
-    /** Collision slope prefix. */
+    /** Collision slope right prefix. */
     public static final String COLL_PREFIX_SLOPE_RIGHT = COLL_PREFIX_SLOPE + "_right";
     /** Collision steep prefix. */
     public static final String COLL_PREFIX_STEEP = "steep";
-    /** Collision steep prefix. */
+    /** Collision steep left prefix. */
     public static final String COLL_PREFIX_STEEP_LEFT = COLL_PREFIX_STEEP + "_left";
-    /** Collision steep prefix. */
+    /** Collision steep left ground prefix. */
+    public static final String COLL_PREFIX_STEEP_LEFT_GROUND = COLL_PREFIX_STEEP + "_left_ground";
+    /** Collision steep right prefix. */
     public static final String COLL_PREFIX_STEEP_RIGHT = COLL_PREFIX_STEEP + "_right";
-    /** Collision steep prefix. */
+    /** Collision steep vertical prefix. */
+    public static final String COLL_PREFIX_STEEP_VERTICAL = COLL_PREFIX_STEEP + "_vertical";
+    /** Collision liana prefix. */
     public static final String COLL_PREFIX_LIANA = "liana";
-    /** Collision steep prefix. */
+    /** Collision liana left prefix. */
     public static final String COLL_PREFIX_LIANA_LEFT = COLL_PREFIX_LIANA + "_left";
-    /** Collision steep prefix. */
+    /** Collision liana right prefix. */
     public static final String COLL_PREFIX_LIANA_RIGHT = COLL_PREFIX_LIANA + "_right";
 
     /** Levels file extension (with dot). */

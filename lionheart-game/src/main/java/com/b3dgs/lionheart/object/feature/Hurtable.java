@@ -195,7 +195,7 @@ public final class Hurtable extends FeatureModel
     {
         if (recover.elapsed(HURT_RECOVER_BODY_TICK)
             && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
-            && result.startWith(Constant.COLL_PREFIX_SPIKE))
+            && result.startWithY(Constant.COLL_PREFIX_SPIKE))
         {
             model.getMovement().setDirection(DirectionNone.INSTANCE);
             model.getMovement().setDestination(0.0, 0.0);

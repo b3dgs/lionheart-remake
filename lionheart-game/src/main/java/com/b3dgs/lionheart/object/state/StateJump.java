@@ -59,10 +59,12 @@ public final class StateJump extends State
     {
         super(model, animation);
 
-        addTransition(StateSlide.class, steep::get);
         addTransition(StateFall.class,
-                      () -> Double.compare(jump.getDirectionVertical(), 0.0) <= 0
-                            || transformable.getY() < transformable.getOldY());
+                      () -> (Double.compare(jump.getDirectionVertical(), 0.0) <= 0
+                             || transformable.getY() < transformable.getOldY()));
+        addTransition(StateSlide.class,
+                      () -> transformable.getY() > transformable.getOldY()
+                            && (steepLeft.get() && isGoingRight() || steepRight.get() && isGoingLeft()));
         addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
 
@@ -84,17 +86,40 @@ public final class StateJump extends State
     {
         super.onCollideLeg(result, category);
 
-        if (result.startWith(Constant.COLL_PREFIX_STEEP))
+        if (result.startWithY(Constant.COLL_PREFIX_STEEP))
         {
-            tileCollidable.apply(result);
             body.resetGravity();
 
-            if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+            if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
             {
                 steep.set(true);
                 steepLeft.set(true);
             }
-            else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+            else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
+            {
+                steep.set(true);
+                steepRight.set(true);
+            }
+        }
+    }
+
+    @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideKnee(result, category);
+
+        if (result.startWithX(Constant.COLL_PREFIX_STEEP_VERTICAL))
+        {
+            tileCollidable.apply(result);
+        }
+        if (result.startWithX(Constant.COLL_PREFIX_STEEP))
+        {
+            if (result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
+            {
+                steep.set(true);
+                steepLeft.set(true);
+            }
+            else if (result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT))
             {
                 steep.set(true);
                 steepRight.set(true);
@@ -143,11 +168,7 @@ public final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
-
-        if (!collideX.get())
-        {
-            movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
-        }
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 
     @Override
@@ -167,5 +188,9 @@ public final class StateJump extends State
         {
             movement.setVelocity(0.12);
         }
+
+        steep.set(false);
+        steepLeft.set(false);
+        steepRight.set(false);
     }
 }

@@ -20,7 +20,9 @@ package com.b3dgs.lionheart.object.state;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Direction;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
@@ -33,10 +35,13 @@ import com.b3dgs.lionheart.object.State;
  */
 public class StateSlideBase extends State
 {
-    private static final double SPEED_JUMP_X = 3.5;
+    private static final double SPEED_JUMP_X = 1.5;
     private static final Direction SPEED_JUMP_Y = new Force(0.0, 2.5);
 
     private final AtomicBoolean steep = new AtomicBoolean();
+    private final AtomicBoolean steepLeft = new AtomicBoolean();
+    private final AtomicBoolean steepRight = new AtomicBoolean();
+    private final AtomicBoolean abord = new AtomicBoolean();
 
     private double speed = 0.5;
     private int side = 1;
@@ -51,7 +56,7 @@ public class StateSlideBase extends State
     {
         super(model, animation);
 
-        addTransition(StateLand.class, () -> !steep.get());
+        addTransition(StateIdle.class, () -> !steep.get() || abord.get());
         addTransition(StateJump.class, this::isGoingUp);
     }
 
@@ -71,17 +76,24 @@ public class StateSlideBase extends State
         super.onCollideLeg(result, category);
 
         tileCollidable.apply(result);
-        if (result.startWith(Constant.COLL_PREFIX_STEEP))
-        {
-            steep.set(true);
-        }
-        if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+
+        if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
         {
             side = -1;
+            steep.set(true);
+            steepLeft.set(true);
         }
-        else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+        else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
         {
             side = 1;
+            steep.set(true);
+            steepRight.set(true);
+        }
+
+        if (result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT_GROUND)
+            && result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT_GROUND))
+        {
+            abord.set(true);
         }
     }
 
@@ -90,7 +102,12 @@ public class StateSlideBase extends State
     {
         super.enter();
 
-        steep.set(false);
+        movement.setDirection(DirectionNone.INSTANCE);
+        movement.setDestination(0.0, 0.0);
+        steep.set(true);
+        steepLeft.set(false);
+        steepRight.set(false);
+        abord.set(false);
     }
 
     @Override
@@ -103,6 +120,15 @@ public class StateSlideBase extends State
             movement.setDestination(0.0, 0.0);
             movement.setDirection(SPEED_JUMP_X * side, 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);
+
+            if (steepLeft.get())
+            {
+                transformable.teleportX(transformable.getX() - 2);
+            }
+            else if (steepRight.get())
+            {
+                transformable.teleportX(transformable.getX() + 2);
+            }
         }
     }
 
@@ -117,6 +143,17 @@ public class StateSlideBase extends State
     {
         super.postUpdate();
 
+        if (mirrorable.is(Mirror.NONE) && steepLeft.get())
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (mirrorable.is(Mirror.HORIZONTAL) && steepRight.get())
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+
         steep.set(false);
+        steepLeft.set(false);
+        steepRight.set(false);
     }
 }

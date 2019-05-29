@@ -17,6 +17,8 @@
  */
 package com.b3dgs.lionheart.object.state;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
@@ -42,6 +44,10 @@ public final class StateIdle extends State
 
     private final BorderDetection border = new BorderDetection(model.getMap());
 
+    private final AtomicBoolean steep = new AtomicBoolean();
+    private final AtomicBoolean steepLeft = new AtomicBoolean();
+    private final AtomicBoolean steepRight = new AtomicBoolean();
+
     /**
      * Create the state.
      * 
@@ -53,13 +59,14 @@ public final class StateIdle extends State
         super(model, animation);
 
         addTransition(StateBorder.class, () -> collideY.get() && !isGoingHorizontal() && border.is());
-        addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
+        addTransition(StateWalk.class, () -> !collideX.get() && !steep.get() && isWalkingFastEnough());
         addTransition(StateCrouch.class, this::isGoingDown);
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && !collideY.get()
+                            && !steep.get()
                             && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
     }
 
@@ -74,11 +81,12 @@ public final class StateIdle extends State
     {
         super.onCollideKnee(result, category);
 
-        if (isGoingLeft() && result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT)
-            || isGoingRight() && result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
+            || movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
         {
             tileCollidable.apply(result);
             movement.setDirection(DirectionNone.INSTANCE);
+            movement.setDestination(0.0, 0.0);
         }
     }
 
@@ -90,6 +98,23 @@ public final class StateIdle extends State
         border.notifyTileCollided(result, category);
         tileCollidable.apply(result);
         body.resetGravity();
+
+        if (result.startWithY(Constant.COLL_PREFIX_STEEP))
+        {
+            steep.set(true);
+            if (result.getX() != null)
+            {
+                transformable.teleportX(result.getX().doubleValue());
+            }
+            if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
+            {
+                steepLeft.set(true);
+            }
+            else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
+            {
+                steepRight.set(true);
+            }
+        }
     }
 
     @Override
@@ -108,6 +133,10 @@ public final class StateIdle extends State
     public void enter()
     {
         super.enter();
+
+        steep.set(false);
+        steepLeft.set(false);
+        steepRight.set(false);
 
         movement.setVelocity(0.16);
         border.reset();
@@ -140,6 +169,9 @@ public final class StateIdle extends State
     {
         super.postUpdate();
 
+        steep.set(false);
+        steepLeft.set(false);
+        steepRight.set(false);
         border.reset();
     }
 }

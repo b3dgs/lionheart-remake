@@ -33,8 +33,8 @@ import com.b3dgs.lionheart.object.State;
  */
 public class StateLianaSlide extends State
 {
-    private static final double LIANA_SPEED_FAST = 1.25;
-    private static final double LIANA_SPEED_SLOW = 0.75;
+    private static final double LIANA_SPEED_FAST = 1.2;
+    private static final double LIANA_SPEED_SLOW = 0.8;
     private static final double LIANA_SPEED = 1.0;
 
     private final AtomicBoolean liana = new AtomicBoolean();
@@ -57,7 +57,7 @@ public class StateLianaSlide extends State
     @Override
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWith(Constant.COLL_PREFIX_LIANA))
+        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
         {
             tileCollidable.apply(result);
             body.resetGravity();
@@ -71,6 +71,9 @@ public class StateLianaSlide extends State
         super.enter();
 
         movement.setDirection(DirectionNone.INSTANCE);
+        movement.setDestination(0.0, 0.0);
+        movement.setVelocity(1.0);
+        movement.setSensibility(1.0);
         liana.set(false);
     }
 
@@ -83,13 +86,16 @@ public class StateLianaSlide extends State
         {
             movement.setDestination(0.0, 0.0);
         }
-        transformable.teleportY(transformable.getY() - 3.0);
+        if (isGoingDown())
+        {
+            transformable.teleportY(transformable.getY() - 3.0);
+        }
     }
 
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(-speed, -speed);
+        body.resetGravity();
 
         if (mirrorable.is(Mirror.NONE) && isGoingRight() || mirrorable.is(Mirror.HORIZONTAL) && isGoingLeft())
         {
@@ -103,6 +109,7 @@ public class StateLianaSlide extends State
         {
             speed = LIANA_SPEED;
         }
+        movement.setDestination(-speed, -speed);
     }
 
     @Override

@@ -61,7 +61,7 @@ public final class StateLianaIdle extends State
     @Override
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWith(Constant.COLL_PREFIX_LIANA))
+        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
         {
             tileCollidable.apply(result);
             body.resetGravity();

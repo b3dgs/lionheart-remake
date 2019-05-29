@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -63,6 +64,13 @@ public final class StateLand extends State
         super.onCollideKnee(result, category);
 
         tileCollidable.apply(result);
+
+        if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
+            || movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
+        {
+            movement.setDirection(DirectionNone.INSTANCE);
+            movement.setDestination(0.0, 0.0);
+        }
     }
 
     @Override
@@ -96,7 +104,6 @@ public final class StateLand extends State
     public void update(double extrp)
     {
         landed.update(extrp);
-
         movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 }

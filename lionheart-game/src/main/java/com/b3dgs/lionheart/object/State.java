@@ -67,6 +67,10 @@ public abstract class State extends StateAbstract
     protected final InputDeviceControl control;
     /** Horizontal collision flag. */
     protected final AtomicBoolean collideX = new AtomicBoolean();
+    /** Horizontal collision flag on left. */
+    protected final AtomicBoolean collideXleft = new AtomicBoolean();
+    /** Horizontal collision flag on right. */
+    protected final AtomicBoolean collideXright = new AtomicBoolean();
     /** Vertical collision flag. */
     protected final AtomicBoolean collideY = new AtomicBoolean();
 
@@ -127,6 +131,8 @@ public abstract class State extends StateAbstract
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
         collideX.set(true);
+        collideXright.set(result.contains(Constant.COLL_PREFIX_STEEP_LEFT));
+        collideXleft.set(result.contains(Constant.COLL_PREFIX_STEEP_RIGHT));
     }
 
     /**
@@ -291,6 +297,8 @@ public abstract class State extends StateAbstract
         tileCollidable.addListener(listenerTileCollidable);
         collidable.addListener(this::onCollided);
         collideX.set(false);
+        collideXright.set(false);
+        collideXleft.set(false);
         collideY.set(false);
     }
 
@@ -314,6 +322,8 @@ public abstract class State extends StateAbstract
     protected void postUpdate()
     {
         collideX.set(false);
+        collideXright.set(false);
+        collideXleft.set(false);
         collideY.set(false);
     }
 }

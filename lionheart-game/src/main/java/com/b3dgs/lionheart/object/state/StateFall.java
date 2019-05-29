@@ -74,16 +74,16 @@ public final class StateFall extends State
     {
         super.onCollideLeg(result, category);
 
-        tileCollidable.apply(result);
         jump.setDirection(DirectionNone.INSTANCE);
+        tileCollidable.apply(result);
         body.resetGravity();
 
-        if (result.startWith(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
         {
             steep.set(true);
             steepLeft.set(true);
         }
-        else if (result.startWith(Constant.COLL_PREFIX_STEEP_RIGHT))
+        else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
         {
             steep.set(true);
             steepRight.set(true);
@@ -91,20 +91,26 @@ public final class StateFall extends State
     }
 
     @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideKnee(result, category);
+
+        tileCollidable.apply(result);
+    }
+
+    @Override
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         super.onCollideHand(result, category);
 
-        if (result.startWith(Constant.COLL_PREFIX_LIANA))
+        if (result.startWithY(Constant.COLL_PREFIX_LIANA_LEFT))
         {
             liana.set(true);
-        }
-        if (result.startWith(Constant.COLL_PREFIX_LIANA_LEFT))
-        {
             lianaLeft.set(true);
         }
-        else if (result.startWith(Constant.COLL_PREFIX_LIANA_RIGHT))
+        else if (result.startWithY(Constant.COLL_PREFIX_LIANA_RIGHT))
         {
+            liana.set(true);
             lianaRight.set(true);
         }
     }
@@ -142,14 +148,10 @@ public final class StateFall extends State
         if (mirrorable.is(Mirror.NONE) && (steepLeft.get() || lianaLeft.get()))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
-            movement.setDirection(DirectionNone.INSTANCE);
-            movement.setDestination(0.0, 0.0);
         }
         else if (mirrorable.is(Mirror.HORIZONTAL) && (steepRight.get() || lianaRight.get()))
         {
             mirrorable.mirror(Mirror.NONE);
-            movement.setDirection(DirectionNone.INSTANCE);
-            movement.setDestination(0.0, 0.0);
         }
     }
 

@@ -100,16 +100,16 @@ public final class BorderDetection implements TileCollidableListener, Collidable
             legRightGround = true;
         }
         if (LEG_LEFT.equals(name)
-            && (result.startWith(Constant.COLL_PREFIX_SLOPE)
+            && (result.startWithY(Constant.COLL_PREFIX_SLOPE)
                 && map.getTile(result.getTile().getInTileX() + 1, result.getTile().getInTileY()) == null
-                || result.startWith(Constant.COLL_PREFIX_GROUND)))
+                || result.startWithY(Constant.COLL_PREFIX_GROUND)))
         {
             legLeftGround = true;
         }
         if (LEG_RIGHT.equals(name)
-            && (result.startWith(Constant.COLL_PREFIX_SLOPE)
+            && (result.startWithY(Constant.COLL_PREFIX_SLOPE)
                 && map.getTile(result.getTile().getInTileX() - 1, result.getTile().getInTileY()) == null
-                || result.startWith(Constant.COLL_PREFIX_GROUND)))
+                || result.startWithY(Constant.COLL_PREFIX_GROUND)))
         {
             legRightGround = true;
         }
