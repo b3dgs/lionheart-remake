@@ -38,11 +38,11 @@ public final class Hud implements Updatable, Renderable
     private static final int HEALTH_X = 1;
     private static final int HEALTH_Y = 1;
 
-    private static final int TALISMENT_X = 64;
-    private static final int TALISMENT_Y = 0;
+    private static final int TALISMENT_X = 57;
+    private static final int TALISMENT_Y = 1;
 
     private static final int LIFE_X = 244;
-    private static final int LIFE_Y = 0;
+    private static final int LIFE_Y = 1;
 
     private final SpriteTiled[] health = new SpriteTiled[HEALTH_MAX];
     private final SpriteTiled talisment;
@@ -86,10 +86,10 @@ public final class Hud implements Updatable, Renderable
         number.prepare();
 
         numberTalisment = new SpriteDigit(number, 8, 16, 2);
-        numberTalisment.setLocation(TALISMENT_X + talisment.getTileWidth() + 1, TALISMENT_Y + 1);
+        numberTalisment.setLocation(TALISMENT_X + talisment.getTileWidth(), TALISMENT_Y + 1);
 
         numberLife = new SpriteDigit(number, 8, 16, 2);
-        numberLife.setLocation(LIFE_X + life.getTileWidth() + 1, LIFE_Y + 1);
+        numberLife.setLocation(LIFE_X + life.getTileWidth() + 2, LIFE_Y + 1);
     }
 
     /**
