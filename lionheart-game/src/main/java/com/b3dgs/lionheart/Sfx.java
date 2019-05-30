@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 
@@ -43,7 +44,33 @@ public enum Sfx
     /** Item talisment. */
     ITEM_TAKEN,
     /** Monster hurt. */
-    MONSTER_HURT;
+    MONSTER_HURT,
+    /** Explode 1. */
+    EXPLODE1,
+    /** Explode 2. */
+    EXPLODE2,
+    /** Explode 3. */
+    EXPLODE3;
+
+    /**
+     * Play a random explode sound.
+     */
+    public static void playRandomExplode()
+    {
+        final int id = UtilRandom.getRandomInteger(2);
+        if (id == 0)
+        {
+            EXPLODE1.play();
+        }
+        else if (id == 1)
+        {
+            EXPLODE2.play();
+        }
+        else if (id == 2)
+        {
+            EXPLODE3.play();
+        }
+    }
 
     /** Audio handler. */
     private final Audio audio;

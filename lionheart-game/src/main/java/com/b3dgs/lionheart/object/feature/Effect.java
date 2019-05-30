@@ -18,7 +18,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
-import com.b3dgs.lionengine.AnimatorStateListener;
+import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -26,7 +26,9 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateIdle;
 
 /**
@@ -39,20 +41,49 @@ import com.b3dgs.lionheart.object.state.StateIdle;
 @FeatureInterface
 public final class Effect extends FeatureModel implements Recyclable
 {
+    private static final String NODE_SFX = "sfx";
+
+    private final boolean sfx;
+
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private StateHandler stateHandler;
+
+    /**
+     * Create effect.
+     * 
+     * @param setup The setup reference.
+     */
+    public Effect(Setup setup)
+    {
+        super();
+
+        sfx = setup.hasNode(NODE_SFX);
+    }
 
     @Override
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
 
-        animatable.addListener((AnimatorStateListener) state ->
+        animatable.addListener(new AnimatorFrameListener()
         {
-            if (AnimState.FINISHED == state)
+            @Override
+            public void notifyAnimState(AnimState state)
             {
-                identifiable.destroy();
+                if (AnimState.FINISHED == state)
+                {
+                    identifiable.destroy();
+                }
+            }
+
+            @Override
+            public void notifyAnimFrame(int frame)
+            {
+                if (sfx && (frame - 1) % 4 == 0)
+                {
+                    Sfx.playRandomExplode();
+                }
             }
         });
     }
