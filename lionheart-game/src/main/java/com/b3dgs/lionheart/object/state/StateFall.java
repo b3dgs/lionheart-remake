@@ -17,8 +17,6 @@
  */
 package com.b3dgs.lionheart.object.state;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
@@ -28,6 +26,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
@@ -43,10 +42,7 @@ public final class StateFall extends State
     private static final double SPEED = 5.0 / 3.0;
 
     private final GameplaySteep steep = new GameplaySteep();
-
-    private final AtomicBoolean liana = new AtomicBoolean();
-    private final AtomicBoolean lianaLeft = new AtomicBoolean();
-    private final AtomicBoolean lianaRight = new AtomicBoolean();
+    private final GameplayLiana liana = new GameplayLiana();
 
     /**
      * Create the state.
@@ -61,9 +57,8 @@ public final class StateFall extends State
         addTransition(StateLand.class, () -> !steep.is() && collideY.get() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
         addTransition(StateSlide.class, steep::is);
-        addTransition(StateLianaIdle.class,
-                      () -> liana.get() && !lianaLeft.get() && !lianaRight.get() && !isGoingDown());
-        addTransition(StateLianaSlide.class, () -> (lianaLeft.get() || lianaRight.get()) && !isGoingDown());
+        addTransition(StateLianaIdle.class, () -> liana.is() && !liana.isLeft() && !liana.isRight() && !isGoingDown());
+        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
         addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> !collideY.get() && control.isFireButton() && isGoingDown());
     }
@@ -94,15 +89,11 @@ public final class StateFall extends State
     {
         super.onCollideHand(result, category);
 
-        if (result.startWithY(Constant.COLL_PREFIX_LIANA_LEFT))
+        liana.onCollideHand(result, category);
+
+        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
         {
-            liana.set(true);
-            lianaLeft.set(true);
-        }
-        else if (result.startWithY(Constant.COLL_PREFIX_LIANA_RIGHT))
-        {
-            liana.set(true);
-            lianaRight.set(true);
+            tileCollidable.apply(result);
         }
     }
 
@@ -123,10 +114,7 @@ public final class StateFall extends State
         super.enter();
 
         steep.reset();
-
-        liana.set(false);
-        lianaLeft.set(false);
-        lianaRight.set(false);
+        liana.reset();
     }
 
     @Override
@@ -134,11 +122,11 @@ public final class StateFall extends State
     {
         super.exit();
 
-        if (mirrorable.is(Mirror.NONE) && (steep.isLeft() || lianaLeft.get()))
+        if (mirrorable.is(Mirror.NONE) && (steep.isLeft() || liana.isLeft()))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && (steep.isRight() || lianaRight.get()))
+        else if (mirrorable.is(Mirror.HORIZONTAL) && (steep.isRight() || liana.isRight()))
         {
             mirrorable.mirror(Mirror.NONE);
         }

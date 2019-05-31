@@ -17,8 +17,6 @@
  */
 package com.b3dgs.lionheart.object.state;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
@@ -26,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
 
 /**
@@ -37,7 +36,7 @@ final class StateLianaWalk extends State
     private static final double ANIM_SPEED_DIVISOR = 4.0;
     private static final double WALK_MIN_SPEED = 0.005;
 
-    private final AtomicBoolean liana = new AtomicBoolean();
+    private final GameplayLiana liana = new GameplayLiana();
 
     /**
      * Create the state.
@@ -50,7 +49,8 @@ final class StateLianaWalk extends State
         super(model, animation);
 
         addTransition(StateLianaIdle.class, () -> isWalkingSlowEnough());
-        addTransition(StateFall.class, () -> !liana.get() || isGoingDown());
+        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
+        addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
     }
 
     private boolean isWalkingSlowEnough()
@@ -62,11 +62,14 @@ final class StateLianaWalk extends State
     @Override
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
+        super.onCollideHand(result, category);
+
+        liana.onCollideHand(result, category);
+
         if (result.startWithY(Constant.COLL_PREFIX_LIANA))
         {
             tileCollidable.apply(result);
             body.resetGravity();
-            liana.set(true);
         }
     }
 
@@ -76,7 +79,7 @@ final class StateLianaWalk extends State
         super.enter();
 
         movement.setDirection(DirectionNone.INSTANCE);
-        liana.set(false);
+        liana.reset();
     }
 
     @Override
@@ -102,6 +105,6 @@ final class StateLianaWalk extends State
     {
         super.postUpdate();
 
-        liana.set(false);
+        liana.reset();
     }
 }
