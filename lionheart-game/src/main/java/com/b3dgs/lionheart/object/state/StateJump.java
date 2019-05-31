@@ -17,8 +17,6 @@
  */
 package com.b3dgs.lionheart.object.state;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Updatable;
@@ -30,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
 import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
@@ -41,9 +40,7 @@ public final class StateJump extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
-    private final AtomicBoolean steep = new AtomicBoolean();
-    private final AtomicBoolean steepLeft = new AtomicBoolean();
-    private final AtomicBoolean steepRight = new AtomicBoolean();
+    private final GameplaySteep steep = new GameplaySteep();
 
     private final Updatable checkJumpStopped;
 
@@ -64,7 +61,7 @@ public final class StateJump extends State
                              || transformable.getY() < transformable.getOldY()));
         addTransition(StateSlide.class,
                       () -> transformable.getY() > transformable.getOldY()
-                            && (steepLeft.get() && isGoingRight() || steepRight.get() && isGoingLeft()));
+                            && (steep.isLeft() && isGoingRight() || steep.isRight() && isGoingLeft()));
         addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoingDown());
         addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
 
@@ -86,20 +83,10 @@ public final class StateJump extends State
     {
         super.onCollideLeg(result, category);
 
+        steep.onCollideLeg(result, category);
         if (result.startWithY(Constant.COLL_PREFIX_STEEP))
         {
             body.resetGravity();
-
-            if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
-            {
-                steep.set(true);
-                steepLeft.set(true);
-            }
-            else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
-            {
-                steep.set(true);
-                steepRight.set(true);
-            }
         }
     }
 
@@ -108,22 +95,10 @@ public final class StateJump extends State
     {
         super.onCollideKnee(result, category);
 
+        steep.onCollideKnee(result, category);
         if (result.startWithX(Constant.COLL_PREFIX_STEEP_VERTICAL))
         {
             tileCollidable.apply(result);
-        }
-        if (result.startWithX(Constant.COLL_PREFIX_STEEP))
-        {
-            if (result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
-            {
-                steep.set(true);
-                steepLeft.set(true);
-            }
-            else if (result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT))
-            {
-                steep.set(true);
-                steepRight.set(true);
-            }
         }
     }
 
@@ -137,9 +112,7 @@ public final class StateJump extends State
         jump.setDirection(0.0, Constant.JUMP_MAX);
         jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
 
-        steep.set(false);
-        steepLeft.set(false);
-        steepRight.set(false);
+        steep.reset();
     }
 
     @Override
@@ -149,13 +122,13 @@ public final class StateJump extends State
 
         jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
 
-        if (mirrorable.is(Mirror.NONE) && steepLeft.get())
+        if (mirrorable.is(Mirror.NONE) && steep.isLeft())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
             movement.setDirection(DirectionNone.INSTANCE);
             movement.setDestination(0.0, 0.0);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && steepRight.get())
+        else if (mirrorable.is(Mirror.HORIZONTAL) && steep.isRight())
         {
             mirrorable.mirror(Mirror.NONE);
             movement.setDirection(DirectionNone.INSTANCE);
@@ -189,8 +162,6 @@ public final class StateJump extends State
             movement.setVelocity(0.12);
         }
 
-        steep.set(false);
-        steepLeft.set(false);
-        steepRight.set(false);
+        steep.reset();
     }
 }

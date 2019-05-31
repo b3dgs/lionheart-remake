@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -41,9 +42,7 @@ public final class StateFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
-    private final AtomicBoolean steep = new AtomicBoolean();
-    private final AtomicBoolean steepLeft = new AtomicBoolean();
-    private final AtomicBoolean steepRight = new AtomicBoolean();
+    private final GameplaySteep steep = new GameplaySteep();
 
     private final AtomicBoolean liana = new AtomicBoolean();
     private final AtomicBoolean lianaLeft = new AtomicBoolean();
@@ -59,9 +58,9 @@ public final class StateFall extends State
     {
         super(model, animation);
 
-        addTransition(StateLand.class, () -> !steep.get() && collideY.get() && !model.hasFeature(Patrol.class));
+        addTransition(StateLand.class, () -> !steep.is() && collideY.get() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
-        addTransition(StateSlide.class, steep::get);
+        addTransition(StateSlide.class, steep::is);
         addTransition(StateLianaIdle.class,
                       () -> liana.get() && !lianaLeft.get() && !lianaRight.get() && !isGoingDown());
         addTransition(StateLianaSlide.class, () -> (lianaLeft.get() || lianaRight.get()) && !isGoingDown());
@@ -74,20 +73,12 @@ public final class StateFall extends State
     {
         super.onCollideLeg(result, category);
 
+        steep.onCollideLeg(result, category);
+
         jump.setDirection(DirectionNone.INSTANCE);
         tileCollidable.apply(result);
         body.resetGravity();
 
-        if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
-        {
-            steep.set(true);
-            steepLeft.set(true);
-        }
-        else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
-        {
-            steep.set(true);
-            steepRight.set(true);
-        }
     }
 
     @Override
@@ -131,9 +122,7 @@ public final class StateFall extends State
     {
         super.enter();
 
-        steep.set(false);
-        steepLeft.set(false);
-        steepRight.set(false);
+        steep.reset();
 
         liana.set(false);
         lianaLeft.set(false);
@@ -145,11 +134,11 @@ public final class StateFall extends State
     {
         super.exit();
 
-        if (mirrorable.is(Mirror.NONE) && (steepLeft.get() || lianaLeft.get()))
+        if (mirrorable.is(Mirror.NONE) && (steep.isLeft() || lianaLeft.get()))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && (steepRight.get() || lianaRight.get()))
+        else if (mirrorable.is(Mirror.HORIZONTAL) && (steep.isRight() || lianaRight.get()))
         {
             mirrorable.mirror(Mirror.NONE);
         }
@@ -159,14 +148,25 @@ public final class StateFall extends State
     public void update(double extrp)
     {
         body.update(extrp);
-        if (isGoingHorizontal())
+        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+    }
+
+    @Override
+    protected void postUpdate()
+    {
+        super.postUpdate();
+
+        if (isGoingHorizontal()
+            && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
+                 || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+            && Math.abs(movement.getDirectionHorizontal()) > SPEED
+            && movement.isDecreasingHorizontal())
         {
-            movement.setVelocity(0.12);
+            movement.setVelocity(0.001);
         }
         else
         {
-            movement.setVelocity(0.07);
+            movement.setVelocity(0.12);
         }
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 }
