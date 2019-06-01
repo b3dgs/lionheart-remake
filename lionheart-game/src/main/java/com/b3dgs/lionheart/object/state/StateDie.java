@@ -61,7 +61,7 @@ public final class StateDie extends State
     {
         super.exit();
 
-        transformable.teleport(670, 64);
+        transformable.teleport(216, 64);
         model.getCamera().resetInterval(transformable);
         stats.fillHealth();
         stats.decreaseLife();

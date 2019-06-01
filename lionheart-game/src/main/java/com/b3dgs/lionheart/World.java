@@ -165,7 +165,7 @@ final class World extends WorldGame
         final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
 
         final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
-        valdynTransformable.teleport(200, 64);
+        valdynTransformable.teleport(216, 64);
         handler.add(valdyn);
         hud.setFeaturable(valdyn);
 
