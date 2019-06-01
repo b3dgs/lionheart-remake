@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -57,6 +58,8 @@ public abstract class State extends StateAbstract
     protected final TileCollidable tileCollidable;
     /** Collidable reference. */
     protected final Collidable collidable;
+    /** Rasterable reference. */
+    protected final Rasterable rasterable;
     /** State animation data. */
     protected final Animation animation;
     /** Movement reference. */
@@ -97,6 +100,7 @@ public abstract class State extends StateAbstract
         mirrorable = model.getFeature(Mirrorable.class);
         tileCollidable = model.getFeature(TileCollidable.class);
         collidable = model.getFeature(Collidable.class);
+        rasterable = model.getFeature(Rasterable.class);
         control = new InputDeviceControlDelegate(model::getInput);
 
         listenerTileCollidable = (result, category) ->

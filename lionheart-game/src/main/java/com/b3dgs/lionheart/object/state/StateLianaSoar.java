@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -33,13 +32,12 @@ final class StateLianaSoar extends State
     private final int FRAME_6 = 6;
     private final int FRAME_9 = 9;
 
-    private final int OFFSET_1 = 4;
-    private final int OFFSET_6 = -36;
-    private final int OFFSET_9 = -61;
+    private final int OFFSET_1 = 3;
+    private final int OFFSET_6 = -37;
+    private final int OFFSET_9 = -62;
 
     private static final double SOAR_SPEED = 0.85;
 
-    private final Rasterable rasterable = model.getFeature(Rasterable.class);
     private final AnimatorFrameListener listener;
 
     private double y;

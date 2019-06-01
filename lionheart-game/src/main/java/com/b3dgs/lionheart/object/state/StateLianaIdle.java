@@ -80,6 +80,7 @@ public final class StateLianaIdle extends State
 
         movement.setVelocity(0.16);
         movement.setDirection(DirectionNone.INSTANCE);
+        rasterable.setFrameOffsets(0, -2);
 
         liana.reset();
     }
@@ -89,6 +90,7 @@ public final class StateLianaIdle extends State
     {
         super.exit();
 
+        rasterable.setFrameOffsets(0, 0);
         if (isGoingDown())
         {
             transformable.teleportY(transformable.getY() - 1.0);

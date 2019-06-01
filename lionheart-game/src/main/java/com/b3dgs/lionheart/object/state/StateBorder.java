@@ -47,7 +47,7 @@ final class StateBorder extends State
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
-        addTransition(StateLianaSoar.class, () -> isGoingDown());
+        addTransition(StateLianaSoar.class, () -> isGoingDown() && liana.is());
     }
 
     @Override
@@ -56,5 +56,13 @@ final class StateBorder extends State
         super.onCollideLeg(result, category);
 
         liana.onCollideLeg(result, category);
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        liana.reset();
     }
 }

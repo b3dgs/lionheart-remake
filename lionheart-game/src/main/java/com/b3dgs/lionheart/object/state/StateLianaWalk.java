@@ -78,6 +78,7 @@ final class StateLianaWalk extends State
     {
         super.enter();
 
+        rasterable.setFrameOffsets(0, -2);
         movement.setDirection(DirectionNone.INSTANCE);
         liana.reset();
     }
@@ -87,6 +88,7 @@ final class StateLianaWalk extends State
     {
         super.exit();
 
+        rasterable.setFrameOffsets(0, 0);
         if (isGoingDown())
         {
             transformable.teleportY(transformable.getY() - 1.0);
