@@ -15,17 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.state.attack.StateAttackSlide;
+import com.b3dgs.lionheart.object.state.StateSlide;
+import com.b3dgs.lionheart.object.state.StateSlideBase;
 
 /**
- * Slide slow state implementation.
+ * Slide attack state implementation.
  */
-final class StateSlideSlow extends StateSlideBase
+public class StateAttackSlide extends StateSlideBase
 {
     /**
      * Create the state.
@@ -33,15 +34,10 @@ final class StateSlideSlow extends StateSlideBase
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateSlideSlow(EntityModel model, Animation animation)
+    public StateAttackSlide(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateSlide.class, this::isGoingNone);
-        addTransition(StateSlideFast.class,
-                      () -> mirrorable.is(Mirror.NONE) && isGoingRight()
-                            || mirrorable.is(Mirror.HORIZONTAL) && isGoingLeft());
-        addTransition(StateAttackSlide.class, control::isFireButtonOnce);
-        setSpeed(0.25);
+        addTransition(StateSlide.class, () -> is(AnimState.FINISHED));
     }
 }

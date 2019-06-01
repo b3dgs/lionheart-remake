@@ -145,7 +145,7 @@
 		<lionengine:collisionFramed number="1" x="0" y="0" width="20" height="10" />
         <lionengine:collisionFramed prefix="body" x="0" y="25" width="20" height="30" />
 	</lionengine:animation>
-	<lionengine:animation name="attack_slide" start="121" end="125" speed="0.3" reversed="false" repeat="false">
+	<lionengine:animation name="attackslide" start="121" end="125" speed="0.4" reversed="false" repeat="false">
 		<lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25" />
 		<lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25" />
 		<lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25" />
@@ -173,7 +173,7 @@
 	<lionengine:animation name="shade_attackhorizontal" start="9" end="12" speed="0.4" reversed="true" repeat="false" />
 	<lionengine:animation name="shade_attackturning" start="24" end="30" speed="0.3" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attackjump" start="31" end="35" speed="0.3" reversed="false" repeat="false" />
-	<lionengine:animation name="shade_attack_slide" start="40" end="43" speed="0.3" reversed="false" repeat="false" />
+	<lionengine:animation name="shade_attackslide" start="40" end="43" speed="0.4" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attackliana" start="32" end="35" speed="0.4" reversed="false" repeat="false" />
     <lionengine:animation name="shade_attacklianaslide" start="32" end="35" speed="0.4" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attack_groundhoockable" start="13" end="15" speed="0.4" reversed="false" repeat="false" />

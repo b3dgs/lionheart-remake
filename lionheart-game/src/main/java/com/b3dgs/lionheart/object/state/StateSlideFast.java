@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.state.attack.StateAttackSlide;
 
 /**
  * Slide fast state implementation.
@@ -40,6 +41,7 @@ final class StateSlideFast extends StateSlideBase
         addTransition(StateSlideSlow.class,
                       () -> mirrorable.is(Mirror.HORIZONTAL) && isGoingRight()
                             || mirrorable.is(Mirror.NONE) && isGoingLeft());
+        addTransition(StateAttackSlide.class, control::isFireButtonOnce);
         setSpeed(1.0);
     }
 }
