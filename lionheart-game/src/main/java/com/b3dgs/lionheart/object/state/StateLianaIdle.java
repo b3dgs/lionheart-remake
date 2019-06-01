@@ -26,6 +26,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.attack.StateAttackLiana;
 
 /**
  * Liana idle state implementation.
@@ -50,6 +51,7 @@ public final class StateLianaIdle extends State
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
         addTransition(StateLianaWalk.class, () -> isWalkingFastEnough());
         addTransition(StateLianaSoar.class, () -> liana.is() && isGoingUp());
+        addTransition(StateAttackLiana.class, control::isFireButtonOnce);
         addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
     }
 

@@ -15,8 +15,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.attack;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
@@ -26,12 +27,13 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.state.attack.StateAttackLianaSlide;
+import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateLianaSlide;
 
 /**
- * Liana slide state implementation.
+ * Liana slide attack state implementation.
  */
-public class StateLianaSlide extends State
+public class StateAttackLianaSlide extends State
 {
     private static final double LIANA_SPEED_FAST = 1.2;
     private static final double LIANA_SPEED_SLOW = 0.8;
@@ -47,11 +49,12 @@ public class StateLianaSlide extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateLianaSlide(EntityModel model, Animation animation)
+    public StateAttackLianaSlide(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateAttackLianaSlide.class, () -> liana.is() && control.isFireButtonOnce());
+        addTransition(StateLianaSlide.class,
+                      () -> (liana.isLeft() || liana.isRight()) && !isGoingDown() && is(AnimState.FINISHED));
         addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
     }
 
