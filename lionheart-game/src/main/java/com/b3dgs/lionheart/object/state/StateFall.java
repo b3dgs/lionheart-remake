@@ -70,10 +70,12 @@ public final class StateFall extends State
 
         steep.onCollideLeg(result, category);
 
-        jump.setDirection(DirectionNone.INSTANCE);
-        tileCollidable.apply(result);
-        body.resetGravity();
-
+        if (!result.startWithY(Constant.COLL_PREFIX_LIANA))
+        {
+            jump.setDirection(DirectionNone.INSTANCE);
+            tileCollidable.apply(result);
+            body.resetGravity();
+        }
     }
 
     @Override

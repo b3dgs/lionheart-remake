@@ -49,6 +49,7 @@ public final class StateLianaIdle extends State
 
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
         addTransition(StateLianaWalk.class, () -> isWalkingFastEnough());
+        addTransition(StateLianaSoar.class, () -> liana.is() && isGoingUp());
         addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
     }
 

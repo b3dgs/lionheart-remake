@@ -18,7 +18,10 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
 
@@ -27,6 +30,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 final class StateBorder extends State
 {
+    private final GameplayLiana liana = new GameplayLiana();
+
     /**
      * Create the state.
      * 
@@ -38,9 +43,18 @@ final class StateBorder extends State
         super(model, animation);
 
         addTransition(StateWalk.class, this::isGoingHorizontal);
-        addTransition(StateCrouch.class, this::isGoingDown);
+        addTransition(StateCrouch.class, () -> isGoingDown() && !liana.is());
         addTransition(StateJump.class, this::isGoingUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
+        addTransition(StateLianaSoar.class, () -> isGoingDown());
+    }
+
+    @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        liana.onCollideLeg(result, category);
     }
 }

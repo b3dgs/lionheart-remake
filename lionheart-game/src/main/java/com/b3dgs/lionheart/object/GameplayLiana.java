@@ -107,4 +107,18 @@ public final class GameplayLiana
             lianaRight.set(true);
         }
     }
+
+    /**
+     * Called when a tile collision occurred on vertical axis with leg.
+     * 
+     * @param result The collided tile.
+     * @param category The collided axis.
+     */
+    public void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
+        {
+            liana.set(true);
+        }
+    }
 }

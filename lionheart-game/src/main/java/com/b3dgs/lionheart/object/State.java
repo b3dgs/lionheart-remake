@@ -143,7 +143,10 @@ public abstract class State extends StateAbstract
      */
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        collideY.set(true);
+        if (!result.startWithY(Constant.COLL_PREFIX_LIANA))
+        {
+            collideY.set(true);
+        }
     }
 
     /**

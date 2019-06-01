@@ -1,0 +1,133 @@
+/*
+ * Copyright (C) 2013-2018 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
+package com.b3dgs.lionheart.object.state;
+
+import com.b3dgs.lionengine.AnimState;
+import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AnimatorFrameListener;
+import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.State;
+
+/**
+ * Liana soar state implementation.
+ */
+final class StateLianaSoar extends State
+{
+    private final int FRAME_6 = 6;
+    private final int FRAME_9 = 9;
+
+    private final int OFFSET_1 = 4;
+    private final int OFFSET_6 = -36;
+    private final int OFFSET_9 = -61;
+
+    private static final double SOAR_SPEED = 0.85;
+
+    private final Rasterable rasterable = model.getFeature(Rasterable.class);
+    private final AnimatorFrameListener listener;
+
+    private double y;
+    private double offset;
+    private int frameOffset;
+    private int side = 1;
+
+    /**
+     * Create the state.
+     * 
+     * @param model The model reference.
+     * @param animation The animation reference.
+     */
+    public StateLianaSoar(EntityModel model, Animation animation)
+    {
+        super(model, animation);
+
+        listener = (AnimatorFrameListener) frame ->
+        {
+            if (frame - animation.getFirst() < FRAME_6)
+            {
+                frameOffset = OFFSET_1;
+            }
+            if (frame - animation.getFirst() >= FRAME_6 && frame - animation.getFirst() < FRAME_9)
+            {
+                frameOffset = OFFSET_6;
+            }
+            else if (frame - animation.getFirst() >= FRAME_9)
+            {
+                frameOffset = OFFSET_9;
+            }
+            rasterable.setFrameOffsets(0, (int) Math.floor(offset) + frameOffset);
+        };
+
+        addTransition(StateBorder.class, () -> side > 0 && is(AnimState.REVERSING));
+        addTransition(StateFall.class, () -> is(AnimState.FINISHED));
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        movement.setDestination(0.0, 0.0);
+        movement.setDirection(DirectionNone.INSTANCE);
+        animatable.addListener(listener);
+
+        if (isGoingDown())
+        {
+            side = -1;
+            offset = -OFFSET_9;
+            frameOffset = OFFSET_9;
+            animatable.setFrame(animation.getLast());
+        }
+        else
+        {
+            side = 1;
+            offset = 0;
+            frameOffset = OFFSET_1;
+            animatable.setFrame(animation.getFirst());
+        }
+        y = transformable.getY();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        offset += SOAR_SPEED * side;
+        if (side > 0)
+        {
+            transformable.teleportY(y + offset);
+        }
+        else
+        {
+            transformable.teleportY(y + offset + OFFSET_9);
+        }
+        rasterable.setFrameOffsets(0, (int) Math.floor(offset) + frameOffset);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        offset = 0.0;
+        frameOffset = 0;
+        rasterable.setFrameOffsets(0, 0);
+        animatable.removeListener(listener);
+        transformable.moveLocationY(1.0, 1.0);
+    }
+}
