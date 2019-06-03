@@ -36,6 +36,8 @@ public class PatrolConfig
     private static final String ATT_TURN = "turn";
     /** Mirror attribute name. */
     private static final String ATT_MIRROR = "mirror";
+    /** Coll attribute name. */
+    private static final String ATT_COLL = "coll";
 
     /**
      * Imports the config from configurer.
@@ -52,8 +54,9 @@ public class PatrolConfig
         final double sv = configurer.getDoubleDefault(0.0, ATT_VY, NODE_STATS);
         final boolean turn = configurer.getBooleanDefault(true, ATT_TURN, NODE_STATS);
         final boolean mirror = configurer.getBooleanDefault(false, ATT_MIRROR, NODE_STATS);
+        final boolean coll = configurer.getBooleanDefault(false, ATT_COLL, NODE_STATS);
 
-        return new PatrolConfig(sh, sv, turn, mirror);
+        return new PatrolConfig(sh, sv, turn, mirror, coll);
     }
 
     /** Horizontal speed. */
@@ -64,6 +67,8 @@ public class PatrolConfig
     private final boolean turn;
     /** Mirror vertical. */
     private final boolean mirror;
+    /** Disable collision on turn. */
+    private final boolean coll;
 
     /**
      * Create config.
@@ -72,8 +77,9 @@ public class PatrolConfig
      * @param sv The vertical speed.
      * @param turn The turn flag.
      * @param mirror The mirror vertical flag.
+     * @param coll The disable collision on turn flag.
      */
-    private PatrolConfig(double sh, double sv, boolean turn, boolean mirror)
+    private PatrolConfig(double sh, double sv, boolean turn, boolean mirror, boolean coll)
     {
         super();
 
@@ -81,6 +87,7 @@ public class PatrolConfig
         this.sv = sv;
         this.turn = turn;
         this.mirror = mirror;
+        this.coll = coll;
     }
 
     /**
@@ -121,5 +128,15 @@ public class PatrolConfig
     public boolean hasMirror()
     {
         return mirror;
+    }
+
+    /**
+     * Check if collision disabled on turn is enabled.
+     * 
+     * @return <code>true</code> if disable collision on turn, <code>false</code> else.
+     */
+    public boolean hasColl()
+    {
+        return coll;
     }
 }

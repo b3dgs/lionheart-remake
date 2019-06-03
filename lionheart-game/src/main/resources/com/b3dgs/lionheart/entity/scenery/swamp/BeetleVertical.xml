@@ -12,5 +12,5 @@
     <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
     <lionengine:animation name="patrol" start="1" end="7" speed="0.25" reversed="false" repeat="true" />
     <lionengine:animation name="turn" start="8" end="10" speed="0.2" reversed="false" repeat="false" />
-    <patrol sv="0.3" mirror="true" />
+    <patrol sv="0.3" mirror="true" coll="true" />
 </lionengine:featurable>

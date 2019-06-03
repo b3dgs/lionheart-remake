@@ -51,6 +51,8 @@ public final class Patrol extends FeatureModel implements Routine
     private final Updatable checker;
     private final boolean turn;
     private final boolean mirror;
+    private final boolean coll;
+
     private double sh;
     private double sv;
 
@@ -76,6 +78,7 @@ public final class Patrol extends FeatureModel implements Routine
         sv = config.getSv();
         turn = config.hasTurn();
         mirror = config.hasMirror();
+        coll = config.hasColl();
 
         final AnimationConfig anim = AnimationConfig.imports(setup);
         if (turn)
@@ -128,7 +131,7 @@ public final class Patrol extends FeatureModel implements Routine
         stateHandler.changeState(StatePatrol.class);
         stateHandler.addListener((from, to) ->
         {
-            collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
+            collidable.setEnabled(!coll || !Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
         });
         model.setInput(new InputDeviceControlVoid()
         {
