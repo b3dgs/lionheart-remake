@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
@@ -39,6 +40,7 @@ public final class StateLand extends State
     private static final long LAND_TICK = 10L;
 
     private final Tick landed = new Tick();
+    private final GameplaySteep steep = new GameplaySteep();
 
     /**
      * Create the state.
@@ -63,6 +65,7 @@ public final class StateLand extends State
     {
         super.onCollideKnee(result, category);
 
+        steep.onCollideKnee(result, category);
         tileCollidable.apply(result);
 
         if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
@@ -78,6 +81,7 @@ public final class StateLand extends State
     {
         super.onCollideLeg(result, category);
 
+        steep.onCollideLeg(result, category);
         tileCollidable.apply(result);
     }
 
@@ -104,6 +108,16 @@ public final class StateLand extends State
     public void update(double extrp)
     {
         landed.update(extrp);
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+    }
+
+    @Override
+    protected void postUpdate()
+    {
+        super.postUpdate();
+
+        if (!(steep.isLeft() && isGoingRight() || steep.isRight() && isGoingLeft()))
+        {
+            movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        }
     }
 }

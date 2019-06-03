@@ -105,15 +105,6 @@ public class StateSlideBase extends State
             movement.setDestination(0.0, 0.0);
             movement.setDirection(SPEED_JUMP_X * steep.getSide(), 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);
-
-            if (steep.isLeft())
-            {
-                transformable.teleportX(transformable.getX() - 2);
-            }
-            else if (steep.isRight())
-            {
-                transformable.teleportX(transformable.getX() + 2);
-            }
         }
     }
 

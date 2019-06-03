@@ -28,13 +28,13 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
-import com.b3dgs.lionheart.object.state.StateLand;
 
 /**
  * Fall attack state implementation.
@@ -42,6 +42,8 @@ import com.b3dgs.lionheart.object.state.StateLand;
 public final class StateAttackFall extends State
 {
     private static final double SPEED = 5.0 / 3.0;
+
+    private final GameplaySteep steep = new GameplaySteep();
 
     private final AtomicBoolean collideSword = new AtomicBoolean();
 
@@ -55,18 +57,21 @@ public final class StateAttackFall extends State
     {
         super(model, animation);
 
-        addTransition(StateLand.class, () -> !isGoingDown() && collideY.get());
-        addTransition(StateCrouch.class, () -> isGoingDown() && collideY.get());
+        addTransition(StateCrouch.class, () -> !steep.is() && isGoingDown() && collideY.get());
         addTransition(StateJump.class,
                       () -> collideSword.get() && Double.compare(jump.getDirectionVertical(), 0.0) > 0);
         addTransition(StateFall.class,
-                      () -> !control.isFireButton() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
+                      () -> steep.is()
+                            || !isGoingDown() && collideY.get()
+                            || !control.isFireButton() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
     }
 
     @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
         super.onCollideLeg(result, category);
+
+        steep.onCollideLeg(result, category);
 
         tileCollidable.apply(result);
         jump.setDirection(DirectionNone.INSTANCE);
@@ -97,6 +102,7 @@ public final class StateAttackFall extends State
         super.enter();
 
         collideSword.set(false);
+        steep.reset();
     }
 
     @Override

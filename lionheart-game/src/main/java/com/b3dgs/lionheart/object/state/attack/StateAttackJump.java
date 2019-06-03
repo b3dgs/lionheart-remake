@@ -33,7 +33,6 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.StateFall;
-import com.b3dgs.lionheart.object.state.StateLand;
 
 /**
  * Jump attack state implementation.
@@ -69,8 +68,7 @@ public final class StateAttackJump extends State
             }
         };
 
-        addTransition(StateLand.class, () -> collideY.get());
-        addTransition(StateFall.class, () -> is(AnimState.FINISHED));
+        addTransition(StateFall.class, () -> collideY.get() || is(AnimState.FINISHED));
     }
 
     @Override

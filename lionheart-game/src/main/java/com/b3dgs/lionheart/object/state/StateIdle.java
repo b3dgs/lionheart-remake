@@ -77,6 +77,8 @@ public final class StateIdle extends State
     {
         super.onCollideKnee(result, category);
 
+        steep.onCollideKnee(result, category);
+
         if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
             || movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
         {
@@ -144,13 +146,17 @@ public final class StateIdle extends State
     public void update(double extrp)
     {
         body.update(extrp);
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
     }
 
     @Override
     protected void postUpdate()
     {
         super.postUpdate();
+
+        if (!(steep.isLeft() && isGoingRight() || steep.isRight() && isGoingLeft()))
+        {
+            movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        }
 
         steep.reset();
         border.reset();
