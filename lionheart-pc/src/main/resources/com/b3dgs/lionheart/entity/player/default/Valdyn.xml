@@ -171,8 +171,8 @@
 	</lionengine:animation>
 	<lionengine:animation name="shade_attacktop" start="1" end="2" speed="0.35" reversed="true" repeat="false" />
 	<lionengine:animation name="shade_attackhorizontal" start="9" end="12" speed="0.4" reversed="true" repeat="false" />
-	<lionengine:animation name="shade_attackturning" start="24" end="30" speed="0.3" reversed="false" repeat="false" />
-	<lionengine:animation name="shade_attackjump" start="31" end="35" speed="0.3" reversed="false" repeat="false" />
+	<lionengine:animation name="shade_attackturning" start="24" end="30" speed="0.35" reversed="false" repeat="false" />
+	<lionengine:animation name="shade_attackjump" start="31" end="35" speed="0.35" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attackslide" start="40" end="43" speed="0.4" reversed="false" repeat="false" />
 	<lionengine:animation name="shade_attackliana" start="32" end="35" speed="0.4" reversed="false" repeat="false" />
     <lionengine:animation name="shade_attacklianaslide" start="32" end="35" speed="0.4" reversed="false" repeat="false" />

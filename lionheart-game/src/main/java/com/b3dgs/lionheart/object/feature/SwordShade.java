@@ -51,7 +51,6 @@ public final class SwordShade extends FeatureModel implements Routine
     private final Viewer viewer;
 
     private Animation anim;
-    private boolean played = true;
 
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
@@ -89,7 +88,6 @@ public final class SwordShade extends FeatureModel implements Routine
             if (config.hasAnimation(name))
             {
                 anim = config.getAnimation(name);
-                played = false;
             }
         });
     }
@@ -97,14 +95,13 @@ public final class SwordShade extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (!played && animatable.getFrameAnim() > 1)
-        {
-            Sfx.VALDYN_ATTACK.play();
-            shade.play(anim);
-            played = true;
-        }
-        shade.setMirror(mirrorable.getMirror());
         shade.update(extrp);
+        if (anim != null)
+        {
+            shade.play(anim);
+            Sfx.VALDYN_ATTACK.play();
+            anim = null;
+        }
     }
 
     @Override
@@ -112,6 +109,7 @@ public final class SwordShade extends FeatureModel implements Routine
     {
         if (AnimState.PLAYING == shade.getAnimState())
         {
+            shade.setMirror(mirrorable.getMirror());
             shade.setLocation(viewer, transformable);
             shade.render(g);
         }
