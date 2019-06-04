@@ -37,6 +37,5 @@
         <jump heightMax="7.0" />
     </data>
     <stats health="1" />
-    <patrol sh="0.3" />
     <hurtable effect="ExplodeBig" />
 </lionengine:featurable>

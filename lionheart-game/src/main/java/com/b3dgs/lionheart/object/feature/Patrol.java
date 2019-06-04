@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
@@ -47,14 +46,14 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 @FeatureInterface
 public final class Patrol extends FeatureModel implements Routine
 {
-    private final Tick change = new Tick();
     private final Updatable checker;
-    private final boolean turn;
     private final boolean mirror;
     private final boolean coll;
+    private final int amplitude;
 
     private double sh;
     private double sv;
+    private double moved;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
@@ -76,26 +75,30 @@ public final class Patrol extends FeatureModel implements Routine
         final PatrolConfig config = PatrolConfig.imports(setup);
         sh = config.getSh();
         sv = config.getSv();
-        turn = config.hasTurn();
+        amplitude = config.getAmplitude();
         mirror = config.hasMirror();
         coll = config.hasColl();
 
         final AnimationConfig anim = AnimationConfig.imports(setup);
-        if (turn)
+        if (amplitude > 0)
         {
             checker = extrp ->
             {
-                if (Double.compare(sh, 0.0) != 0)
+                if (Math.abs(moved) > amplitude)
                 {
-                    sh = -sh;
-                }
-                if (Double.compare(sv, 0.0) != 0)
-                {
-                    sv = -sv;
-                }
-                if (anim.hasAnimation(Constant.ANIM_NAME_TURN))
-                {
-                    stateHandler.changeState(StateTurn.class);
+                    moved = 0.0;
+                    if (Double.compare(sh, 0.0) != 0)
+                    {
+                        sh = -sh;
+                    }
+                    if (Double.compare(sv, 0.0) != 0)
+                    {
+                        sv = -sv;
+                    }
+                    if (anim.hasAnimation(Constant.ANIM_NAME_TURN))
+                    {
+                        stateHandler.changeState(StateTurn.class);
+                    }
                 }
             };
         }
@@ -110,16 +113,21 @@ public final class Patrol extends FeatureModel implements Routine
      */
     public void applyMirror()
     {
-        if (mirror)
+        if (sh < 0 && mirrorable.is(Mirror.NONE))
         {
-            if (sv < 0 && mirrorable.is(Mirror.NONE))
-            {
-                mirrorable.mirror(Mirror.VERTICAL);
-            }
-            else if (sv > 0 && mirrorable.is(Mirror.VERTICAL))
-            {
-                mirrorable.mirror(Mirror.NONE);
-            }
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (sh > 0 && mirrorable.is(Mirror.HORIZONTAL))
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+        if (sv < 0 && mirrorable.is(Mirror.NONE))
+        {
+            mirrorable.mirror(Mirror.VERTICAL);
+        }
+        else if (sv > 0 && mirrorable.is(Mirror.VERTICAL))
+        {
+            mirrorable.mirror(Mirror.NONE);
         }
     }
 
@@ -147,17 +155,12 @@ public final class Patrol extends FeatureModel implements Routine
                 return sv;
             }
         });
-        change.start();
     }
 
     @Override
     public void update(double extrp)
     {
-        change.update(extrp);
-        if (change.elapsed(100L))
-        {
-            checker.update(extrp);
-            change.restart();
-        }
+        checker.update(extrp);
+        moved += model.getMovement().getDirectionHorizontal();
     }
 }

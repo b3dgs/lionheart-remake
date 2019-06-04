@@ -32,8 +32,8 @@ public class PatrolConfig
     private static final String ATT_VX = "sh";
     /** Vertical speed attribute name. */
     private static final String ATT_VY = "sv";
-    /** Turn attribute name. */
-    private static final String ATT_TURN = "turn";
+    /** Amplitude attribute name. */
+    private static final String ATT_AMPLITUDE = "amplitude";
     /** Mirror attribute name. */
     private static final String ATT_MIRROR = "mirror";
     /** Coll attribute name. */
@@ -50,21 +50,21 @@ public class PatrolConfig
     {
         Check.notNull(configurer);
 
-        final double sh = configurer.getDoubleDefault(0.0, ATT_VX, NODE_STATS);
+        final double sh = configurer.getDoubleDefault(0.3, ATT_VX, NODE_STATS);
         final double sv = configurer.getDoubleDefault(0.0, ATT_VY, NODE_STATS);
-        final boolean turn = configurer.getBooleanDefault(true, ATT_TURN, NODE_STATS);
+        final int amplitude = configurer.getIntegerDefault(50, ATT_AMPLITUDE, NODE_STATS);
         final boolean mirror = configurer.getBooleanDefault(false, ATT_MIRROR, NODE_STATS);
         final boolean coll = configurer.getBooleanDefault(false, ATT_COLL, NODE_STATS);
 
-        return new PatrolConfig(sh, sv, turn, mirror, coll);
+        return new PatrolConfig(sh, sv, amplitude, mirror, coll);
     }
 
     /** Horizontal speed. */
     private final double sh;
     /** Vertical speed. */
     private final double sv;
-    /** Turn enabled. */
-    private final boolean turn;
+    /** Amplitude enabled. */
+    private final int amplitude;
     /** Mirror vertical. */
     private final boolean mirror;
     /** Disable collision on turn. */
@@ -75,17 +75,17 @@ public class PatrolConfig
      * 
      * @param sh The horizontal speed.
      * @param sv The vertical speed.
-     * @param turn The turn flag.
+     * @param amplitude The amplitude value.
      * @param mirror The mirror vertical flag.
      * @param coll The disable collision on turn flag.
      */
-    private PatrolConfig(double sh, double sv, boolean turn, boolean mirror, boolean coll)
+    private PatrolConfig(double sh, double sv, int amplitude, boolean mirror, boolean coll)
     {
         super();
 
         this.sh = sh;
         this.sv = sv;
-        this.turn = turn;
+        this.amplitude = amplitude;
         this.mirror = mirror;
         this.coll = coll;
     }
@@ -111,13 +111,13 @@ public class PatrolConfig
     }
 
     /**
-     * Check if turn is enabled.
+     * Get the amplitude value.
      * 
-     * @return <code>true</code> to enable turn, <code>false</code> to continue straight on.
+     * @return The patrol maximum movement, 0 if no turn.
      */
-    public boolean hasTurn()
+    public int getAmplitude()
     {
-        return turn;
+        return amplitude;
     }
 
     /**
