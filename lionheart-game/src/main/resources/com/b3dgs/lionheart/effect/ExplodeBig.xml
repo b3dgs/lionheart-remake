@@ -6,5 +6,5 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="5" vertical="4"/>
 	<lionengine:animation name="idle" start="1" end="20" speed="0.35" reversed="false" repeat="false"/>
-    <sfx/>
+    <sfx_explode count="5"/>
 </lionengine:effect>

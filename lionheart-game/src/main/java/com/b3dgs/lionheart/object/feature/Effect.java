@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -41,9 +42,11 @@ import com.b3dgs.lionheart.object.state.StateIdle;
 @FeatureInterface
 public final class Effect extends FeatureModel implements Recyclable
 {
-    private static final String NODE_SFX = "sfx";
+    private static final String NODE_SFX_EXPLODE = "sfx_explode";
+    private static final String ATT_COUNT = "count";
 
-    private final boolean sfx;
+    private final int mod;
+    private final boolean sfxExplode;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Animatable animatable;
@@ -58,7 +61,11 @@ public final class Effect extends FeatureModel implements Recyclable
     {
         super();
 
-        sfx = setup.hasNode(NODE_SFX);
+        final FramesConfig config = FramesConfig.imports(setup);
+        final int frames = config.getHorizontal() * config.getVertical();
+        final int count = setup.getIntegerDefault(frames, ATT_COUNT, NODE_SFX_EXPLODE);
+        mod = frames / count;
+        sfxExplode = setup.hasNode(NODE_SFX_EXPLODE);
     }
 
     @Override
@@ -80,7 +87,7 @@ public final class Effect extends FeatureModel implements Recyclable
             @Override
             public void notifyAnimFrame(int frame)
             {
-                if (sfx && (frame - 1) % 4 == 0)
+                if (sfxExplode && (frame - 1) % mod == 0)
                 {
                     Sfx.playRandomExplode();
                 }
