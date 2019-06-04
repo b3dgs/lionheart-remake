@@ -52,7 +52,7 @@ public class StateLianaSlide extends State
         super(model, animation);
 
         addTransition(StateAttackLianaSlide.class, () -> liana.is() && control.isFireButtonOnce());
-        addTransition(StateFall.class, () -> !liana.is() || isGoDown());
+        addTransition(StateFall.class, () -> !liana.is() || isGoDownOnce());
     }
 
     @Override

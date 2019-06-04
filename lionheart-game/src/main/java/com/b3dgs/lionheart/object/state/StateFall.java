@@ -93,7 +93,7 @@ public final class StateFall extends State
 
         liana.onCollideHand(result, category);
 
-        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
+        if (!isGoDown() && result.startWithY(Constant.COLL_PREFIX_LIANA))
         {
             tileCollidable.apply(result);
         }
