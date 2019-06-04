@@ -286,7 +286,7 @@ public abstract class State extends StateAbstract
      */
     protected final boolean isGoDownOnce()
     {
-        return control.isUpButtonOnce();
+        return control.isDownButtonOnce();
     }
 
     /**

@@ -86,7 +86,9 @@ public final class StateJump extends State
     {
         super.onCollideKnee(result, category);
 
-        if (result.startWithX(Constant.COLL_PREFIX_STEEP))
+        if (movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT)
+            || movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
+            || result.startWithX(Constant.COLL_PREFIX_STEEP_VERTICAL))
         {
             tileCollidable.apply(result);
         }
