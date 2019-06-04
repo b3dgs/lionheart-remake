@@ -52,9 +52,9 @@ public final class StateLand extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !isGoingDown() && landed.elapsed(LAND_TICK));
-        addTransition(StateJump.class, this::isGoingUpOnce);
-        addTransition(StateCrouch.class, this::isGoingDown);
+        addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsed(LAND_TICK));
+        addTransition(StateJump.class, this::isGoUpOnce);
+        addTransition(StateCrouch.class, this::isGoDown);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
                       () -> !collideY.get() && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
@@ -115,7 +115,7 @@ public final class StateLand extends State
     {
         super.postUpdate();
 
-        if (!(steep.isLeft() && isGoingRight() || steep.isRight() && isGoingLeft()))
+        if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
         {
             movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
         }

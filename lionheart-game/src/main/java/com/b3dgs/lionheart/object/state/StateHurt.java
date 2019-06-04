@@ -31,6 +31,8 @@ public final class StateHurt extends State
 {
     private static final double SPEED = 5.0 / 3.0;
 
+    private final Hurtable hurtable = model.getFeature(Hurtable.class);
+
     /**
      * Create the state.
      * 
@@ -41,7 +43,7 @@ public final class StateHurt extends State
     {
         super(model, animation);
 
-        addTransition(StateFall.class, () -> !model.getFeature(Hurtable.class).isHurting());
+        addTransition(StateFall.class, () -> !hurtable.isHurting());
     }
 
     @Override

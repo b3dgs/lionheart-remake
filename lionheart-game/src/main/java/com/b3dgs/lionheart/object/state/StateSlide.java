@@ -38,12 +38,11 @@ public class StateSlide extends StateSlideBase
         super(model, animation);
 
         addTransition(StateSlideFast.class,
-                      () -> mirrorable.is(Mirror.NONE) && isGoingRight()
-                            || mirrorable.is(Mirror.HORIZONTAL) && isGoingLeft());
+                      () -> is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft());
         addTransition(StateSlideSlow.class,
-                      () -> mirrorable.is(Mirror.HORIZONTAL) && isGoingRight()
-                            || mirrorable.is(Mirror.NONE) && isGoingLeft());
+                      () -> is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft());
         addTransition(StateAttackSlide.class, control::isFireButtonOnce);
+
         setSpeed(0.5);
     }
 }

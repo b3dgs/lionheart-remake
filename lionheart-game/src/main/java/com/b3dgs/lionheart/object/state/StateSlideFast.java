@@ -37,11 +37,11 @@ final class StateSlideFast extends StateSlideBase
     {
         super(model, animation);
 
-        addTransition(StateSlide.class, this::isGoingNone);
+        addTransition(StateSlide.class, this::isGoNone);
         addTransition(StateSlideSlow.class,
-                      () -> mirrorable.is(Mirror.HORIZONTAL) && isGoingRight()
-                            || mirrorable.is(Mirror.NONE) && isGoingLeft());
+                      () -> is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft());
         addTransition(StateAttackSlide.class, control::isFireButtonOnce);
+
         setSpeed(1.0);
     }
 }

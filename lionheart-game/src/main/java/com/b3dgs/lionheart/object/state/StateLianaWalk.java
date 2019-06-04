@@ -49,14 +49,14 @@ final class StateLianaWalk extends State
         super(model, animation);
 
         addTransition(StateLianaIdle.class, () -> isWalkingSlowEnough());
-        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
-        addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
+        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
+        addTransition(StateFall.class, () -> !liana.is() || isGoDown());
     }
 
     private boolean isWalkingSlowEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return !isGoingHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return !isGoHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -89,7 +89,7 @@ final class StateLianaWalk extends State
         super.exit();
 
         rasterable.setFrameOffsets(0, 0);
-        if (isGoingDown())
+        if (isGoDown())
         {
             transformable.teleportY(transformable.getY() - 1.0);
         }

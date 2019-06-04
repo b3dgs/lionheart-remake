@@ -54,12 +54,12 @@ public final class StateJump extends State
         addTransition(StateFall.class,
                       () -> (Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                              || transformable.getY() < transformable.getOldY()));
-        addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoingDown());
-        addTransition(StateAttackFall.class, () -> control.isFireButton() && isGoingDown());
+        addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoDown());
+        addTransition(StateAttackFall.class, () -> isFire() && isGoDown());
 
         checkJumpStopped = extrp ->
         {
-            if (!control.isFireButton() && Double.compare(control.getVerticalDirection(), 0.0) <= 0)
+            if (!isFire() && Double.compare(control.getVerticalDirection(), 0.0) <= 0)
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
@@ -124,9 +124,9 @@ public final class StateJump extends State
     {
         super.postUpdate();
 
-        if (isGoingHorizontal()
-            && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
-                 || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+        if (isGoHorizontal()
+            && !(movement.getDirectionHorizontal() < 0 && isGoRight()
+                 || movement.getDirectionHorizontal() > 0 && isGoLeft())
             && Math.abs(movement.getDirectionHorizontal()) > SPEED
             && movement.isDecreasingHorizontal())
         {

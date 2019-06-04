@@ -57,10 +57,10 @@ public final class StateFall extends State
         addTransition(StateLand.class, () -> !steep.is() && collideY.get() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
         addTransition(StateSlide.class, steep::is);
-        addTransition(StateLianaIdle.class, () -> liana.is() && !liana.isLeft() && !liana.isRight() && !isGoingDown());
-        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
-        addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoingDown());
-        addTransition(StateAttackFall.class, () -> !collideY.get() && control.isFireButton() && isGoingDown());
+        addTransition(StateLianaIdle.class, () -> liana.is() && !liana.isLeft() && !liana.isRight() && !isGoDown());
+        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
+        addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoDown());
+        addTransition(StateAttackFall.class, () -> !collideY.get() && isFire() && isGoDown());
     }
 
     @Override
@@ -124,11 +124,11 @@ public final class StateFall extends State
     {
         super.exit();
 
-        if (mirrorable.is(Mirror.NONE) && (steep.isLeft() || liana.isLeft()))
+        if (is(Mirror.NONE) && (steep.isLeft() || liana.isLeft()))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && (steep.isRight() || liana.isRight()))
+        else if (is(Mirror.HORIZONTAL) && (steep.isRight() || liana.isRight()))
         {
             mirrorable.mirror(Mirror.NONE);
         }
@@ -146,9 +146,9 @@ public final class StateFall extends State
     {
         super.postUpdate();
 
-        if (isGoingHorizontal()
-            && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
-                 || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+        if (isGoHorizontal()
+            && !(movement.getDirectionHorizontal() < 0 && isGoRight()
+                 || movement.getDirectionHorizontal() > 0 && isGoLeft())
             && Math.abs(movement.getDirectionHorizontal()) > SPEED
             && movement.isDecreasingHorizontal())
         {

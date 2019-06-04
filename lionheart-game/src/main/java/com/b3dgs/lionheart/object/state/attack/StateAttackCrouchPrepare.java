@@ -38,7 +38,7 @@ public final class StateAttackCrouchPrepare extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackCrouchPrepared.class, () -> control.isFireButton() && is(AnimState.FINISHED));
-        addTransition(StateCrouch.class, () -> !control.isFireButton() && is(AnimState.FINISHED));
+        addTransition(StateCrouch.class, () -> !isFire() && is(AnimState.FINISHED));
+        addTransition(StateAttackCrouchPrepared.class, () -> isFire() && is(AnimState.FINISHED));
     }
 }

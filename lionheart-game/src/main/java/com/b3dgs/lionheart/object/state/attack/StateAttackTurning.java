@@ -46,7 +46,7 @@ final class StateAttackTurning extends State
     {
         super.exit();
 
-        if (mirrorable.is(Mirror.NONE))
+        if (is(Mirror.NONE))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }

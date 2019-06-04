@@ -37,22 +37,20 @@ final class StateAttackPrepared extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackHorizontal.class, () -> control.isFireButton() && canAttackHorizontal());
-        addTransition(StateAttackTurning.class, () -> control.isFireButton() && canAttackTurning());
-        addTransition(StateAttackTop.class, () -> control.isFireButton() && isGoingUpOnce());
-        addTransition(StateAttackCrouchPrepared.class, () -> isGoingDown());
-        addTransition(StateAttackUnprepare.class, () -> !control.isFireButton());
+        addTransition(StateAttackHorizontal.class, this::canAttackHorizontal);
+        addTransition(StateAttackTurning.class, this::canAttackTurning);
+        addTransition(StateAttackTop.class, () -> isFire() && isGoUpOnce());
+        addTransition(StateAttackCrouchPrepared.class, () -> isGoDown());
+        addTransition(StateAttackUnprepare.class, () -> !isFire());
     }
 
     private boolean canAttackHorizontal()
     {
-        return mirrorable.is(Mirror.HORIZONTAL) && isGoingLeftOnce()
-               || mirrorable.is(Mirror.NONE) && isGoingRightOnce();
+        return isFire() && (is(Mirror.HORIZONTAL) && isGoLeftOnce() || is(Mirror.NONE) && isGoRightOnce());
     }
 
     private boolean canAttackTurning()
     {
-        return mirrorable.is(Mirror.NONE) && isGoingLeftOnce()
-               || mirrorable.is(Mirror.HORIZONTAL) && isGoingRightOnce();
+        return isFire() && (is(Mirror.NONE) && isGoLeftOnce() || is(Mirror.HORIZONTAL) && isGoRightOnce());
     }
 }

@@ -43,7 +43,7 @@ public final class StateAttackJump extends State
     private static final double JUMP_MIN = 2.5;
     private static final double JUMP_MAX = 5.4;
 
-    private final Updatable checkJumpStopped;
+    private final Updatable checkJumpAbort;
     private Updatable check;
 
     /**
@@ -56,7 +56,7 @@ public final class StateAttackJump extends State
     {
         super(model, animation);
 
-        checkJumpStopped = extrp ->
+        checkJumpAbort = extrp ->
         {
             if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
             {
@@ -99,7 +99,7 @@ public final class StateAttackJump extends State
     {
         super.enter();
 
-        check = checkJumpStopped;
+        check = checkJumpAbort;
     }
 
     @Override
@@ -123,7 +123,8 @@ public final class StateAttackJump extends State
         {
             body.resetGravity();
         }
-        if (isGoingHorizontal())
+
+        if (isGoHorizontal())
         {
             movement.setVelocity(0.12);
         }

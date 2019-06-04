@@ -48,17 +48,17 @@ public final class StateLianaIdle extends State
     {
         super(model, animation);
 
-        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoingDown());
+        addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
         addTransition(StateLianaWalk.class, () -> isWalkingFastEnough());
-        addTransition(StateLianaSoar.class, () -> liana.is() && isGoingUp());
+        addTransition(StateLianaSoar.class, () -> liana.is() && isGoUp());
         addTransition(StateAttackLiana.class, control::isFireButtonOnce);
-        addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
+        addTransition(StateFall.class, () -> !liana.is() || isGoDown());
     }
 
     private boolean isWalkingFastEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return isGoingHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return isGoHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -93,7 +93,7 @@ public final class StateLianaIdle extends State
         super.exit();
 
         rasterable.setFrameOffsets(0, 0);
-        if (isGoingDown())
+        if (isGoDown())
         {
             transformable.teleportY(transformable.getY() - 1.0);
         }

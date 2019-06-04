@@ -57,11 +57,11 @@ final class StateWalk extends State
         super(model, animation);
 
         addTransition(StateIdle.class,
-                      () -> isGoingRight() && collideXright.get()
-                            || isGoingLeft() && collideXleft.get()
+                      () -> isGoRight() && collideXright.get()
+                            || isGoLeft() && collideXleft.get()
                             || isWalkingSlowEnough());
-        addTransition(StateCrouch.class, this::isGoingDown);
-        addTransition(StateJump.class, this::isGoingUp);
+        addTransition(StateCrouch.class, this::isGoDown);
+        addTransition(StateJump.class, this::isGoUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
@@ -72,7 +72,7 @@ final class StateWalk extends State
     private boolean isWalkingSlowEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return !isGoingHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return !isGoHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -145,9 +145,9 @@ final class StateWalk extends State
     {
         super.postUpdate();
 
-        if (isGoingHorizontal()
-            && !(movement.getDirectionHorizontal() < 0 && isGoingRight()
-                 || movement.getDirectionHorizontal() > 0 && isGoingLeft())
+        if (isGoHorizontal()
+            && !(movement.getDirectionHorizontal() < 0 && isGoRight()
+                 || movement.getDirectionHorizontal() > 0 && isGoLeft())
             && Math.abs(movement.getDirectionHorizontal()) > SPEED
             && movement.isDecreasingHorizontal())
         {

@@ -54,10 +54,10 @@ public final class StateIdle extends State
     {
         super(model, animation);
 
-        addTransition(StateBorder.class, () -> collideY.get() && !isGoingHorizontal() && border.is());
+        addTransition(StateBorder.class, () -> collideY.get() && !isGoHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !collideX.get() && !steep.is() && isWalkingFastEnough());
-        addTransition(StateCrouch.class, this::isGoingDown);
-        addTransition(StateJump.class, this::isGoingUp);
+        addTransition(StateCrouch.class, this::isGoDown);
+        addTransition(StateJump.class, this::isGoUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
@@ -69,7 +69,7 @@ public final class StateIdle extends State
     private boolean isWalkingFastEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return isGoingHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return isGoHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -121,9 +121,8 @@ public final class StateIdle extends State
     {
         super.enter();
 
-        steep.reset();
-
         movement.setVelocity(0.16);
+        steep.reset();
         border.reset();
     }
 
@@ -153,7 +152,7 @@ public final class StateIdle extends State
     {
         super.postUpdate();
 
-        if (!(steep.isLeft() && isGoingRight() || steep.isRight() && isGoingLeft()))
+        if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
         {
             movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
         }

@@ -37,6 +37,7 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
 @FeatureInterface
 public final class EntityModel extends FeatureModel
 {
+    private static final String NODE_DATA = "data";
     private static final double GRAVITY = 6.5;
     private static final double GRAVITY_MAX = 6.5;
 
@@ -64,7 +65,7 @@ public final class EntityModel extends FeatureModel
         camera = services.get(Camera.class);
         map = services.get(MapTile.class);
         source = services.get(SourceResolutionProvider.class);
-        hasGravity = setup.hasNode("data");
+        hasGravity = setup.hasNode(NODE_DATA);
     }
 
     @Override

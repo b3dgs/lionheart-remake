@@ -42,12 +42,12 @@ final class StateBorder extends State
     {
         super(model, animation);
 
-        addTransition(StateWalk.class, this::isGoingHorizontal);
-        addTransition(StateCrouch.class, () -> isGoingDown() && !liana.is());
-        addTransition(StateJump.class, this::isGoingUp);
+        addTransition(StateWalk.class, this::isGoHorizontal);
+        addTransition(StateCrouch.class, () -> isGoDown() && !liana.is());
+        addTransition(StateJump.class, this::isGoUp);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class, () -> transformable.getY() < transformable.getOldY());
-        addTransition(StateLianaSoar.class, () -> isGoingDown() && liana.is());
+        addTransition(StateLianaSoar.class, () -> isGoDown() && liana.is());
     }
 
     @Override

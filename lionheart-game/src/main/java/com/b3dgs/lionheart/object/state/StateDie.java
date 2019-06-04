@@ -31,7 +31,7 @@ public final class StateDie extends State
 {
     private static final double DEATH_FALL_SPEED = -0.7;
 
-    private final Stats stats;
+    private final Stats stats = model.getFeature(Stats.class);
 
     /**
      * Create the state.
@@ -42,8 +42,6 @@ public final class StateDie extends State
     public StateDie(EntityModel model, Animation animation)
     {
         super(model, animation);
-
-        stats = model.getFeature(Stats.class);
     }
 
     @Override

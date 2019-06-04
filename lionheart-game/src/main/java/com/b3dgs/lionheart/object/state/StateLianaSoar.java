@@ -85,7 +85,7 @@ final class StateLianaSoar extends State
         movement.setDirection(DirectionNone.INSTANCE);
         animatable.addListener(listener);
 
-        if (isGoingDown())
+        if (isGoDown())
         {
             side = -1;
             offset = -OFFSET_9;

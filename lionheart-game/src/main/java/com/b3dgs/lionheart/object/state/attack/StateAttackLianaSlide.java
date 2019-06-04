@@ -53,9 +53,9 @@ public class StateAttackLianaSlide extends State
     {
         super(model, animation);
 
+        addTransition(StateFall.class, () -> !liana.is() || isGoDown());
         addTransition(StateLianaSlide.class,
-                      () -> (liana.isLeft() || liana.isRight()) && !isGoingDown() && is(AnimState.FINISHED));
-        addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
+                      () -> (liana.isLeft() || liana.isRight()) && !isGoDown() && is(AnimState.FINISHED));
     }
 
     @Override
@@ -90,11 +90,11 @@ public class StateAttackLianaSlide extends State
     {
         super.exit();
 
-        if (isGoingUp())
+        if (isGoUp())
         {
             movement.setDestination(0.0, 0.0);
         }
-        if (isGoingDown())
+        if (isGoDown())
         {
             transformable.teleportY(transformable.getY() - 3.0);
         }
@@ -105,11 +105,11 @@ public class StateAttackLianaSlide extends State
     {
         body.resetGravity();
 
-        if (mirrorable.is(Mirror.NONE) && isGoingRight() || mirrorable.is(Mirror.HORIZONTAL) && isGoingLeft())
+        if (is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft())
         {
             speed = LIANA_SPEED_FAST;
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && isGoingRight() || mirrorable.is(Mirror.NONE) && isGoingLeft())
+        else if (is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft())
         {
             speed = LIANA_SPEED_SLOW;
         }

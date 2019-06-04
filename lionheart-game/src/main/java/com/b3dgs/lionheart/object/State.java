@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -46,7 +47,7 @@ public abstract class State extends StateAbstract
 {
     /** Model reference. */
     protected final EntityModel model;
-    /** Animator reference. */
+    /** Animatable reference. */
     protected final Animatable animatable;
     /** Transformable reference. */
     protected final Transformable transformable;
@@ -188,11 +189,22 @@ public abstract class State extends StateAbstract
     }
 
     /**
+     * Check if is current mirror state.
+     * 
+     * @param mirror The expected mirror to be.
+     * @return <code>true</code> if is mirror, <code>false</code> else.
+     */
+    protected final boolean is(Mirror mirror)
+    {
+        return mirrorable.is(mirror);
+    }
+
+    /**
      * Check if going nowhere.
      * 
      * @return <code>true</code> if not going to move, <code>false</code> else.
      */
-    protected final boolean isGoingNone()
+    protected final boolean isGoNone()
     {
         return Double.compare(control.getHorizontalDirection(), 0.0) == 0;
     }
@@ -202,7 +214,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to left or right, <code>false</code> else.
      */
-    protected final boolean isGoingHorizontal()
+    protected final boolean isGoHorizontal()
     {
         return Double.compare(control.getHorizontalDirection(), 0.0) != 0;
     }
@@ -212,7 +224,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to left, <code>false</code> else.
      */
-    protected final boolean isGoingLeft()
+    protected final boolean isGoLeft()
     {
         return Double.compare(control.getHorizontalDirection(), 0.0) < 0;
     }
@@ -222,7 +234,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to right, <code>false</code> else.
      */
-    protected final boolean isGoingRight()
+    protected final boolean isGoRight()
     {
         return Double.compare(control.getHorizontalDirection(), 0.0) > 0;
     }
@@ -232,7 +244,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to up or down, <code>false</code> else.
      */
-    protected final boolean isGoingVertical()
+    protected final boolean isGoVertical()
     {
         return Double.compare(control.getVerticalDirection(), 0.0) != 0;
     }
@@ -242,7 +254,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to up, <code>false</code> else.
      */
-    protected final boolean isGoingUp()
+    protected final boolean isGoUp()
     {
         return Double.compare(control.getVerticalDirection(), 0.0) > 0;
     }
@@ -252,7 +264,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to down, <code>false</code> else.
      */
-    protected final boolean isGoingDown()
+    protected final boolean isGoDown()
     {
         return Double.compare(control.getVerticalDirection(), 0.0) < 0;
     }
@@ -262,7 +274,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to up, <code>false</code> else.
      */
-    protected final boolean isGoingUpOnce()
+    protected final boolean isGoUpOnce()
     {
         return control.isUpButtonOnce();
     }
@@ -272,7 +284,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to down, <code>false</code> else.
      */
-    protected final boolean isGoingDownOnce()
+    protected final boolean isGoDownOnce()
     {
         return control.isUpButtonOnce();
     }
@@ -282,7 +294,7 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to left, <code>false</code> else.
      */
-    protected final boolean isGoingLeftOnce()
+    protected final boolean isGoLeftOnce()
     {
         return control.isLeftButtonOnce();
     }
@@ -292,9 +304,19 @@ public abstract class State extends StateAbstract
      * 
      * @return <code>true</code> if going to right, <code>false</code> else.
      */
-    protected final boolean isGoingRightOnce()
+    protected final boolean isGoRightOnce()
     {
         return control.isRightButtonOnce();
+    }
+
+    /**
+     * Check if fire button is enabled.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    protected final boolean isFire()
+    {
+        return control.isFireButton();
     }
 
     @Override

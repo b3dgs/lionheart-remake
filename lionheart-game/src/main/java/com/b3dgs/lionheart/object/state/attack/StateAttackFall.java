@@ -57,13 +57,12 @@ public final class StateAttackFall extends State
     {
         super(model, animation);
 
-        addTransition(StateCrouch.class, () -> !steep.is() && isGoingDown() && collideY.get());
-        addTransition(StateJump.class,
-                      () -> collideSword.get() && Double.compare(jump.getDirectionVertical(), 0.0) > 0);
+        addTransition(StateCrouch.class, () -> !steep.is() && collideY.get() && isGoDown());
+        addTransition(StateJump.class, () -> collideSword.get() && jump.getDirectionVertical() > 0);
         addTransition(StateFall.class,
                       () -> steep.is()
-                            || !isGoingDown() && collideY.get()
-                            || !control.isFireButton() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
+                            || !isGoDown() && collideY.get()
+                            || !isFire() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
     }
 
     @Override
@@ -116,7 +115,8 @@ public final class StateAttackFall extends State
         {
             body.resetGravity();
         }
-        if (isGoingHorizontal())
+
+        if (isGoHorizontal())
         {
             movement.setVelocity(0.12);
         }

@@ -39,8 +39,8 @@ public final class StateAttackPrepare extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackPrepared.class, () -> control.isFireButton() && is(AnimState.FINISHED));
-        addTransition(StateIdle.class, () -> !control.isFireButton() && is(AnimState.FINISHED));
+        addTransition(StateIdle.class, () -> !isFire() && is(AnimState.FINISHED));
+        addTransition(StateAttackPrepared.class, () -> isFire() && is(AnimState.FINISHED));
     }
 
     @Override

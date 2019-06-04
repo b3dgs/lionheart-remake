@@ -55,7 +55,7 @@ public class StateSlideBase extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> !steep.is() || abord.get());
-        addTransition(StateJump.class, this::isGoingUp);
+        addTransition(StateJump.class, this::isGoUp);
     }
 
     /**
@@ -100,7 +100,7 @@ public class StateSlideBase extends State
     {
         super.exit();
 
-        if (isGoingUp())
+        if (isGoUp())
         {
             movement.setDestination(0.0, 0.0);
             movement.setDirection(SPEED_JUMP_X * steep.getSide(), 0.0);
@@ -119,11 +119,11 @@ public class StateSlideBase extends State
     {
         super.postUpdate();
 
-        if (mirrorable.is(Mirror.NONE) && steep.isLeft())
+        if (is(Mirror.NONE) && steep.isLeft())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && steep.isRight())
+        else if (is(Mirror.HORIZONTAL) && steep.isRight())
         {
             mirrorable.mirror(Mirror.NONE);
         }

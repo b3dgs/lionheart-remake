@@ -52,7 +52,7 @@ public class StateLianaSlide extends State
         super(model, animation);
 
         addTransition(StateAttackLianaSlide.class, () -> liana.is() && control.isFireButtonOnce());
-        addTransition(StateFall.class, () -> !liana.is() || isGoingDown());
+        addTransition(StateFall.class, () -> !liana.is() || isGoDown());
     }
 
     @Override
@@ -87,11 +87,11 @@ public class StateLianaSlide extends State
     {
         super.exit();
 
-        if (isGoingUp())
+        if (isGoUp())
         {
             movement.setDestination(0.0, 0.0);
         }
-        if (isGoingDown())
+        if (isGoDown())
         {
             transformable.teleportY(transformable.getY() - 3.0);
         }
@@ -102,11 +102,11 @@ public class StateLianaSlide extends State
     {
         body.resetGravity();
 
-        if (mirrorable.is(Mirror.NONE) && isGoingRight() || mirrorable.is(Mirror.HORIZONTAL) && isGoingLeft())
+        if (is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft())
         {
             speed = LIANA_SPEED_FAST;
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && isGoingRight() || mirrorable.is(Mirror.NONE) && isGoingLeft())
+        else if (is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft())
         {
             speed = LIANA_SPEED_SLOW;
         }

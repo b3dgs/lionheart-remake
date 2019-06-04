@@ -46,11 +46,11 @@ final class StateAttackCrouchHorizontal extends State
     {
         super.enter();
 
-        if (control.getHorizontalDirection() < 0 && mirrorable.is(Mirror.NONE))
+        if (control.getHorizontalDirection() < 0 && is(Mirror.NONE))
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (control.getHorizontalDirection() > 0 && mirrorable.is(Mirror.HORIZONTAL))
+        else if (control.getHorizontalDirection() > 0 && is(Mirror.HORIZONTAL))
         {
             mirrorable.mirror(Mirror.NONE);
         }

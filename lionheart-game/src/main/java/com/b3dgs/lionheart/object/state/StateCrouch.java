@@ -39,7 +39,7 @@ public final class StateCrouch extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !isGoingDown());
+        addTransition(StateIdle.class, () -> !isGoDown());
         addTransition(StateAttackCrouchPrepare.class, control::isFireButton);
     }
 
@@ -57,11 +57,11 @@ public final class StateCrouch extends State
     {
         super.update(extrp);
 
-        if (isGoingLeft())
+        if (isGoLeft())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (isGoingRight())
+        else if (isGoRight())
         {
             mirrorable.mirror(Mirror.NONE);
         }
