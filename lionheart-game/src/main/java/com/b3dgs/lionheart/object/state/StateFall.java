@@ -70,7 +70,7 @@ public final class StateFall extends State
 
         steep.onCollideLeg(result, category);
 
-        if (!result.startWithY(Constant.COLL_PREFIX_LIANA))
+        if (!result.startWithY(Constant.COLL_PREFIX_LIANA) && !result.startWithY(Constant.COLL_PREFIX_SPIKE))
         {
             jump.setDirection(DirectionNone.INSTANCE);
             tileCollidable.apply(result);

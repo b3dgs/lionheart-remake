@@ -136,8 +136,10 @@ public abstract class State extends StateAbstract
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
         collideX.set(true);
-        collideXright.set(result.contains(Constant.COLL_PREFIX_STEEP_LEFT));
-        collideXleft.set(result.contains(Constant.COLL_PREFIX_STEEP_RIGHT));
+        collideXright.set(result.contains(Constant.COLL_PREFIX_STEEP_LEFT)
+                          || result.contains(Constant.COLL_PREFIX_SPIKE_LEFT));
+        collideXleft.set(result.contains(Constant.COLL_PREFIX_STEEP_RIGHT)
+                         || result.contains(Constant.COLL_PREFIX_SPIKE_RIGHT));
     }
 
     /**
@@ -148,7 +150,7 @@ public abstract class State extends StateAbstract
      */
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        if (!result.startWithY(Constant.COLL_PREFIX_LIANA))
+        if (!result.startWithY(Constant.COLL_PREFIX_LIANA) && !result.startWithY(Constant.COLL_PREFIX_SPIKE))
         {
             collideY.set(true);
         }

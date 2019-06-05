@@ -96,6 +96,10 @@ public final class Constant
     public static final String COLL_PREFIX_GROUND = "ground";
     /** Collision spike prefix. */
     public static final String COLL_PREFIX_SPIKE = "spike";
+    /** Collision spike left prefix. */
+    public static final String COLL_PREFIX_SPIKE_LEFT = COLL_PREFIX_SPIKE + "_vertical_left";
+    /** Collision spike right prefix. */
+    public static final String COLL_PREFIX_SPIKE_RIGHT = COLL_PREFIX_SPIKE + "_vertical_right";
     /** Collision slope prefix. */
     public static final String COLL_PREFIX_SLOPE = "slope";
     /** Collision slope left prefix. */

@@ -79,8 +79,12 @@ public final class StateIdle extends State
 
         steep.onCollideKnee(result, category);
 
-        if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
-            || movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (movement.getDirectionHorizontal() < 0
+            && (result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
+                || result.startWithX(Constant.COLL_PREFIX_SPIKE_RIGHT))
+            || movement.getDirectionHorizontal() > 0
+               && (result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT)
+                   || result.startWithX(Constant.COLL_PREFIX_SPIKE_LEFT)))
         {
             tileCollidable.apply(result);
             movement.setDirection(DirectionNone.INSTANCE);
