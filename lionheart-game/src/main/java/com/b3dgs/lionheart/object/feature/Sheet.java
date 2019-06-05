@@ -75,11 +75,6 @@ public final class Sheet extends FeatureModel implements Routine, Recyclable
     {
         if (start)
         {
-            if (curve < 0 || curve > 180)
-            {
-                curve = 0.0;
-                done = true;
-            }
             if (!done)
             {
                 if (abord && Double.compare(curve, 90) < 0)
@@ -90,6 +85,11 @@ public final class Sheet extends FeatureModel implements Routine, Recyclable
                 {
                     curve += CURVE_SPEED;
                 }
+            }
+            if (curve < 0 || curve > 180)
+            {
+                curve = 0.0;
+                done = true;
             }
         }
     }
