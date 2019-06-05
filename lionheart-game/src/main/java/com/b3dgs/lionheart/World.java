@@ -159,6 +159,9 @@ final class World extends WorldGame
 
         landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DUSK);
 
+        factory.createCache(Medias.create(Constant.FOLDER_EFFECTS), 5);
+        Sfx.cache();
+
         final HandlerPersister handlerPersister = new HandlerPersister(services);
         handlerPersister.load(file);
 
@@ -176,7 +179,7 @@ final class World extends WorldGame
         handler.add(tracker);
 
         audio = AudioFactory.loadAudio(Music.SWAMP.get());
-        audio.setVolume(50);
+        audio.setVolume(25);
         audio.play();
 
         zooming.setZoom(scale);

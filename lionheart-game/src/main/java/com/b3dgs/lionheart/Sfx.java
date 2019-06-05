@@ -22,6 +22,7 @@ import java.util.Locale;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilRandom;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 
@@ -51,6 +52,28 @@ public enum Sfx
     EXPLODE2,
     /** Explode 3. */
     EXPLODE3;
+
+    /**
+     * Cache sfx.
+     */
+    public static void cache()
+    {
+        for (final Sfx sfx : Sfx.values())
+        {
+            sfx.audio.setVolume(0);
+            sfx.play();
+            sfx.audio.stop();
+            try
+            {
+                Thread.sleep(com.b3dgs.lionengine.Constant.DECADE);
+            }
+            catch (final InterruptedException exception)
+            {
+                Verbose.exception(exception);
+            }
+            sfx.audio.setVolume(50);
+        }
+    }
 
     /**
      * Play a random explode sound.
