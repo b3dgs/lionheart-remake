@@ -47,7 +47,6 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 public final class Patrol extends FeatureModel implements Routine
 {
     private final Updatable checker;
-    private final boolean mirror;
     private final boolean coll;
     private final int amplitude;
 
@@ -76,7 +75,6 @@ public final class Patrol extends FeatureModel implements Routine
         sh = config.getSh();
         sv = config.getSv();
         amplitude = config.getAmplitude();
-        mirror = config.hasMirror();
         coll = config.hasColl();
 
         final AnimationConfig anim = AnimationConfig.imports(setup);
@@ -155,6 +153,8 @@ public final class Patrol extends FeatureModel implements Routine
                 return sv;
             }
         });
+
+        applyMirror();
     }
 
     @Override
