@@ -18,23 +18,19 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Stats;
 
 /**
- * Die state implementation.
+ * Dead state implementation.
  */
-public final class StateDie extends State
+public final class StateDead extends State
 {
+    private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
-
-    private double x;
-    private double y;
-    private double vx;
-    private double vy;
 
     /**
      * Create the state.
@@ -42,11 +38,11 @@ public final class StateDie extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateDie(EntityModel model, Animation animation)
+    public StateDead(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateDead.class, () -> transformable.getX() - x > 25);
+        addTransition(StateIdle.class, () -> tick.elapsed(60L));
     }
 
     @Override
@@ -54,25 +50,25 @@ public final class StateDie extends State
     {
         super.enter();
 
-        stats.applyDamages(stats.getHealth());
         movement.setDirection(DirectionNone.INSTANCE);
         movement.setDestination(0.0, 0.0);
-        x = transformable.getX();
-        y = transformable.getY();
-        vx = 0.8;
-        vy = 0.4;
-        Sfx.VALDYN_DIE.play();
+        tick.restart();
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        transformable.teleport(216, 64);
+        model.getCamera().resetInterval(transformable);
+        stats.fillHealth();
+        stats.decreaseLife();
     }
 
     @Override
     public void update(double extrp)
     {
-        body.resetGravity();
-        if (transformable.getX() - x < 25)
-        {
-            transformable.moveLocation(extrp, vx, vy);
-            vx += 0.1;
-            vy += 0.2;
-        }
+        tick.update(extrp);
     }
 }

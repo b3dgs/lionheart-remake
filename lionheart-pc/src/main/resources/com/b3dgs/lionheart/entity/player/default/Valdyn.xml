@@ -97,6 +97,7 @@
 	<lionengine:animation name="groundhoockable_idle" start="72" end="72" speed="0.2" reversed="false" repeat="false" />
 	<lionengine:animation name="ground_soar" start="72" end="82" speed="0.2" reversed="false" repeat="false" />
 	<lionengine:animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false" />
+	<lionengine:animation name="drowned" start="67" end="69" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="die" start="67" end="69" speed="0.125" reversed="false" repeat="false" />
 	<lionengine:animation name="dead" start="70" end="71" speed="0.15" reversed="false" repeat="true" />
 	<lionengine:animation name="attackprepare" start="83" end="83" speed="0.125" reversed="false" repeat="false">

@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -25,16 +26,13 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.object.Routine;
-import com.b3dgs.lionheart.object.state.StateDie;
-import com.b3dgs.lionheart.object.state.StateIdle;
+import com.b3dgs.lionheart.object.state.StateDrowned;
 
 /**
  * Drownable feature implementation.
  * <ol>
  * <li>Check if current position is under drown start.</li>
- * <li>Trigger {@link StateDie}.</li>
- * <li>Check if current position is under drown end.</li>
- * <li>Trigger {@link StateIdle} with respawn.</li>
+ * <li>Trigger {@link StateDrowned}.</li>
  * </ol>
  */
 @FeatureInterface
@@ -42,8 +40,6 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
 {
     /** Top limit drown vertical position. */
     private static final int DROWN_START_Y = -10;
-    /** Down limit drown vertical position. */
-    private static final int DROWN_END_Y = -60;
 
     /** Current drown check. */
     private Updatable check;
@@ -60,22 +56,8 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
     {
         if (transformable.getY() < DROWN_START_Y)
         {
-            stateHandler.changeState(StateDie.class);
-            check = this::checkEnd;
-        }
-    }
-
-    /**
-     * Check end drown.
-     * 
-     * @param extrp The extrapolation value.
-     */
-    private void checkEnd(double extrp)
-    {
-        if (transformable.getY() < DROWN_END_Y)
-        {
-            stateHandler.changeState(StateIdle.class);
-            check = this::checkStart;
+            stateHandler.changeState(StateDrowned.class);
+            check = UpdatableVoid.getInstance();
         }
     }
 

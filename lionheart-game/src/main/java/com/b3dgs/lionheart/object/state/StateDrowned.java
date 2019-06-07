@@ -22,19 +22,21 @@ import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Drownable;
 import com.b3dgs.lionheart.object.feature.Stats;
 
 /**
- * Die state implementation.
+ * Drowned state implementation.
  */
-public final class StateDie extends State
+public final class StateDrowned extends State
 {
-    private final Stats stats = model.getFeature(Stats.class);
+    /** Drown limit drown vertical position. */
+    private static final int DROWN_END_Y = -60;
+    /** Drown fall speed. */
+    private static final double DEATH_FALL_SPEED = -0.7;
 
-    private double x;
-    private double y;
-    private double vx;
-    private double vy;
+    private final Stats stats = model.getFeature(Stats.class);
+    private final Drownable drownable = model.getFeature(Drownable.class);
 
     /**
      * Create the state.
@@ -42,11 +44,11 @@ public final class StateDie extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateDie(EntityModel model, Animation animation)
+    public StateDrowned(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateDead.class, () -> transformable.getX() - x > 25);
+        addTransition(StateIdle.class, () -> transformable.getY() < DROWN_END_Y);
     }
 
     @Override
@@ -57,22 +59,25 @@ public final class StateDie extends State
         stats.applyDamages(stats.getHealth());
         movement.setDirection(DirectionNone.INSTANCE);
         movement.setDestination(0.0, 0.0);
-        x = transformable.getX();
-        y = transformable.getY();
-        vx = 0.8;
-        vy = 0.4;
         Sfx.VALDYN_DIE.play();
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        transformable.teleport(216, 64);
+        model.getCamera().resetInterval(transformable);
+        stats.fillHealth();
+        stats.decreaseLife();
+        drownable.recycle();
     }
 
     @Override
     public void update(double extrp)
     {
         body.resetGravity();
-        if (transformable.getX() - x < 25)
-        {
-            transformable.moveLocation(extrp, vx, vy);
-            vx += 0.1;
-            vy += 0.2;
-        }
+        model.getMovement().setDestination(0.0, DEATH_FALL_SPEED);
     }
 }
