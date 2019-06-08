@@ -87,7 +87,7 @@ public final class Effect extends FeatureModel implements Recyclable
             @Override
             public void notifyAnimFrame(int frame)
             {
-                if (sfxExplode && (frame - 1) % mod == 0)
+                if (sfxExplode && frame % mod == 0)
                 {
                     Sfx.playRandomExplode();
                 }
