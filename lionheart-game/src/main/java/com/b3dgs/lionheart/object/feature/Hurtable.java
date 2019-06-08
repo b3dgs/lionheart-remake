@@ -144,16 +144,12 @@ public final class Hurtable extends FeatureModel
      */
     private void updateCollideAttack(Collidable collidable)
     {
+        Sfx.MONSTER_HURT.play();
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
-            Sfx.MONSTER_HURT.play();
             spawner.spawn(effect, transformable);
             identifiable.destroy();
             currentCollide = CollidableListenerVoid.getInstance();
-        }
-        else
-        {
-            Sfx.MONSTER_HURT.play();
         }
         if (model.getMovement().isDecreasingHorizontal())
         {
