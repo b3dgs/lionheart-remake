@@ -19,6 +19,7 @@
         <lionengine:group>steep_right_0</lionengine:group>
         <lionengine:group>steep_right_1</lionengine:group>
         <lionengine:group>steep_vertical</lionengine:group>
+        <lionengine:group>vertical</lionengine:group>
     </lionengine:category>
     <lionengine:category name="knee_right" axis="X" x="4" y="1">
         <lionengine:group>spike</lionengine:group>
@@ -26,6 +27,7 @@
         <lionengine:group>steep_left_1</lionengine:group>
         <lionengine:group>steep_left_ground</lionengine:group>
         <lionengine:group>steep_vertical</lionengine:group>
+        <lionengine:group>vertical</lionengine:group>
     </lionengine:category>
     <lionengine:category name="knee_center" axis="X" x="0" y="1">
         <lionengine:group>spike</lionengine:group>
@@ -35,6 +37,7 @@
         <lionengine:group>steep_right_0</lionengine:group>
         <lionengine:group>steep_right_1</lionengine:group>
         <lionengine:group>steep_vertical</lionengine:group>
+        <lionengine:group>vertical</lionengine:group>
     </lionengine:category>
     <lionengine:category name="leg_left" axis="Y" x="-4" y="0" glue="true">
         <lionengine:group>slope_left_0</lionengine:group>

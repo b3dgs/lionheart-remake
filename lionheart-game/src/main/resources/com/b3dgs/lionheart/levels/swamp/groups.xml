@@ -220,7 +220,6 @@
         <lionengine:tile number="47" sheet="0"/>
         <lionengine:tile number="14" sheet="0"/>
         <lionengine:tile number="840" sheet="0"/>
-        <lionengine:tile number="675" sheet="0"/>
         <lionengine:tile number="609" sheet="0"/>
         <lionengine:tile number="576" sheet="0"/>
         <lionengine:tile number="543" sheet="0"/>
@@ -240,7 +239,6 @@
         <lionengine:tile number="48" sheet="0"/>
         <lionengine:tile number="15" sheet="0"/>
         <lionengine:tile number="841" sheet="0"/>
-        <lionengine:tile number="676" sheet="0"/>
         <lionengine:tile number="610" sheet="0"/>
         <lionengine:tile number="577" sheet="0"/>
         <lionengine:tile number="544" sheet="0"/>
@@ -292,7 +290,6 @@
         <lionengine:tile number="18" sheet="0"/>
         <lionengine:tile number="778" sheet="0"/>
         <lionengine:tile number="745" sheet="0"/>
-        <lionengine:tile number="679" sheet="0"/>
         <lionengine:tile number="613" sheet="0"/>
         <lionengine:tile number="580" sheet="0"/>
         <lionengine:tile number="481" sheet="0"/>
@@ -371,7 +368,6 @@
         <lionengine:tile number="22" sheet="0"/>
         <lionengine:tile number="782" sheet="0"/>
         <lionengine:tile number="716" sheet="0"/>
-        <lionengine:tile number="683" sheet="0"/>
         <lionengine:tile number="650" sheet="0"/>
         <lionengine:tile number="617" sheet="0"/>
         <lionengine:tile number="584" sheet="0"/>
@@ -465,7 +461,6 @@
         <lionengine:tile number="61" sheet="0"/>
         <lionengine:tile number="28" sheet="0"/>
         <lionengine:tile number="788" sheet="0"/>
-        <lionengine:tile number="689" sheet="0"/>
         <lionengine:tile number="656" sheet="0"/>
         <lionengine:tile number="623" sheet="0"/>
         <lionengine:tile number="524" sheet="0"/>
@@ -534,7 +529,6 @@
         <lionengine:tile number="65" sheet="0"/>
         <lionengine:tile number="32" sheet="0"/>
         <lionengine:tile number="726" sheet="0"/>
-        <lionengine:tile number="693" sheet="0"/>
         <lionengine:tile number="660" sheet="0"/>
         <lionengine:tile number="627" sheet="0"/>
         <lionengine:tile number="561" sheet="0"/>
@@ -784,4 +778,12 @@
         <lionengine:tile number="743" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="steep_vertical_right" type="NONE"/>
+    <lionengine:group name="vertical" type="NONE">
+        <lionengine:tile number="676" sheet="0"/>
+        <lionengine:tile number="679" sheet="0"/>
+        <lionengine:tile number="693" sheet="0"/>
+        <lionengine:tile number="683" sheet="0"/>
+        <lionengine:tile number="689" sheet="0"/>
+        <lionengine:tile number="675" sheet="0"/>
+    </lionengine:group>
 </lionengine:groups>
