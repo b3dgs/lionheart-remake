@@ -36,7 +36,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 public final class StateLand extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
     private static final long LAND_TICK = 10L;
 
     private final Tick landed = new Tick();
@@ -117,7 +116,7 @@ public final class StateLand extends State
 
         if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
         {
-            movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+            movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
         }
     }
 }

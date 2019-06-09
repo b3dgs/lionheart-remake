@@ -39,7 +39,6 @@ import com.b3dgs.lionheart.object.state.StateFall;
  */
 public final class StateAttackJump extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
     private static final double JUMP_MIN = 2.5;
     private static final double JUMP_MAX = 5.4;
 
@@ -126,12 +125,12 @@ public final class StateAttackJump extends State
 
         if (isGoHorizontal())
         {
-            movement.setVelocity(0.12);
+            movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         }
         else
         {
             movement.setVelocity(0.07);
         }
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

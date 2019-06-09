@@ -20,6 +20,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -28,7 +29,6 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StatePatrol extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 3.0;
 
     /**
@@ -58,7 +58,8 @@ public final class StatePatrol extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(control.getHorizontalDirection() * SPEED, control.getVerticalDirection() * SPEED);
+        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED,
+                                control.getVerticalDirection() * Constant.WALK_SPEED);
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
                                 / ANIM_SPEED_DIVISOR);
     }

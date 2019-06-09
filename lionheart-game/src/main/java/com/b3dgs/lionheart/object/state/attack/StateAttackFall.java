@@ -41,8 +41,6 @@ import com.b3dgs.lionheart.object.state.StateJump;
  */
 public final class StateAttackFall extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
-
     private final GameplaySteep steep = new GameplaySteep();
 
     private final AtomicBoolean collideSword = new AtomicBoolean();
@@ -118,12 +116,12 @@ public final class StateAttackFall extends State
 
         if (isGoHorizontal())
         {
-            movement.setVelocity(0.12);
+            movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         }
         else
         {
             movement.setVelocity(0.07);
         }
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

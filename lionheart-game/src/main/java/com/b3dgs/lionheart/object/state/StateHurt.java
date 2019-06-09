@@ -29,8 +29,6 @@ import com.b3dgs.lionheart.object.feature.Hurtable;
  */
 public final class StateHurt extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
-
     private final Hurtable hurtable = model.getFeature(Hurtable.class);
 
     /**
@@ -51,7 +49,7 @@ public final class StateHurt extends State
     {
         super.enter();
 
-        movement.setVelocity(0.12);
+        movement.setVelocity(Constant.WALK_VELOCITY_MAX);
     }
 
     @Override
@@ -66,6 +64,6 @@ public final class StateHurt extends State
     public void update(double extrp)
     {
         body.resetGravity();
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

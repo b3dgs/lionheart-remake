@@ -38,7 +38,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 public final class StateIdle extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
     private static final double WALK_MIN_SPEED = 0.75;
 
     private final BorderDetection border = new BorderDetection(model.getMap());
@@ -158,7 +157,7 @@ public final class StateIdle extends State
 
         if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
         {
-            movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+            movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
         }
 
         steep.reset();

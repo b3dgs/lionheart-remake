@@ -37,7 +37,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 final class StateWalk extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.005;
     private static final double SPEED_SLOPE_RISING = -0.3;
@@ -138,7 +137,7 @@ final class StateWalk extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(control.getHorizontalDirection() * (SPEED + speedSlope), 0.0);
+        movement.setDestination(control.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope), 0.0);
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
@@ -150,14 +149,14 @@ final class StateWalk extends State
         if (isGoHorizontal()
             && !(movement.getDirectionHorizontal() < 0 && isGoRight()
                  || movement.getDirectionHorizontal() > 0 && isGoLeft())
-            && Math.abs(movement.getDirectionHorizontal()) > SPEED
+            && Math.abs(movement.getDirectionHorizontal()) > Constant.WALK_SPEED
             && movement.isDecreasingHorizontal())
         {
-            movement.setVelocity(0.0001);
+            movement.setVelocity(Constant.WALK_VELOCITY_SLOPE_DECREASE);
         }
         else
         {
-            movement.setVelocity(0.12);
+            movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         }
 
         slopeRising.set(false);

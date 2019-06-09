@@ -35,8 +35,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
  */
 public final class StateJump extends State
 {
-    private static final double SPEED = 5.0 / 3.0;
-
     private final Updatable checkJumpStopped;
 
     private Updatable check;
@@ -118,7 +116,7 @@ public final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override
@@ -129,14 +127,14 @@ public final class StateJump extends State
         if (isGoHorizontal()
             && !(movement.getDirectionHorizontal() < 0 && isGoRight()
                  || movement.getDirectionHorizontal() > 0 && isGoLeft())
-            && Math.abs(movement.getDirectionHorizontal()) > SPEED
+            && Math.abs(movement.getDirectionHorizontal()) > Constant.WALK_SPEED
             && movement.isDecreasingHorizontal())
         {
-            movement.setVelocity(0.001);
+            movement.setVelocity(Constant.WALK_VELOCITY_SLOPE_DECREASE);
         }
         else
         {
-            movement.setVelocity(0.12);
+            movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         }
     }
 }

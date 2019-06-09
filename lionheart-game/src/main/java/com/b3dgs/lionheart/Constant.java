@@ -137,6 +137,12 @@ public final class Constant
     /** Stats maximum life. */
     public static final int STATS_MAX_LIFE = 99;
 
+    /** Walk speed. */
+    public static final double WALK_SPEED = 5.0 / 3.0;
+    /** Walk maximum velocity. */
+    public static final double WALK_VELOCITY_SLOPE_DECREASE = 0.0001;
+    /** Walk maximum velocity. */
+    public static final double WALK_VELOCITY_MAX = 0.12;
     /** Jump minimum height. */
     public static final double JUMP_MIN = 2.5;
     /** Jump maximum height on hit. */
