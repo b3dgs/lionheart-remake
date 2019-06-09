@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart.landscape;
+package com.b3dgs.lionheart;
 
 import java.io.IOException;
 import java.util.Locale;
 
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
-import com.b3dgs.lionheart.Music;
 
 /**
  * List of world types.
@@ -49,7 +49,7 @@ public enum WorldType
     /** Title displayed. */
     private final String title;
     /** World music. */
-    private final Music music;
+    private final Media music;
 
     /**
      * Constructor.
@@ -60,7 +60,7 @@ public enum WorldType
     WorldType(String title, Music music)
     {
         this.title = title;
-        this.music = music;
+        this.music = music.get();
     }
 
     /**
@@ -79,7 +79,7 @@ public enum WorldType
      * 
      * @return The music type.
      */
-    public Music getMusic()
+    public Media getMusic()
     {
         return music;
     }

@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.WorldType;
 
 /**
  * Swamp background implementation.

@@ -40,7 +40,7 @@ final class Foreground extends BackgroundAbstract
     private static final double WATER_EFFECT_FREQUENCY = 1.5;
     private static final double WATER_EFFECT_AMPLITUDE = 0.8;
     private static final double WATER_EFFECT_OFFSET = 3.0;
-    private static final int UNKNOWN_OFFSET = 210;
+    private static final int WATER_HEIGHT_OFFSET = 214;
 
     /** Standard height. */
     private final int nominal = 180;
@@ -234,7 +234,11 @@ final class Foreground extends BackgroundAbstract
         {
             final Sprite sprite = (Sprite) data.getRenderable();
             final int w = (int) Math.ceil(screenWidth / (double) sprite.getWidth());
-            final int y = (int) (screenHeight + getNominal() - UNKNOWN_OFFSET + data.getOffsetY() + water.getHeight());
+            final int y = (int) (screenHeight
+                                 + getNominal()
+                                 - WATER_HEIGHT_OFFSET
+                                 + data.getOffsetY()
+                                 + water.getHeight());
             if (y >= 0 && y < screenHeight)
             {
                 for (int j = 0; j < w; j++)
@@ -308,7 +312,7 @@ final class Foreground extends BackgroundAbstract
         private void waterEffect(Graphic g, double speed, double frequency, double amplitude, double offsetForce)
         {
             final int oy = py + (int) water.getHeight();
-            for (int y = screenHeight + getNominal() - UNKNOWN_OFFSET + oy; y < screenHeight; y++)
+            for (int y = screenHeight + getNominal() - WATER_HEIGHT_OFFSET + oy; y < screenHeight; y++)
             {
                 final double inside = Math.cos(UtilMath.wrapDouble(y + wx * frequency, 0.0, 360.0)) * amplitude;
                 final double outside = Math.cos(wx) * offsetForce;
@@ -338,7 +342,7 @@ final class Foreground extends BackgroundAbstract
             // w number of renders used to fill screen
             final Sprite sprite = (Sprite) data.getRenderable();
             int w = (int) Math.ceil(screenWidth / (double) sprite.getWidth());
-            int y = (int) (screenHeight + getNominal() - UNKNOWN_OFFSET + data.getOffsetY() + water.getHeight());
+            int y = (int) (screenHeight + getNominal() - WATER_HEIGHT_OFFSET + data.getOffsetY() + water.getHeight());
 
             if (y >= 0 && y <= screenHeight)
             {
@@ -353,7 +357,7 @@ final class Foreground extends BackgroundAbstract
             w = (int) Math.ceil(screenWidth / (double) anim.getTileWidth());
             final int x = (int) (-data.getOffsetX() + data.getMainX());
 
-            y -= anim.getTileHeight();
+            y -= anim.getTileHeight() - 4;
             if (y >= 0 && y <= screenHeight)
             {
                 for (int j = 0; j <= w; j++)

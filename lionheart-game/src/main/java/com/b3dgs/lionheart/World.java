@@ -54,7 +54,6 @@ import com.b3dgs.lionengine.io.InputDevicePointer;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.landscape.LandscapeType;
-import com.b3dgs.lionheart.landscape.WorldType;
 import com.b3dgs.lionheart.object.Entity;
 
 /**
@@ -97,6 +96,85 @@ final class World extends WorldGame
 
         handler.addComponent(new ComponentCollision());
         handler.add(map);
+
+        camera.setIntervals(16, 0);
+    }
+
+    private void loadMap(FileReading file, WorldType worldType, LandscapeType landscapeType) throws IOException
+    {
+        mapPersister.load(file);
+        mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), landscapeType.getRaster()), false);
+        mapViewer.clear();
+        mapViewer.addRenderer(mapRaster);
+
+        final String world = worldType.getFolder();
+
+        map.addFeature(new LayerableModel(3, 1));
+        map.addFeatureAndGet(new MapTileGroupModel())
+           .loadGroups(Medias.create(Constant.FOLDER_LEVELS, world, TileGroupsConfig.FILENAME));
+        map.addFeatureAndGet(new MapTileCollisionModel(services))
+           .loadCollisions(Medias.create(Constant.FOLDER_LEVELS, world, CollisionFormulaConfig.FILENAME),
+                           Medias.create(Constant.FOLDER_LEVELS, world, CollisionGroupConfig.FILENAME));
+
+        if (Constant.DEBUG)
+        {
+            final MapTileCollisionRenderer mapCollisionRenderer;
+            mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
+            mapCollisionRenderer.createCollisionDraw();
+            mapViewer.addRenderer(mapCollisionRenderer);
+        }
+
+        camera.setLimits(map);
+    }
+
+    private void loadEntities(FileReading file) throws IOException
+    {
+        final HandlerPersister handlerPersister = new HandlerPersister(services);
+        handlerPersister.load(file);
+
+        final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
+
+        final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
+        valdynTransformable.teleport(204, 64);
+        handler.add(valdyn);
+        hud.setFeaturable(valdyn);
+
+        final CameraTracker tracker = new CameraTracker(services);
+        tracker.addFeature(new LayerableModel(2));
+        tracker.setOffset(0, valdynTransformable.getHeight() / 2);
+        tracker.track(valdynTransformable);
+        handler.add(tracker);
+    }
+
+    private void prepareCache()
+    {
+        factory.createCache(Medias.create(Constant.FOLDER_EFFECTS), 5);
+        Sfx.cache();
+    }
+
+    @Override
+    protected void saving(FileWriting file) throws IOException
+    {
+        mapPersister.save(file);
+    }
+
+    @Override
+    protected void loading(FileReading file) throws IOException
+    {
+        final WorldType worldType = WorldType.SWAMP;
+        final LandscapeType landscapeType = LandscapeType.SWAMP_DUSK;
+
+        loadMap(file, worldType, landscapeType);
+        loadEntities(file);
+        prepareCache();
+
+        landscape = factoryLandscape.createLandscape(landscapeType);
+
+        audio = AudioFactory.loadAudio(worldType.getMusic());
+        audio.setVolume(25);
+        audio.play();
+
+        zooming.setZoom(scale);
     }
 
     @Override
@@ -121,68 +199,6 @@ final class World extends WorldGame
         super.render(g);
         landscape.renderForeground(g);
         hud.render(g);
-    }
-
-    @Override
-    protected void saving(FileWriting file) throws IOException
-    {
-        mapPersister.save(file);
-    }
-
-    @Override
-    protected void loading(FileReading file) throws IOException
-    {
-        mapPersister.load(file);
-        mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), "raster1.xml"), false);
-        mapViewer.clear();
-        mapViewer.addRenderer(mapRaster);
-
-        final String world = WorldType.SWAMP.getFolder();
-
-        map.addFeature(new LayerableModel(3, 1));
-        map.addFeatureAndGet(new MapTileGroupModel())
-           .loadGroups(Medias.create(Constant.FOLDER_LEVELS, world, TileGroupsConfig.FILENAME));
-        map.addFeatureAndGet(new MapTileCollisionModel(services))
-           .loadCollisions(Medias.create(Constant.FOLDER_LEVELS, world, CollisionFormulaConfig.FILENAME),
-                           Medias.create(Constant.FOLDER_LEVELS, world, CollisionGroupConfig.FILENAME));
-
-        if (Constant.DEBUG)
-        {
-            final MapTileCollisionRenderer mapCollisionRenderer;
-            mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
-            mapCollisionRenderer.createCollisionDraw();
-            mapViewer.addRenderer(mapCollisionRenderer);
-        }
-
-        camera.setLimits(map);
-        camera.setIntervals(16, 0);
-
-        landscape = factoryLandscape.createLandscape(LandscapeType.SWAMP_DUSK);
-
-        factory.createCache(Medias.create(Constant.FOLDER_EFFECTS), 5);
-        Sfx.cache();
-
-        final HandlerPersister handlerPersister = new HandlerPersister(services);
-        handlerPersister.load(file);
-
-        final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
-
-        final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
-        valdynTransformable.teleport(216, 64);
-        handler.add(valdyn);
-        hud.setFeaturable(valdyn);
-
-        final CameraTracker tracker = new CameraTracker(services);
-        tracker.addFeature(new LayerableModel(2));
-        tracker.setOffset(0, valdynTransformable.getHeight() / 2);
-        tracker.track(valdynTransformable);
-        handler.add(tracker);
-
-        audio = AudioFactory.loadAudio(Music.SWAMP.get());
-        audio.setVolume(25);
-        audio.play();
-
-        zooming.setZoom(scale);
     }
 
     @Override

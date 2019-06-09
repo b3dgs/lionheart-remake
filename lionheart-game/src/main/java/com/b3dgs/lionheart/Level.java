@@ -19,7 +19,6 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionheart.landscape.WorldType;
 
 /**
  * List of levels with their file.

@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionheart.WorldType;
 
 /**
  * Types of landscapes.
