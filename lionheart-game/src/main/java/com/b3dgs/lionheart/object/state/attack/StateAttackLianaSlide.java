@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
@@ -65,7 +65,7 @@ public class StateAttackLianaSlide extends State
 
         liana.onCollideHand(result, category);
 
-        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
+        if (result.startWithY(CollisionName.LIANA))
         {
             tileCollidable.apply(result);
             body.resetGravity();

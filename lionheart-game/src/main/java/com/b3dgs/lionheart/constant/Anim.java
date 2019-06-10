@@ -15,37 +15,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.constant;
 
-import java.util.Locale;
-
-import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionheart.constant.Extension;
-import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionengine.LionEngineException;
 
 /**
- * List of available musics.
- * <p>
- * Music file name is enum name in lower case.
- * </p>
+ * Animation constants.
  */
-public enum Music
+public final class Anim
 {
-    /** Intro music. */
-    INTRO,
-    /** Swamp music. */
-    SWAMP,
-    /** Ancient Town music. */
-    ANCIENT_TOWN;
+    /** Animation leg prefix. */
+    public static final String LEG = "leg";
+    /** Animation attack prefix. */
+    public static final String ATTACK = "attack";
+    /** Animation body prefix. */
+    public static final String BODY = "body";
+    /** Animation shade prefix. */
+    public static final String SHADE = "shade_";
+
+    /** Animation name walk. */
+    public static final String TURN = "turn";
+    /** Animation name attack fall. */
+    public static final String ATTACK_FALL = ATTACK + "fall";
 
     /**
-     * Get the music media.
-     * 
-     * @return The music media.
+     * Private constructor.
      */
-    public Media get()
+    private Anim()
     {
-        return Medias.create(Folder.MUSICS, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
+        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
     }
 }

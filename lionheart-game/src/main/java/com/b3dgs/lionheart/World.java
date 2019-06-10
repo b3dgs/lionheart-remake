@@ -22,10 +22,12 @@ import java.io.IOException;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.HandlerPersister;
+import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -34,9 +36,11 @@ import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
 import com.b3dgs.lionengine.game.feature.tile.TileGroupsConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
@@ -49,8 +53,10 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Zooming;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionengine.io.InputDeviceDirectional;
 import com.b3dgs.lionengine.io.InputDevicePointer;
+import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.landscape.LandscapeType;
@@ -61,17 +67,23 @@ import com.b3dgs.lionheart.object.Entity;
  */
 final class World extends WorldGame
 {
+    private static final String ERROR_INPUT_DEVICE = "Void input device used !";
+
     private final MapTile map = services.create(MapTileGame.class);
+    private final MapTileGroup mapGroup = map.addFeatureAndGet(new MapTileGroupModel());
+    private final MapTileCollision mapCollision = map.addFeatureAndGet(new MapTileCollisionModel(services));
     private final MapTileViewer mapViewer = map.addFeatureAndGet(new MapTileViewerModel(services));
-    private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
     private final MapTileRastered mapRaster = map.addFeatureAndGet(new MapTileRasteredModel(services));
+    private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
+    private final HandlerPersister handlerPersister = new HandlerPersister(services);
+    private final FactoryLandscape factoryLandscape = new FactoryLandscape(source, false);
+    private final Hud hud = new Hud();
     private final Zooming zooming = services.get(Zooming.class);
     private final InputDevicePointer pointer = getInputDevice(InputDevicePointer.class);
-    private final FactoryLandscape factoryLandscape;
-    private final Hud hud = new Hud();
+    private final MapTileCollisionRenderer mapCollisionRenderer;
+
     private Landscape landscape;
     private Audio audio;
-
     private double scale = 1;
 
     /**
@@ -83,16 +95,10 @@ final class World extends WorldGame
     {
         super(services);
 
-        try
-        {
-            services.add(getInputDevice(InputDeviceDirectional.class));
-        }
-        catch (final LionEngineException exception)
-        {
-            services.add(InputDeviceControlVoid.getInstance());
-        }
+        addInputDevice();
 
-        factoryLandscape = new FactoryLandscape(source, false);
+        map.addFeature(new LayerableModel(3, 1));
+        mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
 
         handler.addComponent(new ComponentCollision());
         handler.add(map);
@@ -100,26 +106,45 @@ final class World extends WorldGame
         camera.setIntervals(16, 0);
     }
 
+    /**
+     * Add input device or void if none.
+     */
+    private void addInputDevice()
+    {
+        try
+        {
+            services.add(getInputDevice(InputDeviceDirectional.class));
+        }
+        catch (final LionEngineException exception)
+        {
+            Verbose.exception(exception, ERROR_INPUT_DEVICE);
+            services.add(InputDeviceControlVoid.getInstance());
+        }
+    }
+
+    /**
+     * Load map from level.
+     * 
+     * @param file The level file.
+     * @param worldType The world type.
+     * @param landscapeType The landscape type.
+     * @throws IOException If error on reading level.
+     */
     private void loadMap(FileReading file, WorldType worldType, LandscapeType landscapeType) throws IOException
     {
         mapPersister.load(file);
         mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), landscapeType.getRaster()), false);
+
+        final String world = worldType.getFolder();
+        mapGroup.loadGroups(Medias.create(Folder.LEVELS, world, TileGroupsConfig.FILENAME));
+        mapCollision.loadCollisions(Medias.create(Folder.LEVELS, world, CollisionFormulaConfig.FILENAME),
+                                    Medias.create(Folder.LEVELS, world, CollisionGroupConfig.FILENAME));
+
         mapViewer.clear();
         mapViewer.addRenderer(mapRaster);
 
-        final String world = worldType.getFolder();
-
-        map.addFeature(new LayerableModel(3, 1));
-        map.addFeatureAndGet(new MapTileGroupModel())
-           .loadGroups(Medias.create(Constant.FOLDER_LEVELS, world, TileGroupsConfig.FILENAME));
-        map.addFeatureAndGet(new MapTileCollisionModel(services))
-           .loadCollisions(Medias.create(Constant.FOLDER_LEVELS, world, CollisionFormulaConfig.FILENAME),
-                           Medias.create(Constant.FOLDER_LEVELS, world, CollisionGroupConfig.FILENAME));
-
         if (Constant.DEBUG)
         {
-            final MapTileCollisionRenderer mapCollisionRenderer;
-            mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
             mapCollisionRenderer.createCollisionDraw();
             mapViewer.addRenderer(mapCollisionRenderer);
         }
@@ -127,29 +152,59 @@ final class World extends WorldGame
         camera.setLimits(map);
     }
 
+    /**
+     * Load all entities from level.
+     * 
+     * @param file The file level.
+     * @throws IOException If error.
+     */
     private void loadEntities(FileReading file) throws IOException
     {
-        final HandlerPersister handlerPersister = new HandlerPersister(services);
         handlerPersister.load(file);
 
-        final Entity valdyn = factory.create(Medias.create(Constant.FOLDER_PLAYERS, "default", "Valdyn.xml"));
+        final Entity player = factory.create(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"));
 
-        final Transformable valdynTransformable = valdyn.getFeature(Transformable.class);
-        valdynTransformable.teleport(204, 64);
-        handler.add(valdyn);
-        hud.setFeaturable(valdyn);
+        final Transformable playerTransformable = player.getFeature(Transformable.class);
+        playerTransformable.teleport(204, 64);
+        handler.add(player);
+        hud.setFeaturable(player);
 
+        trackPlayer(playerTransformable);
+    }
+
+    /**
+     * Track player with camera.
+     * 
+     * @param player The player to track.
+     */
+    private void trackPlayer(Transformable player)
+    {
         final CameraTracker tracker = new CameraTracker(services);
-        tracker.addFeature(new LayerableModel(2));
-        tracker.setOffset(0, valdynTransformable.getHeight() / 2);
-        tracker.track(valdynTransformable);
+        tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
+        tracker.setOffset(0, player.getHeight() / 2);
+        tracker.track(player);
         handler.add(tracker);
     }
 
+    /**
+     * Prepare cached media.
+     */
     private void prepareCache()
     {
-        factory.createCache(Medias.create(Constant.FOLDER_EFFECTS), 5);
+        factory.createCache(Medias.create(Folder.EFFECTS), 5);
         Sfx.cache();
+    }
+
+    /**
+     * Update scene zoom on click.
+     */
+    private void updateZoom()
+    {
+        if (pointer.getClick() == 2)
+        {
+            scale = UtilMath.clamp(scale + pointer.getMoveY() / 100.0, 0.5, 1.42);
+            zooming.setZoom(scale);
+        }
     }
 
     @Override
@@ -168,6 +223,7 @@ final class World extends WorldGame
         loadEntities(file);
         prepareCache();
 
+        hud.load();
         landscape = factoryLandscape.createLandscape(landscapeType);
 
         audio = AudioFactory.loadAudio(worldType.getMusic());
@@ -181,11 +237,6 @@ final class World extends WorldGame
     public void update(double extrp)
     {
         pointer.update(extrp);
-        if (pointer.getClick() == 2)
-        {
-            scale = UtilMath.clamp(scale + pointer.getMoveY() / 100.0, 0.5, 1.42);
-            zooming.setZoom(scale);
-        }
         super.update(extrp);
         landscape.update(extrp, camera);
         camera.moveLocation(extrp, 0.0, 0.0);

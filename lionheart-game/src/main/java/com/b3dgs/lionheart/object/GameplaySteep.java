@@ -17,20 +17,18 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Steep gameplay checker.
  */
 public final class GameplaySteep
 {
-    private final AtomicBoolean steep = new AtomicBoolean();
-    private final AtomicBoolean steepLeft = new AtomicBoolean();
-    private final AtomicBoolean steepRight = new AtomicBoolean();
+    private boolean steep;
+    private boolean steepLeft;
+    private boolean steepRight;
 
     private int side = 1;
 
@@ -39,9 +37,9 @@ public final class GameplaySteep
      */
     public void reset()
     {
-        steep.set(false);
-        steepLeft.set(false);
-        steepRight.set(false);
+        steep = false;
+        steepLeft = false;
+        steepRight = false;
     }
 
     /**
@@ -61,7 +59,7 @@ public final class GameplaySteep
      */
     public boolean is()
     {
-        return steep.get();
+        return steep;
     }
 
     /**
@@ -71,7 +69,7 @@ public final class GameplaySteep
      */
     public boolean isLeft()
     {
-        return steepLeft.get();
+        return steepLeft;
     }
 
     /**
@@ -81,7 +79,7 @@ public final class GameplaySteep
      */
     public boolean isRight()
     {
-        return steepRight.get();
+        return steepRight;
     }
 
     /**
@@ -92,17 +90,17 @@ public final class GameplaySteep
      */
     public void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWithY(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (result.startWithY(CollisionName.STEEP_LEFT))
         {
             side = -1;
-            steep.set(true);
-            steepLeft.set(true);
+            steep = true;
+            steepLeft = true;
         }
-        else if (result.startWithY(Constant.COLL_PREFIX_STEEP_RIGHT))
+        else if (result.startWithY(CollisionName.STEEP_RIGHT))
         {
             side = 1;
-            steep.set(true);
-            steepRight.set(true);
+            steep = true;
+            steepRight = true;
         }
     }
 
@@ -114,15 +112,15 @@ public final class GameplaySteep
      */
     public void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (result.startWithX(CollisionName.STEEP_LEFT))
         {
-            steep.set(true);
-            steepLeft.set(true);
+            steep = true;
+            steepLeft = true;
         }
-        else if (result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT))
+        else if (result.startWithX(CollisionName.STEEP_RIGHT))
         {
-            steep.set(true);
-            steepRight.set(true);
+            steep = true;
+            steepRight = true;
         }
     }
 }

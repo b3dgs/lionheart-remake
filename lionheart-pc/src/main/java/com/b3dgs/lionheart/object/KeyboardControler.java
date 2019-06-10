@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.object;
 
 import com.b3dgs.lionengine.awt.Keyboard;
 import com.b3dgs.lionengine.awt.KeyboardAwt;
-import com.b3dgs.lionheart.InputDeviceControl;
+import com.b3dgs.lionengine.io.InputDeviceControl;
 
 /**
  * Keyboard input controller.

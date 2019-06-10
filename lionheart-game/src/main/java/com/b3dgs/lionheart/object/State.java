@@ -36,9 +36,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.InputDeviceControl;
-import com.b3dgs.lionheart.InputDeviceControlDelegate;
+import com.b3dgs.lionengine.io.InputDeviceControl;
+import com.b3dgs.lionengine.io.InputDeviceControlDelegate;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Base state with animation implementation.
@@ -108,18 +108,18 @@ public abstract class State extends StateAbstract
         {
             if (Axis.X == category.getAxis())
             {
-                if (category.getName().startsWith(Constant.COLL_CATEGORY_PREFIX_KNEE))
+                if (category.getName().startsWith(CollisionName.KNEE))
                 {
                     onCollideKnee(result, category);
                 }
             }
             else if (Axis.Y == category.getAxis())
             {
-                if (category.getName().startsWith(Constant.COLL_CATEGORY_PREFIX_LEG))
+                if (category.getName().startsWith(CollisionName.LEG))
                 {
                     onCollideLeg(result, category);
                 }
-                else if (category.getName().startsWith(Constant.COLL_CATEGORY_PREFIX_HAND))
+                else if (category.getName().startsWith(CollisionName.HAND))
                 {
                     onCollideHand(result, category);
                 }
@@ -136,10 +136,8 @@ public abstract class State extends StateAbstract
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
         collideX.set(true);
-        collideXright.set(result.contains(Constant.COLL_PREFIX_STEEP_LEFT)
-                          || result.contains(Constant.COLL_PREFIX_SPIKE_LEFT));
-        collideXleft.set(result.contains(Constant.COLL_PREFIX_STEEP_RIGHT)
-                         || result.contains(Constant.COLL_PREFIX_SPIKE_RIGHT));
+        collideXright.set(result.contains(CollisionName.STEEP_LEFT) || result.contains(CollisionName.SPIKE_LEFT));
+        collideXleft.set(result.contains(CollisionName.STEEP_RIGHT) || result.contains(CollisionName.SPIKE_RIGHT));
     }
 
     /**
@@ -150,7 +148,7 @@ public abstract class State extends StateAbstract
      */
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        if (!result.startWithY(Constant.COLL_PREFIX_LIANA) && !result.startWithY(Constant.COLL_PREFIX_SPIKE))
+        if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
         {
             collideY.set(true);
         }

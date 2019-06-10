@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Ancient Town full background implementation.
@@ -52,7 +53,7 @@ final class AncientTown extends BackgroundAbstract
         this.scaleH = scaleH;
         this.scaleV = scaleV;
         this.flickering = flickering;
-        final String path = UtilFolder.getPath(Constant.FOLDER_BACKGROUNDS, "ancient_town", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancient_town", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, this.flickering, width);
         add(backdrop);

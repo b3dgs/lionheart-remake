@@ -17,20 +17,18 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Liana gameplay checker.
  */
 public final class GameplayLiana
 {
-    private final AtomicBoolean liana = new AtomicBoolean();
-    private final AtomicBoolean lianaLeft = new AtomicBoolean();
-    private final AtomicBoolean lianaRight = new AtomicBoolean();
+    private boolean liana;
+    private boolean lianaLeft;
+    private boolean lianaRight;
 
     private int side = 1;
 
@@ -39,9 +37,9 @@ public final class GameplayLiana
      */
     public void reset()
     {
-        liana.set(false);
-        lianaLeft.set(false);
-        lianaRight.set(false);
+        liana = false;
+        lianaLeft = false;
+        lianaRight = false;
     }
 
     /**
@@ -61,7 +59,7 @@ public final class GameplayLiana
      */
     public boolean is()
     {
-        return liana.get();
+        return liana;
     }
 
     /**
@@ -71,7 +69,7 @@ public final class GameplayLiana
      */
     public boolean isLeft()
     {
-        return lianaLeft.get();
+        return lianaLeft;
     }
 
     /**
@@ -81,7 +79,7 @@ public final class GameplayLiana
      */
     public boolean isRight()
     {
-        return lianaRight.get();
+        return lianaRight;
     }
 
     /**
@@ -92,19 +90,19 @@ public final class GameplayLiana
      */
     public void onCollideHand(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
+        if (result.startWithY(CollisionName.LIANA))
         {
-            liana.set(true);
+            liana = true;
         }
-        if (result.startWithY(Constant.COLL_PREFIX_LIANA_LEFT))
+        if (result.startWithY(CollisionName.LIANA_LEFT))
         {
             side = -1;
-            lianaLeft.set(true);
+            lianaLeft = true;
         }
-        else if (result.startWithY(Constant.COLL_PREFIX_LIANA_RIGHT))
+        else if (result.startWithY(CollisionName.LIANA_RIGHT))
         {
             side = 1;
-            lianaRight.set(true);
+            lianaRight = true;
         }
     }
 
@@ -116,9 +114,9 @@ public final class GameplayLiana
      */
     public void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWithY(Constant.COLL_PREFIX_LIANA))
+        if (result.startWithY(CollisionName.LIANA))
         {
-            liana.set(true);
+            liana = true;
         }
     }
 }

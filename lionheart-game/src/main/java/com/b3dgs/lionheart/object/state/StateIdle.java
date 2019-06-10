@@ -26,8 +26,10 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.object.BorderDetection;
+import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.GameplayBorder;
 import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
@@ -40,7 +42,7 @@ public final class StateIdle extends State
 {
     private static final double WALK_MIN_SPEED = 0.75;
 
-    private final BorderDetection border = new BorderDetection(model.getMap());
+    private final GameplayBorder border = new GameplayBorder(model.getMap());
     private final GameplaySteep steep = new GameplaySteep();
 
     /**
@@ -79,11 +81,9 @@ public final class StateIdle extends State
         steep.onCollideKnee(result, category);
 
         if (movement.getDirectionHorizontal() < 0
-            && (result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
-                || result.startWithX(Constant.COLL_PREFIX_SPIKE_RIGHT))
+            && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
             || movement.getDirectionHorizontal() > 0
-               && (result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT)
-                   || result.startWithX(Constant.COLL_PREFIX_SPIKE_LEFT)))
+               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
         {
             tileCollidable.apply(result);
             movement.setDirection(DirectionNone.INSTANCE);
@@ -100,7 +100,7 @@ public final class StateIdle extends State
         tileCollidable.apply(result);
         body.resetGravity();
 
-        if (result.getX() != null && result.startWithY(Constant.COLL_PREFIX_STEEP))
+        if (result.getX() != null && result.startWithY(CollisionName.STEEP))
         {
             transformable.teleportX(result.getX().doubleValue());
         }
@@ -113,7 +113,7 @@ public final class StateIdle extends State
         super.onCollided(collidable, with, by);
 
         border.notifyCollided(collidable, with, by);
-        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
+        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
         {
             collideY.set(true);
         }

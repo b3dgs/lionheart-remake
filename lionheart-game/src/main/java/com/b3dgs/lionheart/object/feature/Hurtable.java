@@ -45,6 +45,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.EntityRenderer;
 import com.b3dgs.lionheart.object.Routine;
@@ -125,13 +127,13 @@ public final class Hurtable extends FeatureModel
     {
         if (recover.elapsed(HURT_RECOVER_ATTACK_TICK)
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
-            && by.getName().startsWith(Constant.ANIM_PREFIX_ATTACK))
+            && by.getName().startsWith(Anim.ATTACK))
         {
             updateCollideAttack(collidable);
         }
         if (collidable.getGroup() == Constant.COLL_GROUP_ENEMIES
             && recover.elapsed(HURT_RECOVER_BODY_TICK)
-            && with.getName().startsWith(Constant.ANIM_PREFIX_BODY))
+            && with.getName().startsWith(Anim.BODY))
         {
             updateCollideBody(collidable);
         }
@@ -192,7 +194,7 @@ public final class Hurtable extends FeatureModel
     {
         if (recover.elapsed(HURT_RECOVER_BODY_TICK)
             && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
-            && result.startWithY(Constant.COLL_PREFIX_SPIKE))
+            && result.startWithY(CollisionName.SPIKE))
         {
             model.getMovement().setDirection(DirectionNone.INSTANCE);
             model.getMovement().setDestination(0.0, 0.0);

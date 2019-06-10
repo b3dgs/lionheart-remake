@@ -35,8 +35,8 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
-import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.Routine;
 
@@ -84,7 +84,7 @@ public final class SwordShade extends FeatureModel implements Routine
         stateHandler.addListener((from, to) ->
         {
             shade.stop();
-            final String name = Constant.ANIM_PREFIX_SHADE + Entity.getAnimationName(to);
+            final String name = Anim.SHADE + Entity.getAnimationName(to);
             if (config.hasAnimation(name))
             {
                 anim = config.getAnimation(name);

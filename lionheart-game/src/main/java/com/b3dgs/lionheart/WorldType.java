@@ -20,19 +20,24 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 import java.util.Locale;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
 
 /**
  * List of world types.
+ * <p>
+ * World title is enum name as title case and underscores replaced by space.
+ * </p>
  */
 public enum WorldType
 {
     /** Swamp world. */
-    SWAMP("Swamp", Music.SWAMP),
+    SWAMP(Music.SWAMP),
     /** Ancient town world. */
-    ANCIENT_TOWN("Ancient Town", Music.ANCIENT_TOWN);
+    ANCIENT_TOWN(Music.ANCIENT_TOWN);
 
     /**
      * Load type from its saved format.
@@ -46,20 +51,16 @@ public enum WorldType
         return WorldType.valueOf(file.readString());
     }
 
-    /** Title displayed. */
-    private final String title;
     /** World music. */
     private final Media music;
 
     /**
      * Constructor.
      * 
-     * @param title The displayed title.
      * @param music The music type.
      */
-    WorldType(String title, Music music)
+    WorldType(Music music)
     {
-        this.title = title;
         this.music = music.get();
     }
 
@@ -97,6 +98,6 @@ public enum WorldType
     @Override
     public String toString()
     {
-        return title;
+        return UtilConversion.toTitleCase(name().replace(Constant.UNDERSCORE, Constant.SPACE));
     }
 }

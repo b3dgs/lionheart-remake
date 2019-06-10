@@ -27,6 +27,8 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
@@ -81,8 +83,8 @@ final class StateWalk extends State
     {
         super.onCollideKnee(result, category);
 
-        if (movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
-            || movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT))
+        if (movement.getDirectionHorizontal() < 0 && result.startWithX(CollisionName.STEEP_RIGHT)
+            || movement.getDirectionHorizontal() > 0 && result.startWithX(CollisionName.STEEP_LEFT))
         {
             tileCollidable.apply(result);
             movement.setDirection(DirectionNone.INSTANCE);
@@ -97,14 +99,14 @@ final class StateWalk extends State
 
         tileCollidable.apply(result);
 
-        if (movement.getDirectionHorizontal() > 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_LEFT)
-            || movement.getDirectionHorizontal() < 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_RIGHT))
+        if (movement.getDirectionHorizontal() > 0 && result.startWithY(CollisionName.SLOPE_LEFT)
+            || movement.getDirectionHorizontal() < 0 && result.startWithY(CollisionName.SLOPE_RIGHT))
         {
             slopeRising.set(true);
             speedSlope = SPEED_SLOPE_RISING;
         }
-        else if (movement.getDirectionHorizontal() > 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_RIGHT)
-                 || movement.getDirectionHorizontal() < 0 && result.startWithY(Constant.COLL_PREFIX_SLOPE_LEFT))
+        else if (movement.getDirectionHorizontal() > 0 && result.startWithY(CollisionName.SLOPE_RIGHT)
+                 || movement.getDirectionHorizontal() < 0 && result.startWithY(CollisionName.SLOPE_LEFT))
         {
             slopeDescending.set(true);
             speedSlope = SPEED_SLOPE_DESCENDING;
@@ -120,7 +122,7 @@ final class StateWalk extends State
     {
         super.onCollided(collidable, with, by);
 
-        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Constant.ANIM_PREFIX_LEG))
+        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
         {
             collideY.set(true);
         }

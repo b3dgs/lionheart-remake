@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.state.StateTurn;
@@ -141,7 +141,7 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
      */
     private void checkCollideEnabled(Class<? extends State> from, Class<? extends State> to)
     {
-        collidable.setEnabled(!Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
+        collidable.setEnabled(!Anim.TURN.equals(Entity.getAnimationName(to)));
     }
 
     @Override

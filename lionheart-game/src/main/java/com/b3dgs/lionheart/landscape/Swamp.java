@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.WorldType;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Swamp background implementation.
@@ -65,7 +66,7 @@ final class Swamp extends BackgroundAbstract
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
 
-        final String path = UtilFolder.getPath(Constant.FOLDER_BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, WorldType.SWAMP.getFolder(), theme);
         backdrop = new Backdrop(path, flickering, width);
         clouds = new Clouds(Medias.create(path, "cloud.png"), width, 4);
         parallax = new Parallax(source, Medias.create(path, "parallax.png"), PARALLAX_LINES, halfScreen, 124, 50, 100);

@@ -24,15 +24,16 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Loading screen.
  */
 final class Loading extends Sequence
 {
-    private static final String SPRITE_LOADING = "logo.png";
+    private static final String IMG_LOADING = "logo.png";
 
-    private final Image loading = Drawable.loadImage(Medias.create(Constant.FOLDER_SPRITES, SPRITE_LOADING));
+    private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_LOADING));
 
     private boolean loaded;
 

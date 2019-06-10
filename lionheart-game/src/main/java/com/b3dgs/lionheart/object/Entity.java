@@ -73,10 +73,13 @@ public final class Entity extends FeaturableModel
     {
         super(services, setup);
 
-        addFeature(new MirrorableModel());
-        addFeature(new TransformableModel(setup));
-        addFeature(new AnimatableModel());
         addFeature(new Stats(setup));
+        addFeature(new MirrorableModel());
+        addFeature(new AnimatableModel());
+        addFeature(new TransformableModel(setup));
+        addFeature(new BodyModel());
+        addFeature(new TileCollidableModel(services, setup));
+
         if (setup.hasNode(LayerableConfig.NODE_LAYERABLE))
         {
             addFeature(new LayerableModel(services, setup));
@@ -85,6 +88,10 @@ public final class Entity extends FeaturableModel
         {
             addFeature(new LayerableModel(2, 2));
         }
+
+        final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
+        rasterable.setOrigin(Origin.CENTER_BOTTOM);
+
         final Collidable collidable = addFeatureAndGet(new CollidableModel(services, setup));
         collidable.setOrigin(Origin.CENTER_BOTTOM);
         if (Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup()))
@@ -98,11 +105,6 @@ public final class Entity extends FeaturableModel
         }
         collidable.setCollisionVisibility(Constant.DEBUG);
 
-        final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
-        rasterable.setOrigin(Origin.CENTER_BOTTOM);
-
-        addFeature(new BodyModel());
-        addFeature(new TileCollidableModel(services, setup));
         addFeature(new CollidableFramedModel(services, setup));
 
         final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));

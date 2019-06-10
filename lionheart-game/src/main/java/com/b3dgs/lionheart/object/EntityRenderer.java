@@ -50,6 +50,7 @@ public final class EntityRenderer extends FeatureModel implements Displayable, R
      */
     public void loadRoutines()
     {
+        routines.clear();
         for (final Feature feature : getFeatures())
         {
             if (feature instanceof Routine)

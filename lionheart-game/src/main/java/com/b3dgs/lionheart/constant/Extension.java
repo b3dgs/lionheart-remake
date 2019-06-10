@@ -15,37 +15,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package com.b3dgs.lionheart;
+package com.b3dgs.lionheart.constant;
 
-import java.util.Locale;
-
-import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionheart.constant.Extension;
-import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionengine.LionEngineException;
 
 /**
- * List of available musics.
- * <p>
- * Music file name is enum name in lower case.
- * </p>
+ * Extensions constants.
  */
-public enum Music
+public final class Extension
 {
-    /** Intro music. */
-    INTRO,
-    /** Swamp music. */
-    SWAMP,
-    /** Ancient Town music. */
-    ANCIENT_TOWN;
+    /** Image file extension (with dot). */
+    public static final String IMAGE = ".png";
+    /** Levels file extension (with dot). */
+    public static final String LEVEL = ".lrl";
+    /** Sounds file extension (with dot). */
+    public static final String SFX = ".wav";
+    /** Musics file extension (with dot). */
+    public static final String MUSIC = ".sc68";
 
     /**
-     * Get the music media.
-     * 
-     * @return The music media.
+     * Private constructor.
      */
-    public Media get()
+    private Extension()
     {
-        return Medias.create(Folder.MUSICS, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
+        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
     }
 }

@@ -24,16 +24,17 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Handle borders detection.
  */
-public final class BorderDetection implements TileCollidableListener, CollidableListener
+public final class GameplayBorder implements TileCollidableListener, CollidableListener
 {
-    private static final String LEG_CENTER = Constant.ANIM_PREFIX_LEG + "_center";
-    private static final String LEG_LEFT = Constant.ANIM_PREFIX_LEG + "_left";
-    private static final String LEG_RIGHT = Constant.ANIM_PREFIX_LEG + "_right";
+    private static final String LEG_CENTER = Anim.LEG + "_center";
+    private static final String LEG_LEFT = Anim.LEG + "_left";
+    private static final String LEG_RIGHT = Anim.LEG + "_right";
 
     private final MapTile map;
     private boolean legLeftGround;
@@ -44,7 +45,7 @@ public final class BorderDetection implements TileCollidableListener, Collidable
      * 
      * @param map The map tile reference.
      */
-    public BorderDetection(MapTile map)
+    public GameplayBorder(MapTile map)
     {
         super();
 
@@ -100,16 +101,16 @@ public final class BorderDetection implements TileCollidableListener, Collidable
             legRightGround = true;
         }
         if (LEG_LEFT.equals(name)
-            && (result.startWithY(Constant.COLL_PREFIX_SLOPE)
+            && (result.startWithY(CollisionName.SLOPE)
                 && map.getTile(result.getTile().getInTileX() + 1, result.getTile().getInTileY()) == null
-                || result.startWithY(Constant.COLL_PREFIX_GROUND)))
+                || result.startWithY(CollisionName.GROUND)))
         {
             legLeftGround = true;
         }
         if (LEG_RIGHT.equals(name)
-            && (result.startWithY(Constant.COLL_PREFIX_SLOPE)
+            && (result.startWithY(CollisionName.SLOPE)
                 && map.getTile(result.getTile().getInTileX() - 1, result.getTile().getInTileY()) == null
-                || result.startWithY(Constant.COLL_PREFIX_GROUND)))
+                || result.startWithY(CollisionName.GROUND)))
         {
             legRightGround = true;
         }

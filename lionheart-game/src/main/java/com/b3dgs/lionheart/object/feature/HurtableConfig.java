@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Factory;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Hurtable configuration.
@@ -75,7 +75,7 @@ public final class HurtableConfig
 
         if (effect != null)
         {
-            this.effect = Medias.create(Constant.FOLDER_EFFECTS, effect + Factory.FILE_DATA_DOT_EXTENSION);
+            this.effect = Medias.create(Folder.EFFECTS, effect + Factory.FILE_DATA_DOT_EXTENSION);
         }
         else
         {

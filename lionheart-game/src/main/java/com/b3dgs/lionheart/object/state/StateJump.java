@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
@@ -73,7 +74,7 @@ public final class StateJump extends State
     {
         super.onCollideLeg(result, category);
 
-        if (result.startWithY(Constant.COLL_PREFIX_STEEP))
+        if (result.startWithY(CollisionName.STEEP))
         {
             body.resetGravity();
         }
@@ -84,9 +85,9 @@ public final class StateJump extends State
     {
         super.onCollideKnee(result, category);
 
-        if (movement.getDirectionHorizontal() > 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_LEFT)
-            || movement.getDirectionHorizontal() < 0 && result.startWithX(Constant.COLL_PREFIX_STEEP_RIGHT)
-            || result.startWithX(Constant.COLL_PREFIX_STEEP_VERTICAL))
+        if (movement.getDirectionHorizontal() > 0 && result.startWithX(CollisionName.STEEP_LEFT)
+            || movement.getDirectionHorizontal() < 0 && result.startWithX(CollisionName.STEEP_RIGHT)
+            || result.startWithX(CollisionName.STEEP_VERTICAL))
         {
             tileCollidable.apply(result);
         }

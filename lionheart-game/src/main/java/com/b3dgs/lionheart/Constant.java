@@ -19,7 +19,6 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.UtilFolder;
 import com.b3dgs.lionengine.Version;
 
 /**
@@ -40,95 +39,12 @@ public final class Constant
     /** Debug flag (shows collisions). */
     public static final boolean DEBUG = false;
 
-    /** Sprites folder. */
-    public static final String FOLDER_SPRITES = "sprite";
-    /** Backgrounds folder. */
-    public static final String FOLDER_BACKGROUNDS = "background";
-    /** Backgrounds folder. */
-    public static final String FOLDER_FOREGROUNDS = "foreground";
-    /** Entities folder. */
-    public static final String FOLDER_ENTITIES = "entity";
-    /** Items folder. */
-    public static final String FOLDER_ITEMS = UtilFolder.getPath(FOLDER_ENTITIES, "item");
-    /** Monsters folder. */
-    public static final String FOLDER_MONSTERS = UtilFolder.getPath(FOLDER_ENTITIES, "monster");
-    /** Sceneries folder. */
-    public static final String FOLDER_SCENERIES = UtilFolder.getPath(FOLDER_ENTITIES, "scenery");
-    /** Players folder. */
-    public static final String FOLDER_PLAYERS = UtilFolder.getPath(FOLDER_ENTITIES, "player");
-    /** Effects folder. */
-    public static final String FOLDER_EFFECTS = "effect";
-    /** Levels folder. */
-    public static final String FOLDER_LEVELS = "levels";
-    /** Sounds folder. */
-    public static final String FOLDER_SOUNDS = "sfx";
-    /** Musics folder. */
-    public static final String FOLDER_MUSICS = "music";
-
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
     /** Collision group enemies. */
     public static final Integer COLL_GROUP_ENEMIES = Integer.valueOf(2);
     /** Collision group background. */
     public static final Integer COLL_GROUP_BACKGROUND = Integer.valueOf(3);
-
-    /** Animation name take. */
-    public static final String ANIM_NAME_TAKE = "take";
-    /** Animation name walk. */
-    public static final String ANIM_NAME_TURN = "turn";
-    /** Animation leg prefix. */
-    public static final String ANIM_PREFIX_LEG = "leg";
-    /** Animation attack prefix. */
-    public static final String ANIM_PREFIX_ATTACK = "attack";
-    /** Animation body prefix. */
-    public static final String ANIM_PREFIX_BODY = "body";
-    /** Animation shade prefix. */
-    public static final String ANIM_PREFIX_SHADE = "shade_";
-
-    /** Category collision leg prefix. */
-    public static final String COLL_CATEGORY_PREFIX_LEG = "leg";
-    /** Category collision knee prefix. */
-    public static final String COLL_CATEGORY_PREFIX_KNEE = "knee";
-    /** Category collision hand prefix. */
-    public static final String COLL_CATEGORY_PREFIX_HAND = "hand";
-
-    /** Collision ground prefix. */
-    public static final String COLL_PREFIX_GROUND = "ground";
-    /** Collision spike prefix. */
-    public static final String COLL_PREFIX_SPIKE = "spike";
-    /** Collision spike left prefix. */
-    public static final String COLL_PREFIX_SPIKE_LEFT = COLL_PREFIX_SPIKE + "_vertical_left";
-    /** Collision spike right prefix. */
-    public static final String COLL_PREFIX_SPIKE_RIGHT = COLL_PREFIX_SPIKE + "_vertical_right";
-    /** Collision slope prefix. */
-    public static final String COLL_PREFIX_SLOPE = "slope";
-    /** Collision slope left prefix. */
-    public static final String COLL_PREFIX_SLOPE_LEFT = COLL_PREFIX_SLOPE + "_left";
-    /** Collision slope right prefix. */
-    public static final String COLL_PREFIX_SLOPE_RIGHT = COLL_PREFIX_SLOPE + "_right";
-    /** Collision steep prefix. */
-    public static final String COLL_PREFIX_STEEP = "steep";
-    /** Collision steep left prefix. */
-    public static final String COLL_PREFIX_STEEP_LEFT = COLL_PREFIX_STEEP + "_left";
-    /** Collision steep left ground prefix. */
-    public static final String COLL_PREFIX_STEEP_LEFT_GROUND = COLL_PREFIX_STEEP + "_left_ground";
-    /** Collision steep right prefix. */
-    public static final String COLL_PREFIX_STEEP_RIGHT = COLL_PREFIX_STEEP + "_right";
-    /** Collision steep vertical prefix. */
-    public static final String COLL_PREFIX_STEEP_VERTICAL = COLL_PREFIX_STEEP + "_vertical";
-    /** Collision liana prefix. */
-    public static final String COLL_PREFIX_LIANA = "liana";
-    /** Collision liana left prefix. */
-    public static final String COLL_PREFIX_LIANA_LEFT = COLL_PREFIX_LIANA + "_left";
-    /** Collision liana right prefix. */
-    public static final String COLL_PREFIX_LIANA_RIGHT = COLL_PREFIX_LIANA + "_right";
-
-    /** Levels file extension (with dot). */
-    public static final String EXTENSION_LEVEL = ".lrl";
-    /** Sounds file extension (with dot). */
-    public static final String EXTENSION_SFX = ".wav";
-    /** Musics file extension (with dot). */
-    public static final String EXTENSION_MUSIC = ".sc68";
 
     /** Stats maximum health. */
     public static final int STATS_MAX_HEALTH = 99;
@@ -137,9 +53,11 @@ public final class Constant
     /** Stats maximum life. */
     public static final int STATS_MAX_LIFE = 99;
 
+    /** Maximum gravity. */
+    public static final double GRAVITY = 6.5;
     /** Walk speed. */
     public static final double WALK_SPEED = 5.0 / 3.0;
-    /** Walk maximum velocity. */
+    /** Walk velocity on slope decrease. */
     public static final double WALK_VELOCITY_SLOPE_DECREASE = 0.0001;
     /** Walk maximum velocity. */
     public static final double WALK_VELOCITY_MAX = 0.12;

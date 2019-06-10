@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Water foreground implementation.
@@ -78,7 +79,7 @@ final class Foreground extends BackgroundAbstract
         scaleH = 1.0;
         scaleV = 1.0;
 
-        final String path = UtilFolder.getPath(Constant.FOLDER_FOREGROUNDS, theme);
+        final String path = UtilFolder.getPath(Folder.FOREGROUNDS, theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
 

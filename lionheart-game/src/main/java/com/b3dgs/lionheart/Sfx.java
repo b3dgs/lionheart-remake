@@ -25,6 +25,8 @@ import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionheart.constant.Extension;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * List of available sounds fx.
@@ -113,7 +115,7 @@ public enum Sfx
      */
     public Media get()
     {
-        return Medias.create(Constant.FOLDER_SOUNDS, name().toLowerCase(Locale.ENGLISH) + Constant.EXTENSION_SFX);
+        return Medias.create(Folder.SOUNDS, name().toLowerCase(Locale.ENGLISH) + Extension.SFX);
     }
 
     /**

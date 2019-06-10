@@ -19,6 +19,8 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionheart.constant.Extension;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * List of levels with their file.
@@ -47,8 +49,8 @@ public enum Level
      */
     Level(WorldType world, String level)
     {
-        this.level = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + Constant.EXTENSION_LEVEL);
-        rip = Medias.create(Constant.FOLDER_LEVELS, world.getFolder(), level + ".png");
+        this.level = Medias.create(Folder.LEVELS, world.getFolder(), level + Extension.LEVEL);
+        rip = Medias.create(Folder.LEVELS, world.getFolder(), level + Extension.IMAGE);
     }
 
     /**

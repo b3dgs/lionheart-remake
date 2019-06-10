@@ -28,8 +28,9 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
-import com.b3dgs.lionheart.InputDeviceControl;
-import com.b3dgs.lionheart.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.InputDeviceControl;
+import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Entity model implementation.
@@ -38,8 +39,6 @@ import com.b3dgs.lionheart.InputDeviceControlVoid;
 public final class EntityModel extends FeatureModel
 {
     private static final String NODE_DATA = "data";
-    private static final double GRAVITY = 6.5;
-    private static final double GRAVITY_MAX = 6.5;
 
     private final Force movement = new Force();
     private final Force jump = new Force();
@@ -75,8 +74,8 @@ public final class EntityModel extends FeatureModel
 
         if (hasGravity)
         {
-            body.setGravity(GRAVITY);
-            body.setGravityMax(GRAVITY_MAX);
+            body.setGravity(Constant.GRAVITY);
+            body.setGravityMax(Constant.GRAVITY);
             body.setDesiredFps(source.getRate());
         }
         else

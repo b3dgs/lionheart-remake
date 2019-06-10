@@ -32,8 +32,8 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Routine;
@@ -93,7 +93,7 @@ public final class Patrol extends FeatureModel implements Routine
                     {
                         sv = -sv;
                     }
-                    if (anim.hasAnimation(Constant.ANIM_NAME_TURN))
+                    if (anim.hasAnimation(Anim.TURN))
                     {
                         stateHandler.changeState(StateTurn.class);
                     }
@@ -137,7 +137,7 @@ public final class Patrol extends FeatureModel implements Routine
         stateHandler.changeState(StatePatrol.class);
         stateHandler.addListener((from, to) ->
         {
-            collidable.setEnabled(!coll || !Constant.ANIM_NAME_TURN.equals(Entity.getAnimationName(to)));
+            collidable.setEnabled(!coll || !Anim.TURN.equals(Entity.getAnimationName(to)));
         });
         model.setInput(new InputDeviceControlVoid()
         {
