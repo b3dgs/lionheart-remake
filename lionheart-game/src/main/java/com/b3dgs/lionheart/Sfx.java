@@ -44,6 +44,8 @@ public enum Sfx
     VALDYN_DIE,
     /** Item potion little. */
     ITEM_POTION,
+    /** Item potion full. */
+    ITEM_POTION_FULL,
     /** Item talisment. */
     ITEM_TAKEN,
     /** Monster hurt. */
