@@ -33,8 +33,8 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
 @FeatureInterface
 public final class Sheet extends FeatureModel implements Routine, Recyclable
 {
-    private static final double CURVE_FORCE = 8.0;
-    private static final double CURVE_SPEED = 6.0;
+    private static final double CURVE_FORCE = 6.0;
+    private static final double CURVE_SPEED = 7.0;
 
     private boolean start;
     private boolean done;
