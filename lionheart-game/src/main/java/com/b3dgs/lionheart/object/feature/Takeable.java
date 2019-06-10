@@ -30,14 +30,13 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
-import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
  * Takeable feature implementation.
  * <ol>
  * <li>Listen to {@link CollidableListener}.</li>
- * <li>Check if collided by {@link Constant#ANIM_PREFIX_BODY}.</li>
+ * <li>Check if collided by {@link Anim#BODY}.</li>
  * <li>Apply taken stats, spawn effect, destroy.</li>
  * </ol>
  */
