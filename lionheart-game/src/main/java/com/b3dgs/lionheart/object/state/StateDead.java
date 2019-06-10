@@ -61,7 +61,7 @@ public final class StateDead extends State
     {
         super.exit();
 
-        transformable.teleport(216, 64);
+        transformable.teleport(204, 64);
         model.getCamera().resetInterval(transformable);
         mirrorable.mirror(Mirror.NONE);
         stats.fillHealth();
