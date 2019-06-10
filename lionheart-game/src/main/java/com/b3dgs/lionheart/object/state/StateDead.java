@@ -18,6 +18,7 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -62,6 +63,7 @@ public final class StateDead extends State
 
         transformable.teleport(216, 64);
         model.getCamera().resetInterval(transformable);
+        mirrorable.mirror(Mirror.NONE);
         stats.fillHealth();
         stats.decreaseLife();
     }
