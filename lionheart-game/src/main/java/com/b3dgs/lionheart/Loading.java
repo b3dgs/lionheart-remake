@@ -29,7 +29,7 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Loading screen.
  */
-final class Loading extends Sequence
+public final class Loading extends Sequence
 {
     private static final String IMG_LOADING = "logo.png";
 

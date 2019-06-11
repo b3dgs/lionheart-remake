@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.io.InputDeviceControl;
 /**
  * Keyboard input controller.
  */
-public final class KeyboardControler implements InputDeviceControl
+public final class KeyboardController implements InputDeviceControl
 {
     private final Keyboard keyboard;
     private Integer fire = KeyboardAwt.CONTROL;
@@ -34,7 +34,7 @@ public final class KeyboardControler implements InputDeviceControl
      * 
      * @param keyboard The keyboard reference.
      */
-    public KeyboardControler(Keyboard keyboard)
+    public KeyboardController(Keyboard keyboard)
     {
         super();
 

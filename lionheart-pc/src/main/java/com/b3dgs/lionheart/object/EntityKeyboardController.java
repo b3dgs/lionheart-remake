@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 @FeatureInterface
 final class EntityKeyboardController extends FeatureModel
 {
-    private final KeyboardControler controller;
+    private final KeyboardController controller;
 
     @FeatureGet private EntityModel model;
 
@@ -46,7 +46,7 @@ final class EntityKeyboardController extends FeatureModel
         super();
 
         final Keyboard keyboard = services.get(Keyboard.class);
-        controller = new KeyboardControler(keyboard);
+        controller = new KeyboardController(keyboard);
     }
 
     @Override
