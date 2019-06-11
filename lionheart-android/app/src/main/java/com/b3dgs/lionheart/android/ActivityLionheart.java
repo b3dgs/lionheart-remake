@@ -22,9 +22,13 @@ import android.os.Bundle;
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.android.ActivityGame;
 import com.b3dgs.lionengine.android.graphic.EngineAndroid;
+import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Loading;
+
+import java.util.Arrays;
 
 /**
  * Android entry point.
@@ -42,7 +46,8 @@ public final class ActivityLionheart extends ActivityGame
     @Override
     protected void start(Bundle bundle)
     {
-        EngineAndroid.start(Constant.NAME, Constant.VERSION, this);
-        Loader.start(Config.windowed(Constant.NATIVE), Loading.class);
+        EngineAndroid.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, this);
+        Loader.start(Config.windowed(Constant.NATIVE_RESOLUTION), Loading.class);
+        AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("sc68")));
     }
 }

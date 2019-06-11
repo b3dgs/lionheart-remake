@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.Bee</lionengine:class>
-    <lionengine:surface image="Bee.png" icon="Bee_ico.png"/>
-	<lionengine:frames horizontal="2" vertical="1"/>
-	<lionengine:size width="32" height="32"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="32" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="walk" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
-	<lionengine:animation name="turn" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<data mass="0" gravityMax="0">
-		<jump heightMax="0.0" />
-	</data>
-	<life normal="1" />
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    <lionengine:surface image="Bee.png" icon="Bee_ico.png" />
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
+    <lionengine:frames horizontal="2" vertical="1" />
+    <lionengine:size width="32" height="32" />
+    <lionengine:group>2</lionengine:group>
+    <lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="32" mirror="false" />
+    <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
+    <lionengine:animation name="patrol" start="1" end="2" speed="0.25" reversed="false" repeat="true" />
+    <life normal="1" />
+    <hurtable effect="ExplodeBig" />
 </lionengine:featurable>

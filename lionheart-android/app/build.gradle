@@ -1,16 +1,30 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    signingConfigs {
+        app {
+            storeFile file(property('keystore'))
+            keyAlias property('keystore.alias')
+            keyPassword property('keystore.password')
+            storePassword property('keystore.storepassword')
+        }
+    }
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.b3dgs.lionheart"
         minSdkVersion 26
-        targetSdkVersion 26
+        targetSdkVersion 28
+        signingConfig signingConfigs.app
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.app
+        }
+        debug {
+            signingConfig signingConfigs.app
         }
     }
     compileOptions {
@@ -24,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.b3dgs.lionengine:lionengine-core:9.0.0-SNAPSHOT'
-    implementation 'com.b3dgs.lionengine:lionengine-core-android:9.0.0-SNAPSHOT'
-    implementation 'com.b3dgs.lionheart:lionheart-game:0.0.3-SNAPSHOT'
+    implementation 'com.b3dgs.lionengine:lionengine-core:9.0.1-SNAPSHOT'
+    implementation 'com.b3dgs.lionengine:lionengine-core-android:9.0.1-SNAPSHOT'
+    implementation 'com.b3dgs.lionheart:lionheart-game:0.0.16-SNAPSHOT'
 }

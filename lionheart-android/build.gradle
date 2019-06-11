@@ -2,11 +2,14 @@
 buildscript {
     repositories {
         mavenLocal()
+        maven {
+            url 'https://dl.google.com/dl/android/maven2'
+        }
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.4.1'
     }
 }
 
