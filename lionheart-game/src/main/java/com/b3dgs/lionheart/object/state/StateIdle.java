@@ -40,8 +40,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 public final class StateIdle extends State
 {
-    private static final double WALK_MIN_SPEED = 0.75;
-
     private final GameplayBorder border = new GameplayBorder(model.getMap());
     private final GameplaySteep steep = new GameplaySteep();
 
@@ -57,9 +55,9 @@ public final class StateIdle extends State
 
         addTransition(StateBorder.class, () -> collideY.get() && !isGoHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !collideX.get() && !steep.is() && isWalkingFastEnough());
-        addTransition(StateCrouch.class, this::isGoDown);
-        addTransition(StateJump.class, this::isGoUp);
-        addTransition(StateAttackPrepare.class, control::isFireButton);
+        addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
+        addTransition(StateJump.class, () -> collideY.get() && isGoUp());
+        addTransition(StateAttackPrepare.class, () -> collideY.get() && control.isFireButton());
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && !collideY.get()
@@ -70,7 +68,7 @@ public final class StateIdle extends State
     private boolean isWalkingFastEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return isGoHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return isGoHorizontal() && !UtilMath.isBetween(speedH, -Constant.WALK_MIN_SPEED, Constant.WALK_MIN_SPEED);
     }
 
     @Override
@@ -83,7 +81,8 @@ public final class StateIdle extends State
         if (movement.getDirectionHorizontal() < 0
             && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
             || movement.getDirectionHorizontal() > 0
-               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
+               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT))
+            || category.getName().startsWith(CollisionName.KNEE_CENTER) && result.startWithX(CollisionName.SPIKE))
         {
             tileCollidable.apply(result);
             movement.setDirection(DirectionNone.INSTANCE);

@@ -30,6 +30,9 @@ import com.b3dgs.lionheart.object.feature.Stats;
  */
 public final class StateDead extends State
 {
+    /** Stay in dead state during this delay in tick. */
+    private static final long DEAD_DELAY_TICK = 60L;
+
     private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
 
@@ -43,7 +46,7 @@ public final class StateDead extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> tick.elapsed(60L));
+        addTransition(StateIdle.class, () -> tick.elapsed(DEAD_DELAY_TICK));
     }
 
     @Override

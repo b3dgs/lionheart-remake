@@ -29,11 +29,24 @@ import com.b3dgs.lionheart.object.feature.Stats;
  */
 public final class StateDie extends State
 {
+    /** Maximum horizontal die offset. */
+    private static final int DIE_HORIZONTAL_OFFSET_MAX = 25;
+    /** Initial die horizontal speed. */
+    private static final double DIE_VX = 0.8;
+    /** Initial die vertical speed. */
+    private static final double DIE_VY = 0.4;
+    /** Horizontal die acceleration. */
+    private static final double DIE_AX = 0.1;
+    /** Vertical die acceleration. */
+    private static final double DIE_AY = 0.2;
+
     private final Stats stats = model.getFeature(Stats.class);
 
+    /** Initial horizontal position. */
     private double x;
-    private double y;
+    /** Current die horizontal speed. */
     private double vx;
+    /** Current die vertical speed. */
     private double vy;
 
     /**
@@ -46,7 +59,7 @@ public final class StateDie extends State
     {
         super(model, animation);
 
-        addTransition(StateDead.class, () -> transformable.getX() - x > 25);
+        addTransition(StateDead.class, () -> transformable.getX() - x > DIE_HORIZONTAL_OFFSET_MAX);
     }
 
     @Override
@@ -58,9 +71,8 @@ public final class StateDie extends State
         movement.setDirection(DirectionNone.INSTANCE);
         movement.setDestination(0.0, 0.0);
         x = transformable.getX();
-        y = transformable.getY();
-        vx = 0.8;
-        vy = 0.4;
+        vx = DIE_VX;
+        vy = DIE_VY;
         Sfx.VALDYN_DIE.play();
     }
 
@@ -68,11 +80,11 @@ public final class StateDie extends State
     public void update(double extrp)
     {
         body.resetGravity();
-        if (transformable.getX() - x < 25)
+        if (Double.compare(transformable.getX() - x, DIE_HORIZONTAL_OFFSET_MAX) <= 0)
         {
             transformable.moveLocation(extrp, vx, vy);
-            vx += 0.1;
-            vy += 0.2;
+            vx += DIE_AX;
+            vy += DIE_AY;
         }
     }
 }

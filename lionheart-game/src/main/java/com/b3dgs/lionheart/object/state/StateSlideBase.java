@@ -36,8 +36,8 @@ import com.b3dgs.lionheart.object.State;
  */
 public class StateSlideBase extends State
 {
-    private static final double SPEED_JUMP_X = 1.5;
-    private static final Direction SPEED_JUMP_Y = new Force(0.0, 2.5);
+    private static final double SPEED_JUMP_X = 2.2;
+    private static final Direction SPEED_JUMP_Y = new Force(0.0, SPEED_JUMP_X * 1.5);
 
     private final GameplaySteep steep = new GameplaySteep();
     private final AtomicBoolean abord = new AtomicBoolean();

@@ -28,6 +28,8 @@ import com.b3dgs.lionheart.object.state.StateLianaIdle;
  */
 public final class StateAttackLiana extends State
 {
+    private static final int FRAME_OFFSET_Y = -2;
+
     /**
      * Create the state.
      * 
@@ -46,7 +48,7 @@ public final class StateAttackLiana extends State
     {
         super.enter();
 
-        rasterable.setFrameOffsets(0, -2);
+        rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
     }
 
     @Override

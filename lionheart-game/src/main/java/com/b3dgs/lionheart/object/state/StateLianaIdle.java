@@ -18,7 +18,6 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
@@ -34,7 +33,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackLiana;
  */
 public final class StateLianaIdle extends State
 {
-    private static final double WALK_MIN_SPEED = 0.75;
+    private static final int FRAME_OFFSET_Y = -2;
 
     private final GameplayLiana liana = new GameplayLiana();
 
@@ -49,16 +48,10 @@ public final class StateLianaIdle extends State
         super(model, animation);
 
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
-        addTransition(StateLianaWalk.class, () -> isWalkingFastEnough());
+        addTransition(StateLianaWalk.class, this::isGoHorizontal);
         addTransition(StateLianaSoar.class, () -> liana.is() && isGoUp());
         addTransition(StateAttackLiana.class, control::isFireButtonOnce);
         addTransition(StateFall.class, () -> !liana.is() || isGoDown());
-    }
-
-    private boolean isWalkingFastEnough()
-    {
-        final double speedH = movement.getDirectionHorizontal();
-        return isGoHorizontal() && !UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override
@@ -80,9 +73,9 @@ public final class StateLianaIdle extends State
     {
         super.enter();
 
-        movement.setVelocity(0.16);
+        movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         movement.setDirection(DirectionNone.INSTANCE);
-        rasterable.setFrameOffsets(0, -2);
+        rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
 
         liana.reset();
     }

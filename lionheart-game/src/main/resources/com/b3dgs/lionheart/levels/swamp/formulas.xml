@@ -13,7 +13,7 @@
         <lionengine:function a="0.5" b="8.0" type="LINEAR"/>
     </lionengine:formula>
     <lionengine:formula name="spike_vertical_left">
-        <lionengine:range maxX="1" maxY="15" minX="0" minY="0" output="X"/>
+        <lionengine:range maxX="1" maxY="16" minX="0" minY="0" output="X"/>
         <lionengine:function a="0.0" b="0.0" type="LINEAR"/>
     </lionengine:formula>
     <lionengine:formula name="steep_right_0_vertical">
@@ -78,7 +78,7 @@
     </lionengine:formula>
     <lionengine:formula name="spike_vertical_right">
         <lionengine:range maxX="1" maxY="16" minX="0" minY="0" output="X"/>
-        <lionengine:function a="0.0" b="16.0" type="LINEAR"/>
+        <lionengine:function a="0.0" b="15.0" type="LINEAR"/>
     </lionengine:formula>
     <lionengine:formula name="steep_right_1_vertical">
         <lionengine:range maxX="0" maxY="16" minX="0" minY="0" output="X"/>

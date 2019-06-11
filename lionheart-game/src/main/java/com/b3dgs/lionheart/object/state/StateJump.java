@@ -36,6 +36,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
  */
 public final class StateJump extends State
 {
+    /** Check for jump interruption during jumping. */
     private final Updatable checkJumpStopped;
 
     private Updatable check;

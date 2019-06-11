@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayLiana;
@@ -32,9 +33,9 @@ import com.b3dgs.lionheart.object.State;
  */
 final class StateLianaWalk extends State
 {
+    private static final int FRAME_OFFSET_Y = -2;
     private static final double SPEED = 2.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 4.0;
-    private static final double WALK_MIN_SPEED = 0.005;
 
     private final GameplayLiana liana = new GameplayLiana();
 
@@ -56,7 +57,7 @@ final class StateLianaWalk extends State
     private boolean isWalkingSlowEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return !isGoHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return !isGoHorizontal() && UtilMath.isBetween(speedH, -Constant.WALK_MIN_SPEED, Constant.WALK_MIN_SPEED);
     }
 
     @Override
@@ -78,7 +79,7 @@ final class StateLianaWalk extends State
     {
         super.enter();
 
-        rasterable.setFrameOffsets(0, -2);
+        rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
         movement.setDirection(DirectionNone.INSTANCE);
         liana.reset();
     }

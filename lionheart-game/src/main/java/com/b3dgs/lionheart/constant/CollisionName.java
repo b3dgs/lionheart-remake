@@ -28,6 +28,8 @@ public final class CollisionName
     public static final String LEG = "leg";
     /** Category collision knee prefix. */
     public static final String KNEE = "knee";
+    /** Category collision knee center. */
+    public static final String KNEE_CENTER = KNEE + "_center";
     /** Category collision hand prefix. */
     public static final String HAND = "hand";
 

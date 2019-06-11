@@ -38,11 +38,16 @@ final class StateLianaSoar extends State
 
     private static final double SOAR_SPEED = 0.85;
 
+    /** Handle frame vertical specific offset for rendering. */
     private final AnimatorFrameListener listener;
 
+    /** Initial horizontal location. */
     private double y;
+    /** Progressive offset during soar. */
     private double offset;
+    /** Specific frame offset computed by listener. */
     private int frameOffset;
+    /** Soar side (1 rising, -1 descending). */
     private int side = 1;
 
     /**

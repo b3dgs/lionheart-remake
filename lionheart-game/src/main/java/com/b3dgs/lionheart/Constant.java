@@ -57,6 +57,8 @@ public final class Constant
     public static final double GRAVITY = 6.5;
     /** Walk speed. */
     public static final double WALK_SPEED = 5.0 / 3.0;
+    /** Minimum speed to start walk. */
+    public static final double WALK_MIN_SPEED = 0.75;
     /** Walk velocity on slope decrease. */
     public static final double WALK_VELOCITY_SLOPE_DECREASE = 0.0001;
     /** Walk maximum velocity. */

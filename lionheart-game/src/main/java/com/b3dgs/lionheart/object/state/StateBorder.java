@@ -37,6 +37,7 @@ final class StateBorder extends State
 {
     private final GameplayLiana liana = new GameplayLiana();
 
+    /** Store vertical position on enter to detect falling on border. */
     private double y;
 
     /**

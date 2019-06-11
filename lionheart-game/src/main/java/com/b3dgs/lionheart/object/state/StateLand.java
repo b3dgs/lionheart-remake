@@ -38,6 +38,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 public final class StateLand extends State
 {
+    /** Stay in land during delay in tick. */
     private static final long LAND_TICK = 10L;
 
     private final Tick landed = new Tick();
@@ -69,8 +70,10 @@ public final class StateLand extends State
         steep.onCollideKnee(result, category);
         tileCollidable.apply(result);
 
-        if (movement.getDirectionHorizontal() < 0 && result.startWithX(CollisionName.STEEP_RIGHT)
-            || movement.getDirectionHorizontal() > 0 && result.startWithX(CollisionName.STEEP_LEFT))
+        if (movement.getDirectionHorizontal() < 0
+            && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
+            || movement.getDirectionHorizontal() > 0
+               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
         {
             movement.setDirection(DirectionNone.INSTANCE);
             movement.setDestination(0.0, 0.0);
