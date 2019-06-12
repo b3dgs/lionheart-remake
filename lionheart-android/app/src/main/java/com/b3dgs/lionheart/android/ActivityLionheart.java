@@ -46,7 +46,7 @@ public final class ActivityLionheart extends ActivityGame
     protected void start(Bundle bundle)
     {
         EngineAndroid.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, this);
-        Loader.start(Config.windowed(Constant.NATIVE_RESOLUTION), Loading.class);
+        Loader.start(Config.fullscreen(Constant.NATIVE_RESOLUTION), Loading.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("sc68")));
     }
 }
