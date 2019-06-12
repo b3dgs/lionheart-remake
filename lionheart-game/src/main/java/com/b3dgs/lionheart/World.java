@@ -76,7 +76,7 @@ final class World extends WorldGame
     private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
     private final HandlerPersister handlerPersister = new HandlerPersister(services);
     private final FactoryLandscape factoryLandscape = new FactoryLandscape(source, false);
-    private final Hud hud = new Hud();
+    private final Hud hud = new Hud(services);
     private final Zooming zooming = services.get(Zooming.class);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
     private final MapTileCollisionRenderer mapCollisionRenderer;

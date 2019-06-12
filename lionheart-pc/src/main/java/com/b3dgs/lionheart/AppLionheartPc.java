@@ -37,7 +37,7 @@ public final class AppLionheartPc
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheartPc.class);
-        Loader.start(Config.windowed(Constant.DEFAULT_RESOLUTION.get3x()), Loading.class);
+        Loader.start(Config.windowed(Constant.DEFAULT_RESOLUTION), Loading.class);
         AudioFactory.addFormat(new WavFormat());
         AudioFactory.addFormat(new Sc68Format());
     }

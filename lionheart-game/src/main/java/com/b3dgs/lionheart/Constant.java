@@ -31,9 +31,9 @@ public final class Constant
     public static final Version PROGRAM_VERSION = Version.create(0, 0, 16);
 
     /** Original display. */
-    public static final Resolution NATIVE_RESOLUTION = new Resolution(280, 220, 60);
+    public static final Resolution NATIVE_RESOLUTION = new Resolution(400, 220, 60);
     /** Default display. */
-    public static final Resolution DEFAULT_RESOLUTION = new Resolution(320, 256, NATIVE_RESOLUTION.getRate());
+    public static final Resolution DEFAULT_RESOLUTION = new Resolution(1280, 720, NATIVE_RESOLUTION.getRate());
 
     /** Debug flag (shows collisions). */
     public static final boolean DEBUG = false;

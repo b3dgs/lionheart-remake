@@ -19,7 +19,9 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resource;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.Featurable;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
@@ -49,10 +51,8 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final int HEALTH_X = 1;
     private static final int HEALTH_Y = 1;
 
-    private static final int TALISMENT_X = 57;
     private static final int TALISMENT_Y = 1;
 
-    private static final int LIFE_X = 244;
     private static final int LIFE_Y = 1;
 
     private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_HEART));
@@ -65,8 +65,19 @@ public final class Hud implements Resource, Updatable, Renderable
     private final SpriteDigit numberLife = Drawable.loadSpriteDigit(number, 8, 16, 2);
 
     private final SpriteTiled[] hearts = new SpriteTiled[HEALTH_MAX];
+    private final Viewer viewer;
 
     private Stats stats;
+
+    /**
+     * Create hud.
+     * 
+     * @param services The services reference.
+     */
+    public Hud(Services services)
+    {
+        viewer = services.get(Viewer.class);
+    }
 
     /**
      * Set the featurable to display.
@@ -105,8 +116,8 @@ public final class Hud implements Resource, Updatable, Renderable
     private void loadTalisment()
     {
         talisment.setTile(0);
-        talisment.setLocation(TALISMENT_X, TALISMENT_Y + 2);
-        numberTalisment.setLocation(TALISMENT_X + talisment.getTileWidth(), TALISMENT_Y + 1);
+        talisment.setLocation(viewer.getWidth() * 0.205, TALISMENT_Y + 2);
+        numberTalisment.setLocation(talisment.getX() + talisment.getTileWidth(), TALISMENT_Y + 1);
     }
 
     /**
@@ -115,8 +126,8 @@ public final class Hud implements Resource, Updatable, Renderable
     private void loadLife()
     {
         life.setTile(6);
-        life.setLocation(LIFE_X, LIFE_Y);
-        numberLife.setLocation(LIFE_X + life.getTileWidth() + 2, LIFE_Y + 1);
+        life.setLocation(viewer.getWidth() - life.getTileWidth() - numberLife.getWidth() - 4, LIFE_Y);
+        numberLife.setLocation(life.getX() + life.getTileWidth() + 2, LIFE_Y + 1);
     }
 
     /**
