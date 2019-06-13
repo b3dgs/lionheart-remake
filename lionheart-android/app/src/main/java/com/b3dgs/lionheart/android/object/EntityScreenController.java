@@ -16,21 +16,25 @@
  */
 package com.b3dgs.lionheart.android.object;
 
+import com.b3dgs.lionengine.android.Mouse;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.geom.Rectangle;
+import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.Routine;
 
 /**
  * Entity updating implementation.
  */
 @FeatureInterface
-final class EntityScreenController extends FeatureModel
+final class EntityScreenController extends FeatureModel implements Routine
 {
-    private final ScreenController controller;
+    private final VirtualDeviceButton virtual;
 
     @FeatureGet private EntityModel model;
 
@@ -43,8 +47,16 @@ final class EntityScreenController extends FeatureModel
     EntityScreenController(Services services, Setup setup)
     {
         super();
-        
-        controller = new ScreenController(services);
+
+        final Mouse mouse = services.get(Mouse.class);
+        virtual = new VirtualDeviceButton(mouse);
+
+        virtual.addButton(new Rectangle(335, 125, 32, 32), VirtualDeviceButton.LEFT, "<");
+        virtual.addButton(new Rectangle(368, 125, 32, 32), VirtualDeviceButton.RIGHT, ">");
+        virtual.addButton(new Rectangle(335, 160, 64, 32), VirtualDeviceButton.DOWN, "\\/");
+
+        virtual.addButton(new Rectangle(0, 100, 32, 36), VirtualDeviceButton.UP, "J");
+        virtual.addButton(new Rectangle(0, 140, 32, 36), VirtualDeviceButton.CONTROL, "F");
     }
 
     @Override
@@ -52,6 +64,18 @@ final class EntityScreenController extends FeatureModel
     {
         super.prepare(provider);
 
-        model.setInput(controller);
+        model.setInput(virtual);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        virtual.update(extrp);
+    }
+
+    @Override
+    public void render(Graphic g)
+    {
+        virtual.render(g);
     }
 }
