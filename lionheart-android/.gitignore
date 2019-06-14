@@ -12,6 +12,7 @@
 bin/
 gen/
 out/
+app/release/output.json
 
 # Gradle files
 .gradle/
