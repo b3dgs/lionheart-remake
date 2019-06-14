@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.constant;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilFolder;
 
 /**
@@ -33,13 +34,13 @@ public final class Folder
     /** Entities folder. */
     public static final String ENTITIES = "entity";
     /** Items folder. */
-    public static final String ITEMS = UtilFolder.getPath(ENTITIES, "item");
+    public static final String ITEMS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "item");
     /** Monsters folder. */
-    public static final String MONSTERS = UtilFolder.getPath(ENTITIES, "monster");
+    public static final String MONSTERS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "monster");
     /** Sceneries folder. */
-    public static final String SCENERIES = UtilFolder.getPath(ENTITIES, "scenery");
+    public static final String SCENERIES = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "scenery");
     /** Players folder. */
-    public static final String PLAYERS = UtilFolder.getPath(ENTITIES, "player");
+    public static final String PLAYERS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "player");
     /** Effects folder. */
     public static final String EFFECTS = "effect";
     /** Levels folder. */

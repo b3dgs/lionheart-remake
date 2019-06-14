@@ -78,7 +78,7 @@ final class Foreground extends BackgroundAbstract
         scaleH = 1.0;
         scaleV = 1.0;
 
-        final String path = UtilFolder.getPath(Folder.FOREGROUNDS, theme);
+        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUNDS, theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
 
