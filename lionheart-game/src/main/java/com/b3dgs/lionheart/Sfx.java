@@ -65,15 +65,18 @@ public enum Sfx
         {
             sfx.audio.setVolume(0);
             sfx.play();
+        }
+        try
+        {
+            Thread.sleep(com.b3dgs.lionengine.Constant.HUNDRED / 2);
+        }
+        catch (final InterruptedException exception)
+        {
+            Verbose.exception(exception);
+        }
+        for (final Sfx sfx : Sfx.values())
+        {
             sfx.audio.stop();
-            try
-            {
-                Thread.sleep(com.b3dgs.lionengine.Constant.DECADE);
-            }
-            catch (final InterruptedException exception)
-            {
-                Verbose.exception(exception);
-            }
             sfx.audio.setVolume(50);
         }
     }
