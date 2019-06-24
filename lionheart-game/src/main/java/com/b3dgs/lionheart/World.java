@@ -190,7 +190,7 @@ final class World extends WorldGame
      */
     private void prepareCache()
     {
-        // factory.createCache(Medias.create(Folder.EFFECTS), 5);
+        factory.createCache(Medias.create(Folder.EFFECTS), 5);
         Sfx.cache();
     }
 
