@@ -104,7 +104,7 @@ final class Scene extends SequenceGame
      */
     public Scene(Context context)
     {
-        super(context, Constant.NATIVE_RESOLUTION, services -> new World(services));
+        super(context, Constant.NATIVE_RESOLUTION, World::new);
     }
 
     @Override
