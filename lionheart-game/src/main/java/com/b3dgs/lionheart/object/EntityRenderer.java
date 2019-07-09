@@ -16,14 +16,11 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routines;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -35,30 +32,13 @@ import com.b3dgs.lionengine.graphic.Graphic;
  */
 public final class EntityRenderer extends FeatureModel implements Displayable, Recyclable
 {
-    private final List<Routine> routines = new ArrayList<>();
-
-    private int routinesCount;
     private boolean visible;
 
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
-
-    /**
-     * Load routines.
-     */
-    public void loadRoutines()
-    {
-        routines.clear();
-        for (final Feature feature : getFeatures())
-        {
-            if (feature instanceof Routine)
-            {
-                routines.add((Routine) feature);
-            }
-        }
-        routinesCount = routines.size();
-    }
+    @FeatureGet private EntityModel model;
+    @FeatureGet private Routines routines;
 
     /**
      * Set visibility state.
@@ -81,10 +61,7 @@ public final class EntityRenderer extends FeatureModel implements Displayable, R
         g.setColor(ColorRgba.GREEN);
         collidable.render(g);
 
-        for (int i = 0; i < routinesCount; i++)
-        {
-            routines.get(i).render(g);
-        }
+        routines.render(g);
     }
 
     @Override

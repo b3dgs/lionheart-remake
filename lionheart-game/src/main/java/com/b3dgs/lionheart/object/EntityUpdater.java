@@ -16,12 +16,7 @@
  */
 package com.b3dgs.lionheart.object;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.Feature;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -29,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Refreshable;
+import com.b3dgs.lionengine.game.feature.Routines;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
@@ -46,11 +42,8 @@ final class EntityUpdater extends FeatureModel implements Refreshable
 {
     private static final int DESTROY_Y = -100;
 
-    private final List<Routine> routines = new ArrayList<>();
     private final Force movement;
     private final Force jump;
-
-    private int routinesCount;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Mirrorable mirrorable;
@@ -60,6 +53,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Routines routines;
 
     /**
      * Create updater.
@@ -97,27 +91,9 @@ final class EntityUpdater extends FeatureModel implements Refreshable
     }
 
     @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        for (final Feature feature : provider.getFeatures())
-        {
-            if (feature instanceof Routine)
-            {
-                routines.add((Routine) feature);
-            }
-        }
-        routinesCount = routines.size();
-    }
-
-    @Override
     public void update(double extrp)
     {
-        for (int i = 0; i < routinesCount; i++)
-        {
-            routines.get(i).update(extrp);
-        }
+        routines.update(extrp);
         state.update(extrp);
         jump.update(extrp);
         movement.update(extrp);

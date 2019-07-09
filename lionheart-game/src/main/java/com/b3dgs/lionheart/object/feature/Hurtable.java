@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -47,8 +48,6 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.EntityRenderer;
-import com.b3dgs.lionheart.object.Routine;
 import com.b3dgs.lionheart.object.state.StateDie;
 import com.b3dgs.lionheart.object.state.StateHurt;
 
@@ -81,7 +80,6 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private EntityModel model;
-    @FeatureGet private EntityRenderer renderer;
     @FeatureGet private Stats stats;
 
     /**
@@ -232,12 +230,12 @@ public final class Hurtable extends FeatureModel
         flicker.update(extrp);
         if (!stateHandler.isState(StateHurt.class))
         {
-            renderer.setVisible(flicker.elapsed() % HURT_FLICKER_TICK_SWITCH < HURT_FLICKER_TICK_SWITCH / 2);
+            model.setVisible(flicker.elapsed() % HURT_FLICKER_TICK_SWITCH < HURT_FLICKER_TICK_SWITCH / 2);
         }
         if (flicker.elapsed(HURT_FLICKER_TICK_DURATION))
         {
             flickerCurrent = UpdatableVoid.getInstance();
-            renderer.setVisible(true);
+            model.setVisible(true);
         }
     }
 

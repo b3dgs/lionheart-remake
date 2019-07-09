@@ -47,6 +47,7 @@ public final class EntityModel extends FeatureModel
 
     private final SourceResolutionProvider source;
     private InputDeviceControl input = InputDeviceControlVoid.getInstance();
+    private boolean visible;
 
     @FeatureGet private Body body;
 
@@ -102,6 +103,26 @@ public final class EntityModel extends FeatureModel
         {
             this.input = input;
         }
+    }
+
+    /**
+     * Set the visible flag.
+     * 
+     * @param visible <code>true</code> if visible, <code>false</code> else.
+     */
+    public void setVisible(boolean visible)
+    {
+        this.visible = visible;
+    }
+
+    /**
+     * Check visible flag.
+     * 
+     * @return <code>true</code> if visible, <code>false</code> else.
+     */
+    public boolean isVisible()
+    {
+        return visible;
     }
 
     /**
