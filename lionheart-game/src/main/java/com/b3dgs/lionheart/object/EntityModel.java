@@ -47,7 +47,7 @@ public final class EntityModel extends FeatureModel
 
     private final SourceResolutionProvider source;
     private InputDeviceControl input = InputDeviceControlVoid.getInstance();
-    private boolean visible;
+    private boolean visible = true;
 
     @FeatureGet private Body body;
 

@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object;
 import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routines;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -30,43 +29,25 @@ import com.b3dgs.lionengine.graphic.Graphic;
 /**
  * Entity rendering implementation.
  */
-public final class EntityRenderer extends FeatureModel implements Displayable, Recyclable
+public final class EntityRenderer extends FeatureModel implements Displayable
 {
-    private boolean visible;
-
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private EntityModel model;
     @FeatureGet private Routines routines;
 
-    /**
-     * Set visibility state.
-     * 
-     * @param visible <code>true</code> if visible, <code>false</code> else.
-     */
-    public void setVisible(boolean visible)
-    {
-        this.visible = visible;
-    }
-
     @Override
     public void render(Graphic g)
     {
-        if (visible)
+        if (model.isVisible())
         {
             rasterable.render(g);
+
+            g.setColor(ColorRgba.GREEN);
+            collidable.render(g);
+
+            routines.render(g);
         }
-
-        g.setColor(ColorRgba.GREEN);
-        collidable.render(g);
-
-        routines.render(g);
-    }
-
-    @Override
-    public void recycle()
-    {
-        visible = true;
     }
 }

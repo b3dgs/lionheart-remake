@@ -105,7 +105,7 @@ public final class Entity extends FeaturableModel
         }
         collidable.setCollisionVisibility(Constant.DEBUG);
 
-        addFeature(new CollidableFramedModel(services, setup));
+        addFeature(new CollidableFramedModel(setup));
 
         final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
         final Force movement = model.getMovement();

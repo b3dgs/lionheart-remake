@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -42,7 +43,8 @@ public class MapTilePersisterOptimized extends MapTilePersisterModel
      * <li>{@link MapTile}</li>
      * </ul>
      * 
-     * @param services The services reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
     public MapTilePersisterOptimized(Services services)
     {
