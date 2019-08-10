@@ -45,7 +45,7 @@ final class StateBorder extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateBorder(EntityModel model, Animation animation)
+    StateBorder(EntityModel model, Animation animation)
     {
         super(model, animation);
 

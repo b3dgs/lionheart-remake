@@ -49,7 +49,7 @@ public final class StateFall extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateFall(EntityModel model, Animation animation)
+    StateFall(EntityModel model, Animation animation)
     {
         super(model, animation);
 

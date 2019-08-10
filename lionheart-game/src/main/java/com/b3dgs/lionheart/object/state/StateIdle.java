@@ -48,7 +48,7 @@ public final class StateIdle extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateIdle(EntityModel model, Animation animation)
+    StateIdle(EntityModel model, Animation animation)
     {
         super(model, animation);
 

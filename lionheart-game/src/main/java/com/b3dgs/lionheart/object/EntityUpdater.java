@@ -61,7 +61,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable
      * @param services The services reference.
      * @param model The model reference.
      */
-    public EntityUpdater(Services services, EntityModel model)
+    EntityUpdater(Services services, EntityModel model)
     {
         super();
 

@@ -102,7 +102,7 @@ final class Scene extends SequenceGame
      * 
      * @param context The context reference.
      */
-    public Scene(Context context)
+    Scene(Context context)
     {
         super(context, Constant.NATIVE_RESOLUTION, World::new);
     }

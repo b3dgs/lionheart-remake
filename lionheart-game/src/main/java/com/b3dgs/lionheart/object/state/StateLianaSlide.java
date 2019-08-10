@@ -46,7 +46,7 @@ public class StateLianaSlide extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateLianaSlide(EntityModel model, Animation animation)
+    StateLianaSlide(EntityModel model, Animation animation)
     {
         super(model, animation);
 

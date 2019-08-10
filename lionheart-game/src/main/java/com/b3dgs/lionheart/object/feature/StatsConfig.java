@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.Constant;
 /**
  * Stats configuration.
  */
-public class StatsConfig
+public final class StatsConfig
 {
     /** Stats node name. */
     private static final String NODE_STATS = "stats";

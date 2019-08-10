@@ -49,7 +49,7 @@ public class StateSlideBase extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateSlideBase(EntityModel model, Animation animation)
+    protected StateSlideBase(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -34,7 +34,7 @@ public final class StateCrouch extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateCrouch(EntityModel model, Animation animation)
+    StateCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
 

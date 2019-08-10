@@ -32,7 +32,7 @@ final class StateAttackHorizontal extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackHorizontal(EntityModel model, Animation animation)
+    StateAttackHorizontal(EntityModel model, Animation animation)
     {
         super(model, animation);
 

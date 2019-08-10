@@ -35,7 +35,7 @@ public final class StateAttackLiana extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackLiana(EntityModel model, Animation animation)
+    StateAttackLiana(EntityModel model, Animation animation)
     {
         super(model, animation);
 

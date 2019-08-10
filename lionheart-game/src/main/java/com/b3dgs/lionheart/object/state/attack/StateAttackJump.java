@@ -51,7 +51,7 @@ public final class StateAttackJump extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackJump(EntityModel model, Animation animation)
+    StateAttackJump(EntityModel model, Animation animation)
     {
         super(model, animation);
 

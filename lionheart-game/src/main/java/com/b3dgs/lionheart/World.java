@@ -90,7 +90,7 @@ final class World extends WorldGame
      * 
      * @param services The services reference.
      */
-    public World(Services services)
+    World(Services services)
     {
         super(services);
 

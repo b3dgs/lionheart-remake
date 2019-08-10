@@ -55,7 +55,7 @@ final class StateLianaSoar extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateLianaSoar(EntityModel model, Animation animation)
+    StateLianaSoar(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -36,7 +36,7 @@ public final class StatePatrol extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StatePatrol(EntityModel model, Animation animation)
+    StatePatrol(EntityModel model, Animation animation)
     {
         super(model, animation);
 

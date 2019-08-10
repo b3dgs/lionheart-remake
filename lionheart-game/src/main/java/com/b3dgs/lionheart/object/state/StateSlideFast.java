@@ -32,7 +32,7 @@ final class StateSlideFast extends StateSlideBase
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateSlideFast(EntityModel model, Animation animation)
+    StateSlideFast(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -31,7 +31,7 @@ final class StateAttackCrouchPrepared extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackCrouchPrepared(EntityModel model, Animation animation)
+    StateAttackCrouchPrepared(EntityModel model, Animation animation)
     {
         super(model, animation);
 

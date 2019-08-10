@@ -32,7 +32,7 @@ final class StateSlideSlow extends StateSlideBase
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateSlideSlow(EntityModel model, Animation animation)
+    StateSlideSlow(EntityModel model, Animation animation)
     {
         super(model, animation);
 

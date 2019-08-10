@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.game.Configurer;
 /**
  * Patrol configuration.
  */
-public class PatrolConfig
+public final class PatrolConfig
 {
     /** Config node name. */
     private static final String NODE_STATS = "patrol";

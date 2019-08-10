@@ -33,7 +33,7 @@ final class StateAttackCrouchUnprepare extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackCrouchUnprepare(EntityModel model, Animation animation)
+    StateAttackCrouchUnprepare(EntityModel model, Animation animation)
     {
         super(model, animation);
 

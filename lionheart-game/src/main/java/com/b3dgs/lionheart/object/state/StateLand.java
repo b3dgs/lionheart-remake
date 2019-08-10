@@ -49,7 +49,7 @@ public final class StateLand extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateLand(EntityModel model, Animation animation)
+    StateLand(EntityModel model, Animation animation)
     {
         super(model, animation);
 

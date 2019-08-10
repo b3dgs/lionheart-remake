@@ -33,7 +33,7 @@ final class StateAttackTurning extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    public StateAttackTurning(EntityModel model, Animation animation)
+    StateAttackTurning(EntityModel model, Animation animation)
     {
         super(model, animation);
 
