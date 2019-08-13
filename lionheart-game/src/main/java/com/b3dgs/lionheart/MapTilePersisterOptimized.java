@@ -61,13 +61,13 @@ public class MapTilePersisterOptimized extends MapTilePersisterModel
     }
 
     @Override
-    protected Tile loadTile(FileReading file, int i) throws IOException
+    protected void loadTile(FileReading file, int i) throws IOException
     {
         final Integer sheet = Integer.valueOf(UtilConversion.toUnsignedByte(file.readByte()));
         final int number = file.readChar();
         final byte b = file.readByte();
-        final int x = UtilConversion.toUnsignedByte(b) * map.getTileWidth() + i * BLOC_SIZE * map.getTileWidth();
-        final int y = file.readChar() * map.getTileHeight();
-        return map.createTile(sheet, number, x, y);
+        final int tx = UtilConversion.toUnsignedByte(b) + i * BLOC_SIZE;
+        final int ty = file.readChar();
+        map.setTile(tx, ty, sheet, number);
     }
 }
