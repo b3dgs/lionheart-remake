@@ -54,7 +54,6 @@ public class MapTilePersisterOptimized extends MapTilePersisterModel
     @Override
     protected void saveTile(FileWriting file, Tile tile) throws IOException
     {
-        file.writeByte(UtilConversion.fromUnsignedByte((short) tile.getSheet().intValue()));
         file.writeChar((char) tile.getNumber());
         file.writeByte(UtilConversion.fromUnsignedByte((short) (tile.getInTileX() % BLOC_SIZE)));
         file.writeChar((char) tile.getInTileY());
@@ -63,11 +62,10 @@ public class MapTilePersisterOptimized extends MapTilePersisterModel
     @Override
     protected void loadTile(FileReading file, int i) throws IOException
     {
-        final Integer sheet = Integer.valueOf(UtilConversion.toUnsignedByte(file.readByte()));
         final int number = file.readChar();
         final byte b = file.readByte();
         final int tx = UtilConversion.toUnsignedByte(b) + i * BLOC_SIZE;
         final int ty = file.readChar();
-        map.setTile(tx, ty, sheet, number);
+        map.setTile(tx, ty, number);
     }
 }
