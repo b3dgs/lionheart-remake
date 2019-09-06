@@ -68,7 +68,7 @@ public final class Patrol extends FeatureModel implements Routine
      */
     public Patrol(Services services, SetupSurfaceRastered setup)
     {
-        super();
+        super(services, setup);
 
         final PatrolConfig config = PatrolConfig.imports(setup);
         sh = config.getSh();

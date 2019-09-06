@@ -42,7 +42,7 @@ final class EntityKeyboardController extends FeatureModel
      */
     EntityKeyboardController(Services services, Setup setup)
     {
-        super();
+        super(services, setup);
 
         final Keyboard keyboard = services.get(Keyboard.class);
         controller = new KeyboardController(keyboard);

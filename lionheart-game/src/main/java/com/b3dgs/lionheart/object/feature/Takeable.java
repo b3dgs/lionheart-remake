@@ -58,7 +58,7 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
      */
     public Takeable(Services services, SetupSurfaceRastered setup)
     {
-        super();
+        super(services, setup);
 
         final Spawner spawner = services.get(Spawner.class);
         final TakeableConfig config = TakeableConfig.imports(setup);

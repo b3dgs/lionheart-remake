@@ -59,7 +59,7 @@ public final class EntityModel extends FeatureModel
      */
     public EntityModel(Services services, Setup setup)
     {
-        super();
+        super(services, setup);
 
         camera = services.get(Camera.class);
         map = services.get(MapTile.class);

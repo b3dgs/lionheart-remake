@@ -20,6 +20,8 @@ import com.b3dgs.lionengine.game.feature.Displayable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routines;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -36,6 +38,17 @@ public final class EntityRenderer extends FeatureModel implements Displayable
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private EntityModel model;
     @FeatureGet private Routines routines;
+
+    /**
+     * Create updater.
+     * 
+     * @param services The services reference.
+     * @param setup The setup reference.
+     */
+    EntityRenderer(Services services, Setup setup)
+    {
+        super(services, setup);
+    }
 
     @Override
     public void render(Graphic g)

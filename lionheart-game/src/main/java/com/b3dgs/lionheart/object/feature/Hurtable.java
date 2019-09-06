@@ -90,7 +90,7 @@ public final class Hurtable extends FeatureModel
      */
     public Hurtable(Services services, SetupSurfaceRastered setup)
     {
-        super();
+        super(services, setup);
 
         final HurtableConfig config = HurtableConfig.imports(setup);
         effect = config.getEffect();

@@ -16,12 +16,14 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.Damages;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionheart.Constant;
 
 /**
@@ -37,13 +39,15 @@ public final class Stats extends FeatureModel implements Recyclable
     private final StatsConfig config;
 
     /**
-     * Create stats.
+     * Create feature.
      * 
-     * @param setup The setup reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
      */
-    public Stats(SetupSurfaceRastered setup)
+    public Stats(Services services, Setup setup)
     {
-        super();
+        super(services, setup);
 
         config = StatsConfig.imports(setup);
     }

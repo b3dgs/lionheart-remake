@@ -73,11 +73,11 @@ public final class Entity extends FeaturableModel
     {
         super(services, setup);
 
-        addFeature(new Stats(setup));
-        addFeature(new MirrorableModel());
-        addFeature(new AnimatableModel());
-        addFeature(new TransformableModel(setup));
-        addFeature(new BodyModel());
+        addFeature(new Stats(services, setup));
+        addFeature(new MirrorableModel(services, setup));
+        addFeature(new AnimatableModel(services, setup));
+        addFeature(new TransformableModel(services, setup));
+        addFeature(new BodyModel(services, setup));
         addFeature(new TileCollidableModel(services, setup));
 
         if (setup.hasNode(LayerableConfig.NODE_LAYERABLE))
@@ -86,7 +86,7 @@ public final class Entity extends FeaturableModel
         }
         else
         {
-            addFeature(new LayerableModel(2, 2));
+            addFeatureAndGet(new LayerableModel(2));
         }
 
         final Rasterable rasterable = addFeatureAndGet(new RasterableModel(services, setup));
@@ -105,24 +105,24 @@ public final class Entity extends FeaturableModel
         }
         collidable.setCollisionVisibility(Constant.DEBUG);
 
-        addFeature(new CollidableFramedModel(setup));
+        addFeature(new CollidableFramedModel(services, setup));
 
         final EntityModel model = addFeatureAndGet(new EntityModel(services, setup));
         final Force movement = model.getMovement();
         movement.setVelocity(0.1);
         movement.setSensibility(0.01);
 
-        final StateHandler stateHandler = addFeatureAndGet(new StateHandler(setup, Entity::getAnimationName));
+        final StateHandler stateHandler = addFeatureAndGet(new StateHandler(services, setup, Entity::getAnimationName));
         stateHandler.changeState(StateIdle.class);
     }
 
     @Override
     public void addAfter(Services services, Setup setup)
     {
-        addFeature(new Routines());
+        addFeature(new Routines(services, setup));
 
         final EntityModel model = getFeature(EntityModel.class);
-        addFeature(new EntityUpdater(services, model));
-        addFeature(new EntityRenderer());
+        addFeature(new EntityUpdater(services, setup, model));
+        addFeature(new EntityRenderer(services, setup));
     }
 }

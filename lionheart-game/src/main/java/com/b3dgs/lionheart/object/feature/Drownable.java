@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -23,6 +24,8 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.object.state.StateDrowned;
@@ -45,6 +48,18 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
+
+    /**
+     * Create feature.
+     * 
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
+     */
+    public Drownable(Services services, Setup setup)
+    {
+        super(services, setup);
+    }
 
     /**
      * Check start drown.

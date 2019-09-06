@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
@@ -27,6 +28,8 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
@@ -69,6 +72,18 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Collidable collidable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Glue glue;
+
+    /**
+     * Create feature.
+     * 
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
+     */
+    public Turning(Services services, Setup setup)
+    {
+        super(services, setup);
+    }
 
     /**
      * Check delay before start shaking.

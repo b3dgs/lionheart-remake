@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.AnimatorFrameListener;
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -26,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
@@ -52,13 +54,15 @@ public final class Effect extends FeatureModel implements Recyclable
     @FeatureGet private StateHandler stateHandler;
 
     /**
-     * Create effect.
+     * Create feature.
      * 
-     * @param setup The setup reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
      */
-    public Effect(Setup setup)
+    public Effect(Services services, Setup setup)
     {
-        super();
+        super(services, setup);
 
         final FramesConfig config = FramesConfig.imports(setup);
         final int frames = config.getHorizontal() * config.getVertical();

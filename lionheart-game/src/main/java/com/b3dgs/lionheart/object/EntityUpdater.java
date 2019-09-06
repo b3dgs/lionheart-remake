@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Refreshable;
 import com.b3dgs.lionengine.game.feature.Routines;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -59,11 +60,12 @@ final class EntityUpdater extends FeatureModel implements Refreshable
      * Create updater.
      * 
      * @param services The services reference.
+     * @param setup The setup reference.
      * @param model The model reference.
      */
-    EntityUpdater(Services services, EntityModel model)
+    EntityUpdater(Services services, Setup setup, EntityModel model)
     {
-        super();
+        super(services, setup);
 
         movement = model.getMovement();
         jump = model.getJump();
