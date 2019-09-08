@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
@@ -31,10 +30,6 @@ import com.b3dgs.lionheart.constant.CollisionName;
  */
 public final class GameplayBorder implements TileCollidableListener, CollidableListener
 {
-    private static final String LEG_CENTER = Anim.LEG + "_center";
-    private static final String LEG_LEFT = Anim.LEG + "_left";
-    private static final String LEG_RIGHT = Anim.LEG + "_right";
-
     private final MapTile map;
     private boolean legLeftGround;
     private boolean legRightGround;
@@ -94,19 +89,19 @@ public final class GameplayBorder implements TileCollidableListener, CollidableL
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
         final String name = category.getName();
-        if (LEG_CENTER.equals(name))
+        if (CollisionName.LEG_CENTER.equals(name))
         {
             legLeftGround = true;
             legRightGround = true;
         }
-        if (LEG_LEFT.equals(name)
+        if (CollisionName.LEG_LEFT.equals(name)
             && (result.startWithY(CollisionName.SLOPE)
                 && map.getTile(result.getTile().getInTileX() + 1, result.getTile().getInTileY()) == null
                 || result.startWithY(CollisionName.GROUND)))
         {
             legLeftGround = true;
         }
-        if (LEG_RIGHT.equals(name)
+        if (CollisionName.LEG_RIGHT.equals(name)
             && (result.startWithY(CollisionName.SLOPE)
                 && map.getTile(result.getTile().getInTileX() - 1, result.getTile().getInTileY()) == null
                 || result.startWithY(CollisionName.GROUND)))
@@ -119,11 +114,11 @@ public final class GameplayBorder implements TileCollidableListener, CollidableL
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         final String name = with.getName();
-        if (LEG_LEFT.equals(name))
+        if (CollisionName.LEG_LEFT.equals(name))
         {
             legLeftGround = true;
         }
-        if (LEG_RIGHT.equals(name))
+        if (CollisionName.LEG_RIGHT.equals(name))
         {
             legRightGround = true;
         }

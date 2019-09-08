@@ -28,6 +28,12 @@ import com.b3dgs.lionheart.Constant;
 
 /**
  * Stats feature implementation.
+ * <ol>
+ * <li>Player health, count before death.</li>
+ * <li>Talisment, count until next sword level.</li>
+ * <li>Life, count before end.</li>
+ * <li>Damages, applied on monster hit.</li>
+ * </ol>
  */
 @FeatureInterface
 public final class Stats extends FeatureModel implements Recyclable

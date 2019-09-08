@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resource;
 import com.b3dgs.lionengine.Updatable;
@@ -72,7 +73,8 @@ public final class Hud implements Resource, Updatable, Renderable
     /**
      * Create hud.
      * 
-     * @param services The services reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
     public Hud(Services services)
     {
@@ -82,7 +84,8 @@ public final class Hud implements Resource, Updatable, Renderable
     /**
      * Set the featurable to display.
      * 
-     * @param featurable The featurable reference.
+     * @param featurable The featurable reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
     public void setFeaturable(Featurable featurable)
     {

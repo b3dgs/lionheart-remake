@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Handler;
@@ -94,13 +95,13 @@ final class Scene extends SequenceGame
 
     private final Text textName = Graphics.createText(9);
     private final Text textEngine = Graphics.createText(9);
-    /** Current level. */
     private final Level level = Level.SWAMP_DEMO;
 
     /**
      * Create the scene.
      * 
-     * @param context The context reference.
+     * @param context The context reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
     Scene(Context context)
     {

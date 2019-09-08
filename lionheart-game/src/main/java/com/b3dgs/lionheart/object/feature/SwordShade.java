@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
@@ -41,6 +42,9 @@ import com.b3dgs.lionheart.object.Entity;
 
 /**
  * Sword shade feature implementation.
+ * <p>
+ * Add shade layer to sword attacks, sync to player animation.
+ * </p>
  */
 @FeatureInterface
 public final class SwordShade extends FeatureModel implements Routine
@@ -57,10 +61,11 @@ public final class SwordShade extends FeatureModel implements Routine
     @FeatureGet private Animatable animatable;
 
     /**
-     * Create sword shade.
+     * Create feature.
      * 
-     * @param services The services reference.
-     * @param setup The setup reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
      */
     public SwordShade(Services services, Setup setup)
     {

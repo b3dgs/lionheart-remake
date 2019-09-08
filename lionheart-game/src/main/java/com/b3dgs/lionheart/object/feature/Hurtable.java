@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
@@ -53,6 +54,9 @@ import com.b3dgs.lionheart.object.state.StateHurt;
 
 /**
  * Hurtable feature implementation.
+ * <p>
+ * Represents something that can be hurt by attack.
+ * </p>
  */
 @FeatureInterface
 public final class Hurtable extends FeatureModel
@@ -83,10 +87,11 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private Stats stats;
 
     /**
-     * Create hurtable.
+     * Create feature.
      * 
-     * @param services The services reference.
-     * @param setup The setup reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
      */
     public Hurtable(Services services, SetupSurfaceRastered setup)
     {

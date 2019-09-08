@@ -109,17 +109,8 @@ public enum Sfx
      */
     Sfx()
     {
-        audio = AudioFactory.loadAudio(get());
-    }
-
-    /**
-     * Get the music media.
-     * 
-     * @return The music media.
-     */
-    public Media get()
-    {
-        return Medias.create(Folder.SOUNDS, name().toLowerCase(Locale.ENGLISH) + Extension.SFX);
+        final Media media = Medias.create(Folder.SOUNDS, name().toLowerCase(Locale.ENGLISH) + Extension.SFX);
+        audio = AudioFactory.loadAudio(media);
     }
 
     /**

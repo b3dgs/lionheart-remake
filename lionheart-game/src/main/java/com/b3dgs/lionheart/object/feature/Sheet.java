@@ -31,6 +31,9 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
 
 /**
  * Sheet feature implementation.
+ * <p>
+ * Add support to sheet movement on collide, applying a curve effect to represent impact.
+ * </p>
  */
 @FeatureInterface
 public final class Sheet extends FeatureModel implements Routine, Recyclable

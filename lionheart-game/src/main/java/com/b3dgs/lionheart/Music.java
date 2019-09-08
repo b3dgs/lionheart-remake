@@ -38,6 +38,17 @@ public enum Music
     /** Ancient Town music. */
     ANCIENT_TOWN;
 
+    /** The associated media. */
+    private final Media media;
+
+    /**
+     * Create music.
+     */
+    Music()
+    {
+        media = Medias.create(Folder.MUSICS, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
+    }
+
     /**
      * Get the music media.
      * 
@@ -45,6 +56,6 @@ public enum Music
      */
     public Media get()
     {
-        return Medias.create(Folder.MUSICS, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
+        return media;
     }
 }

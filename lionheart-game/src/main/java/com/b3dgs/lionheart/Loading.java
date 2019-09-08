@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -39,7 +40,8 @@ public final class Loading extends Sequence
     /**
      * Constructor.
      * 
-     * @param context The context reference.
+     * @param context The context reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
     public Loading(Context context)
     {

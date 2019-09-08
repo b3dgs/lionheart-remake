@@ -52,7 +52,7 @@ public final class EntityModel extends FeatureModel
     @FeatureGet private Body body;
 
     /**
-     * Create model.
+     * Create feature.
      * 
      * @param services The services reference.
      * @param setup The setup reference.

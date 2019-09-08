@@ -25,27 +25,37 @@ public final class CollisionName
 {
     /** Category collision leg prefix. */
     public static final String LEG = "leg";
+    /** Collision leg center. */
+    public static final String LEG_CENTER = Anim.LEG + "_center";
+    /** Collision leg left. */
+    public static final String LEG_LEFT = Anim.LEG + "_left";
+    /** Collision leg right. */
+    public static final String LEG_RIGHT = Anim.LEG + "_right";
+
     /** Category collision knee prefix. */
     public static final String KNEE = "knee";
     /** Category collision knee center. */
     public static final String KNEE_CENTER = KNEE + "_center";
+
     /** Category collision hand prefix. */
     public static final String HAND = "hand";
-
     /** Collision ground prefix. */
     public static final String GROUND = "ground";
+
     /** Collision spike prefix. */
     public static final String SPIKE = "spike";
     /** Collision spike left prefix. */
     public static final String SPIKE_LEFT = SPIKE + "_vertical_left";
     /** Collision spike right prefix. */
     public static final String SPIKE_RIGHT = SPIKE + "_vertical_right";
+
     /** Collision slope prefix. */
     public static final String SLOPE = "slope";
     /** Collision slope left prefix. */
     public static final String SLOPE_LEFT = SLOPE + "_left";
     /** Collision slope right prefix. */
     public static final String SLOPE_RIGHT = SLOPE + "_right";
+
     /** Collision steep prefix. */
     public static final String STEEP = "steep";
     /** Collision steep left prefix. */
@@ -56,6 +66,7 @@ public final class CollisionName
     public static final String STEEP_RIGHT = STEEP + "_right";
     /** Collision steep vertical prefix. */
     public static final String STEEP_VERTICAL = STEEP + "_vertical";
+
     /** Collision liana prefix. */
     public static final String LIANA = "liana";
     /** Collision liana left prefix. */

@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
@@ -41,6 +42,9 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
  * Patrol feature implementation.
+ * <p>
+ * Move loop from starting position to defined amplitude with specified speed.
+ * </p>
  */
 @FeatureInterface
 public final class Patrol extends FeatureModel implements Routine
@@ -61,10 +65,11 @@ public final class Patrol extends FeatureModel implements Routine
     @FeatureGet private Body body;
 
     /**
-     * Create patrol.
+     * Create feature.
      * 
-     * @param services The services reference.
-     * @param setup The setup reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @param setup The setup reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid arguments.
      */
     public Patrol(Services services, SetupSurfaceRastered setup)
     {

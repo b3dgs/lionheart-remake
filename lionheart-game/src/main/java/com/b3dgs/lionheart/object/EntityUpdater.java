@@ -57,7 +57,7 @@ final class EntityUpdater extends FeatureModel implements Refreshable
     @FeatureGet private Routines routines;
 
     /**
-     * Create updater.
+     * Create feature.
      * 
      * @param services The services reference.
      * @param setup The setup reference.

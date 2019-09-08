@@ -52,6 +52,10 @@ public enum WorldType
 
     /** World music. */
     private final Media music;
+    /** Associated folder. */
+    private final String folder;
+    /** To string. */
+    private final String toString;
 
     /**
      * Constructor.
@@ -61,6 +65,8 @@ public enum WorldType
     WorldType(Music music)
     {
         this.music = music.get();
+        folder = name().toLowerCase(Locale.ENGLISH);
+        toString = UtilConversion.toTitleCase(name().replace(Constant.UNDERSCORE, Constant.SPACE));
     }
 
     /**
@@ -91,12 +97,12 @@ public enum WorldType
      */
     public String getFolder()
     {
-        return name().toLowerCase(Locale.ENGLISH);
+        return folder;
     }
 
     @Override
     public String toString()
     {
-        return UtilConversion.toTitleCase(name().replace(Constant.UNDERSCORE, Constant.SPACE));
+        return toString;
     }
 }

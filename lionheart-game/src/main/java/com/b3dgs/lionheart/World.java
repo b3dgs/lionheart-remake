@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -49,7 +48,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.engine.Zooming;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
@@ -77,18 +75,17 @@ final class World extends WorldGame
     private final HandlerPersister handlerPersister = new HandlerPersister(services);
     private final FactoryLandscape factoryLandscape = new FactoryLandscape(source, false);
     private final Hud hud = new Hud(services);
-    private final Zooming zooming = services.get(Zooming.class);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
     private final MapTileCollisionRenderer mapCollisionRenderer;
 
     private Landscape landscape;
     private Audio audio;
-    private double scale = 1;
 
     /**
      * Create the world.
      * 
-     * @param services The services reference.
+     * @param services The services reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
     World(Services services)
     {
@@ -194,18 +191,6 @@ final class World extends WorldGame
         Sfx.cache();
     }
 
-    /**
-     * Update scene zoom on click.
-     */
-    private void updateZoom()
-    {
-        if (pointer.getClick() == 2)
-        {
-            scale = UtilMath.clamp(scale + pointer.getMoveY() / 100.0, 0.5, 1.42);
-            zooming.setZoom(scale);
-        }
-    }
-
     @Override
     protected void saving(FileWriting file) throws IOException
     {
@@ -228,8 +213,6 @@ final class World extends WorldGame
         audio = AudioFactory.loadAudio(worldType.getMusic());
         audio.setVolume(25);
         audio.play();
-
-        zooming.setZoom(scale);
     }
 
     @Override
