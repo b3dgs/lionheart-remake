@@ -43,7 +43,6 @@ final class Swamp extends BackgroundAbstract
     private final Clouds clouds;
     private final Parallax parallax;
     private double scaleH;
-    private double scaleV;
 
     /**
      * Constructor.
@@ -56,11 +55,10 @@ final class Swamp extends BackgroundAbstract
      */
     Swamp(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 512);
+        super(theme, 0, 330);
 
         this.scaleH = scaleH;
-        this.scaleV = scaleV;
-        totalHeight = 112;
+        totalHeight = 78;
 
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
@@ -85,10 +83,7 @@ final class Swamp extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        final double scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
-        final double scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
-        this.scaleH = scaleH;
-        this.scaleV = scaleV;
+        scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
         setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight() + 40);
         backdrop.setScreenWidth(width);
         clouds.setScreenWidth(width);

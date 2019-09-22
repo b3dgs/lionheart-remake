@@ -57,8 +57,6 @@ final class Foreground extends BackgroundAbstract
     /** Screen height. */
     private int screenHeight;
     /** The horizontal factor. */
-    private double scaleH;
-    /** The horizontal factor. */
     private double scaleV;
     /** Water top. */
     private double top;
@@ -75,7 +73,6 @@ final class Foreground extends BackgroundAbstract
     {
         super(theme, 0, 0);
 
-        scaleH = 1.0;
         scaleV = 1.0;
 
         final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUNDS, theme);
@@ -117,11 +114,7 @@ final class Foreground extends BackgroundAbstract
     {
         screenWidth = width;
         screenHeight = height;
-        final double scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
-        final double scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
-
-        this.scaleH = scaleH;
-        this.scaleV = scaleV;
+        scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
         primary.updateMainY();
         secondary.updateMainY();
     }

@@ -33,8 +33,6 @@ final class AncientTown extends BackgroundAbstract
 {
     private final Backdrop backdrop;
     private final boolean flickering;
-    private double scaleH;
-    private double scaleV;
 
     /**
      * Constructor.
@@ -49,8 +47,6 @@ final class AncientTown extends BackgroundAbstract
     {
         super(theme, 0, 512);
 
-        this.scaleH = scaleH;
-        this.scaleV = scaleV;
         this.flickering = flickering;
         final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancient_town", theme);
         final int width = source.getWidth();
@@ -68,10 +64,6 @@ final class AncientTown extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        final double scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
-        final double scaleV = height / (double) Constant.NATIVE_RESOLUTION.getHeight();
-        this.scaleH = scaleH;
-        this.scaleV = scaleV;
         setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight() + 72);
         backdrop.setScreenWidth(width);
     }
