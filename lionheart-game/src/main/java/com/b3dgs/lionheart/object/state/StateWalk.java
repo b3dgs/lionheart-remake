@@ -63,7 +63,7 @@ final class StateWalk extends State
                             || isGoLeft() && collideXleft.get()
                             || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoDown);
-        addTransition(StateJump.class, this::isGoUp);
+        addTransition(StateJump.class, this::isGoUpOnce);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
                       () -> model.hasGravity()

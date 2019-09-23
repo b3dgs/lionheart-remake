@@ -55,7 +55,7 @@ public final class StateIdle extends State
         addTransition(StateBorder.class, () -> collideY.get() && !isGoHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !collideX.get() && !steep.is() && isWalkingFastEnough());
         addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
-        addTransition(StateJump.class, () -> collideY.get() && isGoUp());
+        addTransition(StateJump.class, () -> collideY.get() && isGoUpOnce());
         addTransition(StateAttackPrepare.class, () -> collideY.get() && control.isFireButton());
         addTransition(StateFall.class,
                       () -> model.hasGravity()

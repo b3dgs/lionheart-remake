@@ -51,7 +51,7 @@ final class StateBorder extends State
 
         addTransition(StateWalk.class, this::isGoHorizontal);
         addTransition(StateCrouch.class, () -> isGoDown() && !liana.is());
-        addTransition(StateJump.class, this::isGoUp);
+        addTransition(StateJump.class, this::isGoUpOnce);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateLianaSoar.class, () -> isGoDown() && liana.is());
         addTransition(StateFall.class, () -> !collideY.get() && Double.compare(transformable.getY(), y) != 0);

@@ -54,7 +54,7 @@ public class StateSlideBase extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> !steep.is() || abord.get());
-        addTransition(StateJump.class, this::isGoUp);
+        addTransition(StateJump.class, this::isGoUpOnce);
     }
 
     /**

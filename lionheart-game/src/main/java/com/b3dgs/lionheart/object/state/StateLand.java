@@ -54,7 +54,7 @@ public final class StateLand extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsed(LAND_TICK));
-        addTransition(StateJump.class, this::isGoUpOnce);
+        addTransition(StateJump.class, () -> !control.isFireButton() && isGoUpOnce());
         addTransition(StateCrouch.class, this::isGoDown);
         addTransition(StateAttackPrepare.class, control::isFireButton);
         addTransition(StateFall.class,
