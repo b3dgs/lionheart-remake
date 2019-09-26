@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.android.Mouse;
 import com.b3dgs.lionengine.geom.Area;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Renderable;
@@ -40,15 +41,15 @@ import java.util.Map;
 public class VirtualDeviceButton implements InputDeviceControl, Updatable, Renderable
 {
     /** CTRL key. */
-    public static final Integer CONTROL = Integer.valueOf(0);
+    static final Integer CONTROL = Integer.valueOf(0);
     /** Arrow left key. */
-    public static final Integer LEFT = Integer.valueOf(1);
+    static final Integer LEFT = Integer.valueOf(1);
     /** Arrow right key. */
-    public static final Integer RIGHT = Integer.valueOf(2);
+    static final Integer RIGHT = Integer.valueOf(2);
     /** Arrow down key. */
-    public static final Integer DOWN = Integer.valueOf(3);
+    static final Integer DOWN = Integer.valueOf(3);
     /** Arrow up key. */
-    public static final Integer UP = Integer.valueOf(4);
+    static final Integer UP = Integer.valueOf(4);
     /** No key code value. */
     private static final Integer NO_KEY_CODE = Integer.valueOf(-1);
 
@@ -80,7 +81,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Create device.
-     * 
+     *
      * @param pointer The pointer reference.
      */
     public VirtualDeviceButton(Mouse pointer)
@@ -90,7 +91,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Add a button.
-     * 
+     *
      * @param area The area representation.
      * @param code The associated code.
      * @param label The associated label.
@@ -103,7 +104,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Check if the key is currently pressed.
-     * 
+     *
      * @param key The key to check.
      * @return <code>true</code> if pressed, <code>false</code> else.
      */
@@ -114,7 +115,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Check if the key is currently pressed (not continuously).
-     * 
+     *
      * @param key The key to check.
      * @return <code>true</code> if pressed, <code>false</code> else.
      */
@@ -130,7 +131,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Get the current pressed key code.
-     * 
+     *
      * @return The pressed key code (-1 if key never pressed).
      */
     public Integer getKeyCode()
@@ -140,7 +141,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Get the current pressed key name.
-     * 
+     *
      * @return The pressed key name.
      */
     public String getKeyLabel()
@@ -150,7 +151,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Called on button pressed.
-     * 
+     *
      * @param button The pressed button.
      */
     private void onPressed(Button button)
@@ -166,7 +167,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
     /**
      * Called on button released.
-     * 
+     *
      * @param button The released button.
      */
     private void onReleased(Button button)
@@ -320,7 +321,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
         for (final Button button : buttons.values())
         {
             boolean found = false;
-            for (int i = 0; i < 2; i++)
+            for (int i = 1; i < 3; i++)
             {
                 if (pointer.hasClicked(i) && button.area.contains(pointer.getX(i), pointer.getY(i)))
                 {
@@ -338,7 +339,6 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
                 onReleased(button);
                 button.pressed = false;
             }
-           
         }
     }
 
@@ -349,6 +349,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
     @Override
     public void render(Graphic g)
     {
+        g.setColor(ColorRgba.GREEN);
         for (final Button button : buttons.values())
         {
             g.drawRect((int) button.area.getX(),
@@ -383,7 +384,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
 
         /**
          * Create button.
-         * 
+         *
          * @param area The area representation.
          * @param code The associated code.
          * @param label The associated label.

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.b3dgs.lionheart"
-          android:versionCode="0016"
-          android:versionName="0.0.16">
+    package="com.b3dgs.lionheart"
+    android:versionCode="0016"
+    android:versionName="0.0.16">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
@@ -16,20 +15,19 @@
             android:name=".android.ActivityLionheart"
             android:screenOrientation="landscape">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="www.b3dgs.com"
-                    android:scheme="http"/>
+                    android:scheme="http" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
