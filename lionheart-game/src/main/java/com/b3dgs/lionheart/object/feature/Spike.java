@@ -18,11 +18,9 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -32,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionheart.Sfx;
 
 /**
  * Spike feature implementation.
@@ -42,8 +41,9 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 @FeatureInterface
 public final class Spike extends FeatureModel implements Routine, Recyclable
 {
-    private static final int PHASE1_DELAY_TICK = 150;
-    private static final int PHASE2_DELAY_TICK = 150;
+    private static final int PHASE1_DELAY_TICK = 75;
+    private static final int PHASE2_DELAY_TICK = 50;
+    private static final int PHASE3_DELAY_TICK = 50;
 
     private final Tick tick = new Tick();
     private final Animation phase1;
@@ -72,39 +72,38 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
     }
 
     @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        animatable.addListener((AnimatorFrameListener) f -> collidable.setEnabled(f > phase1.getLast()));
-    }
-
-    @Override
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (phase == 0 && animatable.is(AnimState.FINISHED))
+        if (phase == 0 && tick.elapsed(PHASE1_DELAY_TICK))
         {
             tick.restart();
+            animatable.play(phase1);
             phase = 1;
         }
-        else if (phase == 1 && tick.elapsed(PHASE1_DELAY_TICK))
-        {
-            animatable.play(phase2);
-            phase = 2;
-        }
-        else if (phase == 2 && animatable.is(AnimState.FINISHED))
+        else if (phase == 1 && animatable.is(AnimState.FINISHED))
         {
             tick.restart();
+            phase = 2;
+        }
+        else if (phase == 2 && tick.elapsed(PHASE2_DELAY_TICK))
+        {
+            animatable.play(phase2);
+            Sfx.SPIKE.play();
             phase = 3;
         }
-        else if (phase == 3 && tick.elapsed(PHASE2_DELAY_TICK))
+        else if (phase == 3 && animatable.is(AnimState.FINISHED))
+        {
+            tick.restart();
+            phase = 4;
+        }
+        else if (phase == 4 && tick.elapsed(PHASE3_DELAY_TICK))
         {
             animatable.play(phase3);
             animatable.setFrame(phase3.getLast());
-            phase = 4;
+            phase = 5;
         }
-        else if (phase == 4 && animatable.is(AnimState.FINISHED))
+        else if (phase == 5 && animatable.is(AnimState.FINISHED))
         {
             tick.restart();
             phase = 0;
@@ -114,7 +113,8 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
     @Override
     public void recycle()
     {
-        animatable.play(phase1);
+        animatable.setFrame(phase1.getFirst());
+        tick.restart();
         phase = 0;
     }
 }

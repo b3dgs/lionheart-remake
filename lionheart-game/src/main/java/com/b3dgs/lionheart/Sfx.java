@@ -54,7 +54,9 @@ public enum Sfx
     /** Explode 2. */
     EXPLODE2,
     /** Explode 3. */
-    EXPLODE3;
+    EXPLODE3,
+    /** Spike. */
+    SPIKE;
 
     /**
      * Cache sfx.

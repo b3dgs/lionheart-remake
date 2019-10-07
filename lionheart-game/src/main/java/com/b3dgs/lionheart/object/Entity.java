@@ -50,6 +50,7 @@ import com.b3dgs.lionheart.object.state.StateIdle;
 public final class Entity extends FeaturableModel
 {
     private static final int PREFIX = State.class.getSimpleName().length();
+    private static final String NODE_STATE = "state";
 
     /**
      * Get animation name from state class.
@@ -113,7 +114,10 @@ public final class Entity extends FeaturableModel
         movement.setSensibility(0.01);
 
         final StateHandler stateHandler = addFeatureAndGet(new StateHandler(services, setup, Entity::getAnimationName));
-        stateHandler.changeState(StateIdle.class);
+        if (!setup.hasNode(NODE_STATE))
+        {
+            stateHandler.changeState(StateIdle.class);
+        }
     }
 
     @Override
