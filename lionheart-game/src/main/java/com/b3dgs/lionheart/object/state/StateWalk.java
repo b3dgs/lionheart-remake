@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -124,6 +125,25 @@ final class StateWalk extends State
         if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
         {
             collideY.set(true);
+        }
+        if (with.getName().contains(CollisionName.BODY)
+            && (movement.getDirectionHorizontal() < 0 && by.getName().contains(CollisionName.SPIKE_RIGHT)
+                || movement.getDirectionHorizontal() > 0 && by.getName().contains(CollisionName.SPIKE_LEFT)))
+        {
+            final Transformable other = collidable.getFeature(Transformable.class);
+            collideX.set(true);
+            if (by.getName().contains(CollisionName.SPIKE_LEFT))
+            {
+                transformable.teleportX(other.getX() + by.getOffsetX() - with.getWidth() / 2);
+                collideXright.set(true);
+            }
+            if (by.getName().contains(CollisionName.SPIKE_RIGHT))
+            {
+                transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2);
+                collideXleft.set(true);
+            }
+            movement.setDirection(DirectionNone.INSTANCE);
+            movement.setDestination(0.0, 0.0);
         }
     }
 

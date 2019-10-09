@@ -31,6 +31,10 @@ public final class CollisionName
     public static final String LEG_LEFT = Anim.LEG + "_left";
     /** Collision leg right. */
     public static final String LEG_RIGHT = Anim.LEG + "_right";
+    /** Collision body. */
+    public static final String BODY = "body";
+    /** Collision bite. */
+    public static final String BITE = "bite";
 
     /** Category collision knee prefix. */
     public static final String KNEE = "knee";

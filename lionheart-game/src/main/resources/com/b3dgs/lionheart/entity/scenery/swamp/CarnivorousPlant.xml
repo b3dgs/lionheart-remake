@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.CarnivorousPlant</lionengine:class>
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.CarnivorousPlant</lionengine:feature>
     <lionengine:surface image="CarnivorousPlant.png" icon="CarnivorousPlant_ico.png"/>
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
 	<lionengine:frames horizontal="2" vertical="2"/>
 	<lionengine:size width="32" height="32"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="26" mirror="false"/>
-	<lionengine:collision name="bite" offsetX="2" offsetY="25" width="28" height="1" mirror="false"/>
+    <lionengine:group>3</lionengine:group>
+	<lionengine:collision name="spike_vertical_left" offsetX="-12" offsetY="0" width="1" height="26" mirror="false"/>
+    <lionengine:collision name="spike_vertical_right" offsetX="12" offsetY="0" width="1" height="26" mirror="false"/>
+	<lionengine:collision name="bite" offsetX="0" offsetY="25" width="22" height="1" mirror="false"/>
 	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="walk" start="1" end="4" speed="0.25" reversed="true" repeat="false"/>
+	<lionengine:animation name="bite" start="1" end="4" speed="0.25" reversed="true" repeat="false"/>
+    <state>off</state>
 </lionengine:featurable>
