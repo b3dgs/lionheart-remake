@@ -36,7 +36,7 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.constant.CollisionName;
-import com.b3dgs.lionheart.object.state.StateDrowned;
+import com.b3dgs.lionheart.object.state.StateBitten;
 
 /**
  * Carnivorous plant feature implementation.
@@ -88,9 +88,12 @@ public final class CarnivorousPlant extends FeatureModel implements Routine, Rec
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (CollisionName.BITE.equals(with.getName()) && by.getName().contains(CollisionName.BODY))
+        final Transformable transformable = collidable.getFeature(Transformable.class);
+        if (CollisionName.BITE.equals(with.getName())
+            && by.getName().contains(CollisionName.BODY)
+            && transformable.getY() < transformable.getOldY())
         {
-            collidable.getFeature(StateHandler.class).changeState(StateDrowned.class);
+            collidable.getFeature(StateHandler.class).changeState(StateBitten.class);
         }
     }
 
