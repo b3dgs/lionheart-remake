@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -31,10 +30,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
@@ -48,7 +44,7 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </ol>
  */
 @FeatureInterface
-public final class Turning extends FeatureModel implements Routine, Recyclable
+public class Turning extends FeatureModel implements Routine, Recyclable
 {
     /** Max shake amplitude in height. */
     private static final double CURVE_FORCE = 4.0;
@@ -132,7 +128,6 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
             stateHandler.changeState(StateTurn.class);
             glue.stop();
             glue.setGlue(false);
-            collidable.setEnabled(false);
             tick.restart();
         }
     }
@@ -145,25 +140,6 @@ public final class Turning extends FeatureModel implements Routine, Recyclable
     private double computeCurve()
     {
         return UtilMath.sin(curve) * CURVE_FORCE;
-    }
-
-    /**
-     * Check if enable collide depending of next state. Disabled if turning.
-     * 
-     * @param from The state from.
-     * @param to The next state.
-     */
-    private void checkCollideEnabled(Class<? extends State> from, Class<? extends State> to)
-    {
-        collidable.setEnabled(!Anim.TURN.equals(Entity.getAnimationName(to)));
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        stateHandler.addListener(this::checkCollideEnabled);
     }
 
     @Override

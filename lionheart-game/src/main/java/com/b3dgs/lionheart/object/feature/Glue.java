@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 
@@ -162,7 +163,9 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         other = collidable.getFeature(Transformable.class);
-        if (Double.compare(other.getY(), other.getOldY()) <= 0 && by.getName().startsWith(Anim.LEG))
+        if (Double.compare(other.getY(), other.getOldY()) <= 0
+            && with.getName().startsWith(CollisionName.GROUND)
+            && by.getName().startsWith(Anim.LEG))
         {
             collide = true;
             offsetY = with.getOffsetY();

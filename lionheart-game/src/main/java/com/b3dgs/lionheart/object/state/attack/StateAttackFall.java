@@ -32,6 +32,7 @@ import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Hurtable;
+import com.b3dgs.lionheart.object.feature.TurningHit;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -84,7 +85,8 @@ public final class StateAttackFall extends State
         {
             collideY.set(true);
         }
-        if (collidable.hasFeature(Hurtable.class) && with.getName().startsWith(Anim.ATTACK_FALL))
+        if ((collidable.hasFeature(Hurtable.class) || collidable.hasFeature(TurningHit.class))
+            && with.getName().startsWith(Anim.ATTACK_FALL))
         {
             body.resetGravity();
             jump.setDirection(new Force(0, Constant.JUMP_HIT));

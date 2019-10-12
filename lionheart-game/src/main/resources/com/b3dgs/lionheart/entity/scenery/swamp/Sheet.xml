@@ -8,6 +8,6 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
     <lionengine:size width="32" height="32" />
     <lionengine:group>3</lionengine:group>
-    <lionengine:collision name="default" offsetX="0" offsetY="14" width="28" height="1" mirror="false" />
+    <lionengine:collision name="ground" offsetX="0" offsetY="14" width="28" height="1" mirror="false" />
     <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
 </lionengine:featurable>

@@ -32,7 +32,9 @@ public final class Anim
     /** Animation shade prefix. */
     public static final String SHADE = "shade_";
 
-    /** Animation name walk. */
+    /** Animation name idle. */
+    public static final String IDLE = "idle";
+    /** Animation name turn. */
     public static final String TURN = "turn";
     /** Animation name attack fall. */
     public static final String ATTACK_FALL = ATTACK + "fall";
