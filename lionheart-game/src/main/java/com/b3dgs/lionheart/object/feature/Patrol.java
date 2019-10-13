@@ -165,6 +165,6 @@ public final class Patrol extends FeatureModel implements Routine
     public void update(double extrp)
     {
         checker.update(extrp);
-        moved += model.getMovement().getDirectionHorizontal();
+        moved += model.getMovement().getDirectionHorizontal() + model.getMovement().getDirectionVertical();
     }
 }

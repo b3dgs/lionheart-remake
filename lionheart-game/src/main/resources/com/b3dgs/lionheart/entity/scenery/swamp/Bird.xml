@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.Bird</lionengine:class>
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Bird</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
     <lionengine:surface image="Bird.png" icon="Bird_ico.png"/>
+    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
 	<lionengine:frames horizontal="5" vertical="4"/>
 	<lionengine:size width="32" height="32"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="8" width="32" height="16" mirror="false" />
-	<lionengine:collision name="top" offsetX="8" offsetY="16" width="8" height="1" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="turn" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
-	<lionengine:animation name="walk" start="11" end="20" speed="0.25" reversed="false" repeat="true"/>
+    <lionengine:group>3</lionengine:group>
+    <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true">
+        <lionengine:collisionFramed number="1" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="2" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="3" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="4" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="5" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="6" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="7" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="8" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="9" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed number="10" x="0" y="12" width="16" height="8"/>
+    </lionengine:animation>
+    <lionengine:animation name="idle" start="11" end="20" speed="0.25" reversed="false" repeat="true">
+        <lionengine:collisionFramed prefix="ground" number="1" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="2" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="3" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="4" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="5" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="6" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="7" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="8" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="9" x="0" y="20" width="16" height="1"/>
+        <lionengine:collisionFramed prefix="ground" number="10" x="0" y="20" width="16" height="1"/>
+    </lionengine:animation>
+    <patrol sh="0.0" sv="0.3"/>
 </lionengine:featurable>
