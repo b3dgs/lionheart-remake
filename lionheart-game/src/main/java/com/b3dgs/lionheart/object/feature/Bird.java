@@ -18,16 +18,21 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 
@@ -43,14 +48,19 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
 @FeatureInterface
 public final class Bird extends Turning implements CollidableListener
 {
+    private static final double CURVE_FORCE = 2.3;
+
     private final Tick tick = new Tick();
 
-    private @FeatureGet Animatable animatable;
-    private @FeatureGet Collidable collidable;
-    private @FeatureGet StateHandler stateHandler;
-    private @FeatureGet Glue glue;
+    @FeatureGet private Animatable animatable;
+    @FeatureGet private Collidable collidable;
+    @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private Transformable reference;
+    @FeatureGet private Glue glue;
 
+    private Transformable other;
     private boolean hit;
+    private int offsetY;
 
     /**
      * Create feature.
@@ -70,6 +80,7 @@ public final class Bird extends Turning implements CollidableListener
         super.update(extrp);
 
         tick.update(extrp);
+
         if (hit && tick.elapsed(200))
         {
             hit = false;
@@ -81,13 +92,23 @@ public final class Bird extends Turning implements CollidableListener
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (by.getName().startsWith(Anim.ATTACK))
+        other = collidable.getFeature(Transformable.class);
+        if (!hit && Double.compare(other.getY(), other.getOldY()) <= 0 && by.getName().startsWith(Anim.ATTACK))
         {
             stateHandler.changeState(StateIdle.class);
             glue.setGlue(true);
             animatable.stop();
             tick.restart();
+            Sfx.MONSTER_HURT.play();
+            offsetY = with.getOffsetY() + 10;
             hit = true;
+        }
+        if (Double.compare(other.getY(), other.getOldY()) <= 0
+            && with.getName().startsWith(CollisionName.GROUND)
+            && by.getName().startsWith(Anim.LEG))
+        {
+            other.getFeature(Body.class).resetGravity();
+            other.teleportY(reference.getY() + offsetY + UtilMath.cos(animatable.getFrameAnim() * 36) * CURVE_FORCE);
         }
     }
 

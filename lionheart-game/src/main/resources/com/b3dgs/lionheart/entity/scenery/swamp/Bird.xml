@@ -10,16 +10,16 @@
 	<lionengine:size width="32" height="32"/>
     <lionengine:group>3</lionengine:group>
     <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true">
-        <lionengine:collisionFramed number="1" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="2" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="3" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="4" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="5" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="6" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="7" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="8" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="9" x="0" y="12" width="16" height="8"/>
-        <lionengine:collisionFramed number="10" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="1" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="2" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="3" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="4" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="5" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="6" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="7" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="8" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="9" x="0" y="12" width="16" height="8"/>
+        <lionengine:collisionFramed prefix="attack" number="10" x="0" y="12" width="16" height="8"/>
     </lionengine:animation>
     <lionengine:animation name="idle" start="11" end="20" speed="0.25" reversed="false" repeat="true">
         <lionengine:collisionFramed prefix="ground" number="1" x="0" y="20" width="16" height="1"/>
