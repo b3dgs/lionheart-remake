@@ -58,6 +58,7 @@ import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.landscape.LandscapeType;
 import com.b3dgs.lionheart.object.Entity;
+import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
  * World game representation.
@@ -164,6 +165,7 @@ final class World extends WorldGame
         playerTransformable.teleport(204, 64);
         handler.add(player);
         hud.setFeaturable(player);
+        services.add(player.getFeature(SwordShade.class));
 
         trackPlayer(playerTransformable);
     }

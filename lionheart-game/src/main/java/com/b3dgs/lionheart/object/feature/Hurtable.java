@@ -72,8 +72,10 @@ public final class Hurtable extends FeatureModel
     private final Force hurtForce = new Force();
     private final Tick recover = new Tick();
     private final Tick flicker = new Tick();
+    private final double hurtForceValue;
     private final Spawner spawner;
     private final Media effect;
+    private final boolean persist;
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
@@ -99,11 +101,20 @@ public final class Hurtable extends FeatureModel
 
         final HurtableConfig config = HurtableConfig.imports(setup);
         effect = config.getEffect();
+        persist = config.hasPersist();
         spawner = services.get(Spawner.class);
 
-        hurtForce.setDestination(0.0, 0.0);
-        hurtForce.setSensibility(0.1);
-        hurtForce.setVelocity(0.5);
+        if (config.hasBackward())
+        {
+            hurtForce.setDestination(0.0, 0.0);
+            hurtForce.setSensibility(0.1);
+            hurtForce.setVelocity(0.5);
+            hurtForceValue = 1.8;
+        }
+        else
+        {
+            hurtForceValue = 0.0;
+        }
     }
 
     /**
@@ -151,19 +162,26 @@ public final class Hurtable extends FeatureModel
     private void updateCollideAttack(Collidable collidable)
     {
         Sfx.MONSTER_HURT.play();
+        stateHandler.changeState(StateHurt.class);
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
             spawner.spawn(effect, transformable);
-            identifiable.destroy();
             currentCollide = CollidableListenerVoid.getInstance();
+            if (persist)
+            {
+                collidable.setEnabled(false);
+            }
+            else
+            {
+                identifiable.destroy();
+            }
         }
         if (model.getMovement().isDecreasingHorizontal())
         {
             mirrorable.mirror(Mirror.NONE);
         }
-        stateHandler.changeState(StateHurt.class);
         final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
-        hurtForce.setDirection(1.8 * side, 0.0);
+        hurtForce.setDirection(hurtForceValue * side, 0.0);
         recover.restart();
     }
 

@@ -35,6 +35,8 @@ public final class HurtableConfig
     private static final String ATT_EFFECT = "effect";
     /** Move backward attribute name. */
     private static final String ATT_BACKWARD = "backward";
+    /** Persist on death attribute name. */
+    private static final String ATT_PERSIST = "persist";
 
     /**
      * Imports from configurer.
@@ -51,24 +53,28 @@ public final class HurtableConfig
         {
             final String effect = configurer.getStringDefault(null, ATT_EFFECT, NODE_HURTABLE);
             final boolean backward = configurer.getBooleanDefault(false, ATT_BACKWARD, NODE_HURTABLE);
+            final boolean persist = configurer.getBooleanDefault(true, ATT_PERSIST, NODE_HURTABLE);
 
-            return new HurtableConfig(effect, backward);
+            return new HurtableConfig(effect, backward, persist);
         }
-        return new HurtableConfig(null, false);
+        return new HurtableConfig(null, false, false);
     }
 
     /** Effect media. */
     private final Media effect;
     /** Move backward flag. */
     private final boolean backward;
+    /** Persist on death flag. */
+    private final boolean persist;
 
     /**
      * Create config.
      * 
      * @param effect The effect media (can be <code>null</code>).
      * @param backward The move backward flag.
+     * @param persist The persist flag.
      */
-    private HurtableConfig(String effect, boolean backward)
+    private HurtableConfig(String effect, boolean backward, boolean persist)
     {
         super();
 
@@ -81,6 +87,7 @@ public final class HurtableConfig
             this.effect = null;
         }
         this.backward = backward;
+        this.persist = persist;
     }
 
     /**
@@ -101,5 +108,15 @@ public final class HurtableConfig
     public boolean hasBackward()
     {
         return backward;
+    }
+
+    /**
+     * Get the persist flag.
+     * 
+     * @return The persist flag.
+     */
+    public boolean hasPersist()
+    {
+        return persist;
     }
 }

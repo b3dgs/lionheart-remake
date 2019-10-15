@@ -40,7 +40,8 @@ public final class StateHurt extends State
     {
         super(model, animation);
 
-        addTransition(StateFall.class, () -> !hurtable.isHurting());
+        addTransition(StateIdle.class, () -> !hurtable.isHurting() && !model.hasGravity());
+        addTransition(StateFall.class, () -> !hurtable.isHurting() && model.hasGravity());
     }
 
     @Override
