@@ -44,6 +44,8 @@ public final class Constant
     public static final Integer COLL_GROUP_ENEMIES = Integer.valueOf(2);
     /** Collision group background. */
     public static final Integer COLL_GROUP_BACKGROUND = Integer.valueOf(3);
+    /** Collision group projectiles. */
+    public static final Integer COLL_GROUP_PROJECTILES = Integer.valueOf(4);
 
     /** Stats maximum health. */
     public static final int STATS_MAX_HEALTH = 99;

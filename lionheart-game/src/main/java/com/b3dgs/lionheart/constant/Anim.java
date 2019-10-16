@@ -38,6 +38,8 @@ public final class Anim
     public static final String TURN = "turn";
     /** Animation name attack fall. */
     public static final String ATTACK_FALL = ATTACK + "fall";
+    /** Animation name dead prefix. */
+    public static final String DEAD = "dead";
 
     /**
      * Private constructor.

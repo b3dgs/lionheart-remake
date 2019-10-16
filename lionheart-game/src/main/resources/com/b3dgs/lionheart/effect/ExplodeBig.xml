@@ -5,6 +5,7 @@
     <lionengine:surface image="ExplodeBig.png"/>
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
 	<lionengine:frames horizontal="5" vertical="4"/>
+    <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
 	<lionengine:animation name="idle" start="1" end="20" speed="0.4" reversed="false" repeat="false"/>
     <sfx_explode count="5"/>
 </lionengine:effect>

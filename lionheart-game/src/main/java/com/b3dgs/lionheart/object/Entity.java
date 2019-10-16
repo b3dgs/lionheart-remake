@@ -99,6 +99,7 @@ public final class Entity extends FeaturableModel
         {
             collidable.addAccept(Constant.COLL_GROUP_BACKGROUND);
             collidable.addAccept(Constant.COLL_GROUP_ENEMIES);
+            collidable.addAccept(Constant.COLL_GROUP_PROJECTILES);
         }
         else
         {

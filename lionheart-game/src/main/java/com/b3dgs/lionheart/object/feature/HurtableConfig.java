@@ -53,7 +53,7 @@ public final class HurtableConfig
         {
             final String effect = configurer.getStringDefault(null, ATT_EFFECT, NODE_HURTABLE);
             final boolean backward = configurer.getBooleanDefault(false, ATT_BACKWARD, NODE_HURTABLE);
-            final boolean persist = configurer.getBooleanDefault(true, ATT_PERSIST, NODE_HURTABLE);
+            final boolean persist = configurer.getBooleanDefault(false, ATT_PERSIST, NODE_HURTABLE);
 
             return new HurtableConfig(effect, backward, persist);
         }

@@ -167,11 +167,7 @@ public final class Hurtable extends FeatureModel
         {
             spawner.spawn(effect, transformable);
             currentCollide = CollidableListenerVoid.getInstance();
-            if (persist)
-            {
-                collidable.setEnabled(false);
-            }
-            else
+            if (!persist)
             {
                 identifiable.destroy();
             }
