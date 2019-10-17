@@ -56,7 +56,9 @@ public enum Sfx
     /** Explode 3. */
     EXPLODE3,
     /** Spike. */
-    SPIKE;
+    SPIKE,
+    /** Enemy flower. */
+    ENEMY_FLOWER;
 
     /**
      * Cache sfx.

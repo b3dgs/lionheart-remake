@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <lionengine:projectile xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.object.Projectile</lionengine:class>
+    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:feature>com.b3dgs.lionengine.game.feature.launchable.LaunchableModel</lionengine:feature>
+    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     <lionengine:surface image="Bullet.png"/>
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
 	<lionengine:frames horizontal="2" vertical="1"/>
 	<lionengine:size width="16" height="16"/>
-    <lionengine:collision name="default" offsetX="-2" offsetY="-3" width="4" height="4" mirror="false" />
-    <lionengine:collision name="attack" offsetX="-2" offsetY="-3" width="4" height="4" mirror="false" />
+    <lionengine:group>2</lionengine:group>
+    <lionengine:collision name="default" offsetX="-2" offsetY="7" width="4" height="4" mirror="false" />
+    <lionengine:collision name="attack" offsetX="-2" offsetY="7" width="4" height="4" mirror="false" />
     <lionengine:animation name="idle" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
+    <lionengine:animation name="hurt" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
     <stats health="1" />
+    <hurtable effect="ExplodeLittle" />
 </lionengine:projectile>

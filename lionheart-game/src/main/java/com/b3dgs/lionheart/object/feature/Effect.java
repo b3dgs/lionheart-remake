@@ -67,7 +67,14 @@ public final class Effect extends FeatureModel implements Recyclable
         final FramesConfig config = FramesConfig.imports(setup);
         final int frames = config.getHorizontal() * config.getVertical();
         final int count = setup.getIntegerDefault(frames, ATT_COUNT, NODE_SFX_EXPLODE);
-        mod = frames / count;
+        if (count == 1)
+        {
+            mod = 0;
+        }
+        else
+        {
+            mod = frames / count;
+        }
         sfxExplode = setup.hasNode(NODE_SFX_EXPLODE);
     }
 
@@ -90,7 +97,7 @@ public final class Effect extends FeatureModel implements Recyclable
             @Override
             public void notifyAnimFrame(int frame)
             {
-                if (sfxExplode && frame % mod == 0)
+                if (sfxExplode && (mod == 0 && frame == 1 || mod > 0 && frame % mod == 0))
                 {
                     Sfx.playRandomExplode();
                 }

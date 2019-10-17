@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.state.StateDecay;
 
@@ -122,6 +123,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
         if (tick.elapsed(FIRE_DELAY))
         {
             launcher.fire(direction);
+            Sfx.ENEMY_FLOWER.play();
             tick.restart();
         }
     }
