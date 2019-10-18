@@ -22,6 +22,9 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
+import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -46,7 +49,7 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  * </ol>
  */
 @FeatureInterface
-public final class Bird extends Turning implements CollidableListener
+public final class Bird extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final double CURVE_FORCE = 2.3;
 
@@ -77,8 +80,6 @@ public final class Bird extends Turning implements CollidableListener
     @Override
     public void update(double extrp)
     {
-        super.update(extrp);
-
         tick.update(extrp);
 
         if (hit && tick.elapsed(200))
@@ -115,8 +116,6 @@ public final class Bird extends Turning implements CollidableListener
     @Override
     public void recycle()
     {
-        super.recycle();
-
         tick.restart();
         hit = false;
     }
