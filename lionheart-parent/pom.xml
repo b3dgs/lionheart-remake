@@ -25,7 +25,7 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <lionengine.version>9.0.2</lionengine.version>
+        <lionengine.version>9.0.3-SNAPSHOT</lionengine.version>
     </properties>
     <dependencies>
         <dependency>

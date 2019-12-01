@@ -8,7 +8,7 @@
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
 	<lionengine:frames horizontal="2" vertical="1"/>
 	<lionengine:size width="16" height="16"/>
-    <lionengine:group>2</lionengine:group>
+    <lionengine:collidable group="2"/>
     <lionengine:collision name="default" offsetX="-2" offsetY="7" width="4" height="4" mirror="false" />
     <lionengine:collision name="attack" offsetX="-2" offsetY="7" width="4" height="4" mirror="false" />
     <lionengine:animation name="idle" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>

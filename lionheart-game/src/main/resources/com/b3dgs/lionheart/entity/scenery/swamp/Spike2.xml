@@ -6,7 +6,7 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
 	<lionengine:frames horizontal="16" vertical="2"/>
 	<lionengine:size width="16" height="32"/>
-    <lionengine:group>2</lionengine:group>
+    <lionengine:collidable group="2"/>
     <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
     <lionengine:animation name="phase1" start="2" end="8" speed="1.00" reversed="false" repeat="false"/>
     <lionengine:animation name="phase2" start="8" end="32" speed="2.00" reversed="false" repeat="false">

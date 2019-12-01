@@ -65,7 +65,7 @@
         <lionengine:group>steep_right_1</lionengine:group>
         <lionengine:group>liana_horizontal</lionengine:group>
     </lionengine:category>
-    <lionengine:group>1</lionengine:group>
+    <lionengine:collidable group="1"/>
 	<lionengine:collision name="leg_left" offsetX="-3" offsetY="0" width="1" height="1" mirror="false" />
 	<lionengine:collision name="leg_right" offsetX="3" offsetY="0" width="1" height="1" mirror="false" />
 	<lionengine:animation name="idle" start="1" end="1" speed="0.125" reversed="false" repeat="false">

@@ -7,7 +7,7 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
     <lionengine:frames horizontal="4" vertical="4" />
     <lionengine:size width="48" height="48" />
-    <lionengine:group>2</lionengine:group>
+    <lionengine:collidable group="2"/>
     <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
         <lionengine:group>slope_left_0</lionengine:group>
         <lionengine:group>slope_left_1</lionengine:group>

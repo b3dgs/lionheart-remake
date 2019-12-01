@@ -8,7 +8,7 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
 	<lionengine:frames horizontal="5" vertical="4"/>
 	<lionengine:size width="32" height="32"/>
-    <lionengine:group>3</lionengine:group>
+    <lionengine:collidable group="3"/>
     <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true">
         <lionengine:collisionFramed prefix="attack" number="1" x="0" y="12" width="16" height="8"/>
         <lionengine:collisionFramed prefix="attack" number="2" x="0" y="12" width="16" height="8"/>

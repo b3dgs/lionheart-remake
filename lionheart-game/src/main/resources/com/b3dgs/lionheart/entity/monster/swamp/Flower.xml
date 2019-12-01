@@ -8,7 +8,7 @@
     <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
 	<lionengine:frames horizontal="5" vertical="2"/>
 	<lionengine:size width="48" height="32"/>
-    <lionengine:group>2</lionengine:group>
+    <lionengine:collidable group="2"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/swamp/Bullet.xml" ox="0" oy="7">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
