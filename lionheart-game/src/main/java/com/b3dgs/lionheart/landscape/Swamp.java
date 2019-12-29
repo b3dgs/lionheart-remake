@@ -55,10 +55,10 @@ final class Swamp extends BackgroundAbstract
      */
     Swamp(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 330);
+        super(theme, 0, 344);
 
         this.scaleH = scaleH;
-        totalHeight = 78;
+        totalHeight = 82;
 
         final int width = source.getWidth();
         final int halfScreen = (int) (source.getWidth() / 3.5);
@@ -131,8 +131,8 @@ final class Swamp extends BackgroundAbstract
                 backcolorB = null;
             }
             mountain = createElement(path, "mountain.png", 0, 124);
-            final int x = (int) (165 * scaleH);
-            moonOffset = 49;
+            final int x = (int) (224 * scaleH);
+            moonOffset = 50;
             moon = new BackgroundElementRastered(x,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
