@@ -37,6 +37,8 @@ public final class Constant
 
     /** Debug flag (shows collisions). */
     public static final boolean DEBUG = false;
+    /** Disable audio flag. */
+    public static final boolean AUDIO_MUTE = true;
 
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);

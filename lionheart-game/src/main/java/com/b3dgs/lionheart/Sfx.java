@@ -65,23 +65,26 @@ public enum Sfx
      */
     public static void cache()
     {
-        for (final Sfx sfx : Sfx.values())
+        if (!Constant.AUDIO_MUTE)
         {
-            sfx.audio.setVolume(0);
-            sfx.play();
-        }
-        try
-        {
-            Thread.sleep(com.b3dgs.lionengine.Constant.HUNDRED / 2);
-        }
-        catch (final InterruptedException exception)
-        {
-            Verbose.exception(exception);
-        }
-        for (final Sfx sfx : Sfx.values())
-        {
-            sfx.audio.stop();
-            sfx.audio.setVolume(50);
+            for (final Sfx sfx : Sfx.values())
+            {
+                sfx.audio.setVolume(0);
+                sfx.play();
+            }
+            try
+            {
+                Thread.sleep(com.b3dgs.lionengine.Constant.HUNDRED / 2);
+            }
+            catch (final InterruptedException exception)
+            {
+                Verbose.exception(exception);
+            }
+            for (final Sfx sfx : Sfx.values())
+            {
+                sfx.audio.stop();
+                sfx.audio.setVolume(50);
+            }
         }
     }
 
@@ -122,6 +125,9 @@ public enum Sfx
      */
     public void play()
     {
-        audio.play();
+        if (!Constant.AUDIO_MUTE)
+        {
+            audio.play();
+        }
     }
 }

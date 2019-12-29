@@ -214,7 +214,10 @@ final class World extends WorldGame
 
         audio = AudioFactory.loadAudio(worldType.getMusic());
         audio.setVolume(25);
-        audio.play();
+        if (!Constant.AUDIO_MUTE)
+        {
+            audio.play();
+        }
     }
 
     @Override
