@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.b3dgs.lionheart.editor</groupId>
         <artifactId>lionheart-editor-parent</artifactId>
-        <version>0.0.16</version>
+        <version>0.0.17</version>
         <relativePath>../lionheart-editor-parent</relativePath>
     </parent>
     <artifactId>com.b3dgs.lionheart.editor.target</artifactId>
