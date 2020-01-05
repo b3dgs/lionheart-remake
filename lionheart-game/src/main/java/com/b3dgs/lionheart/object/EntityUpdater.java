@@ -78,17 +78,27 @@ final class EntityUpdater extends FeatureModel implements Refreshable
      */
     private void updateMirror(double extrp)
     {
-        if (!hasFeature(Patrol.class) && !state.isState(StateHurt.class) && !state.isState(StateSlide.class))
-        {
-            if (mirrorable.is(Mirror.NONE) && movement.getDirectionHorizontal() < 0.0)
-            {
-                mirrorable.mirror(Mirror.HORIZONTAL);
-            }
-            else if (mirrorable.is(Mirror.HORIZONTAL) && movement.getDirectionHorizontal() > 0.0)
-            {
-                mirrorable.mirror(Mirror.NONE);
-            }
+        if (hasFeature(Patrol.class) == true) {
+            mirrorable.update(extrp);
+            return;
         }
+
+        if (state.isState(StateHurt.class) == true) {
+            mirrorable.update(extrp);
+            return;
+        }
+
+        if (state.isState(StateSlide.class) == true) {
+            mirrorable.update(extrp);
+            return;
+        }
+
+        if (mirrorable.is(Mirror.NONE) && movement.getDirectionHorizontal() < 0.0) {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        } else if (mirrorable.is(Mirror.HORIZONTAL) && movement.getDirectionHorizontal() > 0.0) {
+            mirrorable.mirror(Mirror.NONE);
+        }
+
         mirrorable.update(extrp);
     }
 
