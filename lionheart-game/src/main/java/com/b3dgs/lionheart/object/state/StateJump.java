@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ public final class StateJump extends State
         addTransition(StateFall.class,
                       () -> (Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                              || transformable.getY() < transformable.getOldY()));
-        addTransition(StateAttackJump.class, () -> control.isFireButtonOnce() && !isGoDown());
+        addTransition(StateAttackJump.class, () -> isFireOnce() && !isGoDown());
         addTransition(StateAttackFall.class, () -> isFire() && isGoDown());
 
         checkJumpStopped = extrp ->

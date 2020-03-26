@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ final class StateSlideFast extends StateSlideBase
         addTransition(StateSlide.class, this::isGoNone);
         addTransition(StateSlideSlow.class,
                       () -> is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft());
-        addTransition(StateAttackSlide.class, control::isFireButtonOnce);
+        addTransition(StateAttackSlide.class, this::isFireOnce);
 
         setSpeed(1.0);
     }

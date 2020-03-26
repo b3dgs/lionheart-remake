@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,9 +54,9 @@ public final class StateLand extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsed(LAND_TICK));
-        addTransition(StateJump.class, () -> !control.isFireButton() && isGoUpOnce());
+        addTransition(StateJump.class, () -> !isFire() && isGoUpOnce());
         addTransition(StateCrouch.class, this::isGoDown);
-        addTransition(StateAttackPrepare.class, control::isFireButton);
+        addTransition(StateAttackPrepare.class, this::isFire);
         addTransition(StateFall.class,
                       () -> !collideY.get() && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
     }

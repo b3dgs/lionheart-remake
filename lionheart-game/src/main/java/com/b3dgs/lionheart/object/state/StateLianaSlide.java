@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ public class StateLianaSlide extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackLianaSlide.class, () -> liana.is() && control.isFireButtonOnce());
+        addTransition(StateAttackLianaSlide.class, () -> liana.is() && isFireOnce());
         addTransition(StateFall.class, () -> !liana.is() || isGoDownOnce());
     }
 

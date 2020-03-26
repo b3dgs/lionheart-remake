@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:effect xmlns:lionengine="http://lionengine.b3dgs.com">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionheart.object.feature.Effect</lionengine:feature>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Effect</lionengine:feature>
+    </lionengine:features>
     <lionengine:surface image="ExplodeBig.png"/>
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false"/>
-	<lionengine:frames horizontal="5" vertical="4"/>
+    <lionengine:frames horizontal="5" vertical="4"/>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="20" speed="0.4" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
-	<lionengine:animation name="idle" start="1" end="20" speed="0.4" reversed="false" repeat="false"/>
     <sfx_explode count="5"/>
-</lionengine:effect>
+</lionengine:featurable>

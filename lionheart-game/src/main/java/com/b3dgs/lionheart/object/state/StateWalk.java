@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ final class StateWalk extends State
                             || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoDown);
         addTransition(StateJump.class, this::isGoUpOnce);
-        addTransition(StateAttackPrepare.class, control::isFireButton);
+        addTransition(StateAttackPrepare.class, this::isFire);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0

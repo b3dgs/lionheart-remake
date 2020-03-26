@@ -1,15 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon</lionengine:feature>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon</lionengine:feature>
+    </lionengine:features>
     <lionengine:surface image="Dragon.png" icon="Dragon_ico.png"/>
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
     <lionengine:frames horizontal="6" vertical="4"/>
     <lionengine:size width="48" height="64"/>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="2" end="2" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="raise" start="3" end="20" speed="0.7" reversed="false" repeat="false"/>
+        <lionengine:animation name="open" start="21" end="24" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="close" start="21" end="24" speed="0.25" reversed="true" repeat="false"/>
+        <lionengine:animation name="hide" start="3" end="20" speed="0.5" reversed="true" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:collidable group="3"/>
-    <lionengine:animation name="idle" start="2" end="2" speed="0.25" reversed="false" repeat="false"/>
-    <lionengine:animation name="raise" start="3" end="20" speed="0.7" reversed="false" repeat="false"/>
-    <lionengine:animation name="open" start="21" end="24" speed="0.25" reversed="false" repeat="false"/>
-    <lionengine:animation name="close" start="21" end="24" speed="0.25" reversed="true" repeat="false"/>
-    <lionengine:animation name="hide" start="3" end="20" speed="0.5" reversed="true" repeat="false"/>
 </lionengine:featurable>

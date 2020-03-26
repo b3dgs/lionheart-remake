@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ public final class Constant
     /** Application name. */
     public static final String PROGRAM_NAME = "Lionheart Remake";
     /** Application version. */
-    public static final Version PROGRAM_VERSION = Version.create(0, 0, 17);
+    public static final Version PROGRAM_VERSION = Version.create(0, 0, 18);
 
     /** Original display. */
     public static final Resolution NATIVE_RESOLUTION = new Resolution(374, 208, 60);
@@ -72,6 +72,11 @@ public final class Constant
     public static final double JUMP_HIT = 3.75;
     /** Jump maximum height. */
     public static final double JUMP_MAX = 5.4;
+
+    /** Fire button 1. */
+    public static final Integer FIRE1 = Integer.valueOf(0);
+    /** Fire button 2. */
+    public static final Integer FIRE2 = Integer.valueOf(1);
 
     /**
      * Private constructor.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ public final class StateIdle extends State
         addTransition(StateWalk.class, () -> !collideX.get() && !steep.is() && isWalkingFastEnough());
         addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
         addTransition(StateJump.class, () -> collideY.get() && isGoUpOnce());
-        addTransition(StateAttackPrepare.class, () -> collideY.get() && control.isFireButton());
+        addTransition(StateAttackPrepare.class, () -> collideY.get() && isFire());
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && !collideY.get()

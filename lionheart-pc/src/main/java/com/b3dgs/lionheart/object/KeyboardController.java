@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ public final class KeyboardController implements InputDeviceControl
     }
 
     @Override
-    public void setFireButton(Integer code)
+    public void setFireButton(Integer index, Integer code)
     {
         fire = code;
     }
@@ -131,13 +131,13 @@ public final class KeyboardController implements InputDeviceControl
     }
 
     @Override
-    public boolean isFireButton()
+    public boolean isFireButton(Integer index)
     {
         return keyboard.isPressed(fire);
     }
 
     @Override
-    public boolean isFireButtonOnce()
+    public boolean isFireButtonOnce(Integer index)
     {
         return keyboard.isPressedOnce(fire);
     }

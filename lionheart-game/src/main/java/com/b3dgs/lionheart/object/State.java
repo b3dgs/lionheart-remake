@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.io.InputDeviceControl;
 import com.b3dgs.lionengine.io.InputDeviceControlDelegate;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
@@ -315,7 +316,17 @@ public abstract class State extends StateAbstract
      */
     protected final boolean isFire()
     {
-        return control.isFireButton();
+        return control.isFireButton(Constant.FIRE1);
+    }
+
+    /**
+     * Check if fire button once.
+     * 
+     * @return <code>true</code> if active, <code>false</code> else.
+     */
+    protected final boolean isFireOnce()
+    {
+        return control.isFireButtonOnce(Constant.FIRE1);
     }
 
     @Override

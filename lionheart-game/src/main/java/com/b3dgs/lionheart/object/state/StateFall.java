@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
+ * Copyright (C) 2013-2020 Byron 3D Games Studio (www.b3dgs.com) Pierre-Alexandre (contact@b3dgs.com)
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ public final class StateFall extends State
         addTransition(StateSlide.class, steep::is);
         addTransition(StateLianaIdle.class, () -> liana.is() && !liana.isLeft() && !liana.isRight() && !isGoDown());
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
-        addTransition(StateAttackJump.class, () -> !collideY.get() && control.isFireButtonOnce() && !isGoDown());
+        addTransition(StateAttackJump.class, () -> !collideY.get() && isFireOnce() && !isGoDown());
         addTransition(StateAttackFall.class, () -> !collideY.get() && isFire() && isGoDown());
     }
 

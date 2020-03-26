@@ -1,31 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionengine.game.feature.launchable.LauncherModel</lionengine:feature>
-    <lionengine:feature>com.b3dgs.lionheart.object.feature.Flower</lionengine:feature>
-    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionengine.game.feature.launchable.LauncherModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Flower</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    </lionengine:features>
     <lionengine:surface image="Flower.png" icon="Flower_ico.png"/>
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
-	<lionengine:frames horizontal="5" vertical="2"/>
-	<lionengine:size width="48" height="32"/>
-    <lionengine:collidable group="2"/>
+    <lionengine:frames horizontal="5" vertical="2"/>
+    <lionengine:size width="48" height="32"/>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="false">
+            <lionengine:collisionFramed number="1" x="-10" y="3" width="20" height="20"/>
+            <lionengine:collisionFramed number="2" x="-8" y="2" width="20" height="20"/>
+            <lionengine:collisionFramed number="3" x="-4" y="1" width="20" height="20"/>
+            <lionengine:collisionFramed number="4" x="-2" y="0" width="20" height="20"/>
+            <lionengine:collisionFramed number="5" x="2" y="0" width="20" height="20"/>
+            <lionengine:collisionFramed number="6" x="4" y="1" width="20" height="20"/>
+            <lionengine:collisionFramed number="7" x="8" y="2" width="20" height="20"/>
+            <lionengine:collisionFramed number="8" x="10" y="3" width="20" height="20"/>
+        </lionengine:animation>
+        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="decay" start="9" end="9" speed="0.25" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/swamp/Bullet.xml" ox="0" oy="7">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
-	<lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="false">
-        <lionengine:collisionFramed number="1" x="-10" y="3" width="20" height="20"/>
-        <lionengine:collisionFramed number="2" x="-8" y="2" width="20" height="20"/>
-        <lionengine:collisionFramed number="3" x="-4" y="1" width="20" height="20"/>
-        <lionengine:collisionFramed number="4" x="-2" y="0" width="20" height="20"/>
-        <lionengine:collisionFramed number="5" x="2" y="0" width="20" height="20"/>
-        <lionengine:collisionFramed number="6" x="4" y="1" width="20" height="20"/>
-        <lionengine:collisionFramed number="7" x="8" y="2" width="20" height="20"/>
-        <lionengine:collisionFramed number="8" x="10" y="3" width="20" height="20"/>
-    </lionengine:animation>
-    <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="decay" start="9" end="9" speed="0.25" reversed="false" repeat="false"/>
-	<stats health="1" />
-    <hurtable effect="ExplodeBig" persist="true" />
+    <lionengine:collidable group="2"/>
+    <stats health="1"/>
+    <hurtable effect="ExplodeBig" persist="true"/>
 </lionengine:featurable>

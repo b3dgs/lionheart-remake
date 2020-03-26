@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.b3dgs</groupId>
         <artifactId>b3dgs-parent</artifactId>
-        <version>1.1.5</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
     <groupId>com.b3dgs.lionheart</groupId>
     <artifactId>lionheart-parent</artifactId>
-    <version>0.0.17</version>
+    <version>0.0.18-SNAPSHOT</version>
     <name>Lionheart Remake</name>
     <packaging>pom</packaging>
     <description>Remake of the original Lionheart on the Amiga by Thalion</description>
@@ -25,7 +25,7 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <lionengine.version>9.0.3</lionengine.version>
+        <lionengine.version>9.0.4-SNAPSHOT</lionengine.version>
     </properties>
     <dependencies>
         <dependency>
