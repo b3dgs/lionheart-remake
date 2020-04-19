@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
@@ -11,6 +10,9 @@
     <artifactId>lionheart-pc</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart PC</name>
+    <properties>
+        <jna.version>4.5.1</jna.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
@@ -25,7 +27,7 @@
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>4.5.1</version>
+            <version>${jna.version}</version>
         </dependency>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
@@ -35,6 +37,7 @@
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-game</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

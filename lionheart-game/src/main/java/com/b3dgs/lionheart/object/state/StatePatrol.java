@@ -57,8 +57,8 @@ public final class StatePatrol extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED,
-                                control.getVerticalDirection() * Constant.WALK_SPEED);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED,
+                                input.getVerticalDirection() * Constant.WALK_SPEED);
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
                                 / ANIM_SPEED_DIVISOR);
     }

@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackCrouchPrepare;
@@ -49,8 +48,7 @@ public final class StateCrouch extends State
     {
         super.enter();
 
-        movement.setDestination(0.0, 0.0);
-        movement.setDirection(DirectionNone.INSTANCE);
+        movement.zero();
     }
 
     @Override

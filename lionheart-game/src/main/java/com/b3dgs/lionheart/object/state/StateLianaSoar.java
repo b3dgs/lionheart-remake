@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -85,8 +84,7 @@ final class StateLianaSoar extends State
     {
         super.enter();
 
-        movement.setDestination(0.0, 0.0);
-        movement.setDirection(DirectionNone.INSTANCE);
+        movement.zero();
         animatable.addListener(listener);
 
         if (isGoDown())
@@ -119,6 +117,7 @@ final class StateLianaSoar extends State
             transformable.teleportY(y + offset + OFFSET_9);
         }
         rasterable.setFrameOffsets(0, (int) Math.floor(offset) + frameOffset);
+        body.resetGravity();
     }
 
     @Override

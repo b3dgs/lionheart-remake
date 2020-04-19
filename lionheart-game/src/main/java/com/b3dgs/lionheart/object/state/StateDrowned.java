@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -57,8 +56,7 @@ public final class StateDrowned extends State
         super.enter();
 
         stats.applyDamages(stats.getHealth());
-        movement.setDirection(DirectionNone.INSTANCE);
-        movement.setDestination(0.0, 0.0);
+        movement.zero();
         Sfx.VALDYN_DIE.play();
     }
 
@@ -69,6 +67,7 @@ public final class StateDrowned extends State
 
         transformable.teleport(204, 64);
         model.getCamera().resetInterval(transformable);
+        model.getTracker().track(transformable);
         mirrorable.mirror(Mirror.NONE);
         stats.fillHealth();
         stats.decreaseLife();

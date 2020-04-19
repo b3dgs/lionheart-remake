@@ -72,8 +72,6 @@ public final class StateFall extends State
         if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
         {
             jump.setDirection(DirectionNone.INSTANCE);
-            tileCollidable.apply(result);
-            body.resetGravity();
         }
     }
 
@@ -136,8 +134,7 @@ public final class StateFall extends State
     @Override
     public void update(double extrp)
     {
-        body.update(extrp);
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override
@@ -157,5 +154,7 @@ public final class StateFall extends State
         {
             movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         }
+
+        steep.reset();
     }
 }

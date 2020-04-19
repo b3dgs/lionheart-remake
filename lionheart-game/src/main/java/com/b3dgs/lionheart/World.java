@@ -20,64 +20,37 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
-import com.b3dgs.lionengine.game.feature.CameraTracker;
-import com.b3dgs.lionengine.game.feature.HandlerPersister;
+import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.WorldGame;
-import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
-import com.b3dgs.lionengine.game.feature.tile.TileGroupsConfig;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
-import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
-import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
-import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.FileReading;
-import com.b3dgs.lionengine.io.FileWriting;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
-import com.b3dgs.lionengine.io.InputDeviceDirectional;
 import com.b3dgs.lionengine.io.InputDevicePointer;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.landscape.LandscapeType;
-import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
  * World game representation.
  */
-final class World extends WorldGame
+final class World extends WorldHelper
 {
-    private static final String ERROR_INPUT_DEVICE = "Void input device used !";
-
-    private final MapTile map = services.create(MapTileGame.class);
-    private final MapTileGroup mapGroup = map.addFeatureAndGet(new MapTileGroupModel());
-    private final MapTileCollision mapCollision = map.addFeatureAndGet(new MapTileCollisionModel(services));
-    private final MapTileViewer mapViewer = map.addFeatureAndGet(new MapTileViewerModel(services));
-    private final MapTileRastered mapRaster = map.addFeatureAndGet(new MapTileRasteredModel(services));
-    private final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
-    private final HandlerPersister handlerPersister = new HandlerPersister(services);
+    private final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
+    private final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);
     private final FactoryLandscape factoryLandscape = new FactoryLandscape(source, false);
     private final Hud hud = new Hud(services);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
-    private final MapTileCollisionRenderer mapCollisionRenderer;
 
     private Landscape landscape;
     private Audio audio;
@@ -92,31 +65,9 @@ final class World extends WorldGame
     {
         super(services);
 
-        addInputDevice();
-
-        map.addFeature(new LayerableModel(3, 1));
-        mapCollisionRenderer = map.addFeatureAndGet(new MapTileCollisionRendererModel(services));
-
-        handler.addComponent(new ComponentCollision());
-        handler.add(map);
+        map.addFeature(new LayerableModel(4, 1));
 
         camera.setIntervals(16, 0);
-    }
-
-    /**
-     * Add input device or void if none.
-     */
-    private void addInputDevice()
-    {
-        try
-        {
-            services.add(getInputDevice(InputDeviceDirectional.class));
-        }
-        catch (final LionEngineException exception)
-        {
-            Verbose.exception(exception, ERROR_INPUT_DEVICE);
-            services.add(InputDeviceControlVoid.getInstance());
-        }
     }
 
     /**
@@ -130,23 +81,13 @@ final class World extends WorldGame
     private void loadMap(FileReading file, WorldType worldType, LandscapeType landscapeType) throws IOException
     {
         mapPersister.load(file);
-        mapRaster.loadSheets(Medias.create(map.getMedia().getParentPath(), landscapeType.getRaster()), false);
-
-        final String world = worldType.getFolder();
-        mapGroup.loadGroups(Medias.create(Folder.LEVELS, world, TileGroupsConfig.FILENAME));
-        mapCollision.loadCollisions(Medias.create(Folder.LEVELS, world, CollisionFormulaConfig.FILENAME),
-                                    Medias.create(Folder.LEVELS, world, CollisionGroupConfig.FILENAME));
-
-        mapViewer.clear();
-        mapViewer.addRenderer(mapRaster);
 
         if (Constant.DEBUG)
         {
-            mapCollisionRenderer.createCollisionDraw();
-            mapViewer.addRenderer(mapCollisionRenderer);
+            final MapTileCollisionRenderer renderer = map.addFeatureAndGet(new MapTileCollisionRendererModel());
+            renderer.createCollisionDraw();
+            mapViewer.addRenderer(renderer);
         }
-
-        camera.setLimits(map);
     }
 
     /**
@@ -157,17 +98,12 @@ final class World extends WorldGame
      */
     private void loadEntities(FileReading file) throws IOException
     {
-        handlerPersister.load(file);
+        persister.load(file);
 
-        final Entity player = factory.create(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"));
-
-        final Transformable playerTransformable = player.getFeature(Transformable.class);
-        playerTransformable.teleport(204, 64);
-        handler.add(player);
+        final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 200, 64);
         hud.setFeaturable(player);
         services.add(player.getFeature(SwordShade.class));
-
-        trackPlayer(playerTransformable);
+        trackPlayer(player);
     }
 
     /**
@@ -175,13 +111,11 @@ final class World extends WorldGame
      * 
      * @param player The player to track.
      */
-    private void trackPlayer(Transformable player)
+    private void trackPlayer(Featurable player)
     {
-        final CameraTracker tracker = new CameraTracker(services);
         tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
-        tracker.setOffset(0, player.getHeight() / 2);
+        tracker.setOffset(0, player.getFeature(Transformable.class).getHeight() / 2);
         tracker.track(player);
-        handler.add(tracker);
     }
 
     /**
@@ -191,12 +125,6 @@ final class World extends WorldGame
     {
         factory.createCache(Medias.create(Folder.EFFECTS), 5);
         Sfx.cache();
-    }
-
-    @Override
-    protected void saving(FileWriting file) throws IOException
-    {
-        mapPersister.save(file);
     }
 
     @Override

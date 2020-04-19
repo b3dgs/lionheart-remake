@@ -3,11 +3,11 @@
 <target name="Lionheart Remake Editor Target Platform" sequenceNumber="24">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.20.0.v20191122-2104"/>
-        <unit id="org.eclipse.jdt.source.feature.group" version="3.18.200.v20191210-0610"/>
-        <unit id="org.eclipse.rcp.feature.group" version="4.14.0.v20191210-0610"/>
-        <repository location="http://download.eclipse.org/eclipse/updates/4.14"/>
-        <unit id="org.eclipse.platform.ide" version="4.14.0.I20191210-0610"/>
+        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.20.100.v20200303-1901"/>
+        <unit id="org.eclipse.jdt.source.feature.group" version="3.18.300.v20200305-0155"/>
+        <unit id="org.eclipse.rcp.feature.group" version="4.15.0.v20200305-0155"/>
+        <repository location="http://download.eclipse.org/eclipse/updates/4.15"/>
+        <unit id="org.eclipse.platform.ide" version="4.15.0.I20200305-0155"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <unit id="org.eclipse.swtbot.eclipse.feature.group" version="2.8.0.201906121535"/>
@@ -18,7 +18,7 @@
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <repository location="file:/C:/Users/DjThunder/git/lionengine-editor/com.b3dgs.lionengine.editor.repository/target/repository/"/>
-        <unit id="com.b3dgs.lionengine.editor" version="9.0.3"/>
+        <unit id="com.b3dgs.lionengine.editor" version="9.0.4.202004091039"/>
     </location>
 </locations>
 </target>

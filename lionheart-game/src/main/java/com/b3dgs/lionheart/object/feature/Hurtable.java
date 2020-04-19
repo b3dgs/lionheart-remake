@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -214,8 +213,7 @@ public final class Hurtable extends FeatureModel
             && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
             && result.startWithY(CollisionName.SPIKE))
         {
-            model.getMovement().setDirection(DirectionNone.INSTANCE);
-            model.getMovement().setDestination(0.0, 0.0);
+            model.getMovement().zero();
             if (stats.applyDamages(SPIKE_DAMAGES))
             {
                 Sfx.VALDYN_DIE.play();

@@ -19,9 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Direction;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
@@ -72,8 +70,6 @@ public class StateSlideBase extends State
     {
         super.onCollideLeg(result, category);
 
-        tileCollidable.apply(result);
-
         steep.onCollideLeg(result, category);
 
         if (result.startWithX(CollisionName.STEEP_LEFT_GROUND) && result.startWithY(CollisionName.STEEP_LEFT_GROUND))
@@ -87,8 +83,7 @@ public class StateSlideBase extends State
     {
         super.enter();
 
-        movement.setDirection(DirectionNone.INSTANCE);
-        movement.setDestination(0.0, 0.0);
+        movement.zero();
         steep.reset();
         abord.set(false);
     }
@@ -98,9 +93,10 @@ public class StateSlideBase extends State
     {
         super.exit();
 
+        movement.zero();
+
         if (isGoUp())
         {
-            movement.setDestination(0.0, 0.0);
             movement.setDirection(SPEED_JUMP_X * steep.getSide(), 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);
         }
@@ -110,21 +106,13 @@ public class StateSlideBase extends State
     public void update(double extrp)
     {
         movement.setDestination(speed * steep.getSide(), -speed * 2.0);
+        body.resetGravity();
     }
 
     @Override
     protected void postUpdate()
     {
         super.postUpdate();
-
-        if (is(Mirror.NONE) && steep.isLeft())
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (is(Mirror.HORIZONTAL) && steep.isRight())
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
 
         steep.reset();
     }

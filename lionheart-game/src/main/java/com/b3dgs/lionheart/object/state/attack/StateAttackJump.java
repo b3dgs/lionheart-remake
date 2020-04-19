@@ -57,7 +57,7 @@ public final class StateAttackJump extends State
 
         checkJumpAbort = extrp ->
         {
-            if (Double.compare(control.getVerticalDirection(), 0.0) <= 0)
+            if (Double.compare(input.getVerticalDirection(), 0.0) <= 0)
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
@@ -114,11 +114,8 @@ public final class StateAttackJump extends State
     {
         check.update(extrp);
 
-        if (Double.compare(jump.getDirectionVertical(), 0.0) <= 0 || transformable.getY() < transformable.getOldY())
-        {
-            body.update(extrp);
-        }
-        else
+        if (Double.compare(jump.getDirectionVertical(), 0.0) > 0
+            && Double.compare(transformable.getY(), transformable.getOldY()) >= 0)
         {
             body.resetGravity();
         }
@@ -131,6 +128,6 @@ public final class StateAttackJump extends State
         {
             movement.setVelocity(0.07);
         }
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

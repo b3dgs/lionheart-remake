@@ -16,32 +16,21 @@
  */
 package com.b3dgs.lionheart;
 
-import java.io.IOException;
-
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.game.feature.Factory;
-import com.b3dgs.lionengine.game.feature.Handler;
-import com.b3dgs.lionengine.game.feature.HandlerPersister;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
-import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
-import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Text;
-import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.helper.MapTileHelper;
 
 /**
  * Game scene implementation.
  */
 final class Scene extends SequenceGame
 {
-    private static final String ERROR_SAVING_MAP = "Error on saving map !";
     private static final String NAME = Constant.PROGRAM_NAME
                                        + com.b3dgs.lionengine.Constant.SPACE
                                        + Constant.PROGRAM_VERSION;
@@ -66,33 +55,6 @@ final class Scene extends SequenceGame
         text.setColor(ColorRgba.GRAY_LIGHT);
     }
 
-    /**
-     * Import the level and save it.
-     * 
-     * @param level The level to import.
-     */
-    private static void importLevelAndSave(Level level)
-    {
-        final Services services = new Services();
-        services.add(new Factory(services));
-        services.add(new Handler(services));
-
-        final MapTile map = services.create(MapTileGame.class);
-        final MapTilePersister mapPersister = map.addFeatureAndGet(new MapTilePersisterOptimized(services));
-        final HandlerPersister handlerPersister = new HandlerPersister(services);
-        map.create(level.getRip());
-
-        try (FileWriting output = new FileWriting(level.getFile()))
-        {
-            mapPersister.save(output);
-            handlerPersister.save(output);
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception, ERROR_SAVING_MAP);
-        }
-    }
-
     private final Text textName = Graphics.createText(9);
     private final Text textEngine = Graphics.createText(9);
     private final Level level = Level.SWAMP_DEMO;
@@ -113,7 +75,7 @@ final class Scene extends SequenceGame
     {
         if (!level.getFile().exists())
         {
-            importLevelAndSave(level);
+            MapTileHelper.importAndSave(level.getRip(), level.getFile());
         }
         world.loadFromFile(level.getFile());
 

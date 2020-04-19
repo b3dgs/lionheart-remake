@@ -18,12 +18,11 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
-import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilConversion;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
-import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileSurface;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
@@ -34,21 +33,14 @@ import com.b3dgs.lionengine.io.FileWriting;
 @FeatureInterface
 public class MapTilePersisterOptimized extends MapTilePersisterModel
 {
+    @FeatureGet private MapTileSurface map;
+
     /**
-     * Create the persister.
-     * <p>
-     * The {@link Services} must provide:
-     * </p>
-     * <ul>
-     * <li>{@link MapTile}</li>
-     * </ul>
-     * 
-     * @param services The services reference (must not be <code>null</code>).
-     * @throws LionEngineException If invalid argument.
+     * Create feature.
      */
-    public MapTilePersisterOptimized(Services services)
+    public MapTilePersisterOptimized()
     {
-        super(services);
+        super();
     }
 
     @Override

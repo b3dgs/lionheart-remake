@@ -58,7 +58,7 @@ public final class StateJump extends State
 
         checkJumpStopped = extrp ->
         {
-            if (!isFire() && Double.compare(control.getVerticalDirection(), 0.0) <= 0)
+            if (!isFire() && Double.compare(input.getVerticalDirection(), 0.0) <= 0)
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
@@ -72,8 +72,6 @@ public final class StateJump extends State
     @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        super.onCollideLeg(result, category);
-
         if (result.startWithY(CollisionName.STEEP))
         {
             body.resetGravity();
@@ -117,7 +115,7 @@ public final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override

@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -63,8 +62,7 @@ public final class StateBitten extends State
         super.enter();
 
         stats.applyDamages(stats.getHealth());
-        movement.setDirection(DirectionNone.INSTANCE);
-        movement.setDestination(0.0, 0.0);
+        movement.zero();
         startY = transformable.getY();
         layerRefresh = layerable.getLayerRefresh();
         layerDisplay = layerable.getLayerDisplay();

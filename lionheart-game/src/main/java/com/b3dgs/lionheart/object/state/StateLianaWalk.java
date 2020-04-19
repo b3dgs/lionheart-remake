@@ -98,7 +98,7 @@ final class StateLianaWalk extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(control.getHorizontalDirection() * SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * SPEED, 0.0);
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 

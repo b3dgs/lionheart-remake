@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -73,8 +72,7 @@ public class StateLianaSlide extends State
     {
         super.enter();
 
-        movement.setDirection(DirectionNone.INSTANCE);
-        movement.setDestination(0.0, 0.0);
+        movement.zero();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
 

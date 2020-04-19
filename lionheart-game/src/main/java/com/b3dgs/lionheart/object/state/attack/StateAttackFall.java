@@ -107,11 +107,7 @@ public final class StateAttackFall extends State
     @Override
     public void update(double extrp)
     {
-        if (Double.compare(jump.getDirectionVertical(), 0.0) <= 0)
-        {
-            body.update(extrp);
-        }
-        else
+        if (Double.compare(jump.getDirectionVertical(), 0.0) > 0)
         {
             body.resetGravity();
         }
@@ -124,6 +120,6 @@ public final class StateAttackFall extends State
         {
             movement.setVelocity(0.07);
         }
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

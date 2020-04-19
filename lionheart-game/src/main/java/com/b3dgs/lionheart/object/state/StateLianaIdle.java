@@ -94,15 +94,6 @@ public final class StateLianaIdle extends State
     @Override
     public void update(double extrp)
     {
-        body.update(extrp);
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
-    }
-
-    @Override
-    protected void postUpdate()
-    {
-        super.postUpdate();
-
-        liana.reset();
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

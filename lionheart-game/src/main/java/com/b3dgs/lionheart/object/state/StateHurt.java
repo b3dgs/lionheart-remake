@@ -64,6 +64,6 @@ public final class StateHurt extends State
     public void update(double extrp)
     {
         body.resetGravity();
-        movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

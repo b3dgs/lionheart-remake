@@ -38,7 +38,7 @@ import com.b3dgs.lionengine.editor.project.ProjectFactory;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionheart.MapTilePersisterOptimized;
@@ -103,8 +103,8 @@ public class ApplicationConfiguration
                     {
                         importProject(args[i]);
 
-                        final MapTile map = WorldModel.INSTANCE.getMap();
-                        map.addFeature(new MapTilePersisterOptimized(WorldModel.INSTANCE.getServices()));
+                        final MapTileGame map = WorldModel.INSTANCE.getMap();
+                        map.addFeature(new MapTilePersisterOptimized());
                         map.create(Medias.create("levels", "swamp", "level1-1.png"));
                         map.getFeature(MapTileGroup.class).loadGroups(Medias.create("levels", "swamp", "groups.xml"));
                         map.getFeature(MapTileCollision.class)

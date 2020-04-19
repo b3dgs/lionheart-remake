@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state.attack;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.StateIdle;
@@ -47,7 +46,6 @@ public final class StateAttackPrepare extends State
     {
         super.enter();
 
-        movement.setDestination(0.0, 0.0);
-        movement.setDirection(DirectionNone.INSTANCE);
+        movement.zero();
     }
 }

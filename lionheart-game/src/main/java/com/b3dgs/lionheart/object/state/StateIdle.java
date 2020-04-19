@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -84,8 +83,7 @@ public final class StateIdle extends State
             || category.getName().startsWith(CollisionName.KNEE_CENTER) && result.startWithX(CollisionName.SPIKE))
         {
             tileCollidable.apply(result);
-            movement.setDirection(DirectionNone.INSTANCE);
-            movement.setDestination(0.0, 0.0);
+            movement.zero();
         }
     }
 
@@ -95,7 +93,6 @@ public final class StateIdle extends State
         super.onCollideLeg(result, category);
 
         border.notifyTileCollided(result, category);
-        tileCollidable.apply(result);
         body.resetGravity();
 
         if (result.getX() != null && result.startWithY(CollisionName.STEEP))
@@ -143,19 +140,13 @@ public final class StateIdle extends State
     }
 
     @Override
-    public void update(double extrp)
-    {
-        body.update(extrp);
-    }
-
-    @Override
     protected void postUpdate()
     {
         super.postUpdate();
 
         if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
         {
-            movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+            movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
         }
 
         steep.reset();

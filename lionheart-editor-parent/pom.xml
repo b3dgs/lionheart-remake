@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.b3dgs</groupId>
         <artifactId>b3dgs-parent</artifactId>
-        <version>1.1.5</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
     <groupId>com.b3dgs.lionheart.editor</groupId>
     <artifactId>lionheart-editor-parent</artifactId>
@@ -30,10 +29,10 @@
     </ciManagement>
     <properties>
         <radial.base-package>com.b3dgs.lionheart.editor</radial.base-package>
-        <sonar-branch>lionheart-editor-0.0.17</sonar-branch>
+        <sonar-branch>lionheart-editor-0.0.18</sonar-branch>
     </properties>
     <dependencies>
-		<dependency>
+        <dependency>
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-game</artifactId>
             <version>${project.version}</version>
@@ -42,7 +41,7 @@
     <repositories>
         <repository>
             <id>eclipse</id>
-            <url>http://download.eclipse.org/releases/2019-12</url>
+            <url>http://download.eclipse.org/releases/2020-03</url>
             <layout>p2</layout>
         </repository>
         <repository>
@@ -72,14 +71,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <executions>
@@ -88,14 +79,6 @@
                         <phase>none</phase>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>

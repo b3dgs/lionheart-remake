@@ -18,57 +18,27 @@ package com.b3dgs.lionheart.object;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.game.feature.state.StateAbstract;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionengine.io.InputDeviceControl;
-import com.b3dgs.lionengine.io.InputDeviceControlDelegate;
+import com.b3dgs.lionengine.helper.StateHelper;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Base state with animation implementation.
  */
-public abstract class State extends StateAbstract
+public abstract class State extends StateHelper<EntityModel>
 {
-    /** Model reference. */
-    protected final EntityModel model;
-    /** Animatable reference. */
-    protected final Animatable animatable;
-    /** Transformable reference. */
-    protected final Transformable transformable;
-    /** Body reference. */
-    protected final Body body;
-    /** Mirrorable reference. */
-    protected final Mirrorable mirrorable;
-    /** Tile collidable reference. */
-    protected final TileCollidable tileCollidable;
-    /** Collidable reference. */
-    protected final Collidable collidable;
-    /** Rasterable reference. */
-    protected final Rasterable rasterable;
-    /** State animation data. */
-    protected final Animation animation;
     /** Movement reference. */
     protected final Force movement;
     /** Jump reference. */
     protected final Force jump;
-    /** Input device control. */
-    protected final InputDeviceControl control;
     /** Horizontal collision flag. */
     protected final AtomicBoolean collideX = new AtomicBoolean();
     /** Horizontal collision flag on left. */
@@ -89,20 +59,10 @@ public abstract class State extends StateAbstract
      */
     protected State(EntityModel model, Animation animation)
     {
-        super();
+        super(model, animation);
 
-        this.model = model;
-        this.animation = animation;
         movement = model.getMovement();
         jump = model.getJump();
-        animatable = model.getFeature(Animatable.class);
-        transformable = model.getFeature(Transformable.class);
-        body = model.getFeature(Body.class);
-        mirrorable = model.getFeature(Mirrorable.class);
-        tileCollidable = model.getFeature(TileCollidable.class);
-        collidable = model.getFeature(Collidable.class);
-        rasterable = model.getFeature(Rasterable.class);
-        control = new InputDeviceControlDelegate(model::getInput);
 
         listenerTileCollidable = (result, category) ->
         {
@@ -151,6 +111,8 @@ public abstract class State extends StateAbstract
         if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
         {
             collideY.set(true);
+            tileCollidable.apply(result);
+            body.resetGravity();
         }
     }
 
@@ -178,145 +140,13 @@ public abstract class State extends StateAbstract
     }
 
     /**
-     * Check if is anim state.
-     * 
-     * @param state The expected anim state.
-     * @return <code>true</code> if is state, <code>false</code> else.
-     */
-    protected final boolean is(AnimState state)
-    {
-        return animatable.is(state);
-    }
-
-    /**
-     * Check if is current mirror state.
-     * 
-     * @param mirror The expected mirror to be.
-     * @return <code>true</code> if is mirror, <code>false</code> else.
-     */
-    protected final boolean is(Mirror mirror)
-    {
-        return mirrorable.is(mirror);
-    }
-
-    /**
-     * Check if going nowhere.
-     * 
-     * @return <code>true</code> if not going to move, <code>false</code> else.
-     */
-    protected final boolean isGoNone()
-    {
-        return Double.compare(control.getHorizontalDirection(), 0.0) == 0;
-    }
-
-    /**
-     * Check if going horizontally in any way.
-     * 
-     * @return <code>true</code> if going to left or right, <code>false</code> else.
-     */
-    protected final boolean isGoHorizontal()
-    {
-        return Double.compare(control.getHorizontalDirection(), 0.0) != 0;
-    }
-
-    /**
-     * Check if going left.
-     * 
-     * @return <code>true</code> if going to left, <code>false</code> else.
-     */
-    protected final boolean isGoLeft()
-    {
-        return Double.compare(control.getHorizontalDirection(), 0.0) < 0;
-    }
-
-    /**
-     * Check if going right.
-     * 
-     * @return <code>true</code> if going to right, <code>false</code> else.
-     */
-    protected final boolean isGoRight()
-    {
-        return Double.compare(control.getHorizontalDirection(), 0.0) > 0;
-    }
-
-    /**
-     * Check if going vertically in any way.
-     * 
-     * @return <code>true</code> if going to up or down, <code>false</code> else.
-     */
-    protected final boolean isGoVertical()
-    {
-        return Double.compare(control.getVerticalDirection(), 0.0) != 0;
-    }
-
-    /**
-     * Check if going up.
-     * 
-     * @return <code>true</code> if going to up, <code>false</code> else.
-     */
-    protected final boolean isGoUp()
-    {
-        return Double.compare(control.getVerticalDirection(), 0.0) > 0;
-    }
-
-    /**
-     * Check if going down.
-     * 
-     * @return <code>true</code> if going to down, <code>false</code> else.
-     */
-    protected final boolean isGoDown()
-    {
-        return Double.compare(control.getVerticalDirection(), 0.0) < 0;
-    }
-
-    /**
-     * Check if going up one time.
-     * 
-     * @return <code>true</code> if going to up, <code>false</code> else.
-     */
-    protected final boolean isGoUpOnce()
-    {
-        return control.isUpButtonOnce();
-    }
-
-    /**
-     * Check if going down one time.
-     * 
-     * @return <code>true</code> if going to down, <code>false</code> else.
-     */
-    protected final boolean isGoDownOnce()
-    {
-        return control.isDownButtonOnce();
-    }
-
-    /**
-     * Check if going left once.
-     * 
-     * @return <code>true</code> if going to left, <code>false</code> else.
-     */
-    protected final boolean isGoLeftOnce()
-    {
-        return control.isLeftButtonOnce();
-    }
-
-    /**
-     * Check if going right once.
-     * 
-     * @return <code>true</code> if going to right, <code>false</code> else.
-     */
-    protected final boolean isGoRightOnce()
-    {
-        return control.isRightButtonOnce();
-    }
-
-    /**
      * Check if fire button is enabled.
      * 
      * @return <code>true</code> if active, <code>false</code> else.
      */
     protected final boolean isFire()
     {
-        return control.isFireButton(Constant.FIRE1);
+        return isFire(Constant.FIRE1);
     }
 
     /**
@@ -326,7 +156,7 @@ public abstract class State extends StateAbstract
      */
     protected final boolean isFireOnce()
     {
-        return control.isFireButtonOnce(Constant.FIRE1);
+        return isFire(Constant.FIRE1);
     }
 
     @Override

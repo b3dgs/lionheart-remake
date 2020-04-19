@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
-    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
-        <lionengine:feature>com.b3dgs.lionheart.object.EntityKeyboardController</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Drownable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionengine.helper.EntityInputController</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Valdyn.png"/>
     <lionengine:frames horizontal="13" vertical="12"/>
     <lionengine:size width="20" height="55"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
@@ -136,14 +139,14 @@
             <lionengine:group>liana_right</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_left" axis="X" x="-4" y="1">
+        <lionengine:category name="knee_left" axis="X" x="-4" y="2">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_right_0</lionengine:group>
             <lionengine:group>steep_right_1</lionengine:group>
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_right" axis="X" x="4" y="1">
+        <lionengine:category name="knee_right" axis="X" x="4" y="2">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_left_0</lionengine:group>
             <lionengine:group>steep_left_1</lionengine:group>
@@ -151,7 +154,7 @@
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_center" axis="X" x="0" y="1">
+        <lionengine:category name="knee_center" axis="X" x="0" y="2">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_left_0</lionengine:group>
             <lionengine:group>steep_left_1</lionengine:group>
@@ -188,8 +191,13 @@
             <lionengine:group>liana_horizontal</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
-    <lionengine:collidable group="1"/>
+    <lionengine:input class="com.b3dgs.lionengine.awt.KeyboardController">
+        <lionengine:code index="0" value="17"/>
+        <lionengine:code index="1" value="18"/>
+    </lionengine:input>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:layerable layerRefresh="1" layerDisplay="5"/>
+    <lionengine:collidable group="1" accepted="2%3"/>
     <data mass="1.85" gravityMax="11.0" fallenDuration="150">
         <movement speedMax="1.75" smooth="0.15" sensibilityIncrease="0.4" sensibilityDecrease="0.15"/>
         <jump heightMax="7.0"/>

@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -74,8 +73,7 @@ public final class StateLand extends State
             || movement.getDirectionHorizontal() > 0
                && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
         {
-            movement.setDirection(DirectionNone.INSTANCE);
-            movement.setDestination(0.0, 0.0);
+            movement.zero();
         }
     }
 
@@ -120,7 +118,7 @@ public final class StateLand extends State
 
         if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
         {
-            movement.setDestination(control.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+            movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
         }
     }
 }

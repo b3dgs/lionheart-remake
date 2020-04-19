@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
@@ -87,8 +86,7 @@ final class StateWalk extends State
             || movement.getDirectionHorizontal() > 0 && result.startWithX(CollisionName.STEEP_LEFT))
         {
             tileCollidable.apply(result);
-            movement.setDirection(DirectionNone.INSTANCE);
-            movement.setDestination(0.0, 0.0);
+            movement.zero();
         }
     }
 
@@ -142,8 +140,7 @@ final class StateWalk extends State
                 transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2);
                 collideXleft.set(true);
             }
-            movement.setDirection(DirectionNone.INSTANCE);
-            movement.setDestination(0.0, 0.0);
+            movement.zero();
         }
     }
 
@@ -158,7 +155,7 @@ final class StateWalk extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(control.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope), 0.0);
+        movement.setDestination(input.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope), 0.0);
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
