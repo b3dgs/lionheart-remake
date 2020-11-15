@@ -48,7 +48,7 @@ final class StateLianaWalk extends State
     {
         super(model, animation);
 
-        addTransition(StateLianaIdle.class, () -> isWalkingSlowEnough());
+        addTransition(StateLianaIdle.class, this::isWalkingSlowEnough);
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
         addTransition(StateFall.class, () -> !liana.is() || isGoDown());
     }

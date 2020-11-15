@@ -39,7 +39,7 @@ final class StateAttackPrepared extends State
         addTransition(StateAttackHorizontal.class, this::canAttackHorizontal);
         addTransition(StateAttackTurning.class, this::canAttackTurning);
         addTransition(StateAttackTop.class, () -> isFire() && isGoUpOnce());
-        addTransition(StateAttackCrouchPrepared.class, () -> isGoDown());
+        addTransition(StateAttackCrouchPrepared.class, this::isGoDown);
         addTransition(StateAttackUnprepare.class, () -> !isFire());
     }
 
