@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.b3dgs</groupId>
         <artifactId>b3dgs-parent</artifactId>
-        <version>1.1.6-SNAPSHOT</version>
+        <version>1.1.7-SNAPSHOT</version>
     </parent>
     <groupId>com.b3dgs.lionheart</groupId>
     <artifactId>lionheart-parent</artifactId>
@@ -24,7 +24,7 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <lionengine.version>9.0.4-SNAPSHOT</lionengine.version>
+        <lionengine.version>9.0.5-SNAPSHOT</lionengine.version>
     </properties>
     <dependencies>
         <dependency>

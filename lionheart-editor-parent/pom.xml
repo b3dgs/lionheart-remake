@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.b3dgs</groupId>
         <artifactId>b3dgs-parent</artifactId>
-        <version>1.1.6-SNAPSHOT</version>
+        <version>1.1.7-SNAPSHOT</version>
     </parent>
     <groupId>com.b3dgs.lionheart.editor</groupId>
     <artifactId>lionheart-editor-parent</artifactId>
@@ -41,13 +41,13 @@
     <repositories>
         <repository>
             <id>eclipse</id>
-            <url>http://download.eclipse.org/releases/2020-03</url>
+            <url>http://download.eclipse.org/releases/2020-09</url>
             <layout>p2</layout>
         </repository>
         <repository>
             <id>swtbot</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/technology/swtbot/releases/2.8.0/</url>
+            <url>http://download.eclipse.org/technology/swtbot/releases/3.0.0/</url>
         </repository>
         <repository>
             <id>snapshots</id>
