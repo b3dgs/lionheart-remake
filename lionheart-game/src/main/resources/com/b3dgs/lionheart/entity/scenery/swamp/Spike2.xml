@@ -3,6 +3,7 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Spike</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Spike2.png" icon="Spike2_ico.png"/>
@@ -12,7 +13,7 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="phase1" start="2" end="8" speed="1.00" reversed="false" repeat="false"/>
-        <lionengine:animation name="phase2" start="8" end="32" speed="2.00" reversed="false" repeat="false">
+        <lionengine:animation name="attack" start="8" end="32" speed="2.00" reversed="false" repeat="false">
             <lionengine:collisionFramed number="2" x="0" y="0" width="6" height="1"/>
             <lionengine:collisionFramed number="3" x="0" y="0" width="6" height="2"/>
             <lionengine:collisionFramed number="4" x="0" y="0" width="6" height="3"/>
@@ -47,9 +48,7 @@
         </lionengine:animation>
         <lionengine:animation name="phase3" start="2" end="32" speed="0.70" reversed="true" repeat="false"/>
     </lionengine:animations>
-    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <state>off</state>
 </lionengine:featurable>

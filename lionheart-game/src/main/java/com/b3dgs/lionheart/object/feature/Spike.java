@@ -67,7 +67,7 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         phase1 = config.getAnimation("phase1");
-        phase2 = config.getAnimation("phase2");
+        phase2 = config.getAnimation("attack");
         phase3 = config.getAnimation("phase3");
     }
 
