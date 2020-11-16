@@ -82,6 +82,31 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     }
 
     /**
+     * Start as idle.
+     */
+    protected void startIdle()
+    {
+        check = this::checkShake;
+    }
+
+    /**
+     * Start as turn.
+     */
+    protected void startTurn()
+    {
+        check = this::checkRotate;
+        tick.set(DELAY_BEFORE_ROTATE);
+    }
+
+    /**
+     * Reset internal tick.
+     */
+    protected void resetTick()
+    {
+        tick.restart();
+    }
+
+    /**
      * Check delay before start shaking.
      * 
      * @param extrp The extrapolation value.
@@ -151,7 +176,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     @Override
     public void recycle()
     {
-        check = this::checkShake;
+        startIdle();
         curve = 0.0;
         tick.restart();
     }

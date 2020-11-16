@@ -47,7 +47,6 @@ public final class TurningHit extends Turning implements CollidableListener
     private final Animation idle;
 
     private @FeatureGet Animatable animatable;
-    private @FeatureGet Collidable collidable;
     private @FeatureGet StateHandler stateHandler;
 
     private boolean stop;
@@ -74,8 +73,8 @@ public final class TurningHit extends Turning implements CollidableListener
 
         if (stop && animatable.getFrameAnim() == idle.getFirst())
         {
-            animatable.stop();
             stateHandler.changeState(StateIdle.class);
+            resetTick();
             stop = false;
         }
     }
@@ -94,6 +93,7 @@ public final class TurningHit extends Turning implements CollidableListener
     {
         super.recycle();
 
+        startTurn();
         stop = false;
     }
 }
