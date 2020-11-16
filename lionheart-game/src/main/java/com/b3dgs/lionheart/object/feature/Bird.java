@@ -28,14 +28,12 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 
@@ -52,18 +50,17 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
 public final class Bird extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final double CURVE_FORCE = 2.3;
+    private static final long TICK_GLUE = 200L;
 
     private final Tick tick = new Tick();
 
     @FeatureGet private Animatable animatable;
-    @FeatureGet private Collidable collidable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Transformable reference;
     @FeatureGet private Glue glue;
 
     private Transformable other;
     private boolean hit;
-    private int offsetY;
 
     /**
      * Create feature.
@@ -82,11 +79,11 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     {
         tick.update(extrp);
 
-        if (hit && tick.elapsed(200))
+        if (hit && tick.elapsed(TICK_GLUE))
         {
             hit = false;
             stateHandler.changeState(StatePatrol.class);
-            glue.setGlue(false);
+            glue.recycle();
         }
     }
 
@@ -97,19 +94,12 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         if (!hit && Double.compare(other.getY(), other.getOldY()) <= 0 && by.getName().startsWith(Anim.ATTACK))
         {
             stateHandler.changeState(StateIdle.class);
-            glue.setGlue(true);
             animatable.stop();
             tick.restart();
             Sfx.MONSTER_HURT.play();
-            offsetY = with.getOffsetY() + 10;
             hit = true;
-        }
-        if (Double.compare(other.getY(), other.getOldY()) <= 0
-            && with.getName().startsWith(CollisionName.GROUND)
-            && by.getName().startsWith(Anim.LEG))
-        {
-            other.getFeature(Body.class).resetGravity();
-            other.teleportY(reference.getY() + offsetY + UtilMath.cos(animatable.getFrameAnim() * 36) * CURVE_FORCE);
+            glue.setTransformY(() -> UtilMath.cos(animatable.getFrameAnim() * 36) * CURVE_FORCE);
+            glue.start();
         }
     }
 
