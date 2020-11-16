@@ -31,7 +31,7 @@ import com.b3dgs.lionheart.object.feature.Stats;
 public final class StateBitten extends State
 {
     /** Bitten limit drown vertical position. */
-    private static final int BITTEN_FALL_Y = 60;
+    private static final int BITTEN_FALL_Y = 16;
     /** Bitten fall speed. */
     private static final double DEATH_FALL_SPEED = -0.7;
 
@@ -88,6 +88,6 @@ public final class StateBitten extends State
     public void update(double extrp)
     {
         body.resetGravity();
-        model.getMovement().setDestination(0.0, DEATH_FALL_SPEED);
+        model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
     }
 }
