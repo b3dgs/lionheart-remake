@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.Locale;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -32,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
@@ -50,6 +53,18 @@ public final class EntityModel extends EntityModelHelper implements Routine
 {
     private static final int DESTROY_Y = -100;
     private static final String NODE_DATA = "data";
+    private static final int PREFIX = State.class.getSimpleName().length();
+
+    /**
+     * Get animation name from state class.
+     * 
+     * @param state The state class.
+     * @return The animation name.
+     */
+    public static String getAnimationName(Class<? extends State> state)
+    {
+        return state.getSimpleName().substring(PREFIX).toLowerCase(Locale.ENGLISH);
+    }
 
     private final Force movement = new Force();
     private final Force jump = new Force();

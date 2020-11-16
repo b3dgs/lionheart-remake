@@ -21,14 +21,10 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
-import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.object.EntityModel;
 
@@ -47,10 +43,6 @@ public final class Follow extends FeatureModel implements Routine
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Body body;
 
     /**
      * Create feature.

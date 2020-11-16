@@ -28,14 +28,11 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.object.Entity;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 import com.b3dgs.lionheart.object.state.StateTurn;
@@ -57,12 +54,10 @@ public final class Patrol extends FeatureModel implements Routine
     private double sv;
     private double moved;
 
-    @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Body body;
 
     /**
      * Create feature.
@@ -141,7 +136,7 @@ public final class Patrol extends FeatureModel implements Routine
         stateHandler.changeState(StatePatrol.class);
         stateHandler.addListener((from, to) ->
         {
-            collidable.setEnabled(!coll || !Anim.TURN.equals(Entity.getAnimationName(to)));
+            collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
         });
         model.setInput(new InputDeviceControlVoid()
         {
