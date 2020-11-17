@@ -20,5 +20,5 @@
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <takeable effect="effect/Taken.xml" life="1"/>
+    <takeable effect="effect/Taken.xml" sfx="ITEM_TAKEN" life="1"/>
 </lionengine:featurable>

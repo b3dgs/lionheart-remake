@@ -20,8 +20,4 @@
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <data mass="0" gravityMax="0">
-        <jump heightMax="0.0"/>
-    </data>
-    <life normal="1"/>
 </lionengine:featurable>

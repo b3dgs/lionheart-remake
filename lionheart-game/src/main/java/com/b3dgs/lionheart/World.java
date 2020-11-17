@@ -98,12 +98,12 @@ final class World extends WorldHelper
      */
     private void loadEntities(FileReading file) throws IOException
     {
-        persister.load(file);
-
         final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 200, 64);
         hud.setFeaturable(player);
         services.add(player.getFeature(SwordShade.class));
         trackPlayer(player);
+
+        persister.load(file);
     }
 
     /**

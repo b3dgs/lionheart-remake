@@ -14,6 +14,7 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="patrol" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="turn" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="32" height="32" mirror="false"/>
@@ -22,6 +23,6 @@
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <life normal="1"/>
+    <stats health="1"/>
     <hurtable effect="ExplodeBig"/>
 </lionengine:featurable>

@@ -2,8 +2,8 @@
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
-        <lionengine:feature>com.b3dgs.lionengine.game.feature.launchable.LaunchableModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Bullet.png"/>
@@ -18,6 +18,7 @@
         <lionengine:collision name="default" offsetX="-2" offsetY="7" width="4" height="4" mirror="false"/>
         <lionengine:collision name="attack" offsetX="-2" offsetY="7" width="4" height="4" mirror="false"/>
     </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
     <lionengine:collidable group="2"/>

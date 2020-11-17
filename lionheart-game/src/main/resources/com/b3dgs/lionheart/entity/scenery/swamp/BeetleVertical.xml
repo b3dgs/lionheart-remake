@@ -16,11 +16,11 @@
         <lionengine:animation name="turn" start="8" end="10" speed="0.2" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="default" offsetX="0" offsetY="21" width="8" height="1" mirror="false"/>
+        <lionengine:collision name="ground" offsetX="0" offsetY="21" width="8" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <patrol coll="true"/>
+    <patrol sh="0.0" sv="0.3" coll="true"/>
 </lionengine:featurable>
