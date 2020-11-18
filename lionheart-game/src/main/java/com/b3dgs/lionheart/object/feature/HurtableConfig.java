@@ -37,6 +37,8 @@ public final class HurtableConfig
     private static final String ATT_BACKWARD = "backward";
     /** Persist on death attribute name. */
     private static final String ATT_PERSIST = "persist";
+    /** Fall before death attribute name. */
+    private static final String ATT_FALL = "fall";
 
     /**
      * Imports from configurer.
@@ -54,10 +56,11 @@ public final class HurtableConfig
             final String effect = configurer.getStringDefault(null, ATT_EFFECT, NODE_HURTABLE);
             final boolean backward = configurer.getBooleanDefault(false, ATT_BACKWARD, NODE_HURTABLE);
             final boolean persist = configurer.getBooleanDefault(false, ATT_PERSIST, NODE_HURTABLE);
+            final boolean fall = configurer.getBooleanDefault(false, ATT_FALL, NODE_HURTABLE);
 
-            return new HurtableConfig(effect, backward, persist);
+            return new HurtableConfig(effect, backward, persist, fall);
         }
-        return new HurtableConfig(null, false, false);
+        return new HurtableConfig(null, false, false, false);
     }
 
     /** Effect media. */
@@ -66,6 +69,8 @@ public final class HurtableConfig
     private final boolean backward;
     /** Persist on death flag. */
     private final boolean persist;
+    /** Fall before death flag. */
+    private final boolean fall;
 
     /**
      * Create config.
@@ -73,8 +78,9 @@ public final class HurtableConfig
      * @param effect The effect media (can be <code>null</code>).
      * @param backward The move backward flag.
      * @param persist The persist flag.
+     * @param fall The fall before death flag.
      */
-    private HurtableConfig(String effect, boolean backward, boolean persist)
+    private HurtableConfig(String effect, boolean backward, boolean persist, boolean fall)
     {
         super();
 
@@ -88,6 +94,7 @@ public final class HurtableConfig
         }
         this.backward = backward;
         this.persist = persist;
+        this.fall = fall;
     }
 
     /**
@@ -118,5 +125,15 @@ public final class HurtableConfig
     public boolean hasPersist()
     {
         return persist;
+    }
+
+    /**
+     * Get the fall flag.
+     * 
+     * @return The fall flag.
+     */
+    public boolean hasFall()
+    {
+        return fall;
     }
 }

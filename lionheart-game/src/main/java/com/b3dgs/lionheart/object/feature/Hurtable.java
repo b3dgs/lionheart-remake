@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -34,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
@@ -75,13 +77,16 @@ public final class Hurtable extends FeatureModel
     private final Spawner spawner;
     private final Media effect;
     private final boolean persist;
+    private final boolean fall;
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
+    private double oldGravity;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private EntityModel model;
@@ -101,6 +106,7 @@ public final class Hurtable extends FeatureModel
         final HurtableConfig config = HurtableConfig.imports(setup);
         effect = config.getEffect();
         persist = config.hasPersist();
+        fall = config.hasFall();
         spawner = services.get(Spawner.class);
 
         if (config.hasBackward())
@@ -164,12 +170,15 @@ public final class Hurtable extends FeatureModel
         stateHandler.changeState(StateHurt.class);
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
-            spawner.spawn(effect, transformable);
-            currentCollide = CollidableListenerVoid.getInstance();
-            if (!persist)
+            if (fall)
             {
-                identifiable.destroy();
+                body.setGravityMax(oldGravity);
             }
+            else
+            {
+                kill();
+            }
+            currentCollide = CollidableListenerVoid.getInstance();
         }
         if (model.getMovement().isDecreasingHorizontal())
         {
@@ -227,6 +236,10 @@ public final class Hurtable extends FeatureModel
             }
             recover.restart();
         }
+        if (fall)
+        {
+            kill();
+        }
     }
 
     /**
@@ -255,6 +268,30 @@ public final class Hurtable extends FeatureModel
         {
             flickerCurrent = UpdatableVoid.getInstance();
             model.setVisible(true);
+        }
+    }
+
+    /**
+     * Spawn effect and destroy.
+     */
+    private void kill()
+    {
+        spawner.spawn(effect, transformable);
+        if (!persist)
+        {
+            identifiable.destroy();
+        }
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        if (fall)
+        {
+            oldGravity = body.getGravityMax();
+            body.setGravityMax(0.0);
         }
     }
 

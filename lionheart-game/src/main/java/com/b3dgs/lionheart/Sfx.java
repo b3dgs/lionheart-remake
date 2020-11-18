@@ -58,7 +58,9 @@ public enum Sfx
     /** Spike. */
     SPIKE,
     /** Enemy flower. */
-    ENEMY_FLOWER;
+    ENEMY_FLOWER,
+    /** Enemy throws fly. */
+    ENEMY_INSEKT;
 
     /**
      * Cache sfx.
