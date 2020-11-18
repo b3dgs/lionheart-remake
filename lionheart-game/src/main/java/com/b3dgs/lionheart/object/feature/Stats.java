@@ -16,6 +16,9 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.Damages;
@@ -38,11 +41,13 @@ import com.b3dgs.lionheart.Constant;
 @FeatureInterface
 public final class Stats extends FeatureModel implements Recyclable
 {
+    private final List<StatsListener> listeners = new ArrayList<>();
     private final Alterable health = new Alterable(Constant.STATS_MAX_HEALTH);
     private final Alterable talisment = new Alterable(Constant.STATS_MAX_TALISMENT);
     private final Alterable life = new Alterable(Constant.STATS_MAX_LIFE);
     private final Damages damages = new Damages(1, 1);
     private final StatsConfig config;
+    private int sword;
 
     /**
      * Create feature.
@@ -59,6 +64,16 @@ public final class Stats extends FeatureModel implements Recyclable
     }
 
     /**
+     * Add stats listener.
+     * 
+     * @param listener The listener reference.
+     */
+    public void addListener(StatsListener listener)
+    {
+        listeners.add(listener);
+    }
+
+    /**
      * Apply config.
      * 
      * @param config The config to apply.
@@ -68,6 +83,19 @@ public final class Stats extends FeatureModel implements Recyclable
         health.increase(config.getHealth());
         talisment.increase(config.getTalisment());
         life.increase(config.getLife());
+
+        final int nextSword = config.getSword();
+        if (nextSword > 0 && sword != nextSword)
+        {
+            sword = nextSword;
+            damages.setDamages(sword, sword);
+
+            final int n = listeners.size();
+            for (int i = 0; i < n; i++)
+            {
+                listeners.get(i).notifyNextSword(sword);
+            }
+        }
     }
 
     /**
@@ -158,11 +186,23 @@ public final class Stats extends FeatureModel implements Recyclable
         return damages.getRandom();
     }
 
+    /**
+     * Get the sword level.
+     * 
+     * @return The sword level.
+     */
+    public int getSword()
+    {
+        return sword;
+    }
+
     @Override
     public void recycle()
     {
         health.setMax(config.getHealth());
         health.fill();
         life.set(config.getLife());
+        damages.setDamages(1, 1);
+        sword = 1;
     }
 }

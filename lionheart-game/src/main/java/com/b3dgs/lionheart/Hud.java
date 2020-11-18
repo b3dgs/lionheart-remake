@@ -54,6 +54,10 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int TALISMENT_Y = 1;
 
+    private static final boolean SWORD_VISIBLE = false;
+    private static final int SWORD_Y = 1;
+    private static final int SWORD_TILE = 1;
+
     private static final int LIFE_Y = 1;
 
     private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_HEART));
@@ -61,6 +65,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITES, IMG_NUMBERS));
 
     private final SpriteTiled talisment = Drawable.loadSpriteTiled(hudSurface, 16, 16);
+    private final SpriteTiled sword = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteTiled life = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteDigit numberTalisment = Drawable.loadSpriteDigit(number, 8, 16, 2);
     private final SpriteDigit numberLife = Drawable.loadSpriteDigit(number, 8, 16, 2);
@@ -124,6 +129,15 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     /**
+     * Load talisment location.
+     */
+    private void loadSword()
+    {
+        sword.setTile(SWORD_TILE);
+        sword.setLocation(viewer.getWidth() * 0.5, SWORD_Y);
+    }
+
+    /**
      * Load life location.
      */
     private void loadLife()
@@ -167,6 +181,7 @@ public final class Hud implements Resource, Updatable, Renderable
         number.prepare();
 
         loadTalisment();
+        loadSword();
         loadLife();
 
     }
@@ -174,7 +189,7 @@ public final class Hud implements Resource, Updatable, Renderable
     @Override
     public boolean isLoaded()
     {
-        return heartSurface.isLoaded() && talisment.isLoaded() && life.isLoaded();
+        return heartSurface.isLoaded() && talisment.isLoaded() && sword.isLoaded() && life.isLoaded();
     }
 
     @Override
@@ -193,6 +208,10 @@ public final class Hud implements Resource, Updatable, Renderable
             updateHeart();
 
             numberTalisment.setValue(stats.getTalisment());
+            if (SWORD_VISIBLE)
+            {
+                sword.setTile(SWORD_TILE + stats.getSword());
+            }
             numberLife.setValue(stats.getLife());
         }
     }
@@ -209,6 +228,11 @@ public final class Hud implements Resource, Updatable, Renderable
 
             talisment.render(g);
             numberTalisment.render(g);
+
+            if (SWORD_VISIBLE)
+            {
+                sword.render(g);
+            }
 
             life.render(g);
             numberLife.render(g);

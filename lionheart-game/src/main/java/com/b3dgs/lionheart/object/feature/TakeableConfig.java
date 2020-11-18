@@ -41,6 +41,8 @@ public final class TakeableConfig
     private static final String ATT_TALISMENT = "talisment";
     /** Life attribute name. */
     private static final String ATT_LIFE = "life";
+    /** Sword attribute name. */
+    private static final String ATT_SWORD = "sword";
 
     /**
      * Imports from configurer.
@@ -58,8 +60,9 @@ public final class TakeableConfig
         final int health = configurer.getIntegerDefault(0, ATT_HEALTH, NODE_TAKEABLE);
         final int talisment = configurer.getIntegerDefault(0, ATT_TALISMENT, NODE_TAKEABLE);
         final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_TAKEABLE);
+        final int sword = configurer.getIntegerDefault(0, ATT_SWORD, NODE_TAKEABLE);
 
-        return new TakeableConfig(effect, sfx, health, talisment, life);
+        return new TakeableConfig(effect, sfx, health, talisment, life, sword);
     }
 
     /** Effect media. */
@@ -72,6 +75,8 @@ public final class TakeableConfig
     private final int talisment;
     /** Life modifier. */
     private final int life;
+    /** Sword modifier. */
+    private final int sword;
 
     /**
      * Create config.
@@ -81,8 +86,9 @@ public final class TakeableConfig
      * @param health The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
+     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
      */
-    private TakeableConfig(Media effect, String sfx, int health, int talisment, int life)
+    private TakeableConfig(Media effect, String sfx, int health, int talisment, int life, int sword)
     {
         super();
 
@@ -95,11 +101,15 @@ public final class TakeableConfig
         Check.superiorOrEqual(life, 0);
         Check.inferiorOrEqual(life, Constant.STATS_MAX_LIFE);
 
+        Check.superiorOrEqual(sword, 0);
+        Check.inferiorOrEqual(sword, Constant.STATS_MAX_SWORD);
+
         this.effect = effect;
         this.sfx = Sfx.valueOf(sfx);
         this.health = health < 0 ? Integer.MAX_VALUE : health;
         this.talisment = talisment;
         this.life = life;
+        this.sword = sword;
     }
 
     /**
@@ -150,5 +160,15 @@ public final class TakeableConfig
     public int getLife()
     {
         return life;
+    }
+
+    /**
+     * Get the sword modifier.
+     * 
+     * @return The sword modifier.
+     */
+    public int getSword()
+    {
+        return sword;
     }
 }

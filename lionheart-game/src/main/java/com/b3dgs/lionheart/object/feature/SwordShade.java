@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -49,16 +50,18 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class SwordShade extends FeatureModel implements Routine
 {
-    private final SpriteAnimated shade;
+    private final SpriteAnimated[] shades = new SpriteAnimated[Constant.STATS_MAX_SWORD];
     private final AnimationConfig config;
     private final Viewer viewer;
 
+    private SpriteAnimated shade;
     private Animation anim;
 
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Stats stats;
 
     /**
      * Create feature.
@@ -73,10 +76,18 @@ public final class SwordShade extends FeatureModel implements Routine
 
         viewer = services.get(Viewer.class);
 
-        shade = Drawable.loadSpriteAnimated(Medias.create(setup.getMedia().getParentPath(), "shade1.png"), 7, 7);
-        shade.load();
-        shade.prepare();
-        shade.setFrameOffsets(shade.getTileWidth() / 2, -shade.getTileHeight());
+        for (int i = 0; i < shades.length; i++)
+        {
+            shades[i] = Drawable.loadSpriteAnimated(Medias.create(setup.getMedia().getParentPath(),
+                                                                  "shade" + (i + 1) + ".png"),
+                                                    7,
+                                                    7);
+            shades[i].load();
+            shades[i].prepare();
+            shades[i].setFrameOffsets(shades[i].getTileWidth() / 2, -shades[i].getTileHeight());
+        }
+        shade = shades[0];
+
         config = AnimationConfig.imports(setup);
     }
 
@@ -94,6 +105,8 @@ public final class SwordShade extends FeatureModel implements Routine
                 anim = config.getAnimation(name);
             }
         });
+
+        stats.addListener(sword -> shade = shades[sword - 1]);
     }
 
     @Override
