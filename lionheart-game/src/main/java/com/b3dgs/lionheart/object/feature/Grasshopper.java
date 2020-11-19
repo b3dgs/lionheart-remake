@@ -34,6 +34,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StateWalk;
 
 /**
@@ -108,53 +110,79 @@ public final class Grasshopper extends FeatureModel implements Routine
     {
         if (jump)
         {
-            jumpTick.update(extrp);
-            if (jumpTick.elapsed(JUMP_TICK))
-            {
-                jump = false;
-            }
+            updateJump(extrp);
         }
         else if (handler.isState(StateWalk.class)
                  && (map.getTile(transformable, 8, 0) == null && map.getTile(transformable, -8, 0) != null
                      || map.getTile(transformable, 8, 0) != null && map.getTile(transformable, -8, 0) == null))
         {
-            jump = true;
-            jumpTick.restart();
-            if (map.getTile(transformable, 8, 0) == null)
-            {
-                move = 1.2;
-            }
-            else if (map.getTile(transformable, -8, 0) == null)
-            {
-                move = -1.2;
-            }
-            Sfx.GRASSHOPPER_JUMP.play();
+            checkJump();
         }
         else
         {
-            if (track.getX() - transformable.getX() > 100)
+            checkFollow();
+        }
+    }
+
+    /**
+     * Update jumping.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateJump(double extrp)
+    {
+        jumpTick.update(extrp);
+        if (jumpTick.elapsed(JUMP_TICK))
+        {
+            jump = false;
+        }
+    }
+
+    /**
+     * Check jump on border.
+     */
+    private void checkJump()
+    {
+        jump = true;
+        jumpTick.restart();
+        if (map.getTile(transformable, 8, 0) == null)
+        {
+            move = 1.2;
+        }
+        else if (map.getTile(transformable, -8, 0) == null)
+        {
+            move = -1.2;
+        }
+        Sfx.GRASSHOPPER_JUMP.play();
+    }
+
+    /**
+     * Check follow case.
+     */
+    private void checkFollow()
+    {
+        if (track.getX() - transformable.getX() > 100)
+        {
+            move = 1.0;
+        }
+        else if (track.getX() - transformable.getX() < -112)
+        {
+            move = -1.0;
+        }
+        else if (!handler.isState(StateJump.class) && !handler.isState(StateFall.class))
+        {
+            move = 0.0;
+
+            if (transformable.getX() > track.getX())
             {
-                move = 1.0;
-            }
-            else if (track.getX() - transformable.getX() < -112)
-            {
-                move = -1.0;
+                mirrorable.mirror(Mirror.HORIZONTAL);
             }
             else
             {
-                move = 0.0;
-
-                if (transformable.getX() > track.getX())
-                {
-                    mirrorable.mirror(Mirror.HORIZONTAL);
-                }
-                else
-                {
-                    mirrorable.mirror(Mirror.NONE);
-                }
-
-                launcher.fire();
+                mirrorable.mirror(Mirror.NONE);
             }
+
+            launcher.fire();
         }
     }
 }
