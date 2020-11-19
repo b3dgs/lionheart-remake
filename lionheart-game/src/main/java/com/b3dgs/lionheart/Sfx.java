@@ -60,7 +60,9 @@ public enum Sfx
     /** Enemy flower. */
     ENEMY_FLOWER,
     /** Enemy throws fly. */
-    ENEMY_INSEKT;
+    ENEMY_INSEKT,
+    /** Grasshopper jump. */
+    GRASSHOPPER_JUMP;
 
     /**
      * Cache sfx.

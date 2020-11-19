@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
 /**
  * Walk state implementation.
  */
-final class StateWalk extends State
+public final class StateWalk extends State
 {
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.005;

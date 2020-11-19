@@ -4,16 +4,15 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Fly</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Fly.png" icon="Fly_ico.png"/>
+    <lionengine:surface image="Fly.png"/>
     <lionengine:frames horizontal="2" vertical="1"/>
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="2" speed="0.10" reversed="false" repeat="true"/>
-        <lionengine:animation name="hurt" start="2" end="2" speed="0.10" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="2" speed="0.10" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="4" width="8" height="8" mirror="false"/>
