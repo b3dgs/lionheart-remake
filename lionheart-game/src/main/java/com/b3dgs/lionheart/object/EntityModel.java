@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
@@ -77,6 +78,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Collidable collidable;
     @FeatureGet private StateHandler state;
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Rasterable rasterable;
@@ -115,6 +117,8 @@ public final class EntityModel extends EntityModelHelper implements Routine
         jump.setSensibility(0.1);
         jump.setVelocity(0.18);
         jump.setDestination(0.0, 0.0);
+
+        collidable.setCollisionVisibility(Constant.DEBUG);
     }
 
     /**
