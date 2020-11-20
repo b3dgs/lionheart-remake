@@ -16,21 +16,31 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.launchable.Launchable;
+import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
 
@@ -40,24 +50,35 @@ import com.b3dgs.lionheart.Sfx;
  * <li>Point player.</li>
  * <li>Raise on close distance.</li>
  * <li>Throw line during delay.</li>
+ * <li>Retract on distance or hit.</li>
  * </ol>
  */
 @FeatureInterface
 public final class Dragon extends FeatureModel implements Routine, Recyclable
 {
-    private static final int THROW_DISTANCE = 128;
+    private static final int TONGUE_COUNT = 7;
+    private static final int TONGUE_OFFSET_X = 8;
+    private static final int TONGUE_OFFSET_Y = 23;
+    private static final int TONGUE_RETRACT_TICK_DELAY = 3;
+    private static final int THROW_DISTANCE = 160;
 
+    private final List<Launchable> tongue = new ArrayList<>();
+    private final Tick tick = new Tick();
     private final Transformable track;
     private final Animation raise;
     private final Animation open;
     private final Animation close;
     private final Animation hide;
     private Updatable current;
+    private boolean fired;
+    private boolean hurt;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Stats stats;
     @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private Launcher launcher;
 
     /**
      * Create feature.
@@ -86,9 +107,21 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
      */
     private void updateCheck(double extrp)
     {
-        if (animatable.is(AnimState.FINISHED) && UtilMath.getDistance(track, transformable) < THROW_DISTANCE)
+        if (hurt)
+        {
+            hurt = UtilMath.getDistance(track, transformable) < THROW_DISTANCE * 2;
+        }
+        else if (animatable.is(AnimState.FINISHED) && UtilMath.getDistance(track, transformable) < THROW_DISTANCE)
         {
             animatable.play(raise);
+            if (transformable.getX() > track.getX())
+            {
+                mirrorable.mirror(Mirror.HORIZONTAL);
+            }
+            else
+            {
+                mirrorable.mirror(Mirror.NONE);
+            }
             current = this::updateRaise;
         }
     }
@@ -103,7 +136,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
         if (animatable.is(AnimState.FINISHED))
         {
             animatable.play(open);
-            Sfx.ENEMY_FLOWER.play();
+            fired = false;
             current = this::updateThrow;
         }
     }
@@ -115,12 +148,83 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
      */
     private void updateThrow(double extrp)
     {
-        if (animatable.is(AnimState.FINISHED) && UtilMath.getDistance(track, transformable) > THROW_DISTANCE)
+        if (animatable.is(AnimState.FINISHED))
         {
-            final int frame = animatable.getFrame();
-            animatable.play(close);
-            animatable.setFrame(frame);
-            current = this::updateClose;
+            if (!fired)
+            {
+                launcher.fire();
+                Sfx.SCENERY_DRAGON.play();
+                fired = true;
+            }
+            if (tongue.size() == TONGUE_COUNT && !tick.isStarted())
+            {
+                if (isTongueHit())
+                {
+                    hurt = true;
+                    triggerRetractTongue(true);
+                    tick.start();
+                }
+                if (UtilMath.getDistance(track, transformable) > THROW_DISTANCE
+                    || mirrorable.is(Mirror.NONE) && transformable.getX() > track.getX()
+                    || mirrorable.is(Mirror.HORIZONTAL) && transformable.getX() < track.getX())
+                {
+                    triggerRetractTongue(false);
+                    tick.start();
+                }
+            }
+            tick.update(extrp);
+            if (tick.isStarted() && tongue.isEmpty())
+            {
+                final int frame = animatable.getFrame();
+                animatable.play(close);
+                animatable.setFrame(frame);
+                tick.stop();
+                current = this::updateClose;
+            }
+        }
+    }
+
+    /**
+     * Check if tongue hit.
+     * 
+     * @return <code>true</code> if hit, <code>false</code> else.
+     */
+    private boolean isTongueHit()
+    {
+        final int n = tongue.size();
+        for (int i = 0; i < n; i++)
+        {
+            if (tongue.get(i).getFeature(Stats.class).getHealth() == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Trigger tongue retract.
+     * 
+     * @param explode <code>true</code> to show explodes, <code>false</code> else.
+     */
+    private void triggerRetractTongue(boolean explode)
+    {
+        final int n = tongue.size();
+        for (int i = 0; i < n; i++)
+        {
+            final int id = n - i - 1;
+            tick.addAction(() ->
+            {
+                if (explode)
+                {
+                    tongue.get(id).getFeature(Hurtable.class).kill();
+                }
+                tongue.get(id).getFeature(Identifiable.class).destroy();
+                if (id == 0)
+                {
+                    tongue.clear();
+                }
+            }, TONGUE_RETRACT_TICK_DELAY * i);
         }
     }
 
@@ -141,6 +245,15 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     }
 
     @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        launcher.setOffset(TONGUE_OFFSET_X, TONGUE_OFFSET_Y);
+        launcher.addListener(tongue::add);
+    }
+
+    @Override
     public void update(double extrp)
     {
         current.update(extrp);
@@ -150,5 +263,6 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     public void recycle()
     {
         current = this::updateCheck;
+        tongue.clear();
     }
 }

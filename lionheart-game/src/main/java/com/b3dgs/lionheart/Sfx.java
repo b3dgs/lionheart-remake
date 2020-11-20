@@ -61,6 +61,8 @@ public enum Sfx
     ENEMY_FLOWER,
     /** Enemy throws fly. */
     ENEMY_INSEKT,
+    /** Scenery dragon throws. */
+    SCENERY_DRAGON,
     /** Grasshopper jump. */
     GRASSHOPPER_JUMP;
 

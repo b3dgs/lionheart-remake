@@ -274,7 +274,7 @@ public final class Hurtable extends FeatureModel
     /**
      * Spawn effect and destroy.
      */
-    private void kill()
+    public void kill()
     {
         spawner.spawn(effect, transformable);
         if (!persist)

@@ -12,13 +12,36 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="2" end="2" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="raise" start="3" end="20" speed="0.7" reversed="false" repeat="false"/>
+        <lionengine:animation name="raise" start="2" end="20" speed="0.75" reversed="false" repeat="false"/>
         <lionengine:animation name="open" start="21" end="24" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="close" start="21" end="24" speed="0.25" reversed="true" repeat="false"/>
-        <lionengine:animation name="hide" start="3" end="20" speed="0.5" reversed="true" repeat="false"/>
+        <lionengine:animation name="hide" start="2" end="20" speed="0.75" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
+    <lionengine:launcher mirrorable="true">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="0">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="25">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="32" oy="0" delay="50">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="48" oy="0" delay="75">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="64" oy="0" delay="100">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="80" oy="0" delay="125">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/TongueEnd.xml" ox="96" oy="0" delay="150">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
     <lionengine:collidable group="3" accepted="1"/>
 </lionengine:featurable>
