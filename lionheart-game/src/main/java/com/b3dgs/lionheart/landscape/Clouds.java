@@ -28,7 +28,7 @@ final class Clouds extends CloudsAbstract
     private static final int LINE_HEIGHT = 26;
     private static final int[] LINES_OFFSET =
     {
-        0, 30, 54, 73, 89, 100
+        0, 30, 54, 75, 90, 101
     };
     private static final double[] LINES_SPEED =
     {

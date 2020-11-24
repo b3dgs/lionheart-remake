@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.background.Background;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
@@ -28,6 +29,8 @@ public final class FactoryLandscape
     /** Unknown landscape error message. */
     private static final String UNKNOWN_LANDSCAPE_ERROR = "Unknown landscape: ";
 
+    /** The services reference. */
+    private final Services services;
     /** The resolution source reference. */
     private final SourceResolutionProvider source;
     /** The horizontal factor. */
@@ -41,12 +44,14 @@ public final class FactoryLandscape
      * Constructor.
      * 
      * @param source The resolution source reference.
+     * @param services The services reference.
      * @param flicker The flicker flag.
      */
-    public FactoryLandscape(SourceResolutionProvider source, boolean flicker)
+    public FactoryLandscape(Services services, SourceResolutionProvider source, boolean flicker)
     {
         super();
 
+        this.services = services;
         this.source = source;
         this.flicker = flicker;
         scaleH = 1.0;
@@ -66,12 +71,12 @@ public final class FactoryLandscape
             case SWAMP:
             {
                 final Background background = new Swamp(source, scaleH, scaleV, landscape.getTheme(), flicker);
-                final Foreground foreground = new Foreground(source, landscape.getForeground().getTheme());
+                final Foreground foreground = new Foreground(services, source, landscape.getForeground().getTheme());
                 return new Landscape(landscape, background, foreground);
             }
             case ANCIENT_TOWN:
                 final Background background = new AncientTown(source, scaleH, scaleV, landscape.getTheme(), flicker);
-                final Foreground foreground = new Foreground(source, landscape.getForeground().getTheme());
+                final Foreground foreground = new Foreground(services, source, landscape.getForeground().getTheme());
                 return new Landscape(landscape, background, foreground);
             default:
                 throw new LionEngineException(FactoryLandscape.UNKNOWN_LANDSCAPE_ERROR + landscape);

@@ -48,7 +48,8 @@ final class World extends WorldHelper
 {
     private final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
     private final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);
-    private final FactoryLandscape factoryLandscape = new FactoryLandscape(source, false);
+    private final MapTileWater mapWater = services.create(MapTileWater.class);
+    private final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, false);
     private final Hud hud = new Hud(services);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
 
@@ -65,7 +66,7 @@ final class World extends WorldHelper
     {
         super(services);
 
-        map.addFeature(new LayerableModel(4, 1));
+        map.addFeature(new LayerableModel(4, 0));
 
         camera.setIntervals(16, 0);
     }
@@ -88,6 +89,10 @@ final class World extends WorldHelper
             renderer.createCollisionDraw();
             mapViewer.addRenderer(renderer);
         }
+
+        mapWater.create();
+        mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue() + 1));
+        handler.add(mapWater);
     }
 
     /**
