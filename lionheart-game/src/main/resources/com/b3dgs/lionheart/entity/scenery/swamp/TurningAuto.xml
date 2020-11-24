@@ -18,7 +18,7 @@
         <lionengine:animation name="turn" start="1" end="16" speed="0.50" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
+    <lionengine:rasterable file="raster/raster1.png" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
 </lionengine:featurable>

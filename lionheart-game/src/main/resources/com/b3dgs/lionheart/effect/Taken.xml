@@ -11,6 +11,6 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
-    <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
+    <lionengine:rasterable file="raster/raster1.png" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
 </lionengine:featurable>

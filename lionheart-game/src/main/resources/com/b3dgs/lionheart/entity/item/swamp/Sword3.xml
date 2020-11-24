@@ -17,7 +17,7 @@
         <lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="24" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:rasterable file="raster/raster1.xml" height="16" smooth="false"/>
+    <lionengine:rasterable file="raster/raster1.png" height="16" smooth="false"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
     <takeable effect="effect/Taken.xml" sfx="ITEM_TAKEN" sword="3"/>
