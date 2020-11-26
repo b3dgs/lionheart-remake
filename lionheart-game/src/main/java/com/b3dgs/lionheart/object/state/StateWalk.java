@@ -78,19 +78,6 @@ public final class StateWalk extends State
     }
 
     @Override
-    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideKnee(result, category);
-
-        if (movement.getDirectionHorizontal() < 0 && result.startWithX(CollisionName.STEEP_RIGHT)
-            || movement.getDirectionHorizontal() > 0 && result.startWithX(CollisionName.STEEP_LEFT))
-        {
-            tileCollidable.apply(result);
-            movement.zero();
-        }
-    }
-
-    @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
         super.onCollideLeg(result, category);

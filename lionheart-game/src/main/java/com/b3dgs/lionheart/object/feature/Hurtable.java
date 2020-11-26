@@ -42,6 +42,9 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -63,7 +66,6 @@ import com.b3dgs.lionheart.object.state.StateHurt;
 public final class Hurtable extends FeatureModel
                             implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
-    private static final double HURT_JUMP_FORCE = 3.5;
     private static final long HURT_RECOVER_ATTACK_TICK = 20L;
     private static final long HURT_RECOVER_BODY_TICK = 120L;
     private static final long HURT_FLICKER_TICK_DURATION = 120L;
@@ -78,6 +80,8 @@ public final class Hurtable extends FeatureModel
     private final Media effect;
     private final boolean persist;
     private final boolean fall;
+    private final MapTile map;
+    private final MapTileGroup mapGroup;
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
@@ -108,6 +112,8 @@ public final class Hurtable extends FeatureModel
         persist = config.hasPersist();
         fall = config.hasFall();
         spawner = services.get(Spawner.class);
+        map = services.get(MapTile.class);
+        mapGroup = map.getFeature(MapTileGroup.class);
 
         if (config.hasBackward())
         {
@@ -219,10 +225,9 @@ public final class Hurtable extends FeatureModel
     private void updateTile(CollisionResult result, CollisionCategory category)
     {
         if (recover.elapsed(HURT_RECOVER_BODY_TICK)
-            && Double.compare(hurtForce.getDirectionVertical(), 0.0) == 0
-            && result.startWithY(CollisionName.SPIKE))
+            && (CollisionName.SPIKE.equals(mapGroup.getGroup(map.getTile(transformable, 0, 0)))
+                || category.getAxis() == Axis.Y && result.startWithY(CollisionName.SPIKE)))
         {
-            model.getMovement().zero();
             if (stats.applyDamages(SPIKE_DAMAGES))
             {
                 Sfx.VALDYN_DIE.play();
@@ -247,7 +252,6 @@ public final class Hurtable extends FeatureModel
      */
     private void hurtJump()
     {
-        model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
         flicker.restart();
         flickerCurrent = this::updateFlicker;
     }

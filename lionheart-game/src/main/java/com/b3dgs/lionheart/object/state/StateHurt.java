@@ -28,6 +28,8 @@ import com.b3dgs.lionheart.object.feature.Hurtable;
  */
 public final class StateHurt extends State
 {
+    private static final double HURT_JUMP_FORCE = 3.5;
+
     private final Hurtable hurtable = model.getFeature(Hurtable.class);
 
     /**
@@ -49,6 +51,7 @@ public final class StateHurt extends State
     {
         super.enter();
 
+        model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
     }
 

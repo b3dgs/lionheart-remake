@@ -139,14 +139,14 @@
             <lionengine:group>liana_right</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_left" axis="X" x="-4" y="2">
+        <lionengine:category name="knee_left" axis="X" x="-6" y="4">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_right_0</lionengine:group>
             <lionengine:group>steep_right_1</lionengine:group>
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_right" axis="X" x="4" y="2">
+        <lionengine:category name="knee_right" axis="X" x="6" y="4">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_left_0</lionengine:group>
             <lionengine:group>steep_left_1</lionengine:group>

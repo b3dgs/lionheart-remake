@@ -98,6 +98,15 @@ public abstract class State extends StateHelper<EntityModel>
         collideX.set(true);
         collideXright.set(result.contains(CollisionName.STEEP_LEFT) || result.contains(CollisionName.SPIKE_LEFT));
         collideXleft.set(result.contains(CollisionName.STEEP_RIGHT) || result.contains(CollisionName.SPIKE_RIGHT));
+
+        if (movement.getDirectionHorizontal() < 0
+            && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
+            || movement.getDirectionHorizontal() > 0
+               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
+        {
+            tileCollidable.apply(result);
+            movement.zero();
+        }
     }
 
     /**
@@ -108,7 +117,9 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
+        if (!result.startWithY(CollisionName.LIANA)
+            && !result.startWithY(CollisionName.SPIKE)
+            && !(result.startWithX(CollisionName.SPIKE) && jump.getDirectionVertical() > 0))
         {
             collideY.set(true);
             tileCollidable.apply(result);
