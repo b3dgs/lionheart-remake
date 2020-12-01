@@ -18,7 +18,7 @@
         <lionengine:animation name="hide" start="2" end="20" speed="0.75" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:rasterable file="raster/raster1.png" height="16" smooth="false"/>
+    <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:launcher mirrorable="true">
         <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="0">

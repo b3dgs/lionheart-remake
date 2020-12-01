@@ -26,9 +26,6 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
  */
 public final class FactoryLandscape
 {
-    /** Unknown landscape error message. */
-    private static final String UNKNOWN_LANDSCAPE_ERROR = "Unknown landscape: ";
-
     /** The services reference. */
     private final Services services;
     /** The resolution source reference. */
@@ -59,27 +56,39 @@ public final class FactoryLandscape
     }
 
     /**
-     * Create a landscape from its type.
+     * Create a landscape.
      * 
-     * @param landscape The landscape type.
-     * @return The landscape instance.
+     * @param backgroundType The background type.
+     * @param foregroundType The foreground type.
+     * @return The created landscape.
      */
-    public Landscape createLandscape(LandscapeType landscape)
+    public Landscape createLandscape(BackgroundType backgroundType, ForegroundType foregroundType)
     {
-        switch (landscape.getWorld())
+        final Background background = createBackground(backgroundType);
+        final Foreground foreground = new Foreground(services, source, foregroundType.getTheme());
+        return new Landscape(background, foreground);
+    }
+
+    /**
+     * Create a background.
+     * 
+     * @param backgroundType The background type.
+     * @return The created background.
+     */
+    private Background createBackground(BackgroundType backgroundType)
+    {
+        final Background background;
+        switch (backgroundType.getWorld())
         {
             case SWAMP:
-            {
-                final Background background = new Swamp(source, scaleH, scaleV, landscape.getTheme(), flicker);
-                final Foreground foreground = new Foreground(services, source, landscape.getForeground().getTheme());
-                return new Landscape(landscape, background, foreground);
-            }
+                background = new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             case ANCIENT_TOWN:
-                final Background background = new AncientTown(source, scaleH, scaleV, landscape.getTheme(), flicker);
-                final Foreground foreground = new Foreground(services, source, landscape.getForeground().getTheme());
-                return new Landscape(landscape, background, foreground);
+                background = new AncientTown(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             default:
-                throw new LionEngineException(FactoryLandscape.UNKNOWN_LANDSCAPE_ERROR + landscape);
+                throw new LionEngineException(backgroundType);
         }
+        return background;
     }
 }

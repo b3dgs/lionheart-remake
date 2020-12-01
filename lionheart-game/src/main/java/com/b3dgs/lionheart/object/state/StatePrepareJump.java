@@ -17,48 +17,55 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
 /**
- * Patrol state implementation.
+ * Jump state implementation.
  */
-public final class StatePatrol extends State
+public final class StatePrepareJump extends State
 {
+    private static final long TICK = 50;
+
+    private final Tick prepareTick = new Tick();
+
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StatePatrol(EntityModel model, Animation animation)
+    StatePrepareJump(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StatePrepareJump.class, this::isGoUpOnce);
-        addTransition(StateFall.class,
-                      () -> model.hasGravity()
-                            && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
-                            && !collideY.get());
+        addTransition(StateJump.class, () -> prepareTick.elapsed(TICK));
     }
 
     @Override
-    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    public void enter()
     {
-        super.onCollideLeg(result, category);
+        super.enter();
 
-        tileCollidable.apply(result);
+        prepareTick.restart();
     }
 
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED,
-                                input.getVerticalDirection() * Constant.WALK_SPEED);
-        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
-                                * animation.getSpeed());
+        prepareTick.update(extrp);
+        movement.setDirection(DirectionNone.INSTANCE);
+        movement.setDestination(0.0, 0.0);
+        jump.setDirection(DirectionNone.INSTANCE);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        prepareTick.stop();
     }
 }

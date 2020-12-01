@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 
 /**
@@ -26,7 +27,7 @@ import com.b3dgs.lionengine.game.Configurer;
 public final class PatrolConfig
 {
     /** Config node name. */
-    private static final String NODE_STATS = "patrol";
+    public static final String NODE_PATROL = "patrol";
     /** Horizontal speed attribute name. */
     private static final String ATT_VX = "sh";
     /** Vertical speed attribute name. */
@@ -49,11 +50,25 @@ public final class PatrolConfig
     {
         Check.notNull(configurer);
 
-        final double sh = configurer.getDoubleDefault(0.3, ATT_VX, NODE_STATS);
-        final double sv = configurer.getDoubleDefault(0.0, ATT_VY, NODE_STATS);
-        final int amplitude = configurer.getIntegerDefault(50, ATT_AMPLITUDE, NODE_STATS);
-        final boolean mirror = configurer.getBooleanDefault(false, ATT_MIRROR, NODE_STATS);
-        final boolean coll = configurer.getBooleanDefault(false, ATT_COLL, NODE_STATS);
+        return imports(configurer.getChild(NODE_PATROL));
+    }
+
+    /**
+     * Imports the config from root.
+     * 
+     * @param root The patrol node reference (must not be <code>null</code>).
+     * @return The config data.
+     * @throws LionEngineException If unable to read node.
+     */
+    public static PatrolConfig imports(XmlReader root)
+    {
+        Check.notNull(root);
+
+        final double sh = root.readDouble(0.3, ATT_VX);
+        final double sv = root.readDouble(0.0, ATT_VY);
+        final int amplitude = root.readInteger(50, ATT_AMPLITUDE);
+        final boolean mirror = root.readBoolean(false, ATT_MIRROR);
+        final boolean coll = root.readBoolean(false, ATT_COLL);
 
         return new PatrolConfig(sh, sv, amplitude, mirror, coll);
     }

@@ -25,22 +25,19 @@ import com.b3dgs.lionengine.graphic.Graphic;
  */
 public class Landscape
 {
-    private final LandscapeType type;
     private final Background background;
     private final Foreground foreground;
 
     /**
      * Constructor.
      * 
-     * @param type The landscape type.
      * @param background The background element.
      * @param foreground The foreground element.
      */
-    public Landscape(LandscapeType type, Background background, Foreground foreground)
+    public Landscape(Background background, Foreground foreground)
     {
         super();
 
-        this.type = type;
         this.background = background;
         this.foreground = foreground;
     }
@@ -86,16 +83,6 @@ public class Landscape
     public double getWaterHeight()
     {
         return foreground.getTop();
-    }
-
-    /**
-     * Get the landscape type.
-     * 
-     * @return The landscape type.
-     */
-    public LandscapeType getType()
-    {
-        return type;
     }
 
     /**

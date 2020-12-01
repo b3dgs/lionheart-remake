@@ -19,7 +19,7 @@
         <lionengine:collision name="ground" offsetX="0" offsetY="20" width="26" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:rasterable file="raster/raster1.png" height="16" smooth="false"/>
+    <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
     <patrol coll="true"/>

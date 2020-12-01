@@ -19,26 +19,33 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
+import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.InputDevicePointer;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
-import com.b3dgs.lionheart.landscape.LandscapeType;
+import com.b3dgs.lionheart.object.feature.Jumper;
+import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
@@ -72,16 +79,46 @@ final class World extends WorldHelper
     }
 
     /**
+     * Init music volume and play.
+     * 
+     * @param media The music file.
+     */
+    private void initMusic(Media media)
+    {
+        audio = AudioFactory.loadAudio(media);
+        audio.setVolume(25);
+        if (!Constant.AUDIO_MUTE)
+        {
+            audio.play();
+        }
+        else
+        {
+            AudioFactory.setVolume(0);
+        }
+    }
+
+    /**
      * Load map from level.
      * 
-     * @param file The level file.
-     * @param worldType The world type.
-     * @param landscapeType The landscape type.
-     * @throws IOException If error on reading level.
+     * @param media The map media.
+     * @param raster The raster folder.
      */
-    private void loadMap(FileReading file, WorldType worldType, LandscapeType landscapeType) throws IOException
+    private void loadMap(Media media, String raster)
     {
-        mapPersister.load(file);
+        if (!media.exists())
+        {
+            MapTileHelper.importAndSave(Medias.create(media.getPath().replace(".lvl", ".png")), media);
+        }
+
+        map.getFeature(MapTileRastered.class).setRaster(Medias.create(raster, "tiles.png"));
+        try (FileReading reading = new FileReading(media))
+        {
+            mapPersister.load(reading);
+        }
+        catch (final IOException exception)
+        {
+            throw new LionEngineException(exception);
+        }
 
         if (Constant.DEBUG)
         {
@@ -90,25 +127,24 @@ final class World extends WorldHelper
             mapViewer.addRenderer(renderer);
         }
 
-        mapWater.create();
+        mapWater.create(raster);
         mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue() + 1));
         handler.add(mapWater);
     }
 
     /**
-     * Load all entities from level.
+     * Create player and track with camera.
      * 
-     * @param file The file level.
-     * @throws IOException If error.
+     * @param tile The spawn tile.
      */
-    private void loadEntities(FileReading file) throws IOException
+    private void createPlayer(CoordTile tile)
     {
-        final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 200, 64);
+        final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"),
+                                        tile.getX(),
+                                        tile.getY());
         hud.setFeaturable(player);
         services.add(player.getFeature(SwordShade.class));
         trackPlayer(player);
-
-        persister.load(file);
     }
 
     /**
@@ -124,6 +160,22 @@ final class World extends WorldHelper
     }
 
     /**
+     * Create entity from configuration.
+     * 
+     * @param stage The stage configuration.
+     * @param entity The entity configuration.
+     */
+    private void createEntity(StageConfig stage, EntityConfig entity)
+    {
+        final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        entity.getPatrol().ifPresent(config ->
+        {
+            featurable.ifIs(Patrol.class, patrol -> patrol.load(config));
+            featurable.ifIs(Jumper.class, jumper -> jumper.setJump(entity.getJump()));
+        });
+    }
+
+    /**
      * Prepare cached media.
      */
     private void prepareCache()
@@ -132,25 +184,31 @@ final class World extends WorldHelper
         Sfx.cache();
     }
 
-    @Override
-    protected void loading(FileReading file) throws IOException
+    /**
+     * Load the stage from configuration.
+     * 
+     * @param config The stage configuration.
+     */
+    public void load(Media config)
     {
-        final WorldType worldType = WorldType.SWAMP;
-        final LandscapeType landscapeType = LandscapeType.SWAMP_DUSK;
+        final StageConfig stage = StageConfig.imports(new Configurer(config));
 
-        loadMap(file, worldType, landscapeType);
-        loadEntities(file);
-        prepareCache();
+        initMusic(stage.getMusic());
+        loadMap(stage.getMapFile(), stage.getRasterFolder());
+        landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
+        createPlayer(stage.getTileStart());
+
+        handler.addListener(featurable ->
+        {
+            featurable.ifIs(Rasterable.class,
+                            r -> r.setRaster(true,
+                                             Medias.create(stage.getRasterFolder(), "tiles.png"),
+                                             map.getTileHeight()));
+        });
+        stage.getEntities().forEach(entity -> createEntity(stage, entity));
 
         hud.load();
-        landscape = factoryLandscape.createLandscape(landscapeType);
-
-        audio = AudioFactory.loadAudio(worldType.getMusic());
-        audio.setVolume(25);
-        if (!Constant.AUDIO_MUTE)
-        {
-            audio.play();
-        }
+        prepareCache();
     }
 
     @Override

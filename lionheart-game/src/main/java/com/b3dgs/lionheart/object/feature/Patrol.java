@@ -34,6 +34,8 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 import com.b3dgs.lionheart.object.state.StateTurn;
 
@@ -46,12 +48,14 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 @FeatureInterface
 public final class Patrol extends FeatureModel implements Routine
 {
-    private final Updatable checker;
-    private final boolean coll;
-    private final int amplitude;
+    private final AnimationConfig anim;
 
     private double sh;
     private double sv;
+    private int amplitude;
+    private boolean coll;
+
+    private Updatable checker;
     private double moved;
 
     @FeatureGet private EntityModel model;
@@ -76,7 +80,55 @@ public final class Patrol extends FeatureModel implements Routine
         amplitude = config.getAmplitude();
         coll = config.hasColl();
 
-        final AnimationConfig anim = AnimationConfig.imports(setup);
+        anim = AnimationConfig.imports(setup);
+
+        checkAmplitude();
+    }
+
+    /**
+     * Load patrol configuration.
+     * 
+     * @param config The configuration media.
+     */
+    public void load(PatrolConfig config)
+    {
+        sh = config.getSh();
+        sv = config.getSv();
+        amplitude = config.getAmplitude();
+        coll = config.hasColl();
+
+        checkAmplitude();
+        applyMirror();
+    }
+
+    /**
+     * Perform mirror computation if required.
+     */
+    public void applyMirror()
+    {
+        if (sh < 0 && mirrorable.is(Mirror.NONE))
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (sh > 0 && mirrorable.is(Mirror.HORIZONTAL))
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+        if (sv < 0 && mirrorable.is(Mirror.NONE))
+        {
+            mirrorable.mirror(Mirror.VERTICAL);
+        }
+        else if (sv > 0 && mirrorable.is(Mirror.VERTICAL))
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+    }
+
+    /**
+     * Check amplitude movement.
+     */
+    private void checkAmplitude()
+    {
         if (amplitude > 0)
         {
             checker = extrp ->
@@ -102,29 +154,6 @@ public final class Patrol extends FeatureModel implements Routine
         else
         {
             checker = UpdatableVoid.getInstance();
-        }
-    }
-
-    /**
-     * Perform mirror computation if required.
-     */
-    public void applyMirror()
-    {
-        if (sh < 0 && mirrorable.is(Mirror.NONE))
-        {
-            mirrorable.mirror(Mirror.HORIZONTAL);
-        }
-        else if (sh > 0 && mirrorable.is(Mirror.HORIZONTAL))
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
-        if (sv < 0 && mirrorable.is(Mirror.NONE))
-        {
-            mirrorable.mirror(Mirror.VERTICAL);
-        }
-        else if (sv > 0 && mirrorable.is(Mirror.VERTICAL))
-        {
-            mirrorable.mirror(Mirror.NONE);
         }
     }
 
@@ -159,7 +188,10 @@ public final class Patrol extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        checker.update(extrp);
-        moved += model.getMovement().getDirectionHorizontal() + model.getMovement().getDirectionVertical();
+        if (!stateHandler.isState(StateJump.class) || stateHandler.isState(StateFall.class))
+        {
+            checker.update(extrp);
+            moved += model.getMovement().getDirectionHorizontal() + model.getMovement().getDirectionVertical();
+        }
     }
 }

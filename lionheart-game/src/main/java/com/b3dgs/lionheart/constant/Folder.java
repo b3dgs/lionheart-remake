@@ -45,6 +45,8 @@ public final class Folder
     public static final String EFFECTS = "effect";
     /** Levels folder. */
     public static final String LEVELS = "levels";
+    /** Stages folder. */
+    public static final String STAGES = "stage";
     /** Sounds folder. */
     public static final String SOUNDS = "sfx";
     /** Musics folder. */

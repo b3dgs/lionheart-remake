@@ -70,19 +70,17 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
 
     /**
      * Create water map.
+     * 
+     * @param folder The raster folder.
      */
-    public void create()
+    public void create(String folder)
     {
         final int tw = map.getTileWidth();
         final int th = map.getTileHeight();
         tiles = new SpriteTiled[th];
         for (int i = 0; i < tiles.length; i++)
         {
-            tiles[i] = Drawable.loadSpriteTiled(Medias.create(map.getMedia().getParentPath(),
-                                                              "water_raster",
-                                                              i + ".png"),
-                                                tw,
-                                                th);
+            tiles[i] = Drawable.loadSpriteTiled(Medias.create(folder, "water", i + ".png"), tw, th);
             tiles[i].load();
             tiles[i].prepare();
         }
@@ -109,7 +107,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
         int ty;
         for (ty = 0; ty < (int) Math.floor(waterHeight / (double) map.getTileHeight()); ty++)
         {
-            final SpriteTiled water = tiles[15];
+            final SpriteTiled water = tiles[tiles.length - 1];
             for (int tx = vtx; tx < vtx2; tx++)
             {
                 final Tile tile = map.getTile(tx, ty);

@@ -48,7 +48,7 @@
         </lionengine:animation>
         <lionengine:animation name="phase3" start="2" end="32" speed="0.70" reversed="true" repeat="false"/>
     </lionengine:animations>
-    <lionengine:rasterable file="raster/raster1.png" height="16" smooth="false"/>
+    <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
 </lionengine:featurable>

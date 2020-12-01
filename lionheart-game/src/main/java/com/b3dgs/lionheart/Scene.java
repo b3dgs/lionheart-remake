@@ -24,12 +24,11 @@ import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Text;
-import com.b3dgs.lionengine.helper.MapTileHelper;
 
 /**
  * Game scene implementation.
  */
-final class Scene extends SequenceGame
+final class Scene extends SequenceGame<World>
 {
     private static final String NAME = Constant.PROGRAM_NAME
                                        + com.b3dgs.lionengine.Constant.SPACE
@@ -57,7 +56,7 @@ final class Scene extends SequenceGame
 
     private final Text textName = Graphics.createText(9);
     private final Text textEngine = Graphics.createText(9);
-    private final Level level = Level.SWAMP_DEMO;
+    private final Stage stage = Stage.STAGE_1;
 
     /**
      * Create the scene.
@@ -73,11 +72,7 @@ final class Scene extends SequenceGame
     @Override
     public void load()
     {
-        if (!level.getFile().exists())
-        {
-            MapTileHelper.importAndSave(level.getRip(), level.getFile());
-        }
-        world.loadFromFile(level.getFile());
+        world.load(stage.getFile());
 
         setText(textEngine, ENGINE, 0, getHeight() - textEngine.getSize(), Align.LEFT);
         setText(textName, NAME, getWidth(), getHeight() - textName.getSize(), Align.RIGHT);

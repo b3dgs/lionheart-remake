@@ -224,7 +224,8 @@ public final class Hurtable extends FeatureModel
      */
     private void updateTile(CollisionResult result, CollisionCategory category)
     {
-        if (recover.elapsed(HURT_RECOVER_BODY_TICK)
+        if (!hasFeature(Patrol.class)
+            && recover.elapsed(HURT_RECOVER_BODY_TICK)
             && (CollisionName.SPIKE.equals(mapGroup.getGroup(map.getTile(transformable, 0, 0)))
                 || category.getAxis() == Axis.Y && result.startWithY(CollisionName.SPIKE)))
         {

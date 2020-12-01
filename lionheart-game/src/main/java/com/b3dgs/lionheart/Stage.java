@@ -22,50 +22,47 @@ import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
- * List of levels with their file.
+ * List of stages with their file.
  */
-public enum Level
+public enum Stage
 {
-    /** Swamp demo stage. */
-    SWAMP_DEMO(WorldType.SWAMP, "level1-demo"),
     /** First swamp stage. */
-    SWAMP_1_1(WorldType.SWAMP, "level1-1"),
+    STAGE_1("stage1"),
     /** First swamp stage. */
-    SWAMP_1_3(WorldType.SWAMP, "level1-3"),
+    STAGE_3("stage3"),
     /** First swamp stage. */
-    SWAMP_1_5(WorldType.SWAMP, "level1-5");
+    STAGE_5("stage5");
 
     /** Level file. */
-    private final Media level;
+    private final Media file;
     /** Level rip image. */
     private final Media rip;
 
     /**
-     * Create the level.
+     * Create the stage.
      * 
-     * @param world The level world.
-     * @param level The level file name.
+     * @param file The stage file name without extension.
      */
-    Level(WorldType world, String level)
+    Stage(String file)
     {
-        this.level = Medias.create(Folder.LEVELS, world.getFolder(), level + Extension.LEVEL);
-        rip = Medias.create(Folder.LEVELS, world.getFolder(), level + Extension.IMAGE);
+        this.file = Medias.create(Folder.STAGES, file + Extension.LEVEL);
+        rip = Medias.create(Folder.STAGES, file + Extension.IMAGE);
     }
 
     /**
-     * Get the level data file.
+     * Get the stage data file.
      * 
-     * @return The level data file.
+     * @return The stage data file.
      */
     public Media getFile()
     {
-        return level;
+        return file;
     }
 
     /**
-     * Get the associated level rip.
+     * Get the associated stage rip.
      * 
-     * @return The level rip image.
+     * @return The stage rip image.
      */
     public Media getRip()
     {
