@@ -196,6 +196,8 @@ final class World extends WorldHelper
         initMusic(stage.getMusic());
         loadMap(stage.getMapFile(), stage.getRasterFolder());
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
+
+        services.create(Checkpoint.class).load(stage);
         createPlayer(stage.getTileStart());
 
         handler.addListener(featurable ->

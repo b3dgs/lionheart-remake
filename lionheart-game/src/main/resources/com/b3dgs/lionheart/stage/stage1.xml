@@ -6,8 +6,11 @@
     <background type="SWAMP_DUSK"/>
     <foreground type="WATER"/>
     <checkpoint startTx="12" startTy="4" endTx="50" endTy="10">
-        <respawn tx="10" ty="10"/>
-        <respawn tx="60" ty="6"/>
+        <respawn tx="79" ty="11"/>
+        <respawn tx="147" ty="4"/>
+        <respawn tx="200" ty="9"/>
+        <respawn tx="237" ty="11"/>
+        <respawn tx="285" ty="4"/>
     </checkpoint>
     <entities>
         <entity file="entity/item/swamp/Talisment.xml" tx="74" ty="43"/>

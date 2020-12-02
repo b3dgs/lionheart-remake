@@ -140,7 +140,7 @@ public final class StageConfig
         tileEnd = new CoordTile(configurer.getInteger(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT),
                                 configurer.getInteger(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT));
 
-        configurer.getChildren(NODE_CHECKPOINT, NODE_RESPAWN).forEach(this::addRespawn);
+        configurer.getChildren(NODE_RESPAWN, NODE_CHECKPOINT).forEach(this::addRespawn);
 
         configurer.getChildren(EntityConfig.NODE_ENTITY, NODE_ENTITIES).forEach(this::addEntity);
     }

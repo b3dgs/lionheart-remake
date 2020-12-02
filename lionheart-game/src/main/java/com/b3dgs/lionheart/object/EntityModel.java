@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
+import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.state.StateHurt;
@@ -71,6 +72,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
     private final Force jump = new Force();
     private final Camera camera = services.get(Camera.class);
     private final MapTile map = services.get(MapTile.class);
+    private final Checkpoint checkpoint = services.get(Checkpoint.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final boolean hasGravity = setup.hasNode(NODE_DATA);
@@ -187,6 +189,16 @@ public final class EntityModel extends EntityModelHelper implements Routine
     public MapTile getMap()
     {
         return map;
+    }
+
+    /**
+     * Get the checkpoint reference.
+     * 
+     * @return The checkpoint reference.
+     */
+    public Checkpoint getCheckpoint()
+    {
+        return checkpoint;
     }
 
     /**
