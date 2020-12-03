@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -28,7 +29,7 @@ import com.b3dgs.lionengine.graphic.Text;
 /**
  * Game scene implementation.
  */
-final class Scene extends SequenceGame<World>
+public final class Scene extends SequenceGame<World>
 {
     private static final String NAME = Constant.PROGRAM_NAME
                                        + com.b3dgs.lionengine.Constant.SPACE
@@ -56,23 +57,26 @@ final class Scene extends SequenceGame<World>
 
     private final Text textName = Graphics.createText(9);
     private final Text textEngine = Graphics.createText(9);
-    private final Stage stage = Stage.STAGE_1;
+    private final Media stage;
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
+     * @param stage The stage run.
      * @throws LionEngineException If invalid argument.
      */
-    Scene(Context context)
+    Scene(Context context, Media stage)
     {
         super(context, Constant.NATIVE_RESOLUTION, World::new);
+
+        this.stage = stage;
     }
 
     @Override
     public void load()
     {
-        world.load(stage.getFile());
+        world.load(stage);
 
         setText(textEngine, ENGINE, 0, getHeight() - textEngine.getSize(), Align.LEFT);
         setText(textName, NAME, getWidth(), getHeight() - textName.getSize(), Align.RIGHT);

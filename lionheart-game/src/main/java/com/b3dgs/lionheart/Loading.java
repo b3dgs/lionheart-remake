@@ -64,7 +64,7 @@ public final class Loading extends Sequence
     {
         if (loaded)
         {
-            end(Scene.class);
+            end(Scene.class, Stage.STAGE_1.getFile());
         }
         loaded = true;
     }

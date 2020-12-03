@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage next="stage/stage3.xml">
     <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage1.lvl"/>
     <raster folder="levels/swamp/raster/dusk/"/>
     <background type="SWAMP_DUSK"/>
     <foreground type="WATER"/>
-    <checkpoint startTx="12" startTy="4" endTx="50" endTy="10">
+    <checkpoint startTx="12" startTy="4" endTx="327" endTy="25">
         <respawn tx="79" ty="11"/>
         <respawn tx="147" ty="4"/>
         <respawn tx="200" ty="9"/>

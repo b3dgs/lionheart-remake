@@ -191,7 +191,7 @@ final class World extends WorldHelper
      */
     public void load(Media config)
     {
-        final StageConfig stage = StageConfig.imports(new Configurer(config));
+        final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
 
         initMusic(stage.getMusic());
         loadMap(stage.getMapFile(), stage.getRasterFolder());

@@ -35,6 +35,8 @@ public final class StageConfig
 {
     /** Stage node name. */
     public static final String NODE_STAGE = "stage";
+    /** Stage next attribute name. */
+    private static final String ATT_STAGE_NEXT_FILE = "next";
 
     /** Music node name. */
     private static final String NODE_MUSIC = "music";
@@ -94,6 +96,8 @@ public final class StageConfig
         return new StageConfig(configurer);
     }
 
+    /** Next stage file. */
+    private final Media nextStage;
     /** Music file. */
     private final Media music;
     /** Map level file. */
@@ -124,6 +128,8 @@ public final class StageConfig
         super();
 
         Check.notNull(configurer);
+
+        nextStage = configurer.getMedia(ATT_STAGE_NEXT_FILE);
 
         music = configurer.getMedia(ATT_MUSIC_FILE, NODE_MUSIC);
 
@@ -163,6 +169,16 @@ public final class StageConfig
     private void addEntity(XmlReader entity)
     {
         entities.add(EntityConfig.imports(entity));
+    }
+
+    /**
+     * Get the next stage.
+     * 
+     * @return The next stage.
+     */
+    public Media getNextStage()
+    {
+        return nextStage;
     }
 
     /**

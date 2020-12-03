@@ -19,19 +19,24 @@ package com.b3dgs.lionheart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.b3dgs.lionengine.Localizable;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
+import com.b3dgs.lionengine.geom.Geom;
 
 /**
  * Handle checkpoints.
  */
 public class Checkpoint
 {
+    private static final int END_DISTANCE = 32;
+
     private final List<CoordTile> checkpoints = new ArrayList<>();
     private final MapTile map;
-    private CoordTile end;
+    private Localizable end;
     private int last;
     private int count;
 
@@ -58,22 +63,24 @@ public class Checkpoint
         checkpoints.add(config.getTileStart());
         checkpoints.addAll(config.getTileRespawn());
         count = checkpoints.size();
-        end = config.getTileEnd();
+
+        final CoordTile endTile = config.getTileEnd();
+        end = Geom.createLocalizable(endTile.getX() * map.getTileWidth(), endTile.getY() * map.getTileHeight());
     }
 
     /**
      * Get the current checkpoint.
      * 
-     * @param player The player reference.
+     * @param transformable The transformable reference.
      * @return The current checkpoint.
      */
-    public CoordTile getCurrent(Transformable player)
+    public CoordTile getCurrent(Transformable transformable)
     {
         final int start = last + 1;
         for (int i = start; i < count; i++)
         {
             final CoordTile current = checkpoints.get(i);
-            if (player.getX() > current.getX() * map.getTileWidth())
+            if (transformable.getX() > current.getX() * map.getTileWidth())
             {
                 last = i;
             }
@@ -83,5 +90,16 @@ public class Checkpoint
             }
         }
         return checkpoints.get(last);
+    }
+
+    /**
+     * Check if is on end point.
+     * 
+     * @param transformable The transformable reference.
+     * @return <code>true</code> if on end, <code>false</code> else.
+     */
+    public boolean isOnEnd(Transformable transformable)
+    {
+        return UtilMath.getDistance(transformable, end) < END_DISTANCE;
     }
 }
