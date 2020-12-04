@@ -28,7 +28,7 @@ import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
 
 /**
@@ -68,7 +68,7 @@ public final class EntityConfig
     /** Origin. */
     private final Origin origin;
     /** Spawn tile. */
-    private final CoordTile spawn;
+    private final Coord spawn;
     /** Patrol configuration. */
     private Optional<PatrolConfig> patrol;
     /** Jump configuration. */
@@ -92,7 +92,7 @@ public final class EntityConfig
         size = SizeConfig.imports(configurer);
         origin = OriginConfig.imports(configurer);
 
-        spawn = new CoordTile(root.readInteger(ATT_RESPAWN_TX), root.readInteger(ATT_RESPAWN_TY));
+        spawn = new Coord(root.readDouble(ATT_RESPAWN_TX), root.readDouble(ATT_RESPAWN_TY));
 
         if (root.hasChild(PatrolConfig.NODE_PATROL))
         {

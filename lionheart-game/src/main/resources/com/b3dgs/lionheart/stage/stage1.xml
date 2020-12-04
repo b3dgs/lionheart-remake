@@ -105,7 +105,7 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="263" ty="19"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="275" ty="9"/>
         <entity file="entity/scenery/swamp/TurningAuto.xml" tx="272" ty="5"/>
-        <entity file="entity/item/swamp/PotionBig.xml" tx="280" ty="15"/>
+        <entity file="entity/item/swamp/PotionBig.xml" tx="279.5" ty="15.5"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="325" ty="5"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="326" ty="15"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="325" ty="16"/>
