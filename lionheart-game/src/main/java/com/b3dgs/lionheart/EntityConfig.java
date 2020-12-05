@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
+import com.b3dgs.lionheart.object.feature.SpikeConfig;
 
 /**
  * Entity configuration.
@@ -71,6 +72,8 @@ public final class EntityConfig
     private final Coord spawn;
     /** Patrol configuration. */
     private Optional<PatrolConfig> patrol;
+    /** Spike configuration. */
+    private Optional<SpikeConfig> spike;
     /** Jump configuration. */
     private final int jump;
 
@@ -101,6 +104,14 @@ public final class EntityConfig
         else
         {
             patrol = Optional.empty();
+        }
+        if (root.hasChild(SpikeConfig.NODE_SPIKE))
+        {
+            spike = Optional.of(SpikeConfig.imports(root.getChild(SpikeConfig.NODE_SPIKE)));
+        }
+        else
+        {
+            spike = Optional.empty();
         }
         jump = root.readInteger(0, ATT_JUMP);
     }
@@ -167,6 +178,16 @@ public final class EntityConfig
     public Optional<PatrolConfig> getPatrol()
     {
         return patrol;
+    }
+
+    /**
+     * Get the spike configuration.
+     * 
+     * @return The spike configuration.
+     */
+    public Optional<SpikeConfig> getSpike()
+    {
+        return spike;
     }
 
     /**

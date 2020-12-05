@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -41,15 +42,18 @@ import com.b3dgs.lionheart.Sfx;
 @FeatureInterface
 public final class Spike extends FeatureModel implements Routine, Recyclable
 {
-    private static final int PHASE1_DELAY_TICK = 75;
-    private static final int PHASE2_DELAY_TICK = 50;
-    private static final int PHASE3_DELAY_TICK = 50;
+    private static final int PHASE1_DELAY_TICK = 28;
+    private static final int PHASE2_DELAY_TICK = 28;
+    private static final int PHASE3_DELAY_TICK = 5;
 
     private final Tick tick = new Tick();
+    private final Tick delay = new Tick();
+    private final Updatable phaseUpdater;
     private final Animation phase1;
     private final Animation phase2;
     private final Animation phase3;
     private int phase;
+    private Updatable checker;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Collidable collidable;
@@ -69,45 +73,71 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
         phase1 = config.getAnimation("phase1");
         phase2 = config.getAnimation("attack");
         phase3 = config.getAnimation("phase3");
+
+        phaseUpdater = extrp ->
+        {
+            tick.update(extrp);
+            if (phase == 0 && tick.elapsed(PHASE1_DELAY_TICK))
+            {
+                tick.restart();
+                animatable.play(phase1);
+                phase = 1;
+            }
+            else if (phase == 1 && animatable.is(AnimState.FINISHED))
+            {
+                tick.restart();
+                phase = 2;
+            }
+            else if (phase == 2 && tick.elapsed(PHASE2_DELAY_TICK))
+            {
+                animatable.play(phase2);
+                Sfx.SPIKE.play();
+                phase = 3;
+            }
+            else if (phase == 3 && animatable.is(AnimState.FINISHED))
+            {
+                tick.restart();
+                phase = 4;
+            }
+            else if (phase == 4 && tick.elapsed(PHASE3_DELAY_TICK))
+            {
+                animatable.play(phase3);
+                animatable.setFrame(phase3.getLast());
+                phase = 5;
+            }
+            else if (phase == 5 && animatable.is(AnimState.FINISHED))
+            {
+                tick.restart();
+                phase = 0;
+            }
+        };
+        checker = phaseUpdater;
+    }
+
+    /**
+     * Load spike configuration.
+     * 
+     * @param config The configuration reference.
+     */
+    public void load(SpikeConfig config)
+    {
+        config.getDelay().ifPresent(delayTick ->
+        {
+            checker = extrp ->
+            {
+                delay.update(extrp);
+                if (delay.elapsed(delayTick))
+                {
+                    checker = phaseUpdater;
+                }
+            };
+        });
     }
 
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-        if (phase == 0 && tick.elapsed(PHASE1_DELAY_TICK))
-        {
-            tick.restart();
-            animatable.play(phase1);
-            phase = 1;
-        }
-        else if (phase == 1 && animatable.is(AnimState.FINISHED))
-        {
-            tick.restart();
-            phase = 2;
-        }
-        else if (phase == 2 && tick.elapsed(PHASE2_DELAY_TICK))
-        {
-            animatable.play(phase2);
-            Sfx.SPIKE.play();
-            phase = 3;
-        }
-        else if (phase == 3 && animatable.is(AnimState.FINISHED))
-        {
-            tick.restart();
-            phase = 4;
-        }
-        else if (phase == 4 && tick.elapsed(PHASE3_DELAY_TICK))
-        {
-            animatable.play(phase3);
-            animatable.setFrame(phase3.getLast());
-            phase = 5;
-        }
-        else if (phase == 5 && animatable.is(AnimState.FINISHED))
-        {
-            tick.restart();
-            phase = 0;
-        }
+        checker.update(extrp);
     }
 
     @Override
@@ -115,6 +145,7 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
     {
         animatable.setFrame(phase1.getFirst());
         tick.restart();
+        delay.restart();
         phase = 0;
     }
 }
