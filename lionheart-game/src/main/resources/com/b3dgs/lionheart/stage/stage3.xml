@@ -120,42 +120,106 @@
         <entity file="entity/monster/swamp/Dino.xml" tx="259" ty="25"/>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="303" ty="11"/>
         <entity file="entity/monster/swamp/Crawling.xml" tx="309" ty="17"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="323" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="323" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="325" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="327" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="327" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="329" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="334" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="336" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="338" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="340" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="347.5" ty="5"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="353" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="355" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="357" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="359" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="361" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="375" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="376" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="377" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="378" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="379" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="380" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="381" ty="4"/>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="323" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="325" ty="4">
+            <spike delay="20"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="327" ty="4">
+            <spike delay="40"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="329" ty="4">
+            <spike delay="60"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="334" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="336" ty="4">
+            <spike delay="44"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="338" ty="4">
+            <spike delay="44"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="340" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="347.5" ty="5">
+            <spike delay="15"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="353" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="355" ty="4">
+            <spike delay="30"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="357" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="359" ty="4">
+            <spike delay="30"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="361" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="375" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="376" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="377" ty="4">
+            <spike delay="80"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="378" ty="4">
+            <spike delay="80"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="379" ty="4">
+            <spike delay="80"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="380" ty="4">
+            <spike delay="160"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="381" ty="4">
+            <spike delay="160"/>
+        </entity>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="391" ty="8"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="399" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="401" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="403" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="405" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="407" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="409" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="411" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="413" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="415" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="417" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="419" ty="4"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="421" ty="4"/>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="399" ty="4">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="401" ty="4">
+            <spike delay="10"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="403" ty="4">
+            <spike delay="20"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="405" ty="4">
+            <spike delay="30"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="407" ty="4">
+            <spike delay="40"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="409" ty="4">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="411" ty="4">
+            <spike delay="60"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="413" ty="4">
+            <spike delay="70"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="415" ty="4">
+            <spike delay="80"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="417" ty="4">
+            <spike delay="90"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="419" ty="4">
+            <spike delay="100"/>
+        </entity>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="421" ty="4">
+            <spike delay="110"/>
+        </entity>
         <entity file="entity/item/swamp/PotionBig.xml" tx="422" ty="15"/>
         <entity file="entity/item/swamp/Life.xml" tx="411" ty="21"/>
         <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="412" ty="16">
@@ -184,7 +248,9 @@
         <entity file="entity/monster/swamp/Flower.xml" tx="328" ty="63"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="322" ty="70"/>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="328" ty="67"/>
-        <entity file="entity/scenery/swamp/Spike2.xml" tx="334" ty="70"/>
+        <entity file="entity/scenery/swamp/Spike2.xml" tx="334" ty="70">
+            <spike delay="40"/>
+        </entity>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="339" ty="70"/>
         <entity file="entity/monster/swamp/NestLittle.xml" tx="354" ty="71"/>
         <entity file="entity/monster/swamp/NestLittle.xml" tx="377" ty="80"/>
