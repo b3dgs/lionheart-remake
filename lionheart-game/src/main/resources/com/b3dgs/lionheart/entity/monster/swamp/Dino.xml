@@ -37,16 +37,31 @@
             <lionengine:group>slope_right_1</lionengine:group>
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
+        <lionengine:category name="knee_left" axis="X" x="-6" y="4">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>steep_right_0</lionengine:group>
+            <lionengine:group>steep_right_1</lionengine:group>
+            <lionengine:group>steep_vertical</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_right" axis="X" x="6" y="4">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>steep_left_0</lionengine:group>
+            <lionengine:group>steep_left_1</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_vertical</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+        </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
-    <lionengine:collidable group="2" accepted="1"/>
+    <lionengine:collidable group="2" accepted="1%3"/>
     <data mass="1.85" gravityMax="16.0">
         <movement speedMax="1.5"/>
         <jump heightMax="7.0"/>
     </data>
-    <patrol sh="-0.3" amplitude="0"/>
+    <patrol sh="-0.3"/>
     <stats health="2"/>
     <hurtable effect="ExplodeBig" backward="true"/>
 </lionengine:featurable>

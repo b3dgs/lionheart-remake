@@ -17,9 +17,12 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -28,6 +31,8 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StatePatrol extends State
 {
+    private boolean turn;
+
     /**
      * Create the state.
      * 
@@ -39,6 +44,7 @@ public final class StatePatrol extends State
         super(model, animation);
 
         addTransition(StatePrepareJump.class, this::isGoUpOnce);
+        addTransition(StateTurn.class, () -> turn);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
@@ -51,6 +57,31 @@ public final class StatePatrol extends State
         super.onCollideLeg(result, category);
 
         tileCollidable.apply(result);
+    }
+
+    @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        turn = true;
+    }
+
+    @Override
+    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    {
+        super.onCollided(collidable, with, by);
+
+        if (by.getName().startsWith(CollisionName.SPIKE))
+        {
+            turn = true;
+        }
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        turn = false;
     }
 
     @Override

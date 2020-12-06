@@ -16,6 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.XmlReader;
@@ -29,15 +33,15 @@ public final class PatrolConfig
     /** Config node name. */
     public static final String NODE_PATROL = "patrol";
     /** Horizontal speed attribute name. */
-    private static final String ATT_VX = "sh";
+    public static final String ATT_VX = "sh";
     /** Vertical speed attribute name. */
-    private static final String ATT_VY = "sv";
+    public static final String ATT_VY = "sv";
     /** Amplitude attribute name. */
-    private static final String ATT_AMPLITUDE = "amplitude";
+    public static final String ATT_AMPLITUDE = "amplitude";
     /** Mirror attribute name. */
-    private static final String ATT_MIRROR = "mirror";
+    public static final String ATT_MIRROR = "mirror";
     /** Coll attribute name. */
-    private static final String ATT_COLL = "coll";
+    public static final String ATT_COLL = "coll";
 
     /**
      * Imports the config from configurer.
@@ -64,44 +68,36 @@ public final class PatrolConfig
     {
         Check.notNull(root);
 
-        final double sh = root.readDouble(0.3, ATT_VX);
-        final double sv = root.readDouble(0.0, ATT_VY);
-        final int amplitude = root.readInteger(50, ATT_AMPLITUDE);
-        final boolean mirror = root.readBoolean(false, ATT_MIRROR);
-        final boolean coll = root.readBoolean(false, ATT_COLL);
-
-        return new PatrolConfig(sh, sv, amplitude, mirror, coll);
+        return new PatrolConfig(root);
     }
 
     /** Horizontal speed. */
-    private final double sh;
+    private final OptionalDouble sh;
     /** Vertical speed. */
-    private final double sv;
+    private final OptionalDouble sv;
     /** Amplitude enabled. */
-    private final int amplitude;
+    private final OptionalInt amplitude;
     /** Mirror vertical. */
-    private final boolean mirror;
+    private final Optional<Boolean> mirror;
     /** Disable collision on turn. */
-    private final boolean coll;
+    private final Optional<Boolean> coll;
 
     /**
      * Create config.
      * 
-     * @param sh The horizontal speed.
-     * @param sv The vertical speed.
-     * @param amplitude The amplitude value.
-     * @param mirror The mirror vertical flag.
-     * @param coll The disable collision on turn flag.
+     * @param root The root configuration (must not be null).
      */
-    private PatrolConfig(double sh, double sv, int amplitude, boolean mirror, boolean coll)
+    private PatrolConfig(XmlReader root)
     {
         super();
 
-        this.sh = sh;
-        this.sv = sv;
-        this.amplitude = amplitude;
-        this.mirror = mirror;
-        this.coll = coll;
+        Check.notNull(root);
+
+        sh = root.readDoubleOptional(ATT_VX);
+        sv = root.readDoubleOptional(ATT_VY);
+        amplitude = root.readIntegerOptional(ATT_AMPLITUDE);
+        mirror = root.readBooleanOptional(ATT_COLL);
+        coll = root.readBooleanOptional(ATT_COLL);
     }
 
     /**
@@ -109,7 +105,7 @@ public final class PatrolConfig
      * 
      * @return The horizontal speed.
      */
-    public double getSh()
+    public OptionalDouble getSh()
     {
         return sh;
     }
@@ -119,7 +115,7 @@ public final class PatrolConfig
      * 
      * @return The vertical speed.
      */
-    public double getSv()
+    public OptionalDouble getSv()
     {
         return sv;
     }
@@ -129,7 +125,7 @@ public final class PatrolConfig
      * 
      * @return The patrol maximum movement, 0 if no turn.
      */
-    public int getAmplitude()
+    public OptionalInt getAmplitude()
     {
         return amplitude;
     }
@@ -139,7 +135,7 @@ public final class PatrolConfig
      * 
      * @return <code>true</code> to enable mirror, <code>false</code> to disable.
      */
-    public boolean hasMirror()
+    public Optional<Boolean> getMirror()
     {
         return mirror;
     }
@@ -149,7 +145,7 @@ public final class PatrolConfig
      * 
      * @return <code>true</code> if disable collision on turn, <code>false</code> else.
      */
-    public boolean hasColl()
+    public Optional<Boolean> getColl()
     {
         return coll;
     }

@@ -28,11 +28,18 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -46,7 +53,7 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </p>
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel implements Routine
+public final class Patrol extends FeatureModel implements Routine, TileCollidableListener, CollidableListener
 {
     private final AnimationConfig anim;
 
@@ -62,6 +69,7 @@ public final class Patrol extends FeatureModel implements Routine
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Mirrorable mirrorable;
+    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.
@@ -75,14 +83,9 @@ public final class Patrol extends FeatureModel implements Routine
         super(services, setup);
 
         final PatrolConfig config = PatrolConfig.imports(setup);
-        sh = config.getSh();
-        sv = config.getSv();
-        amplitude = config.getAmplitude();
-        coll = config.hasColl();
+        load(config);
 
         anim = AnimationConfig.imports(setup);
-
-        checkAmplitude();
     }
 
     /**
@@ -92,13 +95,16 @@ public final class Patrol extends FeatureModel implements Routine
      */
     public void load(PatrolConfig config)
     {
-        sh = config.getSh();
-        sv = config.getSv();
-        amplitude = config.getAmplitude();
-        coll = config.hasColl();
+        config.getSh().ifPresent(v -> sh = v);
+        config.getSv().ifPresent(v -> sv = v);
+        config.getAmplitude().ifPresent(a -> amplitude = a);
+        config.getColl().ifPresent(c -> coll = c.booleanValue());
 
         checkAmplitude();
-        applyMirror();
+        if (mirrorable != null)
+        {
+            applyMirror();
+        }
     }
 
     /**
@@ -106,19 +112,18 @@ public final class Patrol extends FeatureModel implements Routine
      */
     public void applyMirror()
     {
-        if (sh < 0 && mirrorable.is(Mirror.NONE))
+        if (mirrorable.is(Mirror.NONE))
         {
-            mirrorable.mirror(Mirror.HORIZONTAL);
+            if (sh < 0)
+            {
+                mirrorable.mirror(Mirror.HORIZONTAL);
+            }
+            else if (sv < 0)
+            {
+                mirrorable.mirror(Mirror.VERTICAL);
+            }
         }
-        else if (sh > 0 && mirrorable.is(Mirror.HORIZONTAL))
-        {
-            mirrorable.mirror(Mirror.NONE);
-        }
-        if (sv < 0 && mirrorable.is(Mirror.NONE))
-        {
-            mirrorable.mirror(Mirror.VERTICAL);
-        }
-        else if (sv > 0 && mirrorable.is(Mirror.VERTICAL))
+        else if (mirrorable.is(Mirror.HORIZONTAL) && sh > 0 || mirrorable.is(Mirror.VERTICAL) && sv > 0)
         {
             mirrorable.mirror(Mirror.NONE);
         }
@@ -183,6 +188,7 @@ public final class Patrol extends FeatureModel implements Routine
         });
 
         applyMirror();
+        mirrorable.update(1.0);
     }
 
     @Override
@@ -192,6 +198,26 @@ public final class Patrol extends FeatureModel implements Routine
         {
             checker.update(extrp);
             moved += model.getMovement().getDirectionHorizontal() + model.getMovement().getDirectionVertical();
+        }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        if (by.getName().startsWith(CollisionName.SPIKE))
+        {
+            sh = -sh;
+            transformable.teleportX(transformable.getOldX() + sh);
+        }
+    }
+
+    @Override
+    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
+    {
+        if (result.startWithX(CollisionName.STEEP))
+        {
+            sh = -sh;
+            transformable.teleportX(transformable.getOldX() + sh);
         }
     }
 }
