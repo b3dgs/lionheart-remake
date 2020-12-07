@@ -68,7 +68,7 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="139" ty="51"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="139" ty="52"/>
         <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="147" ty="21">
-            <patrol sh="0.0" sv="0.5" amplitude="448"/>
+            <patrol sv="0.5" amplitude="448"/>
         </entity>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="147" ty="19"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="149" ty="16"/>
@@ -134,10 +134,10 @@
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
         <entity file="entity/monster/swamp/Dino.xml" tx="68" ty="9">
-            <patrol sh="-0.5" amplitude="0"/>
+            <patrol sh="-0.5"/>
         </entity>
         <entity file="entity/monster/swamp/Dino.xml" tx="78" ty="13">
-            <patrol sh="-0.5" amplitude="0"/>
+            <patrol sh="-0.5"/>
         </entity>
         <entity file="entity/monster/swamp/Crawling.xml" tx="107" ty="11">
             <patrol sh="-0.2" amplitude="144"/>
