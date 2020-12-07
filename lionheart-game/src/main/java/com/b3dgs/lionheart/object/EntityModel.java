@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -40,10 +41,12 @@ import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.feature.Patrol;
+import com.b3dgs.lionheart.object.feature.SwordShade;
 import com.b3dgs.lionheart.object.state.StateHurt;
 import com.b3dgs.lionheart.object.state.StateLianaSlide;
 import com.b3dgs.lionheart.object.state.StateSlide;
@@ -54,8 +57,8 @@ import com.b3dgs.lionheart.object.state.StateSlide;
 @FeatureInterface
 public final class EntityModel extends EntityModelHelper implements Routine
 {
-    private static final int DESTROY_Y = -100;
     private static final String NODE_DATA = "data";
+    private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int PREFIX = State.class.getSimpleName().length();
 
     /**
@@ -103,6 +106,18 @@ public final class EntityModel extends EntityModelHelper implements Routine
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
+
+        services.getOptional(SwordShade.class).ifPresent(feature ->
+        {
+            final Transformable player = feature.getFeature(Transformable.class);
+            final int sight = source.getWidth() / 2 + map.getTileWidth() * 4;
+            final EntityChecker checker = provider.getFeature(EntityChecker.class);
+            final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
+                                                .booleanValue();
+
+            checker.setCheckerUpdate(() -> alwaysUpdate || UtilMath.getDistance(player, transformable) < sight);
+            checker.setCheckerRender(() -> camera.isViewable(transformable, 0, 0));
+        });
 
         movement.setVelocity(0.1);
         movement.setSensibility(0.01);
@@ -157,7 +172,10 @@ public final class EntityModel extends EntityModelHelper implements Routine
         transformable.moveLocation(extrp, body, movement, jump);
         updateMirror(extrp);
 
-        if (transformable.getY() < DESTROY_Y)
+        if (transformable.getX() < -source.getWidth()
+            || transformable.getX() > map.getWidth() + source.getWidth()
+            || transformable.getY() < -source.getHeight()
+            || transformable.getY() > map.getHeight() + source.getHeight())
         {
             identifiable.destroy();
         }

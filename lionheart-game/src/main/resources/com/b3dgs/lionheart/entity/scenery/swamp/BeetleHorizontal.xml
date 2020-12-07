@@ -23,4 +23,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
     <lionengine:collidable group="3" accepted="1"/>
     <patrol sh="0.3" amplitude="64"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

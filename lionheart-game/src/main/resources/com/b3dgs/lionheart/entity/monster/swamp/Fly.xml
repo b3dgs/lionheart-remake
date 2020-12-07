@@ -24,4 +24,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="ExplodeLittle"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
