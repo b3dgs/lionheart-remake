@@ -19,14 +19,21 @@ package com.b3dgs.lionheart.object.state.attack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.tile.Tile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
@@ -43,6 +50,10 @@ import com.b3dgs.lionheart.object.state.StateJump;
 public final class StateAttackFall extends State
 {
     private final GameplaySteep steep = new GameplaySteep();
+    private final MapTile map = model.getMap();
+    private final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
+    private final MapTileCollision mapCollision = map.getFeature(MapTileCollision.class);
+    private final Spawner spawner = model.getSpawner();
 
     private final AtomicBoolean collideSword = new AtomicBoolean();
 
@@ -64,6 +75,17 @@ public final class StateAttackFall extends State
                             || !isFire() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
     }
 
+    /**
+     * Perform jump on hit.
+     */
+    private void jumpHit()
+    {
+        body.resetGravity();
+        jump.setDirection(new Force(0, Constant.JUMP_HIT));
+        jump.setDirectionMaximum(new Force(0, Constant.JUMP_HIT));
+        collideSword.set(true);
+    }
+
     @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
@@ -71,9 +93,22 @@ public final class StateAttackFall extends State
 
         steep.onCollideLeg(result, category);
 
-        tileCollidable.apply(result);
-        jump.setDirection(DirectionNone.INSTANCE);
-        body.resetGravity();
+        final Tile tile = result.getTile();
+        final Tile liana = map.getTile(tile.getInTileX(), tile.getInTileY() - 1);
+        if (mapGroup.getGroup(liana).equals(CollisionName.LIANA_FULL))
+        {
+            map.setTile(liana.getInTileX(), liana.getInTileY(), liana.getNumber() + 206);
+            mapCollision.update(tile);
+            jumpHit();
+            spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), liana.getX(), liana.getY());
+        }
+        else if (mapGroup.getGroup(tile).equals(CollisionName.LIANA_TOP))
+        {
+            map.setTile(tile.getInTileX(), tile.getInTileY(), 6);
+            mapCollision.update(tile);
+            jumpHit();
+            spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), tile.getX(), tile.getY());
+        }
     }
 
     @Override
@@ -88,10 +123,7 @@ public final class StateAttackFall extends State
         if ((collidable.hasFeature(Hurtable.class) || collidable.hasFeature(TurningHit.class))
             && with.getName().startsWith(Anim.ATTACK_FALL))
         {
-            body.resetGravity();
-            jump.setDirection(new Force(0, Constant.JUMP_HIT));
-            jump.setDirectionMaximum(new Force(0, Constant.JUMP_HIT));
-            collideSword.set(true);
+            jumpHit();
         }
     }
 

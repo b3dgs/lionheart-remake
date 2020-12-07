@@ -787,4 +787,18 @@
         <lionengine:tile number="689" sheet="0"/>
         <lionengine:tile number="675" sheet="0"/>
     </lionengine:group>
+        <lionengine:group name="liana_full" type="NONE">
+        <lionengine:tile number="701" sheet="0"/>
+        <lionengine:tile number="702" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="liana_top" type="NONE">
+        <lionengine:tile number="704" sheet="0"/>
+        <lionengine:tile number="705" sheet="0"/>
+        <lionengine:tile number="708" sheet="0"/>
+        <lionengine:tile number="709" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="liana_cut" type="NONE">
+        <lionengine:tile number="907" sheet="0"/>
+        <lionengine:tile number="908" sheet="0"/>
+    </lionengine:group>
 </lionengine:groups>

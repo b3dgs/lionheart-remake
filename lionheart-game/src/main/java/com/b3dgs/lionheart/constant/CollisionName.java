@@ -77,6 +77,10 @@ public final class CollisionName
     public static final String LIANA_LEFT = LIANA + "_left";
     /** Collision liana right prefix. */
     public static final String LIANA_RIGHT = LIANA + "_right";
+    /** Collision liana full prefix. */
+    public static final String LIANA_FULL = LIANA + "_full";
+    /** Collision liana top prefix. */
+    public static final String LIANA_TOP = LIANA + "_top";
 
     /**
      * Private constructor.

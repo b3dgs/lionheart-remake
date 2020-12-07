@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -75,6 +76,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
     private final Checkpoint checkpoint = services.get(Checkpoint.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(NODE_DATA);
 
     @FeatureGet private Body body;
@@ -199,6 +201,16 @@ public final class EntityModel extends EntityModelHelper implements Routine
     public Checkpoint getCheckpoint()
     {
         return checkpoint;
+    }
+
+    /**
+     * Get the spawner reference.
+     * 
+     * @return The spawner reference.
+     */
+    public Spawner getSpawner()
+    {
+        return spawner;
     }
 
     /**

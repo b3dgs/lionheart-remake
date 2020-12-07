@@ -54,6 +54,9 @@
     <lionengine:collision group="ground">
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="liana_top">
+        <lionengine:formula>top</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="vertical">
         <lionengine:formula>vertical_left</lionengine:formula>
         <lionengine:formula>vertical_right</lionengine:formula>

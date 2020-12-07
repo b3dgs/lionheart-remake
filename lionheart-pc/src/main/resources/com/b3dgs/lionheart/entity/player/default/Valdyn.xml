@@ -171,6 +171,7 @@
             <lionengine:group>slope_right_0</lionengine:group>
             <lionengine:group>slope_right_1</lionengine:group>
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>liana_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
             <lionengine:group>slope_left_0</lionengine:group>
@@ -178,6 +179,7 @@
             <lionengine:group>slope_right_0</lionengine:group>
             <lionengine:group>slope_right_1</lionengine:group>
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>liana_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
             <lionengine:group>ground</lionengine:group>
@@ -190,6 +192,7 @@
             <lionengine:group>steep_right_0</lionengine:group>
             <lionengine:group>steep_right_1</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
+            <lionengine:group>liana_top</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:input class="com.b3dgs.lionengine.awt.KeyboardController">
