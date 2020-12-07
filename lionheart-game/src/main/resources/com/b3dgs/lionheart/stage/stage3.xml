@@ -23,15 +23,29 @@
         <entity file="entity/scenery/swamp/CarnivorousPlant.xml" tx="50" ty="52"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="59" ty="57"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="59" ty="58"/>
-        <entity file="entity/monster/swamp/Dino.xml" tx="55" ty="64"/>
-        <entity file="entity/monster/swamp/Dino.xml" tx="61" ty="64"/>
+        <entity file="entity/monster/swamp/Dino.xml" tx="57" ty="64">
+            <patrol sh="0.3"/>
+        </entity>
+        <entity file="entity/monster/swamp/Dino.xml" tx="63" ty="64">
+            <patrol sh="-0.3"/>
+        </entity>
         <entity file="entity/scenery/swamp/CarnivorousPlant.xml" tx="69" ty="52"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="73" ty="52"/>
-        <entity file="entity/monster/swamp/Dino.xml" tx="105" ty="57"/>
-        <entity file="entity/monster/swamp/Dino.xml" tx="111" ty="57"/>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="73" ty="52">
+            <patrol sh="0.3" amplitude="256"/>
+        </entity>
+        <entity file="entity/monster/swamp/Dino.xml" tx="105" ty="57">
+            <patrol sh="-0.3"/>
+        </entity>
+        <entity file="entity/monster/swamp/Dino.xml" tx="115" ty="57">
+            <patrol sh="0.3"/>
+        </entity>
         <entity file="entity/item/swamp/PotionBig.xml" tx="108" ty="56"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="154" ty="68"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="169" ty="68"/>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="157" ty="68">
+            <patrol sh="-0.3" amplitude="128"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="172" ty="68">
+            <patrol sh="-0.3" amplitude="208"/>
+        </entity>
         <entity file="entity/item/swamp/Talisment.xml" tx="174" ty="78"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="172" ty="79"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="170" ty="78"/>
@@ -51,7 +65,9 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="154" ty="85"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="159" ty="85"/>
         <entity file="entity/item/swamp/Life.xml" tx="156.5" ty="87"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="45" ty="23"/>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="46" ty="23">
+            <patrol amplitude="160"/>
+        </entity>
         <entity file="entity/scenery/swamp/TurningAuto.xml" tx="52" ty="23"/>
         <entity file="entity/scenery/swamp/CarnivorousPlant.xml" tx="46" ty="19"/>
         <entity file="entity/scenery/swamp/CarnivorousPlant.xml" tx="48" ty="19"/>
@@ -70,9 +86,15 @@
         <entity file="entity/scenery/swamp/TurningHit.xml" tx="86" ty="31"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="90" ty="32"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="93" ty="30"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="129" ty="21"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="136" ty="21"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="157" ty="8"/>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="125" ty="22">
+            <patrol sh="-0.3" amplitude="96"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="131" ty="21">
+            <patrol amplitude="144"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="158" ty="8">
+            <patrol amplitude="64"/>
+        </entity>
         <entity file="entity/scenery/swamp/TurningHit.xml" tx="175" ty="10"/>
         <entity file="entity/scenery/swamp/TurningHit.xml" tx="177" ty="12"/>
         <entity file="entity/scenery/swamp/TurningHit.xml" tx="178" ty="16"/>
@@ -87,10 +109,10 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="151" ty="19"/>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="157.5" ty="16"/>
         <entity file="entity/scenery/swamp/BeetleHorizontal.xml" tx="202" ty="11">
-            <patrol sh="0.3" amplitude="80"/>
+            <patrol sh="0.3" amplitude="96"/>
         </entity>
         <entity file="entity/scenery/swamp/BeetleHorizontal.xml" tx="214" ty="13">
-            <patrol sh="-0.3" amplitude="80"/>
+            <patrol sh="-0.3" amplitude="96"/>
         </entity>
         <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="222" ty="11">
             <patrol sv="0.2" amplitude="96"/>
@@ -102,6 +124,9 @@
             <patrol sv="0.4" amplitude="96"/>
         </entity>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="233" ty="17"/>
+        <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="243" ty="3.5">
+            <patrol sv="0.25" amplitude="36"/>
+        </entity>
         <entity file="entity/item/swamp/Talisment.xml" tx="247" ty="3"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="248" ty="4"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="249" ty="3"/>
@@ -169,19 +194,19 @@
             <spike delay="0"/>
         </entity>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="377" ty="4">
-            <spike delay="80"/>
+            <spike delay="40"/>
         </entity>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="378" ty="4">
-            <spike delay="80"/>
+            <spike delay="40"/>
         </entity>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="379" ty="4">
-            <spike delay="80"/>
+            <spike delay="40"/>
         </entity>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="380" ty="4">
-            <spike delay="160"/>
+            <spike delay="80"/>
         </entity>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="381" ty="4">
-            <spike delay="160"/>
+            <spike delay="80"/>
         </entity>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="391" ty="8"/>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="399" ty="4">
@@ -235,25 +260,35 @@
         <entity file="entity/scenery/swamp/CarnivorousPlant.xml" tx="380" ty="41"/>
         <entity file="entity/scenery/swamp/CarnivorousPlant.xml" tx="382" ty="41"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="360" ty="51"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="363" ty="45"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="353" ty="45"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="346" ty="41"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="340" ty="37"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="334" ty="33"/>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="364" ty="45">
+            <patrol amplitude="32"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="354" ty="45">
+            <patrol amplitude="32"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="347" ty="41">
+            <patrol amplitude="32"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="342" ty="37">
+            <patrol amplitude="32"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="335" ty="33">
+            <patrol amplitude="32"/>
+        </entity>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="301" ty="35"/>
-        <entity file="entity/monster/swamp/Flower.xml" tx="319" ty="37"/>
+        <entity file="entity/monster/swamp/Flower.xml" tx="320" ty="37"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="316" ty="47"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="329" ty="53"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="317" ty="63"/>
-        <entity file="entity/monster/swamp/Flower.xml" tx="328" ty="63"/>
-        <entity file="entity/monster/swamp/Flower.xml" tx="322" ty="70"/>
+        <entity file="entity/monster/swamp/Flower.xml" tx="329" ty="63"/>
+        <entity file="entity/monster/swamp/Flower.xml" tx="323" ty="70"/>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="328" ty="67"/>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="334" ty="70">
             <spike delay="40"/>
         </entity>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="339" ty="70"/>
-        <entity file="entity/monster/swamp/NestLittle.xml" tx="354" ty="71"/>
-        <entity file="entity/monster/swamp/NestLittle.xml" tx="377" ty="80"/>
+        <entity file="entity/monster/swamp/NestLittle.xml" tx="355.5" ty="71"/>
+        <entity file="entity/monster/swamp/NestLittle.xml" tx="378.5" ty="80.5"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="370" ty="73"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="374" ty="74"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="379" ty="74"/>
