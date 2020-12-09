@@ -93,12 +93,12 @@ public final class GameplayLiana
         {
             liana = true;
 
-            if (result.endWithY(CollisionName.LEFT))
+            if (result.containsY(CollisionName.LEFT))
             {
                 side = -1;
                 lianaLeft = true;
             }
-            else if (result.endWithY(CollisionName.RIGHT))
+            else if (result.containsY(CollisionName.RIGHT))
             {
                 side = 1;
                 lianaRight = true;

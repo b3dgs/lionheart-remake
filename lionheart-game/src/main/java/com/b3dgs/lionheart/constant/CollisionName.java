@@ -56,6 +56,8 @@ public final class CollisionName
     /** Category collision knee center. */
     public static final String KNEE_CENTER = KNEE + "_" + CENTER;
 
+    /** Category collision head prefix. */
+    public static final String HEAD = "head";
     /** Category collision hand prefix. */
     public static final String HAND = "hand";
 
@@ -91,7 +93,7 @@ public final class CollisionName
     /** Collision liana full prefix. */
     public static final String LIANA_FULL = LIANA + "_full";
     /** Collision liana top prefix. */
-    public static final String LIANA_TOP = LIANA + "_top";
+    public static final String LIANA_TOP = LIANA + "_" + GROUND + "_top";
 
     /**
      * Private constructor.

@@ -70,21 +70,7 @@ public class StateLianaSlide extends State
         movement.zero();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
-    }
-
-    @Override
-    public void exit()
-    {
-        super.exit();
-
-        if (isGoUp())
-        {
-            movement.setDestination(0.0, 0.0);
-        }
-        if (isGoDown())
-        {
-            transformable.teleportY(transformable.getY() - Math.ceil(speed) * 3);
-        }
+        rasterable.setFrameOffsets(0, 10);
     }
 
     @Override
@@ -105,5 +91,21 @@ public class StateLianaSlide extends State
             speed = LIANA_SPEED;
         }
         movement.setDestination(speed * liana.getSide(), -speed * 2);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        if (isGoUp())
+        {
+            movement.setDestination(0.0, 0.0);
+        }
+        if (isGoDown())
+        {
+            transformable.teleportY(transformable.getY() - Math.ceil(speed) * 3);
+        }
+        rasterable.setFrameOffsets(0, 0);
     }
 }

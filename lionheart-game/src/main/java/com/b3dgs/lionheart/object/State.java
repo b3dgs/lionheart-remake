@@ -79,13 +79,17 @@ public abstract class State extends StateHelper<EntityModel>
             }
             else if (Axis.Y == category.getAxis())
             {
-                if (category.getName().startsWith(CollisionName.LEG))
+                if (!liana.is() && category.getName().startsWith(CollisionName.LEG))
                 {
                     onCollideLeg(result, category);
                 }
                 else if (category.getName().startsWith(CollisionName.HAND))
                 {
                     onCollideHand(result, category);
+                }
+                else if (category.getName().startsWith(CollisionName.HEAD))
+                {
+                    onCollideHead(result, category);
                 }
             }
         };
@@ -144,6 +148,17 @@ public abstract class State extends StateHelper<EntityModel>
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         liana.onCollideHand(result, category);
+    }
+
+    /**
+     * Called when a tile collision occurred on vertical axis with head.
+     * 
+     * @param result The collided tile.
+     * @param category The collided axis.
+     */
+    protected void onCollideHead(CollisionResult result, CollisionCategory category)
+    {
+        jump.zero();
     }
 
     /**

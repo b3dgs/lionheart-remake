@@ -40,10 +40,18 @@
         <lionengine:animation name="slide" start="24" end="24" speed="0.1" reversed="false" repeat="false"/>
         <lionengine:animation name="slidefast" start="25" end="25" speed="0.1" reversed="false" repeat="false"/>
         <lionengine:animation name="slideslow" start="23" end="23" speed="0.1" reversed="false" repeat="false"/>
-        <lionengine:animation name="lianaidle" start="56" end="56" speed="0.2" reversed="false" repeat="false"/>
-        <lionengine:animation name="lianawalk" start="36" end="44" speed="0.2" reversed="false" repeat="true"/>
-        <lionengine:animation name="lianaslide" start="53" end="59" speed="0.2" reversed="true" repeat="true"/>
-        <lionengine:animation name="lianasoar" start="72" end="82" speed="0.15" reversed="true" repeat="false"/>
+        <lionengine:animation name="lianaidle" start="56" end="56" speed="0.2" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="lianawalk" start="36" end="44" speed="0.2" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="lianaslide" start="53" end="59" speed="0.2" reversed="true" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="lianasoar" start="72" end="82" speed="0.15" reversed="true" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
         <lionengine:animation name="groundhoockable_idle" start="72" end="72" speed="0.2" reversed="false" repeat="false"/>
         <lionengine:animation name="ground_soar" start="72" end="82" speed="0.2" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false"/>
@@ -135,9 +143,16 @@
         <lionengine:collision name="leg_right" offsetX="3" offsetY="0" width="1" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:categories>
-        <lionengine:category name="hand_center" axis="Y" x="0" y="62" glue="true">
+        <lionengine:category name="head" axis="Y" x="0" y="48">
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="hand_center" axis="Y" x="0" y="52" glue="true">
             <lionengine:group>liana_left</lionengine:group>
             <lionengine:group>liana_right</lionengine:group>
+            <lionengine:group>liana_slope_0_right</lionengine:group>
+            <lionengine:group>liana_slope_1_right</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_left" axis="X" x="-6" y="4">
@@ -146,6 +161,7 @@
             <lionengine:group>steep_1_right</lionengine:group>
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_right" axis="X" x="6" y="4">
             <lionengine:group>spike</lionengine:group>
@@ -154,6 +170,7 @@
             <lionengine:group>steep_left_ground</lionengine:group>
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_center" axis="X" x="0" y="4">
             <lionengine:group>spike</lionengine:group>
@@ -171,7 +188,10 @@
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
-            <lionengine:group>liana_top</lionengine:group>
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
@@ -179,10 +199,16 @@
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
-            <lionengine:group>liana_top</lionengine:group>
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
@@ -193,7 +219,7 @@
             <lionengine:group>steep_0_right</lionengine:group>
             <lionengine:group>steep_1_right</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
-            <lionengine:group>liana_top</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:input class="com.b3dgs.lionengine.awt.KeyboardController">

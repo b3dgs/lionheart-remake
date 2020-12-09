@@ -78,6 +78,8 @@
         <lionengine:tile number="642" sheet="0"/>
         <lionengine:tile number="452" sheet="0"/>
         <lionengine:tile number="657" sheet="0"/>
+        <lionengine:tile number="281" sheet="0"/>
+        <lionengine:tile number="548" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="slope_0_left" type="NONE">
         <lionengine:tile number="142" sheet="0"/>
@@ -121,6 +123,7 @@
         <lionengine:tile number="490" sheet="0"/>
         <lionengine:tile number="488" sheet="0"/>
         <lionengine:tile number="489" sheet="0"/>
+        <lionengine:tile number="491" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="steep_0_right" type="NONE">
         <lionengine:tile number="503" sheet="0"/>
@@ -197,7 +200,7 @@
         <lionengine:tile number="701" sheet="0"/>
         <lionengine:tile number="702" sheet="0"/>
     </lionengine:group>
-    <lionengine:group name="liana_top" type="NONE">
+    <lionengine:group name="liana_ground_top" type="NONE">
         <lionengine:tile number="704" sheet="0"/>
         <lionengine:tile number="705" sheet="0"/>
         <lionengine:tile number="708" sheet="0"/>
@@ -206,5 +209,33 @@
     <lionengine:group name="liana_cut" type="NONE">
         <lionengine:tile number="907" sheet="0"/>
         <lionengine:tile number="908" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="liana_slope_0_right" type="NONE">
+        <lionengine:tile number="735" sheet="0"/>
+        <lionengine:tile number="722" sheet="0"/>
+        <lionengine:tile number="769" sheet="0"/>
+        <lionengine:tile number="777" sheet="0"/>
+        <lionengine:tile number="711" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="liana_slope_1_right" type="NONE">
+        <lionengine:tile number="734" sheet="0"/>
+        <lionengine:tile number="721" sheet="0"/>
+        <lionengine:tile number="768" sheet="0"/>
+        <lionengine:tile number="776" sheet="0"/>
+        <lionengine:tile number="710" sheet="0"/>
+        <lionengine:tile number="784" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="horizontal" type="NONE">
+        <lionengine:tile number="443" sheet="0"/>
+        <lionengine:tile number="440" sheet="0"/>
+        <lionengine:tile number="439" sheet="0"/>
+        <lionengine:tile number="441" sheet="0"/>
+        <lionengine:tile number="442" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="left_horizontal" type="NONE">
+        <lionengine:tile number="438" sheet="0"/>
+    </lionengine:group>
+    <lionengine:group name="right_horizontal" type="NONE">
+        <lionengine:tile number="444" sheet="0"/>
     </lionengine:group>
 </lionengine:groups>
