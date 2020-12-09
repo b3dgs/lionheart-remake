@@ -5,7 +5,7 @@
         <lionengine:formula>steep_1_right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_1_right_spike">
-        <lionengine:formula>steep_1_right</lionengine:formula>
+        <lionengine:formula>steep_1_right_spike</lionengine:formula>
         <lionengine:formula>steep_1_right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_0_right">

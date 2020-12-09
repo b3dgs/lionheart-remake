@@ -218,6 +218,7 @@
             <lionengine:group>steep_1_left</lionengine:group>
             <lionengine:group>steep_0_right</lionengine:group>
             <lionengine:group>steep_1_right</lionengine:group>
+            <lionengine:group>steep_1_right_spike</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
             <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>

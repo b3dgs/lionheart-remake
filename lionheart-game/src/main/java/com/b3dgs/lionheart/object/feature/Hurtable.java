@@ -220,7 +220,7 @@ public final class Hurtable extends FeatureModel
     {
         if (!hasFeature(Patrol.class)
             && recover.elapsed(HURT_RECOVER_BODY_TICK)
-            && (category.getAxis() == Axis.Y && result.startWithX(CollisionName.SPIKE)
+            && (category.getAxis() == Axis.Y && result.contains(CollisionName.SPIKE)
                 || category.getName().equals(CollisionName.KNEE_CENTER) && result.contains(CollisionName.SPIKE)))
         {
             if (stats.applyDamages(SPIKE_DAMAGES))
