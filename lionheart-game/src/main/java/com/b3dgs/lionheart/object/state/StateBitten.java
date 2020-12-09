@@ -19,8 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.feature.Layerable;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -42,7 +41,6 @@ public final class StateBitten extends State
     private final Drownable drownable = model.getFeature(Drownable.class);
     private final Layerable layerable = model.getFeature(Layerable.class);
     private final Checkpoint checkpoint;
-    private final MapTile map;
 
     private Integer layerRefresh;
     private Integer layerDisplay;
@@ -61,7 +59,6 @@ public final class StateBitten extends State
         addTransition(StateIdle.class, () -> startY - transformable.getY() > BITTEN_FALL_Y);
 
         checkpoint = model.getCheckpoint();
-        map = model.getMap();
     }
 
     @Override
@@ -83,8 +80,8 @@ public final class StateBitten extends State
     {
         super.exit();
 
-        final CoordTile check = checkpoint.getCurrent(transformable);
-        transformable.teleport(check.getX() * map.getTileWidth(), check.getY() * map.getTileHeight());
+        final Coord check = checkpoint.getCurrent(transformable);
+        transformable.teleport(check.getX(), check.getY());
         model.getCamera().resetInterval(transformable);
         layerable.setLayer(layerRefresh, layerDisplay);
         mirrorable.mirror(Mirror.NONE);

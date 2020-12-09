@@ -32,10 +32,10 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
@@ -46,6 +46,7 @@ import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
+import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
@@ -135,13 +136,11 @@ final class World extends WorldHelper
     /**
      * Create player and track with camera.
      * 
-     * @param tile The spawn tile.
+     * @param start The spawn tile.
      */
-    private void createPlayer(CoordTile tile)
+    private void createPlayer(Coord start)
     {
-        final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"),
-                                        tile.getX(),
-                                        tile.getY());
+        final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), start);
         hud.setFeaturable(player);
         services.add(player.getFeature(SwordShade.class));
         trackPlayer(player);
@@ -168,6 +167,7 @@ final class World extends WorldHelper
     private void createEntity(StageConfig stage, EntityConfig entity)
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
         entity.getPatrol().ifPresent(config ->
         {
             featurable.ifIs(Patrol.class, patrol -> patrol.load(config));
@@ -198,7 +198,9 @@ final class World extends WorldHelper
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
 
         services.create(Checkpoint.class).load(stage);
-        createPlayer(stage.getTileStart());
+
+        final Coord start = stage.getStart();
+        createPlayer(new Coord(start.getX() * map.getTileWidth(), start.getY() * map.getTileHeight()));
 
         handler.addListener(featurable ->
         {

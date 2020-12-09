@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 
@@ -109,11 +109,11 @@ public final class StageConfig
     /** Foreground type. */
     private final ForegroundType foreground;
     /** Starting tile. */
-    private final CoordTile tileStart;
+    private final Coord start;
     /** Ending tile. */
-    private final CoordTile tileEnd;
+    private final Coord end;
     /** Respawn tiles. */
-    private final Collection<CoordTile> tileRespawn = new ArrayList<>();
+    private final Collection<Coord> respawns = new ArrayList<>();
     /** Entities configuration. */
     private final Collection<EntityConfig> entities = new ArrayList<>();
 
@@ -140,11 +140,11 @@ public final class StageConfig
         background = configurer.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
         foreground = configurer.getEnum(ForegroundType.class, ATT_FOREGROUND_TYPE, NODE_FOREGROUND);
 
-        tileStart = new CoordTile(configurer.getInteger(ATT_CHECKPOINT_START_TX, NODE_CHECKPOINT),
-                                  configurer.getInteger(ATT_CHECKPOINT_START_TY, NODE_CHECKPOINT));
+        start = new Coord(configurer.getInteger(ATT_CHECKPOINT_START_TX, NODE_CHECKPOINT),
+                          configurer.getInteger(ATT_CHECKPOINT_START_TY, NODE_CHECKPOINT));
 
-        tileEnd = new CoordTile(configurer.getInteger(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT),
-                                configurer.getInteger(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT));
+        end = new Coord(configurer.getInteger(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT),
+                        configurer.getInteger(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT));
 
         configurer.getChildren(NODE_RESPAWN, NODE_CHECKPOINT).forEach(this::addRespawn);
 
@@ -158,7 +158,7 @@ public final class StageConfig
      */
     private void addRespawn(XmlReader respawn)
     {
-        tileRespawn.add(new CoordTile(respawn.readInteger(ATT_RESPAWN_TX), respawn.readInteger(ATT_RESPAWN_TY)));
+        respawns.add(new Coord(respawn.readInteger(ATT_RESPAWN_TX), respawn.readInteger(ATT_RESPAWN_TY)));
     }
 
     /**
@@ -232,33 +232,33 @@ public final class StageConfig
     }
 
     /**
-     * Get the tile start.
+     * Get the start location.
      * 
-     * @return The tile start.
+     * @return The start location.
      */
-    public CoordTile getTileStart()
+    public Coord getStart()
     {
-        return tileStart;
+        return start;
     }
 
     /**
-     * Get the tile end.
+     * Get the end location.
      * 
-     * @return The tile end.
+     * @return The end location.
      */
-    public CoordTile getTileEnd()
+    public Coord getEnd()
     {
-        return tileEnd;
+        return end;
     }
 
     /**
-     * Get the tiles respawn.
+     * Get the respawn locations.
      * 
-     * @return The tiles respawn.
+     * @return The respawn locations.
      */
-    public Collection<CoordTile> getTileRespawn()
+    public Collection<Coord> getRespawns()
     {
-        return tileRespawn;
+        return respawns;
     }
 
     /**

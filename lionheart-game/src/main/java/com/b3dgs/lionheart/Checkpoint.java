@@ -24,8 +24,7 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
-import com.b3dgs.lionengine.geom.Geom;
+import com.b3dgs.lionengine.geom.Coord;
 
 /**
  * Handle checkpoints.
@@ -34,7 +33,7 @@ public class Checkpoint
 {
     private static final int END_DISTANCE = 32;
 
-    private final List<CoordTile> checkpoints = new ArrayList<>();
+    private final List<Coord> respawns = new ArrayList<>();
     private final MapTile map;
     private Localizable end;
     private int last;
@@ -60,12 +59,10 @@ public class Checkpoint
     public void load(StageConfig config)
     {
         last = 0;
-        checkpoints.add(config.getTileStart());
-        checkpoints.addAll(config.getTileRespawn());
-        count = checkpoints.size();
-
-        final CoordTile endTile = config.getTileEnd();
-        end = Geom.createLocalizable(endTile.getX() * map.getTileWidth(), endTile.getY() * map.getTileHeight());
+        respawns.add(config.getStart());
+        respawns.addAll(config.getRespawns());
+        end = new Coord(config.getEnd().getX() * map.getTileWidth(), config.getEnd().getY() * map.getTileHeight());
+        count = respawns.size();
     }
 
     /**
@@ -74,12 +71,12 @@ public class Checkpoint
      * @param transformable The transformable reference.
      * @return The current checkpoint.
      */
-    public CoordTile getCurrent(Transformable transformable)
+    public Coord getCurrent(Transformable transformable)
     {
         final int start = last + 1;
         for (int i = start; i < count; i++)
         {
-            final CoordTile current = checkpoints.get(i);
+            final Coord current = respawns.get(i);
             if (transformable.getX() > current.getX() * map.getTileWidth())
             {
                 last = i;
@@ -89,7 +86,8 @@ public class Checkpoint
                 break;
             }
         }
-        return checkpoints.get(last);
+        return new Coord(respawns.get(last).getX() * map.getTileWidth(),
+                         respawns.get(last).getY() * map.getTileHeight());
     }
 
     /**

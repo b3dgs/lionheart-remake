@@ -18,8 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -40,7 +39,6 @@ public final class StateDrowned extends State
     private final Stats stats = model.getFeature(Stats.class);
     private final Drownable drownable = model.getFeature(Drownable.class);
     private final Checkpoint checkpoint;
-    private final MapTile map;
 
     /**
      * Create the state.
@@ -55,7 +53,6 @@ public final class StateDrowned extends State
         addTransition(StateIdle.class, () -> transformable.getY() < DROWN_END_Y);
 
         checkpoint = model.getCheckpoint();
-        map = model.getMap();
     }
 
     @Override
@@ -73,8 +70,8 @@ public final class StateDrowned extends State
     {
         super.exit();
 
-        final CoordTile check = checkpoint.getCurrent(transformable);
-        transformable.teleport(check.getX() * map.getTileWidth(), check.getY() * map.getTileHeight());
+        final Coord check = checkpoint.getCurrent(transformable);
+        transformable.teleport(check.getX(), check.getY());
         model.getCamera().resetInterval(transformable);
         model.getTracker().track(transformable);
         mirrorable.mirror(Mirror.NONE);

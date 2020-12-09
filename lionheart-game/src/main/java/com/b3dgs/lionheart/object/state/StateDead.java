@@ -19,8 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.pathfinding.CoordTile;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -37,7 +36,6 @@ public final class StateDead extends State
     private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
     private final Checkpoint checkpoint;
-    private final MapTile map;
 
     /**
      * Create the state.
@@ -52,7 +50,6 @@ public final class StateDead extends State
         addTransition(StateIdle.class, () -> tick.elapsed(DEAD_DELAY_TICK));
 
         checkpoint = model.getCheckpoint();
-        map = model.getMap();
     }
 
     @Override
@@ -69,8 +66,8 @@ public final class StateDead extends State
     {
         super.exit();
 
-        final CoordTile check = checkpoint.getCurrent(transformable);
-        transformable.teleport(check.getX() * map.getTileWidth(), check.getY() * map.getTileHeight());
+        final Coord check = checkpoint.getCurrent(transformable);
+        transformable.teleport(check.getX(), check.getY());
         model.getCamera().resetInterval(transformable);
         mirrorable.mirror(Mirror.NONE);
         stats.fillHealth();
