@@ -48,6 +48,10 @@ public abstract class State extends StateHelper<EntityModel>
     /** Vertical collision flag. */
     protected final AtomicBoolean collideY = new AtomicBoolean();
 
+    /** Steep gameplay. */
+    protected final GameplaySteep steep = new GameplaySteep();
+    /** Liana gameplay. */
+    protected final GameplayLiana liana = new GameplayLiana();
     /** Tile collidable listener. */
     private final TileCollidableListener listenerTileCollidable;
 
@@ -96,15 +100,18 @@ public abstract class State extends StateHelper<EntityModel>
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
         collideX.set(true);
-        collideXright.set(result.contains(CollisionName.STEEP_LEFT) || result.contains(CollisionName.SPIKE_LEFT));
-        collideXleft.set(result.contains(CollisionName.STEEP_RIGHT) || result.contains(CollisionName.SPIKE_RIGHT));
+        collideXright.set(result.endWithX(CollisionName.LEFT_VERTICAL));
+        collideXleft.set(result.endWithX(CollisionName.RIGHT_VERTICAL));
 
-        if (movement.getDirectionHorizontal() < 0
-            && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
-            || movement.getDirectionHorizontal() > 0
-               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
+        if (movement.getDirectionHorizontal() < 0 && result.endWithX(CollisionName.RIGHT_VERTICAL)
+            || movement.getDirectionHorizontal() > 0 && result.endWithX(CollisionName.LEFT_VERTICAL))
         {
             tileCollidable.apply(result);
+            movement.zero();
+        }
+        if (category.getName().equals(CollisionName.KNEE_CENTER) && result.contains(CollisionName.SPIKE))
+        {
+            transformable.teleportX(transformable.getOldX());
             movement.zero();
         }
     }
@@ -119,12 +126,13 @@ public abstract class State extends StateHelper<EntityModel>
     {
         if (!result.startWithY(CollisionName.LIANA)
             && !result.startWithY(CollisionName.SPIKE)
-            && !(result.startWithX(CollisionName.SPIKE) && jump.getDirectionVertical() > 0))
+            && jump.getDirectionVertical() < 0.1)
         {
             collideY.set(true);
             tileCollidable.apply(result);
             body.resetGravity();
         }
+        steep.onCollideLeg(result, category);
     }
 
     /**
@@ -135,7 +143,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
-        // Nothing by default
+        liana.onCollideHand(result, category);
     }
 
     /**
@@ -180,6 +188,8 @@ public abstract class State extends StateHelper<EntityModel>
         collideXright.set(false);
         collideXleft.set(false);
         collideY.set(false);
+        steep.reset();
+        liana.reset();
     }
 
     @Override
@@ -205,5 +215,7 @@ public abstract class State extends StateHelper<EntityModel>
         collideXright.set(false);
         collideXleft.set(false);
         collideY.set(false);
+        steep.reset();
+        liana.reset();
     }
 }

@@ -25,10 +25,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayBorder;
-import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
@@ -39,7 +37,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
 public final class StateIdle extends State
 {
     private final GameplayBorder border = new GameplayBorder(model.getMap());
-    private final GameplaySteep steep = new GameplaySteep();
 
     /**
      * Create the state.
@@ -52,7 +49,7 @@ public final class StateIdle extends State
         super(model, animation);
 
         addTransition(StateBorder.class, () -> collideY.get() && !isGoHorizontal() && border.is());
-        addTransition(StateWalk.class, () -> !collideX.get() && !steep.is() && isWalkingFastEnough());
+        addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
         addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
         addTransition(StateJump.class, () -> collideY.get() && isGoUpOnce());
         addTransition(StateAttackPrepare.class, () -> collideY.get() && isFire());
@@ -70,36 +67,12 @@ public final class StateIdle extends State
     }
 
     @Override
-    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideKnee(result, category);
-
-        steep.onCollideKnee(result, category);
-
-        if (movement.getDirectionHorizontal() < 0
-            && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
-            || movement.getDirectionHorizontal() > 0
-               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT))
-            || category.getName().startsWith(CollisionName.KNEE_CENTER) && result.startWithX(CollisionName.SPIKE))
-        {
-            tileCollidable.apply(result);
-            movement.zero();
-        }
-    }
-
-    @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
         super.onCollideLeg(result, category);
 
         border.notifyTileCollided(result, category);
         body.resetGravity();
-
-        if (result.getX() != null && result.startWithY(CollisionName.STEEP))
-        {
-            transformable.teleportX(result.getX().doubleValue());
-        }
-        steep.onCollideLeg(result, category);
     }
 
     @Override
@@ -120,7 +93,6 @@ public final class StateIdle extends State
         super.enter();
 
         movement.setVelocity(0.16);
-        steep.reset();
         border.reset();
     }
 
@@ -148,8 +120,6 @@ public final class StateIdle extends State
         {
             movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
         }
-
-        steep.reset();
         border.reset();
     }
 }

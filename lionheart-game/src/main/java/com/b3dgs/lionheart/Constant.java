@@ -19,6 +19,8 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
+import com.b3dgs.lionengine.game.Direction;
+import com.b3dgs.lionengine.game.Force;
 
 /**
  * Game constants.
@@ -73,7 +75,7 @@ public final class Constant
     /** Jump maximum height on hit. */
     public static final double JUMP_HIT = 3.75;
     /** Jump maximum height. */
-    public static final double JUMP_MAX = 5.4;
+    public static final Direction JUMP_MAX = new Force(0.0, 5.4);
 
     /** Fire button 1. */
     public static final Integer FIRE1 = Integer.valueOf(0);

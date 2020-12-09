@@ -17,11 +17,11 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Hurtable;
+import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
  * Hurt state implementation.
@@ -51,7 +51,10 @@ public final class StateHurt extends State
     {
         super.enter();
 
-        model.getJump().setDirection(0.0, HURT_JUMP_FORCE);
+        if (model.hasFeature(SwordShade.class))
+        {
+            jump.setDirection(0.0, HURT_JUMP_FORCE);
+        }
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
     }
 
@@ -60,7 +63,7 @@ public final class StateHurt extends State
     {
         super.exit();
 
-        jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
+        jump.setDirectionMaximum(Constant.JUMP_MAX);
     }
 
     @Override

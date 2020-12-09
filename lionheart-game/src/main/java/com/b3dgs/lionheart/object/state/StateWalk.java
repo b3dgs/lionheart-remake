@@ -46,7 +46,8 @@ public final class StateWalk extends State
     private final AtomicBoolean slopeRising = new AtomicBoolean();
     private final AtomicBoolean slopeDescending = new AtomicBoolean();
 
-    private double speedSlope = 0.0;
+    private double speedSlope;
+    private double factor;
 
     /**
      * Create the state.
@@ -82,23 +83,27 @@ public final class StateWalk extends State
     {
         super.onCollideLeg(result, category);
 
-        tileCollidable.apply(result);
+        if (result.startWithY(CollisionName.SLOPE))
+        {
+            factor = 0.5;
 
-        if (movement.getDirectionHorizontal() > 0 && result.startWithY(CollisionName.SLOPE_LEFT)
-            || movement.getDirectionHorizontal() < 0 && result.startWithY(CollisionName.SLOPE_RIGHT))
-        {
-            slopeRising.set(true);
-            speedSlope = SPEED_SLOPE_RISING;
-        }
-        else if (movement.getDirectionHorizontal() > 0 && result.startWithY(CollisionName.SLOPE_RIGHT)
-                 || movement.getDirectionHorizontal() < 0 && result.startWithY(CollisionName.SLOPE_LEFT))
-        {
-            slopeDescending.set(true);
-            speedSlope = SPEED_SLOPE_DESCENDING;
+            if (movement.getDirectionHorizontal() > 0 && result.endWithY(CollisionName.LEFT)
+                || movement.getDirectionHorizontal() < 0 && result.endWithY(CollisionName.RIGHT))
+            {
+                slopeRising.set(true);
+                speedSlope = SPEED_SLOPE_RISING;
+            }
+            else if (movement.getDirectionHorizontal() > 0 && result.endWithY(CollisionName.RIGHT)
+                     || movement.getDirectionHorizontal() < 0 && result.endWithY(CollisionName.LEFT))
+            {
+                slopeDescending.set(true);
+                speedSlope = SPEED_SLOPE_DESCENDING;
+            }
         }
         else
         {
             speedSlope = 0.0;
+            factor = 0.0;
         }
     }
 
@@ -132,18 +137,20 @@ public final class StateWalk extends State
     }
 
     @Override
-    public void enter()
+    public void update(double extrp)
     {
-        super.enter();
-
-        speedSlope = 0.0;
+        final double sx = input.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope);
+        movement.setDestination(sx, -Math.abs(factor * sx));
+        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
     @Override
-    public void update(double extrp)
+    public void exit()
     {
-        movement.setDestination(input.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope), 0.0);
-        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
+        super.exit();
+
+        factor = 0.0;
+        speedSlope = 0.0;
     }
 
     @Override

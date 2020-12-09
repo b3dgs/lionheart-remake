@@ -23,60 +23,71 @@ import com.b3dgs.lionengine.LionEngineException;
  */
 public final class CollisionName
 {
+    /** Collision ground prefix. */
+    public static final String GROUND = "ground";
+    /** Center collision. */
+    public static final String CENTER = "center";
+    /** Vertical collision. */
+    public static final String VERTICAL = "vertical";
+    /** Left collision. */
+    public static final String LEFT = "left";
+    /** Right collision. */
+    public static final String RIGHT = "right";
+    /** Vertical left collision. */
+    public static final String LEFT_VERTICAL = LEFT + "_" + VERTICAL;
+    /** Vertical right collision. */
+    public static final String RIGHT_VERTICAL = RIGHT + "_" + VERTICAL;
+
     /** Category collision leg prefix. */
-    public static final String LEG = "leg";
+    public static final String LEG = Anim.LEG;
     /** Collision leg center. */
-    public static final String LEG_CENTER = Anim.LEG + "_center";
+    public static final String LEG_CENTER = Anim.LEG + "_" + CENTER;
     /** Collision leg left. */
-    public static final String LEG_LEFT = Anim.LEG + "_left";
+    public static final String LEG_LEFT = Anim.LEG + "_" + LEFT;
     /** Collision leg right. */
-    public static final String LEG_RIGHT = Anim.LEG + "_right";
+    public static final String LEG_RIGHT = Anim.LEG + "_" + RIGHT;
     /** Collision body. */
-    public static final String BODY = "body";
+    public static final String BODY = Anim.BODY;
     /** Collision bite. */
     public static final String BITE = "bite";
 
     /** Category collision knee prefix. */
     public static final String KNEE = "knee";
     /** Category collision knee center. */
-    public static final String KNEE_CENTER = KNEE + "_center";
+    public static final String KNEE_CENTER = KNEE + "_" + CENTER;
 
     /** Category collision hand prefix. */
     public static final String HAND = "hand";
-    /** Collision ground prefix. */
-    public static final String GROUND = "ground";
 
     /** Collision spike prefix. */
     public static final String SPIKE = "spike";
     /** Collision spike left prefix. */
-    public static final String SPIKE_LEFT = SPIKE + "_vertical_left";
+    public static final String SPIKE_LEFT = SPIKE + "_" + LEFT_VERTICAL;
     /** Collision spike right prefix. */
-    public static final String SPIKE_RIGHT = SPIKE + "_vertical_right";
+    public static final String SPIKE_RIGHT = SPIKE + "_" + RIGHT_VERTICAL;
 
     /** Collision slope prefix. */
     public static final String SLOPE = "slope";
     /** Collision slope left prefix. */
-    public static final String SLOPE_LEFT = SLOPE + "_left";
+    public static final String SLOPE_LEFT = SLOPE + "_" + LEFT;
     /** Collision slope right prefix. */
-    public static final String SLOPE_RIGHT = SLOPE + "_right";
+    public static final String SLOPE_RIGHT = SLOPE + "_" + RIGHT;
 
     /** Collision steep prefix. */
     public static final String STEEP = "steep";
     /** Collision steep left prefix. */
-    public static final String STEEP_LEFT = STEEP + "_left";
+    public static final String STEEP_LEFT = STEEP + "_" + LEFT;
     /** Collision steep left ground prefix. */
-    public static final String STEEP_LEFT_GROUND = STEEP + "_left_ground";
+    public static final String STEEP_LEFT_GROUND = STEEP + "_" + LEFT + "_" + GROUND;
     /** Collision steep right prefix. */
-    public static final String STEEP_RIGHT = STEEP + "_right";
-    /** Collision steep vertical prefix. */
-    public static final String STEEP_VERTICAL = STEEP + "_vertical";
+    public static final String STEEP_RIGHT = STEEP + "_" + RIGHT;
 
     /** Collision liana prefix. */
     public static final String LIANA = "liana";
     /** Collision liana left prefix. */
-    public static final String LIANA_LEFT = LIANA + "_left";
+    public static final String LIANA_LEFT = LIANA + "_" + LEFT;
     /** Collision liana right prefix. */
-    public static final String LIANA_RIGHT = LIANA + "_right";
+    public static final String LIANA_RIGHT = LIANA + "_" + RIGHT;
     /** Collision liana full prefix. */
     public static final String LIANA_FULL = LIANA + "_full";
     /** Collision liana top prefix. */

@@ -89,37 +89,20 @@ public final class GameplaySteep
      */
     public void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWithY(CollisionName.STEEP_LEFT))
+        if (result.startWithY(CollisionName.STEEP))
         {
-            side = -1;
             steep = true;
-            steepLeft = true;
-        }
-        else if (result.startWithY(CollisionName.STEEP_RIGHT))
-        {
-            side = 1;
-            steep = true;
-            steepRight = true;
-        }
-    }
 
-    /**
-     * Called when a tile collision occurred on horizontal axis with knee.
-     * 
-     * @param result The collided tile.
-     * @param category The collided axis.
-     */
-    public void onCollideKnee(CollisionResult result, CollisionCategory category)
-    {
-        if (result.startWithX(CollisionName.STEEP_LEFT))
-        {
-            steep = true;
-            steepLeft = true;
-        }
-        else if (result.startWithX(CollisionName.STEEP_RIGHT))
-        {
-            steep = true;
-            steepRight = true;
+            if (result.endWithY(CollisionName.LEFT))
+            {
+                side = -1;
+                steepLeft = true;
+            }
+            else if (result.endWithY(CollisionName.RIGHT))
+            {
+                side = 1;
+                steepRight = true;
+            }
         }
     }
 }

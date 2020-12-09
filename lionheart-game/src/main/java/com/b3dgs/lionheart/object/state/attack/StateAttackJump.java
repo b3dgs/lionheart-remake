@@ -75,7 +75,6 @@ public final class StateAttackJump extends State
     {
         super.onCollideLeg(result, category);
 
-        tileCollidable.apply(result);
         jump.setDirection(DirectionNone.INSTANCE);
         body.resetGravity();
     }

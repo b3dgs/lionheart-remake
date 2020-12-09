@@ -21,8 +21,6 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -45,14 +43,6 @@ public final class StateTurn extends State
         super(model, animation);
 
         addTransition(StateLast.class, () -> is(AnimState.FINISHED));
-    }
-
-    @Override
-    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideLeg(result, category);
-
-        tileCollidable.apply(result);
     }
 
     @Override

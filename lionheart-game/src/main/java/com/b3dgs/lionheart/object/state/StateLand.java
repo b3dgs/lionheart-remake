@@ -20,13 +20,9 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
@@ -40,7 +36,6 @@ public final class StateLand extends State
     private static final long LAND_TICK = 10L;
 
     private final Tick landed = new Tick();
-    private final GameplaySteep steep = new GameplaySteep();
 
     /**
      * Create the state.
@@ -58,32 +53,6 @@ public final class StateLand extends State
         addTransition(StateAttackPrepare.class, this::isFire);
         addTransition(StateFall.class,
                       () -> !collideY.get() && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
-    }
-
-    @Override
-    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideKnee(result, category);
-
-        steep.onCollideKnee(result, category);
-        tileCollidable.apply(result);
-
-        if (movement.getDirectionHorizontal() < 0
-            && (result.startWithX(CollisionName.STEEP_RIGHT) || result.startWithX(CollisionName.SPIKE_RIGHT))
-            || movement.getDirectionHorizontal() > 0
-               && (result.startWithX(CollisionName.STEEP_LEFT) || result.startWithX(CollisionName.SPIKE_LEFT)))
-        {
-            movement.zero();
-        }
-    }
-
-    @Override
-    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideLeg(result, category);
-
-        steep.onCollideLeg(result, category);
-        tileCollidable.apply(result);
     }
 
     @Override

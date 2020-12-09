@@ -19,11 +19,8 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
@@ -33,8 +30,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
  */
 final class StateBorder extends State
 {
-    private final GameplayLiana liana = new GameplayLiana();
-
     /** Store vertical position on enter to detect falling on border. */
     private double y;
 
@@ -57,14 +52,6 @@ final class StateBorder extends State
     }
 
     @Override
-    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideLeg(result, category);
-
-        liana.onCollideLeg(result, category);
-    }
-
-    @Override
     protected void onCollided(Collidable collidable, Collision with, Collision by)
     {
         super.onCollided(collidable, with, by);
@@ -81,7 +68,6 @@ final class StateBorder extends State
         super.enter();
 
         movement.zero();
-        liana.reset();
         y = transformable.getY();
     }
 

@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackLianaSlide;
 
@@ -31,13 +30,11 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackLianaSlide;
  */
 public class StateLianaSlide extends State
 {
-    private static final double LIANA_SPEED_FAST = 1.2;
-    private static final double LIANA_SPEED_SLOW = 0.8;
-    private static final double LIANA_SPEED = 1.0;
+    private static final double LIANA_SPEED_FAST = 1.1;
+    private static final double LIANA_SPEED_SLOW = 0.6;
+    private static final double LIANA_SPEED = 0.8;
 
-    private final GameplayLiana liana = new GameplayLiana();
-
-    private double speed = 1.0;
+    private double speed = LIANA_SPEED;
 
     /**
      * Create the state.
@@ -58,8 +55,6 @@ public class StateLianaSlide extends State
     {
         super.onCollideHand(result, category);
 
-        liana.onCollideHand(result, category);
-
         if (result.startWithY(CollisionName.LIANA))
         {
             tileCollidable.apply(result);
@@ -75,8 +70,6 @@ public class StateLianaSlide extends State
         movement.zero();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
-
-        liana.reset();
     }
 
     @Override
@@ -90,7 +83,7 @@ public class StateLianaSlide extends State
         }
         if (isGoDown())
         {
-            transformable.teleportY(transformable.getY() - 3.0);
+            transformable.teleportY(transformable.getY() - Math.ceil(speed) * 3);
         }
     }
 
@@ -111,14 +104,6 @@ public class StateLianaSlide extends State
         {
             speed = LIANA_SPEED;
         }
-        movement.setDestination(speed * liana.getSide(), -speed);
-    }
-
-    @Override
-    protected void postUpdate()
-    {
-        super.postUpdate();
-
-        liana.reset();
+        movement.setDestination(speed * liana.getSide(), -speed * 2);
     }
 }

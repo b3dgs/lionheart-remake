@@ -35,7 +35,6 @@ import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Hurtable;
@@ -49,7 +48,6 @@ import com.b3dgs.lionheart.object.state.StateJump;
  */
 public final class StateAttackFall extends State
 {
-    private final GameplaySteep steep = new GameplaySteep();
     private final MapTile map = model.getMap();
     private final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
     private final MapTileCollision mapCollision = map.getFeature(MapTileCollision.class);
@@ -91,8 +89,6 @@ public final class StateAttackFall extends State
     {
         super.onCollideLeg(result, category);
 
-        steep.onCollideLeg(result, category);
-
         final Tile tile = result.getTile();
         final Tile liana = map.getTile(tile.getInTileX(), tile.getInTileY() - 1);
         if (mapGroup.getGroup(liana).equals(CollisionName.LIANA_FULL))
@@ -133,7 +129,6 @@ public final class StateAttackFall extends State
         super.enter();
 
         collideSword.set(false);
-        steep.reset();
     }
 
     @Override

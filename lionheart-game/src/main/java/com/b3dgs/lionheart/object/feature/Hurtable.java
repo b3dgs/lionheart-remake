@@ -42,8 +42,6 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
@@ -80,8 +78,6 @@ public final class Hurtable extends FeatureModel
     private final Media effect;
     private final boolean persist;
     private final boolean fall;
-    private final MapTile map;
-    private final MapTileGroup mapGroup;
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
@@ -112,8 +108,6 @@ public final class Hurtable extends FeatureModel
         persist = config.hasPersist();
         fall = config.hasFall();
         spawner = services.get(Spawner.class);
-        map = services.get(MapTile.class);
-        mapGroup = map.getFeature(MapTileGroup.class);
 
         if (config.hasBackward())
         {
@@ -226,8 +220,8 @@ public final class Hurtable extends FeatureModel
     {
         if (!hasFeature(Patrol.class)
             && recover.elapsed(HURT_RECOVER_BODY_TICK)
-            && (CollisionName.SPIKE.equals(mapGroup.getGroup(map.getTile(transformable, 0, 0)))
-                || category.getAxis() == Axis.Y && result.startWithY(CollisionName.SPIKE)))
+            && (category.getAxis() == Axis.Y && result.startWithX(CollisionName.SPIKE)
+                || category.getName().equals(CollisionName.KNEE_CENTER) && result.contains(CollisionName.SPIKE)))
         {
             if (stats.applyDamages(SPIKE_DAMAGES))
             {

@@ -62,9 +62,10 @@ public final class StateJump extends State
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
-                                                   UtilMath.clamp(Constant.JUMP_MAX - jump.getDirectionVertical(),
+                                                   UtilMath.clamp(Constant.JUMP_MAX.getDirectionVertical()
+                                                                  - jump.getDirectionVertical(),
                                                                   Constant.JUMP_MIN,
-                                                                  Constant.JUMP_MAX)));
+                                                                  Constant.JUMP_MAX.getDirectionVertical())));
             }
         };
     }
@@ -79,27 +80,14 @@ public final class StateJump extends State
     }
 
     @Override
-    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideKnee(result, category);
-
-        if (movement.getDirectionHorizontal() > 0 && result.startWithX(CollisionName.STEEP_LEFT)
-            || movement.getDirectionHorizontal() < 0 && result.startWithX(CollisionName.STEEP_RIGHT)
-            || result.startWithX(CollisionName.STEEP_VERTICAL))
-        {
-            tileCollidable.apply(result);
-        }
-    }
-
-    @Override
     public void enter()
     {
         super.enter();
 
         check = checkJumpStopped;
 
-        jump.setDirection(0.0, Constant.JUMP_MAX);
-        jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
+        jump.setDirection(Constant.JUMP_MAX);
+        jump.setDirectionMaximum(Constant.JUMP_MAX);
     }
 
     @Override
@@ -107,7 +95,7 @@ public final class StateJump extends State
     {
         super.exit();
 
-        jump.setDirectionMaximum(new Force(0.0, Constant.JUMP_MAX));
+        jump.setDirectionMaximum(Constant.JUMP_MAX);
     }
 
     @Override

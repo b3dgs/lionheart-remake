@@ -27,12 +27,12 @@ import com.b3dgs.lionheart.object.State;
  */
 final class StateLianaSoar extends State
 {
-    private final int FRAME_6 = 6;
-    private final int FRAME_9 = 9;
+    private static final int FRAME_6 = 6;
+    private static final int FRAME_9 = 9;
 
-    private final int OFFSET_1 = 3;
-    private final int OFFSET_6 = -37;
-    private final int OFFSET_9 = -62;
+    private static final int OFFSET_1 = 3;
+    private static final int OFFSET_6 = -37;
+    private static final int OFFSET_9 = -62;
 
     private static final double SOAR_SPEED = 0.85;
 

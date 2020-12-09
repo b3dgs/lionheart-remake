@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateLianaSlide;
@@ -36,8 +35,6 @@ public class StateAttackLianaSlide extends State
     private static final double LIANA_SPEED_FAST = 1.2;
     private static final double LIANA_SPEED_SLOW = 0.8;
     private static final double LIANA_SPEED = 1.0;
-
-    private final GameplayLiana liana = new GameplayLiana();
 
     private double speed = 1.0;
 
@@ -61,8 +58,6 @@ public class StateAttackLianaSlide extends State
     {
         super.onCollideHand(result, category);
 
-        liana.onCollideHand(result, category);
-
         if (result.startWithY(CollisionName.LIANA))
         {
             tileCollidable.apply(result);
@@ -78,8 +73,6 @@ public class StateAttackLianaSlide extends State
         movement.zero();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
-
-        liana.reset();
     }
 
     @Override
@@ -115,13 +108,5 @@ public class StateAttackLianaSlide extends State
             speed = LIANA_SPEED;
         }
         movement.setDestination(speed * liana.getSide(), -speed);
-    }
-
-    @Override
-    protected void postUpdate()
-    {
-        super.postUpdate();
-
-        liana.reset();
     }
 }

@@ -27,8 +27,6 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplayLiana;
-import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -40,9 +38,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
  */
 public final class StateFall extends State
 {
-    private final GameplaySteep steep = new GameplaySteep();
-    private final GameplayLiana liana = new GameplayLiana();
-
     /**
      * Create the state.
      * 
@@ -67,8 +62,6 @@ public final class StateFall extends State
     {
         super.onCollideLeg(result, category);
 
-        steep.onCollideLeg(result, category);
-
         if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
         {
             jump.setDirection(DirectionNone.INSTANCE);
@@ -76,19 +69,9 @@ public final class StateFall extends State
     }
 
     @Override
-    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideKnee(result, category);
-
-        tileCollidable.apply(result);
-    }
-
-    @Override
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         super.onCollideHand(result, category);
-
-        liana.onCollideHand(result, category);
 
         if (!isGoDown() && result.startWithY(CollisionName.LIANA))
         {
@@ -105,15 +88,6 @@ public final class StateFall extends State
         {
             collideY.set(true);
         }
-    }
-
-    @Override
-    public void enter()
-    {
-        super.enter();
-
-        steep.reset();
-        liana.reset();
     }
 
     @Override
@@ -154,7 +128,5 @@ public final class StateFall extends State
         {
             movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         }
-
-        steep.reset();
     }
 }

@@ -24,30 +24,30 @@
     </lionengine:collisions>
     <lionengine:categories>
         <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
-            <lionengine:group>slope_left_0</lionengine:group>
-            <lionengine:group>slope_left_1</lionengine:group>
-            <lionengine:group>slope_right_0</lionengine:group>
-            <lionengine:group>slope_right_1</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right" axis="Y" x="5" y="0">
-            <lionengine:group>slope_left_0</lionengine:group>
-            <lionengine:group>slope_left_1</lionengine:group>
-            <lionengine:group>slope_right_0</lionengine:group>
-            <lionengine:group>slope_right_1</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_left" axis="X" x="-6" y="4">
             <lionengine:group>spike</lionengine:group>
-            <lionengine:group>steep_right_0</lionengine:group>
-            <lionengine:group>steep_right_1</lionengine:group>
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_right" axis="X" x="6" y="4">
             <lionengine:group>spike</lionengine:group>
-            <lionengine:group>steep_left_0</lionengine:group>
-            <lionengine:group>steep_left_1</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
             <lionengine:group>steep_left_ground</lionengine:group>
             <lionengine:group>steep_vertical</lionengine:group>
             <lionengine:group>vertical</lionengine:group>

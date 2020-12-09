@@ -92,30 +92,17 @@ public final class GameplayLiana
         if (result.startWithY(CollisionName.LIANA))
         {
             liana = true;
-        }
-        if (result.startWithY(CollisionName.LIANA_LEFT))
-        {
-            side = -1;
-            lianaLeft = true;
-        }
-        else if (result.startWithY(CollisionName.LIANA_RIGHT))
-        {
-            side = 1;
-            lianaRight = true;
-        }
-    }
 
-    /**
-     * Called when a tile collision occurred on vertical axis with leg.
-     * 
-     * @param result The collided tile.
-     * @param category The collided axis.
-     */
-    public void onCollideLeg(CollisionResult result, CollisionCategory category)
-    {
-        if (result.startWithY(CollisionName.LIANA))
-        {
-            liana = true;
+            if (result.endWithY(CollisionName.LEFT))
+            {
+                side = -1;
+                lianaLeft = true;
+            }
+            else if (result.endWithY(CollisionName.RIGHT))
+            {
+                side = 1;
+                lianaRight = true;
+            }
         }
     }
 }

@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplayLiana;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackLiana;
 
@@ -33,8 +32,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackLiana;
 public final class StateLianaIdle extends State
 {
     private static final int FRAME_OFFSET_Y = -2;
-
-    private final GameplayLiana liana = new GameplayLiana();
 
     /**
      * Create the state.
@@ -58,8 +55,6 @@ public final class StateLianaIdle extends State
     {
         super.onCollideHand(result, category);
 
-        liana.onCollideHand(result, category);
-
         if (result.startWithY(CollisionName.LIANA))
         {
             tileCollidable.apply(result);
@@ -75,8 +70,6 @@ public final class StateLianaIdle extends State
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         movement.setDirection(DirectionNone.INSTANCE);
         rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
-
-        liana.reset();
     }
 
     @Override
@@ -94,6 +87,6 @@ public final class StateLianaIdle extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.1);
     }
 }

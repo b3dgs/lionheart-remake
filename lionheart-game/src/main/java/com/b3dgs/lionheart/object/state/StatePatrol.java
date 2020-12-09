@@ -52,14 +52,6 @@ public final class StatePatrol extends State
     }
 
     @Override
-    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideLeg(result, category);
-
-        tileCollidable.apply(result);
-    }
-
-    @Override
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
         turn = true;

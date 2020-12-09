@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.GameplaySteep;
 import com.b3dgs.lionheart.object.State;
 
 /**
@@ -36,7 +35,6 @@ public class StateSlideBase extends State
     private static final double SPEED_JUMP_X = 2.2;
     private static final Direction SPEED_JUMP_Y = new Force(0.0, SPEED_JUMP_X * 1.5);
 
-    private final GameplaySteep steep = new GameplaySteep();
     private final AtomicBoolean abord = new AtomicBoolean();
 
     private double speed = 0.5;
@@ -66,13 +64,17 @@ public class StateSlideBase extends State
     }
 
     @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        // Skip
+    }
+
+    @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
         super.onCollideLeg(result, category);
 
-        steep.onCollideLeg(result, category);
-
-        if (result.startWithX(CollisionName.STEEP_LEFT_GROUND) && result.startWithY(CollisionName.STEEP_LEFT_GROUND))
+        if (result.startWithY(CollisionName.STEEP_LEFT_GROUND))
         {
             abord.set(true);
         }
@@ -84,7 +86,6 @@ public class StateSlideBase extends State
         super.enter();
 
         movement.zero();
-        steep.reset();
         abord.set(false);
     }
 
@@ -100,20 +101,17 @@ public class StateSlideBase extends State
             movement.setDirection(SPEED_JUMP_X * steep.getSide(), 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);
         }
+        else
+        {
+            movement.setDirection(steep.getSide(), 0.0);
+        }
     }
 
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(speed * steep.getSide(), -speed * 2.0);
+        movement.setDestination(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
+        movement.setDirection(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
         body.resetGravity();
-    }
-
-    @Override
-    protected void postUpdate()
-    {
-        super.postUpdate();
-
-        steep.reset();
     }
 }
