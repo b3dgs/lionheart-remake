@@ -48,7 +48,7 @@ import com.b3dgs.lionheart.object.state.StateDecay;
 @FeatureInterface
 public final class Flower extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRE_DELAY = 300;
+    private static final int FIRE_DELAY = 200;
     private static final double FIRE_SPEED = 0.5;
 
     private final Tick tick = new Tick();
