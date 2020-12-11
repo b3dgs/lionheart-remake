@@ -96,6 +96,16 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
         this.waterHeight = map.getTileHeight() * 2 + waterHeight;
     }
 
+    /**
+     * Get current water level.
+     * 
+     * @return The current water level.
+     */
+    public int getCurrent()
+    {
+        return waterHeight;
+    }
+
     @Override
     public void render(Graphic g)
     {
