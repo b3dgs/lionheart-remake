@@ -80,6 +80,16 @@
         <lionengine:tile number="657" sheet="0"/>
         <lionengine:tile number="281" sheet="0"/>
         <lionengine:tile number="548" sheet="0"/>
+        <lionengine:tile number="871" sheet="0"/>
+        <lionengine:tile number="870" sheet="0"/>
+        <lionengine:tile number="822" sheet="0"/>
+        <lionengine:tile number="823" sheet="0"/>
+        <lionengine:tile number="510" sheet="0"/>
+        <lionengine:tile number="828" sheet="0"/>
+        <lionengine:tile number="829" sheet="0"/>
+        <lionengine:tile number="844" sheet="0"/>
+        <lionengine:tile number="845" sheet="0"/>
+        <lionengine:tile number="843" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="slope_0_left" type="NONE">
         <lionengine:tile number="142" sheet="0"/>
@@ -109,6 +119,7 @@
         <lionengine:tile number="241" sheet="0"/>
         <lionengine:tile number="203" sheet="0"/>
         <lionengine:tile number="588" sheet="0"/>
+        <lionengine:tile number="851" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="slope_1_right" type="NONE">
         <lionengine:tile number="202" sheet="0"/>
@@ -205,6 +216,28 @@
         <lionengine:tile number="705" sheet="0"/>
         <lionengine:tile number="708" sheet="0"/>
         <lionengine:tile number="709" sheet="0"/>
+        <lionengine:tile number="813" sheet="0"/>
+        <lionengine:tile number="818" sheet="0"/>
+        <lionengine:tile number="817" sheet="0"/>
+        <lionengine:tile number="814" sheet="0"/>
+        <lionengine:tile number="821" sheet="0"/>
+        <lionengine:tile number="820" sheet="0"/>
+        <lionengine:tile number="812" sheet="0"/>
+        <lionengine:tile number="811" sheet="0"/>
+        <lionengine:tile number="806" sheet="0"/>
+        <lionengine:tile number="807" sheet="0"/>
+        <lionengine:tile number="805" sheet="0"/>
+        <lionengine:tile number="804" sheet="0"/>
+        <lionengine:tile number="810" sheet="0"/>
+        <lionengine:tile number="815" sheet="0"/>
+        <lionengine:tile number="808" sheet="0"/>
+        <lionengine:tile number="809" sheet="0"/>
+        <lionengine:tile number="819" sheet="0"/>
+        <lionengine:tile number="816" sheet="0"/>
+        <lionengine:tile number="835" sheet="0"/>
+        <lionengine:tile number="836" sheet="0"/>
+        <lionengine:tile number="838" sheet="0"/>
+        <lionengine:tile number="839" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="liana_cut" type="NONE">
         <lionengine:tile number="907" sheet="0"/>
