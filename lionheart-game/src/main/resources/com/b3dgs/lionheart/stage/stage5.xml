@@ -19,7 +19,7 @@
         <entity file="entity/monster/swamp/Crawling.xml" tx="59.0" ty="5.0">
             <patrol sh="-0.3" amplitude="208"/>
         </entity>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="21.0" ty="6.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="21.0" ty="6.0" mirror="true"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="25.0" ty="5.0"/>
         <entity file="entity/item/swamp/Life.xml" tx="6.0" ty="12.0"/>
         <entity file="entity/item/swamp/Sword2.xml" tx="10.0" ty="15.0"/>
@@ -29,7 +29,7 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="88.0" ty="8.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="88.0" ty="9.0"/>
         <entity file="entity/monster/swamp/Grasshopper.xml" tx="52.0" ty="26.0"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="63.0" ty="16.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="63.0" ty="16.0" mirror="true"/>
         <entity file="entity/item/swamp/PotionBig.xml" tx="97.0" ty="25.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="88.0" ty="25.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="89.0" ty="25.0"/>
@@ -128,7 +128,7 @@
             <spike delay="50"/>
         </entity>
         <entity file="entity/scenery/swamp/TurningAuto.xml" tx="239.0" ty="29.0"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="243.0" ty="31.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="243.0" ty="31.0" mirror="true"/>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="241.0" ty="50.0"/>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="270.0" ty="54.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="257.0" ty="62.0"/>
@@ -148,7 +148,7 @@
         <entity file="entity/monster/swamp/Crawling.xml" tx="304.0" ty="22.0">
             <patrol sh="0.3" amplitude="96"/>
         </entity>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="312.0" ty="10.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="312.0" ty="10.0" mirror="true"/>
         <entity file="entity/scenery/swamp/BeetleHorizontal.xml" tx="313.0" ty="8.0"/>
         <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="312.0" ty="6.0"/>
         <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="345.0" ty="9.0">
