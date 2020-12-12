@@ -13,151 +13,151 @@
         <respawn tx="285" ty="4"/>
     </checkpoint>
     <entities>
-        <entity file="entity/item/swamp/Talisment.xml" tx="74" ty="43"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="73" ty="43"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="74" ty="44"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="81" ty="44"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="81" ty="45"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="81" ty="46"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="82" ty="47"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="82" ty="48"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="85" ty="51"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="85" ty="53"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="85" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="90" ty="49"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="90" ty="54"/>
-        <entity file="entity/item/swamp/Life.xml" tx="84" ty="57"/>
-        <entity file="entity/item/swamp/Life.xml" tx="91" ty="56"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="81" ty="58"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="80" ty="59"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="80" ty="57"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="79" ty="58"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="80" ty="58"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="93" ty="59"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="95" ty="60"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="97" ty="60"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="98" ty="58"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="99" ty="55"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="99" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="93" ty="53"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="92" ty="47"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="101" ty="47"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="101" ty="48"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="102" ty="46"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="103" ty="45"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="103" ty="44"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="110" ty="43"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="112" ty="44"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="116" ty="46"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="118" ty="47"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="122" ty="49"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="124" ty="50"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="129" ty="51"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="129" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="129" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="129" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="130" ty="53"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="132" ty="55"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="132" ty="54"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="133" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="134" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="135" ty="52"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="136" ty="55"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="136" ty="54"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="138" ty="53"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="139" ty="51"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="139" ty="52"/>
-        <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="147" ty="21">
+        <entity file="entity/item/swamp/Talisment.xml" tx="74.0" ty="43.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="73.0" ty="43.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="74.0" ty="44.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="81.0" ty="44.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="81.0" ty="45.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="81.0" ty="46.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="82.0" ty="47.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="82.0" ty="48.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="85.0" ty="51.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="85.0" ty="53.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="85.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="90.0" ty="49.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="90.0" ty="54.0"/>
+        <entity file="entity/item/swamp/Life.xml" tx="84.0" ty="57.0"/>
+        <entity file="entity/item/swamp/Life.xml" tx="91.0" ty="56.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="81.0" ty="58.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="80.0" ty="59.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="80.0" ty="57.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="79.0" ty="58.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="80.0" ty="58.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="93.0" ty="59.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="95.0" ty="60.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="97.0" ty="60.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="98.0" ty="58.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="99.0" ty="55.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="99.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="93.0" ty="53.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="92.0" ty="47.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="101.0" ty="47.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="101.0" ty="48.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="102.0" ty="46.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="103.0" ty="45.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="103.0" ty="44.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="110.0" ty="43.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="112.0" ty="44.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="116.0" ty="46.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="118.0" ty="47.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="122.0" ty="49.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="124.0" ty="50.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="129.0" ty="51.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="129.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="129.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="129.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="130.0" ty="53.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="132.0" ty="55.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="132.0" ty="54.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="133.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="134.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="135.0" ty="52.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="136.0" ty="55.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="136.0" ty="54.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="138.0" ty="53.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="139.0" ty="51.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="139.0" ty="52.0"/>
+        <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="147.0" ty="21.0">
             <patrol sv="0.5" amplitude="448"/>
         </entity>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="147" ty="19"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="149" ty="16"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="148" ty="16"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="149" ty="16"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="147" ty="13"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="144" ty="11"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="151" ty="6"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="154" ty="4"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="158" ty="5"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="160" ty="8"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="176" ty="6"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="177" ty="6"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="183" ty="6"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="184" ty="6"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="195" ty="28"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="198" ty="27"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="196" ty="27"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="197" ty="27"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="199" ty="28"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="223" ty="16"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="225" ty="17"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="239" ty="24"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="237" ty="23"/>
-        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="239" ty="14"/>
-        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="247" ty="16"/>
-        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="247" ty="20"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="243" ty="15"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="247" ty="24"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="250" ty="15"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="251" ty="25"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="252" ty="24"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="264" ty="18"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="263" ty="19"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="275" ty="9"/>
-        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="272" ty="5"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="147.0" ty="19.0" mirror="true"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="149.0" ty="16.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="148.0" ty="16.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="149.0" ty="16.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="147.0" ty="13.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="144.0" ty="11.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="151.0" ty="6.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="154.0" ty="4.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="158.0" ty="5.0" mirror="true"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="160.0" ty="8.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="176.0" ty="6.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="177.0" ty="6.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="183.0" ty="6.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="184.0" ty="6.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="195.0" ty="28.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="198.0" ty="27.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="196.0" ty="27.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="197.0" ty="27.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="199.0" ty="28.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="223.0" ty="16.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="225.0" ty="17.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="239.0" ty="24.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="237.0" ty="23.0"/>
+        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="239.0" ty="14.0"/>
+        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="247.0" ty="16.0"/>
+        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="247.0" ty="20.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="243.0" ty="15.0" mirror="true"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="247.0" ty="24.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="250.0" ty="15.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="251.0" ty="25.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="252.0" ty="24.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="264.0" ty="18.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="263.0" ty="19.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="275.0" ty="9.0" mirror="true"/>
+        <entity file="entity/scenery/swamp/TurningAuto.xml" tx="272.0" ty="5.0"/>
         <entity file="entity/item/swamp/PotionBig.xml" tx="279.5" ty="15.5"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="325" ty="5"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="326" ty="15"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="325" ty="16"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="320" ty="16"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="319" ty="15"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="337" ty="10"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="336" ty="10"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="337" ty="9"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="336" ty="9"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="59" ty="26"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="58" ty="25"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="59" ty="24"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="60" ty="25"/>
-        <entity file="entity/item/swamp/PotionLittle.xml" tx="62" ty="26"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="83" ty="11"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="86" ty="10"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="89" ty="11"/>
-        <entity file="entity/scenery/swamp/Sheet.xml" tx="92" ty="10"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="100" ty="27"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="100" ty="26"/>
-        <entity file="entity/item/swamp/Talisment.xml" tx="100" ty="25"/>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="37" ty="4" jump="8">
+        <entity file="entity/item/swamp/Talisment.xml" tx="325.0" ty="5.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="326.0" ty="15.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="325.0" ty="16.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="320.0" ty="16.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="319.0" ty="15.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="337.0" ty="10.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="336.0" ty="10.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="337.0" ty="9.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="336.0" ty="9.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="59.0" ty="26.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="58.0" ty="25.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="59.0" ty="24.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="60.0" ty="25.0"/>
+        <entity file="entity/item/swamp/PotionLittle.xml" tx="62.0" ty="26.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="83.0" ty="11.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="86.0" ty="10.0" mirror="true"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="89.0" ty="11.0"/>
+        <entity file="entity/scenery/swamp/Sheet.xml" tx="92.0" ty="10.0" mirror="true"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="100.0" ty="27.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="100.0" ty="26.0"/>
+        <entity file="entity/item/swamp/Talisment.xml" tx="100.0" ty="25.0"/>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="37.0" ty="4.0" jump="8">
             <patrol sh="-0.3" amplitude="180"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="64" ty="8">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="64.0" ty="8.0">
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
-        <entity file="entity/monster/swamp/Dino.xml" tx="68" ty="9">
+        <entity file="entity/monster/swamp/Dino.xml" tx="68.0" ty="9.0">
             <patrol sh="-0.5"/>
         </entity>
-        <entity file="entity/monster/swamp/Dino.xml" tx="78" ty="13">
+        <entity file="entity/monster/swamp/Dino.xml" tx="78.0" ty="13.0">
             <patrol sh="-0.5"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="107" ty="11">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="107.0" ty="11.0">
             <patrol sh="-0.2" amplitude="144"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="137" ty="17">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="137.0" ty="17.0">
             <patrol sh="-0.2" amplitude="64"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="186" ty="7" jump="6">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="186.0" ty="7.0" jump="6">
             <patrol sh="-0.2" amplitude="80"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="215" ty="8">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="215.0" ty="8.0">
             <patrol sh="-0.2" amplitude="96"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="209" ty="8">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="209.0" ty="8.0">
             <patrol sh="0.2" amplitude="96"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="296" ty="16" jump="0">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="296.0" ty="16.0" jump="0">
             <patrol sh="0.2" amplitude="40"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="251" ty="26" jump="4">
+        <entity file="entity/monster/swamp/Crawling.xml" tx="251.0" ty="26.0" jump="4">
             <patrol sh="-0.2" amplitude="48"/>
         </entity>
     </entities>
