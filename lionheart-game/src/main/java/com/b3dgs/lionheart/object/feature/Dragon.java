@@ -41,7 +41,9 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.Sfx;
 
 /**
@@ -64,6 +66,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
 
     private final List<Launchable> tongue = new ArrayList<>();
     private final Tick tick = new Tick();
+    private final MapTile map = services.get(MapTile.class);
     private final Transformable track;
     private final Animation raise;
     private final Animation open;
@@ -79,6 +82,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Stats stats;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Launcher launcher;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -251,6 +255,8 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
 
         launcher.setOffset(TONGUE_OFFSET_X, TONGUE_OFFSET_Y);
         launcher.addListener(tongue::add);
+        launcher.addListener(l -> l.ifIs(Rasterable.class,
+                                         r -> r.setRaster(false, rasterable.getMedia().get(), map.getTileHeight())));
     }
 
     @Override

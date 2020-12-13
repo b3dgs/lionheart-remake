@@ -16,6 +16,9 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -42,6 +45,10 @@ public final class PatrolConfig
     public static final String ATT_MIRROR = "mirror";
     /** Coll attribute name. */
     public static final String ATT_COLL = "coll";
+    /** Proximity attribute name. */
+    public static final String ATT_PROXIMITY = "proximity";
+    /** Vertical animation offset attribute name. */
+    public static final String ATT_ANIMOFFSET = "animOffset";
 
     /**
      * Imports the config from configurer.
@@ -50,11 +57,11 @@ public final class PatrolConfig
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static PatrolConfig imports(Configurer configurer)
+    public static List<PatrolConfig> imports(Configurer configurer)
     {
         Check.notNull(configurer);
 
-        return imports(configurer.getChild(NODE_PATROL));
+        return imports(configurer.getChildren(NODE_PATROL));
     }
 
     /**
@@ -64,11 +71,16 @@ public final class PatrolConfig
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static PatrolConfig imports(XmlReader root)
+    public static List<PatrolConfig> imports(Collection<? extends XmlReader> root)
     {
         Check.notNull(root);
 
-        return new PatrolConfig(root);
+        final List<PatrolConfig> patrols = new ArrayList<>();
+        for (final XmlReader patrol : root)
+        {
+            patrols.add(new PatrolConfig(patrol));
+        }
+        return patrols;
     }
 
     /** Horizontal speed. */
@@ -81,6 +93,10 @@ public final class PatrolConfig
     private final Optional<Boolean> mirror;
     /** Disable collision on turn. */
     private final Optional<Boolean> coll;
+    /** Perform movement update on proximity. */
+    private final OptionalInt proximity;
+    /** Vertical animation offset. */
+    private final OptionalInt animOffset;
 
     /**
      * Create config.
@@ -96,8 +112,10 @@ public final class PatrolConfig
         sh = root.readDoubleOptional(ATT_VX);
         sv = root.readDoubleOptional(ATT_VY);
         amplitude = root.readIntegerOptional(ATT_AMPLITUDE);
-        mirror = root.readBooleanOptional(ATT_COLL);
+        mirror = root.readBooleanOptional(ATT_MIRROR);
         coll = root.readBooleanOptional(ATT_COLL);
+        proximity = root.readIntegerOptional(ATT_PROXIMITY);
+        animOffset = root.readIntegerOptional(ATT_ANIMOFFSET);
     }
 
     /**
@@ -148,5 +166,25 @@ public final class PatrolConfig
     public Optional<Boolean> getColl()
     {
         return coll;
+    }
+
+    /**
+     * Get the proximity value.
+     * 
+     * @return The proximity value.
+     */
+    public OptionalInt getProximity()
+    {
+        return proximity;
+    }
+
+    /**
+     * Get the animation offset value.
+     * 
+     * @return The animation offset value.
+     */
+    public OptionalInt getAnimOffset()
+    {
+        return animOffset;
     }
 }

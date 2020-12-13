@@ -31,8 +31,8 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.MapTileWater;
-import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
 
 /**
@@ -71,6 +71,16 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
         this.setup = setup;
     }
 
+    /**
+     * Load raster data.
+     * 
+     * @param raster The raster folder.
+     */
+    public void loadRaster(String raster)
+    {
+        rasterable.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
@@ -104,9 +114,6 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
             }
         };
         rasterable.prepare(provider);
-        rasterable.setRaster(false,
-                             Medias.create(Folder.LEVELS, "swamp", "raster", "day", "water.png"),
-                             transformable.getHeight());
     }
 
     @Override

@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.b3dgs.lionengine.Check;
@@ -47,6 +48,10 @@ public final class EntityConfig
     private static final String ATT_RESPAWN_TY = "ty";
     /** Jump attribute name. */
     private static final String ATT_JUMP = "jump";
+    /** Mirror attribute name. */
+    private static final String ATT_MIRROR = "mirror";
+    /** Secret attribute name. */
+    private static final String ATT_SECRET = "secret";
 
     /**
      * Imports the config from configurer.
@@ -70,12 +75,16 @@ public final class EntityConfig
     private final Origin origin;
     /** Spawn tile. */
     private final Coord spawn;
-    /** Patrol configuration. */
-    private Optional<PatrolConfig> patrol;
+    /** Patrols configuration. */
+    private final List<PatrolConfig> patrols;
     /** Spike configuration. */
-    private Optional<SpikeConfig> spike;
+    private final Optional<SpikeConfig> spike;
     /** Jump configuration. */
     private final int jump;
+    /** Mirror configuration. */
+    private final Optional<Boolean> mirror;
+    /** secret configuration. */
+    private final Optional<Boolean> secret;
 
     /**
      * Create config.
@@ -97,23 +106,11 @@ public final class EntityConfig
 
         spawn = new Coord(root.readDouble(ATT_RESPAWN_TX), root.readDouble(ATT_RESPAWN_TY));
 
-        if (root.hasChild(PatrolConfig.NODE_PATROL))
-        {
-            patrol = Optional.of(PatrolConfig.imports(root.getChild(PatrolConfig.NODE_PATROL)));
-        }
-        else
-        {
-            patrol = Optional.empty();
-        }
-        if (root.hasChild(SpikeConfig.NODE_SPIKE))
-        {
-            spike = Optional.of(SpikeConfig.imports(root.getChild(SpikeConfig.NODE_SPIKE)));
-        }
-        else
-        {
-            spike = Optional.empty();
-        }
+        patrols = PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL));
+        spike = root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
+        mirror = root.readBooleanOptional(ATT_MIRROR);
+        secret = root.readBooleanOptional(ATT_SECRET);
     }
 
     /**
@@ -124,6 +121,16 @@ public final class EntityConfig
     public Media getMedia()
     {
         return media;
+    }
+
+    /**
+     * Get raster index.
+     * 
+     * @return The raster index.
+     */
+    public Integer getRaster()
+    {
+        return Integer.valueOf((int) Math.round(spawn.getY() / 2.0 - size.getHeight() / 16.0) + 1);
     }
 
     /**
@@ -171,13 +178,13 @@ public final class EntityConfig
     }
 
     /**
-     * Get the patrol configuration.
+     * Get the patrols configuration.
      * 
-     * @return The patrol configuration.
+     * @return The patrols configuration.
      */
-    public Optional<PatrolConfig> getPatrol()
+    public List<PatrolConfig> getPatrols()
     {
-        return patrol;
+        return patrols;
     }
 
     /**
@@ -198,5 +205,25 @@ public final class EntityConfig
     public int getJump()
     {
         return jump;
+    }
+
+    /**
+     * Get the mirror flag.
+     * 
+     * @return The mirror flag.
+     */
+    public Optional<Boolean> getMirror()
+    {
+        return mirror;
+    }
+
+    /**
+     * Get the secret flag.
+     * 
+     * @return The secret flag.
+     */
+    public Optional<Boolean> getSecret()
+    {
+        return secret;
     }
 }

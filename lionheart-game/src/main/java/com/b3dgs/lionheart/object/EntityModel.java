@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
@@ -59,6 +60,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
 {
     private static final String NODE_DATA = "data";
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
+    private static final int SECRET_RANGE = 48;
     private static final int PREFIX = State.class.getSimpleName().length();
 
     /**
@@ -81,6 +83,8 @@ public final class EntityModel extends EntityModelHelper implements Routine
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(NODE_DATA);
+    private Transformable player;
+    private boolean secret;
 
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
@@ -107,17 +111,23 @@ public final class EntityModel extends EntityModelHelper implements Routine
     {
         super.prepare(provider);
 
-        services.getOptional(SwordShade.class).ifPresent(feature ->
+        final Optional<SwordShade> shade = services.getOptional(SwordShade.class);
+        if (shade.isPresent())
         {
-            final Transformable player = feature.getFeature(Transformable.class);
+            player = shade.get().getFeature(Transformable.class);
+
             final int sight = source.getWidth() / 2 + map.getTileWidth() * 4;
             final EntityChecker checker = provider.getFeature(EntityChecker.class);
             final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
                                                 .booleanValue();
 
             checker.setCheckerUpdate(() -> alwaysUpdate || UtilMath.getDistance(player, transformable) < sight);
-            checker.setCheckerRender(() -> camera.isViewable(transformable, 0, 0));
-        });
+            checker.setCheckerRender(() -> !secret && camera.isViewable(transformable, 0, 0));
+        }
+        else
+        {
+            player = null;
+        }
 
         movement.setVelocity(0.1);
         movement.setSensibility(0.01);
@@ -138,6 +148,16 @@ public final class EntityModel extends EntityModelHelper implements Routine
         jump.setDestination(0.0, 0.0);
 
         collidable.setCollisionVisibility(Constant.DEBUG);
+    }
+
+    /**
+     * Set the secret flag.
+     * 
+     * @param secret The secret flag.
+     */
+    public void setSecret(boolean secret)
+    {
+        this.secret = secret;
     }
 
     /**
@@ -178,6 +198,11 @@ public final class EntityModel extends EntityModelHelper implements Routine
             || transformable.getY() > map.getHeight() + source.getHeight())
         {
             identifiable.destroy();
+        }
+
+        if (secret && player != null && Math.abs(transformable.getX() - player.getX()) < SECRET_RANGE)
+        {
+            secret = false;
         }
     }
 

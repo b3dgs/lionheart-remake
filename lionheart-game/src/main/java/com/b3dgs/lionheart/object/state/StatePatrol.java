@@ -81,7 +81,11 @@ public final class StatePatrol extends State
     {
         movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED,
                                 input.getVerticalDirection() * Constant.WALK_SPEED);
-        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
-                                * animation.getSpeed());
+        if (Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
+            || Double.compare(movement.getDirectionVertical(), 0.0) != 0)
+        {
+            animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
+                                    * animation.getSpeed());
+        }
     }
 }

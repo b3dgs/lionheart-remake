@@ -16,10 +16,14 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -32,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -55,21 +60,32 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 @FeatureInterface
 public final class Patrol extends FeatureModel implements Routine, TileCollidableListener, CollidableListener
 {
+    private final List<PatrolConfig> patrols = new ArrayList<>();
+    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final AnimationConfig anim;
 
+    private int currentIndex = -1;
     private double sh;
     private double sv;
     private int amplitude;
     private boolean coll;
+    private int proximity;
+    private int animOffset;
 
-    private Updatable checker;
-    private double moved;
+    private double startX;
+    private double startY;
+
+    private Updatable checker = UpdatableVoid.getInstance();
+    private boolean enabled = true;
+    private boolean first = true;
+    private double idle;
 
     @FeatureGet private EntityModel model;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -82,8 +98,7 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
     {
         super(services, setup);
 
-        final PatrolConfig config = PatrolConfig.imports(setup);
-        load(config);
+        patrols.addAll(PatrolConfig.imports(setup));
 
         anim = AnimationConfig.imports(setup);
     }
@@ -91,19 +106,47 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
     /**
      * Load patrol configuration.
      * 
-     * @param config The configuration media.
+     * @param patrols The configuration patrols.
      */
-    public void load(PatrolConfig config)
+    public void load(List<PatrolConfig> patrols)
     {
-        config.getSh().ifPresent(v -> sh = v);
+        this.patrols.addAll(patrols);
+        loadNextPatrol();
+    }
+
+    /**
+     * Load next available patrol.
+     */
+    private void loadNextPatrol()
+    {
+        currentIndex++;
+        if (currentIndex >= patrols.size())
+        {
+            currentIndex = 0;
+        }
+        final PatrolConfig config = patrols.get(currentIndex);
+
+        config.getSh().ifPresent(h -> sh = h);
         config.getSv().ifPresent(v -> sv = v);
         config.getAmplitude().ifPresent(a -> amplitude = a);
         config.getColl().ifPresent(c -> coll = c.booleanValue());
+        config.getAnimOffset().ifPresent(o -> animOffset = o);
+        config.getProximity().ifPresent(p ->
+        {
+            proximity = p;
+            enabled = false;
+        });
 
         checkAmplitude();
-        if (mirrorable != null)
+        applyMirror();
+
+        first = true;
+        startX = 0;
+        startY = 0;
+
+        if (rasterable != null)
         {
-            applyMirror();
+            rasterable.setAnimOffset(animOffset);
         }
     }
 
@@ -112,20 +155,26 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
      */
     public void applyMirror()
     {
-        if (mirrorable.is(Mirror.NONE))
+        if (mirrorable != null
+            && enabled
+            && (patrols.isEmpty()
+                || currentIndex > -1 && patrols.get(currentIndex).getMirror().orElse(Boolean.TRUE).booleanValue()))
         {
-            if (sh < 0)
+            if (mirrorable.is(Mirror.NONE))
             {
-                mirrorable.mirror(Mirror.HORIZONTAL);
+                if (sh < 0)
+                {
+                    mirrorable.mirror(Mirror.HORIZONTAL);
+                }
+                else if (sv < 0)
+                {
+                    mirrorable.mirror(Mirror.VERTICAL);
+                }
             }
-            else if (sv < 0)
+            else if (mirrorable.is(Mirror.HORIZONTAL) && sh > 0 || mirrorable.is(Mirror.VERTICAL) && sv > 0)
             {
-                mirrorable.mirror(Mirror.VERTICAL);
+                mirrorable.mirror(Mirror.NONE);
             }
-        }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && sh > 0 || mirrorable.is(Mirror.VERTICAL) && sv > 0)
-        {
-            mirrorable.mirror(Mirror.NONE);
         }
     }
 
@@ -138,9 +187,9 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
         {
             checker = extrp ->
             {
-                if (Math.abs(moved) > amplitude)
+                if (Double.compare(sh, 0.0) != 0 && Math.abs(startX - transformable.getX()) > amplitude
+                    || Double.compare(sv, 0.0) != 0 && Math.abs(startY - transformable.getY()) > amplitude)
                 {
-                    moved = 0.0;
                     if (Double.compare(sh, 0.0) != 0)
                     {
                         sh = -sh;
@@ -152,6 +201,15 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
                     if (anim.hasAnimation(Anim.TURN))
                     {
                         stateHandler.changeState(StateTurn.class);
+                    }
+                    if (patrols.size() > 1)
+                    {
+                        loadNextPatrol();
+                    }
+                    else
+                    {
+                        startX = transformable.getX();
+                        startY = transformable.getY();
                     }
                 }
             };
@@ -177,27 +235,47 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
             @Override
             public double getHorizontalDirection()
             {
-                return sh;
+                return enabled ? sh : 0.0;
             }
 
             @Override
             public double getVerticalDirection()
             {
-                return sv;
+                return enabled ? sv : 0.0;
             }
         });
+        model.getMovement().setVelocity(1.0);
 
         applyMirror();
         mirrorable.update(1.0);
+
+        rasterable.setAnimOffset(animOffset);
     }
 
     @Override
     public void update(double extrp)
     {
+        if (first)
+        {
+            first = false;
+            startX = transformable.getX();
+            startY = transformable.getY();
+        }
+        if (!enabled)
+        {
+            if (Math.abs(transformable.getX() - player.getX()) < proximity)
+            {
+                enabled = true;
+            }
+            else
+            {
+                idle = UtilMath.wrapDouble(idle + 0.15, 0, 360);
+                transformable.teleportY(startY + Math.sin(idle) * 2.0);
+            }
+        }
         if (!stateHandler.isState(StateJump.class) || stateHandler.isState(StateFall.class))
         {
             checker.update(extrp);
-            moved += model.getMovement().getDirectionHorizontal() + model.getMovement().getDirectionVertical();
         }
     }
 
