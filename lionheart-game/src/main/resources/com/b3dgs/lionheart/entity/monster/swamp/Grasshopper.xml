@@ -21,6 +21,8 @@
         <lionengine:animation name="preparejump" start="12" end="12" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="jump" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="die" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="dead" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="32" height="44" mirror="false"/>
