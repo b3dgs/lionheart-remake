@@ -67,8 +67,8 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="138.0" ty="53.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="139.0" ty="51.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="139.0" ty="52.0"/>
-        <entity file="entity/scenery/swamp/BeetleVertical.xml" tx="147.0" ty="21.0">
-            <patrol sv="0.5" amplitude="448"/>
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="147.0" ty="21.0">
+            <patrol sv="0.5" amplitude="448" animOffset="12"/>
         </entity>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="147.0" ty="19.0" mirror="true"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="149.0" ty="16.0"/>
@@ -128,7 +128,7 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="100.0" ty="26.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="100.0" ty="25.0"/>
         <entity file="entity/monster/swamp/Crawling.xml" tx="37.0" ty="4.0" jump="8">
-            <patrol sh="-0.3" amplitude="180"/>
+            <patrol sh="-0.3" amplitude="224"/>
         </entity>
         <entity file="entity/monster/swamp/Crawling.xml" tx="64.0" ty="8.0">
             <patrol sh="-0.3" amplitude="80"/>
@@ -154,11 +154,11 @@
         <entity file="entity/monster/swamp/Crawling.xml" tx="209.0" ty="8.0">
             <patrol sh="0.2" amplitude="96"/>
         </entity>
-        <entity file="entity/monster/swamp/Crawling.xml" tx="296.0" ty="16.0" jump="0">
-            <patrol sh="0.2" amplitude="40"/>
-        </entity>
         <entity file="entity/monster/swamp/Crawling.xml" tx="251.0" ty="26.0" jump="4">
-            <patrol sh="-0.2" amplitude="48"/>
+            <patrol sh="-0.2" amplitude="96"/>
+        </entity>
+        <entity file="entity/monster/swamp/Crawling.xml" tx="296.0" ty="16.0" jump="0">
+            <patrol sh="0.2" amplitude="96"/>
         </entity>
     </entities>
 </stage>
