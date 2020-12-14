@@ -8,7 +8,7 @@
     </lionengine:features>
     <lionengine:surface image="Beetle.png" icon="Beetle_ico.png"/>
     <lionengine:frames horizontal="12" vertical="2"/>
-    <lionengine:size width="24" height="24"/>
+    <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.1" reversed="false" repeat="false"/>
