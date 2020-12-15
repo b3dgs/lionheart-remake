@@ -74,7 +74,7 @@ public final class Hurtable extends FeatureModel
     private final Tick recover = new Tick();
     private final Tick flicker = new Tick();
     private final double hurtForceValue;
-    private final Spawner spawner;
+    private final Spawner spawner = services.get(Spawner.class);
     private final Media effect;
     private final boolean persist;
     private final boolean fall;
@@ -107,7 +107,6 @@ public final class Hurtable extends FeatureModel
         effect = config.getEffect();
         persist = config.hasPersist();
         fall = config.hasFall();
-        spawner = services.get(Spawner.class);
 
         if (config.hasBackward())
         {

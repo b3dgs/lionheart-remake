@@ -43,9 +43,8 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
-    /** Take listener check. */
     private final CollidableListener take;
-    /** Current listener check. */
+
     private CollidableListener current;
 
     @FeatureGet private Identifiable identifiable;
