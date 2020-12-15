@@ -108,20 +108,20 @@
         <entity file="entity/item/swamp/Talisment.xml" tx="153.0" ty="18.0"/>
         <entity file="entity/item/swamp/Talisment.xml" tx="151.0" ty="19.0"/>
         <entity file="entity/item/swamp/PotionLittle.xml" tx="157.5" ty="16.0"/>
-        <entity file="entity/scenery/swamp/Beetle.xml" tx="202.0" ty="11.0">
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="202.0" ty="13.0">
             <patrol sh="0.3" amplitude="96"/>
         </entity>
-        <entity file="entity/scenery/swamp/Beetle.xml" tx="214.0" ty="13.0">
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="214.0" ty="15.0">
             <patrol sh="-0.3" amplitude="96"/>
         </entity>
-        <entity file="entity/scenery/swamp/Beetle.xml" tx="222.0" ty="11.0">
-            <patrol sv="0.2" amplitude="96" animOffset="12"/>
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="222.0" ty="12.0">
+            <patrol sv="0.3" amplitude="80" animOffset="12"/>
         </entity>
-        <entity file="entity/scenery/swamp/Beetle.xml" tx="226.0" ty="11.0">
-            <patrol sv="0.3" amplitude="96" animOffset="12"/>
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="226.0" ty="12.0">
+            <patrol sv="0.4" amplitude="80" animOffset="12"/>
         </entity>
-        <entity file="entity/scenery/swamp/Beetle.xml" tx="230.0" ty="11.0">
-            <patrol sv="0.4" amplitude="96" animOffset="12"/>
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="230.0" ty="12.0">
+            <patrol sv="0.65" amplitude="80" animOffset="12"/>
         </entity>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="233.0" ty="17.0" mirror="true"/>
         <entity file="entity/scenery/swamp/Beetle.xml" tx="243.0" ty="3.5">
@@ -140,8 +140,8 @@
         <entity file="entity/scenery/swamp/TurningAuto.xml" tx="284.0" ty="17.0"/>
         <entity file="entity/scenery/swamp/TurningAuto.xml" tx="280.0" ty="17.0"/>
         <entity file="entity/scenery/swamp/Sheet.xml" tx="276.0" ty="17.0" mirror="true"/>
-        <entity file="entity/scenery/swamp/Beetle.xml" tx="276.0" ty="3.0">
-            <patrol sv="0.3" amplitude="160" animOffset="12"/>
+        <entity file="entity/scenery/swamp/Beetle.xml" tx="276.0" ty="5.0">
+            <patrol sv="0.5" amplitude="160" animOffset="12"/>
         </entity>
         <entity file="entity/monster/swamp/Dino.xml" tx="259.0" ty="25.0">
             <patrol sh="0.3"/>
@@ -256,7 +256,7 @@
         <entity file="entity/item/swamp/PotionBig.xml" tx="422.0" ty="15.0"/>
         <entity file="entity/item/swamp/Life.xml" tx="411.0" ty="21.0"/>
         <entity file="entity/scenery/swamp/Beetle.xml" tx="412.0" ty="16.0">
-            <patrol sv="0.9" amplitude="368" animOffset="12"/>
+            <patrol sv="0.95" amplitude="384" animOffset="12"/>
         </entity>
         <entity file="entity/monster/swamp/Crawling.xml" tx="408.0" ty="45.0">
             <patrol sh="0.3" amplitude="64"/>
