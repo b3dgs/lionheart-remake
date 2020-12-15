@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -28,15 +27,14 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
-import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
-import com.b3dgs.lionheart.object.state.StateWalk;
 
 /**
  * Grasshopper feature implementation.
@@ -48,17 +46,14 @@ import com.b3dgs.lionheart.object.state.StateWalk;
 @FeatureInterface
 public final class Grasshopper extends FeatureModel implements Routine
 {
-    private static final int JUMP_TICK = 5;
-
-    private final Tick jumpTick = new Tick();
-    private final MapTile map;
-    private final Transformable track;
+    private final MapTile map = services.get(MapTile.class);
+    private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
 
     private double move;
-    private boolean jump;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Mirrorable mirrorable;
+    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private EntityModel model;
     @FeatureGet private StateHandler handler;
@@ -73,9 +68,6 @@ public final class Grasshopper extends FeatureModel implements Routine
     public Grasshopper(Services services, SetupSurfaceRastered setup)
     {
         super(services, setup);
-
-        map = services.get(MapTile.class);
-        track = services.get(SwordShade.class).getFeature(Transformable.class);
     }
 
     @Override
@@ -90,76 +82,13 @@ public final class Grasshopper extends FeatureModel implements Routine
             {
                 return move;
             }
-
-            @Override
-            public double getVerticalDirection()
-            {
-                return jump ? 1.0 : 0.0;
-            }
-
-            @Override
-            public boolean isUpButtonOnce()
-            {
-                return jump;
-            }
         });
+        launcher.addListener(l -> l.ifIs(Rasterable.class,
+                                         r -> r.setRaster(false, rasterable.getMedia().get(), map.getTileHeight())));
     }
 
     @Override
     public void update(double extrp)
-    {
-        if (jump)
-        {
-            updateJump(extrp);
-        }
-        else if (handler.isState(StateWalk.class)
-                 && (map.getTile(transformable, 8, 0) == null && map.getTile(transformable, -8, 0) != null
-                     || map.getTile(transformable, 8, 0) != null && map.getTile(transformable, -8, 0) == null))
-        {
-            checkJump();
-        }
-        else
-        {
-            checkFollow();
-        }
-    }
-
-    /**
-     * Update jumping.
-     * 
-     * @param extrp The extrapolation value.
-     */
-    private void updateJump(double extrp)
-    {
-        jumpTick.update(extrp);
-        if (jumpTick.elapsed(JUMP_TICK))
-        {
-            jump = false;
-        }
-    }
-
-    /**
-     * Check jump on border.
-     */
-    private void checkJump()
-    {
-        jump = true;
-        jumpTick.restart();
-        if (map.getTile(transformable, 8, 0) == null)
-        {
-            move = 1.2;
-        }
-        else if (map.getTile(transformable, -8, 0) == null)
-        {
-            move = -1.2;
-        }
-        Sfx.GRASSHOPPER_JUMP.play();
-    }
-
-    /**
-     * Check follow case.
-     */
-    private void checkFollow()
     {
         if (track.getX() - transformable.getX() > 100)
         {

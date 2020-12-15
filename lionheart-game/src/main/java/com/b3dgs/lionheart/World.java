@@ -17,16 +17,21 @@
 package com.b3dgs.lionheart;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -46,8 +51,11 @@ import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
+import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
+import com.b3dgs.lionheart.object.feature.PatrolConfig;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
@@ -122,7 +130,7 @@ final class World extends WorldHelper
             }
         });
 
-        map.getFeature(MapTileRastered.class).setRaster(Medias.create(raster, "tiles.png"));
+        map.getFeature(MapTileRastered.class).setRaster(Medias.create(raster, Constant.RASTER_FILE_TILE));
         try (FileReading reading = new FileReading(media))
         {
             mapPersister.load(reading);
@@ -165,7 +173,7 @@ final class World extends WorldHelper
     private void trackPlayer(Featurable player)
     {
         tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
-        tracker.setOffset(0, player.getFeature(Transformable.class).getHeight() / 2);
+        tracker.setOffset(0, player.getFeature(Transformable.class).getHeight() / 2 + 8);
         tracker.track(player);
     }
 
@@ -174,15 +182,27 @@ final class World extends WorldHelper
      * 
      * @param stage The stage configuration.
      * @param entity The entity configuration.
+     * @param entitiesRasters The rasters used.
      */
-    private void createEntity(StageConfig stage, EntityConfig entity)
+    private void createEntity(StageConfig stage, EntityConfig entity, HashMap<Media, Set<Integer>> entitiesRasters)
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
+        entity.getMirror().ifPresent(mirror -> featurable.getFeature(Mirrorable.class).mirror(Mirror.HORIZONTAL));
         entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
-        entity.getPatrol().ifPresent(config ->
+        final List<PatrolConfig> patrols = entity.getPatrols();
+        if (!patrols.isEmpty())
         {
-            featurable.ifIs(Patrol.class, patrol -> patrol.load(config));
+            featurable.ifIs(Patrol.class, patrol -> patrol.load(patrols));
             featurable.ifIs(Jumper.class, jumper -> jumper.setJump(entity.getJump()));
+        }
+        featurable.ifIs(Floater.class, floater -> floater.loadRaster(stage.getRasterFolder()));
+        featurable.ifIs(Rasterable.class, rasterable ->
+        {
+            // if (!featurable.hasFeature(Patrol.class) && !featurable.hasFeature(Grasshopper.class))
+            // {
+            // entitiesRasters.computeIfAbsent(featurable.getMedia(), r -> new TreeSet<>()).add(entity.getRaster());
+            // }
         });
     }
 
@@ -213,14 +233,10 @@ final class World extends WorldHelper
         final Coord start = stage.getStart();
         createPlayer(new Coord(start.getX() * map.getTileWidth(), start.getY() * map.getTileHeight()));
 
-        handler.addListener(featurable ->
-        {
-            featurable.ifIs(Rasterable.class,
-                            r -> r.setRaster(true,
-                                             Medias.create(stage.getRasterFolder(), "tiles.png"),
-                                             map.getTileHeight()));
-        });
-        stage.getEntities().forEach(entity -> createEntity(stage, entity));
+        spawner.setRaster(Medias.create(stage.getRasterFolder(), Constant.RASTER_FILE_TILE));
+
+        final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
+        stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
         hud.load();
         prepareCache();

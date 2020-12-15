@@ -77,6 +77,11 @@ public final class Constant
     /** Jump maximum height. */
     public static final Direction JUMP_MAX = new Force(0.0, 5.4);
 
+    /** Raster tile file. */
+    public static final String RASTER_FILE_TILE = "tiles.png";
+    /** Raster water file. */
+    public static final String RASTER_FILE_WATER = "water.png";
+
     /** Fire button 1. */
     public static final Integer FIRE1 = Integer.valueOf(0);
     /** Fire button 2. */
