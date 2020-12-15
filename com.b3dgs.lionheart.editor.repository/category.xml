@@ -27,6 +27,9 @@
    <bundle id="com.b3dgs.lionengine.game">
       <category name="com.b3dgs.lionengine"/>
    </bundle>
+   <bundle id="com.b3dgs.lionengine.helper">
+      <category name="com.b3dgs.lionengine"/>
+   </bundle>
    <bundle id="com.b3dgs.lionheart.game">
       <category name="com.b3dgs.lionheart"/>
    </bundle>

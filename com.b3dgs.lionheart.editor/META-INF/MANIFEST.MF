@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: com.b3dgs.lionheart.editor;singleton:=true
-Bundle-Version: 0.0.20.qualifier
+Bundle-Version: 0.0.21.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/bundle
@@ -25,8 +25,9 @@ Require-Bundle: javax.inject;bundle-version="1.0.0",
  org.eclipse.e4.ui.workbench.swt;bundle-version="0.14.800",
  com.b3dgs.lionengine.core;bundle-version="9.0.5",
  com.b3dgs.lionengine.game;bundle-version="9.0.5",
+ com.b3dgs.lionengine.helper;bundle-version="9.0.5",
  com.b3dgs.lionengine.editor;bundle-version="9.0.5",
- com.b3dgs.lionheart.game;bundle-version="0.0.20"
+ com.b3dgs.lionheart.game;bundle-version="0.0.21"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Activator: com.b3dgs.lionheart.editor.Activator
