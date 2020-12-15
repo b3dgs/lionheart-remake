@@ -84,11 +84,9 @@
         <lionengine:tile number="870" sheet="0"/>
         <lionengine:tile number="822" sheet="0"/>
         <lionengine:tile number="823" sheet="0"/>
-        <lionengine:tile number="510" sheet="0"/>
         <lionengine:tile number="828" sheet="0"/>
         <lionengine:tile number="829" sheet="0"/>
-        <lionengine:tile number="844" sheet="0"/>
-        <lionengine:tile number="845" sheet="0"/>
+        <lionengine:tile number="842" sheet="0"/>
         <lionengine:tile number="843" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="slope_0_left" type="NONE">
@@ -236,8 +234,11 @@
         <lionengine:tile number="816" sheet="0"/>
         <lionengine:tile number="835" sheet="0"/>
         <lionengine:tile number="836" sheet="0"/>
+        <lionengine:tile number="837" sheet="0"/>
         <lionengine:tile number="838" sheet="0"/>
         <lionengine:tile number="839" sheet="0"/>
+        <lionengine:tile number="844" sheet="0"/>
+        <lionengine:tile number="845" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="liana_cut" type="NONE">
         <lionengine:tile number="907" sheet="0"/>

@@ -80,6 +80,9 @@
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="liana_ground_top">
+        <lionengine:formula>horizontal</lionengine:formula>
+        <lionengine:formula>left_vertical</lionengine:formula>
+        <lionengine:formula>right_vertical</lionengine:formula>
         <lionengine:formula>ground_top</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="vertical">

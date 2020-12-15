@@ -98,13 +98,6 @@ public final class StateAttackFall extends State
             jumpHit();
             spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), liana.getX(), liana.getY());
         }
-        else if (mapGroup.getGroup(tile).equals(CollisionName.LIANA_TOP))
-        {
-            map.setTile(tile.getInTileX(), tile.getInTileY(), 6);
-            mapCollision.update(tile);
-            jumpHit();
-            spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), tile.getX(), tile.getY());
-        }
     }
 
     @Override

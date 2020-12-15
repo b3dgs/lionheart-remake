@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
@@ -41,6 +42,7 @@ import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.InputDevicePointer;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
@@ -56,6 +58,7 @@ final class World extends WorldHelper
 {
     private final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
     private final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);
+    private final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, false);
     private final Hud hud = new Hud(services);
@@ -110,6 +113,14 @@ final class World extends WorldHelper
         {
             MapTileHelper.importAndSave(Medias.create(media.getPath().replace(".lvl", ".png")), media);
         }
+
+        map.addListener(tile ->
+        {
+            if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
+            {
+                spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
+            }
+        });
 
         map.getFeature(MapTileRastered.class).setRaster(Medias.create(raster, "tiles.png"));
         try (FileReading reading = new FileReading(media))
