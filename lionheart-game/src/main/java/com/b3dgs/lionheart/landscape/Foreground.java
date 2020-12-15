@@ -284,7 +284,7 @@ final class Foreground extends BackgroundAbstract
          */
         private void waterEffect(Graphic g, double speed, double frequency, double amplitude, double offsetForce)
         {
-            final int oy = py - (int) water.getHeight();
+            final int oy = py - (int) water.getHeight() + 4;
             for (int y = screenHeight - WATER_HEIGHT_OFFSET + oy; y < screenHeight; y++)
             {
                 final double inside = Math.cos(UtilMath.wrapDouble(y + wx * frequency, 0.0, 360.0)) * amplitude;
