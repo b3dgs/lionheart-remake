@@ -33,7 +33,7 @@ public final class Constant
     public static final Version PROGRAM_VERSION = Version.create(0, 0, 20);
 
     /** Original display. */
-    public static final Resolution NATIVE_RESOLUTION = new Resolution(374, 208, 60);
+    public static final Resolution NATIVE_RESOLUTION = new Resolution(370, 208, 60); // original = 281 * 208
     /** Default display. */
     public static final Resolution DEFAULT_RESOLUTION = new Resolution(1280, 720, NATIVE_RESOLUTION.getRate());
 
