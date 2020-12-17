@@ -34,10 +34,14 @@ public final class Anim
 
     /** Animation name idle. */
     public static final String IDLE = "idle";
+    /** Animation name walk. */
+    public static final String WALK = "walk";
     /** Animation name turn. */
     public static final String TURN = "turn";
+    /** Animation name fall. */
+    public static final String FALL = "fall";
     /** Animation name attack fall. */
-    public static final String ATTACK_FALL = ATTACK + "fall";
+    public static final String ATTACK_FALL = ATTACK + FALL;
     /** Animation name dead prefix. */
     public static final String DEAD = "dead";
 

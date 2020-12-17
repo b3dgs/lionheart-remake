@@ -21,10 +21,8 @@ import java.util.List;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -37,10 +35,12 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Boss Swamp 1 feature implementation.
@@ -56,23 +56,18 @@ import com.b3dgs.lionheart.constant.Anim;
 public final class BossSwamp1 extends FeatureModel implements Routine, Recyclable
 {
     private static final int MAX_Y = 220;
+    private static final int MAX_AWAY_Y = 300;
     private static final double MOVE_X = 0.9;
-    private static final double EFFECT_SPEED = 0.2;
-    private static final int EFFECT_MARGIN = 5;
     private static final int BOWL_MARGIN = 32;
 
-    private final Tick effectTickX = new Tick();
-    private final Tick effectTickY = new Tick();
     private final List<Launchable> bowls = new ArrayList<>();
-    private final Viewer viewer = services.get(Viewer.class);
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Spawner spawner = services.get(Spawner.class);
     private final Animation idle;
 
     private boolean moved;
     private double moveX;
     private double moveY;
-    private double effectX;
-    private double effectY;
     private boolean fired;
     private int hit;
 
@@ -80,6 +75,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     @FeatureGet private Transformable transformable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Identifiable identifiable;
+    @FeatureGet private BossSwampEffect effect;
 
     /**
      * Create feature.
@@ -100,15 +96,15 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
      */
     private void followHorizontal()
     {
-        if (transformable.getX() < player.getX() - EFFECT_MARGIN)
+        if (transformable.getX() < player.getX() - BossSwampEffect.EFFECT_MARGIN)
         {
             moveX = MOVE_X;
-            effectX = EFFECT_SPEED;
+            effect.setEffectX(BossSwampEffect.EFFECT_SPEED);
         }
-        else if (transformable.getX() > player.getX() + EFFECT_MARGIN)
+        else if (transformable.getX() > player.getX() + BossSwampEffect.EFFECT_MARGIN)
         {
             moveX = -MOVE_X;
-            effectX = -EFFECT_SPEED;
+            effect.setEffectX(-BossSwampEffect.EFFECT_SPEED);
         }
         else
         {
@@ -121,7 +117,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
      */
     private void moveUp()
     {
-        if (transformable.getY() > MAX_Y + EFFECT_MARGIN)
+        if (transformable.getY() > MAX_Y + BossSwampEffect.EFFECT_MARGIN)
         {
             if (!moved)
             {
@@ -130,10 +126,10 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             }
             else
             {
-                effectY = -EFFECT_SPEED;
+                effect.setEffectY(-BossSwampEffect.EFFECT_SPEED);
             }
         }
-        else if (transformable.getY() < MAX_Y - EFFECT_MARGIN)
+        else if (transformable.getY() < MAX_Y - BossSwampEffect.EFFECT_MARGIN)
         {
             if (!moved)
             {
@@ -141,30 +137,8 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             }
             else
             {
-                effectY = EFFECT_SPEED;
+                effect.setEffectY(BossSwampEffect.EFFECT_SPEED);
             }
-        }
-    }
-
-    /**
-     * Update random movement effect.
-     * 
-     * @param extrp The extrapolation value.
-     */
-    private void updateEffect(double extrp)
-    {
-        effectTickX.update(extrp);
-        effectTickY.update(extrp);
-
-        if (effectTickX.elapsed(10L) && UtilRandom.getRandomInteger(100) == 0)
-        {
-            effectX = -effectX;
-            effectTickX.restart();
-        }
-        if (effectTickY.elapsed(10L) && UtilRandom.getRandomInteger(100) == 0)
-        {
-            effectY = -effectY;
-            effectTickY.restart();
         }
     }
 
@@ -208,7 +182,9 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
         }
         if (!fired
             && UtilMath.isBetween(transformable.getX() - player.getX(), -BOWL_MARGIN, BOWL_MARGIN)
-            && UtilMath.isBetween(transformable.getY(), MAX_Y - EFFECT_MARGIN, MAX_Y + EFFECT_MARGIN))
+            && UtilMath.isBetween(transformable.getY(),
+                                  MAX_Y - BossSwampEffect.EFFECT_MARGIN,
+                                  MAX_Y + BossSwampEffect.EFFECT_MARGIN))
         {
             launcher.fire();
             fired = true;
@@ -219,8 +195,6 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
-
-        animatable.play(idle);
 
         launcher.setOffset(0, 0);
         launcher.addListener(bowl ->
@@ -236,15 +210,17 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
         if (hit == 2)
         {
             moveY = 3.0;
-            if (transformable.getY() > viewer.getViewY() + viewer.getScreenHeight() + transformable.getHeight())
+            if (transformable.getY() > MAX_AWAY_Y)
             {
                 identifiable.destroy();
-                // TODO Next step
+                spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss2.xml"),
+                              transformable.getX(),
+                              transformable.getY());
             }
         }
         else
         {
-            updateEffect(extrp);
+            effect.update(extrp);
 
             followHorizontal();
             moveUp();
@@ -252,7 +228,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             updateBowls(extrp);
         }
 
-        transformable.moveLocation(extrp, moveX + effectX, moveY + effectY);
+        transformable.moveLocation(extrp, moveX, moveY);
     }
 
     @Override
@@ -260,12 +236,10 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     {
         moveX = 0.0;
         moveY = 0.0;
-        effectX = EFFECT_SPEED;
-        effectY = EFFECT_SPEED;
         fired = false;
-        hit = 0;
+        hit = 2;
         bowls.clear();
-        effectTickX.restart();
-        effectTickY.restart();
+        animatable.stop();
+        animatable.play(idle);
     }
 }

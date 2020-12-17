@@ -4,30 +4,28 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.BossSwampEffect</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.BossSwamp1</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BossSwamp2</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Boss1.png"/>
-    <lionengine:frames horizontal="2" vertical="3"/>
-    <lionengine:size width="208" height="192"/>
+    <lionengine:surface image="Boss2.png"/>
+    <lionengine:frames horizontal="3" vertical="3"/>
+    <lionengine:size width="256" height="192"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="2" speed="0.4" reversed="false" repeat="true"/>
+        <lionengine:animation name="land" start="3" end="3" speed="0.4" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="0"/>
     <lionengine:launcher>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="0">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="64" oy="48" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="80">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="64" oy="48" delay="400">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="160">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="64" oy="48" delay="800">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="240">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
-        </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="320">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="64" oy="48" delay="1200">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
