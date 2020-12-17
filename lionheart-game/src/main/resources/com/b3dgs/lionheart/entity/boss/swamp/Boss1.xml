@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BossSwamp1</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Boss1.png"/>
+    <lionengine:frames horizontal="2" vertical="3"/>
+    <lionengine:size width="208" height="192"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="2" speed="0.4" reversed="false" repeat="true"/>
+    </lionengine:animations>
+    <lionengine:layerable layerRefresh="3" layerDisplay="0"/>
+    <lionengine:launcher>
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="0">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="80">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="160">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="240">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="320">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:collidable group="2" accepted="1"/>
+</lionengine:featurable>

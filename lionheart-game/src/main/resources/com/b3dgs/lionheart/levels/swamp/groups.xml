@@ -88,6 +88,7 @@
         <lionengine:tile number="829" sheet="0"/>
         <lionengine:tile number="842" sheet="0"/>
         <lionengine:tile number="843" sheet="0"/>
+        <lionengine:tile number="910" sheet="0"/>
     </lionengine:group>
     <lionengine:group name="slope_0_left" type="NONE">
         <lionengine:tile number="142" sheet="0"/>

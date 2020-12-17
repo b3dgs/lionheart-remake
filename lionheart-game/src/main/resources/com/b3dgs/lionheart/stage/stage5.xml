@@ -5,7 +5,7 @@
     <raster folder="levels/swamp/raster/day/"/>
     <background type="SWAMP_DAY"/>
     <foreground type="WATER"/>
-    <checkpoint startTx="45" startTy="4" endTx="620" endTy="0">
+    <checkpoint startTx="45" startTy="4">
         <respawn tx="36" ty="20"/>
         <respawn tx="117" ty="4"/>
         <respawn tx="191" ty="4"/>
@@ -15,6 +15,7 @@
         <respawn tx="441" ty="15"/>
         <respawn tx="512" ty="29"/>
     </checkpoint>
+    <boss tx="586" ty="8"/>
     <entities>
         <entity file="entity/monster/swamp/Crawling.xml" tx="59.0" ty="5.0">
             <patrol sh="-0.3" amplitude="208"/>

@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
@@ -81,6 +82,13 @@ public final class StageConfig
     /** Respawn tile y attribute name. */
     private static final String ATT_RESPAWN_TY = "ty";
 
+    /** Boss node name. */
+    private static final String NODE_BOSS = "boss";
+    /** Boss tile x attribute name. */
+    private static final String ATT_BOSS_TX = "tx";
+    /** Boss tile y attribute name. */
+    private static final String ATT_BOSS_TY = "ty";
+
     /** Entities node name. */
     private static final String NODE_ENTITIES = "entities";
 
@@ -111,7 +119,9 @@ public final class StageConfig
     /** Starting tile. */
     private final Coord start;
     /** Ending tile. */
-    private final Coord end;
+    private final Optional<Coord> end;
+    /** Boss tile. */
+    private final Optional<Coord> boss;
     /** Respawn tiles. */
     private final Collection<Coord> respawns = new ArrayList<>();
     /** Entities configuration. */
@@ -143,8 +153,26 @@ public final class StageConfig
         start = new Coord(configurer.getInteger(ATT_CHECKPOINT_START_TX, NODE_CHECKPOINT),
                           configurer.getInteger(ATT_CHECKPOINT_START_TY, NODE_CHECKPOINT));
 
-        end = new Coord(configurer.getInteger(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT),
-                        configurer.getInteger(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT));
+        if (configurer.hasAttribute(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT)
+            && configurer.hasAttribute(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT))
+        {
+            end = Optional.of(new Coord(configurer.getInteger(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT),
+                                        configurer.getInteger(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT)));
+        }
+        else
+        {
+            end = Optional.empty();
+        }
+
+        if (configurer.hasAttribute(ATT_BOSS_TX, NODE_BOSS) && configurer.hasAttribute(ATT_BOSS_TY, NODE_BOSS))
+        {
+            boss = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TX, NODE_BOSS),
+                                         configurer.getInteger(ATT_BOSS_TY, NODE_BOSS)));
+        }
+        else
+        {
+            boss = Optional.empty();
+        }
 
         configurer.getChildren(NODE_RESPAWN, NODE_CHECKPOINT).forEach(this::addRespawn);
 
@@ -246,7 +274,7 @@ public final class StageConfig
      * 
      * @return The end location.
      */
-    public Coord getEnd()
+    public Optional<Coord> getEnd()
     {
         return end;
     }
@@ -259,6 +287,16 @@ public final class StageConfig
     public Collection<Coord> getRespawns()
     {
         return respawns;
+    }
+
+    /**
+     * Get the boss location.
+     * 
+     * @return The boss location.
+     */
+    public Optional<Coord> getBoss()
+    {
+        return boss;
     }
 
     /**

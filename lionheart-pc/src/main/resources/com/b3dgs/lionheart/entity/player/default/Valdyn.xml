@@ -7,7 +7,6 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Drownable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.EndChecker</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionengine.helper.EntityInputController</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Valdyn.png"/>
@@ -83,15 +82,15 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
         <lionengine:animation name="attackhorizontal" start="107" end="111" speed="0.4" reversed="true" repeat="false">
-            <lionengine:collisionFramed number="5" x="22" y="26" width="22" height="12"/>
-            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed number="5" x="22" y="31" width="22" height="1"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="16" height="55"/>
         </lionengine:animation>
         <lionengine:animation name="attackturning" start="130" end="139" speed="0.35" reversed="false" repeat="false">
-            <lionengine:collisionFramed number="8" x="-25" y="36" width="20" height="12"/>
+            <lionengine:collisionFramed number="8" x="-25" y="42" width="20" height="1"/>
             <lionengine:collisionFramed prefix="body" x="0" y="15" width="20" height="40"/>
         </lionengine:animation>
         <lionengine:animation name="attackcrouchhorizontal" start="88" end="92" speed="0.4" reversed="true" repeat="false">
-            <lionengine:collisionFramed number="5" x="22" y="0" width="20" height="8"/>
+            <lionengine:collisionFramed number="5" x="16" y="1" width="16" height="1"/>
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="35"/>
         </lionengine:animation>
         <lionengine:animation name="attackjump" start="140" end="145" speed="0.35" reversed="false" repeat="false">
@@ -102,7 +101,7 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
         <lionengine:animation name="attackfall" start="87" end="87" speed="0.125" reversed="false" repeat="true">
-            <lionengine:collisionFramed number="1" x="0" y="0" width="20" height="10"/>
+            <lionengine:collisionFramed number="1" x="0" y="0" width="20" height="18"/>
             <lionengine:collisionFramed prefix="body" x="0" y="25" width="20" height="30"/>
         </lionengine:animation>
         <lionengine:animation name="attackslide" start="121" end="125" speed="0.4" reversed="false" repeat="false">

@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
@@ -64,16 +65,15 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
  */
 final class World extends WorldHelper
 {
-    private final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
-    private final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);
-    private final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
     private final MapTileWater mapWater = services.create(MapTileWater.class);
-    private final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, false);
+    private final Checkpoint checkpoint = services.create(Checkpoint.class);
     private final Hud hud = new Hud(services);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
 
     private Landscape landscape;
     private Audio audio;
+    private int trackerInitY;
+    private double trackerY;
 
     /**
      * Create the world.
@@ -85,7 +85,7 @@ final class World extends WorldHelper
     {
         super(services);
 
-        map.addFeature(new LayerableModel(4, 0));
+        map.addFeature(new LayerableModel(4, 1));
 
         camera.setIntervals(16, 0);
     }
@@ -122,6 +122,7 @@ final class World extends WorldHelper
             MapTileHelper.importAndSave(Medias.create(media.getPath().replace(".lvl", ".png")), media);
         }
 
+        final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
         map.addListener(tile ->
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
@@ -133,6 +134,7 @@ final class World extends WorldHelper
         map.getFeature(MapTileRastered.class).setRaster(Medias.create(raster, Constant.RASTER_FILE_TILE));
         try (FileReading reading = new FileReading(media))
         {
+            final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
             mapPersister.load(reading);
         }
         catch (final IOException exception)
@@ -144,6 +146,8 @@ final class World extends WorldHelper
         {
             final MapTileCollisionRenderer renderer = map.addFeatureAndGet(new MapTileCollisionRendererModel());
             renderer.createCollisionDraw();
+
+            final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);
             mapViewer.addRenderer(renderer);
         }
 
@@ -156,13 +160,15 @@ final class World extends WorldHelper
      * Create player and track with camera.
      * 
      * @param start The spawn tile.
+     * @return The created player.
      */
-    private void createPlayer(Coord start)
+    private Featurable createPlayer(Coord start)
     {
         final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), start);
         hud.setFeaturable(player);
         services.add(player.getFeature(SwordShade.class));
         trackPlayer(player);
+        return player;
     }
 
     /**
@@ -173,7 +179,8 @@ final class World extends WorldHelper
     private void trackPlayer(Featurable player)
     {
         tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
-        tracker.setOffset(0, player.getFeature(Transformable.class).getHeight() / 2 + 8);
+        trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
+        tracker.setOffset(0, trackerInitY);
         tracker.track(player);
     }
 
@@ -226,13 +233,32 @@ final class World extends WorldHelper
 
         initMusic(stage.getMusic());
         loadMap(stage.getMapFile(), stage.getRasterFolder());
+
+        final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, false);
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
 
-        services.create(Checkpoint.class).load(stage);
-
         final Coord start = stage.getStart();
-        createPlayer(new Coord(start.getX() * map.getTileWidth(), start.getY() * map.getTileHeight()));
+        final Featurable player = createPlayer(new Coord(start.getX() * map.getTileWidth(),
+                                                         start.getY() * map.getTileHeight()));
+        checkpoint.load(stage, player);
+        checkpoint.addListener(new CheckpointListener()
+        {
+            @Override
+            public void notifyReachedEnd()
+            {
+                sequencer.end(Scene.class, stage.getNextStage());
+            }
 
+            @Override
+            public void notifyReachedBoss()
+            {
+                camera.setLimitLeft((int) camera.getX());
+                spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss1.xml"),
+                      player.getFeature(Transformable.class).getX(),
+                      -100.0);
+                trackerY = 1.0;
+            }
+        });
         spawner.setRaster(Medias.create(stage.getRasterFolder(), Constant.RASTER_FILE_TILE));
 
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
@@ -247,7 +273,13 @@ final class World extends WorldHelper
     {
         pointer.update(extrp);
         super.update(extrp);
+        checkpoint.update(extrp);
         landscape.update(extrp, camera);
+        if (trackerY > 0)
+        {
+            trackerY = UtilMath.clamp(trackerY += 0.5, 0.0, 21.0);
+            tracker.setOffset(0, trackerInitY + (int) Math.floor(trackerY));
+        }
         camera.moveLocation(extrp, 0.0, 0.0);
         hud.update(extrp);
     }
