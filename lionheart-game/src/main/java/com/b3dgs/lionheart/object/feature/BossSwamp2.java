@@ -53,11 +53,14 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private static final double MOVE_BACK_X = 0.8;
     private static final double MOVE_BACK_X_MARGIN = 64;
     private static final double MOVE_LEFT_X = -4.0;
+    private static final double GROUND_Y = 121;
     private static final double MIN_Y_MOVE_BACK = 200;
+    private static final double MAX_Y = 300;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Viewer viewer = services.get(Viewer.class);
     private final Animation idle;
+    private final Animation land;
 
     private double moveX;
     private double moveY;
@@ -83,6 +86,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         super(services, setup);
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+        land = AnimationConfig.imports(setup).getAnimation(Anim.LAND);
     }
 
     /**
@@ -151,21 +155,53 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         if (step == 1 && transformable.getX() > lastX - viewer.getWidth() * 2)
         {
             moveX = MOVE_LEFT_X;
-
             launcher.fire();
             step = 2;
         }
-        else if (step == 2)
+        else if (step == 2 && transformable.getX() < lastX - transformable.getWidth() - viewer.getWidth() * 2)
         {
             moveX = 0.0;
             step = 3;
+            movedX = false;
+            movedY = false;
+            transformable.teleport(player.getX(), MAX_Y);
+        }
+    }
+
+    /**
+     * Move back right slowly.
+     */
+    private void moveBottomRightLand()
+    {
+        if (step == 3)
+        {
+            followHorizontal();
+            moveDown();
+
+            if (movedX && movedY)
+            {
+                animatable.play(land);
+                moveX = 1.0;
+                moveY = -4.0;
+                step = 4;
+            }
+        }
+        else if (step == 4 && transformable.getY() < GROUND_Y)
+        {
+            transformable.teleportY(GROUND_Y);
+            moveX = 0.0;
+            moveY = 0.0;
+            step = 5;
         }
     }
 
     @Override
     public void update(double extrp)
     {
-        effect.update(extrp);
+        if (step < 5)
+        {
+            effect.update(extrp);
+        }
 
         if (step == 0)
         {
@@ -178,11 +214,14 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                 step = 1;
             }
         }
-        else if (step == 1)
+        else if (step > 0 && step < 3)
         {
             moveLeft();
         }
-
+        else if (step > 2 && step < 5)
+        {
+            moveBottomRightLand();
+        }
         transformable.moveLocation(extrp, moveX, moveY);
     }
 

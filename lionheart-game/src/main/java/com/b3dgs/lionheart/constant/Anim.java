@@ -40,6 +40,8 @@ public final class Anim
     public static final String TURN = "turn";
     /** Animation name fall. */
     public static final String FALL = "fall";
+    /** Animation name land. */
+    public static final String LAND = "land";
     /** Animation name attack fall. */
     public static final String ATTACK_FALL = ATTACK + FALL;
     /** Animation name dead prefix. */
