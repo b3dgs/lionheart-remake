@@ -149,7 +149,6 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         falling = true;
         force.setDirection(0.0, 2.0);
         body.resetGravity();
-        animatable.stop();
         animatable.play(fall);
     }
 }

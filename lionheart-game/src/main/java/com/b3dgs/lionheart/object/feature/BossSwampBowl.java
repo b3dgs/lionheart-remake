@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -95,14 +94,6 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     }
 
     @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        animatable.setFrame(frame);
-    }
-
-    @Override
     public void update(double extrp)
     {
         effect = UtilMath.wrapDouble(effect + 0.08, 0, Constant.ANGLE_MAX);
@@ -128,7 +119,10 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     @Override
     public void recycle()
     {
+        hit = false;
         effect = 0.0;
         frame = 1;
+        hitTick.stop();
+        animatable.setFrame(frame);
     }
 }

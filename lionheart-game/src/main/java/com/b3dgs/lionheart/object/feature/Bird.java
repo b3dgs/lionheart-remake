@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.InputDeviceControl;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
@@ -61,6 +62,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @FeatureGet private Animatable animatable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Transformable reference;
+    @FeatureGet private Launchable launchable;
     @FeatureGet private Glue glue;
 
     private Transformable other;
@@ -100,6 +102,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         if (!hit && Double.compare(other.getY(), other.getOldY()) <= 0 && by.getName().startsWith(Anim.ATTACK))
         {
             stateHandler.changeState(StateIdle.class);
+            launchable.setVector(null);
             animatable.stop();
             tick.restart();
             Sfx.MONSTER_HURT.play();

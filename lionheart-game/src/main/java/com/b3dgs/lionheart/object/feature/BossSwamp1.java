@@ -56,6 +56,7 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class BossSwamp1 extends FeatureModel implements Routine, Recyclable
 {
     private static final int MAX_Y = 220;
+    private static final int TOP_Y = 230;
     private static final int MAX_AWAY_Y = 300;
     private static final double MOVE_X = 0.9;
     private static final int BOWL_MARGIN = 32;
@@ -113,15 +114,19 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     }
 
     /**
-     * Move up until maximum height.
+     * Move up until player height.
      */
-    private void moveUp()
+    private void movePlayerHeight()
     {
-        if (transformable.getY() > MAX_Y + BossSwampEffect.EFFECT_MARGIN)
+        if (transformable.getY() > TOP_Y)
         {
+            moveY = -1.0;
+        }
+        else if (transformable.getY() > MAX_Y + BossSwampEffect.EFFECT_MARGIN)
+        {
+            moveY = 0.0;
             if (!moved)
             {
-                moveY = 0.0;
                 moved = true;
             }
             else
@@ -223,7 +228,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             effect.update(extrp);
 
             followHorizontal();
-            moveUp();
+            movePlayerHeight();
 
             updateBowls(extrp);
         }
@@ -236,10 +241,10 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     {
         moveX = 0.0;
         moveY = 0.0;
+        moved = false;
         fired = false;
-        hit = 2;
+        hit = 0;
         bowls.clear();
-        animatable.stop();
         animatable.play(idle);
     }
 }

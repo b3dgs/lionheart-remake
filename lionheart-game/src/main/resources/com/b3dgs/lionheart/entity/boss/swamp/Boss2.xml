@@ -15,7 +15,7 @@
         <lionengine:animation name="land" start="3" end="3" speed="0.4" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="0"/>
-    <lionengine:launcher>
+    <lionengine:launcher level="0">
         <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="64" oy="48" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
@@ -27,6 +27,14 @@
         </lionengine:launchable>
         <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="64" oy="48" delay="1200">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="1">
+        <lionengine:launchable media="entity/scenery/swamp/Bird.xml" ox="-64" oy="48" delay="100">
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="1.0" vy="1.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/scenery/swamp/Bird.xml" ox="-64" oy="48" delay="2000">
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>

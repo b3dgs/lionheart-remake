@@ -86,7 +86,7 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
     public void recycle()
     {
         init = true;
-        animatable.stop();
+        vx = 0.0;
         animatable.play(walk);
     }
 }
