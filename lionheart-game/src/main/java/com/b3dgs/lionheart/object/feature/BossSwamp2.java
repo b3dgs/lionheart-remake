@@ -20,7 +20,10 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -33,7 +36,9 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -55,15 +60,22 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
 {
+    private static final int PALLET_OFFSET = 3;
+    private static final int PALLET_OFFSET_MAX = 6;
+    private static final int PALLET_HURT = 9;
     private static final double MOVE_BACK_X = 0.8;
     private static final double MOVE_BACK_X_MARGIN = 64;
     private static final double MOVE_LEFT_X = -4.0;
-    private static final double GROUND_Y = 121;
+    private static final double GROUND_Y = 118;
     private static final double MIN_Y_MOVE_BACK = 200;
-    private static final double MAX_Y = 300;
+    private static final double MAX_Y = 388;
     private static final int SHAKE_DELAY = 2;
     private static final int STAND_DELAY = 300;
+    private static final int FLICKER_MAX = 20;
     private static final double MOVE_LEAVE_X = -4.0;
+    private static final int EXPLODE_DELAY = 5;
+    private static final double MOVE_DEAD_X = -0.2;
+    private static final double MOVE_DEAD_Y = -0.5;
 
     private final Tick tick = new Tick();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -71,7 +83,9 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private final Camera camera = services.get(Camera.class);
     private final Animation idle;
     private final Animation land;
+    private final CollidableListener listener;
 
+    private BossSwampNeck neck;
     private double moveX;
     private double moveY;
     private boolean movedX;
@@ -82,12 +96,15 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private int shakeX;
     private int shakeY;
     private int shakeCount;
+    private int flickerCount;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private BossSwampEffect effect;
     @FeatureGet private Identifiable identifiable;
+    @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Stats stats;
 
     /**
      * Create feature.
@@ -102,6 +119,26 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
         land = AnimationConfig.imports(setup).getAnimation(Anim.LAND);
+
+        listener = (c, with, by) ->
+        {
+            if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK) && flickerCount == 0)
+            {
+                flickerCount = 1;
+                c.ifIs(Stats.class, s ->
+                {
+                    if (stats.applyDamages(s.getDamages()))
+                    {
+                        step = 10;
+                        tick.restart();
+                    }
+                });
+                if (step == 8)
+                {
+                    tick.set(STAND_DELAY);
+                }
+            }
+        };
     }
 
     /**
@@ -201,6 +238,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
 
             if (movedX && movedY)
             {
+                neck.setEnabled(null);
                 animatable.play(land);
                 moveX = 1.0;
                 moveY = -4.0;
@@ -262,6 +300,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         tick.update(extrp);
         if (step == 6 && tick.elapsed(STAND_DELAY))
         {
+            neck.setEnabled(listener);
             animatable.play(idle);
             step = 7;
         }
@@ -330,8 +369,81 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         if (transformable.getX() < lastX - transformable.getWidth() - camera.getWidth() * 2)
         {
             identifiable.destroy();
-            spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss1.xml"), player.getX(), MAX_Y);
+            neck.destroy();
+            spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss1.xml"), player.getX(), MAX_Y)
+                   .getFeature(Stats.class)
+                   .applyDamages(stats.getHealthMax() - stats.getHealth());
         }
+    }
+
+    /**
+     * Move dead down.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void moveDead(double extrp)
+    {
+        effect.update(extrp);
+        moveX = MOVE_DEAD_X;
+        moveY = MOVE_DEAD_Y;
+
+        tick.update(extrp);
+        if (tick.elapsed(EXPLODE_DELAY))
+        {
+            spawnExplode();
+            spawnExplode();
+            spawnExplode();
+
+            tick.restart();
+        }
+    }
+
+    /**
+     * Spawn explode.
+     */
+    private void spawnExplode()
+    {
+        final int width = transformable.getWidth() / 2;
+        final int height = transformable.getHeight() / 2;
+
+        spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLittle.xml"),
+                      transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
+                      transformable.getY() + UtilRandom.getRandomInteger(height));
+    }
+
+    /**
+     * Update hurt flicker effect.
+     */
+    private void updateFlickerHurt()
+    {
+        rasterable.setAnimOffset(UtilMath.clamp((stats.getHealthMax() - stats.getHealth()) * PALLET_OFFSET,
+                                                0,
+                                                PALLET_OFFSET_MAX));
+        if (flickerCount > 0)
+        {
+            if (flickerCount % 2 == 1)
+            {
+                rasterable.setAnimOffset(PALLET_HURT);
+            }
+            flickerCount++;
+            if (flickerCount > FLICKER_MAX)
+            {
+                flickerCount = 0;
+            }
+        }
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        launcher.addListener(l ->
+        {
+            l.ifIs(Bird.class,
+                   b -> b.getFeature(Rasterable.class).setAnimOffset((stats.getHealthMax() - stats.getHealth()) * 20));
+            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(stats.getHealthMax() - stats.getHealth()));
+        });
     }
 
     @Override
@@ -373,18 +485,32 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         {
             moveLeave(extrp);
         }
+        else if (step == 10)
+        {
+            moveDead(extrp);
+        }
         transformable.moveLocation(extrp, moveX, moveY);
+        neck.setLocation(transformable);
+        if (stats.getHealth() > 0)
+        {
+            neck.setFrameOffset(stats.getHealthMax() - stats.getHealth());
+        }
+
+        updateFlickerHurt();
     }
 
     @Override
     public void recycle()
     {
+        neck = spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Neck.xml"), 0, 0)
+                      .getFeature(BossSwampNeck.class);
         moveX = 0.0;
         moveY = 0.0;
         movedX = false;
         movedY = false;
         launcher.setLevel(0);
         step = 0;
+        tick.restart();
         animatable.play(idle);
     }
 }

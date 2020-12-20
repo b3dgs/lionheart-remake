@@ -16,23 +16,23 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Localizable;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionheart.constant.Anim;
 
 /**
  * Boss Swamp 1 bowl feature implementation.
@@ -41,19 +41,23 @@ import com.b3dgs.lionheart.constant.Anim;
  * </ol>
  */
 @FeatureInterface
-public final class BossSwampBowl extends FeatureModel implements Routine, Recyclable, CollidableListener
+public final class BossSwampNeck extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final int PALLET_OFFSET = 2;
-    private static final int HIT_TICK_DELAY = 1;
+    private static final int OFFSET_X = -36;
+    private static final int OFFSET_Y = 90;
+    private static final int HIT_TICK_DELAY = 2;
 
-    private final Tick hitTick = new Tick();
+    private final Tick tick = new Tick();
 
-    private boolean hit;
-    private double effect;
+    private CollidableListener listener;
     private int frame;
 
+    @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Collidable collidable;
+    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
@@ -62,38 +66,31 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwampBowl(Services services, Setup setup)
+    public BossSwampNeck(Services services, Setup setup)
     {
         super(services, setup);
     }
 
     /**
-     * Get the effect value.
+     * Set location.
      * 
-     * @return The effect value.
+     * @param localizable The location.
      */
-    public double getEffect()
+    public void setLocation(Localizable localizable)
     {
-        return effect;
+        transformable.setLocation(localizable.getX() + OFFSET_X, localizable.getY() + OFFSET_Y);
     }
 
     /**
-     * Check if hit.
+     * Set enabled flag.
      * 
-     * @return <code>true</code> if hit, <code>false</code> else.
+     * @param listener The collidable listener.
      */
-    public boolean isHit()
+    public void setEnabled(CollidableListener listener)
     {
-        return hit;
-    }
-
-    /**
-     * Set hit.
-     */
-    public void hit()
-    {
-        hit = true;
-        hitTick.start();
+        this.listener = listener;
+        rasterable.setVisibility(listener != null);
+        collidable.setEnabled(listener != null);
     }
 
     /**
@@ -106,36 +103,44 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
         rasterable.setAnimOffset(offset * PALLET_OFFSET);
     }
 
+    /**
+     * Destroy.
+     */
+    public void destroy()
+    {
+        identifiable.destroy();
+    }
+
     @Override
     public void update(double extrp)
     {
-        effect = UtilMath.wrapDouble(effect + 0.08, 0, Constant.ANGLE_MAX);
-
-        hitTick.update(extrp);
-        if (hitTick.elapsed(HIT_TICK_DELAY))
+        if (collidable.isEnabled())
         {
-            frame = UtilMath.wrap(frame + 1, 1, 3);
-            animatable.setFrame(frame);
-            hitTick.restart();
+            tick.update(extrp);
+            if (tick.elapsed(HIT_TICK_DELAY))
+            {
+                frame++;
+                if (frame > 2)
+                {
+                    frame = 1;
+                }
+                animatable.setFrame(frame);
+                tick.restart();
+            }
         }
     }
 
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
-        {
-            hit();
-        }
+        listener.notifyCollided(collidable, with, by);
     }
 
     @Override
     public void recycle()
     {
-        hit = false;
-        effect = 0.0;
         frame = 1;
-        hitTick.stop();
         animatable.setFrame(frame);
+        tick.restart();
     }
 }

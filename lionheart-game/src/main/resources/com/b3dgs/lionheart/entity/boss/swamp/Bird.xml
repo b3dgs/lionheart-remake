@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Bird</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Bird.png" icon="Bird_ico.png"/>
+    <lionengine:frames horizontal="10" vertical="6"/>
+    <lionengine:size width="32" height="32"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="attack" number="1" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="2" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="3" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="4" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="5" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="6" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="7" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="8" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="9" x="0" y="12" width="16" height="8"/>
+            <lionengine:collisionFramed prefix="attack" number="10" x="0" y="12" width="16" height="8"/>
+        </lionengine:animation>
+        <lionengine:animation name="idle" start="11" end="20" speed="0.25" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="ground" number="1" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="2" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="3" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="4" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="5" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="6" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="7" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="8" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="9" x="0" y="23" width="16" height="1"/>
+            <lionengine:collisionFramed prefix="ground" number="10" x="0" y="23" width="16" height="1"/>
+        </lionengine:animation>
+    </lionengine:animations>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
+    <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>

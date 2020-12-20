@@ -37,7 +37,6 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
@@ -59,17 +58,18 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class BossSwampEgg extends FeatureModel implements Routine, Recyclable, TileCollidableListener
 {
+    private static final int PALLET_OFFSET = 15;
     private static final String ANIM_HATCH = "hatch";
     private static final double FALL_VELOCITY = 0.1;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
-    private final MapTile map = services.get(MapTile.class);
     private final Force force = new Force();
     private final Animation fall;
     private final Animation hatch;
 
     private boolean falling;
+    private int offset;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private TileCollidable tileCollidable;
@@ -99,6 +99,17 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         force.setSensibility(FALL_VELOCITY);
     }
 
+    /**
+     * Set the frame offset.
+     * 
+     * @param offset The frame offset.
+     */
+    public void setFrameOffset(int offset)
+    {
+        this.offset = offset;
+        rasterable.setAnimOffset(offset * PALLET_OFFSET);
+    }
+
     @Override
     public void update(double extrp)
     {
@@ -115,7 +126,9 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.getLast())
         {
             spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLittle.xml"), transformable);
-            spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Little.xml"), transformable);
+            spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Little.xml"), transformable)
+                   .getFeature(Rasterable.class)
+                   .setAnimOffset(offset * 8);
             identifiable.destroy();
         }
     }
@@ -139,8 +152,6 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         body.setGravity(Constant.GRAVITY / 2);
         body.setGravityMax(Constant.GRAVITY / 2);
         body.setDesiredFps(source.getRate());
-
-        rasterable.getMedia().ifPresent(media -> rasterable.setRaster(true, media, map.getTileHeight()));
     }
 
     @Override

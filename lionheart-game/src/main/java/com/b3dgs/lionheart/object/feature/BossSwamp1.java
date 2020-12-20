@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -57,9 +58,11 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
 {
     private static final int MAX_Y = 220;
     private static final int TOP_Y = 230;
-    private static final int MAX_AWAY_Y = 300;
+    private static final int MAX_AWAY_Y = 388;
     private static final double MOVE_X = 0.9;
     private static final int BOWL_MARGIN = 32;
+    private static final int PALLET_OFFSET = 2;
+    private static final int PALLET_OFFSET_MAX = 4;
 
     private final List<Launchable> bowls = new ArrayList<>();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -76,6 +79,8 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     @FeatureGet private Transformable transformable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Identifiable identifiable;
+    @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Stats stats;
     @FeatureGet private BossSwampEffect effect;
 
     /**
@@ -162,6 +167,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             {
                 final Transformable trans = bowls.get(i).getFeature(Transformable.class);
                 final BossSwampBowl bowl = trans.getFeature(BossSwampBowl.class);
+                bowl.setFrameOffset(stats.getHealthMax() - stats.getHealth());
                 if (hit == 1 || bowl.isHit())
                 {
                     bowl.hit();
@@ -220,7 +226,9 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                 identifiable.destroy();
                 spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss2.xml"),
                               transformable.getX(),
-                              transformable.getY());
+                              transformable.getY())
+                       .getFeature(Stats.class)
+                       .applyDamages(stats.getHealthMax() - stats.getHealth());
             }
         }
         else
@@ -232,6 +240,10 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
 
             updateBowls(extrp);
         }
+
+        rasterable.setAnimOffset(UtilMath.clamp((stats.getHealthMax() - stats.getHealth()) * PALLET_OFFSET,
+                                                0,
+                                                PALLET_OFFSET_MAX));
 
         transformable.moveLocation(extrp, moveX, moveY);
     }

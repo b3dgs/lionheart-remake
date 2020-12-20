@@ -8,7 +8,7 @@
     </lionengine:features>
     <lionengine:surface image="Boss1.png"/>
     <lionengine:frames horizontal="2" vertical="3"/>
-    <lionengine:size width="208" height="192"/>
+    <lionengine:size width="224" height="192"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="2" speed="0.4" reversed="false" repeat="true"/>
@@ -32,4 +32,5 @@
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
+    <stats health="3"/>
 </lionengine:featurable>
