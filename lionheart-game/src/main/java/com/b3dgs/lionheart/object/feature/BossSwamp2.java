@@ -36,9 +36,12 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -61,7 +64,6 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
 {
     private static final int PALLET_OFFSET = 3;
-    private static final int PALLET_OFFSET_MAX = 6;
     private static final int PALLET_HURT = 9;
     private static final double MOVE_BACK_X = 0.8;
     private static final double MOVE_BACK_X_MARGIN = 64;
@@ -104,7 +106,9 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     @FeatureGet private BossSwampEffect effect;
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Collidable collidable;
     @FeatureGet private Stats stats;
+    @FeatureGet private Glue glue;
 
     /**
      * Create feature.
@@ -129,9 +133,15 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                 {
                     if (stats.applyDamages(s.getDamages()))
                     {
-                        step = 10;
-                        tick.restart();
+                        collidable.setEnabled(false);
+                        neck.getFeature(Collidable.class).setEnabled(false);
+                        if (step > 5)
+                        {
+                            step = 10;
+                            tick.restart();
+                        }
                     }
+                    Sfx.BOSS_HIT.play();
                 });
                 if (step == 8)
                 {
@@ -242,6 +252,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                 animatable.play(land);
                 moveX = 1.0;
                 moveY = -4.0;
+                glue.start();
                 step = 4;
             }
         }
@@ -354,6 +365,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         {
             lastX = transformable.getX();
             moveX = MOVE_LEAVE_X;
+            glue.stop();
             step = 9;
         }
     }
@@ -406,7 +418,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         final int width = transformable.getWidth() / 2;
         final int height = transformable.getHeight() / 2;
 
-        spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLittle.xml"),
+        spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "ExplodeLittle.xml"),
                       transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
                       transformable.getY() + UtilRandom.getRandomInteger(height));
     }
@@ -416,9 +428,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateFlickerHurt()
     {
-        rasterable.setAnimOffset(UtilMath.clamp((stats.getHealthMax() - stats.getHealth()) * PALLET_OFFSET,
-                                                0,
-                                                PALLET_OFFSET_MAX));
+        rasterable.setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 2) * PALLET_OFFSET);
         if (flickerCount > 0)
         {
             if (flickerCount % 2 == 1)
@@ -438,11 +448,12 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     {
         super.prepare(provider);
 
+        collidable.setCollisionVisibility(Constant.DEBUG);
         launcher.addListener(l ->
         {
-            l.ifIs(Bird.class,
-                   b -> b.getFeature(Rasterable.class).setAnimOffset((stats.getHealthMax() - stats.getHealth()) * 20));
-            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(stats.getHealthMax() - stats.getHealth()));
+            final int offset = UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 2);
+            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset(offset * 20));
+            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset));
         });
     }
 
@@ -458,6 +469,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             if (movedX && movedY)
             {
                 lastX = transformable.getX();
+                neck.setEnabled(listener);
                 step = 1;
             }
         }
@@ -491,10 +503,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         }
         transformable.moveLocation(extrp, moveX, moveY);
         neck.setLocation(transformable);
-        if (stats.getHealth() > 0)
-        {
-            neck.setFrameOffset(stats.getHealthMax() - stats.getHealth());
-        }
+        neck.setFrameOffset(stats.getHealthMax() - stats.getHealth());
 
         updateFlickerHurt();
     }
@@ -511,6 +520,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         launcher.setLevel(0);
         step = 0;
         tick.restart();
+        collidable.setEnabled(true);
         animatable.play(idle);
     }
 }

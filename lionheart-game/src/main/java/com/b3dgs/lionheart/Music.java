@@ -35,6 +35,10 @@ public enum Music
     INTRO,
     /** Swamp music. */
     SWAMP,
+    /** Boss music. */
+    BOSS,
+    /** Boss win music. */
+    BOSS_WIN,
     /** Ancient Town music. */
     ANCIENT_TOWN;
 

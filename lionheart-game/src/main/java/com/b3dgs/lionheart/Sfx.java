@@ -64,7 +64,9 @@ public enum Sfx
     /** Scenery dragon throws. */
     SCENERY_DRAGON,
     /** Grasshopper jump. */
-    GRASSHOPPER_JUMP;
+    GRASSHOPPER_JUMP,
+    /** Boss hit. */
+    BOSS_HIT;
 
     /**
      * Cache sfx.

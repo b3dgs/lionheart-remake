@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -36,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
@@ -73,6 +75,7 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private TileCollidable tileCollidable;
+    @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Rasterable rasterable;
@@ -107,7 +110,19 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
     public void setFrameOffset(int offset)
     {
         this.offset = offset;
-        rasterable.setAnimOffset(offset * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * PALLET_OFFSET);
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        body.setGravity(Constant.GRAVITY / 2);
+        body.setGravityMax(Constant.GRAVITY / 2);
+        body.setDesiredFps(source.getRate());
+
+        collidable.setCollisionVisibility(Constant.DEBUG);
     }
 
     @Override
@@ -142,16 +157,6 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
             animatable.play(hatch);
             falling = false;
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        body.setGravity(Constant.GRAVITY / 2);
-        body.setGravityMax(Constant.GRAVITY / 2);
-        body.setDesiredFps(source.getRate());
     }
 
     @Override

@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -68,6 +69,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     private Transformable other;
     private InputDeviceControl input;
     private boolean hit;
+    private Force old;
 
     /**
      * Create feature.
@@ -90,6 +92,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         {
             hit = false;
             stateHandler.changeState(StatePatrol.class);
+            launchable.setVector(old);
             model.setInput(input);
             glue.recycle();
         }
@@ -102,6 +105,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         if (!hit && Double.compare(other.getY(), other.getOldY()) <= 0 && by.getName().startsWith(Anim.ATTACK))
         {
             stateHandler.changeState(StateIdle.class);
+            old = launchable.getDirection();
             launchable.setVector(null);
             animatable.stop();
             tick.restart();
@@ -119,5 +123,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     {
         tick.restart();
         hit = false;
+        old = null;
+        input = null;
     }
 }

@@ -62,7 +62,6 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private static final double MOVE_X = 0.9;
     private static final int BOWL_MARGIN = 32;
     private static final int PALLET_OFFSET = 2;
-    private static final int PALLET_OFFSET_MAX = 4;
 
     private final List<Launchable> bowls = new ArrayList<>();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -168,10 +167,14 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                 final Transformable trans = bowls.get(i).getFeature(Transformable.class);
                 final BossSwampBowl bowl = trans.getFeature(BossSwampBowl.class);
                 bowl.setFrameOffset(stats.getHealthMax() - stats.getHealth());
+                final double x = transformable.getX()
+                                 + Math.sin(-bowl.getEffect() + i * 0.9) * (i + 1) * (i + 1) * 0.25;
+
                 if (hit == 1 || bowl.isHit())
                 {
                     bowl.hit();
                     trans.moveLocationY(extrp, 3.0);
+                    trans.teleportX(x);
                     hit = 1;
                     if (trans.getY() > transformable.getY() + trans.getHeight())
                     {
@@ -185,9 +188,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                 }
                 else
                 {
-                    trans.teleport(transformable.getX()
-                                   + Math.sin(-bowl.getEffect() + i * 0.9) * (i + 1) * (i + 1) * 0.25,
-                                   transformable.getY() - i * 12 + 16);
+                    trans.teleport(x, transformable.getY() - i * 12 + 16);
                 }
             }
         }
@@ -241,9 +242,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             updateBowls(extrp);
         }
 
-        rasterable.setAnimOffset(UtilMath.clamp((stats.getHealthMax() - stats.getHealth()) * PALLET_OFFSET,
-                                                0,
-                                                PALLET_OFFSET_MAX));
+        rasterable.setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 2) * PALLET_OFFSET);
 
         transformable.moveLocation(extrp, moveX, moveY);
     }

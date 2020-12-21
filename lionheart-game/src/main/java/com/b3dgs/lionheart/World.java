@@ -85,7 +85,7 @@ final class World extends WorldHelper
     {
         super(services);
 
-        map.addFeature(new LayerableModel(4, 1));
+        map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(16, 0);
     }
@@ -97,6 +97,10 @@ final class World extends WorldHelper
      */
     private void initMusic(Media media)
     {
+        if (audio != null)
+        {
+            audio.stop();
+        }
         audio = AudioFactory.loadAudio(media);
         audio.setVolume(25);
         if (!Constant.AUDIO_MUTE)
@@ -127,7 +131,7 @@ final class World extends WorldHelper
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
+                // spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
             }
         });
 
@@ -257,6 +261,7 @@ final class World extends WorldHelper
                       player.getFeature(Transformable.class).getX(),
                       -100.0);
                 trackerY = 1.0;
+                initMusic(Music.BOSS.get());
             }
         });
         spawner.setRaster(Medias.create(stage.getRasterFolder(), Constant.RASTER_FILE_TILE));

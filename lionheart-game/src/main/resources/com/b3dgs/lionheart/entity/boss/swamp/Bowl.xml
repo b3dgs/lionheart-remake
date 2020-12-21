@@ -10,8 +10,8 @@
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>MIDDLE</lionengine:origin>
     <lionengine:collisions>
-        <lionengine:collision name="body" offsetX="-2" offsetY="7" width="4" height="4" mirror="false"/>
-        <lionengine:collision name="attack" offsetX="-2" offsetY="7" width="4" height="4" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="-12" width="12" height="12" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="0" offsetY="-12" width="12" height="12" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="1" layerDisplay="1"/>
     <lionengine:collidable group="2" accepted="1"/>

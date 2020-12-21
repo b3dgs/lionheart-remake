@@ -19,6 +19,8 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Localizable;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -33,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Boss Swamp 1 bowl feature implementation.
@@ -100,7 +103,7 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
      */
     public void setFrameOffset(int offset)
     {
-        rasterable.setAnimOffset(offset * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * PALLET_OFFSET);
     }
 
     /**
@@ -109,6 +112,14 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     public void destroy()
     {
         identifiable.destroy();
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        collidable.setCollisionVisibility(Constant.DEBUG);
     }
 
     @Override
@@ -124,9 +135,14 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
                 {
                     frame = 1;
                 }
+                rasterable.setVisibility(true);
                 animatable.setFrame(frame);
                 tick.restart();
             }
+        }
+        else
+        {
+            rasterable.setVisibility(false);
         }
     }
 
@@ -140,6 +156,8 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     public void recycle()
     {
         frame = 1;
+        collidable.setEnabled(true);
+        rasterable.setVisibility(true);
         animatable.setFrame(frame);
         tick.restart();
     }

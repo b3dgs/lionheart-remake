@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -30,6 +31,8 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -52,6 +55,7 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
     @FeatureGet private Transformable transformable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
@@ -65,6 +69,14 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
         super(services, setup);
 
         walk = AnimationConfig.imports(setup).getAnimation(Anim.WALK);
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        collidable.setCollisionVisibility(Constant.DEBUG);
     }
 
     @Override

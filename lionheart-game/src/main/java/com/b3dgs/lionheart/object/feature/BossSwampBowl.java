@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -54,6 +55,7 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
@@ -103,7 +105,15 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
      */
     public void setFrameOffset(int offset)
     {
-        rasterable.setAnimOffset(offset * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * PALLET_OFFSET);
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        collidable.setCollisionVisibility(com.b3dgs.lionheart.Constant.DEBUG);
     }
 
     @Override
