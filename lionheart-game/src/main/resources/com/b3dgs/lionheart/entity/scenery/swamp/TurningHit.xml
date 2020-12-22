@@ -36,6 +36,6 @@
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>
 </lionengine:featurable>

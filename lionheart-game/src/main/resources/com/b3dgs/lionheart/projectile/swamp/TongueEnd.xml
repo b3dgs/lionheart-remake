@@ -20,7 +20,7 @@
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
+    <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="ExplodeLittle" persist="true"/>

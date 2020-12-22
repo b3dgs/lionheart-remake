@@ -55,7 +55,7 @@
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1%3"/>
     <data mass="1.85" gravityMax="16.0">
         <movement speedMax="1.5"/>

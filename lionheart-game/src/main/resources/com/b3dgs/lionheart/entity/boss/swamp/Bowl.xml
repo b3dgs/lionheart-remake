@@ -13,6 +13,6 @@
         <lionengine:collision name="body" offsetX="0" offsetY="-12" width="12" height="12" mirror="false"/>
         <lionengine:collision name="attack" offsetX="0" offsetY="-12" width="12" height="12" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:layerable layerRefresh="1" layerDisplay="1"/>
+    <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
     <lionengine:collidable group="2" accepted="1"/>
 </lionengine:featurable>

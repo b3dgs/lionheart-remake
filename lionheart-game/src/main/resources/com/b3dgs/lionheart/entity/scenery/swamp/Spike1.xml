@@ -49,7 +49,7 @@
         <lionengine:animation name="phase3" start="2" end="32" speed="0.70" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="2"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -22,6 +22,6 @@
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:layerable layerRefresh="1" layerDisplay="1"/>
+    <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
     <lionengine:collidable group="2" accepted="1"/>
 </lionengine:featurable>

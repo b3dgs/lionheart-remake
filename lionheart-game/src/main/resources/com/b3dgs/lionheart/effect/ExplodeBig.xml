@@ -13,6 +13,6 @@
         <lionengine:animation end="20" name="idle" repeat="false" reversed="false" speed="0.4" start="1"/>
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerDisplay="4" layerRefresh="1"/>
+    <lionengine:layerable layerDisplay="7" layerRefresh="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
