@@ -190,7 +190,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFireOnce()
     {
-        return isFire(Constant.FIRE1);
+        return isFireOnce(Constant.FIRE1);
     }
 
     @Override

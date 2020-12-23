@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -58,13 +59,14 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </p>
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel implements Routine, TileCollidableListener, CollidableListener
+public final class Patrol extends FeatureModel
+                          implements Routine, TileCollidableListener, CollidableListener, Recyclable
 {
     private final List<PatrolConfig> patrols = new ArrayList<>();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final AnimationConfig anim;
 
-    private int currentIndex = -1;
+    private int currentIndex;
     private double sh;
     private double sv;
     private int amplitude;
@@ -75,7 +77,7 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
     private double startX;
     private double startY;
 
-    private Updatable checker = UpdatableVoid.getInstance();
+    private Updatable checker;
     private boolean enabled = true;
     private boolean first = true;
     private double idle;
@@ -110,8 +112,20 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
      */
     public void load(List<PatrolConfig> patrols)
     {
-        this.patrols.addAll(patrols);
-        loadNextPatrol();
+        if (!patrols.isEmpty())
+        {
+            this.patrols.addAll(patrols);
+            loadNextPatrol();
+        }
+    }
+
+    /**
+     * Stop patrol.
+     */
+    public void stop()
+    {
+        sh = 0.0;
+        sv = 0.0;
     }
 
     /**
@@ -297,5 +311,17 @@ public final class Patrol extends FeatureModel implements Routine, TileCollidabl
             sh = -sh;
             transformable.teleportX(transformable.getOldX() + sh);
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        currentIndex = -1;
+        startX = 0.0;
+        startY = 0.0;
+        checker = UpdatableVoid.getInstance();
+        enabled = true;
+        first = true;
+        idle = 0.0;
     }
 }

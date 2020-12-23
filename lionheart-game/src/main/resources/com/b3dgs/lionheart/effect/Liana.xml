@@ -7,7 +7,7 @@
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:collisions>
-        <lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="16" mirror="false"/>
+        <lionengine:collision name="body" offsetX="8" offsetY="0" width="16" height="16" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="3" accepted="1"/>

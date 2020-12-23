@@ -58,7 +58,7 @@ public final class StatsConfig
     /**
      * Create config.
      * 
-     * @param health The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
+     * @param health The health (between -1 for indestructible and {@link Constant#STATS_MAX_HEALTH} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
      * @throws LionEngineException If invalid arguments.
      */
@@ -66,7 +66,7 @@ public final class StatsConfig
     {
         super();
 
-        Check.superiorOrEqual(health, 0);
+        Check.superiorOrEqual(health, -1);
         Check.inferiorOrEqual(health, Constant.STATS_MAX_HEALTH);
 
         Check.superiorOrEqual(life, 0);

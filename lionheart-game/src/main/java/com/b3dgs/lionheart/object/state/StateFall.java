@@ -50,11 +50,15 @@ public final class StateFall extends State
 
         addTransition(StateLand.class, () -> !steep.is() && collideY.get() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
-        addTransition(StateSlide.class, steep::is);
+        addTransition(StateSlide.class, () -> steep.is() && !isGoHorizontal());
+        addTransition(StateSlideSlow.class,
+                      () -> steep.is() && (is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft()));
+        addTransition(StateSlideFast.class,
+                      () -> steep.is() && (is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft()));
         addTransition(StateLianaIdle.class, () -> liana.is() && !liana.isLeft() && !liana.isRight() && !isGoDown());
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
-        addTransition(StateAttackJump.class, () -> !collideY.get() && isFireOnce() && !isGoDown());
-        addTransition(StateAttackFall.class, () -> !collideY.get() && isFire() && isGoDown());
+        addTransition(StateAttackJump.class, () -> !collideY.get() && !isGoDown() && isFireOnce());
+        addTransition(StateAttackFall.class, () -> !collideY.get() && isGoDown() && isFireOnce());
     }
 
     @Override
@@ -84,7 +88,9 @@ public final class StateFall extends State
     {
         super.onCollided(collidable, with, by);
 
-        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
+        if (collidable.hasFeature(Glue.class)
+            && with.getName().startsWith(Anim.LEG)
+            && by.getName().startsWith(CollisionName.GROUND))
         {
             collideY.set(true);
         }

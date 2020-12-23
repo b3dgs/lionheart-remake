@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -85,6 +86,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
     private final boolean hasGravity = setup.hasNode(NODE_DATA);
     private Transformable player;
     private boolean secret;
+    private final int frames;
 
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
@@ -104,6 +106,9 @@ public final class EntityModel extends EntityModelHelper implements Routine
     public EntityModel(Services services, Setup setup)
     {
         super(services, setup);
+
+        final FramesConfig config = FramesConfig.imports(setup);
+        frames = config.getHorizontal() * config.getVertical();
     }
 
     @Override
@@ -294,5 +299,15 @@ public final class EntityModel extends EntityModelHelper implements Routine
     public boolean hasGravity()
     {
         return hasGravity;
+    }
+
+    /**
+     * Get the frames number.
+     * 
+     * @return The frames number.
+     */
+    public int getFrames()
+    {
+        return frames;
     }
 }

@@ -8,7 +8,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Grasshopper.png" icon="Grasshopper_ico.png"/>
-    <lionengine:frames horizontal="4" vertical="4"/>
+    <lionengine:frames horizontal="6" vertical="3"/>
     <lionengine:size width="64" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -63,5 +63,5 @@
         <jump heightMax="7.0"/>
     </data>
     <stats health="2"/>
-    <hurtable effect="ExplodeBig"/>
+    <hurtable frame="16" effect="ExplodeBig"/>
 </lionengine:featurable>

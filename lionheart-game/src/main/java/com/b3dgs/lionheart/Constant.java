@@ -73,7 +73,7 @@ public final class Constant
     /** Jump minimum height. */
     public static final double JUMP_MIN = 2.5;
     /** Jump maximum height on hit. */
-    public static final double JUMP_HIT = 3.75;
+    public static final double JUMP_HIT = 5.5;
     /** Jump maximum height. */
     public static final Direction JUMP_MAX = new Force(0.0, 5.4);
 

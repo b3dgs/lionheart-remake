@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.OptionalInt;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
@@ -76,6 +78,7 @@ public final class Hurtable extends FeatureModel
     private final double hurtForceValue;
     private final Spawner spawner = services.get(Spawner.class);
     private final Media effect;
+    private final OptionalInt frame;
     private final boolean persist;
     private final boolean fall;
 
@@ -83,6 +86,7 @@ public final class Hurtable extends FeatureModel
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
     private double oldGravity;
+    private boolean enabled;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -119,6 +123,17 @@ public final class Hurtable extends FeatureModel
         {
             hurtForceValue = 0.0;
         }
+        frame = config.getFrame();
+    }
+
+    /**
+     * Set the enabled flag.
+     * 
+     * @param enabled The enabled flag.
+     */
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
     }
 
     /**
@@ -128,9 +143,17 @@ public final class Hurtable extends FeatureModel
      */
     public boolean isHurting()
     {
-        return model.getJump().getDirectionVertical() > 0
-               || model.getMovement().isIncreasingHorizontal() && mirrorable.is(Mirror.NONE)
-               || model.getMovement().isDecreasingHorizontal() && mirrorable.is(Mirror.HORIZONTAL);
+        return !recover.elapsed(HURT_RECOVER_ATTACK_TICK);
+    }
+
+    /**
+     * Get the hurt frame.
+     * 
+     * @return The hurt frame.
+     */
+    public OptionalInt getFrame()
+    {
+        return frame;
     }
 
     /**
@@ -142,7 +165,8 @@ public final class Hurtable extends FeatureModel
      */
     private void updateCollide(Collidable collidable, Collision with, Collision by)
     {
-        if (collidable.getGroup() == Constant.COLL_GROUP_PLAYER
+        if (enabled
+            && collidable.getGroup() == Constant.COLL_GROUP_PLAYER
             && recover.elapsed(HURT_RECOVER_ATTACK_TICK)
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
             && by.getName().startsWith(Anim.ATTACK))
@@ -167,15 +191,11 @@ public final class Hurtable extends FeatureModel
     {
         Sfx.MONSTER_HURT.play();
         stateHandler.changeState(StateHurt.class);
-        if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
+        if (stats.getHealthMax() > 0 && stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
             if (fall)
             {
                 body.setGravityMax(oldGravity);
-            }
-            else
-            {
-                kill();
             }
             currentCollide = CollidableListenerVoid.getInstance();
         }
@@ -183,8 +203,16 @@ public final class Hurtable extends FeatureModel
         {
             mirrorable.mirror(Mirror.NONE);
         }
-        final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
-        hurtForce.setDirection(hurtForceValue * side, 0.0);
+
+        if (stats.getHealth() > 0)
+        {
+            final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
+            hurtForce.setDirection(hurtForceValue * side, 0.0);
+        }
+        else if (hasFeature(Patrol.class))
+        {
+            getFeature(Patrol.class).stop();
+        }
         recover.restart();
     }
 
@@ -237,7 +265,8 @@ public final class Hurtable extends FeatureModel
         }
         if (fall)
         {
-            kill();
+            spawner.spawn(effect, transformable);
+            identifiable.destroy();
         }
     }
 
@@ -274,10 +303,16 @@ public final class Hurtable extends FeatureModel
      */
     public void kill()
     {
-        spawner.spawn(effect, transformable);
-        if (!persist)
+        if (!fall)
         {
-            identifiable.destroy();
+            if (effect != null)
+            {
+                spawner.spawn(effect, transformable);
+            }
+            if (!persist)
+            {
+                identifiable.destroy();
+            }
         }
     }
 
@@ -320,6 +355,7 @@ public final class Hurtable extends FeatureModel
         currentCollide = this::updateCollide;
         currentTile = this::updateTile;
         flickerCurrent = UpdatableVoid.getInstance();
+        enabled = true;
         recover.restart();
         recover.set(HURT_RECOVER_BODY_TICK);
     }

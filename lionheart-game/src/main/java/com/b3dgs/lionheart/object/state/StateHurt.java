@@ -17,10 +17,13 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Hurtable;
+import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
@@ -29,8 +32,15 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
 public final class StateHurt extends State
 {
     private static final double HURT_JUMP_FORCE = 3.5;
+    private static final int FLICKER_COUNT = 15;
 
     private final Hurtable hurtable = model.getFeature(Hurtable.class);
+    private final Stats stats = model.getFeature(Stats.class);
+    private final Updatable updateFlicker;
+
+    private Updatable updater;
+    private int frameFlicker;
+    private int flicker;
 
     /**
      * Create the state.
@@ -42,20 +52,83 @@ public final class StateHurt extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !hurtable.isHurting() && !model.hasGravity());
+        addTransition(StateIdle.class,
+                      () -> !hurtable.isHurting()
+                            && animatable.getFrame() == animatable.getAnim().getLast()
+                            && !model.hasGravity());
         addTransition(StateFall.class, () -> !hurtable.isHurting() && model.hasGravity());
+
+        updateFlicker = extrp ->
+        {
+            if (flicker < FLICKER_COUNT)
+            {
+                if (flicker % 3 != 0)
+                {
+                    if (frameFlicker > 0)
+                    {
+                        animatable.setFrame(frameFlicker);
+                    }
+                    else
+                    {
+                        rasterable.setAnimOffset(model.getFrames() / 2);
+                    }
+                }
+                else
+                {
+                    if (frameFlicker > 0)
+                    {
+                        animatable.setFrame(animation.getFirst());
+                    }
+                    rasterable.setAnimOffset(0);
+                }
+                if (flicker == FLICKER_COUNT / 2 && stats.getHealth() == 0)
+                {
+                    hurtable.kill();
+                }
+                flicker++;
+            }
+        };
     }
 
     @Override
     public void enter()
     {
+        final int old = animatable.getFrame();
+        final Animation anim = animatable.getAnim();
+
         super.enter();
+
+        if (model.hasFeature(SwordShade.class))
+        {
+            updater = UpdatableVoid.getInstance();
+        }
+        else
+        {
+            animatable.play(anim);
+            animatable.setFrame(old);
+            flicker = 0;
+            frameFlicker = hurtable.getFrame().orElse(0);
+            if (frameFlicker > 0)
+            {
+                animatable.stop();
+            }
+            updater = updateFlicker;
+        }
 
         if (model.hasFeature(SwordShade.class))
         {
             jump.setDirection(0.0, HURT_JUMP_FORCE);
         }
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
+        hurtable.setEnabled(false);
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        updater.update(extrp);
+        body.resetGravity();
+        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override
@@ -63,13 +136,8 @@ public final class StateHurt extends State
     {
         super.exit();
 
+        rasterable.setAnimOffset(0);
         jump.setDirectionMaximum(Constant.JUMP_MAX);
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        body.resetGravity();
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        hurtable.setEnabled(true);
     }
 }

@@ -16,12 +16,14 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -33,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
@@ -62,6 +65,8 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Stats stats;
     @FeatureGet private Launcher launcher;
     @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Hurtable hurtable;
 
     /**
      * Create feature.
@@ -95,6 +100,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
         else
         {
             stateHandler.changeState(StateDecay.class);
+            hurtable.kill();
             current = UpdatableVoid.getInstance();
         }
     }
@@ -126,6 +132,32 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
             Sfx.ENEMY_FLOWER.play();
             tick.restart();
         }
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        animatable.addListener((AnimatorFrameListener) frame ->
+        {
+            if (frame < 4)
+            {
+                rasterable.setFrameOffsets(0, 0);
+            }
+            else if (frame < 7)
+            {
+                rasterable.setFrameOffsets(-11, 0);
+            }
+            else if (frame < 8)
+            {
+                rasterable.setFrameOffsets(-17, 0);
+            }
+            else if (frame < 9)
+            {
+                rasterable.setFrameOffsets(-19, 0);
+            }
+        });
     }
 
     @Override

@@ -8,7 +8,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="NestLittle.png" icon="NestLittle_ico.png"/>
-    <lionengine:frames horizontal="1" vertical="1"/>
+    <lionengine:frames horizontal="2" vertical="1"/>
     <lionengine:size width="48" height="48"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -33,6 +33,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <data mass="1" gravityMax="16.0"/>
-    <stats health="1"/>
+    <stats health="2"/>
     <hurtable fall="true" effect="ExplodeBig"/>
 </lionengine:featurable>

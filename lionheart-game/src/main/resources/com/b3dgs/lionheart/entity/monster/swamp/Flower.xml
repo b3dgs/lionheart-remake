@@ -4,23 +4,23 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Flower</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Flower</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Flower.png" icon="Flower_ico.png"/>
-    <lionengine:frames horizontal="5" vertical="2"/>
-    <lionengine:size width="48" height="32"/>
+    <lionengine:frames horizontal="9" vertical="2"/>
+    <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="false">
-            <lionengine:collisionFramed number="1" x="-10" y="3" width="20" height="20"/>
-            <lionengine:collisionFramed number="2" x="-8" y="2" width="20" height="20"/>
-            <lionengine:collisionFramed number="3" x="-4" y="1" width="20" height="20"/>
-            <lionengine:collisionFramed number="4" x="-2" y="0" width="20" height="20"/>
-            <lionengine:collisionFramed number="5" x="2" y="0" width="20" height="20"/>
-            <lionengine:collisionFramed number="6" x="4" y="1" width="20" height="20"/>
-            <lionengine:collisionFramed number="7" x="8" y="2" width="20" height="20"/>
-            <lionengine:collisionFramed number="8" x="10" y="3" width="20" height="20"/>
+            <lionengine:collisionFramed number="1" x="-2" y="3" width="20" height="20"/>
+            <lionengine:collisionFramed number="2" x="0" y="2" width="20" height="20"/>
+            <lionengine:collisionFramed number="3" x="2" y="1" width="20" height="20"/>
+            <lionengine:collisionFramed number="4" x="6" y="0" width="20" height="20"/>
+            <lionengine:collisionFramed number="5" x="10" y="0" width="20" height="20"/>
+            <lionengine:collisionFramed number="6" x="14" y="1" width="20" height="20"/>
+            <lionengine:collisionFramed number="7" x="16" y="2" width="20" height="20"/>
+            <lionengine:collisionFramed number="8" x="18" y="3" width="20" height="20"/>
         </lionengine:animation>
         <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="decay" start="9" end="9" speed="0.25" reversed="false" repeat="false"/>
