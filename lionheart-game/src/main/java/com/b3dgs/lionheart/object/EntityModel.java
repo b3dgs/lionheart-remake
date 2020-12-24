@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.body.BodyConfig;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.State;
@@ -59,7 +60,6 @@ import com.b3dgs.lionheart.object.state.StateSlide;
 @FeatureInterface
 public final class EntityModel extends EntityModelHelper implements Routine
 {
-    private static final String NODE_DATA = "data";
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int SECRET_RANGE = 48;
     private static final int PREFIX = State.class.getSimpleName().length();
@@ -83,7 +83,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
     private final CameraTracker tracker = services.get(CameraTracker.class);
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
-    private final boolean hasGravity = setup.hasNode(NODE_DATA);
+    private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private Transformable player;
     private boolean secret;
     private final int frames;
@@ -137,16 +137,7 @@ public final class EntityModel extends EntityModelHelper implements Routine
         movement.setVelocity(0.1);
         movement.setSensibility(0.01);
 
-        if (hasGravity)
-        {
-            body.setGravity(Constant.GRAVITY);
-            body.setGravityMax(Constant.GRAVITY);
-            body.setDesiredFps(source.getRate());
-        }
-        else
-        {
-            body.setGravity(0.0);
-        }
+        body.setDesiredFps(source.getRate());
 
         jump.setSensibility(0.1);
         jump.setVelocity(0.18);

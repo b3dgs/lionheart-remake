@@ -22,6 +22,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ExplodeLittle"/>
+    <hurtable frame="-1" effect="ExplodeLittle"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

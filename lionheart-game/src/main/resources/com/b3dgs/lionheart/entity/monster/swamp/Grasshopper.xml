@@ -46,6 +46,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:launcher rate="200" mirrorable="true">
         <lionengine:launchable media="projectile/swamp/Fly.xml" sfx="sfx/enemy_insekt.wav" ox="0" oy="16" delay="0">
             <lionengine:force velocity="1" sensibility="0" vx="2.0" vy="0.0"/>
@@ -58,10 +59,6 @@
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
-    <data mass="1.85" gravityMax="16.0">
-        <movement speedMax="1.5"/>
-        <jump heightMax="7.0"/>
-    </data>
     <stats health="2"/>
     <hurtable frame="16" effect="ExplodeBig"/>
 </lionengine:featurable>

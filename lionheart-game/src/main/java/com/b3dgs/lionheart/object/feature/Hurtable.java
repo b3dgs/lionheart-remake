@@ -195,6 +195,7 @@ public final class Hurtable extends FeatureModel
         {
             if (fall)
             {
+                body.setGravity(oldGravity);
                 body.setGravityMax(oldGravity);
             }
             currentCollide = CollidableListenerVoid.getInstance();
@@ -324,6 +325,7 @@ public final class Hurtable extends FeatureModel
         if (fall)
         {
             oldGravity = body.getGravityMax();
+            body.setGravity(0.0);
             body.setGravityMax(0.0);
         }
     }

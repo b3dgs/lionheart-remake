@@ -8,21 +8,20 @@
     </lionengine:features>
     <lionengine:surface image="Bullet.png"/>
     <lionengine:frames horizontal="2" vertical="1"/>
-    <lionengine:size width="16" height="16"/>
+    <lionengine:size width="7" height="7"/>
     <lionengine:origin>MIDDLE</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
         <lionengine:animation name="hurt" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="default" offsetX="-2" offsetY="7" width="4" height="4" mirror="false"/>
-        <lionengine:collision name="attack" offsetX="-2" offsetY="7" width="4" height="4" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="-1" offsetY="-3" width="4" height="4" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
-    <lionengine:collidable group="2"/>
+    <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ExplodeLittle"/>
+    <hurtable frame="-1" effect="ExplodeLittle"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

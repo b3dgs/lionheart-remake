@@ -110,7 +110,7 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
         <lionengine:animation name="attackfall" start="87" end="87" speed="0.125" reversed="false" repeat="true">
-            <lionengine:collisionFramed x="-3" y="0" width="2" height="26"/>
+            <lionengine:collisionFramed x="-3" y="0" width="10" height="26"/>
             <lionengine:collisionFramed prefix="body" x="0" y="30" width="20" height="25"/>
         </lionengine:animation>
         <lionengine:animation name="attackslide" start="121" end="125" speed="0.4" reversed="false" repeat="false">
@@ -230,10 +230,7 @@
     </lionengine:input>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="9"/>
+    <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:collidable group="1" accepted="2%3"/>
-    <data mass="1.85" gravityMax="11.0" fallenDuration="150">
-        <movement speedMax="1.75" smooth="0.15" sensibilityIncrease="0.4" sensibilityDecrease="0.15"/>
-        <jump heightMax="7.0"/>
-    </data>
     <stats health="4" life="2"/>
 </lionengine:featurable>

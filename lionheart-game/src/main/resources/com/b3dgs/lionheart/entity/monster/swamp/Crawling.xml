@@ -56,11 +56,8 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <data mass="1" gravityMax="16.0">
-        <movement speedMax="1.5"/>
-        <jump heightMax="7.0"/>
-    </data>
     <stats health="1"/>
     <hurtable effect="ExplodeBig"/>
 </lionengine:featurable>

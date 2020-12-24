@@ -291,7 +291,7 @@
         <entity file="entity/monster/swamp/Flower.xml" tx="329.0" ty="53.0"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="317.0" ty="63.0"/>
         <entity file="entity/monster/swamp/Flower.xml" tx="329.0" ty="63.0"/>
-        <entity file="entity/monster/swamp/Flower.xml" tx="323.0" ty="70.0"/>
+        <entity file="entity/monster/swamp/Flower.xml" tx="322.0" ty="70.0"/>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="328.0" ty="67.0"/>
         <entity file="entity/scenery/swamp/Spike2.xml" tx="334.0" ty="70.0">
             <spike delay="40"/>

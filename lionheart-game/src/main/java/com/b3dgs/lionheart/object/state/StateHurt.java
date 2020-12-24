@@ -23,6 +23,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Hurtable;
+import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
@@ -32,7 +33,7 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
 public final class StateHurt extends State
 {
     private static final double HURT_JUMP_FORCE = 3.5;
-    private static final int FLICKER_COUNT = 15;
+    private static final int FLICKER_COUNT = 16;
 
     private final Hurtable hurtable = model.getFeature(Hurtable.class);
     private final Stats stats = model.getFeature(Stats.class);
@@ -68,7 +69,7 @@ public final class StateHurt extends State
                     {
                         animatable.setFrame(frameFlicker);
                     }
-                    else
+                    else if (frameFlicker == 0)
                     {
                         rasterable.setAnimOffset(model.getFrames() / 2);
                     }
@@ -81,7 +82,7 @@ public final class StateHurt extends State
                     }
                     rasterable.setAnimOffset(0);
                 }
-                if (flicker == FLICKER_COUNT / 2 && stats.getHealth() == 0)
+                if (frameFlicker < 0 || flicker == FLICKER_COUNT / 2 && stats.getHealth() == 0)
                 {
                     hurtable.kill();
                 }
@@ -127,7 +128,10 @@ public final class StateHurt extends State
     public void update(double extrp)
     {
         updater.update(extrp);
-        body.resetGravity();
+        if (!model.hasFeature(Patrol.class))
+        {
+            body.resetGravity();
+        }
         movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
