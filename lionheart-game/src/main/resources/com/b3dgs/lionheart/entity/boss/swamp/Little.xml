@@ -8,7 +8,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Little.png"/>
-    <lionengine:frames horizontal="8" vertical="3"/>
+    <lionengine:frames horizontal="8" vertical="6"/>
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>

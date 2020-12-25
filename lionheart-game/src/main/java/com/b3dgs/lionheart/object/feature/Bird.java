@@ -54,7 +54,7 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
 @FeatureInterface
 public final class Bird extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final double CURVE_FORCE = 2.3;
+    private static final double CURVE_FORCE = 0.0;
     private static final long TICK_GLUE = 200L;
 
     private final Tick tick = new Tick();
@@ -64,6 +64,8 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Transformable reference;
     @FeatureGet private Launchable launchable;
+    @FeatureGet private Collidable collidable;
+    @FeatureGet private Hurtable hurtable;
     @FeatureGet private Glue glue;
 
     private Transformable other;
@@ -88,13 +90,18 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     {
         tick.update(extrp);
 
-        if (hit && tick.elapsed(TICK_GLUE))
+        if (hit && !hurtable.isHurting())
         {
             hit = false;
+            stateHandler.changeState(StateIdle.class);
+        }
+        if (tick.elapsed(TICK_GLUE))
+        {
             stateHandler.changeState(StatePatrol.class);
             launchable.setVector(old);
             model.setInput(input);
             glue.recycle();
+            tick.stop();
         }
     }
 
@@ -102,12 +109,13 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         other = collidable.getFeature(Transformable.class);
-        if (!hit && Double.compare(other.getY(), other.getOldY()) <= 0 && by.getName().startsWith(Anim.ATTACK))
+        if (!hit
+            && Double.compare(other.getY(), other.getOldY()) <= 0
+            && with.getName().startsWith(Anim.ATTACK)
+            && by.getName().startsWith(Anim.ATTACK))
         {
-            stateHandler.changeState(StateIdle.class);
             old = launchable.getDirection();
             launchable.setVector(null);
-            animatable.stop();
             tick.restart();
             Sfx.MONSTER_HURT.play();
             hit = true;
@@ -121,7 +129,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void recycle()
     {
-        tick.restart();
+        tick.stop();
         hit = false;
         old = null;
         input = null;

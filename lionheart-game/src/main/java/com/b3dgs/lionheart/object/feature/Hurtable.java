@@ -169,6 +169,7 @@ public final class Hurtable extends FeatureModel
             && collidable.getGroup() == Constant.COLL_GROUP_PLAYER
             && recover.elapsed(HURT_RECOVER_ATTACK_TICK)
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
+            && with.getName().startsWith(CollisionName.BODY)
             && by.getName().startsWith(Anim.ATTACK))
         {
             updateCollideAttack(collidable);

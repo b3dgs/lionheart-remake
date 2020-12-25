@@ -84,7 +84,7 @@ public final class Grasshopper extends FeatureModel implements Routine
             }
         });
         launcher.addListener(l -> l.ifIs(Rasterable.class,
-                                         r -> r.setRaster(false, rasterable.getMedia().get(), map.getTileHeight())));
+                                         r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
     }
 
     @Override

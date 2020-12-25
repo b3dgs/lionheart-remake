@@ -256,7 +256,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
         launcher.setOffset(TONGUE_OFFSET_X, TONGUE_OFFSET_Y);
         launcher.addListener(tongue::add);
         launcher.addListener(l -> l.ifIs(Rasterable.class,
-                                         r -> r.setRaster(false, rasterable.getMedia().get(), map.getTileHeight())));
+                                         r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
     }
 
     @Override

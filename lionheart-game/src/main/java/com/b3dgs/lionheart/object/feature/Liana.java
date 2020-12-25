@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -39,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
@@ -146,6 +148,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
@@ -182,7 +185,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                     {
                         map.setTile(top.getInTileX(), top.getInTileY(), getVoid(top));
                         mapGroup.changeGroup(top, MapTileGroupModel.NO_GROUP_NAME);
-                        mapCollision.update(top);
+                        mapCollision.updateCollisions(top);
                         ground = true;
                     }
                     else
@@ -193,14 +196,14 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                     number = tile.getNumber();
                     map.setTile(tile.getInTileX(), tile.getInTileY(), getVoid(tile));
                     mapGroup.changeGroup(tile, MapTileGroupModel.NO_GROUP_NAME);
-                    mapCollision.update(tile);
+                    mapCollision.updateCollisions(tile);
 
                     if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(top))
                         && !CollisionName.LIANA_TOP.equals(mapGroup.getGroup(top2)))
                     {
                         map.setTile(top.getInTileX(), top.getInTileY(), getVoid(top));
                         mapGroup.changeGroup(top, MapTileGroupModel.NO_GROUP_NAME);
-                        mapCollision.update(top);
+                        mapCollision.updateCollisions(top);
                     }
                     else
                     {
@@ -215,13 +218,16 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                         {
                             map.setTile(bottom.getInTileX(), bottom.getInTileY(), getVoid(bottom));
                             mapGroup.changeGroup(bottom, MapTileGroupModel.NO_GROUP_NAME);
-                            mapCollision.update(bottom);
+                            mapCollision.updateCollisions(bottom);
                         }
-                        else if (top.getNumber() != 907 && top.getNumber() != 908 && top.getNumber() != 702)
+                        else if (top != null
+                                 && top.getNumber() != 907
+                                 && top.getNumber() != 908
+                                 && top.getNumber() != 702)
                         {
                             map.setTile(bottom.getInTileX(), bottom.getInTileY(), getGround(bottom.getNumber()));
                             mapGroup.changeGroup(bottom, CollisionName.GROUND);
-                            mapCollision.update(bottom);
+                            mapCollision.updateCollisions(bottom);
                         }
                     }
                     else
@@ -239,7 +245,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                             map.setTile(t.getInTileX(),
                                         t.getInTileY(),
                                         getBottom(map.getTile(current.getInTileX(), current.getInTileY() + 2)));
-                            mapCollision.update(t);
+                            mapCollision.updateCollisions(t);
                         }
                         if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(b))
                             && b.getNumber() != 708
@@ -248,16 +254,16 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                             map.setTile(b.getInTileX(),
                                         b.getInTileY(),
                                         getTop(map.getTile(current.getInTileX(), current.getInTileY() - 2)));
-                            mapCollision.update(b);
+                            mapCollision.updateCollisions(b);
                         }
                     }
                     toUpdate.clear();
 
-                    if (ground && top.getNumber() != 6)
+                    if (ground && top != null && top.getNumber() != 6)
                     {
                         map.setTile(tile.getInTileX(), tile.getInTileY(), getGround(number));
                         mapGroup.changeGroup(tile, CollisionName.GROUND);
-                        mapCollision.update(tile);
+                        mapCollision.updateCollisions(tile);
                     }
 
                     spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), tile.getX(), tile.getY());
@@ -307,6 +313,14 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         }
         // Case for other liana
         return TILE_VOID;
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        collidable.setCollisionVisibility(Constant.DEBUG);
     }
 
     @Override

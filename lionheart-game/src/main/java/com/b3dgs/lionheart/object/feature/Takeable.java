@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Takeable feature implementation.
@@ -66,7 +67,7 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
 
         take = (collidable, with, by) ->
         {
-            if (by.getName().startsWith(Anim.BODY))
+            if (with.getName().startsWith(CollisionName.BODY) && by.getName().startsWith(CollisionName.BODY))
             {
                 config.getSfx().play();
                 collidable.getFeature(Stats.class).apply(config);

@@ -131,7 +131,7 @@ final class World extends WorldHelper
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
-                // spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
+                spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
             }
         });
 
@@ -222,7 +222,7 @@ final class World extends WorldHelper
      */
     private void prepareCache()
     {
-        factory.createCache(Medias.create(Folder.EFFECTS), 5);
+        factory.createCache(spawner, Medias.create(Folder.EFFECTS), 4);
         Sfx.cache();
     }
 
@@ -270,6 +270,8 @@ final class World extends WorldHelper
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
         hud.load();
+        handler.updateRemove();
+        handler.updateAdd();
         prepareCache();
     }
 

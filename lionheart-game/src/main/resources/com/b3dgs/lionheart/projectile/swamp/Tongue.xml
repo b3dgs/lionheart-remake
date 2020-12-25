@@ -17,6 +17,7 @@
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="ground" offsetX="0" offsetY="9" width="16" height="1" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="9" width="16" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>

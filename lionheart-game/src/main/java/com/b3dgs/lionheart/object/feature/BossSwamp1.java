@@ -60,7 +60,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private static final int TOP_Y = 230;
     private static final int MAX_AWAY_Y = 388;
     private static final double MOVE_X = 0.9;
-    private static final int BOWL_MARGIN = 32;
+    private static final int BOWL_MARGIN = 48;
     private static final int PALLET_OFFSET = 2;
 
     private final List<Launchable> bowls = new ArrayList<>();
