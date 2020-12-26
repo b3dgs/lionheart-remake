@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
@@ -47,7 +48,7 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 public class Turning extends FeatureModel implements Routine, Recyclable
 {
     /** Max shake amplitude in height. */
-    private static final double CURVE_FORCE = 4.0;
+    private static final double CURVE_FORCE = 2.0;
     /** Shake curve speed value. */
     private static final double CURVE_SPEED = 50.0;
     /** Tick delay before starting rotation. */
@@ -119,6 +120,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
             glue.start();
             glue.setTransformY(this::computeCurve);
             tick.stop();
+            Sfx.SCENERY_TURNING.play();
             check = this::updateShake;
         }
     }
