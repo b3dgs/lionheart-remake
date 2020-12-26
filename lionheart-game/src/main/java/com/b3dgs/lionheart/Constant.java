@@ -40,7 +40,7 @@ public final class Constant
     /** Debug flag (shows collisions). */
     public static final boolean DEBUG = false;
     /** Disable audio flag. */
-    public static final boolean AUDIO_MUTE = true;
+    public static final boolean AUDIO_MUTE = false;
 
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
@@ -60,6 +60,8 @@ public final class Constant
     /** Stats maximum sword. */
     public static final int STATS_MAX_SWORD = 2;
 
+    /** Camera horizontal margin. */
+    public static final int CAMERA_HORIZONTAL_MARGIN = 16;
     /** Maximum gravity. */
     public static final double GRAVITY = 6.5;
     /** Walk speed. */

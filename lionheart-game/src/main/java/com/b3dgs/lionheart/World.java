@@ -87,30 +87,7 @@ final class World extends WorldHelper
 
         map.addFeature(new LayerableModel(4, 2));
 
-        camera.setIntervals(16, 0);
-    }
-
-    /**
-     * Init music volume and play.
-     * 
-     * @param media The music file.
-     */
-    private void initMusic(Media media)
-    {
-        if (audio != null)
-        {
-            audio.stop();
-        }
-        audio = AudioFactory.loadAudio(media);
-        audio.setVolume(25);
-        if (!Constant.AUDIO_MUTE)
-        {
-            audio.play();
-        }
-        else
-        {
-            AudioFactory.setVolume(0);
-        }
+        camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
     }
 
     /**
@@ -227,6 +204,30 @@ final class World extends WorldHelper
     }
 
     /**
+     * Init music volume and play.
+     * 
+     * @param media The music file.
+     */
+    private void initMusic(Media media)
+    {
+        if (audio != null)
+        {
+            audio.stop();
+        }
+        audio = AudioFactory.loadAudio(media);
+        audio.setVolume(10);
+        if (!Constant.AUDIO_MUTE)
+        {
+            AudioFactory.setVolume(15);
+            audio.play();
+        }
+        else
+        {
+            AudioFactory.setVolume(0);
+        }
+    }
+
+    /**
      * Load the stage from configuration.
      * 
      * @param config The stage configuration.
@@ -235,7 +236,6 @@ final class World extends WorldHelper
     {
         final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
 
-        initMusic(stage.getMusic());
         loadMap(stage.getMapFile(), stage.getRasterFolder());
 
         final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, false);
@@ -250,7 +250,8 @@ final class World extends WorldHelper
             @Override
             public void notifyReachedEnd()
             {
-                sequencer.end(Scene.class, stage.getNextStage());
+                audio.stop();
+                sequencer.end(SceneBlack.class, stage.getNextStage());
             }
 
             @Override
@@ -269,6 +270,7 @@ final class World extends WorldHelper
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
+        initMusic(stage.getMusic());
         hud.load();
         handler.updateRemove();
         handler.updateAdd();
