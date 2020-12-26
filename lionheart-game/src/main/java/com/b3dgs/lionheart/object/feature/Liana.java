@@ -41,6 +41,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
@@ -55,7 +56,7 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class Liana extends FeatureModel implements CollidableListener, Recyclable
 {
-    private static final int TILE_VOID = 910;
+    private static final int TILE_VOID = 911;
 
     /**
      * Get top tile.
@@ -267,6 +268,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                     }
 
                     spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), tile.getX(), tile.getY());
+                    Sfx.MONSTER_HURT.play();
                 }
                 identifiable.destroy();
                 current = CollidableListenerVoid.getInstance();
