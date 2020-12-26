@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -30,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionheart.Sfx;
 
@@ -48,6 +50,7 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
 
     private final Tick tick = new Tick();
     private final Tick delay = new Tick();
+    private final Viewer viewer = services.get(Viewer.class);
     private final Updatable phaseUpdater;
     private final Animation phase1;
     private final Animation phase2;
@@ -57,6 +60,7 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Collidable collidable;
+    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.
@@ -91,7 +95,10 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
             else if (phase == 2 && tick.elapsed(PHASE2_DELAY_TICK))
             {
                 animatable.play(phase2);
-                Sfx.SPIKE.play();
+                if (viewer.isViewable(transformable, 0, 0))
+                {
+                    Sfx.SPIKE.play();
+                }
                 phase = 3;
             }
             else if (phase == 3 && animatable.is(AnimState.FINISHED))
