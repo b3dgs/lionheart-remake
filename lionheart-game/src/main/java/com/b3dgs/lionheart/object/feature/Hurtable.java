@@ -47,6 +47,7 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
@@ -85,7 +86,6 @@ public final class Hurtable extends FeatureModel
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
-    private double oldGravity;
     private boolean enabled;
 
     @FeatureGet private Identifiable identifiable;
@@ -93,6 +93,8 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private StateHandler stateHandler;
+    @FeatureGet private Collidable collidable;
+    @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private EntityModel model;
     @FeatureGet private Stats stats;
 
@@ -196,8 +198,10 @@ public final class Hurtable extends FeatureModel
         {
             if (fall)
             {
-                body.setGravity(oldGravity);
-                body.setGravityMax(oldGravity);
+                body.setGravity(4.0);
+                body.setGravityMax(4.0);
+                tileCollidable.setEnabled(true);
+                this.collidable.setEnabled(false);
             }
             currentCollide = CollidableListenerVoid.getInstance();
         }
@@ -325,9 +329,10 @@ public final class Hurtable extends FeatureModel
 
         if (fall)
         {
-            oldGravity = body.getGravityMax();
             body.setGravity(0.0);
             body.setGravityMax(0.0);
+            tileCollidable.setEnabled(false);
+            collidable.setEnabled(true);
         }
     }
 

@@ -17,16 +17,17 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
-import com.b3dgs.lionengine.AnimatorFrameListener;
+import com.b3dgs.lionengine.AnimatorStateListener;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
@@ -41,13 +42,16 @@ import com.b3dgs.lionheart.object.state.StateIdle;
  * </ol>
  */
 @FeatureInterface
-public final class Effect extends FeatureModel implements Recyclable
+public final class Effect extends FeatureModel implements Routine, Recyclable
 {
     private static final String NODE_SFX_EXPLODE = "sfx_explode";
     private static final String ATT_COUNT = "count";
+    private static final int TICK_DELAY = 9;
 
-    private final int mod;
-    private final boolean sfxExplode;
+    private final Tick tick = new Tick();
+    private final int count;
+
+    private int current;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Animatable animatable;
@@ -64,18 +68,7 @@ public final class Effect extends FeatureModel implements Recyclable
     {
         super(services, setup);
 
-        final FramesConfig config = FramesConfig.imports(setup);
-        final int frames = config.getHorizontal() * config.getVertical();
-        final int count = setup.getIntegerDefault(frames, ATT_COUNT, NODE_SFX_EXPLODE);
-        if (count == 1)
-        {
-            mod = 0;
-        }
-        else
-        {
-            mod = frames / count;
-        }
-        sfxExplode = setup.hasNode(NODE_SFX_EXPLODE);
+        count = setup.getIntegerDefault(0, ATT_COUNT, NODE_SFX_EXPLODE);
     }
 
     @Override
@@ -83,31 +76,33 @@ public final class Effect extends FeatureModel implements Recyclable
     {
         super.prepare(provider);
 
-        animatable.addListener(new AnimatorFrameListener()
+        animatable.addListener((AnimatorStateListener) state ->
         {
-            @Override
-            public void notifyAnimState(AnimState state)
+            if (AnimState.FINISHED == state)
             {
-                if (AnimState.FINISHED == state)
-                {
-                    identifiable.destroy();
-                }
-            }
-
-            @Override
-            public void notifyAnimFrame(int frame)
-            {
-                if (sfxExplode && (mod == 0 && frame == 1 || mod > 0 && frame % mod == 0))
-                {
-                    Sfx.playRandomExplode();
-                }
+                identifiable.destroy();
             }
         });
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        tick.update(extrp);
+        if (current < count && tick.elapsed(TICK_DELAY))
+        {
+            Sfx.playRandomExplode();
+            current++;
+            tick.restart();
+        }
     }
 
     @Override
     public void recycle()
     {
         stateHandler.changeState(StateIdle.class);
+        current = 0;
+        tick.restart();
+        tick.set(TICK_DELAY);
     }
 }

@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Patrol;
 
 /**
  * Slide state implementation.
@@ -49,7 +50,8 @@ public class StateSlideBase extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !steep.is() || abord.get());
+        addTransition(StateIdle.class, () -> (!steep.is() || abord.get()) && !model.hasFeature(Patrol.class));
+        addTransition(StatePatrol.class, () -> (!steep.is() || abord.get()) && model.hasFeature(Patrol.class));
         addTransition(StateJump.class, this::isGoUpOnce);
     }
 
@@ -87,6 +89,19 @@ public class StateSlideBase extends State
 
         movement.zero();
         abord.set(false);
+
+        if (model.hasFeature(Patrol.class))
+        {
+            rasterable.setFrameOffsets(0, 20);
+        }
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        movement.setDestination(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
+        movement.setDirection(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
+        body.resetGravity();
     }
 
     @Override
@@ -105,13 +120,10 @@ public class StateSlideBase extends State
         {
             movement.setDirection(steep.getSide(), 0.0);
         }
-    }
 
-    @Override
-    public void update(double extrp)
-    {
-        movement.setDestination(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
-        movement.setDirection(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
-        body.resetGravity();
+        if (model.hasFeature(Patrol.class))
+        {
+            rasterable.setFrameOffsets(0, 0);
+        }
     }
 }

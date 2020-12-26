@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
@@ -306,7 +307,7 @@ public final class Patrol extends FeatureModel
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (result.startWithX(CollisionName.STEEP))
+        if (category.getAxis() == Axis.X && result.startWithX(CollisionName.STEEP))
         {
             sh = -sh;
             transformable.teleportX(transformable.getOldX() + sh);

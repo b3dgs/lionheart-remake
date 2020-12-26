@@ -17,6 +17,8 @@
         <lionengine:animation name="turn" start="14" end="16" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="slide" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="slidefast" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="slideslow" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -24,34 +26,17 @@
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="32" height="44" mirror="false"/>
     </lionengine:collisions>
     <lionengine:categories>
-        <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
+        <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
+            <lionengine:group>ground</lionengine:group>
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
-            <lionengine:group>ground</lionengine:group>
-        </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="5" y="0">
-            <lionengine:group>slope_0_left</lionengine:group>
-            <lionengine:group>slope_1_left</lionengine:group>
-            <lionengine:group>slope_0_right</lionengine:group>
-            <lionengine:group>slope_1_right</lionengine:group>
-            <lionengine:group>ground</lionengine:group>
-        </lionengine:category>
-        <lionengine:category name="knee_left" axis="X" x="-6" y="4">
-            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
             <lionengine:group>steep_0_right</lionengine:group>
             <lionengine:group>steep_1_right</lionengine:group>
-            <lionengine:group>steep_vertical</lionengine:group>
-            <lionengine:group>vertical</lionengine:group>
-        </lionengine:category>
-        <lionengine:category name="knee_right" axis="X" x="6" y="4">
-            <lionengine:group>spike</lionengine:group>
-            <lionengine:group>steep_0_left</lionengine:group>
-            <lionengine:group>steep_1_left</lionengine:group>
-            <lionengine:group>steep_left_ground</lionengine:group>
-            <lionengine:group>steep_vertical</lionengine:group>
-            <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

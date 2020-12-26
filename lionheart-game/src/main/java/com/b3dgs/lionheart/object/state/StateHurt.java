@@ -82,7 +82,7 @@ public final class StateHurt extends State
                     }
                     rasterable.setAnimOffset(0);
                 }
-                if (frameFlicker < 0 || flicker == FLICKER_COUNT / 2 && stats.getHealth() == 0)
+                if (frameFlicker < 0 || flicker == FLICKER_COUNT / 3 && stats.getHealth() == 0)
                 {
                     hurtable.kill();
                 }

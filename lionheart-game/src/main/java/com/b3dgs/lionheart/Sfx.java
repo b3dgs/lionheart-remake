@@ -63,6 +63,8 @@ public enum Sfx
     ENEMY_INSEKT,
     /** Scenery dragon throws. */
     SCENERY_DRAGON,
+    /** Scenery turning. */
+    SCENERY_TURNING,
     /** Grasshopper jump. */
     GRASSHOPPER_JUMP,
     /** Boss hit. */
@@ -91,7 +93,7 @@ public enum Sfx
             for (final Sfx sfx : Sfx.values())
             {
                 sfx.audio.stop();
-                sfx.audio.setVolume(50);
+                sfx.audio.setVolume(100);
             }
         }
     }

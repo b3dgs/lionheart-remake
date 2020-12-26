@@ -49,7 +49,7 @@ public final class StateFall extends State
         super(model, animation);
 
         addTransition(StateLand.class, () -> !steep.is() && collideY.get() && !model.hasFeature(Patrol.class));
-        addTransition(StatePatrol.class, () -> collideY.get() && model.hasFeature(Patrol.class));
+        addTransition(StatePatrol.class, () -> !steep.is() && collideY.get() && model.hasFeature(Patrol.class));
         addTransition(StateSlide.class, () -> steep.is() && !isGoHorizontal());
         addTransition(StateSlideSlow.class,
                       () -> steep.is() && (is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft()));
