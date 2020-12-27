@@ -127,7 +127,8 @@ public final class EntityModel extends EntityModelHelper implements Routine
                                                 .booleanValue();
 
             checker.setCheckerUpdate(() -> alwaysUpdate || UtilMath.getDistance(player, transformable) < sight);
-            checker.setCheckerRender(() -> !secret && camera.isViewable(transformable, 0, 0));
+            checker.setCheckerRender(() -> !secret
+                                           && camera.isViewable(transformable, 0, transformable.getHeight() * 2));
         }
         else
         {
