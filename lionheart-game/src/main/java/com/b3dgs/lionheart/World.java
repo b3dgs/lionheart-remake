@@ -215,10 +215,10 @@ final class World extends WorldHelper
             audio.stop();
         }
         audio = AudioFactory.loadAudio(media);
-        audio.setVolume(10);
         if (!Constant.AUDIO_MUTE)
         {
-            AudioFactory.setVolume(15);
+            AudioFactory.setVolume(Constant.AUDIO_VOLUME);
+            audio.setVolume(Constant.AUDIO_VOLUME / 2);
             audio.play();
         }
         else
@@ -238,7 +238,7 @@ final class World extends WorldHelper
 
         loadMap(stage.getMapFile(), stage.getRasterFolder());
 
-        final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, false);
+        final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
 
         final Coord start = stage.getStart();

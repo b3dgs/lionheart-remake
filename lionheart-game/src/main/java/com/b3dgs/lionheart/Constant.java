@@ -41,6 +41,8 @@ public final class Constant
     public static final boolean DEBUG = false;
     /** Disable audio flag. */
     public static final boolean AUDIO_MUTE = false;
+    /** Audio volume percent. */
+    public static final int AUDIO_VOLUME = 50;
 
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
