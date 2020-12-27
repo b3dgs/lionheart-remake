@@ -174,7 +174,7 @@ public final class Hurtable extends FeatureModel
             && with.getName().startsWith(CollisionName.BODY)
             && by.getName().startsWith(Anim.ATTACK))
         {
-            updateCollideAttack(collidable);
+            updateCollideAttack(collidable, by);
         }
         if (collidable.getGroup() != Constant.COLL_GROUP_PLAYER
             && recover.elapsed(HURT_RECOVER_BODY_TICK)
@@ -189,12 +189,18 @@ public final class Hurtable extends FeatureModel
      * Update collide with sword.
      * 
      * @param collidable The collidable reference.
+     * @param by The collision by.
      */
-    private void updateCollideAttack(Collidable collidable)
+    private void updateCollideAttack(Collidable collidable, Collision by)
     {
         Sfx.MONSTER_HURT.play();
         stateHandler.changeState(StateHurt.class);
-        if (stats.getHealthMax() > 0 && stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
+        int damages = collidable.getFeature(Stats.class).getDamages();
+        if (by.getName().startsWith(Anim.ATTACK_FALL))
+        {
+            damages *= 2;
+        }
+        if (stats.getHealthMax() > 0 && stats.applyDamages(damages))
         {
             if (fall)
             {
