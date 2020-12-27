@@ -28,15 +28,13 @@ public enum Stage
 {
     /** First swamp stage. */
     STAGE_1("stage1"),
-    /** First swamp stage. */
+    /** Second swamp stage. */
     STAGE_3("stage3"),
-    /** First swamp stage. */
+    /** Third swamp stage. */
     STAGE_5("stage5");
 
     /** Level file. */
     private final Media file;
-    /** Level rip image. */
-    private final Media rip;
 
     /**
      * Create the stage.
@@ -46,7 +44,6 @@ public enum Stage
     Stage(String file)
     {
         this.file = Medias.create(Folder.STAGES, file + Extension.LEVEL);
-        rip = Medias.create(Folder.STAGES, file + Extension.IMAGE);
     }
 
     /**
@@ -57,15 +54,5 @@ public enum Stage
     public Media getFile()
     {
         return file;
-    }
-
-    /**
-     * Get the associated stage rip.
-     * 
-     * @return The stage rip image.
-     */
-    public Media getRip()
-    {
-        return rip;
     }
 }
