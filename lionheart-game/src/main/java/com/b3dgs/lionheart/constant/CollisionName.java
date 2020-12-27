@@ -48,6 +48,8 @@ public final class CollisionName
     public static final String LEG_RIGHT = Anim.LEG + "_" + RIGHT;
     /** Collision body. */
     public static final String BODY = Anim.BODY;
+    /** Collision take. */
+    public static final String TAKE = "take";
     /** Collision bite. */
     public static final String BITE = "bite";
 

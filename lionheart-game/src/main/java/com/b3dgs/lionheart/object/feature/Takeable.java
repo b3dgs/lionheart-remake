@@ -67,7 +67,7 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
 
         take = (collidable, with, by) ->
         {
-            if (with.getName().startsWith(CollisionName.BODY) && by.getName().startsWith(CollisionName.BODY))
+            if (with.getName().startsWith(CollisionName.TAKE) && by.getName().startsWith(CollisionName.BODY))
             {
                 config.getSfx().play();
                 collidable.getFeature(Stats.class).apply(config);
