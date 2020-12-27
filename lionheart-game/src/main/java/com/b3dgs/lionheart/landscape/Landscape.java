@@ -76,16 +76,6 @@ public class Landscape
     }
 
     /**
-     * Get the current water height.
-     * 
-     * @return The current water height.
-     */
-    public double getWaterHeight()
-    {
-        return foreground.getTop();
-    }
-
-    /**
      * Called when the resolution changed.
      * 
      * @param width The new width.
