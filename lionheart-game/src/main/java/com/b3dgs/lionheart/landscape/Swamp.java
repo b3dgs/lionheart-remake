@@ -110,8 +110,7 @@ final class Swamp extends BackgroundAbstract
         private final int moonOffset;
         private int w;
         private int screenWidth;
-        private int flickerCount;
-        private boolean flickerType;
+        private boolean flicker;
 
         /**
          * Constructor.
@@ -125,15 +124,13 @@ final class Swamp extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
+            backcolorA = createElement(path, "backcolor1.png", 0, 0);
             if (flickering)
             {
-                backcolorA = createElement(path, "backcolor_a.png", 0, 0);
-                backcolorB = createElement(path, "backcolor_b.png", 0, 0);
-                flickerCount = 0;
+                backcolorB = createElement(path, "backcolor2.png", 0, 0);
             }
             else
             {
-                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y);
@@ -168,13 +165,13 @@ final class Swamp extends BackgroundAbstract
         private void renderBackdrop(Graphic g)
         {
             final Sprite sprite;
-            if (flickerType || !flickering)
+            if (flicker)
             {
-                sprite = (Sprite) backcolorA.getRenderable();
+                sprite = (Sprite) backcolorB.getRenderable();
             }
             else
             {
-                sprite = (Sprite) backcolorB.getRenderable();
+                sprite = (Sprite) backcolorA.getRenderable();
             }
             for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
             {
@@ -226,11 +223,7 @@ final class Swamp extends BackgroundAbstract
 
             if (flickering)
             {
-                flickerCount = (flickerCount + 1) % 2;
-                if (flickerCount == 0)
-                {
-                    flickerType = !flickerType;
-                }
+                flicker = !flicker;
             }
         }
 
