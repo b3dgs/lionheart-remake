@@ -286,7 +286,7 @@ final class Foreground extends BackgroundAbstract
             {
                 if (tick.elapsed(3))
                 {
-                    offset[offsetLine] += offsetSide;
+                    offset[WATER_LINES - 1 - offsetLine] += offsetSide;
                     offsetLine++;
 
                     if (Math.abs(offset[0]) % (WATER_LINES / 2) == 0)
