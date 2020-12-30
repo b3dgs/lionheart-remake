@@ -68,7 +68,7 @@ public final class NestLittle extends FeatureModel implements Routine, Recyclabl
         tick.update(extrp);
         if (tick.elapsed(FIRE_DELAY))
         {
-            Sfx.ENEMY_INSEKT.play();
+            Sfx.PROJECTILE_FLY.play();
             spawner.spawn(Medias.create(Folder.MONSTERS, "swamp", "Fly.xml"), transformable);
             tick.restart();
         }

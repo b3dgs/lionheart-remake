@@ -141,7 +141,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                             tick.restart();
                         }
                     }
-                    Sfx.BOSS_HIT.play();
+                    Sfx.BOSS1_HURT.play();
                 });
                 if (step == 8)
                 {
@@ -263,6 +263,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             moveY = 0.0;
             tick.restart();
             tick.set(SHAKE_DELAY);
+            Sfx.MONSTER_LAND.play();
             launcher.setLevel(1);
             launcher.fire(player);
             shakeCount = 0;

@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -213,6 +214,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
         {
             bowl.getFeature(Layerable.class).setLayer(Integer.valueOf(2), Integer.valueOf(2 + bowls.size()));
             bowls.add(bowl);
+            Sfx.BOSS1_BOWL.play();
         });
     }
 

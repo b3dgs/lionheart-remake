@@ -131,7 +131,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
         if (tick.elapsed(FIRE_DELAY))
         {
             launcher.fire(direction);
-            Sfx.ENEMY_FLOWER.play();
+            Sfx.PROJECTILE_FLOWER.play();
             tick.restart();
         }
     }

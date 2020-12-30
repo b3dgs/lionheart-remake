@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -133,8 +134,9 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
+        if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK) && !hit)
         {
+            Sfx.MONSTER_HURT.play();
             hit();
         }
     }

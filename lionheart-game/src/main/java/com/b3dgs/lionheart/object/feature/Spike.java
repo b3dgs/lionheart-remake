@@ -97,7 +97,7 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
                 animatable.play(phase2);
                 if (viewer.isViewable(transformable, 0, 0))
                 {
-                    Sfx.SPIKE.play();
+                    Sfx.SCENERY_SPIKE.play();
                 }
                 phase = 3;
             }

@@ -116,7 +116,7 @@ public final class SwordShade extends FeatureModel implements Routine
         if (anim != null)
         {
             shade.play(anim);
-            Sfx.VALDYN_ATTACK.play();
+            Sfx.VALDYN_SWORD.play();
             anim = null;
         }
     }

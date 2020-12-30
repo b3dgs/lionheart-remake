@@ -45,6 +45,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
@@ -155,6 +156,7 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         {
             tileCollidable.apply(result);
             animatable.play(hatch);
+            Sfx.MONSTER_LAND.play();
             falling = false;
         }
     }

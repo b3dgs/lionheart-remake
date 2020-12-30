@@ -35,40 +35,44 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public enum Sfx
 {
-    /** Sword attack. */
-    VALDYN_ATTACK,
+    /** Valdyn sword attack. */
+    VALDYN_SWORD,
     /** Valdyn hurt. */
     VALDYN_HURT,
     /** Valdyn die. */
     VALDYN_DIE,
-    /** Item potion little. */
-    ITEM_POTION,
-    /** Item potion full. */
-    ITEM_POTION_FULL,
-    /** Item talisment. */
+    /** Item potion little taken. */
+    ITEM_POTIONLITTLE,
+    /** Item potion big taken. */
+    ITEM_POTIONBIG,
+    /** Item taken other. */
     ITEM_TAKEN,
-    /** Monster hurt. */
-    MONSTER_HURT,
-    /** Explode 1. */
-    EXPLODE1,
-    /** Explode 2. */
-    EXPLODE2,
-    /** Explode 3. */
-    EXPLODE3,
-    /** Spike. */
-    SPIKE,
-    /** Enemy flower. */
-    ENEMY_FLOWER,
-    /** Enemy throws fly. */
-    ENEMY_INSEKT,
-    /** Scenery dragon throws. */
+    /** Scenery dragon tongue. */
     SCENERY_DRAGON,
     /** Scenery turning. */
     SCENERY_TURNING,
-    /** Grasshopper jump. */
-    GRASSHOPPER_JUMP,
-    /** Boss hit. */
-    BOSS_HIT;
+    /** Scenery spike. */
+    SCENERY_SPIKE,
+    /** Monster hurt. */
+    MONSTER_HURT,
+    /** Monster grasshopper. */
+    MONSTER_GRASSHOPER,
+    /** Monster land. */
+    MONSTER_LAND,
+    /** Effect explode 1. */
+    EFFECT_EXPLODE1,
+    /** Effect explode 2. */
+    EFFECT_EXPLODE2,
+    /** Effect explode 3. */
+    EFFECT_EXPLODE3,
+    /** Projectile flower. */
+    PROJECTILE_FLOWER,
+    /** Projectile fly. */
+    PROJECTILE_FLY,
+    /** Boss 1 hurt. */
+    BOSS1_HURT,
+    /** Boss 1 bowl. */
+    BOSS1_BOWL;
 
     /**
      * Cache sfx.
@@ -92,7 +96,7 @@ public enum Sfx
             }
             for (final Sfx sfx : Sfx.values())
             {
-                sfx.audio.stop();
+                sfx.audio.await();
                 sfx.audio.setVolume(100);
             }
         }
@@ -106,15 +110,15 @@ public enum Sfx
         final int id = UtilRandom.getRandomInteger(2);
         if (id == 0)
         {
-            EXPLODE1.play();
+            EFFECT_EXPLODE1.play();
         }
         else if (id == 1)
         {
-            EXPLODE2.play();
+            EFFECT_EXPLODE2.play();
         }
         else if (id == 2)
         {
-            EXPLODE3.play();
+            EFFECT_EXPLODE3.play();
         }
     }
 
@@ -139,5 +143,13 @@ public enum Sfx
         {
             audio.play();
         }
+    }
+
+    /**
+     * Stop sound.
+     */
+    public void stop()
+    {
+        audio.stop();
     }
 }
