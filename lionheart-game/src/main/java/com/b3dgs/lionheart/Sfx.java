@@ -21,7 +21,6 @@ import java.util.Locale;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionheart.constant.Extension;
@@ -74,31 +73,36 @@ public enum Sfx
     /** Boss 1 bowl. */
     BOSS1_BOWL;
 
+    private static boolean cached;
+
     /**
-     * Cache sfx.
+     * Cache sfx start.
      */
-    public static void cache()
+    public static void cacheStart()
     {
-        if (!Constant.AUDIO_MUTE)
+        if (!Constant.AUDIO_MUTE && !cached)
         {
             for (final Sfx sfx : Sfx.values())
             {
                 sfx.audio.setVolume(0);
                 sfx.play();
             }
-            try
-            {
-                Thread.sleep(com.b3dgs.lionengine.Constant.HUNDRED / 2);
-            }
-            catch (final InterruptedException exception)
-            {
-                Verbose.exception(exception);
-            }
+        }
+    }
+
+    /**
+     * Cache sfx end.
+     */
+    public static void cacheEnd()
+    {
+        if (!Constant.AUDIO_MUTE && !cached)
+        {
             for (final Sfx sfx : Sfx.values())
             {
                 sfx.audio.await();
                 sfx.audio.setVolume(100);
             }
+            cached = true;
         }
     }
 

@@ -237,14 +237,20 @@ public final class Hurtable extends FeatureModel
     {
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
-            Sfx.VALDYN_DIE.play();
-            stateHandler.changeState(StateDie.class);
+            if (hasFeature(SwordShade.class))
+            {
+                Sfx.VALDYN_DIE.play();
+                stateHandler.changeState(StateDie.class);
+            }
         }
         else
         {
-            Sfx.VALDYN_HURT.play();
-            stateHandler.changeState(StateHurt.class);
-            hurtJump();
+            if (hasFeature(SwordShade.class))
+            {
+                Sfx.VALDYN_HURT.play();
+                stateHandler.changeState(StateHurt.class);
+                hurtJump();
+            }
         }
         recover.restart();
     }
@@ -257,21 +263,30 @@ public final class Hurtable extends FeatureModel
      */
     private void updateTile(CollisionResult result, CollisionCategory category)
     {
-        if (!hasFeature(Patrol.class)
-            && recover.elapsed(HURT_RECOVER_BODY_TICK)
+        if (recover.elapsed(HURT_RECOVER_BODY_TICK)
             && (category.getAxis() == Axis.Y && result.contains(CollisionName.SPIKE)
                 || category.getName().equals(CollisionName.KNEE_CENTER) && result.contains(CollisionName.SPIKE)))
         {
             if (stats.applyDamages(SPIKE_DAMAGES))
             {
-                Sfx.VALDYN_DIE.play();
-                stateHandler.changeState(StateDie.class);
+                if (hasFeature(SwordShade.class))
+                {
+                    Sfx.VALDYN_DIE.play();
+                    stateHandler.changeState(StateDie.class);
+                }
+                else
+                {
+                    kill();
+                }
             }
             else
             {
-                Sfx.VALDYN_HURT.play();
                 stateHandler.changeState(StateHurt.class);
-                hurtJump();
+                if (hasFeature(SwordShade.class))
+                {
+                    Sfx.VALDYN_HURT.play();
+                    hurtJump();
+                }
             }
             recover.restart();
         }

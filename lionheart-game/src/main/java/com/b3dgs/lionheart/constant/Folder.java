@@ -33,6 +33,8 @@ public final class Folder
     public static final String FOREGROUNDS = "foreground";
     /** Entities folder. */
     public static final String ENTITIES = "entity";
+    /** Boss folder. */
+    public static final String BOSS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "boss");
     /** Items folder. */
     public static final String ITEMS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "item");
     /** Monsters folder. */
@@ -43,6 +45,8 @@ public final class Folder
     public static final String PLAYERS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "player");
     /** Effects folder. */
     public static final String EFFECTS = "effect";
+    /** Projectiles folder. */
+    public static final String PROJECTILES = "projectile";
     /** Levels folder. */
     public static final String LEVELS = "levels";
     /** Stages folder. */
