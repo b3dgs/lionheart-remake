@@ -89,7 +89,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>unpack-dependencies</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
@@ -99,6 +99,18 @@
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
+                            <excludeArtifactIds>b3dgs-buildtools</excludeArtifactIds>
+                            <excludeGroupIds>org.apiguardian,org.hamcrest,org.opentest4j,org.junit,junit</excludeGroupIds>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
                         </configuration>
                     </execution>
                 </executions>
