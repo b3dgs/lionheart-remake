@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.b3dgs.lionengine.Listenable;
 import com.b3dgs.lionengine.ListenableModel;
@@ -46,6 +47,8 @@ public class Checkpoint implements Updatable, Listenable<CheckpointListener>
     private Transformable player;
     private int last;
     private int count;
+    private Optional<Coord> boss;
+    private boolean bossFound;
 
     /**
      * Create handler.
@@ -72,18 +75,17 @@ public class Checkpoint implements Updatable, Listenable<CheckpointListener>
         respawns.add(config.getStart());
         respawns.addAll(config.getRespawns());
 
-        final int tw = map.getTileWidth();
-        final int th = map.getTileHeight();
-
         checkerEnd = config.getEnd()
-                           .map(e -> UpdatableVoid.wrap(extrp -> updateEnd(new Coord(e.getX() * tw, e.getY() * th))))
+                           .map(e -> UpdatableVoid.wrap(extrp -> updateEnd(toReal(e))))
                            .orElse(UpdatableVoid.getInstance());
 
         checkerBoss = config.getBoss()
-                            .map(e -> UpdatableVoid.wrap(extrp -> updateBoss(new Coord(e.getX() * tw, e.getY() * th))))
+                            .map(b -> UpdatableVoid.wrap(extrp -> updateBoss(toReal(b))))
                             .orElse(UpdatableVoid.getInstance());
+        boss = config.getBoss().map(this::toReal);
 
         count = respawns.size();
+        bossFound = false;
     }
 
     /**
@@ -94,6 +96,10 @@ public class Checkpoint implements Updatable, Listenable<CheckpointListener>
      */
     public Coord getCurrent(Transformable transformable)
     {
+        if (bossFound)
+        {
+            return boss.get();
+        }
         final int start = last + 1;
         for (int i = start; i < count; i++)
         {
@@ -144,7 +150,22 @@ public class Checkpoint implements Updatable, Listenable<CheckpointListener>
                 listenable.get(i).notifyReachedBoss();
             }
             checkerBoss = UpdatableVoid.getInstance();
+            bossFound = true;
         }
+    }
+
+    /**
+     * To real coord.
+     * 
+     * @param coord The tile coord.
+     * @return The real coord.
+     */
+    private Coord toReal(Coord coord)
+    {
+        final int tw = map.getTileWidth();
+        final int th = map.getTileHeight();
+
+        return new Coord(coord.getX() * tw, coord.getY() * th);
     }
 
     @Override
