@@ -195,15 +195,6 @@ final class World extends WorldHelper
     }
 
     /**
-     * Prepare cached media.
-     */
-    private void prepareCache()
-    {
-        factory.createCache(spawner, Medias.create(Folder.EFFECTS), 4);
-        Sfx.cache();
-    }
-
-    /**
      * Init music volume and play.
      * 
      * @param media The music file.
@@ -234,6 +225,8 @@ final class World extends WorldHelper
      */
     public void load(Media config)
     {
+        Sfx.cacheStart();
+
         final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
 
         loadMap(stage.getMapFile(), stage.getRasterFolder());
@@ -258,7 +251,7 @@ final class World extends WorldHelper
             public void notifyReachedBoss()
             {
                 camera.setLimitLeft((int) camera.getX());
-                spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss1.xml"),
+                spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"),
                       player.getFeature(Transformable.class).getX(),
                       -100.0);
                 trackerY = 1.0;
@@ -270,11 +263,17 @@ final class World extends WorldHelper
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
+        factory.createCache(spawner, Medias.create(Folder.EFFECTS), 4);
+        factory.createCache(spawner, Medias.create(Folder.PROJECTILES), 6);
+
         initMusic(stage.getMusic());
         hud.load();
         handler.updateRemove();
         handler.updateAdd();
-        prepareCache();
+
+        Sfx.cacheEnd();
+
+        System.gc();
     }
 
     @Override
