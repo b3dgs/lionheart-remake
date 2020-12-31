@@ -18,16 +18,16 @@
         <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="80">
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="90">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="160">
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="180">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="240">
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="270">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="320">
+        <lionengine:launchable media="entity/boss/swamp/Bowl.xml" ox="0" oy="0" delay="360">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

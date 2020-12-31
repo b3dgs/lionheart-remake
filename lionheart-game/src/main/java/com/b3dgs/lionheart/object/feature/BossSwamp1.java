@@ -227,7 +227,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             if (transformable.getY() > MAX_AWAY_Y)
             {
                 identifiable.destroy();
-                spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss2.xml"),
+                spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Boss2.xml"),
                               transformable.getX(),
                               transformable.getY())
                        .getFeature(Stats.class)

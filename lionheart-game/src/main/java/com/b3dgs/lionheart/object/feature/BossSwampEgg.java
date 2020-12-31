@@ -142,7 +142,7 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.getLast())
         {
             spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLittle.xml"), transformable);
-            spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Little.xml"), transformable)
+            spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Little.xml"), transformable)
                    .getFeature(Rasterable.class)
                    .setAnimOffset2(offset * 8);
             identifiable.destroy();

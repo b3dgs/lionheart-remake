@@ -383,7 +383,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         {
             identifiable.destroy();
             neck.destroy();
-            spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Boss1.xml"), player.getX(), MAX_Y)
+            spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"), player.getX(), MAX_Y)
                    .getFeature(Stats.class)
                    .applyDamages(stats.getHealthMax() - stats.getHealth());
         }
@@ -419,7 +419,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         final int width = transformable.getWidth() / 2;
         final int height = transformable.getHeight() / 2;
 
-        spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "ExplodeLittle.xml"),
+        spawner.spawn(Medias.create(Folder.BOSS, "swamp", "ExplodeLittle.xml"),
                       transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
                       transformable.getY() + UtilRandom.getRandomInteger(height));
     }
@@ -512,8 +512,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     @Override
     public void recycle()
     {
-        neck = spawner.spawn(Medias.create(Folder.ENTITIES, "boss", "swamp", "Neck.xml"), 0, 0)
-                      .getFeature(BossSwampNeck.class);
+        neck = spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Neck.xml"), 0, 0).getFeature(BossSwampNeck.class);
         moveX = 0.0;
         moveY = 0.0;
         movedX = false;
