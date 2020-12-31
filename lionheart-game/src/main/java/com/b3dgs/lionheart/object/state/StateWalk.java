@@ -41,7 +41,7 @@ public final class StateWalk extends State
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.005;
     private static final double SPEED_SLOPE_RISING = -0.3;
-    private static final double SPEED_SLOPE_DESCENDING = 0.6;
+    private static final double SPEED_SLOPE_DESCENDING = 0.8;
 
     private final AtomicBoolean slopeRising = new AtomicBoolean();
     private final AtomicBoolean slopeDescending = new AtomicBoolean();
@@ -162,7 +162,8 @@ public final class StateWalk extends State
             && !(movement.getDirectionHorizontal() < 0 && isGoRight()
                  || movement.getDirectionHorizontal() > 0 && isGoLeft())
             && Math.abs(movement.getDirectionHorizontal()) > Constant.WALK_SPEED
-            && movement.isDecreasingHorizontal())
+            && movement.isDecreasingHorizontal()
+            && !slopeRising.get())
         {
             movement.setVelocity(Constant.WALK_VELOCITY_SLOPE_DECREASE);
         }

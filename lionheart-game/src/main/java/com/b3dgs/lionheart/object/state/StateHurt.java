@@ -105,7 +105,10 @@ public final class StateHurt extends State
         }
         else
         {
-            animatable.play(anim);
+            if (anim != null)
+            {
+                animatable.play(anim);
+            }
             animatable.setFrame(old);
             flicker = 0;
             frameFlicker = hurtable.getFrame().orElse(0);
