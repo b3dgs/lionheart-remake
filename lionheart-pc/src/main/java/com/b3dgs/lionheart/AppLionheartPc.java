@@ -37,6 +37,7 @@ public final class AppLionheartPc
      */
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
+        // FIXME System.setProperty("sun.java2d.uiScale", "1.0");
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheartPc.class);
         Loader.start(Config.windowed(Constant.DEFAULT_RESOLUTION,
                                      Medias.create("icon-16.png"),
