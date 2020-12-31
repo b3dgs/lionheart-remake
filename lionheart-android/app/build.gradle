@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.b3dgs.lionengine:lionengine-core:9.0.5-SNAPSHOT'
-    implementation 'com.b3dgs.lionengine:lionengine-core-android:9.0.5-SNAPSHOT'
-    implementation 'com.b3dgs.lionheart:lionheart-game:0.1.0-SNAPSHOT'
+    implementation 'com.b3dgs.lionengine:lionengine-core:9.0.5'
+    implementation 'com.b3dgs.lionengine:lionengine-core-android:9.0.5'
+    implementation 'com.b3dgs.lionheart:lionheart-game:0.1.0'
 }
