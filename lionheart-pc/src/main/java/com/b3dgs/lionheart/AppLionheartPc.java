@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
@@ -37,7 +38,14 @@ public final class AppLionheartPc
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheartPc.class);
-        Loader.start(Config.windowed(Constant.DEFAULT_RESOLUTION), Loading.class);
+        Loader.start(Config.windowed(Constant.DEFAULT_RESOLUTION,
+                                     Medias.create("icon-16.png"),
+                                     Medias.create("icon-32.png"),
+                                     Medias.create("icon-48.png"),
+                                     Medias.create("icon-64.png"),
+                                     Medias.create("icon-128.png"),
+                                     Medias.create("icon-256.png")),
+                     Loading.class);
         AudioFactory.addFormat(new WavFormat());
         AudioFactory.addFormat(new Sc68Format());
     }
