@@ -13,7 +13,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="hurt" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="ground" offsetX="0" offsetY="9" width="16" height="1" mirror="false"/>
@@ -24,5 +24,5 @@
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ExplodeLittle" persist="true"/>
+    <hurtable frame="-1" effect="ExplodeLittle" persist="true"/>
 </lionengine:featurable>
