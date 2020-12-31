@@ -18,7 +18,7 @@
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <repository location="file:/C:/Users/DjThunder/git/lionengine-editor/com.b3dgs.lionengine.editor.repository/target/repository/"/>
-        <unit id="com.b3dgs.lionengine.editor" version="9.0.5.202011291004"/>
+        <unit id="com.b3dgs.lionengine.editor" version="9.0.5"/>
     </location>
 </locations>
 </target>
