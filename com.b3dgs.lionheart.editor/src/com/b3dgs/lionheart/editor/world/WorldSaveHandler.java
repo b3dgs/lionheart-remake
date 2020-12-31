@@ -16,19 +16,18 @@
  */
 package com.b3dgs.lionheart.editor.world;
 
-import java.io.IOException;
-
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
 
 import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
-import com.b3dgs.lionengine.game.feature.HandlerPersister;
-import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
-import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.game.feature.Featurable;
+import com.b3dgs.lionengine.game.feature.Handler;
+import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.editor.Util;
 
 /**
@@ -47,22 +46,34 @@ public final class WorldSaveHandler
      */
     private static void save(Shell shell, Media media)
     {
-        final MapTilePersister mapPersister = WorldModel.INSTANCE.getMap().getFeature(MapTilePersister.class);
-        final HandlerPersister handlerPersister = WorldModel.INSTANCE.getHandlerPersister();
+        final Handler handler = WorldModel.INSTANCE.getHandler();
+        final MapTile map = WorldModel.INSTANCE.getMap();
+        final Xml root = new Xml("entities");
+        handler.values().forEach(featurable -> root.add(saveFeaturable(featurable, map)));
 
-        try (final FileWriting writing = new FileWriting(media))
-        {
-            mapPersister.save(writing);
-            handlerPersister.save(writing);
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
-            UtilDialog.error(shell, Messages.ErrorSaveTitle, Messages.ErrorSaveMessage);
-        }
+        root.save(media);
 
         final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
         worldPart.update();
+    }
+
+    /**
+     * Save featurable.
+     * 
+     * @param featurable The featurable to save.
+     * @param map The map reference.
+     * @return The xml node.
+     */
+    private static Xml saveFeaturable(Featurable featurable, MapTile map)
+    {
+        final Xml root = new Xml("entity");
+        root.writeString("file", featurable.getMedia().getPath());
+
+        final Transformable transformable = featurable.getFeature(Transformable.class);
+        root.writeDouble("tx", transformable.getX() / map.getTileWidth());
+        root.writeDouble("ty", transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
+
+        return root;
     }
 
     /**

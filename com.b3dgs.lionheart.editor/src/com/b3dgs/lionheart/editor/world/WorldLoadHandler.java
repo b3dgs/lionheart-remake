@@ -26,9 +26,14 @@ import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
-import com.b3dgs.lionengine.game.feature.HandlerPersister;
+import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.feature.Featurable;
+import com.b3dgs.lionengine.game.feature.Spawner;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionheart.EntityConfig;
+import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.editor.Util;
 
 /**
@@ -48,12 +53,11 @@ public final class WorldLoadHandler
     private static void load(Shell shell, Media media)
     {
         final MapTilePersister mapPersister = WorldModel.INSTANCE.getMap().getFeature(MapTilePersister.class);
-        final HandlerPersister handlerPersister = WorldModel.INSTANCE.getHandlerPersister();
 
-        try (final FileReading reading = new FileReading(media))
+        final StageConfig stage = StageConfig.imports(new Configurer(media));
+        try (FileReading reading = new FileReading(stage.getMapFile()))
         {
             mapPersister.load(reading);
-            handlerPersister.load(reading);
         }
         catch (final IOException exception)
         {
@@ -61,8 +65,24 @@ public final class WorldLoadHandler
             UtilDialog.error(shell, Messages.ErrorLoadTitle, Messages.ErrorLoadMessage);
         }
 
+        stage.getEntities().forEach(entity -> createEntity(stage, entity));
+
         final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
         worldPart.update();
+    }
+
+    /**
+     * Create entity from configuration.
+     * 
+     * @param stage The stage configuration.
+     * @param entity The entity configuration.
+     */
+    private static void createEntity(StageConfig stage, EntityConfig entity)
+    {
+        final MapTile map = WorldModel.INSTANCE.getMap();
+        final Spawner spawner = WorldModel.INSTANCE.getServices().get(Spawner.class);
+
+        final Featurable featurable = spawner.spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
     }
 
     /**

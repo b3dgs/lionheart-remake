@@ -29,7 +29,6 @@
    </vm>
 
    <plugins>
-      <plugin id="com.b3dgs.lionengine.audio.wav"/>
       <plugin id="com.b3dgs.lionengine.core"/>
       <plugin id="com.b3dgs.lionengine.core.swt"/>
       <plugin id="com.b3dgs.lionengine.editor"/>
@@ -48,6 +47,7 @@
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
       <plugin id="javax.servlet"/>
+      <plugin id="junit-platform-commons"/>
       <plugin id="org.apache.batik.constants"/>
       <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.i18n"/>
