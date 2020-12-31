@@ -51,9 +51,9 @@ final class EntityScreenController extends FeatureModel implements Routine
         final Mouse mouse = services.get(Mouse.class);
         virtual = new VirtualDeviceButton(mouse);
 
-        virtual.addButton(new Rectangle(335, 125, 32, 32), VirtualDeviceButton.LEFT, "<");
-        virtual.addButton(new Rectangle(368, 125, 32, 32), VirtualDeviceButton.RIGHT, ">");
-        virtual.addButton(new Rectangle(335, 160, 64, 32), VirtualDeviceButton.DOWN, "\\/");
+        virtual.addButton(new Rectangle(302, 125, 32, 32), VirtualDeviceButton.LEFT, "<");
+        virtual.addButton(new Rectangle(336, 125, 32, 32), VirtualDeviceButton.RIGHT, ">");
+        virtual.addButton(new Rectangle(302, 160, 64, 32), VirtualDeviceButton.DOWN, "\\/");
 
         virtual.addButton(new Rectangle(0, 100, 32, 36), VirtualDeviceButton.UP, "J");
         virtual.addButton(new Rectangle(0, 140, 32, 36), VirtualDeviceButton.CONTROL, "F");

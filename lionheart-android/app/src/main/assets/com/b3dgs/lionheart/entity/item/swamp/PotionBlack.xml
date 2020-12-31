@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.item.swamp.PotionBlack</lionengine:class>
-    <lionengine:surface image="PotionBlack.png" icon="PotionBlack_ico.png"/>
-	<lionengine:frames horizontal="4" vertical="2"/>
-	<lionengine:size width="16" height="32"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="16" height="24" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="true"/>
-</lionengine:featurable>

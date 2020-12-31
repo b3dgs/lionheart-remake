@@ -1,14 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.monster.swamp.NestLittle</lionengine:class>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.NestLittle</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    </lionengine:features>
     <lionengine:surface image="NestLittle.png" icon="NestLittle_ico.png"/>
-	<lionengine:frames horizontal="1" vertical="1"/>
-	<lionengine:size width="48" height="48"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="48" height="48" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="walk" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<data mass="0" gravityMax="0">
-		<jump heightMax="0.0" />
-	</data>
-	<life normal="1" />
+    <lionengine:frames horizontal="2" vertical="1"/>
+    <lionengine:size width="48" height="48"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="4" width="24" height="24" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="4" width="24" height="24" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="center" axis="Y" x="0" y="0">
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="2"/>
+    <hurtable fall="true" effect="ExplodeBig"/>
 </lionengine:featurable>

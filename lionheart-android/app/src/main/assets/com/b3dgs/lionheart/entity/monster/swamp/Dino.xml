@@ -1,39 +1,49 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.object.Entity</lionengine:class>
-    <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
-    <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
-    <lionengine:surface image="Dino.png" icon="Dino_ico.png" />
-    <lionengine:raster file="raster/raster1.xml" height="16" smooth="false" />
-    <lionengine:frames horizontal="4" vertical="4" />
-    <lionengine:size width="48" height="48" />
-    <lionengine:group>2</lionengine:group>
-    <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
-        <lionengine:group>slope_left_0</lionengine:group>
-        <lionengine:group>slope_left_1</lionengine:group>
-        <lionengine:group>slope_right_0</lionengine:group>
-        <lionengine:group>slope_right_1</lionengine:group>
-        <lionengine:group>ground</lionengine:group>
-    </lionengine:category>
-    <lionengine:category name="leg_right" axis="Y" x="5" y="0">
-        <lionengine:group>slope_left_0</lionengine:group>
-        <lionengine:group>slope_left_1</lionengine:group>
-        <lionengine:group>slope_right_0</lionengine:group>
-        <lionengine:group>slope_right_1</lionengine:group>
-        <lionengine:group>ground</lionengine:group>
-    </lionengine:category>
-    <lionengine:collision name="default" offsetX="0" offsetY="0" width="32" height="44" mirror="false" />
-    <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false" />
-    <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true" />
-    <lionengine:animation name="turn" start="13" end="15" speed="0.25" reversed="false" repeat="false" />
-    <lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false" />
-    <lionengine:animation name="slide" start="12" end="12" speed="0.25" reversed="false" repeat="false" />
-    <lionengine:animation name="hurt" start="11" end="11" speed="0.25" reversed="false" repeat="false" />
-    <data mass="1.85" gravityMax="16.0">
-        <movement speedMax="1.5" />
-        <jump heightMax="7.0" />
-    </data>
-    <patrol sh="-0.3" amplitude="0"/>
-    <stats health="2" />
-    <hurtable effect="ExplodeBig" backward="true" />
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Dino.png" icon="Dino_ico.png"/>
+    <lionengine:frames horizontal="4" vertical="4"/>
+    <lionengine:size width="48" height="48"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="turn" start="14" end="16" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="slide" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="slidefast" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="slideslow" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="32" height="44" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="0" width="32" height="44" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:body gravity="6.5" gravityMax="6.5"/>
+    <lionengine:collidable group="2" accepted="1%3"/>
+    <stats health="2"/>
+    <hurtable frame="12" effect="ExplodeBig" backward="true"/>
 </lionengine:featurable>

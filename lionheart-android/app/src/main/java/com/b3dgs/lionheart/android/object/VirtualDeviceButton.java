@@ -270,7 +270,7 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
     }
 
     @Override
-    public void setFireButton(Integer code)
+    public void setFireButton(Integer index, Integer code)
     {
         fireKey = code;
     }
@@ -300,13 +300,13 @@ public class VirtualDeviceButton implements InputDeviceControl, Updatable, Rende
     }
 
     @Override
-    public boolean isFireButton()
+    public boolean isFireButton(Integer index)
     {
         return isPressed(fireKey);
     }
 
     @Override
-    public boolean isFireButtonOnce()
+    public boolean isFireButtonOnce(Integer index)
     {
         return isPressedOnce(fireKey);
     }

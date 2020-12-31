@@ -1,10 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.TurningHit</lionengine:class>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Sheet</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.TurningHit</lionengine:feature>
+    </lionengine:features>
     <lionengine:surface image="TurningHit.png" icon="TurningHit_ico.png"/>
-	<lionengine:frames horizontal="4" vertical="4"/>
-	<lionengine:size width="32" height="32"/>
-	<lionengine:collision name="default" offsetX="8" offsetY="20" width="17" height="1" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="turn" start="1" end="16" speed="0.50" reversed="false" repeat="true"/>
+    <lionengine:frames horizontal="9" vertical="2"/>
+    <lionengine:size width="32" height="32"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.2" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="ground" x="0" y="20" width="28" height="1"/>
+        </lionengine:animation>
+        <lionengine:animation name="hurt" start="2" end="9" speed="0.2" reversed="false" repeat="false"/>
+        <lionengine:animation name="turn" start="2" end="9" speed="0.2" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="10" width="28" height="16"/>
+        </lionengine:animation>
+    </lionengine:animations>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
+    <lionengine:collidable group="3" accepted="1"/>
+    <stats health="-1" persist="true"/>
 </lionengine:featurable>

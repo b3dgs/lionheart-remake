@@ -1,14 +1,47 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:class>com.b3dgs.lionheart.entity.scenery.swamp.Dragon</lionengine:class>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon</lionengine:feature>
+    </lionengine:features>
     <lionengine:surface image="Dragon.png" icon="Dragon_ico.png"/>
-	<lionengine:frames horizontal="6" vertical="4"/>
-	<lionengine:size width="48" height="64"/>
-	<lionengine:collision name="default" offsetX="0" offsetY="0" width="48" height="64" mirror="false" />
-	<lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-	<lionengine:animation name="walk" start="1" end="24" speed="0.25" reversed="false" repeat="true"/>
-	<data mass="0" gravityMax="0">
-		<jump heightMax="0.0" />
-	</data>
-	<life normal="2" />
+    <lionengine:frames horizontal="12" vertical="4"/>
+    <lionengine:size width="48" height="64"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="2" end="2" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="raise" start="2" end="20" speed="0.75" reversed="false" repeat="false"/>
+        <lionengine:animation name="open" start="21" end="24" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="close" start="21" end="24" speed="0.25" reversed="true" repeat="false"/>
+        <lionengine:animation name="hide" start="2" end="20" speed="0.75" reversed="true" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
+    <lionengine:launcher mirrorable="true">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="0">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="25">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="32" oy="0" delay="50">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="48" oy="0" delay="75">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="64" oy="0" delay="100">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="80" oy="0" delay="125">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/swamp/TongueEnd.xml" ox="96" oy="0" delay="150">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:collidable group="3" accepted="1"/>
 </lionengine:featurable>
