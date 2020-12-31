@@ -85,5 +85,6 @@ public final class StateDrowned extends State
     {
         body.resetGravity();
         model.getMovement().setDestination(0.0, DEATH_FALL_SPEED);
+        model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
     }
 }

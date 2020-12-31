@@ -33,7 +33,7 @@ import com.b3dgs.lionheart.object.feature.Stats;
 public final class StateBitten extends State
 {
     /** Bitten limit drown vertical position. */
-    private static final int BITTEN_FALL_Y = 16;
+    private static final int BITTEN_FALL_Y = 32;
     /** Bitten fall speed. */
     private static final double DEATH_FALL_SPEED = -0.7;
 
