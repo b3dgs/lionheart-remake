@@ -277,7 +277,7 @@ public final class Hurtable extends FeatureModel
         }
         if (fall)
         {
-            spawner.spawn(effect, transformable);
+            spawner.spawn(effect, transformable.getX(), transformable.getY() + transformable.getHeight() / 2);
             identifiable.destroy();
         }
     }
@@ -319,7 +319,7 @@ public final class Hurtable extends FeatureModel
         {
             if (effect != null)
             {
-                spawner.spawn(effect, transformable);
+                spawner.spawn(effect, transformable.getX(), transformable.getY() + transformable.getHeight() / 2);
             }
             if (!persist)
             {
