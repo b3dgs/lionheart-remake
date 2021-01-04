@@ -35,6 +35,8 @@ public enum Music
     INTRO,
     /** Swamp music. */
     SWAMP,
+    /** Spider cave music. */
+    SPIDERCAVE,
     /** Boss music. */
     BOSS,
     /** Boss win music. */
