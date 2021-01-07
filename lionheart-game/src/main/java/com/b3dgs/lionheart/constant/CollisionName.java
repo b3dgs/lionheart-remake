@@ -27,6 +27,8 @@ public final class CollisionName
     public static final String GROUND = "ground";
     /** Center collision. */
     public static final String CENTER = "center";
+    /** Horizontal collision. */
+    public static final String HORIZONTAL = "horizontal";
     /** Vertical collision. */
     public static final String VERTICAL = "vertical";
     /** Left collision. */

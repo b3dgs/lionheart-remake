@@ -43,6 +43,7 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.constant.Anim;
@@ -51,6 +52,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StatePatrol;
+import com.b3dgs.lionheart.object.state.StatePatrolCeil;
 import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
@@ -86,6 +88,7 @@ public final class Patrol extends FeatureModel
     @FeatureGet private EntityModel model;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
+    @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
@@ -117,6 +120,7 @@ public final class Patrol extends FeatureModel
         {
             this.patrols.addAll(patrols);
             loadNextPatrol();
+            stateHandler.changeState(StatePatrol.class);
         }
     }
 
@@ -217,6 +221,10 @@ public final class Patrol extends FeatureModel
                     {
                         stateHandler.changeState(StateTurn.class);
                     }
+                    else
+                    {
+                        applyMirror();
+                    }
                     if (patrols.size() > 1)
                     {
                         loadNextPatrol();
@@ -240,7 +248,6 @@ public final class Patrol extends FeatureModel
     {
         super.prepare(provider);
 
-        stateHandler.changeState(StatePatrol.class);
         stateHandler.addListener((from, to) ->
         {
             collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
@@ -311,6 +318,11 @@ public final class Patrol extends FeatureModel
         {
             sh = -sh;
             transformable.teleportX(transformable.getOldX() + sh);
+        }
+        if (category.getAxis() == Axis.Y && result.containsY(CollisionName.HORIZONTAL))
+        {
+            stateHandler.changeState(StatePatrolCeil.class);
+            transformable.teleportY(result.getY().doubleValue() - 1.0);
         }
     }
 
