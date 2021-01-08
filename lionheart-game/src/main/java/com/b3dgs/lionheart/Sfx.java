@@ -58,6 +58,8 @@ public enum Sfx
     MONSTER_GRASSHOPER,
     /** Monster land. */
     MONSTER_LAND,
+    /** Monster spider. */
+    MONSTER_SPIDER,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */

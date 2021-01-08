@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -30,8 +31,11 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateJump;
+import com.b3dgs.lionheart.object.state.StatePatrol;
 import com.b3dgs.lionheart.object.state.StatePatrolCeil;
 
 /**
@@ -88,6 +92,15 @@ public final class Spider extends FeatureModel implements Routine
     }
 
     @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        body.setGravity(6.5);
+        body.setGravityMax(6.5);
+    }
+
+    @Override
     public void update(double extrp)
     {
         if (UtilMath.getDistance(track, transformable) < TRACKED_DISTANCE)
@@ -98,13 +111,17 @@ public final class Spider extends FeatureModel implements Routine
                 body.setGravity(4.5);
                 body.setGravityMax(4.5);
             }
-            else if (enabled)
+            else if (enabled && !tracked)
             {
                 tracked = true;
+                body.setGravity(6.5);
+                body.setGravityMax(6.5);
+                stateHandler.changeState(StateJump.class);
+                Sfx.MONSTER_SPIDER.play();
             }
         }
 
-        if (tracked)
+        if (tracked && stateHandler.isState(StatePatrol.class))
         {
             if (track.getX() > transformable.getX())
             {

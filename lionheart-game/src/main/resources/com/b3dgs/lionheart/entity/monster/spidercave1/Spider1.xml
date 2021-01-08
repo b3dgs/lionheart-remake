@@ -14,7 +14,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="walk" start="1" end="5" speed="0.4" reversed="false" repeat="true"/>
+        <lionengine:animation name="jump" start="1" end="1" speed="0.4" reversed="false" repeat="false"/>
         <lionengine:animation name="patrol" start="1" end="5" speed="0.4" reversed="false" repeat="true"/>
         <lionengine:animation name="patrolceil" start="6" end="10" speed="0.3" reversed="false" repeat="true"/>
         <lionengine:animation name="fall" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>

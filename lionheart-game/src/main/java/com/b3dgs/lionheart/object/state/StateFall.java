@@ -31,6 +31,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Patrol;
+import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
 import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
 
@@ -111,7 +112,7 @@ public final class StateFall extends State
             mirrorable.mirror(Mirror.NONE);
         }
 
-        if (model.hasFeature(Patrol.class))
+        if (model.hasFeature(Patrol.class) && !model.hasFeature(Spider.class))
         {
             Sfx.MONSTER_LAND.play();
         }

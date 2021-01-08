@@ -26,6 +26,9 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StatePatrolCeil extends State
 {
+    private double old;
+    private double oldMax;
+
     /**
      * Create the state.
      * 
@@ -35,6 +38,17 @@ public final class StatePatrolCeil extends State
     StatePatrolCeil(EntityModel model, Animation animation)
     {
         super(model, animation);
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        old = body.getGravity();
+        oldMax = body.getGravityMax();
+        body.setGravity(0.0);
+        body.setGravityMax(0.0);
     }
 
     @Override
@@ -48,5 +62,14 @@ public final class StatePatrolCeil extends State
             animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
                                     * animation.getSpeed());
         }
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        body.setGravity(old);
+        body.setGravityMax(oldMax);
     }
 }
