@@ -14,7 +14,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="jump" start="1" end="1" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="jumpspider" start="1" end="1" speed="0.4" reversed="false" repeat="false"/>
         <lionengine:animation name="patrol" start="1" end="5" speed="0.4" reversed="false" repeat="true"/>
         <lionengine:animation name="patrolceil" start="6" end="10" speed="0.3" reversed="false" repeat="true"/>
         <lionengine:animation name="fall" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
@@ -28,10 +28,12 @@
         <lionengine:category name="head" axis="Y" x="0" y="17">
             <lionengine:group>horizontal</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
-            <lionengine:group>ground</lionengine:group>
+        <lionengine:category name="knee" axis="X" x="0" y="8">
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>right_vertical</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="5" y="0">
+        <lionengine:category name="leg" axis="Y" x="0" y="0">
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
     </lionengine:categories>

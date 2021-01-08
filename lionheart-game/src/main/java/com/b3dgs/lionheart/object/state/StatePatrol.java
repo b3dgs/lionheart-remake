@@ -25,6 +25,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Spider;
 
 /**
  * Patrol state implementation.
@@ -44,6 +45,7 @@ public final class StatePatrol extends State
         super(model, animation);
 
         addTransition(StatePrepareJump.class, this::isGoUpOnce);
+        addTransition(StateJumpSpider.class, () -> model.hasFeature(Spider.class) && collideX.get());
         addTransition(StateTurn.class, () -> turn);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
@@ -54,7 +56,12 @@ public final class StatePatrol extends State
     @Override
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
-        turn = true;
+        collideX.set(true);
+
+        if (!model.hasFeature(Spider.class))
+        {
+            turn = true;
+        }
     }
 
     @Override

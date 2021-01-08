@@ -34,7 +34,7 @@ import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
-import com.b3dgs.lionheart.object.state.StateJump;
+import com.b3dgs.lionheart.object.state.StateJumpSpider;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 import com.b3dgs.lionheart.object.state.StatePatrolCeil;
 
@@ -116,7 +116,7 @@ public final class Spider extends FeatureModel implements Routine
                 tracked = true;
                 body.setGravity(6.5);
                 body.setGravityMax(6.5);
-                stateHandler.changeState(StateJump.class);
+                stateHandler.changeState(StateJumpSpider.class);
                 Sfx.MONSTER_SPIDER.play();
             }
         }
