@@ -16,13 +16,18 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
+import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -36,9 +41,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionheart.WorldType;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Boss Spider cave feature implementation.
@@ -57,19 +61,29 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
 {
     private static final int HEAD_OFFSET_X = -32;
     private static final int PATROL_MARGIN = 80;
+    private static final int HEAD_OPENED_TICK = 80;
+    private static final int HEAD_ATTACK_OFFSET_Y = 12;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Spawner spawner = services.get(Spawner.class);
+    private final Tick tick = new Tick();
     private final Animation walk;
+    private final Animation attack;
     private final Animation dead;
     private final Updatable updater;
 
+    private Featurable head;
+    private Transformable headTransformable;
+    private Collidable headCollidable;
+    private Animatable headAnim;
+    private Animation headOpen;
+
     private Updatable current;
-    private Transformable head;
     private Stats stats;
     private double minX;
     private double maxX;
     private double speed;
+    private int step;
+    private int headOffsetY;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
@@ -91,27 +105,86 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         walk = config.getAnimation(Anim.WALK);
+        attack = config.getAnimation(Anim.ATTACK);
         dead = config.getAnimation(Anim.DEAD);
 
         updater = extrp ->
         {
-            if (minX < 0)
+            tick.update(extrp);
+
+            if (step == 0 || step == 4)
             {
-                minX = transformable.getX() - PATROL_MARGIN;
-                maxX = transformable.getX();
+                if (minX < 0)
+                {
+                    minX = transformable.getX() - PATROL_MARGIN;
+                    maxX = transformable.getX();
+                }
+                transformable.moveLocationX(extrp, speed);
+                if (transformable.getX() < minX)
+                {
+                    transformable.teleportX(minX);
+                    animatable.setAnimSpeed(-animatable.getAnimSpeed());
+                    speed = -speed;
+                }
+                else if (transformable.getX() > maxX)
+                {
+                    transformable.teleportX(maxX);
+                    animatable.setAnimSpeed(-animatable.getAnimSpeed());
+                    speed = -speed;
+                    step++;
+                }
             }
-            transformable.moveLocationX(extrp, speed);
-            if (transformable.getX() < minX)
+            else if (step == 1)
             {
-                transformable.teleportX(minX);
-                speed = -speed;
+                launcher.setLevel(0);
+                launcher.fire();
+                headAnim.play(headOpen);
+                animatable.play(attack);
+                Sfx.BOSS2.play();
+                step++;
+                tick.restart();
             }
-            else if (transformable.getX() > maxX)
+            else if (step == 2 && !headAnim.is(AnimState.PLAYING) && tick.elapsed(HEAD_OPENED_TICK))
             {
-                transformable.teleportX(maxX);
-                speed = -speed;
+                launcher.setLevel(1);
+                launcher.fire();
+                tick.restart();
+                step++;
             }
-            head.setLocation(transformable.getX() + HEAD_OFFSET_X, transformable.getY());
+            else if (step == 3 && tick.elapsed(HEAD_OPENED_TICK))
+            {
+                animatable.play(walk);
+                headAnim.play(headOpen);
+                headAnim.setFrame(headOpen.getLast());
+                headAnim.setAnimSpeed(-headAnim.getAnimSpeed());
+                step++;
+            }
+            else if (step == 5)
+            {
+                launcher.setLevel(0);
+                launcher.fire();
+                headAnim.play(headOpen);
+                Sfx.BOSS2.play();
+                animatable.play(attack);
+                tick.restart();
+                step++;
+            }
+            else if (step == 6 && !headAnim.is(AnimState.PLAYING) && tick.elapsed(HEAD_OPENED_TICK))
+            {
+                step++;
+            }
+            else if (step == 7)
+            {
+                headAnim.play(headOpen);
+                headAnim.setFrame(headOpen.getLast());
+                headAnim.setAnimSpeed(-headAnim.getAnimSpeed());
+                step++;
+            }
+            else if (step == 8 && !headAnim.is(AnimState.PLAYING))
+            {
+                animatable.play(walk);
+                step = 0;
+            }
 
             if (stats.getHealth() == 0)
             {
@@ -119,7 +192,36 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 animatable.play(dead);
                 collidable.setEnabled(false);
             }
+            else
+            {
+                if (animatable.getFrame() == 12)
+                {
+                    headOffsetY = HEAD_ATTACK_OFFSET_Y / 3;
+                }
+                else if (animatable.getFrame() == 13)
+                {
+                    headOffsetY = HEAD_ATTACK_OFFSET_Y / 2;
+                }
+                else if (animatable.getFrame() == 14)
+                {
+                    headOffsetY = HEAD_ATTACK_OFFSET_Y;
+                }
+                else
+                {
+                    headOffsetY = 0;
+                }
+                headTransformable.setLocation(transformable.getX() + HEAD_OFFSET_X, transformable.getY() + headOffsetY);
+                headCollidable.setEnabled(headAnim.getFrame() == 6);
+            }
         };
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        launcher.addListener(l -> l.ifIs(Spider.class, s -> s.track(-1)));
     }
 
     @Override
@@ -131,14 +233,21 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     @Override
     public void recycle()
     {
+        head = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Head.xml"), transformable);
+        headTransformable = head.getFeature(Transformable.class);
+        headCollidable = head.getFeature(Collidable.class);
+        headAnim = head.getFeature(Animatable.class);
+        final AnimationConfig headConfig = AnimationConfig.imports(new Configurer(head.getMedia()));
+        headOpen = headConfig.getAnimation("open");
+
         minX = -1.0;
         maxX = -1.0;
         speed = -0.4;
         collidable.setEnabled(true);
         animatable.play(walk);
-        head = spawner.spawn(Medias.create(Folder.BOSS, WorldType.SPIDERCAVE1.getFolder(), "Head.xml"), transformable)
-                      .getFeature(Transformable.class);
         stats = head.getFeature(Stats.class);
         current = updater;
+        headOffsetY = 0;
+        step = 0;
     }
 }

@@ -22,5 +22,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>
-    <hurtable frame="12" effect="spidercave1/ExplodeBig"/>
+    <hurtable frame="12" effect="spidercave2/ExplodeBig"/>
 </lionengine:featurable>
