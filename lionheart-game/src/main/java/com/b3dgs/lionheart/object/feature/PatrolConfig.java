@@ -41,6 +41,8 @@ public final class PatrolConfig
     public static final String ATT_VY = "sv";
     /** Amplitude attribute name. */
     public static final String ATT_AMPLITUDE = "amplitude";
+    /** Offset attribute name. */
+    public static final String ATT_OFFSET = "offset";
     /** Mirror attribute name. */
     public static final String ATT_MIRROR = "mirror";
     /** Coll attribute name. */
@@ -89,6 +91,8 @@ public final class PatrolConfig
     private final OptionalDouble sv;
     /** Amplitude enabled. */
     private final OptionalInt amplitude;
+    /** Offset value. */
+    private final OptionalInt offset;
     /** Mirror vertical. */
     private final Optional<Boolean> mirror;
     /** Disable collision on turn. */
@@ -112,6 +116,7 @@ public final class PatrolConfig
         sh = root.readDoubleOptional(ATT_VX);
         sv = root.readDoubleOptional(ATT_VY);
         amplitude = root.readIntegerOptional(ATT_AMPLITUDE);
+        offset = root.readIntegerOptional(ATT_OFFSET);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         coll = root.readBooleanOptional(ATT_COLL);
         proximity = root.readIntegerOptional(ATT_PROXIMITY);
@@ -146,6 +151,16 @@ public final class PatrolConfig
     public OptionalInt getAmplitude()
     {
         return amplitude;
+    }
+
+    /**
+     * Get the offset value.
+     * 
+     * @return The offset start.
+     */
+    public OptionalInt getOffset()
+    {
+        return offset;
     }
 
     /**

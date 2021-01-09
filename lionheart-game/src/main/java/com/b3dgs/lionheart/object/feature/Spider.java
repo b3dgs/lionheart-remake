@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -34,6 +35,7 @@ import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StateJumpSpider;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 import com.b3dgs.lionheart.object.state.StatePatrolCeil;
@@ -46,13 +48,14 @@ import com.b3dgs.lionheart.object.state.StatePatrolCeil;
  * </ol>
  */
 @FeatureInterface
-public final class Spider extends FeatureModel implements Routine
+public final class Spider extends FeatureModel implements Routine, Recyclable
 {
-    private static final int TRACKED_DISTANCE = 64;
+    private static final int TRACKED_DISTANCE = 80;
     private static final double TRACK_SPEED = 0.5;
 
     private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
 
+    private int distance;
     private double move;
     private boolean tracked;
     private boolean enabled;
@@ -80,6 +83,17 @@ public final class Spider extends FeatureModel implements Routine
      */
     public void track()
     {
+        track(TRACKED_DISTANCE);
+    }
+
+    /**
+     * Enable player tracking with custom distance.
+     * 
+     * @param distance The track distance (negative for always).
+     */
+    public void track(int distance)
+    {
+        this.distance = distance;
         enabled = true;
         model.setInput(new InputDeviceControlVoid()
         {
@@ -89,6 +103,7 @@ public final class Spider extends FeatureModel implements Routine
                 return move;
             }
         });
+        stateHandler.changeState(StateIdle.class);
     }
 
     @Override
@@ -103,7 +118,7 @@ public final class Spider extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (UtilMath.getDistance(track, transformable) < TRACKED_DISTANCE)
+        if (distance < 0 || UtilMath.getDistance(track, transformable) < distance)
         {
             if (stateHandler.isState(StatePatrolCeil.class))
             {
@@ -117,7 +132,11 @@ public final class Spider extends FeatureModel implements Routine
                 body.setGravity(6.5);
                 body.setGravityMax(6.5);
                 stateHandler.changeState(StateJumpSpider.class);
-                Sfx.MONSTER_SPIDER.play();
+
+                if (distance > 0)
+                {
+                    Sfx.MONSTER_SPIDER.play();
+                }
             }
         }
 
@@ -134,5 +153,13 @@ public final class Spider extends FeatureModel implements Routine
                 mirrorable.mirror(Mirror.HORIZONTAL);
             }
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        move = 0.0;
+        enabled = false;
+        tracked = false;
     }
 }

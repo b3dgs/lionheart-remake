@@ -73,6 +73,7 @@ public final class Patrol extends FeatureModel
     private double sh;
     private double sv;
     private int amplitude;
+    private int offset;
     private boolean coll;
     private int proximity;
     private int animOffset;
@@ -120,7 +121,6 @@ public final class Patrol extends FeatureModel
         {
             this.patrols.addAll(patrols);
             loadNextPatrol();
-            stateHandler.changeState(StatePatrol.class);
         }
     }
 
@@ -148,6 +148,7 @@ public final class Patrol extends FeatureModel
         config.getSh().ifPresent(h -> sh = h);
         config.getSv().ifPresent(v -> sv = v);
         config.getAmplitude().ifPresent(a -> amplitude = a);
+        config.getOffset().ifPresent(o -> offset = o);
         config.getColl().ifPresent(c -> coll = c.booleanValue());
         config.getAnimOffset().ifPresent(o -> animOffset = o);
         config.getProximity().ifPresent(p ->
@@ -282,6 +283,10 @@ public final class Patrol extends FeatureModel
             first = false;
             startX = transformable.getX();
             startY = transformable.getY();
+            if (offset > 0)
+            {
+                transformable.teleportX(startX + offset);
+            }
         }
         if (!enabled)
         {
@@ -336,5 +341,6 @@ public final class Patrol extends FeatureModel
         enabled = true;
         first = true;
         idle = 0.0;
+        stateHandler.changeState(StatePatrol.class);
     }
 }
