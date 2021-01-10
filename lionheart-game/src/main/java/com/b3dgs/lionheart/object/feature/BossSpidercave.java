@@ -38,11 +38,13 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Boss Spider cave feature implementation.
@@ -64,6 +66,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     private static final int HEAD_OPENED_TICK = 80;
     private static final int HEAD_ATTACK_OFFSET_Y = 12;
 
+    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Tick tick = new Tick();
     private final Animation walk;
@@ -84,6 +87,8 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     private double speed;
     private int step;
     private int headOffsetY;
+    private double oldY;
+    private double jump;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
@@ -91,6 +96,8 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private EntityModel model;
+    @FeatureGet private Body body;
 
     /**
      * Create feature.
@@ -118,6 +125,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 {
                     minX = transformable.getX() - PATROL_MARGIN;
                     maxX = transformable.getX();
+                    oldY = transformable.getY();
                 }
                 transformable.moveLocationX(extrp, speed);
                 if (transformable.getX() < minX)
@@ -171,16 +179,40 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
             }
             else if (step == 6 && !headAnim.is(AnimState.PLAYING) && tick.elapsed(HEAD_OPENED_TICK))
             {
+                oldY = transformable.getY();
+                body.setGravity(4.5);
+                body.setGravityMax(4.5);
+                body.resetGravity();
+                jump = 8.0;
+                model.getJump().setDirection(0.0, jump);
                 step++;
             }
             else if (step == 7)
+            {
+                transformable.moveLocationX(extrp, -1.0);
+                if (transformable.getY() < oldY)
+                {
+                    jump -= 3.0;
+                    transformable.teleportY(oldY);
+                    body.resetGravity();
+                    model.getJump().setDirection(0.0, jump);
+                    if (jump < 0)
+                    {
+                        model.getJump().zero();
+                        body.setGravity(0.0);
+                        body.setGravityMax(0.0);
+                        step++;
+                    }
+                }
+            }
+            else if (step == 8)
             {
                 headAnim.play(headOpen);
                 headAnim.setFrame(headOpen.getLast());
                 headAnim.setAnimSpeed(-headAnim.getAnimSpeed());
                 step++;
             }
-            else if (step == 8 && !headAnim.is(AnimState.PLAYING))
+            else if (step == 9 && !headAnim.is(AnimState.PLAYING))
             {
                 animatable.play(walk);
                 step = 0;
@@ -212,6 +244,11 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 }
                 headTransformable.setLocation(transformable.getX() + HEAD_OFFSET_X, transformable.getY() + headOffsetY);
                 headCollidable.setEnabled(headAnim.getFrame() == 6);
+
+                if (player.getX() > transformable.getX())
+                {
+                    player.teleportX(transformable.getX());
+                }
             }
         };
     }
@@ -228,6 +265,15 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     public void update(double extrp)
     {
         current.update(extrp);
+
+        if (stats.getHealth() == 0 && transformable.getY() < oldY)
+        {
+            transformable.teleportY(oldY);
+            body.resetGravity();
+            model.getJump().zero();
+            body.setGravity(0.0);
+            body.setGravityMax(0.0);
+        }
     }
 
     @Override
