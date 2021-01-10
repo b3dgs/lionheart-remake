@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage next="stage/stage3.xml">
+<stage next="stage/stage2.xml">
     <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage1.lvl"/>
     <raster folder="levels/swamp/raster/dusk/"/>

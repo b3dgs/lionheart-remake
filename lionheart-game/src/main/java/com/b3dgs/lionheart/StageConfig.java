@@ -111,7 +111,7 @@ public final class StageConfig
     /** Map level file. */
     private final Media mapFile;
     /** Map raster folder. */
-    private final String rasterFolder;
+    private final Optional<String> rasterFolder;
     /** Background type. */
     private final BackgroundType background;
     /** Foreground type. */
@@ -145,7 +145,7 @@ public final class StageConfig
 
         mapFile = configurer.getMedia(ATT_MAP_FILE, NODE_MAP);
 
-        rasterFolder = configurer.getString(ATT_RASTER_FOLDER, NODE_RASTER);
+        rasterFolder = configurer.getStringOptional(ATT_RASTER_FOLDER, NODE_RASTER);
 
         background = configurer.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
         foreground = configurer.getEnum(ForegroundType.class, ATT_FOREGROUND_TYPE, NODE_FOREGROUND);
@@ -234,7 +234,7 @@ public final class StageConfig
      * 
      * @return The raster folder.
      */
-    public String getRasterFolder()
+    public Optional<String> getRasterFolder()
     {
         return rasterFolder;
     }

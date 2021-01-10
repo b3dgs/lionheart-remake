@@ -28,8 +28,12 @@ public enum Stage
 {
     /** First swamp stage. */
     STAGE_1("stage1"),
+    /** First spider cave stage. */
+    STAGE_2("stage2"),
     /** Second swamp stage. */
     STAGE_3("stage3"),
+    /** Second spider cave stage. */
+    STAGE_4("stage4"),
     /** Third swamp stage. */
     STAGE_5("stage5");
 
