@@ -80,6 +80,8 @@ public final class Constant
     public static final double JUMP_HIT = 5.5;
     /** Jump maximum height. */
     public static final Direction JUMP_MAX = new Force(0.0, 5.4);
+    /** Jump spider height. */
+    public static final Direction JUMP_SPIDER = new Force(0.0, 3.5);
 
     /** Raster tile file. */
     public static final String RASTER_FILE_TILE = "tiles.png";

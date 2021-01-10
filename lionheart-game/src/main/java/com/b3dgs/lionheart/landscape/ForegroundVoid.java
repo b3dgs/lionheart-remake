@@ -17,37 +17,9 @@
 package com.b3dgs.lionheart.landscape;
 
 /**
- * Types of foregrounds.
+ * Foreground void implementation.
  */
-public enum ForegroundType
+public class ForegroundVoid implements Foreground
 {
-    /** Water. */
-    WATER("water"),
-    /** Lava. */
-    LAVA("lava"),
-    /** None. */
-    NONE(null);
-
-    /** Theme name. */
-    private final String theme;
-
-    /**
-     * Constructor.
-     * 
-     * @param theme The theme name.
-     */
-    ForegroundType(String theme)
-    {
-        this.theme = theme;
-    }
-
-    /**
-     * Get the theme name.
-     * 
-     * @return The theme name.
-     */
-    public String getTheme()
-    {
-        return theme;
-    }
+    // Void
 }

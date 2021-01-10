@@ -65,7 +65,15 @@ public final class FactoryLandscape
     public Landscape createLandscape(BackgroundType backgroundType, ForegroundType foregroundType)
     {
         final Background background = createBackground(backgroundType);
-        final Foreground foreground = new Foreground(services, source, foregroundType.getTheme());
+        final Foreground foreground;
+        if (ForegroundType.NONE == foregroundType)
+        {
+            foreground = new ForegroundVoid();
+        }
+        else
+        {
+            foreground = new ForegroundWater(services, source, foregroundType.getTheme());
+        }
         return new Landscape(background, foreground);
     }
 
@@ -82,6 +90,10 @@ public final class FactoryLandscape
         {
             case SWAMP:
                 background = new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
+            case SPIDERCAVE1:
+            case SPIDERCAVE2:
+                background = new BackgroundNone(source);
                 break;
             case ANCIENT_TOWN:
                 background = new AncientTown(source, scaleH, scaleV, backgroundType.getTheme(), flicker);

@@ -38,6 +38,8 @@ public final class Anim
     public static final String WALK = "walk";
     /** Animation name turn. */
     public static final String TURN = "turn";
+    /** Animation name jump. */
+    public static final String JUMP = "jump";
     /** Animation name fall. */
     public static final String FALL = "fall";
     /** Animation name land. */

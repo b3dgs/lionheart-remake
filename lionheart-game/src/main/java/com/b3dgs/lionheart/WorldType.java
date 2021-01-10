@@ -35,6 +35,10 @@ public enum WorldType
 {
     /** Swamp world. */
     SWAMP(Music.SWAMP),
+    /** Spider cave 1 world. */
+    SPIDERCAVE1(Music.SPIDERCAVE),
+    /** Spider cave 2 world. */
+    SPIDERCAVE2(Music.SPIDERCAVE),
     /** Ancient town world. */
     ANCIENT_TOWN(Music.ANCIENT_TOWN);
 

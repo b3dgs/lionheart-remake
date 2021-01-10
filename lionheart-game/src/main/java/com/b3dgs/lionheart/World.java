@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.b3dgs.lionengine.LionEngineException;
@@ -57,6 +58,7 @@ import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
+import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
@@ -96,7 +98,7 @@ final class World extends WorldHelper
      * @param media The map media.
      * @param raster The raster folder.
      */
-    private void loadMap(Media media, String raster)
+    private void loadMap(Media media, Optional<String> raster)
     {
         if (!media.exists())
         {
@@ -112,7 +114,8 @@ final class World extends WorldHelper
             }
         });
 
-        map.getFeature(MapTileRastered.class).setRaster(Medias.create(raster, Constant.RASTER_FILE_TILE));
+        raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
+                                 .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE)));
         try (FileReading reading = new FileReading(media))
         {
             final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
@@ -132,9 +135,12 @@ final class World extends WorldHelper
             mapViewer.addRenderer(renderer);
         }
 
-        mapWater.create(raster);
-        mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue() + 1));
-        handler.add(mapWater);
+        raster.ifPresent(r ->
+        {
+            mapWater.create(r);
+            mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue() + 1));
+            handler.add(mapWater);
+        });
     }
 
     /**
@@ -184,7 +190,11 @@ final class World extends WorldHelper
             featurable.ifIs(Patrol.class, patrol -> patrol.load(patrols));
             featurable.ifIs(Jumper.class, jumper -> jumper.setJump(entity.getJump()));
         }
-        featurable.ifIs(Floater.class, floater -> floater.loadRaster(stage.getRasterFolder()));
+        else
+        {
+            featurable.ifIs(Spider.class, Spider::track);
+        }
+        stage.getRasterFolder().ifPresent(r -> featurable.ifIs(Floater.class, floater -> floater.loadRaster(r)));
         featurable.ifIs(Rasterable.class, rasterable ->
         {
             // if (!featurable.hasFeature(Patrol.class) && !featurable.hasFeature(Grasshopper.class))
@@ -258,7 +268,7 @@ final class World extends WorldHelper
                 initMusic(Music.BOSS.get());
             }
         });
-        spawner.setRaster(Medias.create(stage.getRasterFolder(), Constant.RASTER_FILE_TILE));
+        stage.getRasterFolder().ifPresent(r -> spawner.setRaster(Medias.create(r, Constant.RASTER_FILE_TILE)));
 
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
@@ -266,12 +276,12 @@ final class World extends WorldHelper
         factory.createCache(spawner, Medias.create(Folder.EFFECTS), 4);
         factory.createCache(spawner, Medias.create(Folder.PROJECTILES), 6);
 
-        initMusic(stage.getMusic());
         hud.load();
         handler.updateRemove();
         handler.updateAdd();
 
         Sfx.cacheEnd();
+        initMusic(stage.getMusic());
 
         System.gc();
     }

@@ -28,7 +28,13 @@ public enum BackgroundType
     /** Swamp dawn. */
     SWAMP_DAWN(WorldType.SWAMP, "dawn"),
     /** Swamp day. */
-    SWAMP_DAY(WorldType.SWAMP, "day");
+    SWAMP_DAY(WorldType.SWAMP, "day"),
+    /** Spider cave 1. */
+    SPIDERCAVE1(WorldType.SPIDERCAVE1, null),
+    /** Spider cave 2. */
+    SPIDERCAVE2(WorldType.SPIDERCAVE2, null),
+    /** None. */
+    NONE(null, null);
 
     /** World type. */
     private final WorldType world;
