@@ -53,6 +53,7 @@ Each area has its own elements, monsters...
 
 | [![img1](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage1_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage1.png) | [![img2](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage3_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage3.png) | [![img3](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage5_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage5.png) | [![img4](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage5_boss_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.1.0/stage5_boss.png)
 |---|---|---|---|
+| [![img1](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage2_miniboss_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage2_miniboss.png) | [![img2](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage2_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage2.png) | [![img3](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage4_miniboss_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage4_miniboss.png) | [![img4](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage4_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/0.2.0/stage4.png)
 
 ## Downloads
 
