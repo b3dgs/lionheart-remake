@@ -28,15 +28,13 @@ import com.b3dgs.lionheart.object.feature.Stats;
 public final class StateDie extends State
 {
     /** Maximum horizontal die offset. */
-    private static final int DIE_HORIZONTAL_OFFSET_MAX = 25;
+    private static final int DIE_HORIZONTAL_OFFSET_MAX = 48;
     /** Initial die horizontal speed. */
-    private static final double DIE_VX = 0.8;
+    private static final double DIE_VX = 1.5;
     /** Initial die vertical speed. */
-    private static final double DIE_VY = 0.4;
-    /** Horizontal die acceleration. */
-    private static final double DIE_AX = 0.1;
+    private static final double DIE_VY = 3.0;
     /** Vertical die acceleration. */
-    private static final double DIE_AY = 0.2;
+    private static final double DIE_AY = -0.15;
 
     private final Stats stats = model.getFeature(Stats.class);
 
@@ -57,7 +55,7 @@ public final class StateDie extends State
     {
         super(model, animation);
 
-        addTransition(StateDead.class, () -> transformable.getX() - x > DIE_HORIZONTAL_OFFSET_MAX);
+        addTransition(StateDead.class, () -> x - transformable.getX() > DIE_HORIZONTAL_OFFSET_MAX);
     }
 
     @Override
@@ -67,6 +65,7 @@ public final class StateDie extends State
 
         stats.applyDamages(stats.getHealth());
         movement.zero();
+        jump.zero();
         x = transformable.getX();
         vx = DIE_VX;
         vy = DIE_VY;
@@ -77,11 +76,22 @@ public final class StateDie extends State
     public void update(double extrp)
     {
         body.resetGravity();
-        if (Double.compare(transformable.getX() - x, DIE_HORIZONTAL_OFFSET_MAX) <= 0)
+        if (Double.compare(x - transformable.getX(), DIE_HORIZONTAL_OFFSET_MAX) <= 0)
         {
-            transformable.moveLocation(extrp, vx, vy);
-            vx += DIE_AX;
+            movement.setDirection(-vx, 0.0);
+            movement.setDestination(-vx, 0.0);
+            jump.setDirection(0.0, vy);
+            jump.setDestination(0.0, vy);
             vy += DIE_AY;
         }
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        movement.zero();
+        jump.zero();
     }
 }

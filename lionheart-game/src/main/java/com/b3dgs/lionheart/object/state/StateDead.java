@@ -78,5 +78,6 @@ public final class StateDead extends State
     public void update(double extrp)
     {
         tick.update(extrp);
+        body.resetGravity();
     }
 }
