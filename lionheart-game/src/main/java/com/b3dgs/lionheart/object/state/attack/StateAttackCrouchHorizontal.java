@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state.attack;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -53,5 +54,7 @@ final class StateAttackCrouchHorizontal extends State
         {
             mirrorable.mirror(Mirror.NONE);
         }
+
+        Sfx.VALDYN_SWORD.play();
     }
 }
