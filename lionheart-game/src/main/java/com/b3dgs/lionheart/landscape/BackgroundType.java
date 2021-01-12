@@ -33,6 +33,8 @@ public enum BackgroundType
     SPIDERCAVE1(WorldType.SPIDERCAVE1, null),
     /** Spider cave 2. */
     SPIDERCAVE2(WorldType.SPIDERCAVE2, null),
+    /** Ancient Town dusk. */
+    ANCIENT_TOWN_DUSK(WorldType.ANCIENT_TOWN, "dusk"),
     /** None. */
     NONE(null, null);
 

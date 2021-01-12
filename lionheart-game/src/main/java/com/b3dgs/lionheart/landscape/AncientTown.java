@@ -32,7 +32,6 @@ import com.b3dgs.lionheart.constant.Folder;
 final class AncientTown extends BackgroundAbstract
 {
     private final Backdrop backdrop;
-    private final boolean flickering;
 
     /**
      * Constructor.
@@ -47,10 +46,9 @@ final class AncientTown extends BackgroundAbstract
     {
         super(theme, 0, 512);
 
-        this.flickering = flickering;
         final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancient_town", theme);
         final int width = source.getWidth();
-        backdrop = new Backdrop(path, this.flickering, width);
+        backdrop = new Backdrop(path, flickering, width);
         add(backdrop);
         totalHeight = 120;
         setScreenSize(source.getWidth(), source.getHeight());
@@ -77,8 +75,7 @@ final class AncientTown extends BackgroundAbstract
         private final BackgroundElement backcolorB;
         private final boolean flickering;
         private int screenWidth;
-        private int flickerCount;
-        private boolean flickerType;
+        private boolean flicker;
 
         /**
          * Constructor.
@@ -92,15 +89,13 @@ final class AncientTown extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
+            backcolorA = createElement(path, "backcolor1.png", 0, 0);
             if (flickering)
             {
-                backcolorA = createElement(path, "backcolor_a.png", 0, 0);
-                backcolorB = createElement(path, "backcolor_b.png", 0, 0);
-                flickerCount = 0;
+                backcolorB = createElement(path, "backcolor2.png", 0, 0);
             }
             else
             {
-                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
             setScreenWidth(screenWidth);
@@ -123,11 +118,7 @@ final class AncientTown extends BackgroundAbstract
 
             if (flickering)
             {
-                flickerCount = (flickerCount + 1) % 2;
-                if (flickerCount == 0)
-                {
-                    flickerType = !flickerType;
-                }
+                flicker = !flicker;
             }
         }
 
@@ -135,13 +126,13 @@ final class AncientTown extends BackgroundAbstract
         public void render(Graphic g)
         {
             final Sprite sprite;
-            if (flickerType || !flickering)
+            if (flicker)
             {
-                sprite = (Sprite) backcolorA.getRenderable();
+                sprite = (Sprite) backcolorB.getRenderable();
             }
             else
             {
-                sprite = (Sprite) backcolorB.getRenderable();
+                sprite = (Sprite) backcolorA.getRenderable();
             }
             for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
             {
