@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.landscape.BackgroundType;
-import com.b3dgs.lionheart.landscape.ForegroundType;
+import com.b3dgs.lionheart.landscape.ForegroundConfig;
 
 /**
  * Stage configuration.
@@ -58,11 +58,6 @@ public final class StageConfig
     private static final String NODE_BACKGROUND = "background";
     /** Background type attribute name. */
     private static final String ATT_BACKGROUND_TYPE = "type";
-
-    /** Foreground node name. */
-    private static final String NODE_FOREGROUND = "foreground";
-    /** Foreground type attribute name. */
-    private static final String ATT_FOREGROUND_TYPE = "type";
 
     /** Checkpoint node name. */
     private static final String NODE_CHECKPOINT = "checkpoint";
@@ -114,8 +109,8 @@ public final class StageConfig
     private final Optional<String> rasterFolder;
     /** Background type. */
     private final BackgroundType background;
-    /** Foreground type. */
-    private final ForegroundType foreground;
+    /** Foreground config. */
+    private final ForegroundConfig foreground;
     /** Starting tile. */
     private final Coord start;
     /** Ending tile. */
@@ -148,7 +143,7 @@ public final class StageConfig
         rasterFolder = configurer.getStringOptional(ATT_RASTER_FOLDER, NODE_RASTER);
 
         background = configurer.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
-        foreground = configurer.getEnum(ForegroundType.class, ATT_FOREGROUND_TYPE, NODE_FOREGROUND);
+        foreground = ForegroundConfig.imports(configurer);
 
         start = new Coord(configurer.getInteger(ATT_CHECKPOINT_START_TX, NODE_CHECKPOINT),
                           configurer.getInteger(ATT_CHECKPOINT_START_TY, NODE_CHECKPOINT));
@@ -254,7 +249,7 @@ public final class StageConfig
      * 
      * @return The foreground type.
      */
-    public ForegroundType getForeground()
+    public ForegroundConfig getForeground()
     {
         return foreground;
     }

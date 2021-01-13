@@ -44,9 +44,9 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
     /** Services reference. */
     private final MapTileWater mapWater;
     /** Water depth. */
-    private final double depth = 8.0;
+    private final double depth;
     /** Water depth offset. */
-    private final double depthOffset = 24.0;
+    private final double depthOffset;
     /** Water speed. */
     private final double speed = 0.02;
     /** Primary. */
@@ -76,10 +76,14 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
      * @param services The services reference.
      * @param source The resolution source reference.
      * @param theme The theme name.
+     * @param config The configuration.
      */
-    ForegroundWater(Services services, SourceResolutionProvider source, String theme)
+    ForegroundWater(Services services, SourceResolutionProvider source, String theme, ForegroundConfig config)
     {
         super(theme, 0, 0);
+
+        depth = config.getWaterDepth().orElse(0);
+        depthOffset = config.getWaterOffset().orElse(0);
 
         mapWater = services.get(MapTileWater.class);
 

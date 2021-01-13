@@ -59,12 +59,13 @@ public final class FactoryLandscape
      * Create a landscape.
      * 
      * @param backgroundType The background type.
-     * @param foregroundType The foreground type.
+     * @param foregroundConfig The foreground configuration.
      * @return The created landscape.
      */
-    public Landscape createLandscape(BackgroundType backgroundType, ForegroundType foregroundType)
+    public Landscape createLandscape(BackgroundType backgroundType, ForegroundConfig foregroundConfig)
     {
         final Background background = createBackground(backgroundType);
+        final ForegroundType foregroundType = foregroundConfig.getType();
         final Foreground foreground;
         if (ForegroundType.NONE == foregroundType)
         {
@@ -72,7 +73,7 @@ public final class FactoryLandscape
         }
         else
         {
-            foreground = new ForegroundWater(services, source, foregroundType.getTheme());
+            foreground = new ForegroundWater(services, source, foregroundType.getTheme(), foregroundConfig);
         }
         return new Landscape(background, foreground);
     }
