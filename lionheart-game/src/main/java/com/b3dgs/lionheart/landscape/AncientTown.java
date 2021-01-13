@@ -44,13 +44,13 @@ final class AncientTown extends BackgroundAbstract
      */
     AncientTown(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 512);
+        super(theme, 0, 1800);
 
         final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancient_town", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width);
         add(backdrop);
-        totalHeight = 120;
+        totalHeight = 470;
         setScreenSize(source.getWidth(), source.getHeight());
     }
 
