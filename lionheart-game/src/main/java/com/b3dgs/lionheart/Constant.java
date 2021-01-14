@@ -60,7 +60,7 @@ public final class Constant
     /** Stats maximum life. */
     public static final int STATS_MAX_LIFE = 99;
     /** Stats maximum sword. */
-    public static final int STATS_MAX_SWORD = 2;
+    public static final int STATS_MAX_SWORD = 3;
 
     /** Camera horizontal margin. */
     public static final int CAMERA_HORIZONTAL_MARGIN = 16;
