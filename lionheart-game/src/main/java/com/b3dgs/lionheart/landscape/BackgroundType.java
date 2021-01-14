@@ -35,6 +35,8 @@ public enum BackgroundType
     SPIDERCAVE2(WorldType.SPIDERCAVE2, null),
     /** Ancient Town dusk. */
     ANCIENT_TOWN_DUSK(WorldType.ANCIENT_TOWN, "dusk"),
+    /** Ancient Town dawn. */
+    ANCIENT_TOWN_DAWN(WorldType.ANCIENT_TOWN, "dawn"),
     /** None. */
     NONE(null, null);
 
