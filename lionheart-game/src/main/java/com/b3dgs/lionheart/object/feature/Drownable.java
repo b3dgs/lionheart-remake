@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.object.state.StateDrowned;
 
 /**
@@ -40,9 +41,7 @@ import com.b3dgs.lionheart.object.state.StateDrowned;
 @FeatureInterface
 public final class Drownable extends FeatureModel implements Routine, Recyclable
 {
-    /** Top limit drown vertical position. */
-    private static final int DROWN_START_Y = -10;
-
+    private final MapTileWater water = services.get(MapTileWater.class);
     /** Current drown check. */
     private Updatable check;
 
@@ -68,7 +67,7 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
      */
     private void checkStart(double extrp)
     {
-        if (transformable.getY() < DROWN_START_Y)
+        if (transformable.getY() < water.getCurrent() - transformable.getHeight() + 8)
         {
             stateHandler.changeState(StateDrowned.class);
             check = UpdatableVoid.getInstance();

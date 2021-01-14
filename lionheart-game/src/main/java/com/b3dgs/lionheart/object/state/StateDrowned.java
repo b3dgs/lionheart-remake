@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.Sfx;
@@ -31,11 +32,12 @@ import com.b3dgs.lionheart.object.feature.Stats;
  */
 public final class StateDrowned extends State
 {
-    /** Drown limit drown vertical position. */
-    private static final int DROWN_END_Y = -60;
+    /** Drown limit tick. */
+    private static final int DROWN_END_TICK = 60;
     /** Drown fall speed. */
     private static final double DEATH_FALL_SPEED = -0.7;
 
+    private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
     private final Drownable drownable = model.getFeature(Drownable.class);
     private final Checkpoint checkpoint;
@@ -50,7 +52,7 @@ public final class StateDrowned extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> transformable.getY() < DROWN_END_Y);
+        addTransition(StateIdle.class, () -> tick.elapsed(DROWN_END_TICK));
 
         checkpoint = model.getCheckpoint();
     }
@@ -63,6 +65,7 @@ public final class StateDrowned extends State
         stats.applyDamages(stats.getHealth());
         movement.zero();
         Sfx.VALDYN_DIE.play();
+        tick.restart();
     }
 
     @Override
@@ -83,6 +86,7 @@ public final class StateDrowned extends State
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         body.resetGravity();
         model.getMovement().setDestination(0.0, DEATH_FALL_SPEED);
         model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
