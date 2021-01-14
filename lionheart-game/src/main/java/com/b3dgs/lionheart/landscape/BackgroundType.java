@@ -37,6 +37,8 @@ public enum BackgroundType
     ANCIENT_TOWN_DUSK(WorldType.ANCIENT_TOWN, "dusk"),
     /** Ancient Town dawn. */
     ANCIENT_TOWN_DAWN(WorldType.ANCIENT_TOWN, "dawn"),
+    /** Ancient Town day. */
+    ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day"),
     /** None. */
     NONE(null, null);
 
