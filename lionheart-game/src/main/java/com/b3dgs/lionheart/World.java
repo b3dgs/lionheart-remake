@@ -54,6 +54,7 @@ import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.feature.Canon1;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -184,6 +185,7 @@ final class World extends WorldHelper
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
         entity.getMirror().ifPresent(mirror -> featurable.getFeature(Mirrorable.class).mirror(Mirror.HORIZONTAL));
         entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
+        entity.getCanon1().ifPresent(config -> featurable.ifIs(Canon1.class, canon1 -> canon1.load(config)));
         final List<PatrolConfig> patrols = entity.getPatrols();
         if (!patrols.isEmpty())
         {
@@ -273,7 +275,7 @@ final class World extends WorldHelper
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
-        factory.createCache(spawner, Medias.create(Folder.EFFECTS), 4);
+        factory.createCache(spawner, Medias.create(Folder.EFFECTS, "ancienttown"), 4);
         factory.createCache(spawner, Medias.create(Folder.PROJECTILES), 6);
 
         hud.load();

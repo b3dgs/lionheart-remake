@@ -60,6 +60,8 @@ public enum Sfx
     MONSTER_LAND,
     /** Monster spider. */
     MONSTER_SPIDER,
+    /** Monster canon1 fire. */
+    MONSTER_CANON1,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */
