@@ -31,6 +31,8 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.Sfx;
 
 /**
@@ -45,6 +47,7 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
     private static final int FIRED_DELAY_TICK = 15;
 
     private final Tick tick = new Tick();
+    private final MapTile map = services.get(MapTile.class);
     private final Animation idle;
     private final Animation fire;
 
@@ -53,6 +56,7 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -107,6 +111,8 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
 
         launcher.addListener(l ->
         {
+            l.ifIs(Rasterable.class, r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight()));
+
             final Force direction = l.getDirection();
             direction.setDirection(direction.getDirectionHorizontal() * config.getVx(),
                                    direction.getDirectionVertical() * config.getVy());
