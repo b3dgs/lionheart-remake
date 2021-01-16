@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -43,7 +44,6 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.constant.Anim;
@@ -77,6 +77,7 @@ public final class Patrol extends FeatureModel
     private boolean coll;
     private int proximity;
     private int animOffset;
+    private int skip;
 
     private double startX;
     private double startY;
@@ -89,10 +90,10 @@ public final class Patrol extends FeatureModel
     @FeatureGet private EntityModel model;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
-    @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Animatable animatable;
 
     /**
      * Create feature.
@@ -203,12 +204,18 @@ public final class Patrol extends FeatureModel
      */
     private void checkAmplitude()
     {
-        if (amplitude > 0)
+        if (amplitude == 0)
+        {
+            checker = UpdatableVoid.getInstance();
+        }
+        else
         {
             checker = extrp ->
             {
-                if (Double.compare(sh, 0.0) != 0 && Math.abs(startX - transformable.getX()) > amplitude
-                    || Double.compare(sv, 0.0) != 0 && Math.abs(startY - transformable.getY()) > amplitude)
+                if (skip == 0
+                    && (Double.compare(sh, 0.0) != 0 && Math.abs(startX - transformable.getX()) > amplitude
+                        || Double.compare(sv, 0.0) != 0 && Math.abs(startY - transformable.getY()) > amplitude)
+                    || skip == 2)
                 {
                     if (Double.compare(sh, 0.0) != 0)
                     {
@@ -235,12 +242,13 @@ public final class Patrol extends FeatureModel
                         startX = transformable.getX();
                         startY = transformable.getY();
                     }
+                    skip = 0;
+                }
+                if (amplitude < 0 && !stateHandler.isState(StateTurn.class))
+                {
+                    skip++;
                 }
             };
-        }
-        else
-        {
-            checker = UpdatableVoid.getInstance();
         }
     }
 
@@ -341,6 +349,7 @@ public final class Patrol extends FeatureModel
         enabled = true;
         first = true;
         idle = 0.0;
+        skip = 0;
         stateHandler.changeState(StatePatrol.class);
     }
 }

@@ -50,6 +50,8 @@ public enum Sfx
     SCENERY_DRAGON,
     /** Scenery turning. */
     SCENERY_TURNING,
+    /** Scenery turning cube. */
+    SCENERY_TURNINGCUBE,
     /** Scenery spike. */
     SCENERY_SPIKE,
     /** Monster hurt. */
