@@ -23,7 +23,7 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/ancienttown/Bullet2.xml" ox="0" oy="24">
+        <lionengine:launchable media="projectile/ancienttown/Bullet2.xml" sfx="sfx/monster_canon2.wav" ox="0" oy="24">
             <lionengine:force velocity="0.25" sensibility="0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

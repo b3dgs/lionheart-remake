@@ -62,6 +62,10 @@ public enum Sfx
     MONSTER_SPIDER,
     /** Monster canon1 fire. */
     MONSTER_CANON1,
+    /** Monster canon2 fire. */
+    MONSTER_CANON2,
+    /** Monster canon3 fire. */
+    MONSTER_CANON3,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */
@@ -72,6 +76,8 @@ public enum Sfx
     PROJECTILE_FLOWER,
     /** Projectile fly. */
     PROJECTILE_FLY,
+    /** Projectile canon 2 bounce. */
+    PROJECTILE_BULLET2,
     /** Boss 1 hurt. */
     BOSS1_HURT,
     /** Boss 1 bowl. */

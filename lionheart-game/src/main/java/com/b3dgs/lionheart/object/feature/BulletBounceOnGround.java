@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 
@@ -66,13 +67,18 @@ public final class BulletBounceOnGround extends FeatureModel implements Recyclab
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND))
+        if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND) && bounce > 0)
         {
             jump.setDirection(0.0, bounce);
             bounce /= 1.5;
+            if (bounce < 0.75)
+            {
+                bounce = 0.0;
+            }
             body.resetGravity();
             tileCollidable.apply(result);
             transformable.teleportY(transformable.getY() + 1.0);
+            Sfx.PROJECTILE_BULLET2.play();
         }
     }
 

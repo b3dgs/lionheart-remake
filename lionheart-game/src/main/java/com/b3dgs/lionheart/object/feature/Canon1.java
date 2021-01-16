@@ -33,7 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Anim;
 
 /**
  * Canon1 feature implementation.
@@ -70,8 +70,8 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
         super(services, setup);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation("idle");
-        fire = config.getAnimation("fire");
+        idle = config.getAnimation(Anim.IDLE);
+        fire = config.getAnimation(Anim.ATTACK);
     }
 
     /**
@@ -93,7 +93,6 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
             phase = 1;
             animatable.play(fire);
             launcher.fire();
-            Sfx.MONSTER_CANON1.play();
             tick.restart();
         }
         else if (phase == 1 && tick.elapsed(Math.min(FIRED_DELAY_TICK, config.getFireDelay())))

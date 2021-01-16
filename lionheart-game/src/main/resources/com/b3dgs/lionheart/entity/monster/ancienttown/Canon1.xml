@@ -13,7 +13,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="fire" start="2" end="2" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="attack" start="2" end="2" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="3" end="4" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -23,7 +23,7 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/ancienttown/Bullet1.xml" ox="-16" oy="24">
+        <lionengine:launchable media="projectile/ancienttown/Bullet1.xml" sfx="sfx/monster_canon1.wav" ox="-16" oy="24">
             <lionengine:force velocity="0.1" sensibility="0" vx="-1.0" vy="1.0"/>
         </lionengine:launchable>
         <lionengine:launchable media="projectile/ancienttown/Bullet1.xml" ox="16" oy="24">

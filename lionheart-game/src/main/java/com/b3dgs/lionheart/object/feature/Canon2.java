@@ -30,7 +30,6 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionheart.Sfx;
 
 /**
  * Canon2 feature implementation.
@@ -78,7 +77,6 @@ public final class Canon2 extends FeatureModel implements Routine, Recyclable
         if (tick.elapsed(config.getFireDelay()))
         {
             launcher.fire();
-            Sfx.MONSTER_CANON1.play();
             tick.restart();
         }
     }
