@@ -16,13 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -34,24 +31,18 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.Sfx;
 
 /**
- * Canon1 feature implementation.
+ * Canon2 feature implementation.
  * <ol>
- * <li>Fire on delay two sided bullets.</li>
+ * <li>Fire on delay bullet bounce.</li>
  * </ol>
  */
 @FeatureInterface
-public final class Canon1 extends FeatureModel implements Routine, Recyclable
+public final class Canon2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRED_DELAY_TICK = 15;
-
     private final Tick tick = new Tick();
-    private final Animation idle;
-    private final Animation fire;
 
     private CanonConfig config;
-    private int phase;
 
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
 
     /**
@@ -61,13 +52,9 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public Canon1(Services services, Setup setup)
+    public Canon2(Services services, Setup setup)
     {
         super(services, setup);
-
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation("idle");
-        fire = config.getAnimation("fire");
     }
 
     /**
@@ -84,18 +71,10 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (phase == 0 && tick.elapsed(config.getFireDelay()))
+        if (tick.elapsed(config.getFireDelay()))
         {
-            phase = 1;
-            animatable.play(fire);
             launcher.fire();
             Sfx.MONSTER_CANON1.play();
-            tick.restart();
-        }
-        else if (phase == 1 && tick.elapsed(Math.min(FIRED_DELAY_TICK, config.getFireDelay())))
-        {
-            phase = 0;
-            animatable.play(idle);
             tick.restart();
         }
     }
@@ -108,16 +87,15 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
         launcher.addListener(l ->
         {
             final Force direction = l.getDirection();
-            direction.setDirection(direction.getDirectionHorizontal() * config.getVx(),
-                                   direction.getDirectionVertical() * config.getVy());
+            final double vx = direction.getDirectionHorizontal() * config.getVx();
+            direction.setDirection(vx, direction.getDirectionVertical() * config.getVy());
+            direction.setDestination(vx, 0.0);
         });
     }
 
     @Override
     public void recycle()
     {
-        animatable.play(idle);
-        phase = 0;
         tick.restart();
     }
 }

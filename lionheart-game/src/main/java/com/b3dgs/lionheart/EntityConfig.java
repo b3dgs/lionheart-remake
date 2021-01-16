@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionheart.object.feature.Canon1Config;
+import com.b3dgs.lionheart.object.feature.CanonConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
 
@@ -81,7 +81,7 @@ public final class EntityConfig
     /** Spike configuration. */
     private final Optional<SpikeConfig> spike;
     /** Canon1 configuration. */
-    private final Optional<Canon1Config> canon1;
+    private final Optional<CanonConfig> canon;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -111,7 +111,7 @@ public final class EntityConfig
 
         patrols = PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL));
         spike = root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports);
-        canon1 = root.getChildOptional(Canon1Config.NODE_CANON1).map(Canon1Config::imports);
+        canon = root.getChildOptional(CanonConfig.NODE_CANON).map(CanonConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -202,13 +202,13 @@ public final class EntityConfig
     }
 
     /**
-     * Get the canon1 configuration.
+     * Get the canon configuration.
      * 
-     * @return The canon1 configuration.
+     * @return The canon configuration.
      */
-    public Optional<Canon1Config> getCanon1()
+    public Optional<CanonConfig> getCanon()
     {
-        return canon1;
+        return canon;
     }
 
     /**

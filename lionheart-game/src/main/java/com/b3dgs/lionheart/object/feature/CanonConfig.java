@@ -22,12 +22,12 @@ import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 
 /**
- * Canon1 configuration.
+ * Canon configuration.
  */
-public final class Canon1Config
+public final class CanonConfig
 {
     /** Config node name. */
-    public static final String NODE_CANON1 = "canon1";
+    public static final String NODE_CANON = "canon";
     /** Fire delay attribute name. */
     public static final String ATT_FIRE_DELAY = "fireDelay";
     /** Fire horizontal force attribute name. */
@@ -42,11 +42,11 @@ public final class Canon1Config
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static Canon1Config imports(Configurer configurer)
+    public static CanonConfig imports(Configurer configurer)
     {
         Check.notNull(configurer);
 
-        return imports(configurer.getChild(NODE_CANON1));
+        return imports(configurer.getChild(NODE_CANON));
     }
 
     /**
@@ -56,11 +56,11 @@ public final class Canon1Config
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static Canon1Config imports(XmlReader root)
+    public static CanonConfig imports(XmlReader root)
     {
         Check.notNull(root);
 
-        return new Canon1Config(root);
+        return new CanonConfig(root);
     }
 
     /** Fire delay. */
@@ -75,7 +75,7 @@ public final class Canon1Config
      * 
      * @param root The root configuration (must not be null).
      */
-    private Canon1Config(XmlReader root)
+    private CanonConfig(XmlReader root)
     {
         super();
 
