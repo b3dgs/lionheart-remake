@@ -28,6 +28,8 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.Sfx;
 
 /**
@@ -40,10 +42,12 @@ import com.b3dgs.lionheart.Sfx;
 public final class Canon2 extends FeatureModel implements Routine, Recyclable
 {
     private final Tick tick = new Tick();
+    private final MapTile map = services.get(MapTile.class);
 
     private CanonConfig config;
 
     @FeatureGet private Launcher launcher;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -86,6 +90,8 @@ public final class Canon2 extends FeatureModel implements Routine, Recyclable
 
         launcher.addListener(l ->
         {
+            l.ifIs(Rasterable.class, r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight()));
+
             final Force direction = l.getDirection();
             final double vx = direction.getDirectionHorizontal() * config.getVx();
             direction.setDirection(vx, direction.getDirectionVertical() * config.getVy());
