@@ -56,6 +56,7 @@ import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.Canon1;
 import com.b3dgs.lionheart.object.feature.Canon2;
+import com.b3dgs.lionheart.object.feature.Canon3;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -190,6 +191,7 @@ final class World extends WorldHelper
         {
             featurable.ifIs(Canon1.class, canon -> canon.load(config));
             featurable.ifIs(Canon2.class, canon -> canon.load(config));
+            featurable.ifIs(Canon3.class, canon -> canon.load(config));
         });
         final List<PatrolConfig> patrols = entity.getPatrols();
         if (!patrols.isEmpty())
