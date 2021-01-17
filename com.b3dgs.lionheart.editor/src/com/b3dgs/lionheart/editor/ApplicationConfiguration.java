@@ -71,6 +71,7 @@ public class ApplicationConfiguration
     {
         final MWindow existingWindow = application.getChildren().get(0);
         existingWindow.setLabel(Activator.PLUGIN_NAME);
+        existingWindow.setIconURI("platform:/plugin/" + Activator.PLUGIN_ID + "/icons/icon_256_8.bmp");
         eventBroker.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE, new AppStartupCompleteEventHandler());
     }
 

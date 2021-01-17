@@ -16,8 +16,13 @@
    <windowImages/>
 
    <launcher name="Lionheart Remake Editor">
+      <linux icon="/com.b3dgs.lionheart.editor/icons/icon.xpm"/>
+      <macosx icon="/com.b3dgs.lionheart.editor/icons/icon.icns"/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallLow="/com.b3dgs.lionheart.editor/icons/icon_16_8.bmp"
+            winMediumLow="/com.b3dgs.lionheart.editor/icons/icon_32_8.bmp"
+            winLargeLow="/com.b3dgs.lionheart.editor/icons/icon_48_8.bmp"/>
       </win>
    </launcher>
 
@@ -25,7 +30,7 @@
       <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</linux>
       <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
       <solaris include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</solaris>
-      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</windows>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11</windows>
    </vm>
 
    <plugins>
