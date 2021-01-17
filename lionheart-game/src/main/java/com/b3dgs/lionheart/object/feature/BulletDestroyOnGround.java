@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.constant.CollisionName;
 
@@ -34,6 +35,7 @@ import com.b3dgs.lionheart.constant.CollisionName;
 public final class BulletDestroyOnGround extends FeatureModel implements TileCollidableListener
 {
     @FeatureGet private Hurtable hurtable;
+    @FeatureGet private TileCollidable tileCollidable;
 
     /**
      * Create feature.
@@ -52,6 +54,7 @@ public final class BulletDestroyOnGround extends FeatureModel implements TileCol
     {
         if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND))
         {
+            tileCollidable.apply(result);
             hurtable.kill();
         }
     }

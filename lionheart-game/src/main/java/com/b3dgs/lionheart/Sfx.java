@@ -68,6 +68,8 @@ public enum Sfx
     MONSTER_CANON2,
     /** Monster canon3 fire. */
     MONSTER_CANON3,
+    /** Monster gobelin rise. */
+    MONSTER_GOBELIN,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */
