@@ -61,6 +61,7 @@ import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
+import com.b3dgs.lionheart.object.feature.Rotating;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SwordShade;
@@ -193,6 +194,7 @@ final class World extends WorldHelper
             featurable.ifIs(Canon2.class, canon -> canon.load(config));
             featurable.ifIs(Canon3.class, canon -> canon.load(config));
         });
+        entity.getRotating().ifPresent(config -> featurable.ifIs(Rotating.class, rotating -> rotating.load(config)));
         final List<PatrolConfig> patrols = entity.getPatrols();
         if (!patrols.isEmpty())
         {

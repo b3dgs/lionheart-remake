@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.CanonConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
+import com.b3dgs.lionheart.object.feature.RotatingConfig;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
 
 /**
@@ -82,6 +83,8 @@ public final class EntityConfig
     private final Optional<SpikeConfig> spike;
     /** Canon1 configuration. */
     private final Optional<CanonConfig> canon;
+    /** Rotating configuration. */
+    private final Optional<RotatingConfig> rotating;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -112,6 +115,7 @@ public final class EntityConfig
         patrols = PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL));
         spike = root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports);
         canon = root.getChildOptional(CanonConfig.NODE_CANON).map(CanonConfig::imports);
+        rotating = root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -209,6 +213,16 @@ public final class EntityConfig
     public Optional<CanonConfig> getCanon()
     {
         return canon;
+    }
+
+    /**
+     * Get the rotating configuration.
+     * 
+     * @return The rotating configuration.
+     */
+    public Optional<RotatingConfig> getRotating()
+    {
+        return rotating;
     }
 
     /**
