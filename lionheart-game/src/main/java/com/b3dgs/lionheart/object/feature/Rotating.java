@@ -21,8 +21,8 @@ import java.util.List;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -33,6 +33,9 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
  * Rotating feature implementation.
@@ -43,12 +46,21 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 @FeatureInterface
 public final class Rotating extends FeatureModel implements Routine, Recyclable
 {
-    private final Spawner spawner = services.get(Spawner.class);
+    private static final int ANGLE_MARGIN = 15;
+
     private final List<Transformable> rings = new ArrayList<>();
+    private final Spawner spawner = services.get(Spawner.class);
+    private final StateHandler player = services.get(SwordShade.class).getFeature(StateHandler.class);
 
     private RotatingConfig config;
     private int count;
+    private Updatable updatable;
     private double angle;
+    private double angleAcc;
+    private double side;
+    private double max;
+    private boolean collide;
+    private Transformable platform;
 
     @FeatureGet private Transformable transformable;
 
@@ -80,15 +92,87 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         {
             rings.add(spawner.spawn(Medias.create(config.getRing()), transformable).getFeature(Transformable.class));
         }
-        final Featurable platform = spawner.spawn(Medias.create(config.getExtremity()), transformable);
-        rings.add(platform.getFeature(Transformable.class));
+        platform = spawner.spawn(Medias.create(config.getExtremity()), transformable).getFeature(Transformable.class);
+
+        rings.add(platform);
         count = rings.size();
+
+        if (config.isControlled())
+        {
+            final Collidable platformCollidable = platform.getFeature(Collidable.class);
+            platformCollidable.clearListeners();
+            platformCollidable.addListener((c, w, b) -> onCollide());
+
+            updatable = this::updateControlled;
+        }
+        else
+        {
+            updatable = this::updateAutomatic;
+        }
+    }
+
+    /**
+     * Called on collide.
+     */
+    private void onCollide()
+    {
+        collide = true;
+    }
+
+    /**
+     * Update in automatic mode.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateAutomatic(double extrp)
+    {
+        angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
+    }
+
+    /**
+     * Update in controlled mode.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateControlled(double extrp)
+    {
+        if (collide && player.isState(StateCrouch.class))
+        {
+            if (platform.getOldY() > platform.getY())
+            {
+                max += 0.01;
+            }
+            else
+            {
+                max -= 0.02;
+            }
+        }
+        else
+        {
+            max -= 0.001;
+        }
+
+        if (angle > 270 + ANGLE_MARGIN || angle < 90)
+        {
+            side = -0.05;
+        }
+        else if (angle < 270 - ANGLE_MARGIN)
+        {
+            side = 0.05;
+        }
+
+        max = UtilMath.clamp(max, 1.5, 4.5);
+        angleAcc += side;
+        angleAcc = UtilMath.clamp(angleAcc, -max, max);
+        angle = UtilMath.wrapAngleDouble(angle + angleAcc);
+
+        collide = false;
     }
 
     @Override
     public void update(double extrp)
     {
-        angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
+        updatable.update(extrp);
 
         for (int i = 0; i < count; i++)
         {
@@ -101,6 +185,9 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     @Override
     public void recycle()
     {
-        angle = 0.0;
+        angle = 300.0;
+        angleAcc = 0.0;
+        side = 0.05;
+        max = 1.5;
     }
 }

@@ -36,6 +36,8 @@ public final class RotatingConfig
     public static final String ATT_LENGTH = "length";
     /** Speed attribute name. */
     public static final String ATT_SPEED = "speed";
+    /** Controled attribute name. */
+    public static final String ATT_CONTROLLED = "controlled";
 
     /**
      * Imports the config from configurer.
@@ -73,6 +75,8 @@ public final class RotatingConfig
     private final int length;
     /** Speed value. */
     private final double speed;
+    /** Controlled flag. */
+    private final boolean controlled;
 
     /**
      * Create config.
@@ -89,6 +93,7 @@ public final class RotatingConfig
         ring = root.readString(ATT_RING);
         length = root.readInteger(4, ATT_LENGTH);
         speed = root.readDouble(1.0, ATT_SPEED);
+        controlled = root.readBoolean(false, ATT_CONTROLLED);
     }
 
     /**
@@ -129,5 +134,15 @@ public final class RotatingConfig
     public double getSpeed()
     {
         return speed;
+    }
+
+    /**
+     * Check if is controlled.
+     * 
+     * @return The speed.
+     */
+    public boolean isControlled()
+    {
+        return controlled;
     }
 }
