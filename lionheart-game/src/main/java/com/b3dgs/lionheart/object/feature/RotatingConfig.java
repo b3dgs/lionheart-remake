@@ -36,7 +36,9 @@ public final class RotatingConfig
     public static final String ATT_LENGTH = "length";
     /** Speed attribute name. */
     public static final String ATT_SPEED = "speed";
-    /** Controled attribute name. */
+    /** Amplitude attribute name. */
+    public static final String ATT_AMPLITUDE = "amplitude";
+    /** Controlled attribute name. */
     public static final String ATT_CONTROLLED = "controlled";
 
     /**
@@ -75,6 +77,8 @@ public final class RotatingConfig
     private final int length;
     /** Speed value. */
     private final double speed;
+    /** Amplitude value. */
+    private final int amplitude;
     /** Controlled flag. */
     private final boolean controlled;
 
@@ -93,6 +97,7 @@ public final class RotatingConfig
         ring = root.readString(ATT_RING);
         length = root.readInteger(4, ATT_LENGTH);
         speed = root.readDouble(1.0, ATT_SPEED);
+        amplitude = root.readInteger(0, ATT_AMPLITUDE);
         controlled = root.readBoolean(false, ATT_CONTROLLED);
     }
 
@@ -137,9 +142,19 @@ public final class RotatingConfig
     }
 
     /**
+     * Get the angle amplitude.
+     * 
+     * @return The angle amplitude.
+     */
+    public int getAmplitude()
+    {
+        return amplitude;
+    }
+
+    /**
      * Check if is controlled.
      * 
-     * @return The speed.
+     * @return The controlled flag.
      */
     public boolean isControlled()
     {

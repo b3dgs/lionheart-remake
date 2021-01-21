@@ -3,6 +3,7 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="SpikeBowl.png" icon="SpikeBowl_ico.png"/>
@@ -12,6 +13,14 @@
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="-4" width="24" height="24" mirror="false"/>
     </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="leg_left" axis="Y" x="-18" y="20">
+            <lionengine:group>ground</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_right" axis="Y" x="18" y="20">
+            <lionengine:group>ground</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>

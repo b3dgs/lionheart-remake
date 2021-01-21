@@ -19,9 +19,10 @@ package com.b3dgs.lionheart.object.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -35,6 +36,8 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
@@ -46,18 +49,16 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
 @FeatureInterface
 public final class Rotating extends FeatureModel implements Routine, Recyclable
 {
-    private static final int ANGLE_MARGIN = 15;
-
     private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
     private final StateHandler player = services.get(SwordShade.class).getFeature(StateHandler.class);
+    private final Tick tick = new Tick();
 
     private RotatingConfig config;
     private int count;
-    private Updatable updatable;
+    private double angleStart;
     private double angle;
     private double angleAcc;
-    private double side;
     private double max;
     private boolean collide;
     private Transformable platform;
@@ -87,28 +88,37 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         rings.clear();
 
         this.config = config;
+        angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
+        angle = angleStart;
 
         for (int i = 0; i < config.getLength(); i++)
         {
             rings.add(spawner.spawn(Medias.create(config.getRing()), transformable).getFeature(Transformable.class));
         }
         platform = spawner.spawn(Medias.create(config.getExtremity()), transformable).getFeature(Transformable.class);
-
-        rings.add(platform);
-        count = rings.size();
+        if (config.getAmplitude() > 0)
+        {
+            platform.getFeature(TileCollidable.class).addListener((result, category) ->
+            {
+                if (tick.elapsed(10))
+                {
+                    angle -= angleAcc;
+                    angleAcc = -angleAcc;
+                    Sfx.SCENERY_ROTATINGPLATFORM.play();
+                    tick.restart();
+                }
+            });
+        }
 
         if (config.isControlled())
         {
             final Collidable platformCollidable = platform.getFeature(Collidable.class);
             platformCollidable.clearListeners();
             platformCollidable.addListener((c, w, b) -> onCollide());
+        }
 
-            updatable = this::updateControlled;
-        }
-        else
-        {
-            updatable = this::updateAutomatic;
-        }
+        rings.add(platform);
+        count = rings.size();
     }
 
     /**
@@ -119,75 +129,64 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         collide = true;
     }
 
-    /**
-     * Update in automatic mode.
-     * 
-     * @param extrp The extrapolation value.
-     */
-    private void updateAutomatic(double extrp)
-    {
-        angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
-    }
-
-    /**
-     * Update in controlled mode.
-     * 
-     * @param extrp The extrapolation value.
-     */
-    private void updateControlled(double extrp)
-    {
-        if (collide && player.isState(StateCrouch.class))
-        {
-            if (platform.getOldY() > platform.getY())
-            {
-                max += 0.01;
-            }
-            else
-            {
-                max -= 0.02;
-            }
-        }
-        else
-        {
-            max -= 0.001;
-        }
-
-        if (angle > 270 + ANGLE_MARGIN || angle < 90)
-        {
-            side = -0.05;
-        }
-        else if (angle < 270 - ANGLE_MARGIN)
-        {
-            side = 0.05;
-        }
-
-        max = UtilMath.clamp(max, 1.5, 4.5);
-        angleAcc += side;
-        angleAcc = UtilMath.clamp(angleAcc, -max, max);
-        angle = UtilMath.wrapAngleDouble(angle + angleAcc);
-
-        collide = false;
-    }
-
     @Override
     public void update(double extrp)
     {
-        updatable.update(extrp);
+        tick.update(extrp);
+
+        if (config.getAmplitude() > 0)
+        {
+            if (collide && player.isState(StateCrouch.class))
+            {
+                if (platform.getOldY() > platform.getY())
+                {
+                    max += 0.01;
+                }
+                else
+                {
+                    max -= 0.02;
+                }
+            }
+            else if (config.isControlled())
+            {
+                max -= 0.001;
+                max = UtilMath.clamp(max, 1.5, 4.5);
+            }
+
+            if (Math.abs(angleStart - angle) > config.getAmplitude())
+            {
+                angleAcc -= config.getSpeed();
+            }
+            else
+            {
+                angleAcc += config.getSpeed();
+            }
+
+            angleAcc = UtilMath.clamp(angleAcc, -max, max);
+            angle = UtilMath.wrapAngleDouble(angle + angleAcc);
+        }
+        else
+        {
+            angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
+        }
+
+        collide = false;
 
         for (int i = 0; i < count; i++)
         {
             rings.get(i)
-                 .setLocation(transformable.getX() + (i + 0.5) * UtilMath.cos(angle) * 16,
-                              transformable.getY() + (i + 0.5) * UtilMath.sin(angle) * 16);
+                 .setLocation(transformable.getX() + (i + 0.5) * UtilMath.cos(angle + 90) * 16,
+                              transformable.getY() + (i + 0.5) * UtilMath.sin(angle + 90) * 16);
         }
     }
 
     @Override
     public void recycle()
     {
-        angle = 300.0;
+        angle = Constant.ANGLE_MAX / 2;
         angleAcc = 0.0;
-        side = 0.05;
-        max = 1.5;
+        max = 3.5;
+        tick.restart();
+        tick.set(10);
     }
 }

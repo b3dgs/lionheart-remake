@@ -52,6 +52,8 @@ public enum Sfx
     SCENERY_TURNING,
     /** Scenery turning cube. */
     SCENERY_TURNINGCUBE,
+    /** Scenery rotating platform. */
+    SCENERY_ROTATINGPLATFORM,
     /** Scenery spike. */
     SCENERY_SPIKE,
     /** Monster hurt. */
