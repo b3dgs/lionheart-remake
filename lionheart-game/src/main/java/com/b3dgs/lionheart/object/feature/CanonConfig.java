@@ -82,8 +82,8 @@ public final class CanonConfig
         Check.notNull(root);
 
         fireDelay = root.readInteger(ATT_FIRE_DELAY);
-        vx = root.readDouble(ATT_VX);
-        vy = root.readDouble(ATT_VY);
+        vx = root.readDouble(0.0, ATT_VX);
+        vy = root.readDouble(0.0, ATT_VY);
     }
 
     /**
