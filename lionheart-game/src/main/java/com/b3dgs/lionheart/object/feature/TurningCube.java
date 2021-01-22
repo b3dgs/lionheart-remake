@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimatorAnimListener;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -26,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.Sfx;
 
 /**
@@ -37,6 +39,9 @@ import com.b3dgs.lionheart.Sfx;
 @FeatureInterface
 public final class TurningCube extends FeatureModel implements Routine
 {
+    private final Viewer viewer = services.get(Viewer.class);
+
+    @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
 
     /**
@@ -58,7 +63,7 @@ public final class TurningCube extends FeatureModel implements Routine
 
         animatable.addListener((AnimatorAnimListener) anim ->
         {
-            if (anim.getFirst() > 1)
+            if (anim.getFirst() > 1 && viewer.isViewable(transformable, 0, 0))
             {
                 Sfx.SCENERY_TURNINGCUBE.play();
             }
