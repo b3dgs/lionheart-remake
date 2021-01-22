@@ -88,7 +88,14 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         rings.clear();
 
         this.config = config;
-        angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
+        if (config.getSpeed() < 0)
+        {
+            angleStart = Constant.ANGLE_MAX / 2 + config.getAmplitude();
+        }
+        else
+        {
+            angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
+        }
         angle = angleStart;
 
         for (int i = 0; i < config.getLength(); i++)
