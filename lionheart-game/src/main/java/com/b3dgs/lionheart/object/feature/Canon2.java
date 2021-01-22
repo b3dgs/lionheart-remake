@@ -73,11 +73,14 @@ public final class Canon2 extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-        if (tick.elapsed(config.getFireDelay()))
+        if (config != null)
         {
-            launcher.fire();
-            tick.restart();
+            tick.update(extrp);
+            if (tick.elapsed(config.getFireDelay()))
+            {
+                launcher.fire();
+                tick.restart();
+            }
         }
     }
 
