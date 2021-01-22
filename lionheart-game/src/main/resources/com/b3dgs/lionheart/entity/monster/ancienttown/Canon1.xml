@@ -24,10 +24,10 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/ancienttown/Bullet1.xml" sfx="sfx/monster_canon1.wav" ox="-16" oy="24">
-            <lionengine:force velocity="0.1" sensibility="0" vx="-1.0" vy="1.0"/>
+            <lionengine:force velocity="0.05" sensibility="0.0" vx="-1.0" vy="1.0"/>
         </lionengine:launchable>
         <lionengine:launchable media="projectile/ancienttown/Bullet1.xml" ox="16" oy="24">
-            <lionengine:force velocity="0.1" sensibility="0" vx="1.0" vy="1.0"/>
+            <lionengine:force velocity="0.05" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>

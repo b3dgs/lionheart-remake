@@ -44,7 +44,7 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Canon1 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRED_DELAY_TICK = 15;
+    private static final int FIRED_DELAY_TICK = 10;
 
     private final Tick tick = new Tick();
     private final MapTile map = services.get(MapTile.class);
@@ -87,19 +87,22 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-        if (phase == 0 && tick.elapsed(config.getFireDelay()))
+        if (config != null)
         {
-            phase = 1;
-            animatable.play(fire);
-            launcher.fire();
-            tick.restart();
-        }
-        else if (phase == 1 && tick.elapsed(Math.min(FIRED_DELAY_TICK, config.getFireDelay())))
-        {
-            phase = 0;
-            animatable.play(idle);
-            tick.restart();
+            tick.update(extrp);
+            if (phase == 0 && tick.elapsed(config.getFireDelay()))
+            {
+                phase = 1;
+                animatable.play(fire);
+                launcher.fire();
+                tick.restart();
+            }
+            else if (phase == 1 && tick.elapsed(Math.min(FIRED_DELAY_TICK, config.getFireDelay())))
+            {
+                phase = 0;
+                animatable.play(idle);
+                tick.restart();
+            }
         }
     }
 
@@ -113,8 +116,9 @@ public final class Canon1 extends FeatureModel implements Routine, Recyclable
             l.ifIs(Rasterable.class, r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight()));
 
             final Force direction = l.getDirection();
-            direction.setDirection(direction.getDirectionHorizontal() * config.getVx(),
-                                   direction.getDirectionVertical() * config.getVy());
+            final double vx = direction.getDirectionHorizontal() * config.getVx();
+            direction.setDirection(vx, direction.getDirectionVertical() * config.getVy());
+            direction.setDestination(vx, 0.0);
         });
     }
 

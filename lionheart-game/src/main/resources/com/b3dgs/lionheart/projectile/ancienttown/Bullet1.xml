@@ -29,7 +29,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
-    <lionengine:body gravity="2.0" gravityMax="7.0"/>
+    <lionengine:body gravity="1.2" gravityMax="6.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <hurtable frame="-1" effect="ExplodeLittle"/>
     <alwaysUpdate>true</alwaysUpdate>
