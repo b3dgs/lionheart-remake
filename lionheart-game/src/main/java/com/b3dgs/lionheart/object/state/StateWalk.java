@@ -100,6 +100,23 @@ public final class StateWalk extends State
                 speedSlope = SPEED_SLOPE_DESCENDING;
             }
         }
+        else if (result.startWithY(CollisionName.INCLINE))
+        {
+            factor = 1.0;
+
+            if (movement.getDirectionHorizontal() > 0 && result.endWithY(CollisionName.LEFT)
+                || movement.getDirectionHorizontal() < 0 && result.endWithY(CollisionName.RIGHT))
+            {
+                slopeRising.set(true);
+                speedSlope = SPEED_SLOPE_RISING * 1.4;
+            }
+            else if (movement.getDirectionHorizontal() > 0 && result.endWithY(CollisionName.RIGHT)
+                     || movement.getDirectionHorizontal() < 0 && result.endWithY(CollisionName.LEFT))
+            {
+                slopeDescending.set(true);
+                speedSlope = SPEED_SLOPE_DESCENDING * 1.4;
+            }
+        }
         else
         {
             speedSlope = 0.0;

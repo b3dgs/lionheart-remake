@@ -79,6 +79,13 @@ public final class CollisionName
     /** Collision slope right prefix. */
     public static final String SLOPE_RIGHT = SLOPE + "_" + RIGHT;
 
+    /** Collision incline prefix. */
+    public static final String INCLINE = "incline";
+    /** Collision incline left prefix. */
+    public static final String INCLINE_LEFT = INCLINE + "_" + LEFT;
+    /** Collision incline right prefix. */
+    public static final String INCLINE_RIGHT = INCLINE + "_" + RIGHT;
+
     /** Collision steep prefix. */
     public static final String STEEP = "steep";
     /** Collision steep left prefix. */

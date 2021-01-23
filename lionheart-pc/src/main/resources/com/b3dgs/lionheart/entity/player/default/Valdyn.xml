@@ -225,7 +225,7 @@
             <lionengine:group>left_vertical</lionengine:group>
             <lionengine:group>right_vertical</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_left" axis="Y" x="-4" y="0" glue="true">
+        <lionengine:category name="leg_left" axis="Y" x="-4" y="-1" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
@@ -236,7 +236,7 @@
             <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
+        <lionengine:category name="leg_right" axis="Y" x="4" y="-1" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
@@ -247,7 +247,7 @@
             <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
+        <lionengine:category name="leg_center" axis="Y" x="0" y="-1" glue="true">
             <lionengine:group>ground</lionengine:group>
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
@@ -256,6 +256,10 @@
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>incline_0_right</lionengine:group>
+            <lionengine:group>incline_1_right</lionengine:group>
+            <lionengine:group>incline_0_left</lionengine:group>
+            <lionengine:group>incline_1_left</lionengine:group>
             <lionengine:group>steep_0_left</lionengine:group>
             <lionengine:group>steep_left_ground</lionengine:group>
             <lionengine:group>steep_1_left</lionengine:group>
