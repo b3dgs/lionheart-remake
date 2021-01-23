@@ -84,7 +84,7 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(config.getFireDelay()) && animatable.getFrameAnim() == idle.getLast())
+        if (config != null && tick.elapsed(config.getFireDelay()) && animatable.getFrameAnim() == idle.getLast())
         {
             launcher.fire(player);
             tick.restart();
