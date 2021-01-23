@@ -96,7 +96,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         {
             angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
         }
-        angle = angleStart;
+        angle = angleStart + config.getOffset();
 
         for (int i = 0; i < config.getLength(); i++)
         {
@@ -141,40 +141,43 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     {
         tick.update(extrp);
 
-        if (config.getAmplitude() > 0)
+        if (config != null)
         {
-            if (collide && player.isState(StateCrouch.class))
+            if (config.getAmplitude() > 0)
             {
-                if (platform.getOldY() > platform.getY())
+                if (collide && player.isState(StateCrouch.class))
                 {
-                    max += 0.01;
+                    if (platform.getOldY() > platform.getY())
+                    {
+                        max += 0.01;
+                    }
+                    else
+                    {
+                        max -= 0.02;
+                    }
+                }
+                else if (config.isControlled())
+                {
+                    max -= 0.001;
+                    max = UtilMath.clamp(max, 1.5, 4.5);
+                }
+
+                if (Math.abs(angleStart - angle) > config.getAmplitude())
+                {
+                    angleAcc -= config.getSpeed();
                 }
                 else
                 {
-                    max -= 0.02;
+                    angleAcc += config.getSpeed();
                 }
-            }
-            else if (config.isControlled())
-            {
-                max -= 0.001;
-                max = UtilMath.clamp(max, 1.5, 4.5);
-            }
 
-            if (Math.abs(angleStart - angle) > config.getAmplitude())
-            {
-                angleAcc -= config.getSpeed();
+                angleAcc = UtilMath.clamp(angleAcc, -max, max);
+                angle = UtilMath.wrapAngleDouble(angle + angleAcc);
             }
             else
             {
-                angleAcc += config.getSpeed();
+                angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
             }
-
-            angleAcc = UtilMath.clamp(angleAcc, -max, max);
-            angle = UtilMath.wrapAngleDouble(angle + angleAcc);
-        }
-        else
-        {
-            angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
         }
 
         collide = false;
