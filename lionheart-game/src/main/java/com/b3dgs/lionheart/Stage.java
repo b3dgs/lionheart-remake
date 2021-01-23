@@ -35,7 +35,9 @@ public enum Stage
     /** Second spider cave stage. */
     STAGE_4("stage4"),
     /** Third swamp stage. */
-    STAGE_5("stage5");
+    STAGE_5("stage5"),
+    /** First ancient town stage. */
+    STAGE_6("stage6");
 
     /** Level file. */
     private final Media file;
