@@ -4,7 +4,7 @@
     <map file="levels/swamp/stage5.lvl"/>
     <raster folder="levels/swamp/raster/day/"/>
     <background type="SWAMP_DAY"/>
-    <foreground type="WATER"/>
+    <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoint startTx="45" startTy="4">
         <respawn tx="36" ty="20"/>
         <respawn tx="117" ty="4"/>
