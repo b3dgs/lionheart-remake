@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage next="stage/stage8.xml">
+    <music file="music/ancient_town.sc68"/>
+    <map file="levels/ancient_town/stage7.lvl"/>
+    <raster folder="levels/ancient_town/raster/dawn/"/>
+    <background type="ANCIENT_TOWN_DAWN"/>
+    <foreground type="WATER" waterDepth="32" waterOffset="80"/>
+    <checkpoint startTx="11" startTy="54" endTx="442" endTy="11">
+        <respawn tx="89" ty="14"/>
+        <respawn tx="117" ty="10"/>
+        <respawn tx="133" ty="11"/>
+        <respawn tx="158" ty="14"/>
+        <respawn tx="170" ty="14"/>
+        <respawn tx="225" ty="14"/>
+        <respawn tx="244" ty="14"/>
+        <respawn tx="236" ty="43"/>
+        <respawn tx="275" ty="43"/>
+        <respawn tx="313" ty="35"/>
+        <respawn tx="346" ty="20"/>
+        <respawn tx="371" ty="11"/>
+    </checkpoint>
+    <entities>
+        <entity file="entity/monster/ancienttown/Canon3.xml" tx="11.0" ty="60.0">
+            <canon fireDelay="200"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon3.xml" tx="12.0" ty="57.0">
+            <canon fireDelay="200"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon3.xml" tx="17.0" ty="59.0">
+            <canon fireDelay="200"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon3.xml" tx="23.0" ty="60.0">
+            <canon fireDelay="200"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon3.xml" tx="28.0" ty="56.0">
+            <canon fireDelay="200"/>
+        </entity>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="62.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="24.0" ty="62.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="24.0" ty="63.0"/>
+        <entity file="entity/item/ancienttown/PotionBig.xml" tx="22.0" ty="63.0"/>
+        <entity file="entity/monster/ancienttown/Canon2.xml" tx="47.0" ty="53.0">
+            <canon fireDelay="200" vx="0.4" vy="2.5"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="99.0" ty="25.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="101.0" ty="25.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="102.0" ty="25.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="104.0" ty="25.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="109.0" ty="30.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="109.0" ty="31.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="110.0" ty="31.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="110.0" ty="30.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="113.0" ty="31.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="113.0" ty="30.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="114.0" ty="30.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="114.0" ty="31.0"/>
+        <entity file="entity/item/ancienttown/PotionLittle.xml" tx="115.0" ty="33.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="122.0" ty="29.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="124.0" ty="29.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="126.0" ty="29.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="128.0" ty="29.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="130.0" ty="29.0"/>
+        <entity file="entity/monster/ancienttown/Crawling.xml" tx="92.0" ty="11.0">
+            <patrol sh="0.3" amplitude="176"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Crawling.xml" tx="103.0" ty="11.0">
+            <patrol sh="-0.3" amplitude="176"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon1.xml" tx="97.0" ty="11.0">
+            <canon fireDelay="100" vx="1.0" vy="3.0"/>
+        </entity>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="98.0" ty="10.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="99.0" ty="10.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="99.0" ty="11.0"/>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="108.0" ty="15.0">
+            <rotating amplitude="30" extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="123.0" ty="15.0">
+            <rotating amplitude="30" extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/item/ancienttown/Life.xml" tx="123.0" ty="17.0"/>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="140.0" ty="14.0">
+            <rotating amplitude="90" extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="0.05"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="149.0" ty="14.0">
+            <rotating amplitude="90" extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-0.05"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="162.0" ty="20.0">
+            <rotating amplitude="15" controlled="true" extremity="entity/scenery/ancienttown/Platform2.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="146.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="147.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="148.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="149.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="150.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="151.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="152.0" ty="32.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="147.0" ty="33.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="148.0" ty="33.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="149.0" ty="33.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="150.0" ty="33.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="151.0" ty="33.0"/>
+        <entity file="entity/item/ancienttown/Sword3.xml" tx="156.0" ty="32.0"/>
+        <entity file="entity/monster/ancienttown/Crawling.xml" tx="189.0" ty="22.0"/>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="175.0" ty="14.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="2.0"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="187.0" ty="14.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="4.0"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="205.0" ty="19.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="210.0" ty="19.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="215.0" ty="19.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+        </entity>
+        <entity file="entity/item/ancienttown/PotionLittle.xml" tx="213.0" ty="20.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+        </entity>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="227.0" ty="19.0"/>
+        <entity file="entity/scenery/ancienttown/Floater.xml" tx="255.0" ty="7.0"/>
+        <entity file="entity/scenery/ancienttown/Floater.xml" tx="260.0" ty="7.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="262.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="263.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="264.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="265.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="266.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/Life.xml" tx="267.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/Life.xml" tx="268.0" ty="12.0"/>
+        <entity file="entity/item/ancienttown/PotionBig.xml" tx="269.0" ty="13.0"/>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="248.0" ty="18.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="4" speed="2.5"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="238.0" ty="25.0">
+            <rotating amplitude="70" extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="239.0" ty="32.0" mirror="true">
+            <patrol sh="-0.8" sv="0.0" proximity="48"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="237.0" ty="39.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="1" speed="-3.0"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="237.0" ty="39.0">
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="-1.5"/>
+        </entity>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="244.0" ty="53.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="243.0" ty="53.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="245.0" ty="53.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="246.0" ty="53.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="244.0" ty="57.0"/>
+        <entity file="entity/item/ancienttown/Talisment.xml" tx="245.0" ty="57.0"/>
+        <entity file="entity/monster/ancienttown/Canon3.xml" tx="246.0" ty="49.0">
+            <canon fireDelay="200"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon1.xml" tx="262.0" ty="52.0">
+            <canon fireDelay="200" vx="0.7" vy="1.5"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
+            <canon fireDelay="200" vx="0.5" vy="1.5"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="287.0" ty="46.0" mirror="true">
+            <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="291.0" ty="44.0" mirror="true">
+            <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="295.0" ty="42.0" mirror="true">
+            <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="302.0" ty="35.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="4" speed="-1.5"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="317.0" ty="33.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="318.0" ty="39.0" mirror="true">
+            <patrol proximity="-1"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="327.0" ty="28.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="328.0" ty="34.0" mirror="true">
+            <patrol proximity="-1"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="337.0" ty="23.0">
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
+        </entity>
+        <entity file="entity/monster/ancienttown/Bee.xml" tx="338.0" ty="29.0" mirror="true">
+            <patrol proximity="-1"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="378.0" ty="10.0">
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-2.5"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="387.0" ty="10.0">
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.5"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="396.0" ty="10.0">
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-2.5"/>
+        </entity>
+        <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="405.0" ty="10.0">
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.5"/>
+        </entity>
+        <entity file="entity/item/ancienttown/PotionLittle.xml" tx="412.0" ty="9.0"/>
+    </entities>
+</stage>

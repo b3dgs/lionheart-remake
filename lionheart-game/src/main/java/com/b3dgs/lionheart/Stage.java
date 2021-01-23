@@ -37,7 +37,9 @@ public enum Stage
     /** Third swamp stage. */
     STAGE_5("stage5"),
     /** First ancient town stage. */
-    STAGE_6("stage6");
+    STAGE_6("stage6"),
+    /** Second ancient town stage. */
+    STAGE_7("stage7");
 
     /** Level file. */
     private final Media file;
