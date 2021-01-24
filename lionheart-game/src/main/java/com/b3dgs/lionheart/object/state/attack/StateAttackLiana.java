@@ -18,6 +18,9 @@ package com.b3dgs.lionheart.object.state.attack;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.StateLianaIdle;
@@ -27,7 +30,7 @@ import com.b3dgs.lionheart.object.state.StateLianaIdle;
  */
 public final class StateAttackLiana extends State
 {
-    private static final int FRAME_OFFSET_Y = -2;
+    private static final int FRAME_OFFSET_Y = 7;
 
     /**
      * Create the state.
@@ -40,6 +43,18 @@ public final class StateAttackLiana extends State
         super(model, animation);
 
         addTransition(StateLianaIdle.class, () -> is(AnimState.FINISHED));
+    }
+
+    @Override
+    protected void onCollideHand(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideHand(result, category);
+
+        if (result.startWithY(CollisionName.LIANA))
+        {
+            tileCollidable.apply(result);
+            body.resetGravity();
+        }
     }
 
     @Override

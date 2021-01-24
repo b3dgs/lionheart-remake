@@ -31,7 +31,7 @@ import com.b3dgs.lionheart.object.State;
  */
 final class StateLianaWalk extends State
 {
-    private static final int FRAME_OFFSET_Y = -2;
+    private static final int FRAME_OFFSET_Y = 7;
     private static final double SPEED = 2.0 / 3.0;
     private static final double ANIM_SPEED_DIVISOR = 4.0;
 

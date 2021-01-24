@@ -31,7 +31,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackLiana;
  */
 public final class StateLianaIdle extends State
 {
-    private static final int FRAME_OFFSET_Y = -2;
+    private static final int FRAME_OFFSET_Y = 7;
 
     /**
      * Create the state.

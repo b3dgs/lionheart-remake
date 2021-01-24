@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -30,17 +31,16 @@ final class StateLianaSoar extends State
     private static final int FRAME_6 = 6;
     private static final int FRAME_9 = 9;
 
-    private static final int OFFSET_1 = 3;
-    private static final int OFFSET_6 = -37;
-    private static final int OFFSET_9 = -62;
+    private static final int OFFSET_1 = 10;
+    private static final int OFFSET_6 = -30;
+    private static final int OFFSET_9 = -55;
 
-    private static final double SOAR_SPEED = 0.85;
+    private static final double SOAR_SPEED = 0.75;
 
+    private final Camera camera;
     /** Handle frame vertical specific offset for rendering. */
     private final AnimatorFrameListener listener;
 
-    /** Initial horizontal location. */
-    private double y;
     /** Progressive offset during soar. */
     private double offset;
     /** Specific frame offset computed by listener. */
@@ -58,6 +58,7 @@ final class StateLianaSoar extends State
     {
         super(model, animation);
 
+        camera = model.getCamera();
         listener = (AnimatorFrameListener) frame ->
         {
             if (frame - animation.getFirst() < FRAME_6)
@@ -72,7 +73,7 @@ final class StateLianaSoar extends State
             {
                 frameOffset = OFFSET_9;
             }
-            rasterable.setFrameOffsets(0, (int) Math.floor(offset) + frameOffset);
+            rasterable.setFrameOffsets(0, frameOffset);
         };
 
         addTransition(StateBorder.class, () -> side > 0 && is(AnimState.REVERSING));
@@ -101,22 +102,14 @@ final class StateLianaSoar extends State
             frameOffset = OFFSET_1;
             animatable.setFrame(animation.getFirst());
         }
-        y = transformable.getY();
     }
 
     @Override
     public void update(double extrp)
     {
         offset += SOAR_SPEED * side;
-        if (side > 0)
-        {
-            transformable.teleportY(y + offset);
-        }
-        else
-        {
-            transformable.teleportY(y + offset + OFFSET_9);
-        }
-        rasterable.setFrameOffsets(0, (int) Math.floor(offset) + frameOffset);
+        camera.setShake(0, (int) offset);
+        rasterable.setFrameOffsets(0, frameOffset);
         body.resetGravity();
     }
 
@@ -128,7 +121,8 @@ final class StateLianaSoar extends State
         offset = 0.0;
         frameOffset = 0;
         rasterable.setFrameOffsets(0, 0);
+        transformable.teleportY(transformable.getY() + 55.0);
         animatable.removeListener(listener);
-        transformable.moveLocationY(1.0, 1.0);
+        camera.setShake(0, 0);
     }
 }
