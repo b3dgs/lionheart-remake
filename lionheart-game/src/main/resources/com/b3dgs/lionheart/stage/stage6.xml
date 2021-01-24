@@ -102,6 +102,7 @@
         <entity file="entity/scenery/ancienttown/Bird.xml" tx="9.0" ty="37.0">
             <patrol sv="0.5" amplitude="48" mirror="false"/>
         </entity>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="26.0" ty="46.0"/>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="16.0" ty="68.0">
             <canon fireDelay="200"/>
         </entity>
