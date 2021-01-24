@@ -159,6 +159,7 @@
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="262.0" ty="52.0">
             <canon fireDelay="200" vx="0.7" vy="1.5"/>
         </entity>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="267.0" ty="43.0"/>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
             <canon fireDelay="200" vx="0.5" vy="1.5"/>
         </entity>
@@ -205,5 +206,6 @@
             <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.5"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="412.0" ty="9.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="427.0" ty="11.0"/>
     </entities>
 </stage>
