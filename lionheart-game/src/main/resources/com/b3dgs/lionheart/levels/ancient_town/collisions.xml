@@ -91,6 +91,10 @@
     <lionengine:collision group="ground">
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="grip">
+        <lionengine:formula>ground</lionengine:formula>
+        <lionengine:formula>grip</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="liana_ground_top">
         <lionengine:formula>horizontal</lionengine:formula>
         <lionengine:formula>left_vertical</lionengine:formula>
@@ -100,6 +104,6 @@
     <lionengine:collision group="vertical">
         <lionengine:formula>left_vertical</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
-        <lionengine:formula>ground</lionengine:formula>
+        <lionengine:formula>block</lionengine:formula>
     </lionengine:collision>
 </lionengine:collisions>

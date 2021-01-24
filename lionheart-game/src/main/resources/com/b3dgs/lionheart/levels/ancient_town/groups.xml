@@ -23,14 +23,6 @@
         <lionengine:tile number="216"/>
         <lionengine:tile number="217"/>
         <lionengine:tile number="218"/>
-        <lionengine:tile number="263"/>
-        <lionengine:tile number="264"/>
-        <lionengine:tile number="265"/>
-        <lionengine:tile number="266"/>
-        <lionengine:tile number="267"/>
-        <lionengine:tile number="268"/>
-        <lionengine:tile number="269"/>
-        <lionengine:tile number="270"/>
         <lionengine:tile number="299"/>
         <lionengine:tile number="300"/>
         <lionengine:tile number="533"/>
@@ -137,19 +129,29 @@
         <lionengine:tile number="580"/>
     </lionengine:group>
     <lionengine:group name="incline_0_left" type="NONE">
+        <lionengine:tile number="832"/>
+        <lionengine:tile number="801"/>
         <lionengine:tile number="786"/>
+        <lionengine:tile number="795"/>
         <lionengine:tile number="788"/>
         <lionengine:tile number="790"/>
-        <lionengine:tile number="795"/>
-        <lionengine:tile number="801"/>
-        <lionengine:tile number="832"/>
     </lionengine:group>
     <lionengine:group name="incline_1_left" type="NONE">
-        <lionengine:tile number="791"/>
-        <lionengine:tile number="796"/>
         <lionengine:tile number="802"/>
+        <lionengine:tile number="796"/>
+        <lionengine:tile number="836"/>
         <lionengine:tile number="805"/>
         <lionengine:tile number="789"/>
-        <lionengine:tile number="836"/>
+        <lionengine:tile number="791"/>
+    </lionengine:group>
+    <lionengine:group name="grip" type="NONE">
+        <lionengine:tile number="263"/>
+        <lionengine:tile number="264"/>
+        <lionengine:tile number="265"/>
+        <lionengine:tile number="266"/>
+        <lionengine:tile number="267"/>
+        <lionengine:tile number="268"/>
+        <lionengine:tile number="269"/>
+        <lionengine:tile number="270"/>
     </lionengine:group>
 </lionengine:groups>
