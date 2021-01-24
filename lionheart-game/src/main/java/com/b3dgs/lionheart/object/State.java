@@ -47,6 +47,12 @@ public abstract class State extends StateHelper<EntityModel>
     protected final AtomicBoolean collideXright = new AtomicBoolean();
     /** Vertical collision flag. */
     protected final AtomicBoolean collideY = new AtomicBoolean();
+    /** Vertical left collision flag. */
+    protected final AtomicBoolean collideYleft = new AtomicBoolean();
+    /** Vertical right collision flag. */
+    protected final AtomicBoolean collideYright = new AtomicBoolean();
+    /** Grip collision flag. */
+    protected final AtomicBoolean grip = new AtomicBoolean();
 
     /** Steep gameplay. */
     protected final GameplaySteep steep = new GameplaySteep();
@@ -133,6 +139,14 @@ public abstract class State extends StateHelper<EntityModel>
             && jump.getDirectionVertical() < 0.1)
         {
             collideY.set(true);
+            if (category.getName().endsWith(CollisionName.LEFT))
+            {
+                collideYleft.set(true);
+            }
+            else if (category.getName().endsWith(CollisionName.RIGHT))
+            {
+                collideYright.set(true);
+            }
             tileCollidable.apply(result);
             body.resetGravity();
         }
@@ -148,6 +162,10 @@ public abstract class State extends StateHelper<EntityModel>
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         liana.onCollideHand(result, category);
+        if (result.startWithY(CollisionName.GRIP))
+        {
+            grip.set(true);
+        }
     }
 
     /**
@@ -203,6 +221,9 @@ public abstract class State extends StateHelper<EntityModel>
         collideXright.set(false);
         collideXleft.set(false);
         collideY.set(false);
+        collideYleft.set(false);
+        collideYright.set(false);
+        grip.set(false);
         steep.reset();
         liana.reset();
     }
@@ -230,6 +251,9 @@ public abstract class State extends StateHelper<EntityModel>
         collideXright.set(false);
         collideXleft.set(false);
         collideY.set(false);
+        collideYleft.set(false);
+        collideYright.set(false);
+        grip.set(false);
         steep.reset();
         liana.reset();
     }

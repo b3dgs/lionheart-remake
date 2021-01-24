@@ -57,7 +57,9 @@ public final class StateFall extends State
                       () -> steep.is() && (is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft()));
         addTransition(StateSlideFast.class,
                       () -> steep.is() && (is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft()));
-        addTransition(StateLianaIdle.class, () -> liana.is() && !liana.isLeft() && !liana.isRight() && !isGoDown());
+        addTransition(StateGripIdle.class, () -> grip.get() && !isGoDown());
+        addTransition(StateLianaIdle.class,
+                      () -> !grip.get() && liana.is() && !liana.isLeft() && !liana.isRight() && !isGoDown());
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
         addTransition(StateAttackJump.class, () -> !collideY.get() && !isGoDown() && isFireOnce());
         addTransition(StateAttackFall.class, () -> !collideY.get() && isGoDown() && isFireOnce());
