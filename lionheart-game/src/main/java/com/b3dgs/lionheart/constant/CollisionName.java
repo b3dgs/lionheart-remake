@@ -95,6 +95,9 @@ public final class CollisionName
     /** Collision steep right prefix. */
     public static final String STEEP_RIGHT = STEEP + "_" + RIGHT;
 
+    /** Collision grip prefix. */
+    public static final String GRIP = "grip";
+
     /** Collision liana prefix. */
     public static final String LIANA = "liana";
     /** Collision liana left prefix. */

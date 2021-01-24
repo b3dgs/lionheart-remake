@@ -80,8 +80,8 @@ public final class SwordShade extends FeatureModel implements Routine
         {
             shades[i] = Drawable.loadSpriteAnimated(Medias.create(setup.getMedia().getParentPath(),
                                                                   "shade" + (i + 1) + ".png"),
-                                                    7,
-                                                    7);
+                                                    10,
+                                                    5);
             shades[i].load();
             shades[i].prepare();
             shades[i].setFrameOffsets(shades[i].getTileWidth() / 2, -shades[i].getTileHeight());

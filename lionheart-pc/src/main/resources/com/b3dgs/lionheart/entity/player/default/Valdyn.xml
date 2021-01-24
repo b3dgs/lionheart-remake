@@ -51,6 +51,12 @@
         <lionengine:animation name="lianasoar" start="72" end="82" speed="0.15" reversed="true" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
         </lionengine:animation>
+        <lionengine:animation name="gripidle" start="72" end="72" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="gripsoar" start="73" end="82" speed="0.15" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
         <lionengine:animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="drowned" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="bitten" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
@@ -131,13 +137,20 @@
             <lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25"/>
             <lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15"/>
         </lionengine:animation>
+        <lionengine:animation name="attackgrip" start="112" end="116" speed="0.4" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="3" x="12" y="45" width="10" height="10"/>
+            <lionengine:collisionFramed number="4" x="25" y="35" width="12" height="20"/>
+            <lionengine:collisionFramed number="5" x="25" y="18" width="15" height="16"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="16" height="55"/>
+        </lionengine:animation>
         <lionengine:animation name="shade_attacktop" start="1" end="3" speed="0.35" reversed="true" repeat="false"/>
         <lionengine:animation name="shade_attackhorizontal" start="10" end="14" speed="0.4" reversed="true" repeat="false"/>
-        <lionengine:animation name="shade_attackturning" start="26" end="34" speed="0.35" reversed="false" repeat="false"/>
-        <lionengine:animation name="shade_attackjump" start="35" end="40" speed="0.35" reversed="false" repeat="false"/>
-        <lionengine:animation name="shade_attackslide" start="45" end="48" speed="0.4" reversed="false" repeat="false"/>
-        <lionengine:animation name="shade_attackliana" start="37" end="40" speed="0.4" reversed="false" repeat="false"/>
-        <lionengine:animation name="shade_attacklianaslide" start="37" end="40" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackturning" start="28" end="36" speed="0.35" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackjump" start="37" end="42" speed="0.35" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackslide" start="47" end="50" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackliana" start="39" end="42" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attacklianaslide" start="39" end="42" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackgrip" start="15" end="19" speed="0.4" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="leg_left" offsetX="-3" offsetY="0" width="1" height="1" mirror="false"/>
@@ -187,12 +200,13 @@
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_center" axis="Y" x="0" y="52" glue="true">
+        <lionengine:category name="hand_center" axis="Y" x="0" y="43" glue="true">
             <lionengine:group>liana_left</lionengine:group>
             <lionengine:group>liana_right</lionengine:group>
             <lionengine:group>liana_slope_0_right</lionengine:group>
             <lionengine:group>liana_slope_1_right</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
+            <lionengine:group>grip</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_x_left" axis="X" x="-6" y="4">
             <lionengine:group>spike</lionengine:group>
