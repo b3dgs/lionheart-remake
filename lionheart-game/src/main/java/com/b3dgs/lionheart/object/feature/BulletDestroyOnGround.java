@@ -16,26 +16,36 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Destroy bullet on hit ground.
  */
 @FeatureInterface
-public final class BulletDestroyOnGround extends FeatureModel implements TileCollidableListener
+public final class BulletDestroyOnGround extends FeatureModel implements Recyclable, TileCollidableListener
 {
-    @FeatureGet private Hurtable hurtable;
+    private final Animation idle;
+
+    @FeatureGet private Transformable transformable;
+    @FeatureGet private Animatable animatable;
     @FeatureGet private TileCollidable tileCollidable;
+    @FeatureGet private Hurtable hurtable;
 
     /**
      * Create feature.
@@ -47,15 +57,26 @@ public final class BulletDestroyOnGround extends FeatureModel implements TileCol
     public BulletDestroyOnGround(Services services, Setup setup)
     {
         super(services, setup);
+
+        final AnimationConfig config = AnimationConfig.imports(setup);
+        idle = config.getAnimation(Anim.IDLE);
     }
 
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND))
+        if (CollisionName.LEG.equals(category.getName())
+            && result.containsY(CollisionName.GROUND)
+            && transformable.getY() < transformable.getOldY())
         {
             tileCollidable.apply(result);
             hurtable.kill();
         }
+    }
+
+    @Override
+    public void recycle()
+    {
+        animatable.play(idle);
     }
 }
