@@ -17,7 +17,7 @@
     </checkpoint>
     <entities>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="12.0" ty="49.0">
-            <rotating amplitude="15" controlled="true" extremity="entity/scenery/ancienttown/Platform2.xml" ring="entity/scenery/ancienttown/Ring.xml" length="5" speed="0.05"/>
+            <rotating amplitude="8" controlled="true" extremity="entity/scenery/ancienttown/Platform2.xml" ring="entity/scenery/ancienttown/Ring.xml" length="6" speed="0.05"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="11.0" ty="65.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="12.0" ty="65.0"/>
@@ -25,7 +25,7 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="28.0" ty="50.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="27.0" ty="50.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="26.0" ty="50.0"/>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="36.0" ty="42.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="36.0" ty="46.0"/>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="50.0" ty="50.0"/>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="52.0" ty="49.0">
             <rotating amplitude="90" extremity="entity/scenery/ancienttown/SpikeBowl.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
@@ -196,7 +196,7 @@
             <canon fireDelay="250" vx="1.0" vy="1.5"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="562.0" ty="32.0"/>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="583.0" ty="36.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="583.0" ty="40.0"/>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="590.0" ty="44.0">
             <canon fireDelay="250" vx="-1.5" vy="2.0"/>
         </entity>
