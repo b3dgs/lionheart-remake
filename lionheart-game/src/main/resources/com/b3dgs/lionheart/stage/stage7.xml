@@ -21,19 +21,19 @@
     </checkpoint>
     <entities>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="11.0" ty="60.0">
-            <canon fireDelay="200"/>
+            <canon fireDelay="180" vx="1.0" vy="1.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="12.0" ty="57.0">
-            <canon fireDelay="200"/>
+            <canon fireDelay="210" vx="1.0" vy="1.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="17.0" ty="59.0">
-            <canon fireDelay="200"/>
+            <canon fireDelay="200" vx="1.0" vy="1.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="23.0" ty="60.0">
-            <canon fireDelay="200"/>
+            <canon fireDelay="230" vx="1.0" vy="1.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="28.0" ty="56.0">
-            <canon fireDelay="200"/>
+            <canon fireDelay="190" vx="1.0" vy="1.0"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="62.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>
@@ -68,7 +68,7 @@
             <patrol sh="-0.3" amplitude="176"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="97.0" ty="11.0">
-            <canon fireDelay="100" vx="1.0" vy="3.0"/>
+            <canon fireDelay="180" vx="1.0" vy="3.0"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="98.0" ty="10.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="99.0" ty="10.0"/>
@@ -122,7 +122,7 @@
             <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="227.0" ty="19.0"/>
-        <entity file="entity/scenery/ancienttown/Floater.xml" tx="255.0" ty="7.0"/>
+        <entity file="entity/scenery/ancienttown/Floater.xml" tx="256.0" ty="7.0"/>
         <entity file="entity/scenery/ancienttown/Floater.xml" tx="260.0" ty="7.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="262.0" ty="12.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="263.0" ty="12.0"/>
@@ -133,7 +133,7 @@
         <entity file="entity/item/ancienttown/Life.xml" tx="268.0" ty="12.0"/>
         <entity file="entity/item/ancienttown/PotionBig.xml" tx="269.0" ty="13.0"/>
         <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="248.0" ty="18.0">
-            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="4" speed="2.5"/>
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="4" speed="-2.5"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="238.0" ty="25.0">
             <rotating amplitude="70" extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
@@ -159,7 +159,7 @@
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="262.0" ty="52.0">
             <canon fireDelay="200" vx="0.7" vy="1.5"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="267.0" ty="43.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="267.0" ty="47.0"/>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
             <canon fireDelay="200" vx="0.5" vy="1.5"/>
         </entity>
@@ -206,6 +206,6 @@
             <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.5"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="412.0" ty="9.0"/>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="427.0" ty="11.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="427.0" ty="15.0"/>
     </entities>
 </stage>
