@@ -60,6 +60,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     private double angle;
     private double angleAcc;
     private double max;
+    private double side;
     private boolean collide;
     private Transformable platform;
 
@@ -97,6 +98,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
             angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
         }
         angle = angleStart + config.getOffset();
+        side = config.getSpeed();
 
         for (int i = 0; i < config.getLength(); i++)
         {
@@ -120,7 +122,6 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         if (config.isControlled())
         {
             final Collidable platformCollidable = platform.getFeature(Collidable.class);
-            platformCollidable.clearListeners();
             platformCollidable.addListener((c, w, b) -> onCollide());
         }
 
@@ -141,34 +142,57 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     {
         tick.update(extrp);
 
+        for (int i = 0; i < count; i++)
+        {
+            rings.get(i)
+                 .setLocation(transformable.getX() + (i + 0.5) * UtilMath.cos(angle + 90) * 16,
+                              transformable.getY() + (i + 0.5) * UtilMath.sin(angle + 90) * 16);
+        }
+
         if (config != null)
         {
             if (config.getAmplitude() > 0)
             {
-                if (collide && player.isState(StateCrouch.class))
+                if (config.isControlled())
                 {
-                    if (platform.getOldY() > platform.getY())
+                    if (collide && player.isState(StateCrouch.class))
                     {
-                        max += 0.01;
+                        if (platform.getOldY() > platform.getY())
+                        {
+                            max += 0.03;
+                        }
+                        else
+                        {
+                            max -= 0.05;
+                        }
                     }
                     else
                     {
-                        max -= 0.02;
+                        max -= 0.001;
                     }
-                }
-                else if (config.isControlled())
-                {
-                    max -= 0.001;
-                    max = UtilMath.clamp(max, 1.5, 4.5);
-                }
+                    max = UtilMath.clamp(max, 0.8, 5.5);
 
-                if (Math.abs(angleStart - angle) > config.getAmplitude())
-                {
-                    angleAcc -= config.getSpeed();
+                    if (angle > Constant.ANGLE_MAX / 2 + config.getAmplitude())
+                    {
+                        side = -config.getSpeed();
+                    }
+                    else if (angle < Constant.ANGLE_MAX / 2 - config.getAmplitude())
+                    {
+                        side = config.getSpeed();
+                    }
+                    angleAcc += side;
                 }
                 else
                 {
-                    angleAcc += config.getSpeed();
+                    max = 3.5;
+                    if (Math.abs(angleStart - angle) > config.getAmplitude())
+                    {
+                        angleAcc -= config.getSpeed();
+                    }
+                    else
+                    {
+                        angleAcc += config.getSpeed();
+                    }
                 }
 
                 angleAcc = UtilMath.clamp(angleAcc, -max, max);
@@ -181,13 +205,6 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
         }
 
         collide = false;
-
-        for (int i = 0; i < count; i++)
-        {
-            rings.get(i)
-                 .setLocation(transformable.getX() + (i + 0.5) * UtilMath.cos(angle + 90) * 16,
-                              transformable.getY() + (i + 0.5) * UtilMath.sin(angle + 90) * 16);
-        }
     }
 
     @Override
@@ -195,7 +212,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     {
         angle = Constant.ANGLE_MAX / 2;
         angleAcc = 0.0;
-        max = 3.5;
+        max = 0.8;
         tick.restart();
         tick.set(10);
     }
