@@ -18,7 +18,7 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
         <lionengine:animation name="crouch" start="3" end="3" speed="0.125" reversed="false" repeat="false">
-            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="34"/>
         </lionengine:animation>
         <lionengine:animation name="land" start="21" end="21" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="50"/>

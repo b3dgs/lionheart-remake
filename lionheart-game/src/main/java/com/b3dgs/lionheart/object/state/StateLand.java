@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
@@ -60,7 +61,9 @@ public final class StateLand extends State
     {
         super.onCollided(collidable, with, by);
 
-        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
+        if (collidable.hasFeature(Glue.class)
+            && with.getName().startsWith(Anim.LEG)
+            && by.getName().startsWith(CollisionName.GROUND))
         {
             collideY.set(true);
         }
