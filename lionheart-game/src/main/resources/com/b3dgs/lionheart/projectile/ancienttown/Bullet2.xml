@@ -9,7 +9,7 @@
     </lionengine:features>
     <lionengine:surface image="Bullet2.png"/>
     <lionengine:frames horizontal="2" vertical="1"/>
-    <lionengine:size width="12" height="12"/>
+    <lionengine:size width="16" height="16"/>
     <lionengine:origin>MIDDLE</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
@@ -18,18 +18,17 @@
         <lionengine:animation name="hurt" start="2" end="2" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="attack" offsetX="0" offsetY="-16" width="16" height="16" mirror="false"/>
-        <lionengine:collision name="body" offsetX="0" offsetY="-16" width="16" height="16" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="0" offsetY="-9" width="10" height="10" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="-9" width="10" height="10" mirror="false"/>
     </lionengine:collisions>
     <lionengine:categories>
-        <lionengine:category name="leg" axis="Y" x="0" y="-9">
+        <lionengine:category name="leg" axis="Y" x="0" y="-7">
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
-    <lionengine:body gravity="1.0" gravityMax="6.0"/>
+    <lionengine:body gravity="1.0" gravityMax="7.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="ancienttown/ExplodeLittle"/>

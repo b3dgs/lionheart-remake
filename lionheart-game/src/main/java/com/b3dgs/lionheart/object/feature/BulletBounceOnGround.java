@@ -17,12 +17,15 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -40,10 +43,13 @@ import com.b3dgs.lionheart.object.EntityModel;
  * Bounce bullet on hit ground.
  */
 @FeatureInterface
-public final class BulletBounceOnGround extends FeatureModel implements Recyclable, TileCollidableListener
+public final class BulletBounceOnGround extends FeatureModel implements Routine, Recyclable, TileCollidableListener
 {
+    private static final double BOUNCE_MAX = 3.5;
+
+    private final Tick tick = new Tick();
+
     private Force jump;
-    private double bounce;
 
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Body body;
@@ -67,18 +73,18 @@ public final class BulletBounceOnGround extends FeatureModel implements Recyclab
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND) && bounce > 0)
+        if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND))
         {
-            jump.setDirection(0.0, bounce);
-            bounce /= 1.5;
-            if (bounce < 0.75)
+            final double bounce = UtilMath.clamp(transformable.getOldY() - transformable.getY(), 0.0, BOUNCE_MAX);
+            if (bounce > 0.5)
             {
-                bounce = 0.0;
+                Sfx.PROJECTILE_BULLET2.play();
             }
+            jump.setDirection(0.0, bounce);
             body.resetGravity();
+            tick.restart();
             tileCollidable.apply(result);
             transformable.teleportY(transformable.getY() + 1.0);
-            Sfx.PROJECTILE_BULLET2.play();
         }
     }
 
@@ -88,15 +94,22 @@ public final class BulletBounceOnGround extends FeatureModel implements Recyclab
         super.prepare(provider);
 
         jump = model.getJump();
-        jump.setVelocity(0.2);
-        jump.setSensibility(0.5);
+        jump.setVelocity(0.1);
+        jump.setSensibility(0.01);
         jump.setDestination(0.0, 0.0);
         jump.setDirection(0.0, 0.0);
     }
 
     @Override
+    public void update(double extrp)
+    {
+        tick.update(extrp);
+    }
+
+    @Override
     public void recycle()
     {
-        bounce = 3.0;
+        tick.restart();
+        tick.set(10);
     }
 }

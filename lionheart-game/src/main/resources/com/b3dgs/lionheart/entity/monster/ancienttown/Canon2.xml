@@ -20,7 +20,6 @@
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="28" height="34" mirror="false"/>
         <lionengine:collision name="ground" offsetX="0" offsetY="32" width="28" height="1" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
