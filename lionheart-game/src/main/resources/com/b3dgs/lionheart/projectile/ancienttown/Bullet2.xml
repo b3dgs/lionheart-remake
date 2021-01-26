@@ -25,8 +25,19 @@
         <lionengine:category name="leg" axis="Y" x="0" y="-7">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_left" axis="X" x="-7" y="0">
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_right" axis="X" x="7" y="0">
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:body gravity="1.0" gravityMax="7.0"/>

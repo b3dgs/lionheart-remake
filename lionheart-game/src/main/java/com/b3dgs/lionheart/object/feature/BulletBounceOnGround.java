@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -47,6 +48,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
 {
     private static final double BOUNCE_MAX = 3.5;
 
+    private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
 
     private Force jump;
@@ -73,10 +75,10 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (CollisionName.LEG.equals(category.getName()) && result.containsY(CollisionName.GROUND))
+        if (category.getName().contains(CollisionName.LEG) && result.containsY(CollisionName.GROUND))
         {
             final double bounce = UtilMath.clamp(transformable.getOldY() - transformable.getY(), 0.0, BOUNCE_MAX);
-            if (bounce > 0.5)
+            if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
             {
                 Sfx.PROJECTILE_BULLET2.play();
             }
@@ -85,6 +87,16 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
             tick.restart();
             tileCollidable.apply(result);
             transformable.teleportY(transformable.getY() + 1.0);
+        }
+        else if (category.getName().startsWith(CollisionName.KNEE) && result.containsY(CollisionName.BLOCK))
+        {
+            tileCollidable.apply(result);
+            transformable.teleportX(transformable.getX() + 1.0);
+
+            final Force direction = launchable.getDirection();
+            final double vx = direction.getDirectionHorizontal();
+            direction.setDirection(-vx, direction.getDirectionVertical());
+            direction.setDestination(-vx, 0.0);
         }
     }
 
