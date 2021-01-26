@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com">
-    <lionengine:group name="ground" type="NONE">
+    <lionengine:group name="ground15" type="NONE">
         <lionengine:tile number="61"/>
         <lionengine:tile number="62"/>
         <lionengine:tile number="63"/>

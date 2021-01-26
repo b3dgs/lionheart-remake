@@ -57,27 +57,29 @@
         <lionengine:animation name="gripsoar" start="73" end="82" speed="0.15" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
         </lionengine:animation>
-        <lionengine:animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+        </lionengine:animation>
         <lionengine:animation name="drowned" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="bitten" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="die" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="dead" start="70" end="71" speed="0.15" reversed="false" repeat="true"/>
-        <lionengine:animation name="attackprepare" start="83" end="83" speed="0.125" reversed="false" repeat="false">
+        <lionengine:animation name="prepareattack" start="83" end="83" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
-        <lionengine:animation name="attackprepared" start="84" end="84" speed="0.125" reversed="false" repeat="false">
+        <lionengine:animation name="preparedattack" start="84" end="84" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
-        <lionengine:animation name="attackunprepare" start="83" end="83" speed="0.125" reversed="false" repeat="false">
+        <lionengine:animation name="unprepareattack" start="83" end="83" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
         </lionengine:animation>
-        <lionengine:animation name="attackcrouchprepare" start="85" end="85" speed="0.125" reversed="false" repeat="false">
+        <lionengine:animation name="prepareattackcrouch" start="85" end="85" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
         </lionengine:animation>
-        <lionengine:animation name="attackcrouchprepared" start="86" end="86" speed="0.125" reversed="false" repeat="false">
+        <lionengine:animation name="preparedattackcrouch" start="86" end="86" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
         </lionengine:animation>
-        <lionengine:animation name="attackcrouchunprepare" start="85" end="85" speed="0.125" reversed="false" repeat="false">
+        <lionengine:animation name="unprepareattackcrouch" start="85" end="85" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
         </lionengine:animation>
         <lionengine:animation name="attacktop" start="93" end="95" speed="0.35" reversed="true" repeat="false">
@@ -239,7 +241,7 @@
             <lionengine:group>left_vertical</lionengine:group>
             <lionengine:group>right_vertical</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_left" axis="Y" x="-4" y="-1" glue="true">
+        <lionengine:category name="leg_left" axis="Y" x="-4" y="0" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
@@ -250,7 +252,7 @@
             <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="4" y="-1" glue="true">
+        <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
@@ -261,7 +263,7 @@
             <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_center" axis="Y" x="0" y="-1" glue="true">
+        <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
             <lionengine:group>ground</lionengine:group>
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
@@ -282,6 +284,9 @@
             <lionengine:group>steep_1_right_spike</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
             <lionengine:group>liana_ground_top</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_2" axis="Y" x="0" y="-1" glue="true">
+            <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:input class="com.b3dgs.lionengine.awt.KeyboardController">

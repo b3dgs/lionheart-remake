@@ -88,6 +88,9 @@
     <lionengine:collision group="steep_vertical">
         <lionengine:formula>steep_vertical</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="ground15">
+        <lionengine:formula>ground15</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="ground">
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>

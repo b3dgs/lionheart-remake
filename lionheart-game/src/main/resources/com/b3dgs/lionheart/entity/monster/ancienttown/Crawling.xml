@@ -46,18 +46,10 @@
     </lionengine:animations>
     <lionengine:categories>
         <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
-            <lionengine:group>slope_0_left</lionengine:group>
-            <lionengine:group>slope_1_left</lionengine:group>
-            <lionengine:group>slope_0_right</lionengine:group>
-            <lionengine:group>slope_1_right</lionengine:group>
-            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right" axis="Y" x="5" y="0">
-            <lionengine:group>slope_0_left</lionengine:group>
-            <lionengine:group>slope_1_left</lionengine:group>
-            <lionengine:group>slope_0_right</lionengine:group>
-            <lionengine:group>slope_1_right</lionengine:group>
-            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

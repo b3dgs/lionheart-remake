@@ -106,6 +106,10 @@
     </lionengine:formula>
     <lionengine:formula name="ground">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="0.0" b="0.0" type="LINEAR"/>
+    </lionengine:formula>
+    <lionengine:formula name="ground15">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.0" b="15.0" type="LINEAR"/>
     </lionengine:formula>
     <lionengine:formula name="ground_top">
