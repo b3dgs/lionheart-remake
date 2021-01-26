@@ -19,18 +19,18 @@
         <entity file="entity/monster/ancienttown/Bee.xml" tx="45.0" ty="14.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="192"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="35.0" ty="14.0">
-            <patrol sh="0.5" sv="0.0" amplitude="64" mirror="false"/>
-            <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
-            <patrol sh="0.5" sv="0.0" amplitude="144" mirror="false"/>
-            <patrol sh="0.0" sv="-0.5" amplitude="48" mirror="false"/>
-            <patrol sh="0.5" sv="0.0" amplitude="48" mirror="false"/>
-            <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
+        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="51.0" ty="14.0">
             <patrol sh="-0.5" sv="0.0" amplitude="48" mirror="false"/>
             <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
             <patrol sh="-0.5" sv="0.0" amplitude="144" mirror="false"/>
             <patrol sh="0.0" sv="-0.5" amplitude="48" mirror="false"/>
             <patrol sh="-0.5" sv="0.0" amplitude="64" mirror="false"/>
+            <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
+            <patrol sh="0.5" sv="0.0" amplitude="64" mirror="false"/>
+            <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
+            <patrol sh="0.5" sv="0.0" amplitude="144" mirror="false"/>
+            <patrol sh="0.0" sv="-0.5" amplitude="48" mirror="false"/>
+            <patrol sh="0.5" sv="0.0" amplitude="48" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
         <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="58.0" ty="15.0">
@@ -102,7 +102,9 @@
         <entity file="entity/scenery/ancienttown/Bird.xml" tx="9.0" ty="37.0">
             <patrol sv="0.5" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="26.0" ty="49.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="26.0" ty="46.0">
+            <patrol sh="-0.3" sv="0.0" amplitude="128"/>
+        </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="16.0" ty="68.0">
             <canon fireDelay="200" vx="1.2" vy="1.2"/>
         </entity>
@@ -115,10 +117,10 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="27.0" ty="63.0"/>
         <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="41.0" ty="41.0">
-            <patrol sh="0.0" sv="1.0" amplitude="64" mirror="false"/>
-            <patrol sh="1.0" sv="0.0" amplitude="64" mirror="false"/>
-            <patrol sh="0.0" sv="-1.0" amplitude="64" mirror="false"/>
-            <patrol sh="-1.0" sv="0.0" amplitude="64" mirror="false"/>
+            <patrol sh="0.0" sv="0.5" amplitude="64" mirror="false"/>
+            <patrol sh="0.5" sv="0.0" amplitude="64" mirror="false"/>
+            <patrol sh="0.0" sv="-0.5" amplitude="64" mirror="false"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="64" mirror="false"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="62.0" ty="43.0">
             <canon fireDelay="120" vx="-1.5" vy="2.0"/>
@@ -137,16 +139,16 @@
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
         <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="83.0" ty="55.0">
-            <patrol sh="0.0" sv="0.2" amplitude="48" mirror="false"/>
+            <patrol sh="0.0" sv="0.3" amplitude="48" mirror="false"/>
             <patrol sh="0.3" sv="0.0" amplitude="80" mirror="false"/>
-            <patrol sh="0.0" sv="-0.2" amplitude="48" mirror="false"/>
+            <patrol sh="0.0" sv="-0.3" amplitude="48" mirror="false"/>
             <patrol sh="-0.3" sv="0.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="88.0" ty="58.0">
-            <patrol sh="0.0" sv="-0.2" amplitude="48" mirror="false"/>
-            <patrol sh="-0.2" sv="0.0" amplitude="80" mirror="false"/>
-            <patrol sh="0.0" sv="0.2" amplitude="48" mirror="false"/>
-            <patrol sh="0.2" sv="0.0" amplitude="80" mirror="false"/>
+            <patrol sh="0.0" sv="-0.3" amplitude="48" mirror="false"/>
+            <patrol sh="-0.3" sv="0.0" amplitude="80" mirror="false"/>
+            <patrol sh="0.0" sv="0.3" amplitude="48" mirror="false"/>
+            <patrol sh="0.3" sv="0.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="78.0" ty="61.0">
             <patrol sh="0.8" sv="0.0" amplitude="240" mirror="false"/>
@@ -155,7 +157,7 @@
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="94.0" ty="60.0"/>
-        <entity file="entity/item/ancienttown/Sword2.xml" tx="95.0" ty="61.0"/>
+        <entity file="entity/item/ancienttown/Sword2.xml" tx="95.0" ty="60.0"/>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="51.0" ty="72.0">
             <canon fireDelay="180" vx="0.9" vy="1.5"/>
         </entity>
