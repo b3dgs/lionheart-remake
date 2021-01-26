@@ -47,7 +47,7 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
     private final Tick tick = new Tick();
     private final MapTile map = services.get(MapTile.class);
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Animation idle;
+    private final Animation attack;
 
     private CanonConfig config;
 
@@ -67,7 +67,7 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
         super(services, setup);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
+        attack = config.getAnimation(Anim.ATTACK);
     }
 
     /**
@@ -84,9 +84,9 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (config != null && tick.elapsed(config.getFireDelay()) && animatable.getFrameAnim() == idle.getFirst())
+        if (config != null && tick.elapsed(config.getFireDelay()) && animatable.getFrameAnim() == attack.getFirst())
         {
-            animatable.play(idle);
+            animatable.play(attack);
             launcher.fire(player);
             tick.restart();
         }
