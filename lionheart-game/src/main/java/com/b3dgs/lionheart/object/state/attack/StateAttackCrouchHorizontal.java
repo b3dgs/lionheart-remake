@@ -38,7 +38,7 @@ final class StateAttackCrouchHorizontal extends State
     {
         super(model, animation);
 
-        addTransition(StateAttackCrouchPrepared.class, () -> is(AnimState.FINISHED));
+        addTransition(StatePreparedAttackCrouch.class, () -> is(AnimState.FINISHED));
     }
 
     @Override

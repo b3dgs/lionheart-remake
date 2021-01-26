@@ -23,7 +23,7 @@ import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Glue;
-import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
+import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 
 /**
  * Idle state implementation.
@@ -46,7 +46,7 @@ final class StateBorder extends State
         addTransition(StateWalk.class, this::isGoHorizontal);
         addTransition(StateCrouch.class, () -> isGoDown() && !liana.is());
         addTransition(StateJump.class, this::isGoUpOnce);
-        addTransition(StateAttackPrepare.class, this::isFire);
+        addTransition(StatePrepareAttack.class, this::isFire);
         addTransition(StateFall.class, () -> !collideY.get() && Double.compare(transformable.getY(), y) != 0);
     }
 

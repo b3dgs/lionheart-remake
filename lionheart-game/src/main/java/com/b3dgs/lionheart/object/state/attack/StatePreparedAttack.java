@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Prepared attack state implementation.
  */
-final class StateAttackPrepared extends State
+final class StatePreparedAttack extends State
 {
     /**
      * Create the state.
@@ -32,15 +32,15 @@ final class StateAttackPrepared extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackPrepared(EntityModel model, Animation animation)
+    StatePreparedAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 
         addTransition(StateAttackHorizontal.class, this::canAttackHorizontal);
         addTransition(StateAttackTurning.class, this::canAttackTurning);
         addTransition(StateAttackTop.class, () -> isFire() && isGoUpOnce());
-        addTransition(StateAttackCrouchPrepared.class, this::isGoDown);
-        addTransition(StateAttackUnprepare.class, () -> !isFire());
+        addTransition(StatePreparedAttackCrouch.class, this::isGoDown);
+        addTransition(StateUnprepareAttack.class, () -> !isFire());
     }
 
     private boolean canAttackHorizontal()

@@ -23,9 +23,9 @@ import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
- * Unprepare attack state implementation.
+ * Prepare attack crouch state implementation.
  */
-final class StateAttackCrouchUnprepare extends State
+public final class StatePrepareAttackCrouch extends State
 {
     /**
      * Create the state.
@@ -33,10 +33,11 @@ final class StateAttackCrouchUnprepare extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackCrouchUnprepare(EntityModel model, Animation animation)
+    StatePrepareAttackCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateCrouch.class, () -> is(AnimState.FINISHED));
+        addTransition(StateCrouch.class, () -> !isFire() && is(AnimState.FINISHED));
+        addTransition(StatePreparedAttackCrouch.class, () -> isFire() && is(AnimState.FINISHED));
     }
 }

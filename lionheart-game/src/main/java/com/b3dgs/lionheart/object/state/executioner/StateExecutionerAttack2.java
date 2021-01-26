@@ -14,31 +14,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.object.state.attack;
+package com.b3dgs.lionheart.object.state.executioner;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.state.StateIdle;
+import com.b3dgs.lionheart.object.state.StatePatrol;
 
 /**
- * Prepare attack state implementation.
+ * Attack2 executioner state implementation.
  */
-public final class StateAttackPrepare extends State
+public final class StateExecutionerAttack2 extends State
 {
+    private static final int ATTACK_TICK = 40;
+
+    private final Tick tick = new Tick();
+
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackPrepare(EntityModel model, Animation animation)
+    StateExecutionerAttack2(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !isFire() && is(AnimState.FINISHED));
-        addTransition(StateAttackPrepared.class, () -> isFire() && is(AnimState.FINISHED));
+        addTransition(StatePatrol.class, () -> tick.elapsed(ATTACK_TICK) && is(AnimState.FINISHED));
     }
 
     @Override
@@ -47,5 +52,15 @@ public final class StateAttackPrepare extends State
         super.enter();
 
         movement.zero();
+        tick.restart();
+        Sfx.MONSTER_EXECUTIONER_ATTACK.play();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        tick.update(extrp);
     }
 }

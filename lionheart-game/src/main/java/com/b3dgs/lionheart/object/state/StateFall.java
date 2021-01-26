@@ -19,17 +19,13 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
@@ -84,19 +80,6 @@ public final class StateFall extends State
         if (!isGoDown() && result.startWithY(CollisionName.LIANA))
         {
             tileCollidable.apply(result);
-        }
-    }
-
-    @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        super.onCollided(collidable, with, by);
-
-        if (collidable.hasFeature(Glue.class)
-            && with.getName().startsWith(Anim.LEG)
-            && by.getName().startsWith(CollisionName.GROUND))
-        {
-            collideY.set(true);
         }
     }
 

@@ -18,14 +18,9 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
-import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.Patrol;
 
 /**
@@ -44,19 +39,6 @@ public final class StateTurn extends State
         super(model, animation);
 
         addTransition(StateLast.class, () -> is(AnimState.FINISHED));
-    }
-
-    @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        super.onCollided(collidable, with, by);
-
-        if (collidable.hasFeature(Glue.class)
-            && with.getName().startsWith(Anim.LEG)
-            && by.getName().startsWith(CollisionName.GROUND))
-        {
-            collideY.set(true);
-        }
     }
 
     @Override

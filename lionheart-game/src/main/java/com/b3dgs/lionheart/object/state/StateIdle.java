@@ -24,12 +24,10 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayBorder;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
-import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
+import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 
 /**
  * Idle state implementation.
@@ -52,7 +50,7 @@ public final class StateIdle extends State
         addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
         addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
         addTransition(StateJump.class, () -> collideY.get() && isGoUpOnce());
-        addTransition(StateAttackPrepare.class, () -> collideY.get() && isFire());
+        addTransition(StatePrepareAttack.class, () -> collideY.get() && isFire());
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && !collideY.get()
@@ -81,10 +79,6 @@ public final class StateIdle extends State
         super.onCollided(collidable, with, by);
 
         border.notifyCollided(collidable, with, by);
-        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
-        {
-            collideY.set(true);
-        }
     }
 
     @Override

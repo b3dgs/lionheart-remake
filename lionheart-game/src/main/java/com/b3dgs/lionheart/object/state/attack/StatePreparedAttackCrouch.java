@@ -16,16 +16,14 @@
  */
 package com.b3dgs.lionheart.object.state.attack;
 
-import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
- * Prepare attack crouch state implementation.
+ * Prepared attack crouch state implementation.
  */
-public final class StateAttackCrouchPrepare extends State
+final class StatePreparedAttackCrouch extends State
 {
     /**
      * Create the state.
@@ -33,11 +31,12 @@ public final class StateAttackCrouchPrepare extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackCrouchPrepare(EntityModel model, Animation animation)
+    StatePreparedAttackCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateCrouch.class, () -> !isFire() && is(AnimState.FINISHED));
-        addTransition(StateAttackCrouchPrepared.class, () -> isFire() && is(AnimState.FINISHED));
+        addTransition(StateUnprepareAttackCrouch.class, () -> !isFire());
+        addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
+        addTransition(StateAttackTop.class, () -> isFire() && isGoUp());
     }
 }

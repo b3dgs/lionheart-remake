@@ -82,6 +82,7 @@ public final class Hurtable extends FeatureModel
     private final OptionalInt frame;
     private final boolean persist;
     private final boolean fall;
+    private final Sfx sfx;
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
@@ -113,18 +114,13 @@ public final class Hurtable extends FeatureModel
         effect = config.getEffect();
         persist = config.hasPersist();
         fall = config.hasFall();
+        sfx = config.getSfx().map(s -> Sfx.valueOf(s)).orElse(Sfx.MONSTER_HURT);
 
-        if (config.hasBackward())
-        {
-            hurtForce.setDestination(0.0, 0.0);
-            hurtForce.setSensibility(0.1);
-            hurtForce.setVelocity(0.5);
-            hurtForceValue = 1.8;
-        }
-        else
-        {
-            hurtForceValue = 0.0;
-        }
+        hurtForce.setDestination(0.0, 0.0);
+        hurtForce.setSensibility(0.01);
+        hurtForce.setVelocity(0.1);
+        hurtForceValue = config.getBackward().orElse(0.0);
+
         frame = config.getFrame();
     }
 
@@ -193,7 +189,7 @@ public final class Hurtable extends FeatureModel
      */
     private void updateCollideAttack(Collidable collidable, Collision by)
     {
-        Sfx.MONSTER_HURT.play();
+        sfx.play();
         stateHandler.changeState(StateHurt.class);
         int damages = collidable.getFeature(Stats.class).getDamages();
         if (by.getName().startsWith(Anim.ATTACK_FALL))

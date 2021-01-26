@@ -233,6 +233,7 @@ public final class Patrol extends FeatureModel
                     {
                         transformable.teleportY(startY - amplitude);
                     }
+                    model.getMovement().zero();
 
                     if (Double.compare(sh, 0.0) != 0)
                     {
@@ -283,7 +284,7 @@ public final class Patrol extends FeatureModel
             @Override
             public double getHorizontalDirection()
             {
-                return enabled ? sh : 0.0;
+                return enabled && stateHandler.isState(StatePatrol.class) ? sh : 0.0;
             }
 
             @Override

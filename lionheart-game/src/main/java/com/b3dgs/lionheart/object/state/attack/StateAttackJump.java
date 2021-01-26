@@ -23,15 +23,11 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.StateFall;
 
 /**
@@ -77,19 +73,6 @@ public final class StateAttackJump extends State
 
         jump.setDirection(DirectionNone.INSTANCE);
         body.resetGravity();
-    }
-
-    @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        super.onCollided(collidable, with, by);
-
-        if (transformable.getY() < transformable.getOldY()
-            && collidable.hasFeature(Glue.class)
-            && with.getName().startsWith(Anim.LEG))
-        {
-            collideY.set(true);
-        }
     }
 
     @Override

@@ -14,29 +14,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.object.state.attack;
+package com.b3dgs.lionheart.object.state.executioner;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.feature.state.StateLast;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
 /**
- * Prepared attack crouch state implementation.
+ * Defense executioner state implementation.
  */
-final class StateAttackCrouchPrepared extends State
+public final class StateExecutionerDefense extends State
 {
+    private static final int DEFENSE_TICK = 30;
+
+    private final Tick tick = new Tick();
+
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackCrouchPrepared(EntityModel model, Animation animation)
+    StateExecutionerDefense(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateAttackCrouchUnprepare.class, () -> !isFire());
-        addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
-        addTransition(StateAttackTop.class, () -> isFire() && isGoUp());
+        addTransition(StateLast.class, () -> tick.elapsed(DEFENSE_TICK));
+    }
+
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        movement.zero();
+        tick.restart();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        tick.update(extrp);
     }
 }

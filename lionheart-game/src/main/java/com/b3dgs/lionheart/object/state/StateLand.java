@@ -18,15 +18,10 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
-import com.b3dgs.lionheart.object.state.attack.StateAttackPrepare;
+import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 
 /**
  * Land state implementation.
@@ -51,22 +46,9 @@ public final class StateLand extends State
         addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsed(LAND_TICK));
         addTransition(StateJump.class, () -> !isFire() && isGoUpOnce());
         addTransition(StateCrouch.class, this::isGoDown);
-        addTransition(StateAttackPrepare.class, this::isFire);
+        addTransition(StatePrepareAttack.class, this::isFire);
         addTransition(StateFall.class,
                       () -> !collideY.get() && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
-    }
-
-    @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        super.onCollided(collidable, with, by);
-
-        if (collidable.hasFeature(Glue.class)
-            && with.getName().startsWith(Anim.LEG)
-            && by.getName().startsWith(CollisionName.GROUND))
-        {
-            collideY.set(true);
-        }
     }
 
     @Override

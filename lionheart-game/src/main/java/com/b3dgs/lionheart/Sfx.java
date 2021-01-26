@@ -72,6 +72,10 @@ public enum Sfx
     MONSTER_CANON3,
     /** Monster gobelin rise. */
     MONSTER_GOBELIN,
+    /** Monster executioner hurt. */
+    MONSTER_EXECUTIONER_HURT,
+    /** Monster executioner attack. */
+    MONSTER_EXECUTIONER_ATTACK,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */

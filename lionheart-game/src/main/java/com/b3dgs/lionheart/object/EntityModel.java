@@ -255,6 +255,16 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     }
 
     /**
+     * Get the services reference.
+     * 
+     * @return The services reference.
+     */
+    public Services getServices()
+    {
+        return services;
+    }
+
+    /**
      * Get the camera tracker reference.
      * 
      * @return The camera tracker reference.

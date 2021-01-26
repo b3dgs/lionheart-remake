@@ -19,9 +19,11 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.game.feature.state.StateLast;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Executioner;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -32,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
  */
 public final class StateHurt extends State
 {
-    private static final double HURT_JUMP_FORCE = 3.5;
+    private static final double HURT_JUMP_FORCE = 2.5;
     private static final int FLICKER_COUNT = 16;
 
     private final Hurtable hurtable = model.getFeature(Hurtable.class);
@@ -42,6 +44,7 @@ public final class StateHurt extends State
     private Updatable updater;
     private int frameFlicker;
     private int flicker;
+    private double velocity = -1;
 
     /**
      * Create the state.
@@ -53,11 +56,9 @@ public final class StateHurt extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class,
-                      () -> !hurtable.isHurting()
-                            && animatable.getFrame() == animatable.getAnim().getLast()
-                            && !model.hasGravity());
-        addTransition(StateFall.class, () -> !hurtable.isHurting() && model.hasGravity());
+        addTransition(StateLast.class, () -> !hurtable.isHurting() && !model.hasFeature(Patrol.class));
+        addTransition(StatePatrol.class,
+                      () -> !hurtable.isHurting() && collideY.get() && model.hasFeature(Patrol.class));
 
         updateFlicker = extrp ->
         {
@@ -119,8 +120,10 @@ public final class StateHurt extends State
             updater = updateFlicker;
         }
 
-        if (model.hasFeature(SwordShade.class))
+        if (model.hasFeature(SwordShade.class) || model.hasFeature(Executioner.class))
         {
+            velocity = jump.getVelocity();
+            jump.setVelocity(0.1);
             jump.setDirection(0.0, HURT_JUMP_FORCE);
         }
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
@@ -143,6 +146,7 @@ public final class StateHurt extends State
     {
         super.exit();
 
+        jump.setVelocity(velocity);
         rasterable.setAnimOffset(0);
         jump.setDirectionMaximum(Constant.JUMP_MAX);
         hurtable.setEnabled(true);

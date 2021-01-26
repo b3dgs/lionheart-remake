@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
@@ -28,7 +29,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.helper.StateHelper;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.feature.Glue;
 
 /**
  * Base state with animation implementation.
@@ -180,7 +183,7 @@ public abstract class State extends StateHelper<EntityModel>
     }
 
     /**
-     * Called when a collision occurred with another {@link Collidable}. Does nothing by default.
+     * Called when a collision occurred with another {@link Collidable}.
      * 
      * @param collidable The collidable reference.
      * @param with The collision collided with (source).
@@ -188,7 +191,31 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected void onCollided(Collidable collidable, Collision with, Collision by)
     {
-        // Nothing by default
+        if (collidable.hasFeature(Glue.class)
+            && with.getName().startsWith(Anim.LEG)
+            && by.getName().startsWith(CollisionName.GROUND))
+        {
+            collideY.set(true);
+        }
+
+        if (with.getName().contains(CollisionName.BODY)
+            && (movement.getDirectionHorizontal() < 0 && by.getName().contains(CollisionName.RIGHT_VERTICAL)
+                || movement.getDirectionHorizontal() > 0 && by.getName().contains(CollisionName.LEFT_VERTICAL)))
+        {
+            final Transformable other = collidable.getFeature(Transformable.class);
+            collideX.set(true);
+            if (by.getName().contains(CollisionName.LEFT_VERTICAL))
+            {
+                transformable.teleportX(other.getX() + by.getOffsetX() - with.getWidth() / 2);
+                collideXright.set(true);
+            }
+            if (by.getName().contains(CollisionName.RIGHT_VERTICAL))
+            {
+                transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2);
+                collideXleft.set(true);
+            }
+            movement.zero();
+        }
     }
 
     /**
@@ -250,9 +277,11 @@ public abstract class State extends StateHelper<EntityModel>
         collideX.set(false);
         collideXright.set(false);
         collideXleft.set(false);
+
         collideY.set(false);
         collideYleft.set(false);
         collideYright.set(false);
+
         grip.set(false);
         steep.reset();
         liana.reset();
