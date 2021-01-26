@@ -109,4 +109,9 @@
         <lionengine:formula>right_vertical</lionengine:formula>
         <lionengine:formula>block</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="block">
+        <lionengine:formula>left_vertical</lionengine:formula>
+        <lionengine:formula>right_vertical</lionengine:formula>
+        <lionengine:formula>block</lionengine:formula>
+    </lionengine:collision>
 </lionengine:collisions>

@@ -103,6 +103,8 @@
     <lionengine:group name="steep_right_vertical" type="NONE"/>
     <lionengine:group name="vertical" type="NONE">
         <lionengine:tile number="271"/>
+    </lionengine:group>
+    <lionengine:group name="block" type="NONE">
         <lionengine:tile number="875"/>
     </lionengine:group>
     <lionengine:group name="liana_full" type="NONE"/>

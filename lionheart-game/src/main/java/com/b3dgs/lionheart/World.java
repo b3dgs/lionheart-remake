@@ -116,6 +116,10 @@ final class World extends WorldHelper
             {
                 spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
             }
+            else if (CollisionName.BLOCK.equals(mapGroup.getGroup(tile)))
+            {
+                spawn(Medias.create(Folder.EFFECTS, "ancienttown", "Block.xml"), tile);
+            }
         });
 
         raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
@@ -309,7 +313,6 @@ final class World extends WorldHelper
             trackerY = UtilMath.clamp(trackerY += 0.5, 0.0, 21.0);
             tracker.setOffset(0, trackerInitY + (int) Math.floor(trackerY));
         }
-        camera.moveLocation(extrp, 0.0, 0.0);
         hud.update(extrp);
     }
 

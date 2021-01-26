@@ -109,6 +109,9 @@ public final class CollisionName
     /** Collision liana top prefix. */
     public static final String LIANA_TOP = LIANA + "_" + GROUND + "_top";
 
+    /** Collision block prefix. */
+    public static final String BLOCK = "block";
+
     /**
      * Private constructor.
      */
