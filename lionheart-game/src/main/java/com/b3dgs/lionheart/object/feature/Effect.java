@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.AnimatorStateListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -30,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateIdle;
@@ -48,6 +50,7 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
     private static final String ATT_COUNT = "count";
     private static final int TICK_DELAY = 9;
 
+    private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
     private final int count;
 
@@ -55,6 +58,7 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
 
     /**
@@ -91,7 +95,10 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         if (current < count && tick.elapsed(TICK_DELAY))
         {
-            Sfx.playRandomExplode();
+            if (viewer.isViewable(transformable, 0, 0))
+            {
+                Sfx.playRandomExplode();
+            }
             current++;
             tick.restart();
         }

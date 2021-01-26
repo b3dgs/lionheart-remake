@@ -25,6 +25,7 @@
             <lionengine:force velocity="1.0" sensibility="0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>
     <hurtable effect="ancienttown/ExplodeLittle"/>

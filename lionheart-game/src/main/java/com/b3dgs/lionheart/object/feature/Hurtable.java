@@ -114,7 +114,7 @@ public final class Hurtable extends FeatureModel
         effect = config.getEffect();
         persist = config.hasPersist();
         fall = config.hasFall();
-        sfx = config.getSfx().map(s -> Sfx.valueOf(s)).orElse(Sfx.MONSTER_HURT);
+        sfx = config.getSfx().map(Sfx::valueOf).orElse(Sfx.MONSTER_HURT);
 
         hurtForce.setDestination(0.0, 0.0);
         hurtForce.setSensibility(0.01);

@@ -18,7 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
@@ -36,6 +36,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
  */
 public final class StateFall extends State
 {
+    private final Viewer viewer = model.getServices().get(Viewer.class);
+
     /**
      * Create the state.
      * 
@@ -68,7 +70,7 @@ public final class StateFall extends State
 
         if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
         {
-            jump.setDirection(DirectionNone.INSTANCE);
+            // jump.setDirection(DirectionNone.INSTANCE);
         }
     }
 
@@ -97,7 +99,7 @@ public final class StateFall extends State
             mirrorable.mirror(Mirror.NONE);
         }
 
-        if (model.hasFeature(Patrol.class) && !model.hasFeature(Spider.class))
+        if (model.hasFeature(Patrol.class) && !model.hasFeature(Spider.class) && viewer.isViewable(transformable, 0, 0))
         {
             Sfx.MONSTER_LAND.play();
         }
