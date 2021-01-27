@@ -40,6 +40,10 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="24.0" ty="62.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="24.0" ty="63.0"/>
         <entity file="entity/item/ancienttown/PotionBig.xml" tx="22.0" ty="63.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="35.0" ty="44.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="37.0" ty="44.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="39.0" ty="44.0"/>
+        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="41.0" ty="44.0"/>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="47.0" ty="53.0">
             <canon fireDelay="200" vx="0.4" vy="2.5"/>
         </entity>
@@ -102,7 +106,9 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="150.0" ty="33.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="151.0" ty="33.0"/>
         <entity file="entity/item/ancienttown/Sword3.xml" tx="156.0" ty="32.0"/>
-        <entity file="entity/monster/ancienttown/Crawling.xml" tx="189.0" ty="22.0"/>
+        <entity file="entity/monster/ancienttown/Crawling.xml" tx="189.0" ty="22.0">
+            <patrol sh="-0.3" amplitude="80"/>
+        </entity>
         <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="175.0" ty="14.0">
             <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="2.0"/>
         </entity>
@@ -159,7 +165,9 @@
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="262.0" ty="52.0">
             <canon fireDelay="200" vx="0.7" vy="1.5"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="267.0" ty="47.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="267.0" ty="47.0">
+            <patrol sh="-0.3" sv="0.0" amplitude="128"/>
+        </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
             <canon fireDelay="200" vx="0.5" vy="1.5"/>
         </entity>
@@ -194,18 +202,20 @@
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="378.0" ty="10.0">
-            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-2.5"/>
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-2.3"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="387.0" ty="10.0">
-            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.5"/>
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.3"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="396.0" ty="10.0">
-            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-2.5"/>
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="-2.3"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="405.0" ty="10.0">
-            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.5"/>
+            <rotating extremity="entity/scenery/ancienttown/Platform.xml" ring="entity/scenery/ancienttown/Ring.xml" length="3" speed="2.3"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="412.0" ty="9.0"/>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="427.0" ty="15.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="427.0" ty="15.0">
+            <patrol sh="-0.3" sv="0.0" amplitude="128"/>
+        </entity>
     </entities>
 </stage>
