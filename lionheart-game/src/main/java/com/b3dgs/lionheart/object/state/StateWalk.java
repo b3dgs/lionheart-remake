@@ -134,6 +134,8 @@ public final class StateWalk extends State
 
         factor = 0.0;
         speedSlope = 0.0;
+
+        movement.zeroVertical();
     }
 
     @Override

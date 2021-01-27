@@ -26,7 +26,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Grip soar state implementation.
  */
-final class StateGripSoar extends State
+public final class StateGripSoar extends State
 {
     private static final int FRAME_5 = 5;
     private static final int FRAME_8 = 8;

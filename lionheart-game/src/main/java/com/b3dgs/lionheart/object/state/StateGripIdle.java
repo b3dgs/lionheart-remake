@@ -41,9 +41,9 @@ public final class StateGripIdle extends State
     {
         super(model, animation);
 
-        addTransition(StateGripSoar.class, () -> isGoUp());
+        addTransition(StateGripSoar.class, this::isGoUp);
         addTransition(StateAttackGrip.class, this::isFireOnce);
-        addTransition(StateFall.class, () -> isGoDown());
+        addTransition(StateFall.class, this::isGoDown);
     }
 
     @Override

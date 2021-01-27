@@ -139,7 +139,7 @@ public abstract class State extends StateHelper<EntityModel>
     {
         if (!result.startWithY(CollisionName.LIANA)
             && !result.startWithY(CollisionName.SPIKE)
-            && jump.getDirectionVertical() < 0.1)
+            && Double.compare(transformable.getY(), transformable.getOldY()) <= 0)
         {
             collideY.set(true);
             if (category.getName().endsWith(CollisionName.LEFT))

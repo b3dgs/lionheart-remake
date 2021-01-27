@@ -38,7 +38,6 @@ import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -118,7 +117,7 @@ public final class StateAttackFall extends State
         super.onCollided(collidable, with, by);
 
         if (!collideSword.get()
-            && (by.getName().startsWith(CollisionName.BODY) || collidable.hasFeature(Hurtable.class))
+            && by.getName().startsWith(CollisionName.BODY)
             && with.getName().startsWith(Anim.ATTACK_FALL))
         {
             final double vy = UtilMath.clamp(bounce, Constant.JUMP_MIN, Constant.JUMP_HIT);
