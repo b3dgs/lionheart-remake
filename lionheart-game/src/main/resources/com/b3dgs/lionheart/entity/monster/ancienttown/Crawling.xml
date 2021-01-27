@@ -9,7 +9,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Crawling.png" icon="Crawling_ico.png"/>
-    <lionengine:frames horizontal="8" vertical="4" offsetY="1"/>
+    <lionengine:frames horizontal="8" vertical="4" offsetY="0"/>
     <lionengine:size width="48" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -45,10 +45,10 @@
         <lionengine:animation name="dead" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:categories>
-        <lionengine:category name="leg_left" axis="Y" x="-5" y="0">
+        <lionengine:category name="leg_left" axis="Y" x="-5" y="-1">
             <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="5" y="0">
+        <lionengine:category name="leg_right" axis="Y" x="5" y="-1">
             <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
