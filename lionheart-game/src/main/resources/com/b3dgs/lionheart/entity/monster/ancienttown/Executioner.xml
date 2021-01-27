@@ -22,7 +22,7 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="32" height="60"/>
             <lionengine:collisionFramed prefix="attack" x="0" y="0" width="32" height="60"/>
         </lionengine:animation>
-        <lionengine:animation name="executionerattack1" start="11" end="12" speed="0.15" reversed="false" repeat="false">
+        <lionengine:animation name="executionerattack1" start="12" end="12" speed="0.10" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="8" y="0" width="36" height="44"/>
             <lionengine:collisionFramed prefix="attack" x="8" y="0" width="36" height="40"/>
         </lionengine:animation>
@@ -33,7 +33,7 @@
         <lionengine:animation name="hurt" start="15" end="15" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:categories>
-        <lionengine:category name="leg_2" axis="Y" x="0" y="-1" glue="true">
+        <lionengine:category name="leg_2_center" axis="Y" x="0" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
