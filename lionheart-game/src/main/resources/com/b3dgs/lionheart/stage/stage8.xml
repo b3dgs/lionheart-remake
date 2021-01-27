@@ -25,7 +25,9 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="28.0" ty="50.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="27.0" ty="50.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="26.0" ty="50.0"/>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="36.0" ty="46.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="36.0" ty="46.0">
+            <patrol sh="-0.3" sv="0.0" amplitude="128"/>
+        </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="50.0" ty="50.0"/>
         <entity file="entity/scenery/ancienttown/Rotating2.xml" tx="52.0" ty="49.0">
             <rotating amplitude="90" extremity="entity/scenery/ancienttown/SpikeBowl.xml" ring="entity/scenery/ancienttown/Ring.xml" length="4" speed="0.05"/>
@@ -193,10 +195,12 @@
             <canon fireDelay="250" vx="-1.5" vy="2.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="553.0" ty="31.0">
-            <canon fireDelay="250" vx="1.0" vy="1.5"/>
+            <canon fireDelay="250" vx="0.78" vy="1.5"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="562.0" ty="32.0"/>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="583.0" ty="40.0"/>
+        <entity file="entity/monster/ancienttown/Executioner.xml" tx="583.0" ty="40.0">
+            <patrol sh="-0.3" sv="0.0" amplitude="128"/>
+        </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="590.0" ty="44.0">
             <canon fireDelay="250" vx="-1.5" vy="2.0"/>
         </entity>
