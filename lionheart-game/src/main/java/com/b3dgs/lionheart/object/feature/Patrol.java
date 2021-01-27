@@ -94,6 +94,7 @@ public final class Patrol extends FeatureModel
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Stats stats;
 
     /**
      * Create feature.
@@ -320,7 +321,7 @@ public final class Patrol extends FeatureModel
             {
                 enabled = true;
             }
-            else
+            else if (stats.getHealth() > 0)
             {
                 idle = UtilMath.wrapDouble(idle + 0.15, 0, 360);
                 transformable.teleportY(startY + Math.sin(idle) * 2.0);
