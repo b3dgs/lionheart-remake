@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -46,6 +47,7 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
 {
     private final Tick tick = new Tick();
     private final MapTile map = services.get(MapTile.class);
+    private final Viewer viewer = services.get(Viewer.class);
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Animation attack;
 
@@ -54,6 +56,7 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.
@@ -84,7 +87,10 @@ public final class Canon3 extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (config != null && tick.elapsed(config.getFireDelay()) && animatable.getFrameAnim() == attack.getFirst())
+        if (config != null
+            && tick.elapsed(config.getFireDelay())
+            && animatable.getFrameAnim() == attack.getFirst()
+            && viewer.isViewable(transformable, 0, 0))
         {
             animatable.play(attack);
             launcher.fire(player);
