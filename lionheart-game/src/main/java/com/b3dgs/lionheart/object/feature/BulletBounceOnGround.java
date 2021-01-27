@@ -52,6 +52,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     private final Tick tick = new Tick();
 
     private Force jump;
+    private double bounceX;
 
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Body body;
@@ -75,23 +76,49 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (category.getName().contains(CollisionName.LEG) && result.containsY(CollisionName.GROUND))
+        if (category.getName().contains(CollisionName.LEG))
         {
-            final double bounce = UtilMath.clamp(transformable.getOldY() - transformable.getY(), 0.0, BOUNCE_MAX);
-            if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
+            if (result.containsY(CollisionName.GROUND)
+                || result.containsY(CollisionName.SLOPE)
+                || result.containsY(CollisionName.INCLINE)
+                || result.containsY(CollisionName.BLOCK))
             {
-                Sfx.PROJECTILE_BULLET2.play();
+                final double bounce = UtilMath.clamp(transformable.getOldY() - transformable.getY(), 0.0, BOUNCE_MAX);
+                if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
+                {
+                    Sfx.PROJECTILE_BULLET2.play();
+                }
+                body.resetGravity();
+                tick.restart();
+                tileCollidable.apply(result);
+                transformable.teleportY(transformable.getY() + 1.0);
+
+                if (result.containsY(CollisionName.SLOPE))
+                {
+                    bounceX += 0.35;
+                    jump.setDestination(bounceX, 0.0);
+                }
+                if (result.containsY(CollisionName.INCLINE))
+                {
+                    bounceX += 0.5;
+                    jump.setDestination(bounceX, 0.0);
+                }
+                jump.setDirection(bounceX, bounce);
             }
-            jump.setDirection(0.0, bounce);
-            body.resetGravity();
-            tick.restart();
-            tileCollidable.apply(result);
-            transformable.teleportY(transformable.getY() + 1.0);
         }
-        else if (category.getName().startsWith(CollisionName.KNEE) && result.containsY(CollisionName.BLOCK))
+        else if (category.getName().startsWith(CollisionName.KNEE))
         {
+            final int side;
+            if (transformable.getX() > transformable.getOldX())
+            {
+                side = -2;
+            }
+            else
+            {
+                side = 1;
+            }
             tileCollidable.apply(result);
-            transformable.teleportX(transformable.getX() + 1.0);
+            transformable.teleportX(transformable.getX() + 1.0 * side);
 
             final Force direction = launchable.getDirection();
             final double vx = direction.getDirectionHorizontal();
@@ -123,5 +150,6 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     {
         tick.restart();
         tick.set(10);
+        bounceX = 0.0;
     }
 }
