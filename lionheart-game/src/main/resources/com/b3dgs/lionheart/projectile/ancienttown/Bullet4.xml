@@ -15,7 +15,7 @@
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="fall" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="land" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="hurt" start="2" end="2" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="12" height="12" mirror="false"/>
