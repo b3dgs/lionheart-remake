@@ -40,6 +40,10 @@ import com.b3dgs.lionheart.constant.CollisionName;
 @FeatureInterface
 public final class BulletDestroyOnGround extends FeatureModel implements Recyclable, TileCollidableListener
 {
+    private static final String NODE = "bulletDestroyOnGround";
+    private static final String ATT_COLLFROMBOTTOM = "collFromBottom";
+
+    private final boolean collFromBottom = setup.getBooleanDefault(true, ATT_COLLFROMBOTTOM, NODE);
     private final Animation idle;
 
     @FeatureGet private Transformable transformable;
@@ -65,9 +69,13 @@ public final class BulletDestroyOnGround extends FeatureModel implements Recycla
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (CollisionName.LEG.equals(category.getName())
-            && result.containsY(CollisionName.GROUND)
-            && transformable.getY() < transformable.getOldY())
+        if ((category.getName().contains(CollisionName.KNEE) || category.getName().contains(CollisionName.LEG))
+            && (result.containsY(CollisionName.GROUND)
+                || result.containsY(CollisionName.SLOPE)
+                || result.containsY(CollisionName.INCLINE)
+                || result.containsY(CollisionName.BLOCK)
+                || result.containsY(CollisionName.VERTICAL))
+            && (collFromBottom || transformable.getY() < transformable.getOldY()))
         {
             tileCollidable.apply(result);
             hurtable.kill();
