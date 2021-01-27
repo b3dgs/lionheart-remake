@@ -31,7 +31,7 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  */
 public final class StateExecutionerAttack1 extends State
 {
-    private static final double ATTACK_SPEED = 2.0;
+    private static final double ATTACK_SPEED = 1.8;
     private static final double ATTACK1_DISTANCE_MIN = 16.0;
 
     private final Transformable player = model.getServices().get(SwordShade.class).getFeature(Transformable.class);
@@ -77,6 +77,10 @@ public final class StateExecutionerAttack1 extends State
             side = 1;
         }
         movement.setDirection(ATTACK_SPEED * side, 0.0);
+        jump.setDirection(0.0, 2.0);
+        jump.setDestination(0.0, 0.0);
+        jump.setVelocity(0.05);
+        body.resetGravity();
         tick.restart();
     }
 
