@@ -33,9 +33,11 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.io.InputDeviceControl;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -50,6 +52,9 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
 @FeatureInterface
 public final class Jumper extends FeatureModel implements Routine
 {
+    private static final String NODE = "jumper";
+    private static final String ATT_OFFSET = "offset";
+
     private final Tick jumpStopTick = new Tick();
     private final MapTile map;
     private final MapTileGroup mapGroup;
@@ -73,6 +78,7 @@ public final class Jumper extends FeatureModel implements Routine
             return jump;
         }
     };
+    private final int offset = setup.getIntegerDefault(0, ATT_OFFSET, NODE);
 
     private InputDeviceControl oldControl;
     private int jumpTick;
@@ -111,10 +117,18 @@ public final class Jumper extends FeatureModel implements Routine
         this.jumpTick = jumpTick;
     }
 
+    /**
+     * Check if tile is no ground.
+     * 
+     * @param side The side to check.
+     * @return <code>true</code> if no group, <code>false</code> else.
+     */
     private boolean isNone(int side)
     {
-        final String group = mapGroup.getGroup(map.getTile(transformable, 8 * side, (int) body.getGravity()));
-        return "none".equals(group) || "spike".equals(group) || group == null;
+        final String group = mapGroup.getGroup(map.getTile(transformable,
+                                                           map.getTileWidth() * side,
+                                                           (int) body.getGravity() - 5 + offset));
+        return MapTileGroupModel.NO_GROUP_NAME.equals(group) || CollisionName.SPIKE.equals(group) || group == null;
     }
 
     @Override
@@ -161,7 +175,8 @@ public final class Jumper extends FeatureModel implements Routine
     {
         if (!jump
             && handler.isState(StatePatrol.class)
-            && (isNone(-1) && mirrorable.is(Mirror.HORIZONTAL) || isNone(1) && mirrorable.is(Mirror.NONE)))
+            && (isNone(-1) && model.getMovement().getDirectionHorizontal() < 0
+                || isNone(1) && model.getMovement().getDirectionHorizontal() > 0))
         {
             oldControl = model.getInput();
             model.setInput(jumpControl);
