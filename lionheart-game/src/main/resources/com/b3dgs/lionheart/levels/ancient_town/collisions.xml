@@ -95,7 +95,7 @@
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="grip">
-        <lionengine:formula>ground</lionengine:formula>
+        <lionengine:formula>ground15</lionengine:formula>
         <lionengine:formula>grip</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="liana_ground_top">

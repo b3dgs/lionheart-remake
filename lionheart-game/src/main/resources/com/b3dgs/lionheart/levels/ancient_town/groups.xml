@@ -42,27 +42,18 @@
         <lionengine:tile number="648"/>
         <lionengine:tile number="649"/>
         <lionengine:tile number="656"/>
-        <lionengine:tile number="674"/>
-        <lionengine:tile number="675"/>
-        <lionengine:tile number="676"/>
-        <lionengine:tile number="677"/>
-        <lionengine:tile number="678"/>
-        <lionengine:tile number="679"/>
-        <lionengine:tile number="680"/>
-        <lionengine:tile number="681"/>
-        <lionengine:tile number="682"/>
-        <lionengine:tile number="683"/>
         <lionengine:tile number="697"/>
         <lionengine:tile number="714"/>
         <lionengine:tile number="848"/>
         <lionengine:tile number="849"/>
     </lionengine:group>
     <lionengine:group name="slope_0_left" type="NONE">
-        <lionengine:tile number="673"/>
+                
         <lionengine:tile number="605"/>
     </lionengine:group>
     <lionengine:group name="slope_1_left" type="NONE">
         <lionengine:tile number="606"/>
+        <lionengine:tile number="673"/>
     </lionengine:group>
     <lionengine:group name="slope_0_right" type="NONE">
         <lionengine:tile number="248"/>
@@ -155,5 +146,15 @@
         <lionengine:tile number="268"/>
         <lionengine:tile number="269"/>
         <lionengine:tile number="270"/>
+        <lionengine:tile number="674"/>
+        <lionengine:tile number="675"/>
+        <lionengine:tile number="676"/>
+        <lionengine:tile number="677"/>
+        <lionengine:tile number="678"/>
+        <lionengine:tile number="679"/>
+        <lionengine:tile number="680"/>
+        <lionengine:tile number="681"/>
+        <lionengine:tile number="682"/>
+        <lionengine:tile number="683"/>
     </lionengine:group>
 </lionengine:groups>
