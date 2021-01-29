@@ -40,7 +40,9 @@ public enum WorldType
     /** Spider cave 2 world. */
     SPIDERCAVE2(Music.SPIDERCAVE),
     /** Ancient town world. */
-    ANCIENT_TOWN(Music.ANCIENT_TOWN);
+    ANCIENT_TOWN(Music.ANCIENT_TOWN),
+    /** Lava world. */
+    LAVA(Music.LAVA);
 
     /**
      * Load type from its saved format.

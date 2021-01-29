@@ -41,7 +41,9 @@ public enum LandscapeType
     /** Ancient Town dawn. */
     ANCIENT_TOWN_DAWN(WorldType.ANCIENT_TOWN, "dawn", "raster2.xml", ForegroundType.WATER),
     /** Ancient Town day. */
-    ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day", "raster3.xml", ForegroundType.WATER);
+    ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day", "raster3.xml", ForegroundType.WATER),
+    /** Lava. */
+    LAVA(WorldType.LAVA, "lava", "raster.xml", ForegroundType.LAVA);
 
     /**
      * Get all landscapes related to the world.

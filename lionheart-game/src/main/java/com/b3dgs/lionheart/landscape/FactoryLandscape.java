@@ -99,6 +99,9 @@ public final class FactoryLandscape
             case ANCIENT_TOWN:
                 background = new AncientTown(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
+            case LAVA:
+                background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             default:
                 throw new LionEngineException(backgroundType);
         }
