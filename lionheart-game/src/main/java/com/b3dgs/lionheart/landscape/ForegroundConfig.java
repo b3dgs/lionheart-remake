@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.landscape;
 
+import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.Check;
@@ -35,6 +36,10 @@ public final class ForegroundConfig
     private static final String ATT_WATER_DEPTH = "waterDepth";
     /** Water offset attribute name. */
     private static final String ATT_WATER_OFFSET = "waterOffset";
+    /** Water speed attribute name. */
+    private static final String ATT_WATER_SPEED = "waterSpeed";
+    /** Water effect attribute name. */
+    private static final String ATT_WATER_EFFECT = "waterEffect";
 
     /**
      * Imports the config from configurer.
@@ -56,6 +61,10 @@ public final class ForegroundConfig
     private final OptionalInt waterDepth;
     /** Water offset value. */
     private final OptionalInt waterOffset;
+    /** Water speed value. */
+    private final OptionalDouble waterSpeed;
+    /** Water effect value. */
+    private final boolean waterEffect;
 
     /**
      * Create config.
@@ -72,6 +81,8 @@ public final class ForegroundConfig
         type = root.getEnum(ForegroundType.class, ATT_FOREGROUND_TYPE, NODE_FOREGROUND);
         waterDepth = root.getIntegerOptional(ATT_WATER_DEPTH, NODE_FOREGROUND);
         waterOffset = root.getIntegerOptional(ATT_WATER_OFFSET, NODE_FOREGROUND);
+        waterSpeed = root.getDoubleOptional(ATT_WATER_SPEED, NODE_FOREGROUND);
+        waterEffect = root.getBooleanDefault(true, ATT_WATER_EFFECT, NODE_FOREGROUND);
     }
 
     /**
@@ -102,5 +113,25 @@ public final class ForegroundConfig
     public OptionalInt getWaterOffset()
     {
         return waterOffset;
+    }
+
+    /**
+     * Get the water speed.
+     * 
+     * @return The water speed.
+     */
+    public OptionalDouble getWaterSpeed()
+    {
+        return waterSpeed;
+    }
+
+    /**
+     * Get the water speed.
+     * 
+     * @return The water speed.
+     */
+    public boolean getWaterEffect()
+    {
+        return waterEffect;
     }
 }

@@ -117,7 +117,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
             final int vtx = map.getInTileX(viewer);
             final int vtx2 = vtx + (int) Math.ceil(viewer.getWidth() / (double) map.getTileWidth());
             int ty;
-            for (ty = 0; ty < (int) Math.floor(waterHeight / (double) map.getTileHeight()); ty++)
+            for (ty = 0; ty < (int) Math.floor((waterHeight - 2) / (double) map.getTileHeight()); ty++)
             {
                 final SpriteTiled water = tiles[tiles.length - 1];
                 for (int tx = vtx; tx < vtx2; tx++)
@@ -134,7 +134,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
                 }
             }
 
-            final SpriteTiled water = tiles[waterHeight % map.getTileHeight()];
+            final SpriteTiled water = tiles[(waterHeight - 2) % map.getTileHeight()];
             for (int tx = vtx; tx < vtx2; tx++)
             {
                 final Tile tile = map.getTile(tx, ty);

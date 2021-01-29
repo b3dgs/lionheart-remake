@@ -49,6 +49,10 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
     private final double depthOffset;
     /** Water speed. */
     private final double speed = 0.02;
+    /** Water anim speed. */
+    private final double animSpeed;
+    /** Water effect flag. */
+    private final boolean effect;
     /** Primary. */
     private final Primary primary;
     /** Secondary. */
@@ -84,6 +88,8 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
 
         depth = config.getWaterDepth().orElse(0);
         depthOffset = config.getWaterOffset().orElse(0);
+        animSpeed = config.getWaterSpeed().orElse(0.25);
+        effect = config.getWaterEffect();
 
         mapWater = services.get(MapTileWater.class);
 
@@ -218,7 +224,7 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
     private final class Secondary implements BackgroundComponent
     {
         /** Animation data. */
-        private final Animation animation = new Animation(Animation.DEFAULT_NAME, 1, 7, 0.25, false, true);
+        private final Animation animation = new Animation(Animation.DEFAULT_NAME, 1, 7, animSpeed, false, true);
         /** Sprite. */
         private final SpriteAnimated anim;
         /** Water reference. */
@@ -260,7 +266,7 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
          */
         private void waterEffect(Graphic g)
         {
-            final int y = screenHeight + py - (int) water.getHeight() + 4;
+            final int y = screenHeight + py - (int) water.getHeight() + 6;
             final int max = Math.max(0, (int) Math.floor(water.getHeight() / (WATER_LINES * 3)));
 
             for (int l = 0; l < WATER_LINES + max; l++)
@@ -344,7 +350,10 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
                 animFlick = 0;
             }
 
-            waterEffect(g);
+            if (effect)
+            {
+                waterEffect(g);
+            }
         }
     }
 }
