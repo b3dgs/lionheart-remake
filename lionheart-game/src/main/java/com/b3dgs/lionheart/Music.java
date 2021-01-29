@@ -42,7 +42,9 @@ public enum Music
     /** Boss win music. */
     BOSS_WIN,
     /** Ancient Town music. */
-    ANCIENT_TOWN;
+    ANCIENT_TOWN,
+    /** Lava music. */
+    LAVA;
 
     /** The associated media. */
     private final Media media;
