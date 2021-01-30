@@ -99,11 +99,11 @@ final class World extends WorldHelper
     /**
      * Load map from level.
      * 
-     * @param media The map media.
-     * @param raster The raster folder.
+     * @param config The stage config.
      */
-    private void loadMap(Media media, Optional<String> raster)
+    private void loadMap(StageConfig config)
     {
+        final Media media = config.getMapFile();
         if (!media.exists())
         {
             MapTileHelper.importAndSave(Medias.create(media.getPath().replace(".lvl", ".png")), media);
@@ -122,8 +122,11 @@ final class World extends WorldHelper
             }
         });
 
+        final Optional<String> raster = config.getRasterFolder();
         raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
-                                 .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE)));
+                                 .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
+                                            config.getLinesPerRaster(),
+                                            config.getRasterLineOffset()));
         try (FileReading reading = new FileReading(media))
         {
             final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
@@ -254,7 +257,7 @@ final class World extends WorldHelper
 
         final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
 
-        loadMap(stage.getMapFile(), stage.getRasterFolder());
+        loadMap(stage);
 
         final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
@@ -289,7 +292,7 @@ final class World extends WorldHelper
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
         factory.createCache(spawner, Medias.create(Folder.EFFECTS, "ancienttown"), 4);
-        factory.createCache(spawner, Medias.create(Folder.PROJECTILES), 6);
+        factory.createCache(spawner, Medias.create(Folder.PROJECTILES, "ancienttown"), 6);
 
         hud.load();
         handler.updateRemove();

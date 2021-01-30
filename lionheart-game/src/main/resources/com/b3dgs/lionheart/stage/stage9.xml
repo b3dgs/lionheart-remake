@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage next="stage/stage1.xml">
+    <music file="music/lava.sc68"/>
+    <map file="levels/lava/stage9.lvl" linesPerRaster="1" rasterLineOffset="2"/>
+    <raster folder="levels/lava/raster/lava"/>
+    <background type="LAVA"/>
+    <foreground type="LAVA" waterDepth="2" waterOffset="24" waterSpeed="0.1" waterEffect="false"/>
+    <checkpoint startTx="11" startTy="3">
+        <respawn tx="64" ty="3"/>
+        <respawn tx="184" ty="7"/>
+        <respawn tx="243" ty="5"/>
+        <respawn tx="308" ty="3"/>
+        <respawn tx="378" ty="8"/>
+        <respawn tx="432" ty="4"/>
+        <respawn tx="545" ty="4"/>
+        <respawn tx="673" ty="4"/>
+        <respawn tx="754" ty="5"/>
+    </checkpoint>
+    <boss tx="858" ty="25"/>
+    <entities>
+    </entities>
+</stage>

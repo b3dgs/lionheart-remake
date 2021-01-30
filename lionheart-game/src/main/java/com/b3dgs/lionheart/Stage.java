@@ -41,7 +41,9 @@ public enum Stage
     /** Second ancient town stage. */
     STAGE_7("stage7"),
     /** Third ancient town stage. */
-    STAGE_8("stage8");
+    STAGE_8("stage8"),
+    /** Lava stage. */
+    STAGE_9("stage9");
 
     /** Level file. */
     private final Media file;

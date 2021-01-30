@@ -48,6 +48,10 @@ public final class StageConfig
     private static final String NODE_MAP = "map";
     /** Map file attribute name. */
     private static final String ATT_MAP_FILE = "file";
+    /** Lines per raster attribute name. */
+    private static final String ATT_MAP_LINES_PER_RASTER = "linesPerRaster";
+    /** Raster line offset attribute name. */
+    private static final String ATT_MAP_RASTER_LINE_OFFSET = "rasterLineOffset";
 
     /** Raster folder node name. */
     private static final String NODE_RASTER = "raster";
@@ -105,6 +109,10 @@ public final class StageConfig
     private final Media music;
     /** Map level file. */
     private final Media mapFile;
+    /** Lines per raster. */
+    private final int linesPerRaster;
+    /** Raster line offset. */
+    private final int rasterLineOffset;
     /** Map raster folder. */
     private final Optional<String> rasterFolder;
     /** Background type. */
@@ -139,6 +147,8 @@ public final class StageConfig
         music = configurer.getMedia(ATT_MUSIC_FILE, NODE_MUSIC);
 
         mapFile = configurer.getMedia(ATT_MAP_FILE, NODE_MAP);
+        linesPerRaster = configurer.getIntegerDefault(2, ATT_MAP_LINES_PER_RASTER, NODE_MAP);
+        rasterLineOffset = configurer.getIntegerDefault(1, ATT_MAP_RASTER_LINE_OFFSET, NODE_MAP);
 
         rasterFolder = configurer.getStringOptional(ATT_RASTER_FOLDER, NODE_RASTER);
 
@@ -222,6 +232,26 @@ public final class StageConfig
     public Media getMapFile()
     {
         return mapFile;
+    }
+
+    /**
+     * Get the lines per raster.
+     * 
+     * @return The lines per raster.
+     */
+    public int getLinesPerRaster()
+    {
+        return linesPerRaster;
+    }
+
+    /**
+     * Get the raster line offset.
+     * 
+     * @return The raster line offset.
+     */
+    public int getRasterLineOffset()
+    {
+        return rasterLineOffset;
     }
 
     /**
