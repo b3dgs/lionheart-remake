@@ -53,6 +53,7 @@ import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Canon1;
 import com.b3dgs.lionheart.object.feature.Canon2;
 import com.b3dgs.lionheart.object.feature.Canon3;
@@ -213,7 +214,11 @@ final class World extends WorldHelper
         {
             featurable.ifIs(Spider.class, Spider::track);
         }
-        stage.getRasterFolder().ifPresent(r -> featurable.ifIs(Floater.class, floater -> floater.loadRaster(r)));
+        stage.getRasterFolder().ifPresent(r ->
+        {
+            featurable.ifIs(Floater.class, floater -> floater.loadRaster(r));
+            featurable.ifIs(BulletBounceOnGround.class, buller -> buller.loadRaster(r));
+        });
     }
 
     /**

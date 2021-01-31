@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
@@ -32,10 +33,15 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
+import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -46,11 +52,16 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BulletBounceOnGround extends FeatureModel implements Routine, Recyclable, TileCollidableListener
 {
+    private static final String NODE = "bulletBounceOnGround";
+    private static final String ATT_SFX = "sfx";
+
     private static final double BOUNCE_MAX = 3.5;
 
     private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
+    private final Sfx sfx;
 
+    private Rasterable rasterable;
     private Force jump;
     private double bounceX;
 
@@ -71,6 +82,18 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     public BulletBounceOnGround(Services services, Setup setup)
     {
         super(services, setup);
+
+        sfx = Sfx.valueOf(setup.getString(ATT_SFX, NODE));
+    }
+
+    /**
+     * Load raster data.
+     * 
+     * @param raster The raster folder.
+     */
+    public void loadRaster(String raster)
+    {
+        rasterable.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
     }
 
     @Override
@@ -86,7 +109,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
                 final double bounce = UtilMath.clamp(transformable.getOldY() - transformable.getY(), 0.0, BOUNCE_MAX);
                 if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
                 {
-                    Sfx.PROJECTILE_BULLET2.play();
+                    sfx.play();
                 }
                 body.resetGravity();
                 tick.restart();
@@ -134,15 +157,40 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
 
         jump = model.getJump();
         jump.setVelocity(0.1);
-        jump.setSensibility(0.01);
+        jump.setSensibility(0.5);
         jump.setDestination(0.0, 0.0);
         jump.setDirection(0.0, 0.0);
+
+        rasterable = new RasterableModel(services, new SetupSurfaceRastered(setup.getMedia()))
+        {
+            @Override
+            public int getRasterIndex(double y)
+            {
+                return (int) (transformable.getHeight()
+                              - UtilMath.clamp(transformable.getY()
+                                               + UtilMath.getRounded(transformable.getHeight(), 16)
+                                               - 32,
+                                               0,
+                                               transformable.getHeight()));
+            }
+        };
+        rasterable.prepare(provider);
     }
 
     @Override
     public void update(double extrp)
     {
         tick.update(extrp);
+        rasterable.update(extrp);
+    }
+
+    @Override
+    public void render(Graphic g)
+    {
+        if (rasterable.getRasterIndex(0) > 0)
+        {
+            rasterable.render(g);
+        }
     }
 
     @Override
