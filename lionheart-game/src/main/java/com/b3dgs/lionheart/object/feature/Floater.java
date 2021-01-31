@@ -20,19 +20,26 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.MapTileWater;
+import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
 
 /**
@@ -42,20 +49,29 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
  * </p>
  */
 @FeatureInterface
-public final class Floater extends FeatureModel implements Routine, Recyclable
+public final class Floater extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final double UP_SPEED = 1.0;
-    private static final double DOWN_SPEED = 0.4;
+    private static final String NODE = "floater";
+    private static final String ATT_SPEEDUP = "speedUp";
+    private static final String ATT_SPEEDDOWN = "speedDown";
+    private static final String ATT_MAX = "max";
+    private static final String ATT_HIT = "hit";
 
     private final MapTileWater water = services.get(MapTileWater.class);
     private final SetupSurfaceRastered setup;
 
+    private final double speedUp;
+    private final double speedDown;
+    private final int max;
+    private final boolean hit;
     private Rasterable rasterable;
     private boolean start;
     private double down;
 
+    @FeatureGet private EntityModel model;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Glue glue;
+    @FeatureGet private Mirrorable mirrorable;
 
     /**
      * Create feature.
@@ -69,6 +85,10 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
         super(services, setup);
 
         this.setup = setup;
+        speedUp = setup.getDouble(ATT_SPEEDUP, NODE);
+        speedDown = setup.getDouble(ATT_SPEEDDOWN, NODE);
+        max = setup.getInteger(ATT_MAX, NODE);
+        hit = setup.getBooleanDefault(false, ATT_HIT, NODE);
     }
 
     /**
@@ -86,7 +106,6 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
     {
         super.prepare(provider);
 
-        glue.setTransformY(() -> -water.getCurrent() + transformable.getHeight() / 2.5 - down);
         glue.start();
         glue.addListener(new GlueListener()
         {
@@ -110,7 +129,8 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
             {
                 return -UtilMath.clamp((int) Math.floor(down - transformable.getHeight() / 2.5),
                                        -transformable.getHeight(),
-                                       0);
+                                       0)
+                       - 2;
             }
         };
         rasterable.prepare(provider);
@@ -119,19 +139,33 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        if (start)
+        if (Double.compare(transformable.getY() + transformable.getHeight() / 2.5, water.getCurrent()) <= 0)
         {
-            down -= DOWN_SPEED;
+            glue.setTransformY(() -> -water.getCurrent() + transformable.getHeight() / 2.5 - down);
+            rasterable.setVisibility(true);
+            rasterable.update(extrp);
         }
         else
         {
-            down += UP_SPEED;
+            glue.setTransformY(null);
+            rasterable.setVisibility(false);
+        }
+        if (start)
+        {
+            down -= speedDown;
+            if (down < -max)
+            {
+                down = -max;
+            }
+        }
+        else
+        {
+            down += speedUp;
             if (down > 0)
             {
                 down = 0.0;
             }
         }
-        rasterable.update(extrp);
     }
 
     @Override
@@ -140,6 +174,24 @@ public final class Floater extends FeatureModel implements Routine, Recyclable
         if (rasterable.getRasterIndex(0) > 0)
         {
             rasterable.render(g);
+        }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        final Force movement = model.getMovement();
+        if (hit && by.getName().startsWith(Anim.ATTACK) && movement.isZero())
+        {
+            final Transformable other = collidable.getFeature(Transformable.class);
+            if (transformable.getX() > other.getX())
+            {
+                movement.setDirection(3.0, 0.0);
+            }
+            else
+            {
+                movement.setDirection(-3.0, 0.0);
+            }
         }
     }
 
