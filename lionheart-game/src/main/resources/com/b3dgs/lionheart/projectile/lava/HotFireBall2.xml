@@ -30,7 +30,6 @@
             <lionengine:group>incline_1_left</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:body gravity="2.0" gravityMax="10.0"/>
     <lionengine:collidable group="3" accepted="1"/>

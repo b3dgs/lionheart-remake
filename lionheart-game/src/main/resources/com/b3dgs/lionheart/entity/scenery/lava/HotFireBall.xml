@@ -3,19 +3,22 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Effect</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.HotFireBall</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="HotFireBall.png"/>
+    <lionengine:surface image="HotFireBall.png" icon="HotFireBall_ico.png"/>
     <lionengine:frames horizontal="6" vertical="1"/>
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
-    <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="6" speed="0.25" reversed="false" repeat="false"/>
-    </lionengine:animations>
-    <lionengine:collisions>
-        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="12" height="12" mirror="false"/>
-    </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <lionengine:launcher level="0">
+        <lionengine:launchable media="projectile/lava/HotFireBall.xml" ox="0" oy="0" delay="0">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="1.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="1">
+        <lionengine:launchable media="projectile/lava/HotFireBall2.xml" ox="0" oy="0" delay="0">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="1.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
     <lionengine:collidable group="3" accepted="1"/>
 </lionengine:featurable>
