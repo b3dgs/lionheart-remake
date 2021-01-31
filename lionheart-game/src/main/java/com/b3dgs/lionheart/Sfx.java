@@ -56,6 +56,8 @@ public enum Sfx
     SCENERY_ROTATINGPLATFORM,
     /** Scenery spike. */
     SCENERY_SPIKE,
+    /** Scenery melting platform. */
+    SCENERY_MELTINGPLATFORM,
     /** Monster hurt. */
     MONSTER_HURT,
     /** Monster grasshopper. */
