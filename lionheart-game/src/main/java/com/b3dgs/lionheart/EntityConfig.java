@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.CanonConfig;
+import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
 import com.b3dgs.lionheart.object.feature.RotatingConfig;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
@@ -85,6 +86,8 @@ public final class EntityConfig
     private final Optional<CanonConfig> canon;
     /** Rotating configuration. */
     private final Optional<RotatingConfig> rotating;
+    /** HotFireBall configuration. */
+    private final Optional<HotFireBallConfig> hotFireBall;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -116,6 +119,7 @@ public final class EntityConfig
         spike = root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports);
         canon = root.getChildOptional(CanonConfig.NODE_CANON).map(CanonConfig::imports);
         rotating = root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports);
+        hotFireBall = root.getChildOptional(HotFireBallConfig.NODE_HOTFIREBALL).map(HotFireBallConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -223,6 +227,16 @@ public final class EntityConfig
     public Optional<RotatingConfig> getRotating()
     {
         return rotating;
+    }
+
+    /**
+     * Get the hot fire ball configuration.
+     * 
+     * @return The hot fire ball configuration.
+     */
+    public Optional<HotFireBallConfig> getHotFireBall()
+    {
+        return hotFireBall;
     }
 
     /**

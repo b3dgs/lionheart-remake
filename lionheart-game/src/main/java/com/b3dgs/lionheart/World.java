@@ -36,7 +36,6 @@ import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
@@ -58,6 +57,7 @@ import com.b3dgs.lionheart.object.feature.Canon1;
 import com.b3dgs.lionheart.object.feature.Canon2;
 import com.b3dgs.lionheart.object.feature.Canon3;
 import com.b3dgs.lionheart.object.feature.Floater;
+import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
@@ -202,6 +202,7 @@ final class World extends WorldHelper
             featurable.ifIs(Canon3.class, canon -> canon.load(config));
         });
         entity.getRotating().ifPresent(config -> featurable.ifIs(Rotating.class, rotating -> rotating.load(config)));
+        entity.getHotFireBall().ifPresent(config -> featurable.ifIs(HotFireBall.class, hot -> hot.load(config)));
         final List<PatrolConfig> patrols = entity.getPatrols();
         if (!patrols.isEmpty())
         {
@@ -213,13 +214,6 @@ final class World extends WorldHelper
             featurable.ifIs(Spider.class, Spider::track);
         }
         stage.getRasterFolder().ifPresent(r -> featurable.ifIs(Floater.class, floater -> floater.loadRaster(r)));
-        featurable.ifIs(Rasterable.class, rasterable ->
-        {
-            // if (!featurable.hasFeature(Patrol.class) && !featurable.hasFeature(Grasshopper.class))
-            // {
-            // entitiesRasters.computeIfAbsent(featurable.getMedia(), r -> new TreeSet<>()).add(entity.getRaster());
-            // }
-        });
     }
 
     /**
@@ -291,8 +285,8 @@ final class World extends WorldHelper
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
-        factory.createCache(spawner, Medias.create(Folder.EFFECTS, "ancienttown"), 4);
-        factory.createCache(spawner, Medias.create(Folder.PROJECTILES, "ancienttown"), 6);
+        factory.createCache(spawner, Medias.create(Folder.EFFECTS, "lava"), 4);
+        factory.createCache(spawner, Medias.create(Folder.PROJECTILES, "lava"), 6);
 
         hud.load();
         handler.updateRemove();
