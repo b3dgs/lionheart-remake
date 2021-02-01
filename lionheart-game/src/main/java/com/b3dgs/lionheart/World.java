@@ -58,6 +58,7 @@ import com.b3dgs.lionheart.object.feature.Canon1;
 import com.b3dgs.lionheart.object.feature.Canon2;
 import com.b3dgs.lionheart.object.feature.Canon3;
 import com.b3dgs.lionheart.object.feature.Floater;
+import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -204,6 +205,7 @@ final class World extends WorldHelper
         });
         entity.getRotating().ifPresent(config -> featurable.ifIs(Rotating.class, rotating -> rotating.load(config)));
         entity.getHotFireBall().ifPresent(config -> featurable.ifIs(HotFireBall.class, hot -> hot.load(config)));
+        entity.getGeyzer().ifPresent(config -> featurable.ifIs(Geyzer.class, geyzer -> geyzer.load(config)));
         final List<PatrolConfig> patrols = entity.getPatrols();
         if (!patrols.isEmpty())
         {

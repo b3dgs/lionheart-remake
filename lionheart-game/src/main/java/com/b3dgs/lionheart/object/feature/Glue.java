@@ -162,17 +162,18 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        other = collidable.getFeature(Transformable.class);
-        if (Double.compare(other.getY(), other.getOldY()) <= 0
-            && with.getName().startsWith(CollisionName.GROUND)
-            && by.getName().startsWith(Anim.LEG))
+        if (with.getName().startsWith(CollisionName.GROUND) && by.getName().startsWith(Anim.LEG))
         {
-            collide = true;
-            offsetY = with.getOffsetY();
-            other.getFeature(Body.class).resetGravity();
-            other.teleportY(reference.getY() + offsetY);
+            other = collidable.getFeature(Transformable.class);
+            if (Double.compare(other.getY(), other.getOldY()) <= 0)
+            {
+                collide = true;
+                offsetY = with.getOffsetY();
+                other.getFeature(Body.class).resetGravity();
+                other.teleportY(reference.getY() + offsetY);
 
-            start();
+                start();
+            }
         }
     }
 

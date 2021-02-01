@@ -62,6 +62,10 @@ public enum Sfx
     SCENERY_HOTFIREBALL,
     /** Scenery fire ball. */
     SCENERY_FIREBALL,
+    /** Scenery geyzer. */
+    SCENERY_GEYZER,
+    /** Scenery geyzer platform. */
+    SCENERY_GEYZERPLATFORM,
     /** Monster hurt. */
     MONSTER_HURT,
     /** Monster grasshopper. */

@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.CanonConfig;
+import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
 import com.b3dgs.lionheart.object.feature.RotatingConfig;
@@ -88,6 +89,8 @@ public final class EntityConfig
     private final Optional<RotatingConfig> rotating;
     /** HotFireBall configuration. */
     private final Optional<HotFireBallConfig> hotFireBall;
+    /** Geyser configuration. */
+    private final Optional<GeyzerConfig> geyzer;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -120,6 +123,7 @@ public final class EntityConfig
         canon = root.getChildOptional(CanonConfig.NODE_CANON).map(CanonConfig::imports);
         rotating = root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports);
         hotFireBall = root.getChildOptional(HotFireBallConfig.NODE_HOTFIREBALL).map(HotFireBallConfig::imports);
+        geyzer = root.getChildOptional(GeyzerConfig.NODE_GEYZER).map(GeyzerConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -237,6 +241,16 @@ public final class EntityConfig
     public Optional<HotFireBallConfig> getHotFireBall()
     {
         return hotFireBall;
+    }
+
+    /**
+     * Get the geyzer configuration.
+     * 
+     * @return The geyzer configuration.
+     */
+    public Optional<GeyzerConfig> getGeyzer()
+    {
+        return geyzer;
     }
 
     /**
