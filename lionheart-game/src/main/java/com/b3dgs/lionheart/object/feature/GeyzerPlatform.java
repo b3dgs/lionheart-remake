@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -42,6 +43,8 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class GeyzerPlatform extends FeatureModel implements Routine, CollidableListener
 {
+    private final Viewer viewer = services.get(Viewer.class);
+
     private boolean collide;
     private boolean played;
 
@@ -74,7 +77,10 @@ public final class GeyzerPlatform extends FeatureModel implements Routine, Colli
     {
         if (!played && !collide && transformable.getY() > transformable.getOldY())
         {
-            Sfx.SCENERY_GEYZERPLATFORM.play();
+            if (viewer.isViewable(transformable, 0, 0))
+            {
+                Sfx.SCENERY_GEYZERPLATFORM.play();
+            }
             played = true;
         }
         collide = false;

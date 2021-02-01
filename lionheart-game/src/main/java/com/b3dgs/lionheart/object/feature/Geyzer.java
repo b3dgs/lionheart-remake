@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -54,6 +55,7 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
     private final Tick tick = new Tick();
     private final List<Transformable> bottom = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
+    private final Viewer viewer = services.get(Viewer.class);
 
     private GeyzerConfig config;
     private int phase;
@@ -86,7 +88,7 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
         bottom.add(spawner.spawn(Medias.create(Folder.SCENERIES, "lava", "GeyzerCalc.xml"), transformable)
                           .getFeature(Transformable.class));
 
-        for (int i = 0; i < config.getHeight() / transformable.getHeight(); i++)
+        for (int i = 0; i < Math.ceil(config.getHeight() / (double) transformable.getHeight()); i++)
         {
             final Featurable featurable = spawner.spawn(Medias.create(Folder.SCENERIES, "lava", "GeyzerBottom.xml"),
                                                         transformable);
@@ -109,7 +111,10 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
             if (phase == 0 && tick.elapsed(config.getDelayStart()))
             {
                 phase = 1;
-                Sfx.SCENERY_GEYZER.play();
+                if (viewer.isViewable(transformable, 0, 0))
+                {
+                    Sfx.SCENERY_GEYZER.play();
+                }
                 tick.restart();
             }
             else if (phase == 1 && tick.elapsed(config.getDelayDown()))

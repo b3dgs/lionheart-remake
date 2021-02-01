@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -26,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
@@ -41,12 +43,14 @@ public final class HotFireBall extends FeatureModel implements Routine, Recyclab
 {
     private final Tick tick = new Tick();
     private final Tick series = new Tick();
+    private final Viewer viewer = services.get(Viewer.class);
 
     private HotFireBallConfig config;
     private int current;
 
     @FeatureGet private Launcher launcher;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.
@@ -84,12 +88,12 @@ public final class HotFireBall extends FeatureModel implements Routine, Recyclab
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(config.getDelay()))
+        if (config != null && tick.elapsed(config.getDelay()))
         {
             series.update(extrp);
-            if (series.elapsed(4))
+            if (series.elapsed(6))
             {
-                if (current == 0)
+                if (current == 0 && viewer.isViewable(transformable, 0, 0))
                 {
                     Sfx.SCENERY_HOTFIREBALL.play();
                 }
