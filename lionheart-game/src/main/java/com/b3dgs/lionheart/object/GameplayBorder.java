@@ -89,19 +89,19 @@ public final class GameplayBorder implements TileCollidableListener, CollidableL
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
         final String name = category.getName();
-        if (CollisionName.LEG_CENTER.equals(name))
+        if (name.startsWith(CollisionName.LEG_CENTER))
         {
             legLeftGround = true;
             legRightGround = true;
         }
-        if (CollisionName.LEG_LEFT.equals(name)
+        if (name.startsWith(CollisionName.LEG_LEFT)
             && (result.startWithY(CollisionName.SLOPE)
                 && map.getTile(result.getTile().getInTileX() + 1, result.getTile().getInTileY()) == null
                 || result.startWithY(CollisionName.GROUND)))
         {
             legLeftGround = true;
         }
-        if (CollisionName.LEG_RIGHT.equals(name)
+        if (name.startsWith(CollisionName.LEG_RIGHT)
             && (result.startWithY(CollisionName.SLOPE)
                 && map.getTile(result.getTile().getInTileX() - 1, result.getTile().getInTileY()) == null
                 || result.startWithY(CollisionName.GROUND)))
@@ -114,11 +114,11 @@ public final class GameplayBorder implements TileCollidableListener, CollidableL
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         final String name = with.getName();
-        if (CollisionName.LEG_LEFT.equals(name))
+        if (name.startsWith(CollisionName.LEG_LEFT))
         {
             legLeftGround = true;
         }
-        if (CollisionName.LEG_RIGHT.equals(name))
+        if (name.startsWith(CollisionName.LEG_RIGHT))
         {
             legRightGround = true;
         }
