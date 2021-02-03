@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BossLava</lionengine:feature>
+    </lionengine:features>
+    <lionengine:size width="48" height="64"/>
+    <lionengine:animations>
+        <lionengine:animation name="rise" start="1" end="27" speed="0.6" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="28" end="47" speed="0.8" reversed="false" repeat="true"/>
+        <lionengine:animation name="walk" start="48" end="79" speed="0.8" reversed="false" repeat="true"/>
+        <lionengine:animation name="preparejump" start="80" end="105" speed="0.7" reversed="false" repeat="false"/>
+        <lionengine:animation name="jump" start="106" end="118" speed="0.5" reversed="false" repeat="false"/>
+        <lionengine:animation name="land" start="119" end="135" speed="0.5" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:body gravity="1.4" gravityMax="4.0"/>
+</lionengine:featurable>

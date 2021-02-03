@@ -279,11 +279,18 @@ final class World extends WorldHelper
             @Override
             public void notifyReachedBoss()
             {
-                camera.setLimitLeft((int) camera.getX());
-                spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"),
-                      player.getFeature(Transformable.class).getX(),
-                      -100.0);
-                trackerY = 1.0;
+                // TODO Swamp
+                // camera.setLimitLeft((int) camera.getX());
+                // spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"),
+                // player.getFeature(Transformable.class).getX(),
+                // -100.0);
+                // trackerY = 1.0;
+
+                // TODO Lava
+                spawn(Medias.create(Folder.BOSS, "lava", "Boss3.xml"),
+                      860 * map.getTileWidth(),
+                      3 * map.getTileHeight());
+
                 initMusic(Music.BOSS.get());
             }
         });

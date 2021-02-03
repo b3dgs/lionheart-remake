@@ -103,7 +103,11 @@ public enum Sfx
     /** Boss 1 bowl. */
     BOSS1_BOWL,
     /** Boss 2. */
-    BOSS2;
+    BOSS2,
+    /** Boss 3 jump. */
+    BOSS3_JUMP,
+    /** Boss 3 hurt. */
+    BOSS3_HURT;
 
     private static boolean cached;
 
