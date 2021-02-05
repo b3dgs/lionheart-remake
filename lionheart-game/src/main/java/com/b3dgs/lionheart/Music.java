@@ -44,7 +44,9 @@ public enum Music
     /** Ancient Town music. */
     ANCIENT_TOWN,
     /** Lava music. */
-    LAVA;
+    LAVA,
+    /** Secret music. */
+    SECRET;
 
     /** The associated media. */
     private final Media media;
