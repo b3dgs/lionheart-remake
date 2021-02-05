@@ -42,7 +42,9 @@ public enum WorldType
     /** Ancient town world. */
     ANCIENT_TOWN(Music.ANCIENT_TOWN),
     /** Lava world. */
-    LAVA(Music.LAVA);
+    LAVA(Music.LAVA),
+    /** Secret world. */
+    SECRET(Music.SECRET);
 
     /**
      * Load type from its saved format.

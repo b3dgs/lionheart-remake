@@ -41,6 +41,8 @@ public enum BackgroundType
     ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day"),
     /** Lava. */
     LAVA(WorldType.LAVA, "lava"),
+    /** Secret. */
+    SECRET(WorldType.SECRET, "secret"),
     /** None. */
     NONE(null, null);
 

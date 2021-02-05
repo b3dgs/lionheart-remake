@@ -102,6 +102,9 @@ public final class FactoryLandscape
             case LAVA:
                 background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
+            case SECRET:
+                background = new Secret(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             default:
                 throw new LionEngineException(backgroundType);
         }
