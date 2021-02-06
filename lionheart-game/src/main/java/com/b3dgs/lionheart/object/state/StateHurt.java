@@ -57,8 +57,7 @@ public final class StateHurt extends State
         super(model, animation);
 
         addTransition(StateLast.class, () -> !hurtable.isHurting() && !model.hasFeature(Patrol.class));
-        addTransition(StatePatrol.class,
-                      () -> !hurtable.isHurting() && collideY.get() && model.hasFeature(Patrol.class));
+        addTransition(StatePatrol.class, () -> !hurtable.isHurting() && model.hasFeature(Patrol.class));
 
         updateFlicker = extrp ->
         {

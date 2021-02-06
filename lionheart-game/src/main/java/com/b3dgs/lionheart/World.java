@@ -294,7 +294,14 @@ final class World extends WorldHelper
                 initMusic(Music.BOSS.get());
             }
         });
-        stage.getRasterFolder().ifPresent(r -> spawner.setRaster(Medias.create(r, Constant.RASTER_FILE_TILE)));
+        stage.getRasterFolder().ifPresent(r ->
+        {
+            final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
+            if (rasterMedia.exists())
+            {
+                spawner.setRaster(rasterMedia);
+            }
+        });
 
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));

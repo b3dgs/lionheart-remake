@@ -91,7 +91,8 @@ public final class Canon2 extends FeatureModel implements Routine, Recyclable
 
         launcher.addListener(l ->
         {
-            l.ifIs(Rasterable.class, r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight()));
+            l.ifIs(Rasterable.class,
+                   r -> rasterable.getMedia().ifPresent(m -> r.setRaster(true, m, map.getTileHeight())));
 
             final Force direction = l.getDirection();
             final double vx = direction.getDirectionHorizontal() * config.getVx();

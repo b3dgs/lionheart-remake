@@ -16,13 +16,16 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -43,6 +46,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 
@@ -59,6 +63,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
 
     private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
+    private final Animation idle;
     private final Sfx sfx;
 
     private Rasterable rasterable;
@@ -70,6 +75,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     @FeatureGet private Launchable launchable;
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Animatable animatable;
     @FeatureGet private EntityModel model;
 
     /**
@@ -83,6 +89,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     {
         super(services, setup);
 
+        idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
         sfx = Sfx.valueOf(setup.getString(ATT_SFX, NODE));
     }
 
@@ -116,17 +123,30 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
                 tileCollidable.apply(result);
                 transformable.teleportY(transformable.getY() + 1.0);
 
+                int sideX;
+                if (result.contains(CollisionName.LEFT))
+                {
+                    sideX = -1;
+                }
+                else if (result.contains(CollisionName.RIGHT))
+                {
+                    sideX = 1;
+                }
+                else
+                {
+                    sideX = 0;
+                }
                 if (result.containsY(CollisionName.SLOPE))
                 {
                     bounceX += 0.35;
-                    jump.setDestination(bounceX, 0.0);
+                    jump.setDestination(bounceX * sideX, 0.0);
                 }
                 if (result.containsY(CollisionName.INCLINE))
                 {
                     bounceX += 0.5;
-                    jump.setDestination(bounceX, 0.0);
+                    jump.setDestination(bounceX * sideX, 0.0);
                 }
-                jump.setDirection(bounceX, bounce);
+                jump.setDirection(bounceX * sideX, bounce);
             }
         }
         else if (category.getName().startsWith(CollisionName.KNEE))
@@ -196,6 +216,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     @Override
     public void recycle()
     {
+        animatable.play(idle);
         tick.restart();
         tick.set(10);
         bounceX = 0.0;
