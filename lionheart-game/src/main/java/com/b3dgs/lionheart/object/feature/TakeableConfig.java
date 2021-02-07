@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -43,6 +45,8 @@ public final class TakeableConfig
     private static final String ATT_LIFE = "life";
     /** Sword attribute name. */
     private static final String ATT_SWORD = "sword";
+    /** Amulet attribute name. */
+    private static final String ATT_AMULET = "amulet";
 
     /**
      * Imports from configurer.
@@ -61,8 +65,9 @@ public final class TakeableConfig
         final int talisment = configurer.getIntegerDefault(0, ATT_TALISMENT, NODE_TAKEABLE);
         final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_TAKEABLE);
         final int sword = configurer.getIntegerDefault(0, ATT_SWORD, NODE_TAKEABLE);
+        final boolean amulet = configurer.getBooleanDefault(false, ATT_AMULET, NODE_TAKEABLE);
 
-        return new TakeableConfig(effect, sfx, health, talisment, life, sword);
+        return new TakeableConfig(effect, sfx, health, talisment, life, sword, amulet);
     }
 
     /** Effect media. */
@@ -77,6 +82,8 @@ public final class TakeableConfig
     private final int life;
     /** Sword modifier. */
     private final int sword;
+    /** Amulet flag. */
+    private final boolean amulet;
 
     /**
      * Create config.
@@ -87,8 +94,9 @@ public final class TakeableConfig
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
      * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
+     * @param amulet The amulet flag.
      */
-    private TakeableConfig(Media effect, String sfx, int health, int talisment, int life, int sword)
+    private TakeableConfig(Media effect, String sfx, int health, int talisment, int life, int sword, boolean amulet)
     {
         super();
 
@@ -105,11 +113,12 @@ public final class TakeableConfig
         Check.inferiorOrEqual(sword, Constant.STATS_MAX_SWORD);
 
         this.effect = effect;
-        this.sfx = Sfx.valueOf(sfx);
+        this.sfx = Optional.ofNullable(sfx).map(Sfx::valueOf).orElse(null);
         this.health = health < 0 ? Integer.MAX_VALUE : health;
         this.talisment = talisment;
         this.life = life;
         this.sword = sword;
+        this.amulet = amulet;
     }
 
     /**
@@ -170,5 +179,15 @@ public final class TakeableConfig
     public int getSword()
     {
         return sword;
+    }
+
+    /**
+     * Check if is amulet.
+     * 
+     * @return <code>true</code> if amulet, <code>false</code> else.
+     */
+    public boolean isAmulet()
+    {
+        return amulet;
     }
 }

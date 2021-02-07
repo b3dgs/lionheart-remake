@@ -30,6 +30,9 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 
@@ -44,6 +47,10 @@ import com.b3dgs.lionheart.constant.CollisionName;
 @FeatureInterface
 public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
+    private static final int AMULET_TICK = 520;
+
+    private final MusicPlayer player = services.get(MusicPlayer.class);
+    private final LoadNextStage stageLoader = services.get(LoadNextStage.class);
     private final CollidableListener take;
 
     private CollidableListener current;
@@ -69,8 +76,16 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
         {
             if (with.getName().startsWith(CollisionName.TAKE) && by.getName().startsWith(CollisionName.BODY))
             {
-                config.getSfx().play();
-                collidable.getFeature(Stats.class).apply(config);
+                if (config.isAmulet())
+                {
+                    player.playMusic(Music.SECRET_WIN);
+                    stageLoader.loadNextStage(AMULET_TICK);
+                }
+                else
+                {
+                    config.getSfx().play();
+                    collidable.getFeature(Stats.class).apply(config);
+                }
                 spawner.spawn(config.getEffect(), transformable);
                 identifiable.destroy();
                 current = CollidableListenerVoid.getInstance();

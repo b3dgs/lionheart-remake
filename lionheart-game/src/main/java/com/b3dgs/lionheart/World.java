@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -36,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
@@ -67,21 +69,25 @@ import com.b3dgs.lionheart.object.feature.Rotating;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
  * World game representation.
  */
-final class World extends WorldHelper
+final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final Checkpoint checkpoint = services.create(Checkpoint.class);
     private final Hud hud = new Hud(services);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
+    private final Tick tick = new Tick();
 
     private Landscape landscape;
     private Audio audio;
     private int trackerInitY;
     private double trackerY;
+    private StageConfig stage;
+    private StateHandler player;
 
     /**
      * Create the world.
@@ -93,6 +99,8 @@ final class World extends WorldHelper
     {
         super(services);
 
+        services.add((MusicPlayer) this::playMusic);
+        services.add(tick);
         map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
@@ -164,11 +172,12 @@ final class World extends WorldHelper
      */
     private Featurable createPlayer(Coord start)
     {
-        final Featurable player = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), start);
-        hud.setFeaturable(player);
-        services.add(player.getFeature(SwordShade.class));
-        trackPlayer(player);
-        return player;
+        final Featurable featurable = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), start);
+        player = featurable.getFeature(StateHandler.class);
+        hud.setFeaturable(featurable);
+        services.add(featurable.getFeature(SwordShade.class));
+        trackPlayer(featurable);
+        return featurable;
     }
 
     /**
@@ -224,11 +233,99 @@ final class World extends WorldHelper
     }
 
     /**
-     * Init music volume and play.
+     * Load the stage from configuration.
      * 
-     * @param media The music file.
+     * @param config The stage configuration.
      */
-    private void initMusic(Media media)
+    public void load(Media config)
+    {
+        Sfx.cacheStart();
+
+        stage = services.add(StageConfig.imports(new Configurer(config)));
+
+        loadMap(stage);
+
+        final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
+        landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
+
+        final Coord start = stage.getStart();
+        final Featurable player = createPlayer(new Coord(start.getX() * map.getTileWidth(),
+                                                         start.getY() * map.getTileHeight()));
+        checkpoint.load(stage, player);
+
+        final String theme = stage.getBackground().getWorld().getFolder();
+        checkpoint.addListener(new CheckpointListener()
+        {
+            @Override
+            public void notifyReachedEnd()
+            {
+                loadNextStage();
+            }
+
+            @Override
+            public void notifyReachedBoss()
+            {
+                // TODO Swamp
+                // camera.setLimitLeft((int) camera.getX());
+                // spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"),
+                // player.getFeature(Transformable.class).getX(),
+                // -100.0);
+                // trackerY = 1.0;
+
+                // TODO Lava
+                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), 860 * map.getTileWidth(), 3 * map.getTileHeight());
+
+                playMusic(Music.BOSS);
+            }
+        });
+        stage.getRasterFolder().ifPresent(r ->
+        {
+            final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
+            if (rasterMedia.exists())
+            {
+                spawner.setRaster(rasterMedia);
+            }
+        });
+
+        final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
+        stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
+
+        factory.createCache(spawner, Medias.create(Folder.EFFECTS, theme), 4);
+        factory.createCache(spawner, Medias.create(Folder.PROJECTILES, theme), 6);
+
+        hud.load();
+        handler.updateRemove();
+        handler.updateAdd();
+
+        Sfx.cacheEnd();
+        playMusic(stage.getMusic());
+
+        System.gc();
+
+        tick.restart();
+    }
+
+    @Override
+    public void loadNextStage(int tickDelay)
+    {
+        if (tickDelay > 0)
+        {
+            player.changeState(StateWin.class);
+            tick.addAction(() ->
+            {
+                audio.stop();
+                sequencer.end(SceneBlack.class, stage.getNextStage());
+            }, tickDelay);
+        }
+        else
+        {
+            audio.stop();
+            sequencer.end(SceneBlack.class, stage.getNextStage());
+        }
+    }
+
+    @Override
+    public void playMusic(Media media)
     {
         if (audio != null)
         {
@@ -247,81 +344,10 @@ final class World extends WorldHelper
         }
     }
 
-    /**
-     * Load the stage from configuration.
-     * 
-     * @param config The stage configuration.
-     */
-    public void load(Media config)
-    {
-        Sfx.cacheStart();
-
-        final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
-
-        loadMap(stage);
-
-        final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
-        landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
-
-        final Coord start = stage.getStart();
-        final Featurable player = createPlayer(new Coord(start.getX() * map.getTileWidth(),
-                                                         start.getY() * map.getTileHeight()));
-        checkpoint.load(stage, player);
-        checkpoint.addListener(new CheckpointListener()
-        {
-            @Override
-            public void notifyReachedEnd()
-            {
-                audio.stop();
-                sequencer.end(SceneBlack.class, stage.getNextStage());
-            }
-
-            @Override
-            public void notifyReachedBoss()
-            {
-                // TODO Swamp
-                // camera.setLimitLeft((int) camera.getX());
-                // spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"),
-                // player.getFeature(Transformable.class).getX(),
-                // -100.0);
-                // trackerY = 1.0;
-
-                // TODO Lava
-                spawn(Medias.create(Folder.BOSS, "lava", "Boss3.xml"),
-                      860 * map.getTileWidth(),
-                      3 * map.getTileHeight());
-
-                initMusic(Music.BOSS.get());
-            }
-        });
-        stage.getRasterFolder().ifPresent(r ->
-        {
-            final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
-            if (rasterMedia.exists())
-            {
-                spawner.setRaster(rasterMedia);
-            }
-        });
-
-        final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
-        stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
-
-        factory.createCache(spawner, Medias.create(Folder.EFFECTS, "lava"), 4);
-        factory.createCache(spawner, Medias.create(Folder.PROJECTILES, "lava"), 6);
-
-        hud.load();
-        handler.updateRemove();
-        handler.updateAdd();
-
-        Sfx.cacheEnd();
-        initMusic(stage.getMusic());
-
-        System.gc();
-    }
-
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         pointer.update(extrp);
         super.update(extrp);
         checkpoint.update(extrp);

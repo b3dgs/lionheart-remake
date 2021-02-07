@@ -46,7 +46,9 @@ public enum Music
     /** Lava music. */
     LAVA,
     /** Secret music. */
-    SECRET;
+    SECRET,
+    /** Secret amulet. */
+    SECRET_WIN;
 
     /** The associated media. */
     private final Media media;

@@ -86,6 +86,7 @@
         <lionengine:animation name="bitten" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="die" start="67" end="69" speed="0.125" reversed="false" repeat="false"/>
         <lionengine:animation name="dead" start="70" end="71" speed="0.15" reversed="false" repeat="true"/>
+        <lionengine:animation name="win" start="153" end="153" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="prepareattack" start="83" end="83" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
@@ -242,12 +243,14 @@
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="hand_center" axis="Y" x="0" y="43" glue="true">
+        <lionengine:category name="hand_liana" axis="Y" x="0" y="55" glue="true">
             <lionengine:group>liana_left</lionengine:group>
             <lionengine:group>liana_right</lionengine:group>
             <lionengine:group>liana_slope_0_right</lionengine:group>
             <lionengine:group>liana_slope_1_right</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="hand_grip" axis="Y" x="0" y="43" glue="true">
             <lionengine:group>grip</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_x_left" axis="X" x="-6" y="4">
