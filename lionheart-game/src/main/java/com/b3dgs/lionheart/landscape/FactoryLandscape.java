@@ -71,6 +71,10 @@ public final class FactoryLandscape
         {
             foreground = new ForegroundVoid();
         }
+        else if (ForegroundType.AIRSHIP == foregroundType)
+        {
+            foreground = new ForegroundAirship(services, source, foregroundType.getTheme(), foregroundConfig);
+        }
         else
         {
             foreground = new ForegroundWater(services, source, foregroundType.getTheme(), foregroundConfig);
@@ -104,6 +108,9 @@ public final class FactoryLandscape
                 break;
             case SECRET:
                 background = new Secret(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
+            case AIRSHIP:
+                background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             default:
                 throw new LionEngineException(backgroundType);

@@ -43,6 +43,8 @@ public enum BackgroundType
     LAVA(WorldType.LAVA, "lava"),
     /** Secret. */
     SECRET(WorldType.SECRET, "secret"),
+    /** Airship. */
+    AIRSHIP(WorldType.AIRSHIP, "airship"),
     /** None. */
     NONE(null, null);
 

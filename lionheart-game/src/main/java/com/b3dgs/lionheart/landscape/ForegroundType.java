@@ -25,6 +25,8 @@ public enum ForegroundType
     WATER("water"),
     /** Lava. */
     LAVA("lava"),
+    /** Airship. */
+    AIRSHIP("airship"),
     /** None. */
     NONE(null);
 

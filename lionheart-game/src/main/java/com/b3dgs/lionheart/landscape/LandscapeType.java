@@ -45,7 +45,9 @@ public enum LandscapeType
     /** Lava. */
     LAVA(WorldType.LAVA, "lava", "raster.xml", ForegroundType.LAVA),
     /** Secret. */
-    SECRET(WorldType.SECRET, "secret", "raster.xml", ForegroundType.WATER);
+    SECRET(WorldType.SECRET, "secret", "raster.xml", ForegroundType.WATER),
+    /** Airship. */
+    AIRSHIP(WorldType.AIRSHIP, "airship", "raster.xml", ForegroundType.AIRSHIP);
 
     /**
      * Get all landscapes related to the world.

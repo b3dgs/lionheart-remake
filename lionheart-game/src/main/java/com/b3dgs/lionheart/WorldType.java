@@ -44,7 +44,9 @@ public enum WorldType
     /** Lava world. */
     LAVA(Music.LAVA),
     /** Secret world. */
-    SECRET(Music.SECRET);
+    SECRET(Music.SECRET),
+    /** Airship world. */
+    AIRSHIP(Music.AIRSHIP);
 
     /**
      * Load type from its saved format.
