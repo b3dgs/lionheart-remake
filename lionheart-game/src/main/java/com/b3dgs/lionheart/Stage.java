@@ -45,7 +45,9 @@ public enum Stage
     /** Lava stage. */
     STAGE_9("stage9"),
     /** Secret stage. */
-    STAGE_10("stage10");
+    STAGE_10("stage10"),
+    /** Airship stage. */
+    STAGE_11("stage11");
 
     /** Level file. */
     private final Media file;
