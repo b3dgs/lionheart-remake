@@ -35,7 +35,7 @@ import com.b3dgs.lionheart.constant.Folder;
 final class ForegroundAirship extends BackgroundAbstract implements Foreground
 {
     /** Primary. */
-    private final Primary primary;
+    private final Secondary secondary;
     /** Screen width. */
     private int screenWidth;
     /** Screen height. */
@@ -54,16 +54,16 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
         super(theme, 0, 0);
 
         final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUNDS, theme);
-        primary = new Primary(path);
+        secondary = new Secondary(path);
 
         setScreenSize(source.getWidth(), source.getHeight());
-        add(primary);
+        add(secondary);
     }
 
     @Override
     public void renderFront(Graphic g)
     {
-        renderComponent(0, g);
+        renderComponent(1, g);
     }
 
     @Override
@@ -74,9 +74,9 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
     }
 
     /**
-     * First front component.
+     * Second front component.
      */
-    private final class Primary implements BackgroundComponent
+    private final class Secondary implements BackgroundComponent
     {
         /** Water element. */
         private final BackgroundElement foreground1;
@@ -88,7 +88,7 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
          * 
          * @param path The primary surface path.
          */
-        Primary(String path)
+        Secondary(String path)
         {
             super();
 
@@ -106,13 +106,13 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
-            foreground1.setOffsetY(y - 48);
+            foreground1.setOffsetY(y - 49);
             foreground2.setOffsetY(y - 59);
 
             foreground1.setOffsetX(UtilMath.wrapDouble(foreground1.getOffsetX() - 2.8,
                                                        0.0,
                                                        foreground1.getRenderable().getWidth()));
-            foreground2.setOffsetX(UtilMath.wrapDouble(foreground2.getOffsetX() - 3.6,
+            foreground2.setOffsetX(UtilMath.wrapDouble(foreground2.getOffsetX() - 3.75,
                                                        0.0,
                                                        foreground2.getRenderable().getWidth()));
         }

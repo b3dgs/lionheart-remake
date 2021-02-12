@@ -39,7 +39,6 @@ final class Airship extends BackgroundAbstract
 
     private final Backdrop backdrop;
     private final BackdropForest backdropForest;
-    private final BackdropRoad backdropRoad;
     private final Trees trees;
 
     /**
@@ -53,7 +52,7 @@ final class Airship extends BackgroundAbstract
      */
     Airship(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 384);
+        super(theme, 0, 260);
 
         totalHeight = 240;
 
@@ -66,12 +65,10 @@ final class Airship extends BackgroundAbstract
         backdrop = new Backdrop(path, flickering, width);
         trees = new Trees(Medias.create(path, "trees.png"), width, 4);
         backdropForest = new BackdropForest(path, flickering, width);
-        backdropRoad = new BackdropRoad(path, flickering, width);
 
         add(backdrop);
         add(trees);
         add(backdropForest);
-        add(backdropRoad);
     }
 
     /**
@@ -86,7 +83,6 @@ final class Airship extends BackgroundAbstract
         trees.setScreenWidth(width);
         backdrop.setScreenWidth(width);
         backdropForest.setScreenWidth(width);
-        backdropRoad.setScreenWidth(width);
     }
 
     /**
@@ -203,10 +199,10 @@ final class Airship extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
-            backcolorA = createElement(path, "backcolorForest1.png", 0, FOREST_Y + 94);
+            backcolorA = createElement(path, "backcolorForest1.png", 0, FOREST_Y + 100);
             if (flickering)
             {
-                backcolorB = createElement(path, "backcolorForest2.png", 0, FOREST_Y + 94);
+                backcolorB = createElement(path, "backcolorForest2.png", 0, FOREST_Y + 100);
             }
             else
             {
@@ -290,66 +286,6 @@ final class Airship extends BackgroundAbstract
         {
             renderBackdrop(g);
             renderForest(g);
-        }
-    }
-
-    /**
-     * Backdrop represents the back background plus top background elements.
-     */
-    private final class BackdropRoad implements BackgroundComponent
-    {
-        private final BackgroundElement road;
-        private final Sprite roadSprite;
-        private int w;
-        private int screenWidth;
-
-        /**
-         * Constructor.
-         * 
-         * @param path The backdrop path.
-         * @param flickering The flickering flag effect.
-         * @param screenWidth The screen width.
-         */
-        BackdropRoad(String path, boolean flickering, int screenWidth)
-        {
-            super();
-
-            road = createElement(path, "road.png", 0, 0);
-
-            roadSprite = (Sprite) road.getRenderable();
-            this.screenWidth = screenWidth;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) road.getRenderable()).getWidth()) + 1;
-        }
-
-        /**
-         * Called when the resolution changed.
-         * 
-         * @param width The new width.
-         */
-        private void setScreenWidth(int width)
-        {
-            screenWidth = width;
-            w = (int) Math.ceil(screenWidth / (double) roadSprite.getWidth()) + 1;
-        }
-
-        @Override
-        public void update(double extrp, int x, int y, double speed)
-        {
-            road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() + 1.5, 0.0, roadSprite.getWidth()));
-            road.setOffsetY(y + 384);
-        }
-
-        @Override
-        public void render(Graphic g)
-        {
-            final int oy = (int) road.getOffsetY();
-            final int ox = (int) (-road.getOffsetX() + road.getMainX());
-            final int sx = roadSprite.getWidth();
-            for (int j = 0; j < w; j++)
-            {
-                roadSprite.setLocation(ox + sx * j, oy);
-                roadSprite.render(g);
-            }
         }
     }
 }
