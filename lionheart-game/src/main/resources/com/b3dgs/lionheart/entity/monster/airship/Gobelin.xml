@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.GobelinAirship</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Gobelin.png" icon="Gobelin_ico.png"/>
+    <lionengine:frames horizontal="6" vertical="4" offsetY="-2"/>
+    <lionengine:size width="48" height="48"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="attack" start="1" end="12" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="body" offsetX="0" offsetY="0" width="28" height="24" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="leg" axis="Y" x="0" y="0">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:launcher>
+        <lionengine:launchable media="projectile/airship/Baril.xml" ox="0" oy="0">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="3"/>
+    <hurtable fall="true" effect="airship/ExplodeBig"/>
+</lionengine:featurable>
