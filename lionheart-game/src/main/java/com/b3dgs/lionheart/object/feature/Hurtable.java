@@ -58,6 +58,7 @@ import com.b3dgs.lionheart.object.state.StateDie;
 import com.b3dgs.lionheart.object.state.StateGripIdle;
 import com.b3dgs.lionheart.object.state.StateGripSoar;
 import com.b3dgs.lionheart.object.state.StateHurt;
+import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.attack.StateAttackGrip;
 
 /**
@@ -249,7 +250,8 @@ public final class Hurtable extends FeatureModel
                 Sfx.VALDYN_HURT.play();
                 if (!stateHandler.isState(StateGripIdle.class)
                     && !stateHandler.isState(StateGripSoar.class)
-                    && !stateHandler.isState(StateAttackGrip.class))
+                    && !stateHandler.isState(StateAttackGrip.class)
+                    && !stateHandler.isState(StateIdleAnimal.class))
                 {
                     stateHandler.changeState(StateHurt.class);
                 }

@@ -21,7 +21,6 @@ import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
@@ -52,8 +51,10 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 import com.b3dgs.lionheart.object.state.StateHurt;
+import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.StateLianaSlide;
 import com.b3dgs.lionheart.object.state.StateSlide;
+import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
 
 /**
  * Entity model implementation.
@@ -122,12 +123,14 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
         {
             player = shade.get().getFeature(Transformable.class);
 
-            final int sight = source.getWidth() / 2 + map.getTileWidth() * 4;
             final EntityChecker checker = provider.getFeature(EntityChecker.class);
             final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
                                                 .booleanValue();
 
-            checker.setCheckerUpdate(() -> alwaysUpdate || UtilMath.getDistance(player, transformable) < sight);
+            checker.setCheckerUpdate(() -> alwaysUpdate
+                                           || camera.isViewable(transformable,
+                                                                transformable.getWidth(),
+                                                                transformable.getHeight()));
             checker.setCheckerRender(() -> !secret
                                            && camera.isViewable(transformable, 0, transformable.getHeight() * 2));
         }
@@ -168,7 +171,9 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
         if (!hasFeature(Patrol.class)
             && !state.isState(StateHurt.class)
             && !state.isState(StateSlide.class)
-            && !state.isState(StateLianaSlide.class))
+            && !state.isState(StateLianaSlide.class)
+            && !state.isState(StateIdleAnimal.class)
+            && !state.isState(StateAttackAnimal.class))
         {
             if (mirrorable.is(Mirror.NONE) && movement.getDirectionHorizontal() < 0.0)
             {

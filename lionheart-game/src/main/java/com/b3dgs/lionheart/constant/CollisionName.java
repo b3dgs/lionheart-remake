@@ -25,6 +25,8 @@ public final class CollisionName
 {
     /** Collision ground prefix. */
     public static final String GROUND = "ground";
+    /** Collision animal prefix. */
+    public static final String ANIMAL = "animal";
     /** Center collision. */
     public static final String CENTER = "center";
     /** Horizontal collision. */

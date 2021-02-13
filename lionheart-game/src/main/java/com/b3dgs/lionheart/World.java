@@ -58,7 +58,10 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Canon1;
 import com.b3dgs.lionheart.object.feature.Canon2;
+import com.b3dgs.lionheart.object.feature.Canon2Airship;
 import com.b3dgs.lionheart.object.feature.Canon3;
+import com.b3dgs.lionheart.object.feature.Dragon1;
+import com.b3dgs.lionheart.object.feature.Dragon2;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
@@ -104,6 +107,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
+        camera.setShake(0, -16);
     }
 
     /**
@@ -191,6 +195,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
         tracker.setOffset(0, trackerInitY);
         tracker.track(player);
+        services.add(tracker);
     }
 
     /**
@@ -225,6 +230,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             featurable.ifIs(Spider.class, Spider::track);
         }
+        entity.getDragon1().ifPresent(config -> featurable.ifIs(Dragon1.class, dragon1 -> dragon1.load(config)));
+        entity.getDragon2().ifPresent(config -> featurable.ifIs(Dragon2.class, dragon2 -> dragon2.load(config)));
+        entity.getCanon2().ifPresent(config -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(config)));
         stage.getRasterFolder().ifPresent(r ->
         {
             featurable.ifIs(Floater.class, floater -> floater.loadRaster(r));

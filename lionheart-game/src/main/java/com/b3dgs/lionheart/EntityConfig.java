@@ -30,7 +30,10 @@ import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionheart.object.feature.Canon2AirshipConfig;
 import com.b3dgs.lionheart.object.feature.CanonConfig;
+import com.b3dgs.lionheart.object.feature.Dragon1Config;
+import com.b3dgs.lionheart.object.feature.Dragon2Config;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
@@ -89,8 +92,14 @@ public final class EntityConfig
     private final Optional<RotatingConfig> rotating;
     /** HotFireBall configuration. */
     private final Optional<HotFireBallConfig> hotFireBall;
-    /** Geyser configuration. */
+    /** Geyzer configuration. */
     private final Optional<GeyzerConfig> geyzer;
+    /** Dragon1 configuration. */
+    private final Optional<Dragon1Config> dragon1;
+    /** Dragon2 configuration. */
+    private final Optional<Dragon2Config> dragon2;
+    /** Canon2 configuration. */
+    private final Optional<Canon2AirshipConfig> canon2;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -124,6 +133,9 @@ public final class EntityConfig
         rotating = root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports);
         hotFireBall = root.getChildOptional(HotFireBallConfig.NODE_HOTFIREBALL).map(HotFireBallConfig::imports);
         geyzer = root.getChildOptional(GeyzerConfig.NODE_GEYZER).map(GeyzerConfig::imports);
+        dragon1 = root.getChildOptional(Dragon1Config.NODE_DRAGON1).map(Dragon1Config::imports);
+        dragon2 = root.getChildOptional(Dragon2Config.NODE_DRAGON2).map(Dragon2Config::imports);
+        canon2 = root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -251,6 +263,36 @@ public final class EntityConfig
     public Optional<GeyzerConfig> getGeyzer()
     {
         return geyzer;
+    }
+
+    /**
+     * Get the dragon1 configuration.
+     * 
+     * @return The dragon1 configuration.
+     */
+    public Optional<Dragon1Config> getDragon1()
+    {
+        return dragon1;
+    }
+
+    /**
+     * Get the dragon2 configuration.
+     * 
+     * @return The dragon2 configuration.
+     */
+    public Optional<Dragon2Config> getDragon2()
+    {
+        return dragon2;
+    }
+
+    /**
+     * Get the canon2 configuration.
+     * 
+     * @return The canon2 configuration.
+     */
+    public Optional<Canon2AirshipConfig> getCanon2()
+    {
+        return canon2;
     }
 
     /**

@@ -19,6 +19,9 @@
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
             <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1"/>
         </lionengine:animation>
+        <lionengine:animation name="idleanimal" start="4" end="7" speed="0.25" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="2" y="10" width="16" height="38"/>
+        </lionengine:animation>
         <lionengine:animation name="crouch" start="3" end="3" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="34"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
@@ -159,12 +162,14 @@
             <lionengine:collisionFramed number="5" x="15" y="34" width="15" height="32"/>
             <lionengine:collisionFramed number="6" x="15" y="16" width="10" height="17"/>
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1"/>
         </lionengine:animation>
         <lionengine:animation name="attackfall" start="87" end="87" speed="0.125" reversed="false" repeat="true">
             <lionengine:collisionFramed x="-3" y="0" width="10" height="26"/>
             <lionengine:collisionFramed prefix="body" x="0" y="30" width="20" height="25"/>
-            <lionengine:collisionFramed prefix="leg_left" x="-3" y="30" width="1" height="1"/>
-            <lionengine:collisionFramed prefix="leg_right" x="3" y="30" width="1" height="1"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1"/>
         </lionengine:animation>
         <lionengine:animation name="attackslide" start="121" end="125" speed="0.4" reversed="false" repeat="false">
             <lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25"/>
@@ -190,6 +195,12 @@
             <lionengine:collisionFramed number="5" x="25" y="18" width="15" height="16"/>
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="16" height="55"/>
         </lionengine:animation>
+        <lionengine:animation name="attackanimal" start="126" end="129" speed="0.35" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="1" x="-15" y="64" width="12" height="4"/>
+            <lionengine:collisionFramed number="2" x="0" y="50" width="20" height="20"/>
+            <lionengine:collisionFramed number="3" x="20" y="50" width="20" height="16"/>
+            <lionengine:collisionFramed prefix="body" x="2" y="10" width="16" height="38"/>
+        </lionengine:animation>
         <lionengine:animation name="shade_attacktop" start="1" end="3" speed="0.35" reversed="true" repeat="false"/>
         <lionengine:animation name="shade_attackhorizontal" start="10" end="14" speed="0.4" reversed="true" repeat="false"/>
         <lionengine:animation name="shade_attackturning" start="28" end="36" speed="0.35" reversed="false" repeat="false"/>
@@ -198,6 +209,7 @@
         <lionengine:animation name="shade_attackliana" start="39" end="42" speed="0.4" reversed="false" repeat="false"/>
         <lionengine:animation name="shade_attacklianaslide" start="39" end="42" speed="0.4" reversed="false" repeat="false"/>
         <lionengine:animation name="shade_attackgrip" start="15" end="19" speed="0.4" reversed="true" repeat="false"/>
+        <lionengine:animation name="shade_attackanimal" start="26" end="27" speed="0.4" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:categories>
         <lionengine:category name="head_left" axis="Y" x="-6" y="48">
