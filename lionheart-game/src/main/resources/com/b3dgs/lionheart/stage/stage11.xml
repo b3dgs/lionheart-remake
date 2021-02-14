@@ -4,10 +4,11 @@
     <map file="levels/airship/stage11.lvl"/>
     <background type="AIRSHIP"/>
     <foreground type="AIRSHIP"/>
-    <checkpoint startTx="468" startTy="6" endTx="297" endTy="40">
-        <respawn tx="45" ty="4"/>
+    <checkpoint startTx="520" startTy="7" endTx="297" endTy="40">
+        <respawn tx="676" ty="25"/>
     </checkpoint>
     <entities>
+        <entity file="entity/scenery/airship/Road.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/scenery/airship/Animal.xml" tx="12.0" ty="7.0"/>
         <entity file="entity/monster/airship/Dragon2.xml" tx="50.0" ty="11.0">
             <dragon2/>
@@ -52,6 +53,9 @@
             <dragon1 firedCount="6"/>
         </entity>
         <entity file="entity/item/airship/PotionLittle.xml" tx="467.75" ty="10.25"/>
+        <entity file="entity/scenery/airship/Head.xml" tx="566.0" ty="13.0"/>
+        <entity file="entity/scenery/airship/Head.xml" tx="660.0" ty="25.0"/>
+        <entity file="entity/scenery/airship/Head.xml" tx="696.0" ty="56.0"/>
         <entity file="entity/item/airship/PotionBig.xml" tx="742.0" ty="29.0"/>
         <entity file="entity/item/airship/Talisment.xml" tx="587.0" ty="71.0"/>
         <entity file="entity/item/airship/Talisment.xml" tx="588.0" ty="71.0"/>
@@ -94,43 +98,43 @@
         <entity file="entity/monster/airship/Dragon3.xml" tx="638.0" ty="14.0"/>
         <entity file="entity/monster/airship/Dragon3.xml" tx="642.0" ty="14.0"/>
         <entity file="entity/scenery/airship/Rotating.xml" tx="666.0" ty="11.0">
-            <rotating amplitude="70" extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="-0.05"/>
+            <rotating amplitude="90" extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="-0.05"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="677.0" ty="11.0">
-            <rotating amplitude="70" extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="-0.05"/>
+            <rotating amplitude="90" extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/monster/airship/Dragon3.xml" tx="708.0" ty="14.0"/>
         <entity file="entity/scenery/airship/Rotating.xml" tx="751.0" ty="11.0">
-            <rotating amplitude="30" extremity="entity/scenery/airship/Platform2.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="-0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="entity/scenery/airship/Platform2.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="715.0" ty="30.0">
             <rotating amplitude="60" extremity="entity/scenery/airship/Platform1.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
         </entity>
         <entity file="entity/monster/airship/Dragon3.xml" tx="706.0" ty="30.0"/>
         <entity file="entity/scenery/airship/Rotating.xml" tx="680.0" ty="21.0">
-            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="entity/scenery/airship/Platform2.xml" ring="entity/scenery/airship/Ring.xml" length="2" speed="0.05"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="656.0" ty="34.0">
-            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating amplitude="90" extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="651.0" ty="25.0">
-            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="entity/scenery/airship/Platform2.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="634.0" ty="30.0">
-            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="-2.0"/>
         </entity>
         <entity file="entity/monster/airship/Dragon3.xml" tx="592.0" ty="28.0"/>
         <entity file="entity/scenery/airship/Rotating.xml" tx="572.0" ty="57.0">
-            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="5" speed="-3.0"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="605.0" ty="58.0">
-            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-2.5"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="627.0" ty="69.0">
             <rotating amplitude="30" extremity="entity/scenery/airship/Platform2.xml" ring="entity/scenery/airship/Ring.xml" length="3" speed="-0.05"/>
         </entity>
         <entity file="entity/scenery/airship/Rotating.xml" tx="656.0" ty="60.0">
-            <rotating amplitude="90" extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="4" speed="-0.05"/>
+            <rotating extremity="entity/scenery/airship/SpikeBowl.xml" ring="entity/scenery/airship/Ring.xml" length="5" speed="3.5"/>
         </entity>
         <entity file="entity/monster/airship/Gobelin.xml" tx="584.0" ty="14.5"/>
         <entity file="entity/monster/airship/Gobelin.xml" tx="598.0" ty="14.5"/>
@@ -139,20 +143,20 @@
         <entity file="entity/monster/airship/Canon1.xml" tx="656.0" ty="10.0"/>
         <entity file="entity/monster/airship/Canon1.xml" tx="689.0" ty="10.0"/>
         <entity file="entity/monster/airship/Canon2.xml" tx="699.5" ty="10.0">
-            <canon2 fireDelay="50" stayDelay="-1"/>
+            <canon2 fireDelay="120" stayDelay="80"/>
         </entity>
         <entity file="entity/monster/airship/Canon2.xml" tx="722.5" ty="10.0">
-            <canon2 fireDelay="80" stayDelay="70"/>
+            <canon2 fireDelay="120" stayDelay="80"/>
         </entity>
         <entity file="entity/monster/airship/Canon2.xml" tx="729.5" ty="10.0">
-            <canon2 fireDelay="80" stayDelay="70"/>
+            <canon2 fireDelay="100" stayDelay="-1"/>
         </entity>
         <entity file="entity/monster/airship/Canon1.xml" tx="744.0" ty="9.5"/>
         <entity file="entity/monster/airship/Canon1.xml" tx="740.5" ty="26.0"/>
         <entity file="entity/monster/airship/Canon1.xml" tx="716.0" ty="35.0"/>
         <entity file="entity/monster/airship/Canon1.xml" tx="705.0" ty="42.0"/>
         <entity file="entity/monster/airship/Canon2.xml" tx="707.5" ty="42.0">
-            <canon2 fireDelay="80" stayDelay="70"/>
+            <canon2 fireDelay="240" stayDelay="160"/>
         </entity>
         <entity file="entity/monster/airship/Canon1.xml" tx="702.0" ty="35.0"/>
         <entity file="entity/monster/airship/Guard.xml" tx="679.0" ty="22.0"/>
@@ -164,10 +168,13 @@
         <entity file="entity/monster/airship/Canon1.xml" tx="637.0" ty="78.0"/>
         <entity file="entity/item/airship/PotionLittle.xml" tx="632.0" ty="80.0"/>
         <entity file="entity/monster/airship/Canon2.xml" tx="650.5" ty="78.0">
-            <canon2 fireDelay="80" stayDelay="70"/>
+            <canon2 fireDelay="100" stayDelay="90"/>
         </entity>
         <entity file="entity/monster/airship/Canon1.xml" tx="704.0" ty="58.0"/>
         <entity file="entity/monster/airship/Dragon3.xml" tx="710.0" ty="54.0"/>
         <entity file="entity/monster/airship/Guard.xml" tx="721.0" ty="56.0"/>
+        <entity file="entity/scenery/airship/Catapult.xml" tx="736.0" ty="21.0"/>
+        <entity file="entity/scenery/airship/Catapult.xml" tx="583.0" ty="35.0" mirror="true"/>
+        <entity file="entity/scenery/airship/Catapult.xml" tx="660.0" ty="55.0" mirror="true"/>
     </entities>
 </stage>
