@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Guard.png" icon="Guard_ico.png"/>
+    <lionengine:frames horizontal="5" vertical="4"/>
+    <lionengine:size width="80" height="80"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="patrol" start="1" end="8" speed="0.2" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="24" height="60"/>
+            <lionengine:collisionFramed prefix="attack" x="0" y="0" width="24" height="60"/>
+        </lionengine:animation>
+        <lionengine:animation name="hurt" start="19" end="19" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:categories>
+        <lionengine:category name="leg_2_center" axis="Y" x="0" y="-1" glue="true">
+            <lionengine:group>ground15</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:body gravity="1.0" gravityMax="2.5"/>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="6"/>
+    <hurtable frame="19" backward="0.85" effect="airship/ExplodeBig" sfx="MONSTER_EXECUTIONER_HURT"/>
+</lionengine:featurable>
