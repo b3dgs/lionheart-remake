@@ -4,50 +4,72 @@
     <map file="levels/airship/stage11.lvl"/>
     <background type="AIRSHIP"/>
     <foreground type="AIRSHIP"/>
-    <checkpoint startTx="520" startTy="7" endTx="297" endTy="40">
-        <respawn tx="676" ty="25"/>
+    <checkpoint startTx="12" startTy="5">
+        <respawn tx="550" ty="5"/>
+        <respawn tx="732" ty="5"/>
+        <respawn tx="716" ty="37"/>
+        <respawn tx="670" ty="26"/>
+        <respawn tx="603" ty="29"/>
+        <respawn tx="659" ty="69"/>
+        <respawn tx="697" ty="60"/>
     </checkpoint>
     <entities>
         <entity file="entity/scenery/airship/Road.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/scenery/airship/Animal.xml" tx="12.0" ty="7.0"/>
-        <entity file="entity/monster/airship/Dragon2.xml" tx="50.0" ty="11.0">
-            <dragon2/>
+        <entity file="entity/monster/airship/Dragon2.xml" tx="48.0" ty="11.0">
+            <patrol sh="0.2" sv="0.0" delay="80"/>
+            <patrol sh="1.5" sv="0.0" delay="90"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/monster/airship/Dragon1.xml" tx="74.0" ty="10.0">
             <dragon1 firedCount="3"/>
         </entity>
-        <entity file="entity/monster/airship/Dragon2.xml" tx="86.0" ty="7.0">
-            <dragon2/>
+        <entity file="entity/monster/airship/Dragon2.xml" tx="110.0" ty="7.0">
+            <patrol sh="0.2" sv="0.0"/>
         </entity>
         <entity file="entity/item/airship/PotionLittle.xml" tx="90.0" ty="10.0"/>
-        <entity file="entity/monster/airship/Dragon2.xml" tx="109.0" ty="11.0">
-            <dragon2/>
+        <entity file="entity/monster/airship/Dragon2.xml" tx="139.0" ty="11.0">
+            <patrol sh="0.2" sv="0.0" delay="60"/>
+            <patrol sh="1.5" sv="0.0" delay="90"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/monster/airship/Dragon1.xml" tx="169.0" ty="10.0">
             <dragon1 firedCount="5"/>
         </entity>
         <entity file="entity/monster/airship/Dragon2.xml" tx="207.0" ty="10.0">
-            <dragon2/>
+            <patrol sh="0.2" sv="0.0" delay="60"/>
+            <patrol sh="1.5" sv="0.0" delay="480"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/monster/airship/Dragon2.xml" tx="207.0" ty="7.0">
-            <dragon2/>
+            <patrol sh="0.2" sv="0.0" delay="60"/>
+            <patrol sh="1.5" sv="0.0" delay="520"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/item/airship/PotionLittle.xml" tx="276.0" ty="8.5"/>
-        <entity file="entity/monster/airship/Dragon1.xml" tx="288.0" ty="13.0">
+        <entity file="entity/monster/airship/Dragon1.xml" tx="286.0" ty="12.0">
             <dragon1 firedCount="8"/>
         </entity>
         <entity file="entity/monster/airship/Dragon2.xml" tx="333.0" ty="9.0">
-            <dragon2/>
+            <patrol sh="0.2" sv="0.0" delay="36"/>
+            <patrol sh="1.5" sv="0.0" delay="490"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/monster/airship/Dragon2.xml" tx="335.0" ty="9.0">
-            <dragon2/>
+            <patrol sh="0.2" sv="0.0" delay="28"/>
+            <patrol sh="1.5" sv="0.0" delay="493"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/monster/airship/Dragon2.xml" tx="337.0" ty="9.0">
-            <dragon2/>
+            <patrol sh="0.2" sv="0.0" delay="22"/>
+            <patrol sh="1.5" sv="0.0" delay="496"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
-        <entity file="entity/item/airship/PotionLittle.xml" tx="385.0" ty="11.5"/>
+        <entity file="entity/item/airship/PotionLittle.xml" tx="385.0" ty="11.25"/>
         <entity file="entity/monster/airship/Dragon2.xml" tx="420.0" ty="10.0">
-            <dragon2/>
+            <patrol sh="0.2" sv="0.0" delay="120"/>
+            <patrol sh="1.5" sv="0.0" delay="620"/>
+            <patrol sh="0.2" sv="0.0" delay="500"/>
         </entity>
         <entity file="entity/monster/airship/Dragon1.xml" tx="437.0" ty="8.0">
             <dragon1 firedCount="6"/>
