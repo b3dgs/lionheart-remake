@@ -63,7 +63,7 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
     @Override
     public void renderFront(Graphic g)
     {
-        renderComponent(1, g);
+        renderComponent(0, g);
     }
 
     @Override

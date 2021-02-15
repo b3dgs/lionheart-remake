@@ -63,22 +63,25 @@ public final class Road extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 2.1, 0.0, road.getRenderable().getWidth()));
+        road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 2.5, 0.0, road.getRenderable().getWidth()));
     }
 
     @Override
     public void render(Graphic g)
     {
-        final Sprite sprite0 = (Sprite) road.getRenderable();
-        final int w0 = (int) Math.ceil(camera.getWidth() / (double) sprite0.getWidth());
-        final int y0 = (int) (camera.getHeight() + road.getOffsetY());
-        if (y0 >= -sprite0.getHeight() && y0 < camera.getHeight())
+        if (camera.getX() > 8291)
         {
-            for (int j = 0; j <= w0; j++)
+            final Sprite sprite0 = (Sprite) road.getRenderable();
+            final int w0 = (int) Math.ceil(camera.getWidth() / (double) sprite0.getWidth());
+            final int y0 = (int) (camera.getHeight() + road.getOffsetY());
+            if (y0 >= -sprite0.getHeight() && y0 < camera.getHeight())
             {
-                sprite0.setLocation(sprite0.getWidth() * j + road.getOffsetX() - sprite0.getWidth(),
-                                    camera.getViewpointY(y0));
-                sprite0.render(g);
+                for (int j = 0; j <= w0; j++)
+                {
+                    sprite0.setLocation(sprite0.getWidth() * j + road.getOffsetX() - sprite0.getWidth(),
+                                        camera.getViewpointY(y0));
+                    sprite0.render(g);
+                }
             }
         }
     }
