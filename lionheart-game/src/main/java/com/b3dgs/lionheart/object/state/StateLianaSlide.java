@@ -30,6 +30,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackLianaSlide;
  */
 public class StateLianaSlide extends State
 {
+    private static final int FRAME_OFFSET_Y = 7;
     private static final double LIANA_SPEED_FAST = 1.1;
     private static final double LIANA_SPEED_SLOW = 0.6;
     private static final double LIANA_SPEED = 0.8;
@@ -70,7 +71,7 @@ public class StateLianaSlide extends State
         movement.zero();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
-        rasterable.setFrameOffsets(0, 10);
+        rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
     }
 
     @Override

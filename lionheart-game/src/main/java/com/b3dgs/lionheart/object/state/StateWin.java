@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -42,5 +43,6 @@ public final class StateWin extends State
         super.enter();
 
         movement.zero();
+        mirrorable.mirror(Mirror.NONE);
     }
 }

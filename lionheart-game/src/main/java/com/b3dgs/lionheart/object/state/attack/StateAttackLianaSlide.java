@@ -32,6 +32,7 @@ import com.b3dgs.lionheart.object.state.StateLianaSlide;
  */
 public class StateAttackLianaSlide extends State
 {
+    private static final int FRAME_OFFSET_Y = 7;
     private static final double LIANA_SPEED_FAST = 1.2;
     private static final double LIANA_SPEED_SLOW = 0.8;
     private static final double LIANA_SPEED = 1.0;
@@ -73,21 +74,8 @@ public class StateAttackLianaSlide extends State
         movement.zero();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
-    }
 
-    @Override
-    public void exit()
-    {
-        super.exit();
-
-        if (isGoUp())
-        {
-            movement.setDestination(0.0, 0.0);
-        }
-        if (isGoDown())
-        {
-            transformable.teleportY(transformable.getY() - 3.0);
-        }
+        rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
     }
 
     @Override
@@ -108,5 +96,21 @@ public class StateAttackLianaSlide extends State
             speed = LIANA_SPEED;
         }
         movement.setDestination(speed * liana.getSide(), -speed);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        if (isGoUp())
+        {
+            movement.setDestination(0.0, 0.0);
+        }
+        if (isGoDown())
+        {
+            transformable.teleportY(transformable.getY() - 3.0);
+        }
+        rasterable.setFrameOffsets(0, 0);
     }
 }

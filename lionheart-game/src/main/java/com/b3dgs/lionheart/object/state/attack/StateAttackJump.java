@@ -84,14 +84,6 @@ public final class StateAttackJump extends State
     }
 
     @Override
-    public void exit()
-    {
-        super.exit();
-
-        jump.setDirectionMaximum(new Force(0.0, JUMP_MAX));
-    }
-
-    @Override
     public void update(double extrp)
     {
         check.update(extrp);
@@ -111,5 +103,13 @@ public final class StateAttackJump extends State
             movement.setVelocity(0.07);
         }
         movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        jump.setDirectionMaximum(new Force(0.0, JUMP_MAX));
     }
 }
