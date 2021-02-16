@@ -51,6 +51,8 @@ public final class PatrolConfig
     public static final String ATT_PROXIMITY = "proximity";
     /** Vertical animation offset attribute name. */
     public static final String ATT_ANIMOFFSET = "animOffset";
+    /** Patrol delay offset attribute name. */
+    public static final String ATT_DELAY = "delay";
 
     /**
      * Imports the config from configurer.
@@ -101,6 +103,8 @@ public final class PatrolConfig
     private final OptionalInt proximity;
     /** Vertical animation offset. */
     private final OptionalInt animOffset;
+    /** Patrol delay. */
+    private final OptionalInt delay;
 
     /**
      * Create config.
@@ -121,6 +125,7 @@ public final class PatrolConfig
         coll = root.readBooleanOptional(ATT_COLL);
         proximity = root.readIntegerOptional(ATT_PROXIMITY);
         animOffset = root.readIntegerOptional(ATT_ANIMOFFSET);
+        delay = root.readIntegerOptional(ATT_DELAY);
     }
 
     /**
@@ -201,5 +206,15 @@ public final class PatrolConfig
     public OptionalInt getAnimOffset()
     {
         return animOffset;
+    }
+
+    /**
+     * Get the patrol delay.
+     * 
+     * @return The patrol delay.
+     */
+    public OptionalInt getDelay()
+    {
+        return delay;
     }
 }

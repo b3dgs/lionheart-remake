@@ -59,6 +59,8 @@ public final class EntityConfig
     private static final String ATT_MIRROR = "mirror";
     /** Secret attribute name. */
     private static final String ATT_SECRET = "secret";
+    /** End attribute name. */
+    private static final String ATT_END = "end";
 
     /**
      * Imports the config from configurer.
@@ -104,8 +106,10 @@ public final class EntityConfig
     private final int jump;
     /** Mirror configuration. */
     private final Optional<Boolean> mirror;
-    /** secret configuration. */
+    /** Secret configuration. */
     private final Optional<Boolean> secret;
+    /** End configuration. */
+    private final Optional<Boolean> end;
 
     /**
      * Create config.
@@ -139,6 +143,7 @@ public final class EntityConfig
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
+        end = root.readBooleanOptional(ATT_END);
     }
 
     /**
@@ -323,5 +328,15 @@ public final class EntityConfig
     public Optional<Boolean> getSecret()
     {
         return secret;
+    }
+
+    /**
+     * Get the end flag.
+     * 
+     * @return The end flag.
+     */
+    public Optional<Boolean> getEnd()
+    {
+        return end;
     }
 }

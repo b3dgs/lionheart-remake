@@ -5,26 +5,36 @@
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Guard</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Guard.png" icon="Guard_ico.png"/>
-    <lionengine:frames horizontal="5" vertical="4"/>
+    <lionengine:frames horizontal="4" vertical="4"/>
     <lionengine:size width="80" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="patrol" start="1" end="8" speed="0.2" reversed="false" repeat="true">
-            <lionengine:collisionFramed prefix="body" x="0" y="0" width="24" height="60"/>
-            <lionengine:collisionFramed prefix="attack" x="0" y="0" width="24" height="60"/>
+        <lionengine:animation name="guardsalto" start="1" end="7" speed="0.2" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="attack" x="12" y="28" width="32" height="32" mirror="false"/>
         </lionengine:animation>
-        <lionengine:animation name="hurt" start="19" end="19" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="turn" start="8" end="10" speed="0.2" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="12" y="0" width="28" height="60" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="guardattackprepare" start="11" end="11" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="12" y="0" width="28" height="60" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="guardattack" start="12" end="14" speed="0.2" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="attack" x="6" y="40" width="94" height="8" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="hurt" start="15" end="15" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:categories>
         <lionengine:category name="leg_2_center" axis="Y" x="0" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
+    <lionengine:state>com.b3dgs.lionheart.object.state.guard.StateGuardAttackPrepare</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
-    <lionengine:body gravity="1.0" gravityMax="2.5"/>
+    <lionengine:body gravity="1.0" gravityMax="3.5"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="6"/>
-    <hurtable frame="19" backward="0.85" effect="airship/ExplodeBig" sfx="MONSTER_EXECUTIONER_HURT"/>
+    <hurtable frame="16" backward="0.85" effect="airship/ExplodeBig" sfx="MONSTER_EXECUTIONER_HURT"/>
 </lionengine:featurable>

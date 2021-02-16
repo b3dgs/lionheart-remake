@@ -14,32 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.guard;
 
-import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.state.StateLast;
+import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Guard;
-import com.b3dgs.lionheart.object.feature.Patrol;
 
 /**
- * Turn state implementation.
+ * Attack guard state implementation.
  */
-public final class StateTurn extends State
+public final class StateGuardSalto extends State
 {
+    private final Tick tick = new Tick();
+
     /**
      * Create the state.
      * 
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateTurn(EntityModel model, Animation animation)
+    StateGuardSalto(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateLast.class, () -> is(AnimState.FINISHED));
+        addTransition(StateGuardAttackPrepare.class, () -> collideY.get());
     }
 
     @Override
@@ -48,20 +48,31 @@ public final class StateTurn extends State
         super.enter();
 
         movement.zero();
+        movement.setVelocity(1);
+
+        int side;
+        if (mirrorable.getMirror() == Mirror.HORIZONTAL)
+        {
+            side = 1;
+        }
+        else
+        {
+            side = -1;
+        }
+        movement.setDirection(side * 1.0, 0.0);
+        movement.setDestination(side * 1.0, 0.0);
+        jump.setDirection(0.0, 4.0);
+        jump.setDestination(0.0, 0.0);
+        jump.setVelocity(0.05);
+        body.resetGravity();
+        tick.restart();
     }
 
     @Override
-    public void exit()
+    public void update(double extrp)
     {
-        super.exit();
+        super.update(extrp);
 
-        if (model.hasFeature(Patrol.class))
-        {
-            model.getFeature(Patrol.class).applyMirror();
-        }
-        else if (model.hasFeature(Guard.class))
-        {
-            model.getFeature(Guard.class).applyMirror();
-        }
+        tick.update(extrp);
     }
 }

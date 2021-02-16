@@ -20,7 +20,7 @@
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/airship/Laser.xml" ox="0" oy="-80">
+        <lionengine:launchable media="projectile/airship/Laser.xml" sfx="sfx/monster_canonairship2.wav" ox="0" oy="-80">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

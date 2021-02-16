@@ -48,6 +48,7 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.object.feature.Guard;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 import com.b3dgs.lionheart.object.state.StateHurt;
@@ -88,6 +89,7 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private Transformable player;
     private boolean secret;
+    private boolean end;
     private final int frames;
 
     @FeatureGet private Body body;
@@ -162,6 +164,16 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     }
 
     /**
+     * Set the end flag.
+     * 
+     * @param end The end flag.
+     */
+    public void setEnd(boolean end)
+    {
+        this.end = end;
+    }
+
+    /**
      * Update mirror depending of current mirror and movement.
      * 
      * @param extrp The extrapolation value.
@@ -169,6 +181,7 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     private void updateMirror(double extrp)
     {
         if (!hasFeature(Patrol.class)
+            && !hasFeature(Guard.class)
             && !state.isState(StateHurt.class)
             && !state.isState(StateSlide.class)
             && !state.isState(StateLianaSlide.class)
@@ -317,6 +330,16 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     public int getFrames()
     {
         return frames;
+    }
+
+    /**
+     * Check if end.
+     * 
+     * @return The end flag.
+     */
+    public boolean isEnd()
+    {
+        return end;
     }
 
     @Override

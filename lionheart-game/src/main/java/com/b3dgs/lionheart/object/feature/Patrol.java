@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
@@ -67,6 +68,7 @@ public final class Patrol extends FeatureModel
 {
     private final List<PatrolConfig> patrols = new ArrayList<>();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Tick tick = new Tick();
     private final AnimationConfig anim;
 
     private int currentIndex;
@@ -77,6 +79,7 @@ public final class Patrol extends FeatureModel
     private boolean coll;
     private int proximity;
     private int animOffset;
+    private int delay;
     private int skip;
 
     private double startX;
@@ -140,6 +143,7 @@ public final class Patrol extends FeatureModel
      */
     private void loadNextPatrol()
     {
+        tick.stop();
         currentIndex++;
         if (currentIndex >= patrols.size())
         {
@@ -153,6 +157,11 @@ public final class Patrol extends FeatureModel
         config.getOffset().ifPresent(o -> offset = o);
         config.getColl().ifPresent(c -> coll = c.booleanValue());
         config.getAnimOffset().ifPresent(o -> animOffset = o);
+        config.getDelay().ifPresent(o ->
+        {
+            delay = o;
+            tick.start();
+        });
         config.getProximity().ifPresent(p ->
         {
             proximity = p;
@@ -305,6 +314,12 @@ public final class Patrol extends FeatureModel
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
+        if (tick.elapsed(delay))
+        {
+            loadNextPatrol();
+        }
+
         if (first)
         {
             first = false;

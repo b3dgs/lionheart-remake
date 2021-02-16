@@ -16,12 +16,9 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -32,7 +29,6 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -45,15 +41,13 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class Dragon2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRED_DELAY_TICK = 80;
+    private static final int FIRED_DELAY_TICK = 70;
 
     private final Tick tick = new Tick();
-    private final Animation idle;
 
     private Updatable current;
     private Dragon2Config config;
 
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Identifiable identifiable;
@@ -69,8 +63,6 @@ public final class Dragon2 extends FeatureModel implements Routine, Recyclable
     public Dragon2(Services services, Setup setup)
     {
         super(services, setup);
-
-        idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
     }
 
     /**
@@ -101,7 +93,6 @@ public final class Dragon2 extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        transformable.moveLocationX(extrp, 0.7);
         current.update(extrp);
     }
 
@@ -110,7 +101,6 @@ public final class Dragon2 extends FeatureModel implements Routine, Recyclable
     {
         current = this::updateFire;
         config = null;
-        animatable.play(idle);
         tick.restart();
     }
 }

@@ -14,20 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.object.state;
+package com.b3dgs.lionheart.object.state.guard;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.state.StateLast;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Guard;
-import com.b3dgs.lionheart.object.feature.Patrol;
 
 /**
- * Turn state implementation.
+ * Attack guard state implementation.
  */
-public final class StateTurn extends State
+public final class StateGuardAttack extends State
 {
     /**
      * Create the state.
@@ -35,11 +32,11 @@ public final class StateTurn extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateTurn(EntityModel model, Animation animation)
+    StateGuardAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 
-        addTransition(StateLast.class, () -> is(AnimState.FINISHED));
+        addTransition(StateGuardAttackPrepare.class, () -> animatable.is(AnimState.FINISHED));
     }
 
     @Override
@@ -47,21 +44,8 @@ public final class StateTurn extends State
     {
         super.enter();
 
+        jump.zero();
         movement.zero();
-    }
-
-    @Override
-    public void exit()
-    {
-        super.exit();
-
-        if (model.hasFeature(Patrol.class))
-        {
-            model.getFeature(Patrol.class).applyMirror();
-        }
-        else if (model.hasFeature(Guard.class))
-        {
-            model.getFeature(Guard.class).applyMirror();
-        }
+        body.resetGravity();
     }
 }

@@ -107,7 +107,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-        camera.setShake(0, -16);
     }
 
     /**
@@ -209,6 +208,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
+        entity.getEnd().ifPresent(secret -> featurable.getFeature(EntityModel.class).setEnd(true));
         entity.getMirror().ifPresent(mirror -> featurable.getFeature(Mirrorable.class).mirror(Mirror.HORIZONTAL));
         entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
         entity.getCanon().ifPresent(config ->

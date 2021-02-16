@@ -46,8 +46,10 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class Dragon1 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int START_DELAY_TICK = 50;
-    private static final int FIRED_DELAY_TICK = 35;
+    private static final double SPEED_X = 1.2;
+    private static final double SPEED_Y = 0.7;
+    private static final int START_DELAY_TICK = 90;
+    private static final int FIRED_DELAY_TICK = 50;
     private static final int HEIGHT_LIMIT = 400;
 
     private final Tick tick = new Tick();
@@ -134,7 +136,7 @@ public final class Dragon1 extends FeatureModel implements Routine, Recyclable
      */
     private void updateMoveUp(double extrp)
     {
-        transformable.moveLocationY(extrp, 1.0);
+        transformable.moveLocationY(extrp, SPEED_Y);
         if (transformable.getY() > HEIGHT_LIMIT)
         {
             identifiable.destroy();
@@ -144,7 +146,7 @@ public final class Dragon1 extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        transformable.moveLocationX(extrp, 0.7);
+        transformable.moveLocationX(extrp, SPEED_X);
         current.update(extrp);
     }
 

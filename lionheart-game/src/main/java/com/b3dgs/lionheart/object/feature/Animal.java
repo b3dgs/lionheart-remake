@@ -49,6 +49,9 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
 @FeatureInterface
 public final class Animal extends FeatureModel implements Routine, CollidableListener
 {
+    private static final double SPEED_GROUND = 2.5;
+    private static final double SPEED_BOAT = 0.5;
+
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Rasterable playerSprite = player.getFeature(Rasterable.class);
     private final StateHandler playerState = player.getFeature(StateHandler.class);
@@ -56,6 +59,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     private final CameraTracker tracker = services.get(CameraTracker.class);
 
     private int offsetY;
+    private double cameraHeight;
     private boolean on;
 
     @FeatureGet private Transformable transformable;
@@ -107,14 +111,21 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         if (on)
         {
             double speed;
-            if (camera.getX() < 534 * 16)
+            if (camera.getX() < 8544)
             {
-                speed = 2.1;
+                speed = SPEED_GROUND;
+                cameraHeight = -16;
             }
             else
             {
-                speed = 0.5;
+                speed = SPEED_BOAT;
+                cameraHeight += 0.75;
+                if (cameraHeight > 16)
+                {
+                    cameraHeight = 16;
+                }
             }
+            camera.setShake(0, (int) Math.floor(cameraHeight));
             camera.moveLocation(extrp, speed, 0.0);
             camera.setLocation(camera.getX(), player.getY() - 64);
             player.moveLocationX(extrp, speed);

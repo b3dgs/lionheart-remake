@@ -50,6 +50,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -82,6 +83,7 @@ public final class Hurtable extends FeatureModel
     private final Tick flicker = new Tick();
     private final double hurtForceValue;
     private final Spawner spawner = services.get(Spawner.class);
+    private final LoadNextStage stage = services.get(LoadNextStage.class);
     private final Media effect;
     private final OptionalInt frame;
     private final boolean persist;
@@ -346,6 +348,10 @@ public final class Hurtable extends FeatureModel
             {
                 identifiable.destroy();
             }
+        }
+        if (model.isEnd())
+        {
+            stage.loadNextStage(400);
         }
     }
 

@@ -15,7 +15,7 @@
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/airship/Bullet1b.xml" ox="-18" oy="2">
+        <lionengine:launchable media="projectile/airship/Bullet1b.xml" sfx="sfx/scenery_head.wav" ox="-18" oy="2">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
