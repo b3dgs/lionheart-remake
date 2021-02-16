@@ -27,7 +27,7 @@
         <entity file="entity/monster/airship/Dragon2.xml" tx="110.0" ty="7.0">
             <patrol sh="0.2" sv="0.0"/>
         </entity>
-        <entity file="entity/item/airship/PotionLittle.xml" tx="90.0" ty="10.0"/>
+        <entity file="entity/item/airship/PotionLittle.xml" tx="90.0" ty="10.5"/>
         <entity file="entity/monster/airship/Dragon2.xml" tx="139.0" ty="11.0">
             <patrol sh="0.2" sv="0.0" delay="60"/>
             <patrol sh="1.5" sv="0.0" delay="90"/>
@@ -181,7 +181,7 @@
             <canon2 fireDelay="240" stayDelay="160"/>
         </entity>
         <entity file="entity/monster/airship/Canon1.xml" tx="702.0" ty="35.0"/>
-        <entity file="entity/monster/airship/Guard.xml" tx="679.0" ty="22.0"/>
+        <entity file="entity/monster/airship/Guard.xml" tx="683.0" ty="22.0"/>
         <entity file="entity/monster/airship/Canon1.xml" tx="674.0" ty="35.0"/>
         <entity file="entity/monster/airship/Canon1.xml" tx="635.0" ty="33.0"/>
         <entity file="entity/monster/airship/Guard.xml" tx="588.0" ty="36.0"/>
@@ -194,7 +194,7 @@
         </entity>
         <entity file="entity/monster/airship/Canon1.xml" tx="704.0" ty="58.0"/>
         <entity file="entity/monster/airship/Dragon3.xml" tx="710.0" ty="54.0"/>
-        <entity file="entity/monster/airship/Guard.xml" tx="721.0" ty="56.0"/>
+        <entity file="entity/monster/airship/Guard.xml" tx="721.0" ty="56.0" end="true"/>
         <entity file="entity/scenery/airship/Catapult.xml" tx="736.0" ty="21.0"/>
         <entity file="entity/scenery/airship/Catapult.xml" tx="583.0" ty="35.0" mirror="true"/>
         <entity file="entity/scenery/airship/Catapult.xml" tx="660.0" ty="55.0" mirror="true"/>
