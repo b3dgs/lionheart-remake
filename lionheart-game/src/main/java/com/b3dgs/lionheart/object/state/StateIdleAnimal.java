@@ -37,8 +37,8 @@ public final class StateIdleAnimal extends State
     {
         super(model, animation);
 
-        addTransition(StateJump.class, () -> isGoUpOnce());
-        addTransition(StateAttackAnimal.class, () -> isFire());
+        addTransition(StateJump.class, this::isGoUpOnce);
+        addTransition(StateAttackAnimal.class, this::isFire);
     }
 
     @Override

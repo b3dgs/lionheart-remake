@@ -10,15 +10,15 @@
     </lionengine:features>
     <lionengine:surface image="Dragon2.png" icon="Dragon2_ico.png"/>
     <lionengine:frames horizontal="7" vertical="4"/>
-    <lionengine:size width="16" height="48"/>
+    <lionengine:size width="16" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="patrol" start="1" end="14" speed="0.3" reversed="false" repeat="true"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="attack" offsetX="0" offsetY="2" width="28" height="64" mirror="false"/>
-        <lionengine:collision name="body" offsetX="0" offsetY="2" width="28" height="64" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="0" offsetY="20" width="12" height="24" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="20" width="12" height="24" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>

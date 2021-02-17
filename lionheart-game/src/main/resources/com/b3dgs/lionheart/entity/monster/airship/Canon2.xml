@@ -16,7 +16,7 @@
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="body" offsetX="0" offsetY="0" width="28" height="24" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="10" width="20" height="20" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>

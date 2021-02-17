@@ -12,12 +12,13 @@
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="9" speed="1.0" reversed="false" repeat="false">
-            <lionengine:collisionFramed prefix="body" x="0" y="0" width="28" height="24"/>
-        </lionengine:animation>
+        <lionengine:animation name="idle" start="1" end="9" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="decay" start="10" end="10" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="body" offsetX="0" offsetY="10" width="28" height="16" mirror="false"/>
+    </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Bullet2.xml" sfx="sfx/monster_canonairship1.wav" ox="0" oy="4">

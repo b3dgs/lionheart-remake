@@ -130,10 +130,19 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             camera.setLocation(camera.getX(), player.getY() - 64);
             player.moveLocationX(extrp, speed);
 
+            if (player.getX() < camera.getX() + transformable.getWidth() / 2)
+            {
+                player.teleportX(camera.getX() + transformable.getWidth() / 2);
+            }
+            else if (player.getX() > camera.getX() + camera.getWidth() - transformable.getWidth())
+            {
+                player.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth());
+            }
+
             if (playerState.isState(StateIdleAnimal.class) || playerState.isState(StateAttackAnimal.class))
             {
                 final int frame = animatable.getFrame();
-                if (frame == 1 || frame == 8)
+                if (frame == 1 || frame == 4 || frame == 8)
                 {
                     offsetY = -1;
                 }
@@ -145,19 +154,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
                 {
                     offsetY = -3;
                 }
-                else if (frame == 4)
-                {
-                    offsetY = -1;
-                }
-                else if (frame == 5 || frame == 12)
-                {
-                    offsetY = 1;
-                }
-                else if (frame == 6 || frame == 13)
-                {
-                    offsetY = 1;
-                }
-                else if (frame == 7 || frame == 14)
+                else if (frame >= 5 && frame <= 7 || frame >= 12 && frame <= 14)
                 {
                     offsetY = 1;
                 }
@@ -168,6 +165,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
                 playerSprite.setFrameOffsets(0, offsetY);
             }
         }
+
         transformable.setLocationX(player.getX());
     }
 

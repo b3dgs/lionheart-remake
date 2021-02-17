@@ -13,7 +13,7 @@
         <lionengine:animation name="idle" start="1" end="14" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="animal" offsetX="0" offsetY="28" width="16" height="1" mirror="false"/>
+        <lionengine:collision name="animal" offsetX="2" offsetY="28" width="16" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="2" layerDisplay="8"/>
