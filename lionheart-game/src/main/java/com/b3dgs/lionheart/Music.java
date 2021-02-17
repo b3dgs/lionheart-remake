@@ -50,7 +50,9 @@ public enum Music
     /** Secret amulet. */
     SECRET_WIN,
     /** Airship music. */
-    AIRSHIP;
+    AIRSHIP,
+    /** Dragonfly music. */
+    DRAGONFLY;
 
     /** The associated media. */
     private final Media media;
