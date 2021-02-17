@@ -47,7 +47,9 @@ public enum LandscapeType
     /** Secret. */
     SECRET(WorldType.SECRET, "secret", "raster.xml", ForegroundType.WATER),
     /** Airship. */
-    AIRSHIP(WorldType.AIRSHIP, "airship", "raster.xml", ForegroundType.AIRSHIP);
+    AIRSHIP(WorldType.AIRSHIP, "airship", "raster.xml", ForegroundType.AIRSHIP),
+    /** Dragonfly. */
+    DRAGONFLY(WorldType.DRAGONFLY, "dragonfly", "raster.xml", ForegroundType.NONE);
 
     /**
      * Get all landscapes related to the world.

@@ -45,6 +45,8 @@ public enum BackgroundType
     SECRET(WorldType.SECRET, "secret"),
     /** Airship. */
     AIRSHIP(WorldType.AIRSHIP, "airship"),
+    /** Dragonfly. */
+    DRAGONFLY(WorldType.DRAGONFLY, "dragonfly"),
     /** None. */
     NONE(null, null);
 

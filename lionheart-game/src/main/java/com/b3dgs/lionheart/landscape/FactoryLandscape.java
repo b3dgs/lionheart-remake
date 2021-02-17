@@ -112,6 +112,9 @@ public final class FactoryLandscape
             case AIRSHIP:
                 background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
+            case DRAGONFLY:
+                background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             default:
                 throw new LionEngineException(backgroundType);
         }

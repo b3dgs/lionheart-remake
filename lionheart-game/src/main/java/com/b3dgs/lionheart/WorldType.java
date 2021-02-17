@@ -46,7 +46,9 @@ public enum WorldType
     /** Secret world. */
     SECRET(Music.SECRET),
     /** Airship world. */
-    AIRSHIP(Music.AIRSHIP);
+    AIRSHIP(Music.AIRSHIP),
+    /** Dragonfly world. */
+    DRAGONFLY(Music.DRAGONFLY);
 
     /**
      * Load type from its saved format.
