@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage next="stage/stage1.xml">
+<stage>
     <music file="music/airship.sc68"/>
     <map file="levels/airship/stage11.lvl"/>
     <background type="AIRSHIP"/>
     <foreground type="AIRSHIP"/>
-    <checkpoint startTx="12" startTy="5">
-        <respawn tx="550" ty="5"/>
-        <respawn tx="732" ty="5"/>
-        <respawn tx="716" ty="37"/>
-        <respawn tx="670" ty="26"/>
-        <respawn tx="603" ty="29"/>
-        <respawn tx="659" ty="69"/>
-        <respawn tx="697" ty="60"/>
-    </checkpoint>
+    <checkpoints>
+        <checkpoint tx="12" ty="5"/>
+        <checkpoint tx="550" ty="5"/>
+        <checkpoint tx="732" ty="5"/>
+        <checkpoint tx="716" ty="37"/>
+        <checkpoint tx="670" ty="26"/>
+        <checkpoint tx="603" ty="29"/>
+        <checkpoint tx="659" ty="69"/>
+        <checkpoint tx="697" ty="60"/>
+    </checkpoints>
     <entities>
         <entity file="entity/scenery/airship/Road.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/scenery/airship/Animal.xml" tx="12.0" ty="7.0"/>
@@ -194,7 +195,7 @@
         </entity>
         <entity file="entity/monster/airship/Canon1.xml" tx="704.0" ty="58.0"/>
         <entity file="entity/monster/airship/Dragon3.xml" tx="710.0" ty="54.0"/>
-        <entity file="entity/monster/airship/Guard.xml" tx="721.0" ty="56.0" end="true"/>
+        <entity file="entity/monster/airship/Guard.xml" tx="721.0" ty="56.0" next="stage/stage12.xml"/>
         <entity file="entity/scenery/airship/Catapult.xml" tx="736.0" ty="21.0"/>
         <entity file="entity/scenery/airship/Catapult.xml" tx="583.0" ty="35.0" mirror="true"/>
         <entity file="entity/scenery/airship/Catapult.xml" tx="660.0" ty="55.0" mirror="true"/>

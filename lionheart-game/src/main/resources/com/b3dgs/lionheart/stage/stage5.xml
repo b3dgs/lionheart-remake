@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage next="stage/stage6.xml">
+<stage>
     <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage5.lvl"/>
     <raster folder="levels/swamp/raster/day/"/>
     <background type="SWAMP_DAY"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
-    <checkpoint startTx="45" startTy="4">
-        <respawn tx="36" ty="20"/>
-        <respawn tx="117" ty="4"/>
-        <respawn tx="191" ty="4"/>
-        <respawn tx="230" ty="31"/>
-        <respawn tx="309" ty="30"/>
-        <respawn tx="351" ty="10"/>
-        <respawn tx="441" ty="15"/>
-        <respawn tx="512" ty="29"/>
-    </checkpoint>
-    <boss tx="586" ty="8"/>
+    <checkpoints>
+        <checkpoint tx="45" ty="4"/>
+        <checkpoint tx="36" ty="20"/>
+        <checkpoint tx="117" ty="4"/>
+        <checkpoint tx="191" ty="4"/>
+        <checkpoint tx="230" ty="31"/>
+        <checkpoint tx="309" ty="30"/>
+        <checkpoint tx="351" ty="10"/>
+        <checkpoint tx="441" ty="15"/>
+        <checkpoint tx="512" ty="29"/>
+    </checkpoints>
+    <boss tx="586" ty="8" next="stage/stage6.xml"/>
     <entities>
         <entity file="entity/monster/swamp/Crawling.xml" tx="59.0" ty="5.0">
             <patrol sh="-0.3" amplitude="208"/>

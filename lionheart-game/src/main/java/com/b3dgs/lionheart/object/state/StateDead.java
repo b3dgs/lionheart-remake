@@ -20,7 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionheart.Checkpoint;
+import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -35,7 +35,7 @@ public final class StateDead extends State
 
     private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
-    private final Checkpoint checkpoint;
+    private final CheckpointHandler checkpoint;
 
     /**
      * Create the state.

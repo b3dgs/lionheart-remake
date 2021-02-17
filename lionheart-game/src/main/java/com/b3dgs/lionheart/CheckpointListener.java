@@ -22,9 +22,11 @@ package com.b3dgs.lionheart;
 public interface CheckpointListener
 {
     /**
-     * Called on end reached.
+     * Called on next stage reached.
+     * 
+     * @param next The next stage.
      */
-    void notifyReachedEnd();
+    void notifyNextStage(String next);
 
     /**
      * Called on boss reached.

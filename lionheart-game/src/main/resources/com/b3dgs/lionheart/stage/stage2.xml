@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage next="stage/stage3.xml">
+<stage>
     <music file="music/spidercave.sc68"/>
     <map file="levels/spidercave1/stage2.lvl"/>
     <background type="SPIDERCAVE1"/>
     <foreground type="NONE"/>
-    <checkpoint startTx="12" startTy="14" endTx="120" endTy="8">
-        <respawn tx="49" ty="14"/>
-        <respawn tx="71" ty="8"/>
-    </checkpoint>
+    <checkpoints>
+        <checkpoint tx="12" ty="14"/>
+        <checkpoint tx="49" ty="14"/>
+        <checkpoint tx="71" ty="8"/>
+        <checkpoint tx="120" ty="8" next="stage/stage3.xml"/>
+    </checkpoints>
     <entities>
         <entity file="entity/boss/spidercave1/Boss.xml" tx="24.0" ty="17.5"/>
         <entity file="entity/item/spidercave1/PotionLittle.xml" tx="27.0" ty="14.0"/>

@@ -41,6 +41,9 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
@@ -63,6 +66,7 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
 {
+    private static final int END_TICK = 400;
     private static final int PALLET_OFFSET = 3;
     private static final int PALLET_HURT = 9;
     private static final double MOVE_BACK_X = 0.8;
@@ -83,6 +87,8 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
+    private final MusicPlayer music = services.get(MusicPlayer.class);
+    private final LoadNextStage stage = services.get(LoadNextStage.class);
     private final Animation idle;
     private final Animation land;
     private final CollidableListener listener;
@@ -138,6 +144,8 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                         if (step > 5)
                         {
                             step = 10;
+                            music.playMusic(Music.BOSS_WIN);
+                            stage.loadNextStage("stage/stage6.xml", END_TICK);
                             tick.restart();
                         }
                     }

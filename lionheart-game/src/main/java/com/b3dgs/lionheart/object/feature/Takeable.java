@@ -35,6 +35,7 @@ import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Takeable feature implementation.
@@ -57,6 +58,7 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.
@@ -79,7 +81,7 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
                 if (config.isAmulet())
                 {
                     player.playMusic(Music.SECRET_WIN);
-                    stageLoader.loadNextStage(AMULET_TICK);
+                    model.getNext().ifPresent(next -> stageLoader.loadNextStage(next, AMULET_TICK));
                 }
                 else
                 {

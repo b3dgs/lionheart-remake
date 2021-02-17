@@ -36,8 +36,6 @@ public final class StageConfig
 {
     /** Stage node name. */
     public static final String NODE_STAGE = "stage";
-    /** Stage next attribute name. */
-    private static final String ATT_STAGE_NEXT_FILE = "next";
 
     /** Music node name. */
     private static final String NODE_MUSIC = "music";
@@ -63,23 +61,16 @@ public final class StageConfig
     /** Background type attribute name. */
     private static final String ATT_BACKGROUND_TYPE = "type";
 
+    /** Checkpoints node name. */
+    private static final String NODE_CHECKPOINTS = "checkpoints";
     /** Checkpoint node name. */
     private static final String NODE_CHECKPOINT = "checkpoint";
-    /** Checkpoint starting tile x attribute name. */
-    private static final String ATT_CHECKPOINT_START_TX = "startTx";
-    /** Checkpoint starting tile y attribute name. */
-    private static final String ATT_CHECKPOINT_START_TY = "startTy";
-    /** Checkpoint ending tile x attribute name. */
-    private static final String ATT_CHECKPOINT_END_TX = "endTx";
-    /** Checkpoint ending tile y attribute name. */
-    private static final String ATT_CHECKPOINT_END_TY = "endTy";
-
-    /** Respawn node name. */
-    private static final String NODE_RESPAWN = "respawn";
-    /** Respawn tile x attribute name. */
-    private static final String ATT_RESPAWN_TX = "tx";
-    /** Respawn tile y attribute name. */
-    private static final String ATT_RESPAWN_TY = "ty";
+    /** Checkpoint tile x attribute name. */
+    private static final String ATT_CHECKPOINT_TX = "tx";
+    /** Checkpoint tile y attribute name. */
+    private static final String ATT_CHECKPOINT_TY = "ty";
+    /** Checkpoint next stage attribute name. */
+    private static final String ATT_CHECKPOINT_NEXT = "next";
 
     /** Boss node name. */
     private static final String NODE_BOSS = "boss";
@@ -103,8 +94,6 @@ public final class StageConfig
         return new StageConfig(configurer);
     }
 
-    /** Next stage file. */
-    private final Media nextStage;
     /** Music file. */
     private final Media music;
     /** Map level file. */
@@ -119,14 +108,10 @@ public final class StageConfig
     private final BackgroundType background;
     /** Foreground config. */
     private final ForegroundConfig foreground;
-    /** Starting tile. */
-    private final Coord start;
-    /** Ending tile. */
-    private final Optional<Coord> end;
     /** Boss tile. */
     private final Optional<Coord> boss;
-    /** Respawn tiles. */
-    private final Collection<Coord> respawns = new ArrayList<>();
+    /** Checkpoints tiles. */
+    private final Collection<Checkpoint> checkpoints = new ArrayList<>();
     /** Entities configuration. */
     private final Collection<EntityConfig> entities = new ArrayList<>();
 
@@ -142,8 +127,6 @@ public final class StageConfig
 
         Check.notNull(configurer);
 
-        nextStage = configurer.getMedia(ATT_STAGE_NEXT_FILE);
-
         music = configurer.getMedia(ATT_MUSIC_FILE, NODE_MUSIC);
 
         mapFile = configurer.getMedia(ATT_MAP_FILE, NODE_MAP);
@@ -155,20 +138,6 @@ public final class StageConfig
         background = configurer.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
         foreground = ForegroundConfig.imports(configurer);
 
-        start = new Coord(configurer.getInteger(ATT_CHECKPOINT_START_TX, NODE_CHECKPOINT),
-                          configurer.getInteger(ATT_CHECKPOINT_START_TY, NODE_CHECKPOINT));
-
-        if (configurer.hasAttribute(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT)
-            && configurer.hasAttribute(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT))
-        {
-            end = Optional.of(new Coord(configurer.getInteger(ATT_CHECKPOINT_END_TX, NODE_CHECKPOINT),
-                                        configurer.getInteger(ATT_CHECKPOINT_END_TY, NODE_CHECKPOINT)));
-        }
-        else
-        {
-            end = Optional.empty();
-        }
-
         if (configurer.hasAttribute(ATT_BOSS_TX, NODE_BOSS) && configurer.hasAttribute(ATT_BOSS_TY, NODE_BOSS))
         {
             boss = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TX, NODE_BOSS),
@@ -179,19 +148,21 @@ public final class StageConfig
             boss = Optional.empty();
         }
 
-        configurer.getChildren(NODE_RESPAWN, NODE_CHECKPOINT).forEach(this::addRespawn);
+        configurer.getChildren(NODE_CHECKPOINT, NODE_CHECKPOINTS).forEach(this::addCheckpoints);
 
         configurer.getChildren(EntityConfig.NODE_ENTITY, NODE_ENTITIES).forEach(this::addEntity);
     }
 
     /**
-     * Add respawn from configuration.
+     * Add checkpoint from configuration.
      * 
-     * @param respawn The respawn configuration.
+     * @param checkpoint The checkpoint configuration.
      */
-    private void addRespawn(XmlReader respawn)
+    private void addCheckpoints(XmlReader checkpoint)
     {
-        respawns.add(new Coord(respawn.readInteger(ATT_RESPAWN_TX), respawn.readInteger(ATT_RESPAWN_TY)));
+        checkpoints.add(new Checkpoint(checkpoint.readInteger(ATT_CHECKPOINT_TX),
+                                       checkpoint.readInteger(ATT_CHECKPOINT_TY),
+                                       checkpoint.readStringOptional(ATT_CHECKPOINT_NEXT)));
     }
 
     /**
@@ -202,16 +173,6 @@ public final class StageConfig
     private void addEntity(XmlReader entity)
     {
         entities.add(EntityConfig.imports(entity));
-    }
-
-    /**
-     * Get the next stage.
-     * 
-     * @return The next stage.
-     */
-    public Media getNextStage()
-    {
-        return nextStage;
     }
 
     /**
@@ -285,33 +246,13 @@ public final class StageConfig
     }
 
     /**
-     * Get the start location.
-     * 
-     * @return The start location.
-     */
-    public Coord getStart()
-    {
-        return start;
-    }
-
-    /**
-     * Get the end location.
-     * 
-     * @return The end location.
-     */
-    public Optional<Coord> getEnd()
-    {
-        return end;
-    }
-
-    /**
      * Get the respawn locations.
      * 
      * @return The respawn locations.
      */
-    public Collection<Coord> getRespawns()
+    public Collection<Checkpoint> getCheckpoints()
     {
-        return respawns;
+        return checkpoints;
     }
 
     /**

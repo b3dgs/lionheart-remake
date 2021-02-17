@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage next="stage/stage5.xml">
+<stage>
     <music file="music/spidercave.sc68"/>
     <map file="levels/spidercave2/stage4.lvl"/>
     <background type="SPIDERCAVE2"/>
     <foreground type="NONE"/>
-    <checkpoint startTx="11" startTy="67" endTx="223" endTy="26">
-        <respawn tx="57" ty="55"/>
-        <respawn tx="54" ty="37"/>
-        <respawn tx="90" ty="46"/>
-        <respawn tx="107" ty="60"/>
-        <respawn tx="152" ty="48"/>
-    </checkpoint>
+    <checkpoints>
+        <checkpoint tx="11" ty="67"/>
+        <checkpoint tx="57" ty="55"/>
+        <checkpoint tx="54" ty="37"/>
+        <checkpoint tx="90" ty="46"/>
+        <checkpoint tx="107" ty="60"/>
+        <checkpoint tx="152" ty="48"/>
+        <checkpoint tx="223" ty="26" next="stage/stage5.xml"/>
+    </checkpoints>
     <entities>
         <entity file="entity/boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>
         <entity file="entity/item/spidercave2/Talisment.xml" tx="0.0" ty="0.0"/>

@@ -20,7 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionheart.Checkpoint;
+import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -40,7 +40,7 @@ public final class StateBitten extends State
     private final Stats stats = model.getFeature(Stats.class);
     private final Drownable drownable = model.getFeature(Drownable.class);
     private final Layerable layerable = model.getFeature(Layerable.class);
-    private final Checkpoint checkpoint;
+    private final CheckpointHandler checkpoint;
 
     private Integer layerRefresh;
     private Integer layerDisplay;

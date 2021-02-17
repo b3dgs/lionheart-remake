@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage next="stage/stage1.xml">
+<stage>
     <music file="music/secret.sc68"/>
     <map file="levels/secret/stage10.lvl"/>
     <raster folder="levels/secret/raster/secret/"/>
     <background type="SECRET"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
-    <checkpoint startTx="12" startTy="45" endTx="297" endTy="40">
-        <respawn tx="45" ty="4"/>
-        <respawn tx="111" ty="13"/>
-        <respawn tx="175" ty="17"/>
-        <respawn tx="245" ty="64"/>
-        <respawn tx="272" ty="40"/>
-    </checkpoint>
+    <checkpoints>
+        <checkpoint tx="12" ty="45"/>
+        <checkpoint tx="45" ty="4"/>
+        <checkpoint tx="111" ty="13"/>
+        <checkpoint tx="175" ty="17"/>
+        <checkpoint tx="245" ty="64"/>
+        <checkpoint tx="272" ty="40"/>
+        <checkpoint tx="297" ty="40" next="stage/stage9.xml"/>
+    </checkpoints>
     <entities>
         <entity file="entity/item/secret/Talisment.xml" tx="20.0" ty="26.0"/>
         <entity file="entity/item/secret/Talisment.xml" tx="20.0" ty="25.0"/>

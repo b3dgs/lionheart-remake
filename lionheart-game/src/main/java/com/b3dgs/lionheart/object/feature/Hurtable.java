@@ -349,10 +349,7 @@ public final class Hurtable extends FeatureModel
                 identifiable.destroy();
             }
         }
-        if (model.isEnd())
-        {
-            stage.loadNextStage(400);
-        }
+        model.getNext().ifPresent(next -> stage.loadNextStage(next, 400));
     }
 
     @Override

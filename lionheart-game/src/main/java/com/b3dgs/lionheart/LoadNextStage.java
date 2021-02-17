@@ -24,15 +24,18 @@ public interface LoadNextStage
     /**
      * Load next stage.
      * 
+     * @param next The next stage.
      * @param tickDelay The tick delay before load stage.
      */
-    void loadNextStage(int tickDelay);
+    void loadNextStage(String next, int tickDelay);
 
     /**
      * Load next stage now.
+     * 
+     * @param next The next stage.
      */
-    default void loadNextStage()
+    default void loadNextStage(String next)
     {
-        loadNextStage(0);
+        loadNextStage(next, 0);
     }
 }

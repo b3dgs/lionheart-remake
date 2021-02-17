@@ -53,6 +53,7 @@ import com.b3dgs.lionengine.io.InputDevicePointer;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
+import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
@@ -80,7 +81,7 @@ import com.b3dgs.lionheart.object.state.StateWin;
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
     private final MapTileWater mapWater = services.create(MapTileWater.class);
-    private final Checkpoint checkpoint = services.create(Checkpoint.class);
+    private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
     private final Hud hud = new Hud(services);
     private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
     private final Tick tick = new Tick();
@@ -140,6 +141,39 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                  .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
                                             config.getLinesPerRaster(),
                                             config.getRasterLineOffset()));
+        loadMapTiles(media);
+        loadWaterRaster(config, raster);
+        createMapCollisionDebug();
+    }
+
+    /**
+     * Load raster data.
+     * 
+     * @param config The stage configuration.
+     * @param raster The raster folder.
+     */
+    private void loadWaterRaster(StageConfig config, Optional<String> raster)
+    {
+        final ForegroundType foreground = config.getForeground().getType();
+        if (foreground == ForegroundType.WATER || foreground == ForegroundType.WATER)
+        {
+            raster.ifPresent(r ->
+            {
+                mapWater.create(r);
+                mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue()
+                                                       + 1));
+                handler.add(mapWater);
+            });
+        }
+    }
+
+    /**
+     * Load map tiles data.
+     * 
+     * @param media The map tiles data.
+     */
+    private void loadMapTiles(Media media)
+    {
         try (FileReading reading = new FileReading(media))
         {
             final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
@@ -149,7 +183,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             throw new LionEngineException(exception);
         }
+    }
 
+    /**
+     * Create map tile collision debug rendering if enabled.
+     */
+    private void createMapCollisionDebug()
+    {
         if (Constant.DEBUG)
         {
             final MapTileCollisionRenderer renderer = map.addFeatureAndGet(new MapTileCollisionRendererModel());
@@ -158,24 +198,22 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);
             mapViewer.addRenderer(renderer);
         }
-
-        raster.ifPresent(r ->
-        {
-            mapWater.create(r);
-            mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue() + 1));
-            handler.add(mapWater);
-        });
     }
 
     /**
      * Create player and track with camera.
      * 
-     * @param start The spawn tile.
      * @return The created player.
      */
-    private Featurable createPlayer(Coord start)
+    private Featurable createPlayerAndLoadCheckpoints()
     {
-        final Featurable featurable = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), start);
+        final Featurable featurable = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 0, 0);
+        checkpoint.load(stage, featurable);
+
+        final Transformable transformable = featurable.getFeature(Transformable.class);
+        final Coord coord = checkpoint.getCurrent(transformable);
+        transformable.teleport(coord.getX(), coord.getY());
+
         player = featurable.getFeature(StateHandler.class);
         hud.setFeaturable(featurable);
         services.add(featurable.getFeature(SwordShade.class));
@@ -208,7 +246,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
-        entity.getEnd().ifPresent(secret -> featurable.getFeature(EntityModel.class).setEnd(true));
+        entity.getNext().ifPresent(next -> featurable.getFeature(EntityModel.class).setNext(next));
         entity.getMirror().ifPresent(mirror -> featurable.getFeature(Mirrorable.class).mirror(Mirror.HORIZONTAL));
         entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
         entity.getCanon().ifPresent(config ->
@@ -256,18 +294,15 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
 
-        final Coord start = stage.getStart();
-        final Featurable player = createPlayer(new Coord(start.getX() * map.getTileWidth(),
-                                                         start.getY() * map.getTileHeight()));
-        checkpoint.load(stage, player);
+        createPlayerAndLoadCheckpoints();
 
         final String theme = stage.getBackground().getWorld().getFolder();
         checkpoint.addListener(new CheckpointListener()
         {
             @Override
-            public void notifyReachedEnd()
+            public void notifyNextStage(String next)
             {
-                loadNextStage();
+                loadNextStage(next);
             }
 
             @Override
@@ -314,7 +349,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     @Override
-    public void loadNextStage(int tickDelay)
+    public void loadNextStage(String next, int tickDelay)
     {
         if (tickDelay > 0)
         {
@@ -322,13 +357,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.addAction(() ->
             {
                 audio.stop();
-                sequencer.end(SceneBlack.class, stage.getNextStage());
+                sequencer.end(SceneBlack.class, Medias.create(next));
             }, tickDelay);
         }
         else
         {
             audio.stop();
-            sequencer.end(SceneBlack.class, stage.getNextStage());
+            sequencer.end(SceneBlack.class, Medias.create(next));
         }
     }
 

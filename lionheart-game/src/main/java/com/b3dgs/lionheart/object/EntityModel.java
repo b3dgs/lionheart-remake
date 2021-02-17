@@ -46,7 +46,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
-import com.b3dgs.lionheart.Checkpoint;
+import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.feature.Guard;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -82,14 +82,14 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     private final Force jump = new Force();
     private final Camera camera = services.get(Camera.class);
     private final MapTile map = services.get(MapTile.class);
-    private final Checkpoint checkpoint = services.get(Checkpoint.class);
+    private final CheckpointHandler checkpoint = services.get(CheckpointHandler.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private Transformable player;
     private boolean secret;
-    private boolean end;
+    private Optional<String> next = Optional.empty();
     private final int frames;
 
     @FeatureGet private Body body;
@@ -164,13 +164,13 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     }
 
     /**
-     * Set the end flag.
+     * Set the next stage.
      * 
-     * @param end The end flag.
+     * @param next The next stage.
      */
-    public void setEnd(boolean end)
+    public void setNext(String next)
     {
-        this.end = end;
+        this.next = Optional.ofNullable(next);
     }
 
     /**
@@ -257,7 +257,7 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
      * 
      * @return The checkpoint reference.
      */
-    public Checkpoint getCheckpoint()
+    public CheckpointHandler getCheckpoint()
     {
         return checkpoint;
     }
@@ -333,13 +333,13 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     }
 
     /**
-     * Check if end.
+     * Get next stage.
      * 
-     * @return The end flag.
+     * @return The next stage.
      */
-    public boolean isEnd()
+    public Optional<String> getNext()
     {
-        return end;
+        return next;
     }
 
     @Override
