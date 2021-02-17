@@ -53,9 +53,11 @@ import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 import com.b3dgs.lionheart.object.state.StateHurt;
 import com.b3dgs.lionheart.object.state.StateIdleAnimal;
+import com.b3dgs.lionheart.object.state.StateIdleDragon;
 import com.b3dgs.lionheart.object.state.StateLianaSlide;
 import com.b3dgs.lionheart.object.state.StateSlide;
 import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
+import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 
 /**
  * Entity model implementation.
@@ -186,7 +188,9 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
             && !state.isState(StateSlide.class)
             && !state.isState(StateLianaSlide.class)
             && !state.isState(StateIdleAnimal.class)
-            && !state.isState(StateAttackAnimal.class))
+            && !state.isState(StateAttackAnimal.class)
+            && !state.isState(StateIdleDragon.class)
+            && !state.isState(StateAttackDragon.class))
         {
             if (mirrorable.is(Mirror.NONE) && movement.getDirectionHorizontal() < 0.0)
             {
