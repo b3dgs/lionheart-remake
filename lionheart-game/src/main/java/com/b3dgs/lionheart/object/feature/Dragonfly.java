@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
@@ -62,6 +63,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Launcher launcher;
 
     /**
      * Create feature.
@@ -167,6 +169,21 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
             }
         }
         transformable.setLocationX(player.getX() - 24);
+
+        final int side = Double.compare(transformable.getY(), transformable.getOldY());
+        if (side < 0)
+        {
+            launcher.setLevel(2);
+        }
+        else if (side > 0)
+        {
+            launcher.setLevel(1);
+        }
+        else
+        {
+            launcher.setLevel(0);
+        }
+        launcher.fire();
     }
 
     @Override
