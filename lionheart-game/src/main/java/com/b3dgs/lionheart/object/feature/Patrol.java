@@ -80,10 +80,12 @@ public final class Patrol extends FeatureModel
     private int proximity;
     private int animOffset;
     private int delay;
+    private boolean curve;
     private int skip;
 
     private double startX;
     private double startY;
+    private double curveAngle;
 
     private Updatable checker;
     private boolean enabled = true;
@@ -167,6 +169,7 @@ public final class Patrol extends FeatureModel
             proximity = p;
             enabled = false;
         });
+        config.getCurve().ifPresent(c -> curve = c.booleanValue());
 
         checkAmplitude();
         applyMirror();
@@ -214,7 +217,7 @@ public final class Patrol extends FeatureModel
      */
     private void checkAmplitude()
     {
-        if (amplitude == 0)
+        if (curve || amplitude == 0)
         {
             checker = UpdatableVoid.getInstance();
         }
@@ -300,7 +303,7 @@ public final class Patrol extends FeatureModel
             @Override
             public double getVerticalDirection()
             {
-                return enabled ? sv : 0.0;
+                return !curve && enabled ? sv : 0.0;
             }
         });
         model.getMovement().setVelocity(1.0);
@@ -341,6 +344,11 @@ public final class Patrol extends FeatureModel
                 idle = UtilMath.wrapDouble(idle + 0.15, 0, 360);
                 transformable.teleportY(startY + Math.sin(idle) * 2.0);
             }
+        }
+        if (curve)
+        {
+            curveAngle = UtilMath.wrapAngleDouble(curveAngle + sv);
+            transformable.setLocationY(startY + Math.cos(curveAngle + 90) * amplitude);
         }
         if (!stateHandler.isState(StateJump.class) || stateHandler.isState(StateFall.class))
         {

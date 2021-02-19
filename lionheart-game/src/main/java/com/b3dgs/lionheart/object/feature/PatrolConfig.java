@@ -53,6 +53,8 @@ public final class PatrolConfig
     public static final String ATT_ANIMOFFSET = "animOffset";
     /** Patrol delay offset attribute name. */
     public static final String ATT_DELAY = "delay";
+    /** Curve attribute name. */
+    public static final String ATT_CURVE = "curve";
 
     /**
      * Imports the config from configurer.
@@ -105,6 +107,8 @@ public final class PatrolConfig
     private final OptionalInt animOffset;
     /** Patrol delay. */
     private final OptionalInt delay;
+    /** Curve flag. */
+    private final Optional<Boolean> curve;
 
     /**
      * Create config.
@@ -126,6 +130,7 @@ public final class PatrolConfig
         proximity = root.readIntegerOptional(ATT_PROXIMITY);
         animOffset = root.readIntegerOptional(ATT_ANIMOFFSET);
         delay = root.readIntegerOptional(ATT_DELAY);
+        curve = root.readBooleanOptional(ATT_CURVE);
     }
 
     /**
@@ -216,5 +221,15 @@ public final class PatrolConfig
     public OptionalInt getDelay()
     {
         return delay;
+    }
+
+    /**
+     * Check if curve movement is enabled.
+     * 
+     * @return <code>true</code> if curve movement enabled, <code>false</code> else.
+     */
+    public Optional<Boolean> getCurve()
+    {
+        return curve;
     }
 }
