@@ -230,19 +230,19 @@ public final class Patrol extends FeatureModel
                         || Double.compare(sv, 0.0) != 0 && Math.abs(startY - transformable.getY()) > amplitude)
                     || skip == 2)
                 {
-                    if (sh > 0)
+                    if (sh > 0 && Double.compare(sv, 0) == 0)
                     {
                         transformable.teleportX(startX + amplitude);
                     }
-                    else if (sh < 0)
+                    else if (sh < 0 && Double.compare(sv, 0) == 0)
                     {
                         transformable.teleportX(startX - amplitude);
                     }
-                    if (sv > 0)
+                    if (sv > 0 && Double.compare(sh, 0) == 0)
                     {
                         transformable.teleportY(startY + amplitude);
                     }
-                    else if (sv < 0)
+                    else if (sv < 0 && Double.compare(sh, 0) == 0)
                     {
                         transformable.teleportY(startY - amplitude);
                     }
