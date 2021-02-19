@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -99,6 +100,7 @@ public final class Frog extends FeatureModel implements Routine, Recyclable
             {
                 collidable.setEnabled(true);
                 animatable.play(turn);
+                Sfx.MONSTER_FROG.play();
                 phase = 2;
             }
         }

@@ -4,8 +4,8 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Frog</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Frog.png"/>
     <lionengine:frames horizontal="11" vertical="2"/>
@@ -13,14 +13,13 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="patrol" start="1" end="11" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="turn" start="1" end="11" speed="0.25" reversed="false" repeat="true"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="28" height="28" mirror="false"/>
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="28" height="28" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
