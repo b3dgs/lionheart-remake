@@ -6,6 +6,8 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon4</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Wizard.png"/>
     <lionengine:frames horizontal="10" vertical="4"/>
@@ -24,6 +26,23 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:launcher>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" sfx="sfx/monster_wizard.wav" ox="0" oy="50">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.3" vy="-2.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="-4" oy="46">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.6" vy="-2.3"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="46">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.3" vy="-2.3"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="4" oy="46">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-2.3"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="42">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.3" vy="-2.6"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="dragonfly/ExplodeBig"/>

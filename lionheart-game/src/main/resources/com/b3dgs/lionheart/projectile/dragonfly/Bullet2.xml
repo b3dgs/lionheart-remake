@@ -15,6 +15,7 @@
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="12" height="24" mirror="false"/>
     </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
