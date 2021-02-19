@@ -50,6 +50,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 @FeatureInterface
 public final class Dragonfly extends FeatureModel implements Routine, CollidableListener
 {
+    private static final int OFFSET_X = -24;
+    private static final int OFFSET_Y = -50;
     private static final double SPEED = 13.0 / 31.0; // 0.4195;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -165,10 +167,10 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
                 }
                 playerSprite.setFrameOffsets(0, offsetY);
 
-                transformable.setLocationY(player.getY() - 50);
+                transformable.setLocationY(player.getY() + OFFSET_Y);
             }
         }
-        transformable.setLocationX(player.getX() - 24);
+        transformable.setLocationX(player.getX() + OFFSET_X);
 
         final int side = Double.compare(transformable.getY(), transformable.getOldY());
         if (side < 0)

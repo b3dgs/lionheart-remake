@@ -86,6 +86,12 @@ public enum Sfx
     MONSTER_EXECUTIONER_HURT,
     /** Monster executioner attack. */
     MONSTER_EXECUTIONER_ATTACK,
+    /** Monster dragon ball. */
+    MONSTER_DRAGONBALL,
+    /** Monster frog. */
+    MONSTER_FROG,
+    /** Monster wizard. */
+    MONSTER_WIZARD,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */

@@ -38,6 +38,7 @@ import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
 import com.b3dgs.lionheart.object.feature.RotatingConfig;
+import com.b3dgs.lionheart.object.feature.ShooterConfig;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
 
 /**
@@ -102,6 +103,8 @@ public final class EntityConfig
     private final Optional<Dragon2Config> dragon2;
     /** Canon2 configuration. */
     private final Optional<Canon2AirshipConfig> canon2;
+    /** Shooter configuration. */
+    private final Optional<ShooterConfig> shooter;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -140,6 +143,7 @@ public final class EntityConfig
         dragon1 = root.getChildOptional(Dragon1Config.NODE_DRAGON1).map(Dragon1Config::imports);
         dragon2 = root.getChildOptional(Dragon2Config.NODE_DRAGON2).map(Dragon2Config::imports);
         canon2 = root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports);
+        shooter = root.getChildOptional(ShooterConfig.NODE_SHOOTER).map(ShooterConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -298,6 +302,16 @@ public final class EntityConfig
     public Optional<Canon2AirshipConfig> getCanon2()
     {
         return canon2;
+    }
+
+    /**
+     * Get the shooter configuration.
+     * 
+     * @return The shooter configuration.
+     */
+    public Optional<ShooterConfig> getShooter()
+    {
+        return shooter;
     }
 
     /**
