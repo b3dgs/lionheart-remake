@@ -8,7 +8,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Bat.png"/>
-    <lionengine:frames horizontal="10" vertical="2" offsetY="28"/>
+    <lionengine:frames horizontal="10" vertical="2"/>
     <lionengine:size width="32" height="72"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -17,13 +17,13 @@
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="28" height="28" mirror="false"/>
-        <lionengine:collision name="body" offsetX="0" offsetY="0" width="28" height="28" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="0" offsetY="28" width="28" height="28" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="28" width="28" height="28" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="1"/>
+    <stats health="4"/>
     <hurtable effect="dragonfly/ExplodeBig"/>
 </lionengine:featurable>

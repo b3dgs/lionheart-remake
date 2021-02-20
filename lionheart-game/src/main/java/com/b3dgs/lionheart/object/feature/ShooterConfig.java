@@ -32,6 +32,8 @@ public final class ShooterConfig
     public static final String ATT_FIRE_DELAY = "fireDelay";
     /** Fired delay attribute name. */
     public static final String ATT_FIRED_DELAY = "firedDelay";
+    /** Fire anim attribute name. */
+    public static final String ATT_ANIM = "anim";
     /** Fire horizontal force start attribute name. */
     public static final String ATT_SVX = "svx";
     /** Fire vertical force start attribute name. */
@@ -40,6 +42,8 @@ public final class ShooterConfig
     public static final String ATT_DVX = "dvx";
     /** Fire vertical force destination attribute name. */
     public static final String ATT_DVY = "dvy";
+    /** Fire track attribute name. */
+    public static final String ATT_TRACK = "track";
 
     /**
      * Imports the config from configurer.
@@ -73,6 +77,8 @@ public final class ShooterConfig
     private final int fireDelay;
     /** Fired delay. */
     private final int firedDelay;
+    /** Fire anim flag. */
+    private final int anim;
     /** Fire horizontal force start. */
     private final double svx;
     /** Fire vertical force start. */
@@ -81,6 +87,8 @@ public final class ShooterConfig
     private final double dvx;
     /** Fire vertical force destination. */
     private final double dvy;
+    /** Fire track flag. */
+    private final boolean track;
 
     /**
      * Create config.
@@ -95,10 +103,12 @@ public final class ShooterConfig
 
         fireDelay = root.readInteger(ATT_FIRE_DELAY);
         firedDelay = root.readInteger(ATT_FIRED_DELAY);
+        anim = root.readInteger(0, ATT_ANIM);
         svx = root.readDouble(ATT_SVX);
         svy = root.readDouble(ATT_SVY);
         dvx = root.readDouble(svx, ATT_DVX);
         dvy = root.readDouble(svy, ATT_DVY);
+        track = root.readBoolean(false, ATT_TRACK);
     }
 
     /**
@@ -119,6 +129,16 @@ public final class ShooterConfig
     public int getFiredDelay()
     {
         return firedDelay;
+    }
+
+    /**
+     * Get the fire anim number.
+     * 
+     * @return The fire anim number.
+     */
+    public int getAnim()
+    {
+        return anim;
     }
 
     /**
@@ -159,5 +179,15 @@ public final class ShooterConfig
     public double getDvy()
     {
         return dvy;
+    }
+
+    /**
+     * Get the fire track flag.
+     * 
+     * @return The fire track flag.
+     */
+    public boolean getTrack()
+    {
+        return track;
     }
 }

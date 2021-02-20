@@ -54,7 +54,6 @@ public final class Dragon4 extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        shooter.setEnabled(Math.abs(transformable.getX() - transformable.getOldX()) < MIN_SHOOT_SPEED
-                           && Math.abs(transformable.getY() - transformable.getOldY()) < MIN_SHOOT_SPEED);
+        shooter.setEnabled(Math.abs(transformable.getX() - transformable.getOldX()) < MIN_SHOOT_SPEED);
     }
 }

@@ -45,8 +45,8 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Frog extends FeatureModel implements Routine, Recyclable
 {
-    private static final int AWAIT_DELAY_TICK = 30;
-    private static final double SPEED = 4.0;
+    private static final int AWAIT_DELAY_TICK = 60;
+    private static final double SPEED = 3.0;
 
     private final Viewer viewer = services.get(Viewer.class);
 

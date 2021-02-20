@@ -16,10 +16,13 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AnimState;
+import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -30,9 +33,11 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionheart.constant.Anim;
 
 /**
  * Shooter feature implementation.
@@ -44,14 +49,18 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 public final class Shooter extends FeatureModel implements Routine, Recyclable
 {
     private final Tick tick = new Tick();
+    private final Animation idle;
+    private final Animation attack;
+
+    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
 
     private ShooterConfig config;
     private Updatable updater;
     private boolean enabled;
 
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Animatable animatable;
 
     /**
      * Create feature.
@@ -63,6 +72,10 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
     public Shooter(Services services, Setup setup)
     {
         super(services, setup);
+
+        final AnimationConfig config = AnimationConfig.imports(setup);
+        idle = config.getAnimation("patrol");
+        attack = config.getAnimation(Anim.ATTACK);
     }
 
     /**
@@ -97,8 +110,68 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         if (enabled && tick.elapsed(config.getFireDelay()))
         {
-            updater = this::updateFired;
-            launcher.fire();
+            if (config.getAnim() > 0)
+            {
+                animatable.play(attack);
+            }
+            updater = this::updateFire;
+        }
+    }
+
+    /**
+     * Update fire.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFire(double extrp)
+    {
+        if (config.getAnim() == 0 || animatable.getFrameAnim() == config.getAnim())
+        {
+            if (config.getTrack())
+            {
+                launcher.fire(new Force(0.25, 0.0), player);
+            }
+            else
+            {
+                launcher.fire();
+            }
+            if (config.getAnim() > 0)
+            {
+                updater = this::updateCheckAnimEnd;
+            }
+            else
+            {
+                if (config.getFiredDelay() > 0)
+                {
+                    updater = this::updateFired;
+                }
+                else
+                {
+                    updater = this::updatePrepare;
+                }
+                tick.restart();
+            }
+        }
+    }
+
+    /**
+     * Update check anim end.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCheckAnimEnd(double extrp)
+    {
+        if (animatable.is(AnimState.FINISHED))
+        {
+            if (config.getFiredDelay() > 0)
+            {
+                updater = this::updateFired;
+            }
+            else
+            {
+                updater = this::updatePrepare;
+            }
+            animatable.play(idle);
             tick.restart();
         }
     }
@@ -135,7 +208,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
             rasterable.getMedia()
                       .ifPresent(media -> l.ifIs(Rasterable.class, r -> r.setRaster(true, media, map.getTileHeight())));
 
-            if (config != null)
+            if (config != null && !config.getTrack())
             {
                 final Force direction = l.getDirection();
                 direction.setDirection(direction.getDirectionHorizontal() * config.getSvx(),
