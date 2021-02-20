@@ -9,6 +9,1307 @@
         <checkpoint tx="12" ty="12"/>
     </checkpoints>
     <entities>
-        <entity file="entity/scenery/dragonfly/Dragon.xml" tx="12.0" ty="10.0"/>
+        <entity file="entity/scenery/dragonfly/Dragon.xml" tx="6.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="29.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="30.5" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="32.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="33.5" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="30.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="31.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="33.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="34.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="31.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="32.5" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="34.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="35.5" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="44.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="45.5" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="47.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="48.5" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="45.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="46.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="48.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="49.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="46.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="47.5" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="49.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="50.5" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="59.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="60.5" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="62.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="63.5" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="60.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="61.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="63.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="64.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="61.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="62.5" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="64.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="65.5" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="74.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="75.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="74.0" ty="13.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="75.0" ty="13.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="74.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="75.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="74.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="75.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="85.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="85.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="85.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="85.0" ty="7.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="85.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="87.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="87.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="87.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="87.0" ty="7.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="87.0" ty="3.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="100.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="101.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="101.0" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="102.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="102.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="102.0" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="103.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="103.0" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="110.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="107.0" ty="17.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="107.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="108.0" ty="20.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="108.0" ty="17.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="108.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="109.0" ty="17.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="109.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="118.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="128.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="127.0" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="128.0" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="129.0" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="130.0" ty="7.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="131.0" ty="7.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="132.0" ty="7.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="135.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="136.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="137.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="152.0" ty="7.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="162.0" ty="16.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="156.0" ty="11.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="156.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="157.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="159.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="160.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="178.0" ty="22.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="177.0" ty="21.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="178.0" ty="20.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="179.0" ty="21.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="177.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="179.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="178.0" ty="12.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="177.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="179.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="178.0" ty="5.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="177.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="178.0" ty="3.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="179.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="178.0" ty="14.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="177.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="179.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="184.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="184.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="189.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="191.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="193.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="189.0" ty="22.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="191.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="193.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="195.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="201.0" ty="9.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="199.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="201.0" ty="5.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="203.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="199.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="203.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="201.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="201.0" ty="21.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="208.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="205.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        >
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="208.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="211.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="218.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="220.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="222.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="220.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="220.0" ty="6.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="218.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="220.0" ty="2.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="222.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="226.0" ty="12.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="226.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="226.0" ty="8.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="241.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="242.0" ty="8.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="241.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="242.0" ty="2.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="242.0" ty="14.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="241.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="242.0" ty="20.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="241.0" ty="22.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="250.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="252.0" ty="18.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="253.0" ty="21.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="251.0" ty="9.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="251.0" ty="5.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="255.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="254.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="256.0" ty="1.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="258.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="262.0" ty="5.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="263.0" ty="3.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="258.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="258.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="259.0" ty="18.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="261.0" ty="21.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="263.0" ty="14.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="264.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="265.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="265.0" ty="6.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="266.0" ty="1.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="267.0" ty="8.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="268.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="269.0" ty="6.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="269.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="267.0" ty="20.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="271.0" ty="8.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="273.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="273.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="274.0" ty="3.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="274.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="275.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="276.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="279.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="280.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="282.0" ty="19.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="284.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="281.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="281.0" ty="5.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="278.0" ty="1.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="284.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="284.0" ty="1.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="286.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="288.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="290.0" ty="5.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="289.0" ty="0.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="293.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="293.5" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="294.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="294.5" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="295.0" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="295.5" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="296.0" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="296.5" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="313.0" ty="8.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="280" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="314.0" ty="16.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="280" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="326.0" ty="17.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="160" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="40" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="329.0" ty="11.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="160" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="40" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="331.0" ty="5.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="160" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="40" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="342.0" ty="11.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="80" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="344.0" ty="16.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="80" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="344.0" ty="5.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="80" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="353.0" ty="16.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="80" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="353.0" ty="5.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="80" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="355.0" ty="11.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="80" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="364.0" ty="13.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="20" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="365.0" ty="16.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="20" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="365.0" ty="19.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="20" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="370.0" ty="9.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="20" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="370.0" ty="6.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="20" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="370.0" ty="3.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="20" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="20" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="374.0" ty="16.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="380.0" ty="12.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.5" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="398.0" ty="13.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="408.0" ty="11.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="417.0" ty="14.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="420.0" ty="11.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="423.0" ty="6.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="425.0" ty="12.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="444.0" ty="2.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="445.0" ty="14.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="450.0" ty="8.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="452.0" ty="13.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="449.0" ty="20.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="454.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="456.0" ty="2.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="459.0" ty="4.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="460.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="465.0" ty="14.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="461.0" ty="18.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="469.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="473.0" ty="13.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.5" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="475.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="479.0" ty="2.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="470.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="477.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="477.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="478.0" ty="8.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="478.0" ty="16.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="479.0" ty="4.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="480.0" ty="21.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="483.0" ty="9.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="483.0" ty="5.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="484.0" ty="7.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="486.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="486.0" ty="16.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="487.0" ty="14.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="490.0" ty="23.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="491.0" ty="20.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="492.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="493.0" ty="14.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="494.0" ty="11.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="495.0" ty="8.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="496.0" ty="5.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="497.0" ty="2.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="498.0" ty="13.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="499.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="500.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="502.0" ty="20.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="503.0" ty="9.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="505.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="505.0" ty="5.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="507.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="507.0" ty="8.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="510.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="510.0" ty="9.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="510.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="513.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="515.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="515.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="517.0" ty="21.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="520.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="520.0" ty="7.0"/>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="538.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="538.5" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="539.0" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="539.5" ty="8.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="544.0" ty="4.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="544.5" ty="4.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="545.0" ty="4.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="545.5" ty="4.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="544.0" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="544.5" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="545.0" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="545.5" ty="15.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="550.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="550.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="551.0" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="551.5" ty="10.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="531.0" ty="5.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="532.0" ty="13.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="533.0" ty="9.0"/>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="556.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="556.5" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="557.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="557.5" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="559.0" ty="13.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="559.5" ty="13.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="560.0" ty="13.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="560.5" ty="13.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="536.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="536.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="536.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="565.0" ty="9.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="565.5" ty="9.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="566.0" ty="9.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="566.5" ty="9.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="543.0" ty="18.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="542.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="545.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="546.0" ty="6.0"/>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="570.0" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="570.5" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="571.0" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="571.5" ty="16.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="573.0" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="573.5" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="574.0" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="574.5" ty="5.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="548.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="549.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="550.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="552.0" ty="14.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="552.0" ty="6.0"/>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="570.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="575.0" ty="8.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="557.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="558.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="560.0" ty="6.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="560.0" ty="15.0"/>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="588.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="588.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="588.0" ty="1.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="591.0" ty="6.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="591.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="591.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="594.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="591.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="594.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="597.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="597.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="596.0" ty="18.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="595.0" ty="2.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="600.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="602.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="609.0" ty="15.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="600.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="600.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="603.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="603.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="606.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="606.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="609.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="609.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="611.0" ty="20.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="613.0" ty="3.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="614.0" ty="11.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="622.0" ty="13.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="210" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="613.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="613.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="616.0" ty="14.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bat.xml" tx="616.0" ty="6.0">
+            <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Monkey.xml" tx="639.0" ty="14.0">
+            <patrol sh="-0.5" sv="0.0" amplitude="256"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="0.25" sv="0.5" amplitude="160"/>
+            <patrol sh="0.25" sv="0.0" delay="60"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="643.0" ty="7.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="400" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="644.0" ty="19.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="400" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="663.0" ty="4.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="500" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Dragon.xml" tx="663.0" ty="17.0" mirror="true">
+            <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="500" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="659.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="659.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="662.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="664.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="662.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="664.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="667.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="670.0" ty="16.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="665.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="668.0" ty="13.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="665.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="668.0" ty="7.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="667.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="670.0" ty="4.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="661.0" ty="6.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="662.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="663.0" ty="18.0"/>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="678.0" ty="10.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="681.0" ty="17.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="664.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="665.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="666.0" ty="16.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="668.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="669.0" ty="5.0"/>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="682.0" ty="3.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Bomb.xml" tx="684.0" ty="12.0">
+            <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="696.0" ty="13.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="668.0" ty="18.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="669.0" ty="10.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="670.0" ty="3.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="672.0" ty="6.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="673.0" ty="12.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="674.0" ty="17.0"/>
+        <entity file="entity/monster/dragonfly/Frog.xml" tx="675.0" ty="4.0"/>
+        <entity file="entity/monster/dragonfly/Wizard.xml" tx="699.0" ty="18.0">
+            <patrol sh="-0.7" sv="0.0" amplitude="256" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+            <patrol sh="0.25" sv="0.0" delay="70" mirror="false"/>
+            <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+            <shooter fireDelay="80" firedDelay="0" svx="1.0" svy="1.0"/>
+        </entity>
     </entities>
 </stage>
