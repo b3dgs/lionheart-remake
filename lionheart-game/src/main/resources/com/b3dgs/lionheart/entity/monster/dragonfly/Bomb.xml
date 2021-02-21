@@ -6,6 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Bomb</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Bomb.png"/>
     <lionengine:frames horizontal="5" vertical="1"/>
@@ -19,11 +20,12 @@
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="16" height="16" mirror="false"/>
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="16" height="16" mirror="false"/>
+        <lionengine:collision name="trigger" offsetX="0" offsetY="-24" width="64" height="64" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
-    <hurtable frame="5" effect="dragonfly/Explode"/>
+    <hurtable frame="5" effect="dragonfly/Explode5"/>
 </lionengine:featurable>

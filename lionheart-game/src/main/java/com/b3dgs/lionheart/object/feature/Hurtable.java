@@ -131,6 +131,15 @@ public final class Hurtable extends FeatureModel
     }
 
     /**
+     * Trigger hurt effect.
+     */
+    public void hurt()
+    {
+        stateHandler.changeState(StateHurt.class);
+        recover.restart();
+    }
+
+    /**
      * Set the enabled flag.
      * 
      * @param enabled The enabled flag.
@@ -196,7 +205,6 @@ public final class Hurtable extends FeatureModel
     private void updateCollideAttack(Collidable collidable, Collision by)
     {
         sfx.play();
-        stateHandler.changeState(StateHurt.class);
         int damages = collidable.getFeature(Stats.class).getDamages();
         if (by.getName().startsWith(Anim.ATTACK_FALL))
         {
@@ -227,7 +235,7 @@ public final class Hurtable extends FeatureModel
         {
             getFeature(Patrol.class).stop();
         }
-        recover.restart();
+        hurt();
     }
 
     /**
