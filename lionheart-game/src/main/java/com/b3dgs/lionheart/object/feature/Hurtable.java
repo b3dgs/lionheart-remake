@@ -346,18 +346,21 @@ public final class Hurtable extends FeatureModel
      */
     public void kill()
     {
-        if (!fall)
+        if (stats.getHealthMax() > 0)
         {
-            if (effect != null)
+            if (!fall)
             {
-                spawner.spawn(effect, transformable.getX(), transformable.getY() + transformable.getHeight() / 2);
+                if (effect != null)
+                {
+                    spawner.spawn(effect, transformable.getX(), transformable.getY() + transformable.getHeight() / 2);
+                }
+                if (!persist)
+                {
+                    identifiable.destroy();
+                }
             }
-            if (!persist)
-            {
-                identifiable.destroy();
-            }
+            model.getNext().ifPresent(next -> stage.loadNextStage(next, 400));
         }
-        model.getNext().ifPresent(next -> stage.loadNextStage(next, 400));
     }
 
     @Override

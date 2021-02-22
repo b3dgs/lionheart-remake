@@ -48,6 +48,7 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
             <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1"/>
+            <lionengine:collisionFramed prefix="grip" x="0" y="53" width="1" height="1"/>
         </lionengine:animation>
         <lionengine:animation name="border" start="13" end="16" speed="0.1" reversed="true" repeat="true">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>

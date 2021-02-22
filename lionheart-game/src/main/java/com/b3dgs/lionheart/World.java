@@ -320,7 +320,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 // trackerY = 1.0;
 
                 // TODO Lava
-                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), 860 * map.getTileWidth(), 3 * map.getTileHeight());
+                // spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), 860 * map.getTileWidth(), 3 *
+                // map.getTileHeight());
+
+                // TODO Dragonfly
+                spawn(Medias.create(Folder.BOSS, theme, "BossBody.xml"),
+                      752 * map.getTileWidth(),
+                      6 * map.getTileHeight());
 
                 playMusic(Music.BOSS);
             }

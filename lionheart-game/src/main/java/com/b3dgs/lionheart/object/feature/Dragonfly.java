@@ -87,7 +87,8 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         player.getFeature(TileCollidable.class).addListener((result, category) -> off());
         player.getFeature(Collidable.class).addListener((collidable, with, by) ->
         {
-            if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND))
+            if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND)
+                || with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
             {
                 off();
             }

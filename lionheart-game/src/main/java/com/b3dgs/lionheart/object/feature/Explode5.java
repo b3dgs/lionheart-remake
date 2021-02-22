@@ -95,7 +95,7 @@ public final class Explode5 extends FeatureModel implements Routine, Recyclable
             phase++;
             tick.restart();
         }
-        else if (phase == 1 && tick.elapsed(OFFSET[OFFSET.length - 1][2]))
+        else if (phase == 1 && tick.elapsed(OFFSET[OFFSET.length - 1][2] + OFFSET[1][2]))
         {
             identifiable.destroy();
         }
@@ -105,5 +105,6 @@ public final class Explode5 extends FeatureModel implements Routine, Recyclable
     public void recycle()
     {
         phase = 0;
+        tick.restart();
     }
 }

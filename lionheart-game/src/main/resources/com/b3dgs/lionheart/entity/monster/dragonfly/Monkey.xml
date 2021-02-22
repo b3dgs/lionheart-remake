@@ -16,6 +16,7 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="patrol" start="1" end="6" speed="0.25" reversed="true" repeat="true"/>
+        <lionengine:animation name="attack" start="1" end="6" speed="0.25" reversed="true" repeat="true"/>
         <lionengine:animation name="turn" start="7" end="9" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>

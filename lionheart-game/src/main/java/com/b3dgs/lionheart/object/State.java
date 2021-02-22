@@ -191,11 +191,16 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected void onCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (collidable.hasFeature(Glue.class)
-            && with.getName().startsWith(Anim.LEG)
-            && by.getName().startsWith(CollisionName.GROUND))
+        if (collidable.hasFeature(Glue.class))
         {
-            collideY.set(true);
+            if (with.getName().startsWith(Anim.LEG) && by.getName().startsWith(CollisionName.GROUND))
+            {
+                collideY.set(true);
+            }
+            else if (with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
+            {
+                grip.set(true);
+            }
         }
 
         if (with.getName().contains(CollisionName.BODY)
