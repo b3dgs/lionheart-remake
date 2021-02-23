@@ -40,6 +40,8 @@ public final class ForegroundConfig
     private static final String ATT_WATER_SPEED = "waterSpeed";
     /** Water effect attribute name. */
     private static final String ATT_WATER_EFFECT = "waterEffect";
+    /** Water raise attribute name. */
+    private static final String ATT_WATER_RAISE = "raise";
 
     /**
      * Imports the config from configurer.
@@ -65,6 +67,8 @@ public final class ForegroundConfig
     private final OptionalDouble waterSpeed;
     /** Water effect value. */
     private final boolean waterEffect;
+    /** Water raise flag. */
+    private final boolean waterRaise;
 
     /**
      * Create config.
@@ -83,6 +87,7 @@ public final class ForegroundConfig
         waterOffset = root.getIntegerOptional(ATT_WATER_OFFSET, NODE_FOREGROUND);
         waterSpeed = root.getDoubleOptional(ATT_WATER_SPEED, NODE_FOREGROUND);
         waterEffect = root.getBooleanDefault(true, ATT_WATER_EFFECT, NODE_FOREGROUND);
+        waterRaise = root.getBooleanDefault(true, ATT_WATER_RAISE, NODE_FOREGROUND);
     }
 
     /**
@@ -133,5 +138,15 @@ public final class ForegroundConfig
     public boolean getWaterEffect()
     {
         return waterEffect;
+    }
+
+    /**
+     * Get the water raise flag.
+     * 
+     * @return The water raise flag.
+     */
+    public boolean getWaterRaise()
+    {
+        return waterRaise;
     }
 }

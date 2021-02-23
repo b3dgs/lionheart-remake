@@ -40,6 +40,7 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
 {
     private static final int WATER_LINES = 4;
     private static final int WATER_SIDE_COUNT_MAX = 4;
+    private static final double RAISE_SPEED = 0.4;
 
     /** Services reference. */
     private final MapTileWater mapWater;
@@ -65,6 +66,8 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
     private int screenHeight;
     /** Water height. */
     private double height;
+    /** Water raise offset. */
+    private double raise;
     /** Water current line. */
     private int offsetLine;
     /** Water line offset. */
@@ -90,6 +93,14 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
         depthOffset = config.getWaterOffset().orElse(0);
         animSpeed = config.getWaterSpeed().orElse(0.25);
         effect = config.getWaterEffect();
+        if (config.getWaterRaise())
+        {
+            raise = 0;
+        }
+        else
+        {
+            raise = -1;
+        }
 
         mapWater = services.get(MapTileWater.class);
 
@@ -107,6 +118,10 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
     @Override
     public void renderBack(Graphic g)
     {
+        if (raise > -1)
+        {
+            raise += RAISE_SPEED;
+        }
         renderComponent(0, g);
     }
 
@@ -140,7 +155,7 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
      */
     public double getHeight()
     {
-        return height + depth + depthOffset;
+        return height + depth + depthOffset + raise;
     }
 
     /**
