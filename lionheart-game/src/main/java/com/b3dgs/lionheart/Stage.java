@@ -49,7 +49,9 @@ public enum Stage
     /** Airship stage. */
     STAGE_11("stage11"),
     /** Dragonfly stage. */
-    STAGE_12("stage12");
+    STAGE_12("stage12"),
+    /** Tower stage. */
+    STAGE_13("stage13");
 
     /** Level file. */
     private final Media file;
