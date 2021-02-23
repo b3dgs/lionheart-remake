@@ -48,7 +48,9 @@ public enum WorldType
     /** Airship world. */
     AIRSHIP(Music.AIRSHIP),
     /** Dragonfly world. */
-    DRAGONFLY(Music.DRAGONFLY);
+    DRAGONFLY(Music.DRAGONFLY),
+    /** Tower world. */
+    TOWER(Music.TOWER);
 
     /**
      * Load type from its saved format.

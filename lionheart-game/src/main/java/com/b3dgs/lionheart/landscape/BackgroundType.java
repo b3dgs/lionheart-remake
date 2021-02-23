@@ -47,6 +47,8 @@ public enum BackgroundType
     AIRSHIP(WorldType.AIRSHIP, "airship"),
     /** Dragonfly. */
     DRAGONFLY(WorldType.DRAGONFLY, "dragonfly"),
+    /** Tower. */
+    TOWER(WorldType.TOWER, "tower"),
     /** None. */
     NONE(null, null);
 

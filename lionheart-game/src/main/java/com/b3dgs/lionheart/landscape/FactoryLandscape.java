@@ -115,6 +115,9 @@ public final class FactoryLandscape
             case DRAGONFLY:
                 background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
+            case TOWER:
+                background = new Tower(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             default:
                 throw new LionEngineException(backgroundType);
         }
