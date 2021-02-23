@@ -79,6 +79,19 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         super(services, setup);
     }
 
+    /**
+     * Disable player on animal locking.
+     */
+    private void off()
+    {
+        if (on)
+        {
+            on = false;
+            camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
+            tracker.track(player);
+        }
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
@@ -95,27 +108,21 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         });
     }
 
-    /**
-     * Disable player on animal locking.
-     */
-    private void off()
-    {
-        if (on)
-        {
-            on = false;
-            camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-            tracker.track(player);
-        }
-    }
-
     @Override
     public void update(double extrp)
     {
         if (on)
         {
-            camera.moveLocation(extrp, SPEED, 0.0);
+            if (camera.getX() < 718 * 16)
+            {
+                camera.moveLocation(extrp, SPEED, 0.0);
+                player.moveLocationX(extrp, SPEED);
+            }
+            if (camera.getX() < 705 * 16)
+            {
+                launcher.fire();
+            }
             camera.setLocation(camera.getX(), player.getY() - 64);
-            player.moveLocationX(extrp, SPEED);
 
             if (player.getX() < camera.getX() + transformable.getWidth() / 10)
             {
@@ -186,7 +193,6 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         {
             launcher.setLevel(0);
         }
-        launcher.fire();
     }
 
     @Override

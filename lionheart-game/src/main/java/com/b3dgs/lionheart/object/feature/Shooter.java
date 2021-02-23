@@ -54,6 +54,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
 
+    private ShooterConfig def;
     private ShooterConfig config;
     private Updatable updater;
     private boolean enabled;
@@ -72,6 +73,11 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
     public Shooter(Services services, Setup setup)
     {
         super(services, setup);
+
+        if (setup.hasNode(ShooterConfig.NODE_SHOOTER))
+        {
+            def = ShooterConfig.imports(setup);
+        }
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation("patrol");
@@ -226,5 +232,9 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
         config = null;
         updater = UpdatableVoid.getInstance();
         enabled = true;
+        if (def != null)
+        {
+            load(def);
+        }
     }
 }

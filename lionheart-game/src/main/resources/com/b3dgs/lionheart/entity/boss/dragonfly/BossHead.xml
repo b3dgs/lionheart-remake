@@ -5,6 +5,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BossDragonflyHead</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="BossHead.png"/>
     <lionengine:frames horizontal="7" vertical="4"/>
@@ -13,6 +14,7 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.2" reversed="false" repeat="false"/>
         <lionengine:animation name="attack" start="14" end="14" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="turn" start="1" end="12" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -20,6 +22,14 @@
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
+    <lionengine:launcher>
+        <lionengine:launchable media="entity/boss/dragonfly/BossLaser.xml" ox="-122" oy="6">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/dragonfly/BossLaser.xml" ox="-378" oy="6">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
 </lionengine:featurable>

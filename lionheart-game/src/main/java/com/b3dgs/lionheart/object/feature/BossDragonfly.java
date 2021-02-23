@@ -21,8 +21,8 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -46,12 +46,16 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class BossDragonfly extends FeatureModel implements Routine, Recyclable
 {
+    private static final int APPROACH_DELAY_TICK = 40;
+    private static final double SPEED = 13.0 / 31.0;
+    private static final double SPEED_LEAVE = -2.5;
     private static final int EXPLODE_DELAY = 10;
 
     private final Tick tick = new Tick();
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Spawner spawner = services.get(Spawner.class);
+    private final Camera camera = services.get(Camera.class);
 
     private Updatable updater;
 
@@ -75,10 +79,13 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     public BossDragonfly(Services services, Setup setup)
     {
         super(services, setup);
-
-        final AnimationConfig config = AnimationConfig.imports(setup);
     }
 
+    /**
+     * Spawn elements.
+     * 
+     * @param extrp The extrapolation value.
+     */
     private void updateSpawn(double extrp)
     {
         head = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "BossHead.xml"),
@@ -97,12 +104,52 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
                        .getFeature(Stats.class);
 
         oldHealth = stats.getHealth();
-        updater = this::updateAwait;
+        updater = this::updateApproach;
+        tick.restart();
     }
 
+    /**
+     * Update approaching.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateApproach(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsed(APPROACH_DELAY_TICK))
+        {
+            updater = this::updateAwait;
+        }
+    }
+
+    /**
+     * Update leaving on hurt.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateLeave(double extrp)
+    {
+        if (camera.getX() < 719 * 16)
+        {
+            updater = this::updateApproach;
+            tick.restart();
+        }
+        camera.moveLocation(extrp, SPEED_LEAVE, 0.0);
+        player.moveLocationX(extrp, SPEED_LEAVE);
+    }
+
+    /**
+     * Update await.
+     * 
+     * @param extrp The extrapolation value.
+     */
     private void updateAwait(double extrp)
     {
-        collidable.setEnabled(!hurtable.isHurting());
+        if (camera.getX() < 736 * 16)
+        {
+            camera.moveLocation(extrp, SPEED, 0.0);
+            player.moveLocationX(extrp, SPEED);
+        }
 
         if (oldHealth != stats.getHealth())
         {
@@ -111,21 +158,32 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
             hurtable.hurt();
         }
         oldHealth = stats.getHealth();
+
         if (stats.getHealth() == 0)
         {
-            if (!tick.isStarted())
-            {
-                tick.start();
-                head.kill();
-            }
+            updater = this::updateExplode;
+            head.kill();
+            tick.restart();
+        }
+        else if (hurtable.isHurting())
+        {
+            collidable.setEnabled(false);
+            updater = this::updateLeave;
+        }
+    }
 
-            tick.update(extrp);
-            if (tick.elapsed(EXPLODE_DELAY))
-            {
-                spawnExplode();
-
-                tick.restart();
-            }
+    /**
+     * Update death.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateExplode(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsed(EXPLODE_DELAY))
+        {
+            spawnExplode();
+            tick.restart();
         }
     }
 
