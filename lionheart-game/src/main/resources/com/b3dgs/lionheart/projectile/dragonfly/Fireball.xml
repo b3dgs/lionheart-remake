@@ -4,6 +4,7 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnCollide</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Fireball.png"/>
     <lionengine:frames horizontal="6" vertical="1"/>
