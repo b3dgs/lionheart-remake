@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Fly</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnGround</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Bullet2.png"/>
+    <lionengine:frames horizontal="5" vertical="1"/>
+    <lionengine:size width="16" height="16"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="4" speed="0.25" reversed="true" repeat="true"/>
+        <lionengine:animation name="fall" start="1" end="4" speed="0.25" reversed="true" repeat="true"/>
+        <lionengine:animation name="land" start="1" end="4" speed="0.25" reversed="true" repeat="true"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="4" width="8" height="8" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="4" width="8" height="8" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="leg" axis="Y" x="0" y="0">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>incline_0_right</lionengine:group>
+            <lionengine:group>incline_1_right</lionengine:group>
+            <lionengine:group>incline_0_left</lionengine:group>
+            <lionengine:group>incline_1_left</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
+    <lionengine:collidable group="2" accepted="1"/>
+    <hurtable frame="5" effect="airship/ExplodeLittle"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>
