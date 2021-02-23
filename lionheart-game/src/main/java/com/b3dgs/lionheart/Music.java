@@ -52,7 +52,9 @@ public enum Music
     /** Airship music. */
     AIRSHIP,
     /** Dragonfly music. */
-    DRAGONFLY;
+    DRAGONFLY,
+    /** Tower music. */
+    TOWER;
 
     /** The associated media. */
     private final Media media;
