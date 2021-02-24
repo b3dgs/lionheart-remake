@@ -36,14 +36,8 @@
         <entity file="entity/monster/tower/Crawling.xml" tx="25.0" ty="51.0">
             <patrol sh="0.3" amplitude="16"/>
         </entity>
-        <entity file="entity/monster/tower/Fish.xml" tx="15.0" ty="57.0">
-            <patrol sh="0.0" sv="0.03" amplitude="48" curve="true"/>
-            <shooter fireDelay="100" firedDelay="0" svx="0.0" svy="0.0" track="true"/>
-        </entity>
-        <entity file="entity/monster/tower/Fish.xml" tx="28.0" ty="57.0">
-            <patrol sh="0.0" sv="0.03" amplitude="48" curve="true"/>
-            <shooter fireDelay="100" firedDelay="0" svx="0.0" svy="0.0" track="true"/>
-        </entity>
+        <entity file="entity/monster/tower/Fish.xml" tx="15.0" ty="60.0"/>
+        <entity file="entity/monster/tower/Fish.xml" tx="28.0" ty="63.0"/>
         <entity file="entity/item/tower/PotionLittle.xml" tx="12.0" ty="60.0"/>
         <entity file="entity/item/tower/PotionLittle.xml" tx="31.0" ty="60.0"/>
         <entity file="entity/scenery/tower/Rotating.xml" tx="21.0" ty="69.0">
