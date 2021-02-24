@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -55,6 +56,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     private static final String ATT_SPEEDUP = "speedUp";
     private static final String ATT_SPEEDDOWN = "speedDown";
     private static final String ATT_MAX = "max";
+    private static final String ATT_WATER_LEVEL = "waterLevel";
     private static final String ATT_HIT = "hit";
 
     private final MapTileWater water = services.get(MapTileWater.class);
@@ -64,7 +66,8 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     private final double speedDown;
     private final int max;
     private final boolean hit;
-    private Rasterable rasterable;
+    private final boolean waterLevel;
+    private Rasterable rasterableWater;
     private boolean start;
     private double down;
 
@@ -72,6 +75,8 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Glue glue;
     @FeatureGet private Mirrorable mirrorable;
+    @FeatureGet private Animatable animatable;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -88,6 +93,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         speedUp = setup.getDouble(ATT_SPEEDUP, NODE);
         speedDown = setup.getDouble(ATT_SPEEDDOWN, NODE);
         max = setup.getInteger(ATT_MAX, NODE);
+        waterLevel = setup.getBooleanDefault(true, ATT_WATER_LEVEL, NODE);
         hit = setup.getBooleanDefault(false, ATT_HIT, NODE);
     }
 
@@ -98,7 +104,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
      */
     public void loadRaster(String raster)
     {
-        rasterable.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
+        rasterableWater.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
     }
 
     @Override
@@ -122,33 +128,36 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
             }
         });
 
-        rasterable = new RasterableModel(services, new SetupSurfaceRastered(setup.getMedia()))
+        rasterableWater = new RasterableModel(services, new SetupSurfaceRastered(setup.getMedia()))
         {
             @Override
             public int getRasterIndex(double y)
             {
-                return -UtilMath.clamp((int) Math.floor(down - transformable.getHeight() / 2.5),
-                                       -transformable.getHeight(),
-                                       0)
+                return UtilMath.clamp((int) Math.floor(water.getCurrent() - transformable.getY()),
+                                      0,
+                                      transformable.getHeight())
                        - 2;
             }
         };
-        rasterable.prepare(provider);
+        rasterableWater.prepare(provider);
     }
 
     @Override
     public void update(double extrp)
     {
-        if (Double.compare(transformable.getY() + transformable.getHeight() / 2.5, water.getCurrent()) <= 0)
+        if (Double.compare(transformable.getY(), water.getCurrent()) <= 0)
         {
-            glue.setTransformY(() -> -water.getCurrent() + transformable.getHeight() / 2.5 - down);
-            rasterable.setVisibility(true);
-            rasterable.update(extrp);
+            if (waterLevel)
+            {
+                glue.setTransformY(() -> -water.getCurrent() + transformable.getHeight() / 2.5 - down);
+            }
+            rasterableWater.setVisibility(rasterable.isVisible());
+            rasterableWater.update(extrp);
         }
         else
         {
             glue.setTransformY(null);
-            rasterable.setVisibility(false);
+            rasterableWater.setVisibility(false);
         }
         if (start)
         {
@@ -171,9 +180,9 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @Override
     public void render(Graphic g)
     {
-        if (rasterable.getRasterIndex(0) > 0)
+        if (rasterableWater.getRasterIndex(0) > 0)
         {
-            rasterable.render(g);
+            rasterableWater.render(g);
         }
     }
 

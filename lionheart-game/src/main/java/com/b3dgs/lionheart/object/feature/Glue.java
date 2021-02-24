@@ -144,7 +144,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
             if (Double.compare(other.getFeature(EntityModel.class).getInput().getVerticalDirection(), 0.0) <= 0)
             {
                 other.getFeature(Body.class).resetGravity();
-                other.teleportY(reference.getY() + offsetY);
+                other.setLocationY(reference.getY() + offsetY + 0.5);
             }
         }
         if (!collidable.isEnabled() && other != null)
@@ -165,12 +165,12 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         if (with.getName().startsWith(CollisionName.GROUND) && by.getName().startsWith(Anim.LEG))
         {
             other = collidable.getFeature(Transformable.class);
-            if (Double.compare(other.getY(), other.getOldY()) <= 0)
+            if (!collide && Double.compare(other.getY(), other.getOldY()) <= 0)
             {
                 collide = true;
                 offsetY = with.getOffsetY();
                 other.getFeature(Body.class).resetGravity();
-                other.teleportY(reference.getY() + offsetY);
+                other.setLocationY(reference.getY() + offsetY + 0.5);
 
                 start();
             }

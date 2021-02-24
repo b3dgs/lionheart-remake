@@ -37,6 +37,7 @@ import com.b3dgs.lionheart.object.feature.Dragon2Config;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
+import com.b3dgs.lionheart.object.feature.PillarConfig;
 import com.b3dgs.lionheart.object.feature.RotatingConfig;
 import com.b3dgs.lionheart.object.feature.ShooterConfig;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
@@ -105,6 +106,8 @@ public final class EntityConfig
     private final Optional<Canon2AirshipConfig> canon2;
     /** Shooter configuration. */
     private final Optional<ShooterConfig> shooter;
+    /** Pillar configuration. */
+    private final Optional<PillarConfig> pillar;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -144,6 +147,7 @@ public final class EntityConfig
         dragon2 = root.getChildOptional(Dragon2Config.NODE_DRAGON2).map(Dragon2Config::imports);
         canon2 = root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports);
         shooter = root.getChildOptional(ShooterConfig.NODE_SHOOTER).map(ShooterConfig::imports);
+        pillar = root.getChildOptional(PillarConfig.NODE_PILLARD).map(PillarConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -312,6 +316,16 @@ public final class EntityConfig
     public Optional<ShooterConfig> getShooter()
     {
         return shooter;
+    }
+
+    /**
+     * Get the pillar configuration.
+     * 
+     * @return The v configuration.
+     */
+    public Optional<PillarConfig> getPillar()
+    {
+        return pillar;
     }
 
     /**

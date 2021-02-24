@@ -69,6 +69,7 @@ import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
+import com.b3dgs.lionheart.object.feature.Pillar;
 import com.b3dgs.lionheart.object.feature.Rotating;
 import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
@@ -275,6 +276,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         entity.getDragon2().ifPresent(config -> featurable.ifIs(Dragon2.class, dragon2 -> dragon2.load(config)));
         entity.getCanon2().ifPresent(config -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(config)));
         entity.getShooter().ifPresent(config -> featurable.ifIs(Shooter.class, shooter -> shooter.load(config)));
+        entity.getPillar().ifPresent(config -> featurable.ifIs(Pillar.class, pillar -> pillar.load(config)));
         stage.getRasterFolder().ifPresent(r ->
         {
             featurable.ifIs(Floater.class, floater -> floater.loadRaster(r));
