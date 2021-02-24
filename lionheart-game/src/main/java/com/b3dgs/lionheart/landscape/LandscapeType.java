@@ -51,7 +51,9 @@ public enum LandscapeType
     /** Dragonfly. */
     DRAGONFLY(WorldType.DRAGONFLY, "dragonfly", "raster.xml", ForegroundType.NONE),
     /** Tower. */
-    TOWER(WorldType.TOWER, "tower", "raster3.xml", ForegroundType.WATER);
+    TOWER(WorldType.TOWER, "tower", "raster3.xml", ForegroundType.WATER),
+    /** Norka. */
+    NORKA(WorldType.NORKA, "norka", "raster3.xml", ForegroundType.LAVA);
 
     /**
      * Get all landscapes related to the world.

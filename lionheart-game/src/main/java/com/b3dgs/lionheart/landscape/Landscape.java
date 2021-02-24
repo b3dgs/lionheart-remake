@@ -50,8 +50,8 @@ public class Landscape
      */
     public void update(double extrp, Camera camera)
     {
-        background.update(extrp, camera.getMovementHorizontal(), camera.getY());
-        foreground.update(extrp, camera.getMovementHorizontal(), camera.getY());
+        background.update(extrp, camera.getMovementHorizontal(), camera.getX(), camera.getY());
+        foreground.update(extrp, camera.getMovementHorizontal(), camera.getX(), camera.getY());
     }
 
     /**

@@ -56,7 +56,7 @@ public interface Foreground extends Background
     }
 
     @Override
-    default void update(double extrp, double speed, double y)
+    default void update(double extrp, double speed, double x, double y)
     {
         // Nothing by default
     }

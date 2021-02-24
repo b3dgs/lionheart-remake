@@ -118,6 +118,9 @@ public final class FactoryLandscape
             case TOWER:
                 background = new Tower(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
+            case NORKA:
+                background = new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                break;
             default:
                 throw new LionEngineException(backgroundType);
         }

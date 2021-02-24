@@ -50,7 +50,9 @@ public enum WorldType
     /** Dragonfly world. */
     DRAGONFLY(Music.DRAGONFLY),
     /** Tower world. */
-    TOWER(Music.TOWER);
+    TOWER(Music.TOWER),
+    /** Norka world. */
+    NORKA(Music.TOWER);
 
     /**
      * Load type from its saved format.

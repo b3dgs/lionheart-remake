@@ -49,6 +49,8 @@ public enum BackgroundType
     DRAGONFLY(WorldType.DRAGONFLY, "dragonfly"),
     /** Tower. */
     TOWER(WorldType.TOWER, "tower"),
+    /** Norka. */
+    NORKA(WorldType.NORKA, "norka"),
     /** None. */
     NONE(null, null);
 

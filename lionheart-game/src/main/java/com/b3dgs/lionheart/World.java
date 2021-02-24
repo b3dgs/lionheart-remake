@@ -156,7 +156,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private void loadWaterRaster(StageConfig config, Optional<String> raster)
     {
         final ForegroundType foreground = config.getForeground().getType();
-        if (foreground == ForegroundType.WATER || foreground == ForegroundType.WATER)
+        if (foreground == ForegroundType.WATER || foreground == ForegroundType.LAVA)
         {
             raster.ifPresent(r ->
             {

@@ -87,7 +87,7 @@ public final class ForegroundConfig
         waterOffset = root.getIntegerOptional(ATT_WATER_OFFSET, NODE_FOREGROUND);
         waterSpeed = root.getDoubleOptional(ATT_WATER_SPEED, NODE_FOREGROUND);
         waterEffect = root.getBooleanDefault(true, ATT_WATER_EFFECT, NODE_FOREGROUND);
-        waterRaise = root.getBooleanDefault(true, ATT_WATER_RAISE, NODE_FOREGROUND);
+        waterRaise = root.getBooleanDefault(false, ATT_WATER_RAISE, NODE_FOREGROUND);
     }
 
     /**
