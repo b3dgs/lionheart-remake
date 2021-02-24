@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/norka.sc68"/>
+    <map file="levels/norka/stage14.lvl"/>
+    <raster folder="levels/norka/raster/norka/"/>
+    <background type="NORKA"/>
+    <foreground type="LAVA" waterDepth="8" waterOffset="64"/>
+    <checkpoints>
+        <checkpoint tx="12" ty="5"/>
+    </checkpoints>
+    <entities>
+    </entities>
+</stage>
