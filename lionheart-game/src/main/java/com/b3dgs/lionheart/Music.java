@@ -54,7 +54,11 @@ public enum Music
     /** Dragonfly music. */
     DRAGONFLY,
     /** Tower music. */
-    TOWER;
+    TOWER,
+    /** Norka music. */
+    NORKA,
+    /** Norka win music. */
+    NORKA_WIN;
 
     /** The associated media. */
     private final Media media;
