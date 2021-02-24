@@ -51,7 +51,9 @@ public enum Stage
     /** Dragonfly stage. */
     STAGE_12("stage12"),
     /** Tower stage. */
-    STAGE_13("stage13");
+    STAGE_13("stage13"),
+    /** Norka stage. */
+    STAGE_14("stage14");
 
     /** Level file. */
     private final Media file;
