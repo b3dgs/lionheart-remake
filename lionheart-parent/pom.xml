@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.b3dgs.lionheart</groupId>
     <artifactId>lionheart-parent</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version>
     <name>Lionheart Remake</name>
     <packaging>pom</packaging>
     <description>Remake of the original Lionheart on the Amiga by Thalion</description>
