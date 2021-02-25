@@ -109,7 +109,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
     @Override
     public void render(Graphic g)
     {
-        if (waterHeight > -1)
+        if (waterHeight > 1)
         {
             final double viewY = viewer.getY() + viewer.getScreenHeight();
             final double viewX = viewer.getX();

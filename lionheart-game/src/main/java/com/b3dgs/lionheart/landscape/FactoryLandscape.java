@@ -77,7 +77,10 @@ public final class FactoryLandscape
         }
         else
         {
-            foreground = new ForegroundWater(services, source, foregroundType.getTheme(), foregroundConfig);
+            foreground = services.add(new ForegroundWater(services,
+                                                          source,
+                                                          foregroundType.getTheme(),
+                                                          foregroundConfig));
         }
         return new Landscape(background, foreground);
     }

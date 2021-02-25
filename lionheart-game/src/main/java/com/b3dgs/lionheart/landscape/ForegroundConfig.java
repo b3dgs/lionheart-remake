@@ -68,7 +68,7 @@ public final class ForegroundConfig
     /** Water effect value. */
     private final boolean waterEffect;
     /** Water raise flag. */
-    private final boolean waterRaise;
+    private final int waterRaise;
 
     /**
      * Create config.
@@ -87,7 +87,7 @@ public final class ForegroundConfig
         waterOffset = root.getIntegerOptional(ATT_WATER_OFFSET, NODE_FOREGROUND);
         waterSpeed = root.getDoubleOptional(ATT_WATER_SPEED, NODE_FOREGROUND);
         waterEffect = root.getBooleanDefault(true, ATT_WATER_EFFECT, NODE_FOREGROUND);
-        waterRaise = root.getBooleanDefault(false, ATT_WATER_RAISE, NODE_FOREGROUND);
+        waterRaise = root.getIntegerDefault(0, ATT_WATER_RAISE, NODE_FOREGROUND);
     }
 
     /**
@@ -141,11 +141,11 @@ public final class ForegroundConfig
     }
 
     /**
-     * Get the water raise flag.
+     * Get the water raise value.
      * 
-     * @return The water raise flag.
+     * @return The water raise value.
      */
-    public boolean getWaterRaise()
+    public int getWaterRaise()
     {
         return waterRaise;
     }

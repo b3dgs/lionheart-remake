@@ -346,7 +346,17 @@ public final class Hurtable extends FeatureModel
      */
     public void kill()
     {
-        if (stats.getHealthMax() > 0)
+        kill(false);
+    }
+
+    /**
+     * Spawn effect and destroy.
+     * 
+     * @param force <code>true</code> to kill forced, <code>false</code> else.
+     */
+    public void kill(boolean force)
+    {
+        if (force || stats.getHealthMax() > 0)
         {
             if (!fall)
             {

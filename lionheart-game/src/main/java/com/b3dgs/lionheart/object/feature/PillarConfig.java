@@ -56,7 +56,7 @@ public final class PillarConfig
     {
         Check.notNull(root);
 
-        return new PillarConfig(root);
+        return new PillarConfig(root.readInteger(ATT_DELAY));
     }
 
     /** Delay. */
@@ -65,15 +65,13 @@ public final class PillarConfig
     /**
      * Create config.
      * 
-     * @param root The root configuration (must not be null).
+     * @param delay The delay value.
      */
-    private PillarConfig(XmlReader root)
+    public PillarConfig(int delay)
     {
         super();
 
-        Check.notNull(root);
-
-        delay = root.readInteger(ATT_DELAY);
+        this.delay = delay;
     }
 
     /**

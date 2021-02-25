@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Water foreground implementation.
  */
-final class ForegroundWater extends BackgroundAbstract implements Foreground
+public final class ForegroundWater extends BackgroundAbstract implements Foreground
 {
     private static final int WATER_LINES = 4;
     private static final int WATER_SIDE_COUNT_MAX = 4;
@@ -68,6 +68,8 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
     private double height;
     /** Water raise offset. */
     private double raise;
+    /** Water raise max. */
+    private double raiseMax;
     /** Water current line. */
     private int offsetLine;
     /** Water line offset. */
@@ -93,14 +95,8 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
         depthOffset = config.getWaterOffset().orElse(0);
         animSpeed = config.getWaterSpeed().orElse(0.25);
         effect = config.getWaterEffect();
-        if (config.getWaterRaise())
-        {
-            raise = 0;
-        }
-        else
-        {
-            raise = -1;
-        }
+        raiseMax = config.getWaterRaise();
+        raise = 0;
 
         mapWater = services.get(MapTileWater.class);
 
@@ -115,12 +111,34 @@ final class ForegroundWater extends BackgroundAbstract implements Foreground
         tick.start();
     }
 
+    /**
+     * Set maximum raise.
+     * 
+     * @param max The raise max.
+     */
+    public void setRaiseMax(double max)
+    {
+        raiseMax = max;
+    }
+
     @Override
     public void renderBack(Graphic g)
     {
-        if (raise > -1)
+        if (raise < raiseMax)
         {
             raise += RAISE_SPEED;
+        }
+        else if (raiseMax < 0)
+        {
+            raise -= RAISE_SPEED * 5;
+            if (raise < -32)
+            {
+                raise = -32;
+            }
+        }
+        else
+        {
+            raise = raiseMax;
         }
         renderComponent(0, g);
     }

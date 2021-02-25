@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
@@ -26,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -45,6 +47,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
 {
     private final Tick tick = new Tick();
     private final Animation idle;
+    private final Animation fall;
 
     private PillarConfig config;
     private Updatable updater;
@@ -52,6 +55,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Collidable collidable;
+    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
@@ -66,6 +70,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
+        fall = config.getAnimation(Anim.FALL);
     }
 
     /**
@@ -78,6 +83,16 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
         this.config = config;
         updater = this::updateDelay;
         tick.restart();
+    }
+
+    /**
+     * Close pillar.
+     */
+    public void close()
+    {
+        final int old = animatable.getFrame();
+        animatable.play(fall);
+        animatable.setFrame(old);
     }
 
     /**
@@ -103,6 +118,10 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         updater.update(extrp);
+        if (animatable.is(AnimState.FINISHED))
+        {
+            identifiable.destroy();
+        }
     }
 
     @Override

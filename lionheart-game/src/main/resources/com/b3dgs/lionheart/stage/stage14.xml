@@ -4,24 +4,12 @@
     <map file="levels/norka/stage14.lvl"/>
     <raster folder="levels/norka/raster/norka/"/>
     <background type="NORKA"/>
-    <foreground type="LAVA" waterDepth="3" waterOffset="96"/>
+    <foreground type="LAVA" waterDepth="3" waterOffset="-64" raise="160"/>
     <checkpoints>
         <checkpoint tx="9" ty="5"/>
     </checkpoints>
     <entities>
-        <entity file="entity/boss/norka/Boss2a.xml" tx="14.0" ty="15.0"/>
         <entity file="entity/boss/norka/NorkaShield.xml" tx="13.0" ty="9.0"/>
-        <entity file="entity/scenery/norka/Pillar.xml" tx="5.0" ty="10.4">
-            <pillar delay="100"/>
-        </entity>
-        <entity file="entity/scenery/norka/Pillar.xml" tx="10.0" ty="10.4">
-            <pillar delay="200"/>
-        </entity>
-        <entity file="entity/scenery/norka/Pillar.xml" tx="15.0" ty="10.4">
-            <pillar delay="300"/>
-        </entity>
-        <entity file="entity/scenery/norka/Pillar.xml" tx="20.0" ty="10.4">
-            <pillar delay="400"/>
-        </entity>
+        <entity file="entity/boss/norka/Boss1.xml" tx="15.0" ty="50.0"/>
     </entities>
 </stage>

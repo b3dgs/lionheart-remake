@@ -104,6 +104,7 @@
             <lionengine:collisionFramed prefix="ground" number="89" x="0" height="2" width="16" y="7"/>
             <lionengine:collisionFramed prefix="ground" number="90" x="0" height="2" width="16" y="6"/>
         </lionengine:animation>
+        <lionengine:animation name="fall" start="1" end="90" speed="2.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
