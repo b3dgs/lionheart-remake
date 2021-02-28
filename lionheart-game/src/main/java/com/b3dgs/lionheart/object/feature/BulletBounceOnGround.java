@@ -58,6 +58,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
 {
     private static final String NODE = "bulletBounceOnGround";
     private static final String ATT_SFX = "sfx";
+    private static final String ATT_COUNT = "count";
 
     private static final double BOUNCE_MAX = 3.5;
 
@@ -65,10 +66,12 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Sfx sfx;
+    private final int count;
 
     private Rasterable rasterable;
     private Force jump;
     private double bounceX;
+    private int bounced;
 
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Body body;
@@ -91,6 +94,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
         sfx = Sfx.valueOf(setup.getString(ATT_SFX, NODE));
+        count = setup.getIntegerDefault(0, ATT_COUNT, NODE);
     }
 
     /**
@@ -106,7 +110,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (category.getName().contains(CollisionName.LEG))
+        if ((count == 0 || bounced < count) && category.getName().contains(CollisionName.LEG))
         {
             if (result.containsY(CollisionName.GROUND)
                 || result.containsY(CollisionName.SLOPE)
@@ -147,6 +151,8 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
                     jump.setDestination(bounceX * sideX, 0.0);
                 }
                 jump.setDirection(bounceX * sideX, bounce);
+
+                bounced++;
             }
         }
         else if (category.getName().startsWith(CollisionName.KNEE))

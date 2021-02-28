@@ -3,14 +3,15 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Norka</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.NorkaTransform</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="NorkaShield.png"/>
+    <lionengine:surface image="NorkaTransform.png"/>
     <lionengine:frames horizontal="4" vertical="4"/>
-    <lionengine:size width="32" height="48"/>
+    <lionengine:size width="64" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="16" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="16" speed="0.15" reversed="true" repeat="false"/>
     </lionengine:animations>
-    <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

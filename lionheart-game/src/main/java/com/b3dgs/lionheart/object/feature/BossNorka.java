@@ -24,8 +24,11 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Factory;
@@ -41,6 +44,8 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Anim;
@@ -69,9 +74,14 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private static final int SHAKE_AMPLITUDE = 4;
     private static final int Y = 60;
     private static final int WALK_OFFSET = 47;
-    private static final int RANGE_X = 47;
-    private static final int TICK_JUMP = 70;
+    private static final int TICK_JUMP = 300;
     private static final int TICK_AWAIT = 70;
+    private static final int TICK_PHASE_FIRE = 300;
+    private static final int[] PATROLS =
+    {
+        WALK_OFFSET
+      * 2, 0, -WALK_OFFSET * 2, 0
+    };
 
     // @formatter:off
     private static final int[][] DATA =
@@ -457,6 +467,22 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         "NorkaHead", "NorkaBowl", "NorkaBowl", "NorkaBowl", "NorkaLeg", "NorkaBowl", "NorkaBowl", "NorkaBowl",
         "NorkaLeg"
     };
+
+    /**
+     * Get random horizontal direction.
+     * 
+     * @return The random horizontal direction.
+     */
+    private static double getRandomDirectionX()
+    {
+        final int vx = UtilRandom.getRandomInteger(3);
+        if (UtilRandom.getRandomBoolean())
+        {
+            return vx - 3.5;
+        }
+        return vx + 0.5;
+    }
+
     private final Transformable[] limbs = new Transformable[LIMBS.length];
     private final Animatable[] limbsAnim = new Animatable[LIMBS.length];
     private final Animator animator = new AnimatorModel();
@@ -476,15 +502,19 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private Stats stats;
     private double startX;
     private double startY;
+    private int patrol;
+    private int walkedCount;
     private Updatable phase;
     private int shakeX;
     private int shakeY;
     private int shakeCount;
 
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Transformable transformable;
     @FeatureGet private Identifiable identifiable;
+    @FeatureGet private Transformable transformable;
+    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Body body;
+    @FeatureGet private Launcher launcher;
+    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.
@@ -546,6 +576,14 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
             phase = this::updateWalk;
             transformable.teleportY(startY + Y);
             animator.play(walk);
+            walkedCount = 0;
+
+            if (startX + PATROLS[patrol] < transformable.getX())
+            {
+                animator.setFrame(walk.getLast());
+                animator.setAnimSpeed(-walk.getSpeed());
+                transformable.moveLocationX(1.0, -WALK_OFFSET);
+            }
             tick.restart();
         }
     }
@@ -562,16 +600,43 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         transformable.teleportY(startY + Y);
         body.resetGravity();
 
-        if (old == walk.getLast() && animator.getFrame() == walk.getFirst())
+        final int side = getSide();
+        if (side <= 0 && old == walk.getFirst() && animator.getFrame() == walk.getLast()
+            || side > 0 && old == walk.getLast() && animator.getFrame() == walk.getFirst())
         {
-            transformable.moveLocationX(1.0, WALK_OFFSET);
-            if (transformable.getX() > startX + RANGE_X)
+            transformable.moveLocationX(1.0, WALK_OFFSET * side);
+            walkedCount++;
+
+            if (walkedCount > 1)
             {
                 phase = this::updatePrepareJump;
                 animator.play(preparejump);
                 tick.restart();
             }
         }
+    }
+
+    /**
+     * Get direction side.
+     * 
+     * @return The direction side.
+     */
+    private int getSide()
+    {
+        final int side;
+        if (startX + PATROLS[patrol] < transformable.getX())
+        {
+            side = -1;
+        }
+        else if (startX + PATROLS[patrol] > transformable.getX())
+        {
+            side = 1;
+        }
+        else
+        {
+            side = 0;
+        }
+        return side;
     }
 
     /**
@@ -595,7 +660,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     }
 
     /**
-     * Update jump phase moving left.
+     * Update jump phase.
      * 
      * @param extrp The extrapolation value.
      */
@@ -610,10 +675,57 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         {
             tick.start();
             animator.play(idle);
-            if (tick.elapsed(TICK_JUMP))
+
+            if (PATROLS[patrol] == 0)
             {
-                phase = this::updateFall;
+                launcher.setLevel(0);
+                phase = this::updateAttack;
+                animator.play(idle);
+                tick.restart();
             }
+            else
+            {
+                launcher.setLevel(1);
+                launcher.fire();
+                launcher.setLevel(2);
+                launcher.fire();
+                phase = this::updatePlatform;
+                tick.restart();
+            }
+        }
+
+    }
+
+    /**
+     * Update attack phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateAttack(double extrp)
+    {
+        launcher.fire(new Force(getRandomDirectionX(), -UtilRandom.getRandomDouble() / 5));
+        transformable.teleportY(startY + Y - 24);
+        body.resetGravity();
+        tick.update(extrp);
+        if (tick.elapsed(TICK_PHASE_FIRE))
+        {
+            phase = this::updateFall;
+        }
+    }
+
+    /**
+     * Update platform phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updatePlatform(double extrp)
+    {
+        transformable.teleportY(startY + Y - 24);
+        body.resetGravity();
+        tick.update(extrp);
+        if (tick.elapsed(TICK_JUMP))
+        {
+            phase = this::updateFall;
         }
     }
 
@@ -625,7 +737,6 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private void updateFall(double extrp)
     {
         animator.update(extrp);
-
         if (Double.compare(transformable.getY(), startY - 68) <= 0)
         {
             phase = this::updateShakeScreen;
@@ -684,6 +795,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         {
             phase = this::updateRise;
             transformable.teleportY(startY);
+            patrol = UtilMath.wrap(patrol + 1, 0, PATROLS.length);
             animator.play(rise);
         }
     }
@@ -697,11 +809,16 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         for (int i = 0; i < LIMBS.length; i++)
         {
             limbs[i].setLocation(transformable.getX() + DATA[id * 2][i], transformable.getY() - DATA[id * 2 + 1][i]);
-            // if (i == 2 || i == 6 || i == 8 || i == 12)
-            // {
-            // limbsAnim[i].setFrame(limbsAnim[0].getFeature(Hurtable.class).isHurting() ? limbsAnim[0].getFrame() + 5
-            // : limbsAnim[0].getFrame());
-            // }
+            if (i > 0 && i < 4 || i > 4 && i < 8)
+            {
+                limbs[i].getFeature(Rasterable.class)
+                        .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3));
+            }
+            else
+            {
+                limbs[i].getFeature(Rasterable.class)
+                        .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3) * 6);
+            }
         }
     }
 
@@ -740,5 +857,9 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     public void recycle()
     {
         phase = this::start;
+        patrol = 0;
+        shakeX = 0;
+        shakeY = 0;
+        shakeCount = 0;
     }
 }

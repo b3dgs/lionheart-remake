@@ -113,7 +113,19 @@ public enum Sfx
     /** Boss 3 jump. */
     BOSS3_JUMP,
     /** Boss 3 hurt. */
-    BOSS3_HURT;
+    BOSS3_HURT,
+    /** Boss flyer. */
+    BOSS_FLYER,
+    /** Boss daemon fire. */
+    BOSS_DAEMON_FIRE,
+    /** Boss daemon land. */
+    BOSS_DAEMON_LAND,
+    /** Boss norka platform. */
+    BOSS_NORKA_PLATFORM,
+    /** Boss norka fire. */
+    BOSS_NORKA_FIRE,
+    /** Boss flyer. */
+    BOSS_NORKA_HURT;
 
     private static boolean cached;
 

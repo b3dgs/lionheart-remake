@@ -26,13 +26,13 @@
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="entity/boss/norka/Boss2Bullet.xml" ox="0" oy="32">
+        <lionengine:launchable media="entity/boss/norka/Boss2Bullet.xml" sfx="sfx/boss_daemon_fire.wav" ox="0" oy="32">
             <lionengine:force velocity="1" sensibility="0" vx="1.75" vy="1.75"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:collidable group="2" accepted="1%2"/>
-    <stats health="5"/>
+    <stats health="1"/>
     <hurtable frame="15" effect="ExplodeBig"/>
     <lionengine:body gravity="2.0" gravityMax="5.0"/>
     <alwaysUpdate>true</alwaysUpdate>

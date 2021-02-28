@@ -34,10 +34,10 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -70,7 +70,6 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private final Animation attack;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
 
     private Updatable current;
@@ -122,6 +121,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
         {
             if (transformable.getY() < MOVE_DOWN_Y)
             {
+                Sfx.BOSS_DAEMON_LAND.play();
                 body.resetGravity();
                 transformable.teleportY(MOVE_DOWN_Y);
                 current = this::shakeScreen;
@@ -244,6 +244,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
         transformable.moveLocation(extrp, movement);
         if (transformable.getY() < MOVE_DOWN_Y)
         {
+            Sfx.BOSS_DAEMON_LAND.play();
             body.resetGravity();
             transformable.teleportY(MOVE_DOWN_Y);
             current = this::shakeScreen;

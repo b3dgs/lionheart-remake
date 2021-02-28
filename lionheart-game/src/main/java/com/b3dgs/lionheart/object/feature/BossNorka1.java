@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
@@ -30,16 +29,14 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.landscape.ForegroundWater;
 
 /**
  * Boss Norka 1 feature implementation.
@@ -71,7 +68,6 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         112, 208, 320
     };
 
-    private final Identifiable[] pillar = new Identifiable[4];
     private final Tick tick = new Tick();
     private final Force movement = new Force();
     private final Animation idle;
@@ -82,15 +78,11 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private final Animation attack;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Spawner spawner = services.get(Spawner.class);
-    private final ForegroundWater water = services.get(ForegroundWater.class);
 
-    private Identifiable boss2;
     private Updatable current;
     private double angle;
     private int patrol;
     private int side;
-    private boolean spawned;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
@@ -223,6 +215,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         {
             animatable.play(attackprepare);
             current = this::updateAttackPrepare;
+            Sfx.BOSS_FLYER.play();
             tick.restart();
         }
     }
@@ -329,35 +322,14 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
             tick.restart();
             tick.set(MOVE_BACK_DELAY_TICK);
         }
-        if (!spawned && stats.getHealth() == 0)
-        {
-            spawned = true;
-            boss2.destroy();
-            boss2 = null;
-            spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss2b.xml"), 208, 177);
-            for (final Identifiable element : pillar)
-            {
-                element.getFeature(Pillar.class).close();
-            }
-            water.setRaiseMax(-1);
-        }
     }
 
     @Override
     public void recycle()
     {
-        for (int i = 0; i < pillar.length; i++)
-        {
-            pillar[i] = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Pillar.xml"), 88 + i * 80, 86.4)
-                               .getFeature(Identifiable.class);
-            pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
-        }
-        boss2 = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss2a.xml"), 208, 176)
-                       .getFeature(Identifiable.class);
         current = this::updateMoveDown;
         animatable.play(idle);
         angle = 0.0;
-        spawned = false;
         tick.restart();
     }
 }

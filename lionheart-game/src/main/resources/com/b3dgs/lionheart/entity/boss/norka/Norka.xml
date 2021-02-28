@@ -14,5 +14,32 @@
         <lionengine:animation name="preparejump" start="80" end="98" speed="0.8" reversed="false" repeat="false"/>
         <lionengine:animation name="jump" start="99" end="122" speed="0.8" reversed="false" repeat="false"/>
     </lionengine:animations>
+    <lionengine:launcher level="0" rate="15">
+        <lionengine:launchable media="entity/boss/norka/NorkaBullet.xml" ox="0" oy="64">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="1">
+        <lionengine:launchable media="entity/boss/norka/NorkaPlatform.xml" sfx="sfx/boss_norka_platform.wav" ox="0" oy="56" delay="0">
+            <lionengine:force velocity="1" sensibility="0" vx="2.5" vy="-3.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/norka/NorkaPlatform.xml" sfx="sfx/boss_norka_platform.wav" ox="0" oy="56" delay="13">
+            <lionengine:force velocity="1" sensibility="0" vx="3.5" vy="-0.5"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/norka/NorkaPlatform.xml" sfx="sfx/boss_norka_platform.wav" ox="0" oy="56" delay="27">
+            <lionengine:force velocity="1" sensibility="0" vx="3.0" vy="1.2"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="2">
+        <lionengine:launchable media="entity/boss/norka/NorkaBullet2.xml" sfx="sfx/boss_norka_fire.wav" ox="0" oy="64" delay="39">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/norka/NorkaBullet2.xml" sfx="sfx/boss_norka_fire.wav" ox="0" oy="64" delay="200">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/boss/norka/NorkaBullet2.xml" sfx="sfx/boss_norka_fire.wav" ox="0" oy="64" delay="350">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
     <lionengine:body gravity="1.4" gravityMax="4.0"/>
 </lionengine:featurable>
