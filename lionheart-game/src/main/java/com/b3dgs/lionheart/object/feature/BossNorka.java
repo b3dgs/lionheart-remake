@@ -69,6 +69,8 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossNorka extends FeatureModel implements Routine, Recyclable
 {
+    private static final double CURVE_SPEED = 8.0;
+    private static final double CURVE_AMPLITUDE = 3.0;
     private static final int SHAKE_DELAY = 2;
     private static final int SHAKE_COUNT = 5;
     private static final int SHAKE_AMPLITUDE = 4;
@@ -508,6 +510,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private int shakeX;
     private int shakeY;
     private int shakeCount;
+    private double angle;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -704,7 +707,8 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private void updateAttack(double extrp)
     {
         launcher.fire(new Force(getRandomDirectionX(), -UtilRandom.getRandomDouble() / 5));
-        transformable.teleportY(startY + Y - 24);
+        updateCurve();
+        transformable.teleportY(startY + Y - 24 + UtilMath.cos(angle) * CURVE_AMPLITUDE);
         body.resetGravity();
         tick.update(extrp);
         if (tick.elapsed(TICK_PHASE_FIRE))
@@ -720,7 +724,8 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
      */
     private void updatePlatform(double extrp)
     {
-        transformable.teleportY(startY + Y - 24);
+        updateCurve();
+        transformable.teleportY(startY + Y - 24 + UtilMath.cos(angle) * CURVE_AMPLITUDE);
         body.resetGravity();
         tick.update(extrp);
         if (tick.elapsed(TICK_JUMP))
@@ -822,6 +827,14 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         }
     }
 
+    /**
+     * Update curve effect.
+     */
+    private void updateCurve()
+    {
+        angle = UtilMath.wrapAngleDouble(angle + CURVE_SPEED);
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
@@ -834,6 +847,23 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
             limbsAnim[i] = featurable.getFeature(Animatable.class);
         }
         stats = limbs[0].getFeature(Stats.class);
+
+        launcher.addListener(l ->
+        {
+            if (!l.hasFeature(Fly.class))
+            {
+                if (l.hasFeature(NorkaPlatform.class))
+                {
+                    l.getFeature(Rasterable.class)
+                     .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3) * 3);
+                }
+                else
+                {
+                    l.getFeature(Rasterable.class)
+                     .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3));
+                }
+            }
+        });
     }
 
     @Override

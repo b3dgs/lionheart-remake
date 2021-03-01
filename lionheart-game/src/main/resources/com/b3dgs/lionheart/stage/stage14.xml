@@ -4,12 +4,11 @@
     <map file="levels/norka/stage14.lvl"/>
     <raster folder="levels/norka/raster/norka/"/>
     <background type="NORKA"/>
-    <foreground type="LAVA" waterDepth="3" waterOffset="-64" raise="160"/>
+    <foreground type="LAVA" waterDepth="3" waterOffset="-80" raise="180"/>
     <checkpoints>
         <checkpoint tx="9" ty="5"/>
     </checkpoints>
     <entities>
         <entity file="entity/boss/norka/NorkaShield.xml" tx="13.0" ty="9.0"/>
-        <entity file="entity/boss/norka/Boss1.xml" tx="15.0" ty="50.0"/>
     </entities>
 </stage>

@@ -55,7 +55,8 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private static final int SHAKE_COUNT = 5;
     private static final int SHAKE_AMPLITUDE = 4;
     private static final int MOVE_DOWN_DELAY_TICK = 50;
-    private static final int END_ATTACK_DELAY_TICK = 70;
+    private static final int START_ATTACK_DELAY_TICK = 30;
+    private static final int END_ATTACK_DELAY_TICK = 100;
 
     private static final int ATTACK_DISTANCE_MAX = 96;
     private static final double MOVE_X_SPEED = 1.0;
@@ -262,7 +263,8 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         transformable.teleportY(MOVE_DOWN_Y);
         body.resetGravity();
-        if (animatable.is(AnimState.FINISHED))
+        tick.update(extrp);
+        if (tick.elapsed(START_ATTACK_DELAY_TICK) && animatable.is(AnimState.FINISHED))
         {
             launcher.fire(player);
             current = this::updateEndAttackDelay;

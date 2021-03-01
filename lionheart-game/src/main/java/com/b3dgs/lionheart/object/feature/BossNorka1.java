@@ -82,6 +82,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private Updatable current;
     private double angle;
     private int patrol;
+    private int subpatrol;
     private int side;
 
     @FeatureGet private Animatable animatable;
@@ -129,6 +130,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
                 transformable.teleportY(MOVE_DOWN_Y);
                 current = this::updateAwaitPatrol;
                 patrol = 0;
+                subpatrol = 0;
                 tick.restart();
             }
         }
@@ -145,6 +147,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         updateCurve();
         if (tick.elapsed(PATROL_DELAY_TICK))
         {
+            patrol = (patrol + 2) % PATROL_X.length;
             side = UtilMath.getSign(PATROL_X[patrol] - transformable.getX());
             mirrorable.mirror(side > 0 ? Mirror.HORIZONTAL : Mirror.NONE);
             current = this::updatePatrol;
@@ -163,7 +166,16 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         if (side < 0 && transformable.getX() < PATROL_X[patrol] || side > 0 && transformable.getX() > PATROL_X[patrol])
         {
             transformable.teleportX(PATROL_X[patrol]);
-            current = this::updateEndPatrol;
+            subpatrol++;
+            if (subpatrol > 2)
+            {
+                current = this::updateEndPatrol;
+                subpatrol = 0;
+            }
+            else
+            {
+                current = this::updateAwaitPatrol;
+            }
             mirrorable.mirror(Mirror.NONE);
             animatable.play(idle);
             tick.restart();
@@ -231,14 +243,29 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         updateCurve();
         if (tick.elapsed(ATTACK_PREPARE_DELAY_TICK))
         {
-            final Force force = Force.fromVector(transformable.getX(),
-                                                 transformable.getY(),
-                                                 player.getX(),
-                                                 player.getY());
-            movement.setDestination(force.getDirectionHorizontal() * MOVE_SPEED,
-                                    force.getDirectionVertical() * MOVE_SPEED);
-            movement.setDirection(force.getDirectionHorizontal() * MOVE_SPEED,
-                                  force.getDirectionVertical() * MOVE_SPEED);
+            final double dh = player.getX() - transformable.getOldX();
+            final double dv = player.getY() - transformable.getOldY();
+
+            final double nh = Math.abs(dh);
+            final double nv = Math.abs(dv);
+
+            final int max = (int) Math.ceil(Math.max(nh, nv));
+            final double sx;
+            final double sy;
+
+            if (Double.compare(nh, 1.0) >= 0 || Double.compare(nv, 1.0) >= 0)
+            {
+                sx = dh / max;
+                sy = dv / max;
+            }
+            else
+            {
+                sx = dh;
+                sy = dv;
+            }
+
+            movement.setDestination(sx * MOVE_SPEED, sy * MOVE_SPEED);
+            movement.setDirection(sx * MOVE_SPEED, sy * MOVE_SPEED);
             animatable.play(attack);
             mirrorable.mirror(transformable.getX() < player.getX() ? Mirror.HORIZONTAL : Mirror.NONE);
             current = this::updateAttack;
@@ -288,7 +315,10 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateMoveBack(double extrp)
     {
-        transformable.moveLocationY(extrp, MOVE_SPEED);
+        if (transformable.getY() < MOVE_DOWN_Y + UtilMath.cos(angle) * CURVE_AMPLITUDE)
+        {
+            transformable.moveLocationY(extrp, MOVE_SPEED);
+        }
         if (transformable.getY() > MOVE_DOWN_Y + UtilMath.cos(angle) * CURVE_AMPLITUDE
             && animatable.is(AnimState.FINISHED))
         {

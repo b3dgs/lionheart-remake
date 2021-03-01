@@ -140,6 +140,24 @@ public final class Hurtable extends FeatureModel
     }
 
     /**
+     * Trigger hurt effect with damages.
+     */
+    public void hurtDamages()
+    {
+        if (stats.applyDamages(1))
+        {
+            stateHandler.changeState(StateDie.class);
+        }
+        else
+        {
+            stateHandler.changeState(StateHurt.class);
+            Sfx.VALDYN_HURT.play();
+            recover.restart();
+            hurtJump();
+        }
+    }
+
+    /**
      * Set the enabled flag.
      * 
      * @param enabled The enabled flag.
@@ -157,6 +175,16 @@ public final class Hurtable extends FeatureModel
     public boolean isHurting()
     {
         return !recover.elapsed(HURT_RECOVER_ATTACK_TICK);
+    }
+
+    /**
+     * Check if hurting body.
+     * 
+     * @return <code>true</code> if hurting, <code>false</code> else.
+     */
+    public boolean isHurtingBody()
+    {
+        return !recover.elapsed(HURT_RECOVER_BODY_TICK);
     }
 
     /**
@@ -249,7 +277,6 @@ public final class Hurtable extends FeatureModel
         {
             if (hasFeature(SwordShade.class))
             {
-                Sfx.VALDYN_DIE.play();
                 stateHandler.changeState(StateDie.class);
             }
         }

@@ -9,7 +9,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.NorkaPlatform</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="NorkaPlatform.png"/>
-    <lionengine:frames horizontal="3" vertical="1"/>
+    <lionengine:frames horizontal="3" vertical="4"/>
     <lionengine:size width="16" height="16"/>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="3" speed="0.2" reversed="true" repeat="true"/>
@@ -22,5 +22,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable frame="-1" effect="ExplodeLittle"/>
+    <hurtable frame="-1" effect="norka/ExplodeLittle"/>
 </lionengine:featurable>

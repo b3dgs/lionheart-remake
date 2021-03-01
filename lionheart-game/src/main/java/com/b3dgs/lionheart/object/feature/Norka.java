@@ -21,6 +21,9 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorStateListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -29,10 +32,13 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.ForegroundWater;
 
 /**
@@ -42,18 +48,25 @@ import com.b3dgs.lionheart.landscape.ForegroundWater;
  * </ol>
  */
 @FeatureInterface
-public final class Norka extends FeatureModel implements Recyclable
+public final class Norka extends FeatureModel implements Routine, Recyclable
 {
+    private static final int SPAWN_PILLAR_DELAY = 80;
+    private static final int SPAWN_FLYER_DELAY = 90;
+
+    private final Tick tick = new Tick();
     private final Identifiable[] pillar = new Identifiable[4];
     private final Animation idle;
 
     private final Spawner spawner = services.get(Spawner.class);
+    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Hurtable playerHurtable = player.getFeature(Hurtable.class);
 
     private final ForegroundWater water = services.get(ForegroundWater.class);
 
     private Identifiable flyer;
     private Identifiable daemon;
     private boolean exit;
+    private Updatable phase;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Identifiable identifiable;
@@ -73,23 +86,48 @@ public final class Norka extends FeatureModel implements Recyclable
         idle = config.getAnimation(Anim.IDLE);
     }
 
-    private void spawnPillar()
+    /**
+     * Spawn pillar.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void spawnPillar(double extrp)
     {
-        for (int i = 0; i < pillar.length; i++)
+        tick.update(extrp);
+        if (tick.elapsed(SPAWN_PILLAR_DELAY))
         {
-            pillar[i] = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Pillar.xml"), 88 + i * 80, 86.4)
-                               .getFeature(Identifiable.class);
-            pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
+            for (int i = 0; i < pillar.length; i++)
+            {
+                pillar[i] = spawner.spawn(Medias.create(Folder.SCENERIES, "norka", "Pillar.xml"), 88 + i * 80, 86.4)
+                                   .getFeature(Identifiable.class);
+                pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
+            }
+            phase = this::spawnFlyer;
+            tick.restart();
         }
     }
 
-    private void spawnFlyer()
+    /**
+     * Spawn flyer.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void spawnFlyer(double extrp)
     {
-        flyer = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss1.xml"), 208, 400)
-                       .getFeature(Identifiable.class);
-        flyer.addListener(id -> onFlyerDeath());
+        tick.update(extrp);
+        if (tick.elapsed(SPAWN_FLYER_DELAY))
+        {
+            flyer = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss1.xml"), 208, 400)
+                           .getFeature(Identifiable.class);
+            flyer.addListener(id -> onFlyerDeath());
+
+            phase = UpdatableVoid.getInstance();
+        }
     }
 
+    /**
+     * Called on flyer death.
+     */
     private void onFlyerDeath()
     {
         daemon.destroy();
@@ -101,6 +139,9 @@ public final class Norka extends FeatureModel implements Recyclable
         water.setRaiseMax(-1);
     }
 
+    /**
+     * Spawn daemon.
+     */
     private void spawnDaemon()
     {
         daemon = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss2a.xml"), 208, 176)
@@ -112,6 +153,9 @@ public final class Norka extends FeatureModel implements Recyclable
 
     }
 
+    /**
+     * Called on daemon death.
+     */
     private void onDaemonDeath()
     {
         animatable.play(idle);
@@ -137,12 +181,23 @@ public final class Norka extends FeatureModel implements Recyclable
     }
 
     @Override
+    public void update(double extrp)
+    {
+        phase.update(extrp);
+
+        if (player.getY() < water.getHeight() - 4 && !playerHurtable.isHurtingBody())
+        {
+            playerHurtable.hurtDamages();
+        }
+    }
+
+    @Override
     public void recycle()
     {
         exit = false;
-        spawnPillar();
-        spawnFlyer();
+        phase = this::spawnPillar;
         spawnDaemon();
         animatable.play(idle);
+        tick.restart();
     }
 }
