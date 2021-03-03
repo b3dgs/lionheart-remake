@@ -353,7 +353,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         handler.updateAdd();
 
         Sfx.cacheEnd();
-        playMusic(stage.getMusic());
 
         System.gc();
 

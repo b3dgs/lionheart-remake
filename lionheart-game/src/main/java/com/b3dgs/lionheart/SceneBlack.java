@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 
@@ -53,7 +54,15 @@ public final class SceneBlack extends Sequence
     @Override
     public void update(double extrp)
     {
-        end(Scene.class, stage);
+        final StageConfig config = StageConfig.imports(new Configurer(stage));
+        if (config.getPic().isPresent())
+        {
+            end(ScenePicture.class, stage);
+        }
+        else
+        {
+            end(Scene.class, stage);
+        }
     }
 
     @Override

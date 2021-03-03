@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
-    <music file="music/swamp.sc68"/>
+<stage pic="menu/pic1.png" text="Nothing could be done. Valdyn would have%to make the entire journey on foot.%He sighted and entered the swamps.">
+   <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage1.lvl"/>
     <raster folder="levels/swamp/raster/dusk/"/>
     <background type="SWAMP_DUSK"/>

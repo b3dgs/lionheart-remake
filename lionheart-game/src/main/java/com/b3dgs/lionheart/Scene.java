@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -80,6 +81,12 @@ public final class Scene extends SequenceGame<World>
 
         setText(textEngine, ENGINE, 0, getHeight() - textEngine.getSize(), Align.LEFT);
         setText(textName, NAME, getWidth(), getHeight() - textName.getSize(), Align.RIGHT);
+    }
+
+    @Override
+    protected void onLoaded(double extrp, Graphic g)
+    {
+        world.playMusic(StageConfig.imports(new Configurer(stage)).getMusic());
     }
 
     @Override

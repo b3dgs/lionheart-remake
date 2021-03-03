@@ -31,30 +31,30 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public enum Music
 {
-    /** Intro music. */
-    INTRO,
     /** Swamp music. */
     SWAMP,
     /** Spider cave music. */
     SPIDERCAVE,
-    /** Boss music. */
-    BOSS,
-    /** Boss win music. */
-    BOSS_WIN,
     /** Ancient Town music. */
     ANCIENT_TOWN,
     /** Lava music. */
     LAVA,
-    /** Secret music. */
-    SECRET,
-    /** Secret amulet. */
-    SECRET_WIN,
     /** Airship music. */
     AIRSHIP,
     /** Dragonfly music. */
     DRAGONFLY,
     /** Tower music. */
     TOWER,
+    /** Secret music. */
+    SECRET,
+    /** Intro music. */
+    INTRO,
+    /** Boss music. */
+    BOSS,
+    /** Boss win music. */
+    BOSS_WIN,
+    /** Secret amulet. */
+    SECRET_WIN,
     /** Norka music. */
     NORKA,
     /** Norka win music. */

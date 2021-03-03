@@ -36,6 +36,10 @@ public final class StageConfig
 {
     /** Stage node name. */
     public static final String NODE_STAGE = "stage";
+    /** Stage picture attribute name. */
+    private static final String ATT_STAGE_PIC = "pic";
+    /** Stage text attribute name. */
+    private static final String ATT_STAGE_TEXT = "text";
 
     /** Music node name. */
     private static final String NODE_MUSIC = "music";
@@ -94,6 +98,10 @@ public final class StageConfig
         return new StageConfig(configurer);
     }
 
+    /** Picture file. */
+    private final Optional<Media> pic;
+    /** Text. */
+    private final Optional<String> text;
     /** Music file. */
     private final Media music;
     /** Map level file. */
@@ -126,6 +134,9 @@ public final class StageConfig
         super();
 
         Check.notNull(configurer);
+
+        pic = configurer.getMediaOptional(ATT_STAGE_PIC);
+        text = configurer.getStringOptional(ATT_STAGE_TEXT);
 
         music = configurer.getMedia(ATT_MUSIC_FILE, NODE_MUSIC);
 
@@ -173,6 +184,26 @@ public final class StageConfig
     private void addEntity(XmlReader entity)
     {
         entities.add(EntityConfig.imports(entity));
+    }
+
+    /**
+     * Get the picture.
+     * 
+     * @return The picture.
+     */
+    public Optional<Media> getPic()
+    {
+        return pic;
+    }
+
+    /**
+     * Get the text.
+     * 
+     * @return The text.
+     */
+    public Optional<String> getText()
+    {
+        return text;
     }
 
     /**

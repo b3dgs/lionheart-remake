@@ -34,6 +34,8 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public enum Sfx
 {
+    /** Menu select. */
+    MENU_SELECT,
     /** Valdyn sword attack. */
     VALDYN_SWORD,
     /** Valdyn hurt. */
@@ -154,7 +156,7 @@ public enum Sfx
             for (final Sfx sfx : Sfx.values())
             {
                 sfx.audio.await();
-                sfx.audio.setVolume(100);
+                sfx.audio.setVolume(Constant.AUDIO_VOLUME);
             }
             cached = true;
         }

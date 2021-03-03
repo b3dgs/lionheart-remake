@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage pic="menu/pic4.png" text="Valdyn found a riding animal to take him%through the eerie forest. Far away, Norka's%air-ship was approaching...">
     <music file="music/airship.sc68"/>
     <map file="levels/airship/stage11.lvl"/>
     <background type="AIRSHIP"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage pic="menu/pic6.png" text="Valdyn had penetrated Norka's defenses%and now saw the citadel looming before him.%At the bottom he saw an entrance...">
     <music file="music/tower.sc68"/>
     <map file="levels/tower/stage13.lvl"/>
     <raster folder="levels/tower/raster/tower/"/>

@@ -27,6 +27,8 @@ public final class Folder
 {
     /** Sprites folder. */
     public static final String SPRITES = "sprite";
+    /** Menu folder. */
+    public static final String MENU = "menu";
     /** Backgrounds folder. */
     public static final String BACKGROUNDS = "background";
     /** Backgrounds folder. */
