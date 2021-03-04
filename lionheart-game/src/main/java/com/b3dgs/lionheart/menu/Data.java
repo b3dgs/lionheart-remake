@@ -86,7 +86,7 @@ final class Data
         if (showTitle)
         {
             Data.TEXT_TITLE.setColor(Data.COLOR_TITLE);
-            Data.TEXT_TITLE.draw(g, (int) (185 * factorH), (int) (68 * factorV), Align.CENTER, title);
+            Data.TEXT_TITLE.draw(g, (int) (213 * factorH), (int) (Menu.Y + 64 * factorV), Align.CENTER, title);
         }
         for (int i = 0; i <= choiceMax; i++)
         {

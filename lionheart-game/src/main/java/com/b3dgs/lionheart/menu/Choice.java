@@ -72,7 +72,7 @@ final class Choice
     {
         this.text = text;
         this.name = name;
-        this.x = (int) (185 * factorH) - (185 - x);
+        this.x = (int) (213 * factorH) - (213 - x);
         this.y = (int) (y * factorV);
         this.align = align;
         this.next = next;

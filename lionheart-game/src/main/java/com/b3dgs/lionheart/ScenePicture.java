@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilReflection;
 import com.b3dgs.lionengine.game.Configurer;
@@ -43,9 +44,13 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public final class ScenePicture extends Sequence
 {
-    private static final int PIC_Y = 0;
-    private static final int TEXT_Y = 164;
+    private static final int PIC_Y = 17;
+    private static final int TEXT_Y = 186;
+    private static final int PUSH_Y = 225;
+    private static final String PUSH_BUTTON_MESSAGE = "Push button";
+    private static final int PUSH_BUTTON_TICK = 30;
 
+    private final Tick tick = new Tick();
     private final Media stage;
     private final Sprite picture;
     private final SpriteFont font;
@@ -54,6 +59,7 @@ public final class ScenePicture extends Sequence
     private int fadePic;
     private int fadeText;
     private int speed = 8;
+    private boolean showPush;
 
     /**
      * Constructor.
@@ -64,7 +70,7 @@ public final class ScenePicture extends Sequence
      */
     public ScenePicture(Context context, Media stage)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Constant.MENU_RESOLUTION);
 
         try
         {
@@ -93,7 +99,6 @@ public final class ScenePicture extends Sequence
                                        12,
                                        12);
         font.setText(config.getText().get());
-        setSystemCursorVisible(false);
     }
 
     @Override
@@ -102,22 +107,34 @@ public final class ScenePicture extends Sequence
         picture.load();
         picture.prepare();
         picture.setOrigin(Origin.CENTER_TOP);
-        picture.setLocation(getWidth() / 2, PIC_Y);
+        picture.setLocation(getWidth() / 2 - 1, PIC_Y);
         picture.setFade(0, -255);
 
         font.load();
         font.prepare();
         font.setOrigin(Origin.TOP_LEFT);
         font.setAlign(Align.CENTER);
-        font.setLocation(getWidth() / 2, TEXT_Y);
+        font.setLocation(getWidth() / 2 - 12, TEXT_Y);
         font.setFade(0, -255);
 
         fadePic = 0;
         fadeText = 0;
+
+        tick.stop();
     }
 
     @Override
     public void update(double extrp)
+    {
+        updatePicture();
+        updateText();
+        updatePushButton(extrp);
+    }
+
+    /**
+     * Update picture.
+     */
+    private void updatePicture()
     {
         if (fadeText == 0)
         {
@@ -132,6 +149,13 @@ public final class ScenePicture extends Sequence
                 end();
             }
         }
+    }
+
+    /**
+     * Update text.
+     */
+    private void updateText()
+    {
         if (fadePic == 255)
         {
             final int oldText = fadeText;
@@ -142,12 +166,31 @@ public final class ScenePicture extends Sequence
             }
             if (fadeText == 255)
             {
-                load(Scene.class, stage);
-                if (input.isFireButtonOnce(Constant.FIRE1))
+                if (!tick.isStarted())
+                {
+                    load(Scene.class, stage);
+                    tick.start();
+                }
+                else if (input.isFireButtonOnce(Constant.FIRE1))
                 {
                     speed = -speed;
                 }
             }
+        }
+    }
+
+    /**
+     * Update push button.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updatePushButton(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsed(PUSH_BUTTON_TICK))
+        {
+            showPush = !showPush;
+            tick.restart();
         }
     }
 
@@ -157,6 +200,11 @@ public final class ScenePicture extends Sequence
         g.clear(0, 0, getWidth(), getHeight());
         picture.render(g);
         font.render(g);
+
+        if (showPush)
+        {
+            font.draw(g, getWidth() / 2, PUSH_Y, Align.CENTER, PUSH_BUTTON_MESSAGE);
+        }
     }
 
     @Override

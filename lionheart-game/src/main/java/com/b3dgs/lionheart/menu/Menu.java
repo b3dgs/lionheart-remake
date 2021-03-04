@@ -57,6 +57,8 @@ import com.b3dgs.lionheart.intro.Intro;
  */
 public class Menu extends Sequence
 {
+    /** Main Y. */
+    public static final int Y = 44;
     /** List of difficulties. */
     private static final String[] OPTIONS_DIFFICULTY =
     {
@@ -137,7 +139,7 @@ public class Menu extends Sequence
      */
     public Menu(Context context)
     {
-        super(context, Constant.NATIVE_RESOLUTION.get2x());
+        super(context, Constant.MENU_RESOLUTION.get2x());
 
         final InputControllerConfig config = InputControllerConfig.imports(new Services(),
                                                                            new Configurer(Medias.create(Folder.PLAYERS,
@@ -158,8 +160,8 @@ public class Menu extends Sequence
         }
 
         text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
-        factorH = getWidth() / (double) com.b3dgs.lionheart.Constant.NATIVE_RESOLUTION.getWidth();
-        factorV = getHeight() / (double) com.b3dgs.lionheart.Constant.NATIVE_RESOLUTION.getHeight();
+        factorH = getWidth() / (double) com.b3dgs.lionheart.Constant.MENU_RESOLUTION.getWidth();
+        factorV = getHeight() / (double) com.b3dgs.lionheart.Constant.MENU_RESOLUTION.getHeight();
 
         font = Drawable.loadSpriteFont(FONT_SPRITE, FONT_DATA, 24, 24);
 
@@ -169,27 +171,27 @@ public class Menu extends Sequence
             menus[i] = Drawable.loadSprite(Medias.create("menu", "menu" + (i + 1) + ".png"));
             menus[i].setOrigin(Origin.CENTER_TOP);
         }
-        menus[0].setLocation(getWidth() / 2, 70 * factorV / 2);
-        menus[1].setLocation(getWidth() / 2, 38 * factorV / 2);
+        menus[0].setLocation(getWidth() / 2, Y + 64 * factorV / 2);
+        menus[1].setLocation(getWidth() / 2, Y + 32 * factorV / 2);
         menusData = new Data[2];
 
         // Main menu
         Choice[] choices = new Choice[]
         {
-            new Choice(text, factorH, factorV, "Start game", 185, 79, Align.CENTER, MenuType.NEW),
-            new Choice(text, factorH, factorV, "Options", 185, 96, Align.CENTER, MenuType.OPTIONS),
-            new Choice(text, factorH, factorV, "Introduction", 185, 114, Align.CENTER, MenuType.INTRO),
-            new Choice(text, factorH, factorV, "Quit", 185, 138, Align.CENTER, MenuType.EXIT)
+            new Choice(text, factorH, factorV, "Start game", 213, Y + 54, Align.CENTER, MenuType.NEW),
+            new Choice(text, factorH, factorV, "Options", 213, Y + 71, Align.CENTER, MenuType.OPTIONS),
+            new Choice(text, factorH, factorV, "Introduction", 213, Y + 89, Align.CENTER, MenuType.INTRO),
+            new Choice(text, factorH, factorV, "Quit", 213, Y + 114, Align.CENTER, MenuType.EXIT)
         };
         menusData[0] = new Data(text, factorH, factorV, "Main", false, choices);
 
         // Options menu
         choices = new Choice[]
         {
-            new Choice(text, factorH, factorV, "Difficulty", (int) (140 / factorH), 83, Align.LEFT),
-            new Choice(text, factorH, factorV, "Joystick", (int) (140 / factorH), 101, Align.LEFT),
-            new Choice(text, factorH, factorV, "Soundtest", (int) (140 / factorH), 119, Align.LEFT),
-            new Choice(text, factorH, factorV, "Done", 185, 140, Align.CENTER, MenuType.MAIN)
+            new Choice(text, factorH, factorV, "Difficulty", (int) (192 / factorH), Y + 58, Align.LEFT),
+            new Choice(text, factorH, factorV, "Joystick", (int) (192 / factorH), Y + 76, Align.LEFT),
+            new Choice(text, factorH, factorV, "Soundtest", (int) (192 / factorH), Y + 94, Align.LEFT),
+            new Choice(text, factorH, factorV, "Done", 213, Y + 116, Align.CENTER, MenuType.MAIN)
         };
         menusData[1] = new Data(text, factorH, factorV, "OPTIONS", true, choices);
 
@@ -380,12 +382,12 @@ public class Menu extends Sequence
             case OPTIONS:
                 text.setColor(COLOR_OPTION);
                 text.draw(g,
-                          (int) (190 * factorH),
+                          (int) (219 * factorH),
                           menusData[id].choices[0].y,
                           Align.LEFT,
                           OPTIONS_DIFFICULTY[difficulty]);
-                text.draw(g, (int) (190 * factorH), menusData[id].choices[1].y, Align.LEFT, OPTIONS_JOYSTICK[joystick]);
-                text.draw(g, (int) (190 * factorH), menusData[id].choices[2].y, Align.LEFT, OPTIONS_MUSIC[music]);
+                text.draw(g, (int) (219 * factorH), menusData[id].choices[1].y, Align.LEFT, OPTIONS_JOYSTICK[joystick]);
+                text.draw(g, (int) (219 * factorH), menusData[id].choices[2].y, Align.LEFT, OPTIONS_MUSIC[music]);
                 break;
             case INTRO:
                 break;
