@@ -29,6 +29,8 @@ public final class Folder
     public static final String SPRITES = "sprite";
     /** Menu folder. */
     public static final String MENU = "menu";
+    /** Extro folder. */
+    public static final String EXTRO = "extro";
     /** Backgrounds folder. */
     public static final String BACKGROUNDS = "background";
     /** Backgrounds folder. */

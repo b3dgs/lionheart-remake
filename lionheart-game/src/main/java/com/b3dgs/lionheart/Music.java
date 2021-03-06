@@ -58,7 +58,9 @@ public enum Music
     /** Norka music. */
     NORKA,
     /** Norka win music. */
-    NORKA_WIN;
+    NORKA_WIN,
+    /** Extro music. */
+    EXTRO;
 
     /** The associated media. */
     private final Media media;
