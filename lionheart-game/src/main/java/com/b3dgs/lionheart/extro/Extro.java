@@ -31,6 +31,8 @@ public final class Extro extends Sequence
 {
     /** Part 1. */
     private final Part1 part1;
+    /** Part 2. */
+    private final Part2 part2;
     /** Music. */
     private final Audio audio;
     /** Music seek. */
@@ -46,6 +48,7 @@ public final class Extro extends Sequence
         super(context, Constant.NATIVE_RESOLUTION);
 
         part1 = new Part1(context);
+        part2 = new Part2(context);
 
         audio = AudioFactory.loadAudio(Music.EXTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);
@@ -59,6 +62,7 @@ public final class Extro extends Sequence
     public void load()
     {
         part1.load();
+        part2.load();
 
         audio.play();
     }
@@ -66,11 +70,15 @@ public final class Extro extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        seek = audio.getTicks() + 23200;
 
         if (seek < 23200)
         {
             part1.update(seek, extrp);
+        }
+        else if (seek < 35000)
+        {
+            part2.update(seek, extrp);
         }
     }
 
@@ -80,6 +88,10 @@ public final class Extro extends Sequence
         if (seek < 23200)
         {
             part1.render(getWidth(), getHeight(), seek, g);
+        }
+        else if (seek < 35000)
+        {
+            part2.render(getWidth(), getHeight(), seek, g);
         }
     }
 

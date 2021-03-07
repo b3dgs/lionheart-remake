@@ -16,13 +16,10 @@
  */
 package com.b3dgs.lionheart.extro;
 
-import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.ComponentDisplayable;
@@ -33,34 +30,25 @@ import com.b3dgs.lionengine.game.feature.Handler;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.drawable.Drawable;
-import com.b3dgs.lionengine.graphic.drawable.Sprite;
-import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionengine.io.InputDeviceControlVoid;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
+import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
  * Extro part 1 implementation.
  */
-public final class Part1
+public final class Part2
 {
     private static final int ALPHA_SPEED = 3;
-    private static final int SPAWN_EXPLODE_DELAY = 35;
-    private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
-    private static final double CITADEL_FALL_SPEED = 0.05;
-
-    private final Sprite backcolor = Drawable.loadSprite(Medias.create(Folder.EXTRO, "backcolor.png"));
-    private final Sprite clouds = Drawable.loadSprite(Medias.create(Folder.EXTRO, "clouds.png"));
-    private final SpriteAnimated citadel = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO, "citadel.png"),
-                                                                       2,
-                                                                       1);
-
-    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO, "valdyn.png"), 4, 3);
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -76,22 +64,15 @@ public final class Part1
             return featurable;
         }
     });
-    private final Tick tick = new Tick();
-
+    private DragonEnd background;
     private int alpha;
-    private double citadelY;
-    private double citadelYacc;
-    private double valdynX;
-    private double valdynY;
-    private double valdynZ;
-    private double valdynZacc;
 
     /**
      * Constructor.
      * 
      * @param context The context reference.
      */
-    public Part1(Context context)
+    public Part2(Context context)
     {
         super();
 
@@ -121,29 +102,23 @@ public final class Part1
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
+        services.add(new MapTileWater(services));
+        services.add(new LoadNextStage()
+        {
+            @Override
+            public void loadNextStage(String next, int tickDelay)
+            {
+                // Mock
+            }
+        });
+        services.add(new InputDeviceControlVoid());
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
+        handler.addComponent(new ComponentCollision());
         handler.addListener(factory);
-    }
 
-    /**
-     * Spawn explode effect.
-     * 
-     * @param delay The next explode delay.
-     */
-    private void spawnExplode(int delay)
-    {
-        if (tick.elapsed(delay))
-        {
-            tick.restart();
-            final int width = citadel.getTileWidth();
-            final int height = citadel.getTileHeight();
-            spawner.spawn(Medias.create(Folder.EXTRO,
-                                        UtilRandom.getRandomBoolean() ? "ExplodeLittle.xml" : "ExplodeBig.xml"),
-                          citadel.getX() + UtilRandom.getRandomInteger(width),
-                          citadel.getY() + UtilRandom.getRandomInteger((int) (height * 0.75)) + height);
-        }
+        background = new DragonEnd(source);
     }
 
     /**
@@ -151,25 +126,8 @@ public final class Part1
      */
     public void load()
     {
-        backcolor.load();
-        backcolor.prepare();
-
-        clouds.load();
-        clouds.prepare();
-
-        citadel.load();
-        citadel.prepare();
-        citadel.setFrame(1);
-
-        valdyn.load();
-        valdyn.prepare();
-        valdyn.play(new Animation(Animation.DEFAULT_NAME, 1, 12, 0.25, false, true));
-        valdynX = 100.0;
-        valdynY = 50.0;
-        valdynZ = 100.0;
-        valdynZacc = -0.3;
-
-        tick.start();
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "Valdyn.xml"), 180, 0).getFeature(SwordShade.class));
+        spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "Dragon.xml"), 180, 0);
     }
 
     /**
@@ -180,48 +138,17 @@ public final class Part1
      */
     public void update(long seek, double extrp)
     {
+        background.update(extrp, 1.0, 0, 0);
         handler.update(extrp);
-        tick.update(extrp);
 
-        if (valdynX < 220)
-        {
-            valdyn.update(extrp);
-            valdyn.setLocation(valdynX, valdynY);
-
-            valdynZ += valdynZacc;
-            valdynZacc = UtilMath.clamp(valdynZacc + 0.001, -0.3, -0.08);
-            final double z = UtilMath.clamp(1000 / valdynZ, 10, 400);
-            valdyn.stretch(z, z);
-
-            valdynX += 0.01 + z / 350.0;
-            valdynY += 0.01;
-        }
-        if (seek < 2000 && alpha < 255)
+        if (seek < 25400 && alpha < 255)
         {
             alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
         }
-        else if (seek > 20000 && alpha > 0)
+        else if (seek > 33000 && alpha > 0)
         {
             alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
         }
-        if (seek < 16000)
-        {
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-        }
-        else if (seek < 16900)
-        {
-            spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
-        }
-        if (seek > 17000)
-        {
-            citadel.setFrame(2);
-            citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, 500);
-            citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED, 0.0, 3.0);
-        }
-        citadel.setLocation(82, 4 + citadelY);
     }
 
     /**
@@ -234,14 +161,8 @@ public final class Part1
      */
     public void render(int width, int height, long seek, Graphic g)
     {
-        backcolor.render(g);
-        clouds.render(g);
-        citadel.render(g);
+        background.render(g);
         handler.render(g);
-        if (valdynX < 220)
-        {
-            valdyn.render(g);
-        }
 
         if (alpha < 255)
         {
