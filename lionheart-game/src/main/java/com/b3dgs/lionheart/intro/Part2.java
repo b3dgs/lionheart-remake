@@ -28,8 +28,6 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 
 /**
  * Intro part 2 implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class Part2
 {

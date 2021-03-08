@@ -52,8 +52,6 @@ import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Menu implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public class Menu extends Sequence
 {

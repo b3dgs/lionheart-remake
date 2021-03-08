@@ -30,8 +30,6 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 
 /**
  * Intro part 1 implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class Part1
 {

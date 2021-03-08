@@ -26,8 +26,6 @@ import com.b3dgs.lionengine.graphic.TextStyle;
 
 /**
  * Handle a group of choice, which represents the actions in a menu.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 final class Data
 {

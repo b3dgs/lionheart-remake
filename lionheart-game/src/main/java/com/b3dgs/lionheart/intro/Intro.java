@@ -40,13 +40,11 @@ import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Introduction implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class Intro extends Sequence
 {
     /** Alpha black values. */
-    static final ColorRgba[] ALPHAS_BLACK;
+    public static final ColorRgba[] ALPHAS_BLACK;
     /** Alpha white values. */
     static final ColorRgba[] ALPHAS_WHITE;
 

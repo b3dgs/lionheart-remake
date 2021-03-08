@@ -27,8 +27,6 @@ import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Intro part 4 implementation.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 public final class Part4
 {

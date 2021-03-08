@@ -22,8 +22,6 @@ import com.b3dgs.lionengine.graphic.Text;
 
 /**
  * Represents a choice in the menu.
- * 
- * @author Pierre-Alexandre (contact@b3dgs.com)
  */
 final class Choice
 {
