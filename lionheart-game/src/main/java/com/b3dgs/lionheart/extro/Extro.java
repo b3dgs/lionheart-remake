@@ -33,6 +33,10 @@ public final class Extro extends Sequence
     private final Part1 part1;
     /** Part 2. */
     private final Part2 part2;
+    /** Part 3. */
+    private final Part3 part3;
+    /** Part 4. */
+    private final Part4 part4;
     /** Music. */
     private final Audio audio;
     /** Music seek. */
@@ -45,24 +49,24 @@ public final class Extro extends Sequence
      */
     public Extro(Context context)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Constant.MENU_RESOLUTION);
 
         part1 = new Part1(context);
         part2 = new Part2(context);
+        part3 = new Part3();
+        part4 = new Part4();
 
         audio = AudioFactory.loadAudio(Music.EXTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);
     }
-
-    /*
-     * Sequence
-     */
 
     @Override
     public void load()
     {
         part1.load();
         part2.load();
+        part3.load();
+        part4.load();
 
         audio.play();
     }
@@ -70,7 +74,7 @@ public final class Extro extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks() + 23200;
+        seek = audio.getTicks();
 
         if (seek < 23200)
         {
@@ -79,6 +83,14 @@ public final class Extro extends Sequence
         else if (seek < 35000)
         {
             part2.update(seek, extrp);
+        }
+        else if (seek < 86000)
+        {
+            part3.update(seek, extrp);
+        }
+        else if (seek > 86000)
+        {
+            part4.update(seek, extrp);
         }
     }
 
@@ -92,6 +104,14 @@ public final class Extro extends Sequence
         else if (seek < 35000)
         {
             part2.render(getWidth(), getHeight(), seek, g);
+        }
+        else if (seek < 85000)
+        {
+            part3.render(getWidth(), getHeight(), seek, g);
+        }
+        else if (seek > 85000)
+        {
+            part4.render(getWidth(), getHeight(), seek, g);
         }
     }
 

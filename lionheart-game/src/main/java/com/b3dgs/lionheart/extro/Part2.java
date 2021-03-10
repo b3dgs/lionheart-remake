@@ -44,7 +44,7 @@ import com.b3dgs.lionheart.intro.Intro;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
- * Extro part 1 implementation.
+ * Extro part 2 implementation.
  */
 public final class Part2
 {
@@ -126,7 +126,8 @@ public final class Part2
      */
     public void load()
     {
-        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "Valdyn.xml"), 180, 0).getFeature(SwordShade.class));
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), 180, 0)
+                            .getFeature(SwordShade.class));
         spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "Dragon.xml"), 180, 0);
     }
 

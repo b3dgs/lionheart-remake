@@ -54,13 +54,19 @@ public final class Part1
     private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
     private static final double CITADEL_FALL_SPEED = 0.05;
 
-    private final Sprite backcolor = Drawable.loadSprite(Medias.create(Folder.EXTRO, "backcolor.png"));
-    private final Sprite clouds = Drawable.loadSprite(Medias.create(Folder.EXTRO, "clouds.png"));
-    private final SpriteAnimated citadel = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO, "citadel.png"),
+    private final Sprite backcolor = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "backcolor.png"));
+    private final Sprite clouds = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "clouds.png"));
+    private final SpriteAnimated citadel = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
+                                                                                     "part1",
+                                                                                     "citadel.png"),
                                                                        2,
                                                                        1);
 
-    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO, "valdyn.png"), 4, 3);
+    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
+                                                                                    "part1",
+                                                                                    "valdyn.png"),
+                                                                      4,
+                                                                      3);
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -140,6 +146,7 @@ public final class Part1
             final int width = citadel.getTileWidth();
             final int height = citadel.getTileHeight();
             spawner.spawn(Medias.create(Folder.EXTRO,
+                                        "part1",
                                         UtilRandom.getRandomBoolean() ? "ExplodeLittle.xml" : "ExplodeBig.xml"),
                           citadel.getX() + UtilRandom.getRandomInteger(width),
                           citadel.getY() + UtilRandom.getRandomInteger((int) (height * 0.75)) + height);
