@@ -49,6 +49,7 @@ public final class Part3
         {
             pics[i] = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part3", "pic" + i + ".png"));
             pics[i].load();
+            pics[i].prepare();
         }
     }
 
@@ -58,6 +59,7 @@ public final class Part3
     public void load()
     {
         font.load();
+        font.prepare();
     }
 
     /**

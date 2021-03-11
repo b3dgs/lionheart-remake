@@ -37,10 +37,14 @@ public final class Extro extends Sequence
     private final Part3 part3;
     /** Part 4. */
     private final Part4 part4;
+    /** Part 5. */
+    private final Part5 part5;
     /** Music. */
     private final Audio audio;
     /** Music seek. */
     private long seek;
+    /** Alternative. */
+    private final boolean alternative;
 
     /**
      * Constructor.
@@ -51,10 +55,13 @@ public final class Extro extends Sequence
     {
         super(context, Constant.MENU_RESOLUTION);
 
+        alternative = true;
+
         part1 = new Part1(context);
         part2 = new Part2(context);
         part3 = new Part3();
-        part4 = new Part4();
+        part4 = new Part4(alternative);
+        part5 = new Part5();
 
         audio = AudioFactory.loadAudio(Music.EXTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);
@@ -67,6 +74,7 @@ public final class Extro extends Sequence
         part2.load();
         part3.load();
         part4.load();
+        part5.load();
 
         audio.play();
     }
@@ -74,7 +82,7 @@ public final class Extro extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        seek = audio.getTicks() + 135000;
 
         if (seek < 23200)
         {
@@ -88,9 +96,13 @@ public final class Extro extends Sequence
         {
             part3.update(seek, extrp);
         }
-        else if (seek > 86000)
+        else if (seek > 86000 && seek < 135000)
         {
             part4.update(seek, extrp);
+        }
+        else if (seek > 135000 && alternative)
+        {
+            part5.update(seek, extrp);
         }
     }
 
@@ -109,9 +121,13 @@ public final class Extro extends Sequence
         {
             part3.render(getWidth(), getHeight(), seek, g);
         }
-        else if (seek > 85000)
+        else if (seek < 135000)
         {
             part4.render(getWidth(), getHeight(), seek, g);
+        }
+        else if (seek > 135000 && alternative)
+        {
+            part5.render(getWidth(), getHeight(), seek, g);
         }
     }
 
