@@ -17,33 +17,42 @@
 package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.Align;
+import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Extro part 3 implementation.
  */
-public final class Part3
+public final class Part3 extends Sequence
 {
     private final Sprite[] pics = new Sprite[3];
     private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
                                                             Medias.create(Folder.SPRITES, "fontdata.xml"),
                                                             12,
                                                             12);
+    private final Tick tick = new Tick();
     private double alphaBack = 255;
 
     /**
      * Constructor.
+     * 
+     * @param context The context reference.
+     * @param audio The audio reference.
      */
-    public Part3()
+    public Part3(Context context, Audio audio)
     {
-        super();
+        super(context, Constant.MENU_RESOLUTION);
 
         for (int i = 0; i < pics.length; i++)
         {
@@ -51,63 +60,60 @@ public final class Part3
             pics[i].load();
             pics[i].prepare();
         }
+
+        load(Part4.class, audio, Boolean.TRUE);
+
+        tick.start();
     }
 
-    /**
-     * Load part.
-     */
+    @Override
     public void load()
     {
         font.load();
         font.prepare();
     }
 
-    /**
-     * Update part.
-     * 
-     * @param seek The current seek.
-     * @param extrp The extrapolation value.
-     */
-    public void update(long seek, double extrp)
+    @Override
+    public void update(double extrp)
     {
-        if (seek > 84000)
+        tick.update(extrp);
+
+        if (tick.elapsed() > 3000)
         {
             alphaBack -= 6.0;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
+
+        if (tick.elapsed() > 3050)
+        {
+            end();
+        }
     }
 
-    /**
-     * Render part.
-     * 
-     * @param width The width.
-     * @param height The height.
-     * @param seek The current seek.
-     * @param g The graphic output.
-     */
-    public void render(int width, int height, long seek, Graphic g)
+    @Override
+    public void render(Graphic g)
     {
-        g.clear(0, 0, width, height);
+        g.clear(0, 0, getWidth(), getHeight());
 
         // Render histories
-        if (seek >= 41000)
+        if (tick.elapsed() > 390)
         {
             pics[0].setLocation(0, 0);
             pics[0].render(g);
         }
-        if (seek >= 56000)
+        if (tick.elapsed() >= 1290)
         {
             pics[1].setLocation(160, 14);
             pics[1].render(g);
         }
-        if (seek >= 71000)
+        if (tick.elapsed() >= 2190)
         {
             pics[2].setLocation(80, 29);
             pics[2].render(g);
         }
 
         // Render texts
-        if (seek >= 41000 && seek < 56000)
+        if (tick.elapsed() > 390 && tick.elapsed() < 1290)
         {
             font.draw(g,
                       1,
@@ -115,7 +121,7 @@ public final class Part3
                       Align.LEFT,
                       "In the temple, Valdyn took the Lionheart%and put it back in the shrine. As the%jewel returned to it's ancient resting%place, it glowed and sparkled as if to%express satisfaction.");
         }
-        if (seek >= 56000 && seek < 71000)
+        if (tick.elapsed() >= 1290 && tick.elapsed() < 2190)
         {
             font.draw(g,
                       1,
@@ -123,7 +129,7 @@ public final class Part3
                       Align.LEFT,
                       "'Our eternal thanks, Valdyn,' said the king%who had entered with two guards. 'The%realm may live in happiness once more.'%%But Valdyn did not feel happy.");
         }
-        if (seek >= 71000)
+        if (tick.elapsed() >= 2190)
         {
             font.draw(g,
                       1,
@@ -136,7 +142,7 @@ public final class Part3
         if (alphaBack < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
-            g.drawRect(0, 0, width, height, true);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 }

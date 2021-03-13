@@ -29,23 +29,6 @@ import com.b3dgs.lionheart.Music;
  */
 public final class Extro extends Sequence
 {
-    /** Part 1. */
-    private final Part1 part1;
-    /** Part 2. */
-    private final Part2 part2;
-    /** Part 3. */
-    private final Part3 part3;
-    /** Part 4. */
-    private final Part4 part4;
-    /** Part 5. */
-    private final Part5 part5;
-    /** Music. */
-    private final Audio audio;
-    /** Music seek. */
-    private long seek;
-    /** Alternative. */
-    private final boolean alternative;
-
     /**
      * Constructor.
      * 
@@ -55,85 +38,28 @@ public final class Extro extends Sequence
     {
         super(context, Constant.MENU_RESOLUTION);
 
-        alternative = true;
-
-        part1 = new Part1(context);
-        part2 = new Part2(context);
-        part3 = new Part3();
-        part4 = new Part4(alternative);
-        part5 = new Part5();
-
-        audio = AudioFactory.loadAudio(Music.EXTRO.get());
+        final Audio audio = AudioFactory.loadAudio(Music.EXTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);
+        audio.play();
+
+        load(Part1.class, audio);
     }
 
     @Override
     public void load()
     {
-        part1.load();
-        part2.load();
-        part3.load();
-        part4.load();
-        part5.load();
-
-        audio.play();
+        // Nothing to do
     }
 
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks() + 135000;
-
-        if (seek < 23200)
-        {
-            part1.update(seek, extrp);
-        }
-        else if (seek < 35000)
-        {
-            part2.update(seek, extrp);
-        }
-        else if (seek < 86000)
-        {
-            part3.update(seek, extrp);
-        }
-        else if (seek > 86000 && seek < 135000)
-        {
-            part4.update(seek, extrp);
-        }
-        else if (seek > 135000 && alternative)
-        {
-            part5.update(seek, extrp);
-        }
+        end();
     }
 
     @Override
     public void render(Graphic g)
     {
-        if (seek < 23200)
-        {
-            part1.render(getWidth(), getHeight(), seek, g);
-        }
-        else if (seek < 35000)
-        {
-            part2.render(getWidth(), getHeight(), seek, g);
-        }
-        else if (seek < 85000)
-        {
-            part3.render(getWidth(), getHeight(), seek, g);
-        }
-        else if (seek < 135000)
-        {
-            part4.render(getWidth(), getHeight(), seek, g);
-        }
-        else if (seek > 135000 && alternative)
-        {
-            part5.render(getWidth(), getHeight(), seek, g);
-        }
-    }
-
-    @Override
-    public void onTerminated(boolean hasNextSequence)
-    {
-        audio.stop();
+        // Nothing to do
     }
 }

@@ -20,21 +20,28 @@ import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
+import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.audio.Audio;
+import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Extro part 4 implementation.
  */
-public final class Part4
+public final class Part4 extends Sequence
 {
     private static final Animation GLOW = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
 
@@ -49,25 +56,38 @@ public final class Part4
                                                                                     "amulet.png"),
                                                                       2,
                                                                       2);
+    private final Tick tick = new Tick();
+    private final Audio audio;
+    private Audio audioAlternative;
     private double alphaBack;
     private final boolean alternative;
+    private boolean alternativeMusic;
     private int glowed;
+    private boolean played;
 
     /**
      * Constructor.
      * 
-     * @param alternative The alternative ending flag.
+     * @param context The context reference.
+     * @param audio The audio reference.
+     * @param alternative The alternative end.
      */
-    public Part4(boolean alternative)
+    public Part4(Context context, Audio audio, Boolean alternative)
     {
-        super();
+        super(context, Constant.EXTRO_RESOLUTION);
 
-        this.alternative = alternative;
+        this.audio = audio;
+        this.alternative = alternative.booleanValue();
+
+        if (alternative.booleanValue())
+        {
+            audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE.get());
+            audioAlternative.setVolume(Constant.AUDIO_VOLUME);
+            load(Part5.class, audioAlternative);
+        }
     }
 
-    /**
-     * Load part.
-     */
+    @Override
     public void load()
     {
         credits.load();
@@ -81,15 +101,15 @@ public final class Part4
             pics[i].prepare();
         }
 
-        pics[0].setLocation(102, 20);
-        pics[1].setLocation(198, 70);
+        pics[0].setLocation(110, 20);
+        pics[1].setLocation(208, 70);
 
         font.load();
         font.prepare();
 
         amulet.load();
         amulet.prepare();
-        amulet.setLocation(165, 160);
+        amulet.setLocation(179, 160);
         amulet.addListener((AnimatorFrameListener) f ->
         {
             if (f == 1 && amulet.getAnimState() != AnimState.STOPPED)
@@ -103,21 +123,20 @@ public final class Part4
                 }
             }
         });
+
+        tick.start();
     }
 
-    /**
-     * Update part.
-     * 
-     * @param seek The current seek.
-     * @param extrp The extrapolation value.
-     */
-    public void update(long seek, double extrp)
+    @Override
+    public void update(double extrp)
     {
-        if (seek > 86000 && seek < 90000)
+        tick.update(extrp);
+
+        if (tick.elapsed() < 235)
         {
             alphaBack += 6.0;
         }
-        else if (seek > 133000)
+        if (alternativeMusic && tick.elapsed() > 3050)
         {
             alphaBack -= 6.0;
         }
@@ -127,80 +146,87 @@ public final class Part4
         {
             amulet.update(extrp);
         }
+
+        if (tick.elapsed() > 980 && !alternativeMusic)
+        {
+            alternativeMusic = true;
+            audio.stop();
+            audioAlternative.play();
+        }
+
+        if (alternativeMusic && tick.elapsed() > 3200)
+        {
+            end();
+        }
     }
 
-    /**
-     * Render part.
-     * 
-     * @param width The width.
-     * @param height The height.
-     * @param seek The current seek.
-     * @param g The graphic output.
-     */
-    public void render(int width, int height, long seek, Graphic g)
+    @Override
+    public void render(Graphic g)
     {
-        g.clear(0, 0, width, height);
+        g.clear(0, 0, getWidth(), getHeight());
 
         // Render histories
-        if (seek >= 86000)
+        credits.setLocation(getWidth() / 2, 0);
+        credits.render(g);
+
+        if (alternative)
         {
-            credits.setLocation(width / 2, 0);
-            credits.render(g);
+            amulet.render(g);
 
-            if (alternative)
+            if (tick.elapsed() >= 1330)
             {
-                amulet.render(g);
-
-                if (seek > 109600)
-                {
-                    g.setColor(Intro.ALPHAS_BLACK[128]);
-                    g.drawRect(0, 0, width, height, true);
-                    pics[0].render(g);
-                }
-                if (seek > 118000)
-                {
-                    pics[1].render(g);
-                }
+                g.setColor(Intro.ALPHAS_BLACK[128]);
+                g.drawRect(0, 0, getWidth(), getHeight(), true);
+                pics[0].render(g);
+            }
+            if (tick.elapsed() >= 2220)
+            {
+                pics[1].render(g);
             }
         }
 
         // Render texts
-        if (seek >= 89000 && seek < 109600)
+        if (tick.elapsed() > 180 && tick.elapsed() < 1330)
         {
             font.draw(g,
-                      88,
+                      104,
                       30,
                       Align.LEFT,
-                      "The kingdom was saved. But%what did that mean to Valdyn !%Ilene was gone forever.");
+                      "The kingdom was saved. But%what did that mean to Valdyn ?%Ilene was gone forever.");
 
-            if (alternative && seek > 103000)
+            if (alternativeMusic)
             {
-                font.draw(g, 88, 82, Align.LEFT, "Wait! What's this !");
+                font.draw(g, 104, 82, Align.LEFT, "Wait! What's this ?");
 
-                if (amulet.getAnimState() == AnimState.STOPPED)
+                if (!played)
                 {
+                    played = true;
                     amulet.play(GLOW);
                 }
             }
         }
-        else if (seek > 109600 && seek < 118000)
+        else if (alternativeMusic && tick.elapsed() >= 1330 && tick.elapsed() < 2220)
         {
             font.draw(g,
-                      88,
+                      104,
                       180,
                       Align.LEFT,
                       "Valdyn stared at the amulet he had%found in the hidden cave. It glowed%with an eerie light!");
         }
-        else if (seek > 118000 && seek < 135000)
+        else if (alternativeMusic && tick.elapsed() >= 2220 && tick.elapsed() < 3000)
         {
-            font.draw(g, 88, 180, Align.LEFT, "With trembling hands, he put the%amulet around Ilene's petrified%neck.");
+            font.draw(g,
+                      104,
+                      180,
+                      Align.LEFT,
+                      "With trembling hands, he put the%amulet around Ilene's petrified%neck.");
         }
 
         // Render fade in
         if (alphaBack < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
-            g.drawRect(0, 0, width, height, true);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 }

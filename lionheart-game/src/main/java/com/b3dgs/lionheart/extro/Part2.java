@@ -19,7 +19,9 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.ComponentDisplayable;
@@ -32,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.io.InputDeviceControlVoid;
@@ -46,7 +49,7 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
 /**
  * Extro part 2 implementation.
  */
-public final class Part2
+public final class Part2 extends Sequence
 {
     private static final int ALPHA_SPEED = 3;
 
@@ -64,6 +67,7 @@ public final class Part2
             return featurable;
         }
     });
+    private final Tick tick = new Tick();
     private DragonEnd background;
     private int alpha;
 
@@ -71,10 +75,11 @@ public final class Part2
      * Constructor.
      * 
      * @param context The context reference.
+     * @param audio The audio reference.
      */
-    public Part2(Context context)
+    public Part2(Context context, Audio audio)
     {
-        super();
+        super(context, Constant.NATIVE_RESOLUTION);
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
@@ -119,11 +124,13 @@ public final class Part2
         handler.addListener(factory);
 
         background = new DragonEnd(source);
+
+        load(Part3.class, audio);
+
+        tick.start();
     }
 
-    /**
-     * Load part.
-     */
+    @Override
     public void load()
     {
         services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), 180, 0)
@@ -131,36 +138,31 @@ public final class Part2
         spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "Dragon.xml"), 180, 0);
     }
 
-    /**
-     * Update part.
-     * 
-     * @param seek The current seek.
-     * @param extrp The extrapolation value.
-     */
-    public void update(long seek, double extrp)
+    @Override
+    public void update(double extrp)
     {
+        tick.update(extrp);
+
         background.update(extrp, 1.0, 0, 0);
         handler.update(extrp);
 
-        if (seek < 25400 && alpha < 255)
+        if (tick.elapsed() < 130 && alpha < 255)
         {
             alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
         }
-        else if (seek > 33000 && alpha > 0)
+        else if (tick.elapsed() > 580 && alpha > 0)
         {
             alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
         }
+
+        if (tick.elapsed() > 700)
+        {
+            end();
+        }
     }
 
-    /**
-     * Render part.
-     * 
-     * @param width The width.
-     * @param height The height.
-     * @param seek The current seek.
-     * @param g The graphic output.
-     */
-    public void render(int width, int height, long seek, Graphic g)
+    @Override
+    public void render(Graphic g)
     {
         background.render(g);
         handler.render(g);
@@ -168,7 +170,7 @@ public final class Part2
         if (alpha < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - alpha]);
-            g.drawRect(0, 0, width, height, true);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 }

@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilRandom;
+import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.ComponentDisplayable;
@@ -37,6 +38,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
@@ -47,12 +49,12 @@ import com.b3dgs.lionheart.intro.Intro;
 /**
  * Extro part 1 implementation.
  */
-public final class Part1
+public final class Part1 extends Sequence
 {
     private static final int ALPHA_SPEED = 3;
     private static final int SPAWN_EXPLODE_DELAY = 35;
     private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
-    private static final double CITADEL_FALL_SPEED = 0.05;
+    private static final double CITADEL_FALL_SPEED = 0.04;
 
     private final Sprite backcolor = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "backcolor.png"));
     private final Sprite clouds = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "clouds.png"));
@@ -83,6 +85,8 @@ public final class Part1
         }
     });
     private final Tick tick = new Tick();
+    private final Tick tickExplode = new Tick();
+    private final Audio audio;
 
     private int alpha;
     private double citadelY;
@@ -96,10 +100,13 @@ public final class Part1
      * Constructor.
      * 
      * @param context The context reference.
+     * @param audio The audio reference.
      */
-    public Part1(Context context)
+    public Part1(Context context, Audio audio)
     {
-        super();
+        super(context, Constant.NATIVE_RESOLUTION);
+
+        this.audio = audio;
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
@@ -140,9 +147,9 @@ public final class Part1
      */
     private void spawnExplode(int delay)
     {
-        if (tick.elapsed(delay))
+        if (tickExplode.elapsed(delay))
         {
-            tick.restart();
+            tickExplode.restart();
             final int width = citadel.getTileWidth();
             final int height = citadel.getTileHeight();
             spawner.spawn(Medias.create(Folder.EXTRO,
@@ -153,9 +160,7 @@ public final class Part1
         }
     }
 
-    /**
-     * Load part.
-     */
+    @Override
     public void load()
     {
         backcolor.load();
@@ -170,25 +175,25 @@ public final class Part1
 
         valdyn.load();
         valdyn.prepare();
-        valdyn.play(new Animation(Animation.DEFAULT_NAME, 1, 12, 0.25, false, true));
+        valdyn.play(new Animation(Animation.DEFAULT_NAME, 1, 12, 0.2, false, true));
         valdynX = 100.0;
         valdynY = 50.0;
         valdynZ = 100.0;
         valdynZacc = -0.3;
 
+        tickExplode.start();
+
+        load(Part2.class, audio);
         tick.start();
     }
 
-    /**
-     * Update part.
-     * 
-     * @param seek The current seek.
-     * @param extrp The extrapolation value.
-     */
-    public void update(long seek, double extrp)
+    @Override
+    public void update(double extrp)
     {
-        handler.update(extrp);
         tick.update(extrp);
+
+        handler.update(extrp);
+        tickExplode.update(extrp);
 
         if (valdynX < 220)
         {
@@ -196,50 +201,48 @@ public final class Part1
             valdyn.setLocation(valdynX, valdynY);
 
             valdynZ += valdynZacc;
-            valdynZacc = UtilMath.clamp(valdynZacc + 0.001, -0.3, -0.08);
+            valdynZacc = UtilMath.clamp(valdynZacc + 0.0011, -0.3, -0.09);
             final double z = UtilMath.clamp(1000 / valdynZ, 10, 400);
             valdyn.stretch(z, z);
 
             valdynX += 0.01 + z / 350.0;
             valdynY += 0.01;
         }
-        if (seek < 2000 && alpha < 255)
+        if (tick.elapsed() < 110 && alpha < 255)
         {
             alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
         }
-        else if (seek > 20000 && alpha > 0)
+        else if (tick.elapsed() > 1150 && alpha > 0)
         {
             alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
         }
-        if (seek < 16000)
+        if (tick.elapsed() < 900)
         {
             spawnExplode(SPAWN_EXPLODE_DELAY);
             spawnExplode(SPAWN_EXPLODE_DELAY);
             spawnExplode(SPAWN_EXPLODE_DELAY);
             spawnExplode(SPAWN_EXPLODE_DELAY);
         }
-        else if (seek < 16900)
+        else if (tick.elapsed() < 950)
         {
             spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
         }
-        if (seek > 17000)
+        if (tick.elapsed() > 950)
         {
             citadel.setFrame(2);
             citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, 500);
             citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED, 0.0, 3.0);
         }
         citadel.setLocation(82, 4 + citadelY);
+
+        if (tick.elapsed() > 1370)
+        {
+            end();
+        }
     }
 
-    /**
-     * Render part.
-     * 
-     * @param width The width.
-     * @param height The height.
-     * @param seek The current seek.
-     * @param g The graphic output.
-     */
-    public void render(int width, int height, long seek, Graphic g)
+    @Override
+    public void render(Graphic g)
     {
         backcolor.render(g);
         clouds.render(g);
@@ -253,7 +256,7 @@ public final class Part1
         if (alpha < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - alpha]);
-            g.drawRect(0, 0, width, height, true);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 }

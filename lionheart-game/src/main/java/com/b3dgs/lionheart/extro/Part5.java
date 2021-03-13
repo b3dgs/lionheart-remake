@@ -18,10 +18,13 @@ package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.ComponentDisplayable;
@@ -36,6 +39,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
@@ -46,17 +50,13 @@ import com.b3dgs.lionheart.intro.Intro;
 /**
  * Extro part 5 implementation.
  */
-public final class Part5
+public final class Part5 extends Sequence
 {
     private static final Animation OPEN = new Animation("open", 1, 8, 0.18, false, false);
 
     private final Sprite transform0a = get("transform0a.png");
     private final Sprite transform0b = get("transform0b.png");
     private final Sprite transform0c = get("transform0c.png");
-    private final SpriteAnimated transform1 = get("transform1.png", 5, 2);
-    private final SpriteAnimated transform2 = get("transform2.png", 4, 3);
-    private final SpriteAnimated transform3 = get("transform3.png", 10, 2);
-    private final SpriteAnimated transform4 = get("transform4.png", 4, 2);
     private final SpriteAnimated eyes = get("eyes.png", 2, 4);
 
     private static Sprite get(String file)
@@ -86,6 +86,7 @@ public final class Part5
         }
     });
 
+    private final Tick tick = new Tick();
     private int alphaBack;
     private int alpha0b;
     private int flick0c;
@@ -94,10 +95,13 @@ public final class Part5
 
     /**
      * Constructor.
+     * 
+     * @param context The context reference.
+     * @param audio The audio reference.
      */
-    public Part5()
+    public Part5(Context context, Audio audio)
     {
-        super();
+        super(context, Constant.MENU_RESOLUTION);
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
@@ -129,11 +133,13 @@ public final class Part5
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
+
+        load(Part6.class, audio, Boolean.TRUE);
+
+        tick.start();
     }
 
-    /**
-     * Load part.
-     */
+    @Override
     public void load()
     {
         transform0a.load();
@@ -149,47 +155,35 @@ public final class Part5
         transform0c.prepare();
         transform0c.setOrigin(Origin.CENTER_TOP);
 
-        transform1.load();
-        transform1.prepare();
-
-        transform2.load();
-        transform2.prepare();
-
-        transform3.load();
-        transform3.prepare();
-
         eyes.load();
         eyes.prepare();
         eyes.setOrigin(Origin.CENTER_TOP);
     }
 
-    /**
-     * Update part.
-     * 
-     * @param seek The current seek.
-     * @param extrp The extrapolation value.
-     */
-    public void update(long seek, double extrp)
+    @Override
+    public void update(double extrp)
     {
+        tick.update(extrp);
+
         handler.update(extrp);
 
-        if (seek > 135000 && seek < 138000)
+        if (tick.elapsed() < 150)
         {
             alphaBack += 3;
         }
-        else if (seek > 161000)
+        else if (tick.elapsed() > 1220)
         {
-            alphaBack -= 3;
+            alphaBack -= 6;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0, 255);
 
-        if (seek > 139600 && seek < 139700 && !spawned)
+        if (tick.elapsed() > 100 && tick.elapsed() < 110 && !spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 210, 64);
             spawned = !spawned;
         }
 
-        if (seek > 140000 && seek < 145000)
+        if (tick.elapsed() > 120 && tick.elapsed() < 240)
         {
             alpha0b += 3;
             if (alpha0b < 256)
@@ -198,23 +192,39 @@ public final class Part5
             }
         }
 
-        if (seek > 146000 && seek < 146100 && spawned)
+        if (tick.elapsed() > 240 && tick.elapsed() < 250 && spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform2.xml"), 216, 88);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform2.xml"), 216, 80);
             spawned = !spawned;
         }
-        if (seek > 146500 && seek < 146600 && !spawned)
+        if (tick.elapsed() > 295 && tick.elapsed() < 305 && !spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform3.xml"), 210, 160);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform3.xml"), 210, 164);
             spawned = !spawned;
         }
-        if (seek > 147200 && seek < 147300 && spawned)
+        if (tick.elapsed() > 395 && tick.elapsed() < 405 && spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform4.xml"), 210, 160);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform4.xml"), 210, 164);
             spawned = !spawned;
         }
 
-        if (seek > 150000 && flicked0c < 6)
+        if (tick.elapsed() > 500 && tick.elapsed() < 510 && !spawned)
+        {
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 180, 96);
+            spawned = !spawned;
+        }
+        if (tick.elapsed() > 560 && tick.elapsed() < 570 && spawned)
+        {
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 210, 96);
+            spawned = !spawned;
+        }
+        if (tick.elapsed() > 620 && tick.elapsed() < 630 && !spawned)
+        {
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 240, 96);
+            spawned = !spawned;
+        }
+
+        if (tick.elapsed() > 740 && flicked0c < 6)
         {
             flick0c++;
             if (flick0c > 16)
@@ -224,7 +234,14 @@ public final class Part5
             }
             alpha0b = 255;
         }
-        if (seek > 154000 && seek < 155000)
+
+        if (tick.elapsed() > 840 && tick.elapsed() < 900 && spawned)
+        {
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 210, 64);
+            spawned = !spawned;
+        }
+
+        if (tick.elapsed() > 930 && tick.elapsed() < 1000)
         {
             alpha0b -= 3;
             if (alpha0b > -1)
@@ -232,39 +249,37 @@ public final class Part5
                 transform0b.setAlpha(UtilMath.clamp(alpha0b, 0, 255));
             }
         }
-        if (seek > 155000 && eyes.getAnimState() == AnimState.STOPPED)
+        if (tick.elapsed() > 1010 && eyes.getAnimState() == AnimState.STOPPED)
         {
             eyes.play(OPEN);
+        }
+
+        if (tick.elapsed() > 1280)
+        {
+            end();
         }
 
         eyes.update(extrp);
     }
 
-    /**
-     * Render part.
-     * 
-     * @param width The width.
-     * @param height The height.
-     * @param seek The current seek.
-     * @param g The graphic output.
-     */
-    public void render(int width, int height, long seek, Graphic g)
+    @Override
+    public void render(Graphic g)
     {
-        g.clear(0, 0, width, height);
+        g.clear(0, 0, getWidth(), getHeight());
 
-        transform0a.setLocation(width / 2, 24);
+        transform0a.setLocation(getWidth() / 2, 24);
         transform0a.render(g);
 
         if (flick0c > 8 || flicked0c > 5)
         {
-            transform0c.setLocation(width / 2, 24);
+            transform0c.setLocation(getWidth() / 2, 24);
             transform0c.render(g);
 
-            eyes.setLocation(width / 2, 57);
+            eyes.setLocation(getWidth() / 2, 57);
             eyes.render(g);
         }
 
-        transform0b.setLocation(width / 2, 24);
+        transform0b.setLocation(getWidth() / 2, 24);
         transform0b.render(g);
 
         handler.render(g);
@@ -273,7 +288,7 @@ public final class Part5
         if (alphaBack < 255)
         {
             g.setColor(Intro.ALPHAS_BLACK[255 - alphaBack]);
-            g.drawRect(0, 0, width, height, true);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 }
