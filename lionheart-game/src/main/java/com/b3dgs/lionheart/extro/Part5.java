@@ -98,8 +98,9 @@ public final class Part5 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
+     * @param alternative The alternative end.
      */
-    public Part5(Context context, Audio audio)
+    public Part5(Context context, Audio audio, Boolean alternative)
     {
         super(context, Constant.MENU_RESOLUTION);
 
@@ -134,7 +135,7 @@ public final class Part5 extends Sequence
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
 
-        load(Part6.class, audio, Boolean.TRUE);
+        load(Credits.class, audio, alternative);
 
         tick.start();
     }

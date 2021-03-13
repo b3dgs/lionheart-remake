@@ -49,8 +49,9 @@ public final class Part3 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
+     * @param alternative The alternative end.
      */
-    public Part3(Context context, Audio audio)
+    public Part3(Context context, Audio audio, Boolean alternative)
     {
         super(context, Constant.MENU_RESOLUTION);
 
@@ -61,7 +62,7 @@ public final class Part3 extends Sequence
             pics[i].prepare();
         }
 
-        load(Part4.class, audio, Boolean.TRUE);
+        load(Part4.class, audio, alternative);
 
         tick.start();
     }

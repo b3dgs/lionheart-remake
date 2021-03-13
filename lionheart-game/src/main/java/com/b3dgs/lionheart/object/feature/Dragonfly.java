@@ -50,6 +50,9 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 @FeatureInterface
 public final class Dragonfly extends FeatureModel implements Routine, CollidableListener
 {
+    private static final String NODE = "dragonfly";
+    private static final String ATT_FREE = "free";
+
     private static final int OFFSET_X = -24;
     private static final int OFFSET_Y = -50;
     private static final double SPEED = 13.0 / 31.0; // 0.4195;
@@ -61,7 +64,8 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     private final CameraTracker tracker = services.get(CameraTracker.class);
 
     private int offsetY;
-    private boolean on;
+    private boolean on = true;
+    private final boolean free;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
@@ -77,6 +81,8 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     public Dragonfly(Services services, Setup setup)
     {
         super(services, setup);
+
+        free = setup.getBooleanDefault(false, ATT_FREE, NODE);
     }
 
     /**
@@ -113,16 +119,19 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     {
         if (on)
         {
-            if (camera.getX() < 718 * 16)
+            if (!free)
             {
-                camera.moveLocation(extrp, SPEED, 0.0);
-                player.moveLocationX(extrp, SPEED);
+                if (camera.getX() < 718 * 16)
+                {
+                    camera.moveLocation(extrp, SPEED, 0.0);
+                    player.moveLocationX(extrp, SPEED);
+                }
+                if (camera.getX() < 705 * 16)
+                {
+                    launcher.fire();
+                }
+                camera.setLocation(camera.getX(), player.getY() - 64);
             }
-            if (camera.getX() < 705 * 16)
-            {
-                launcher.fire();
-            }
-            camera.setLocation(camera.getX(), player.getY() - 64);
 
             if (player.getX() < camera.getX() + transformable.getWidth() / 10)
             {
@@ -180,18 +189,21 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         }
         transformable.setLocationX(player.getX() + OFFSET_X);
 
-        final int side = Double.compare(transformable.getY(), transformable.getOldY());
-        if (side < 0)
+        if (!free)
         {
-            launcher.setLevel(2);
-        }
-        else if (side > 0)
-        {
-            launcher.setLevel(1);
-        }
-        else
-        {
-            launcher.setLevel(0);
+            final int side = Double.compare(transformable.getY(), transformable.getOldY());
+            if (side < 0)
+            {
+                launcher.setLevel(2);
+            }
+            else if (side > 0)
+            {
+                launcher.setLevel(1);
+            }
+            else
+            {
+                launcher.setLevel(0);
+            }
         }
     }
 

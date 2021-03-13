@@ -33,8 +33,9 @@ public final class Extro extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param alternative The alternative end.
      */
-    public Extro(Context context)
+    public Extro(Context context, Boolean alternative)
     {
         super(context, Constant.MENU_RESOLUTION);
 
@@ -42,7 +43,7 @@ public final class Extro extends Sequence
         audio.setVolume(Constant.AUDIO_VOLUME);
         audio.play();
 
-        load(Part1.class, audio);
+        load(Part1.class, audio, alternative);
     }
 
     @Override

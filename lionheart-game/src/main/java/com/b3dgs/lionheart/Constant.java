@@ -37,7 +37,7 @@ public final class Constant
     /** Original display. */
     public static final Resolution NATIVE_RESOLUTION = new Resolution(370, 208, 60); // original = 281 * 208
     /** Extro display. */
-    public static final Resolution EXTRO_RESOLUTION = new Resolution(455, 256, 60); // original = 320 * 240
+    public static final Resolution EXTRO_RESOLUTION = new Resolution(455, 256, 60); // original = 320 * 256
     /** Default display. */
     public static final Resolution DEFAULT_RESOLUTION = MENU_RESOLUTION.get3x();
 

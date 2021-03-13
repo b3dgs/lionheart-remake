@@ -86,7 +86,6 @@ public final class Part1 extends Sequence
     });
     private final Tick tick = new Tick();
     private final Tick tickExplode = new Tick();
-    private final Audio audio;
 
     private int alpha;
     private double citadelY;
@@ -101,12 +100,11 @@ public final class Part1 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
+     * @param alternative The alternative end.
      */
-    public Part1(Context context, Audio audio)
+    public Part1(Context context, Audio audio, Boolean alternative)
     {
         super(context, Constant.NATIVE_RESOLUTION);
-
-        this.audio = audio;
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
@@ -138,6 +136,10 @@ public final class Part1 extends Sequence
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
+
+        load(Part2.class, audio, alternative);
+
+        tick.start();
     }
 
     /**
@@ -182,9 +184,6 @@ public final class Part1 extends Sequence
         valdynZacc = -0.3;
 
         tickExplode.start();
-
-        load(Part2.class, audio);
-        tick.start();
     }
 
     @Override
@@ -227,7 +226,7 @@ public final class Part1 extends Sequence
         {
             spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
         }
-        if (tick.elapsed() > 950)
+        if (tick.elapsed() > 925)
         {
             citadel.setFrame(2);
             citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, 500);
@@ -248,7 +247,7 @@ public final class Part1 extends Sequence
         clouds.render(g);
         citadel.render(g);
         handler.render(g);
-        if (valdynX < 220)
+        if (valdynX < 210)
         {
             valdyn.render(g);
         }

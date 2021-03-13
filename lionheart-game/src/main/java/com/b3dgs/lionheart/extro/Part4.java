@@ -83,8 +83,14 @@ public final class Part4 extends Sequence
         {
             audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE.get());
             audioAlternative.setVolume(Constant.AUDIO_VOLUME);
-            load(Part5.class, audioAlternative);
+            load(Part5.class, audioAlternative, alternative);
         }
+        else
+        {
+            load(Credits.class, audio, alternative);
+        }
+
+        tick.start();
     }
 
     @Override
@@ -123,8 +129,6 @@ public final class Part4 extends Sequence
                 }
             }
         });
-
-        tick.start();
     }
 
     @Override
@@ -147,14 +151,14 @@ public final class Part4 extends Sequence
             amulet.update(extrp);
         }
 
-        if (tick.elapsed() > 980 && !alternativeMusic)
+        if (alternative && tick.elapsed() > 980 && !alternativeMusic)
         {
             alternativeMusic = true;
             audio.stop();
             audioAlternative.play();
         }
 
-        if (alternativeMusic && tick.elapsed() > 3200)
+        if (!alternative && tick.elapsed() > 980 || alternativeMusic && tick.elapsed() > 3200)
         {
             end();
         }
@@ -213,7 +217,7 @@ public final class Part4 extends Sequence
                       Align.LEFT,
                       "Valdyn stared at the amulet he had%found in the hidden cave. It glowed%with an eerie light!");
         }
-        else if (alternativeMusic && tick.elapsed() >= 2220 && tick.elapsed() < 3000)
+        else if (alternativeMusic && tick.elapsed() >= 2220 && tick.elapsed() < 3100)
         {
             font.draw(g,
                       104,

@@ -76,8 +76,9 @@ public final class Part2 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
+     * @param alternative The alternative end.
      */
-    public Part2(Context context, Audio audio)
+    public Part2(Context context, Audio audio, Boolean alternative)
     {
         super(context, Constant.NATIVE_RESOLUTION);
 
@@ -125,7 +126,7 @@ public final class Part2 extends Sequence
 
         background = new DragonEnd(source);
 
-        load(Part3.class, audio);
+        load(Part3.class, audio, alternative);
 
         tick.start();
     }
@@ -133,9 +134,9 @@ public final class Part2 extends Sequence
     @Override
     public void load()
     {
-        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), 180, 0)
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), 210, 100)
                             .getFeature(SwordShade.class));
-        spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "Dragon.xml"), 180, 0);
+        spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "DragonExtro.xml"), 210, 100);
     }
 
     @Override
