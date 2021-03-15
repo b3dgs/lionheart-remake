@@ -38,7 +38,7 @@ import com.b3dgs.lionengine.geom.Coord;
 public class CheckpointHandler implements Updatable, Listenable<CheckpointListener>
 {
     private static final int END_DISTANCE_TILE = 2;
-    private static final int BOSS_DISTANCE = 32;
+    private static final int BOSS_DISTANCE = 128;
 
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     private final List<Checkpoint> nexts = new ArrayList<>();
@@ -83,7 +83,8 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         nextsCount = nexts.size();
 
         checkerBoss = config.getBoss()
-                            .map(b -> UpdatableVoid.wrap(extrp -> updateBoss(toReal(b))))
+                            .map(b -> UpdatableVoid.wrap(extrp -> updateBoss(toReal(b),
+                                                                             toReal(config.getBossSpawn().get()))))
                             .orElse(UpdatableVoid.getInstance());
         boss = config.getBoss().map(this::toReal);
 
@@ -149,15 +150,16 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      * Check boss reached.
      * 
      * @param boss The boss location.
+     * @param spawn The boss spawn location.
      */
-    private void updateBoss(Coord boss)
+    private void updateBoss(Coord boss, Coord spawn)
     {
         if (UtilMath.getDistance(player, boss) < BOSS_DISTANCE)
         {
             final int n = listenable.size();
             for (int i = 0; i < n; i++)
             {
-                listenable.get(i).notifyReachedBoss();
+                listenable.get(i).notifyReachedBoss(spawn.getX(), spawn.getY());
             }
             checkerBoss = UpdatableVoid.getInstance();
             bossFound = true;

@@ -82,6 +82,10 @@ public final class StageConfig
     private static final String ATT_BOSS_TX = "tx";
     /** Boss tile y attribute name. */
     private static final String ATT_BOSS_TY = "ty";
+    /** Boss spawn tile x attribute name. */
+    private static final String ATT_BOSS_TSX = "tsx";
+    /** Boss spawn tile y attribute name. */
+    private static final String ATT_BOSS_TSY = "tsy";
 
     /** Entities node name. */
     private static final String NODE_ENTITIES = "entities";
@@ -118,6 +122,8 @@ public final class StageConfig
     private final ForegroundConfig foreground;
     /** Boss tile. */
     private final Optional<Coord> boss;
+    /** Boss spawn tile. */
+    private final Optional<Coord> bossSpawn;
     /** Checkpoints tiles. */
     private final Collection<Checkpoint> checkpoints = new ArrayList<>();
     /** Entities configuration. */
@@ -153,10 +159,13 @@ public final class StageConfig
         {
             boss = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TX, NODE_BOSS),
                                          configurer.getInteger(ATT_BOSS_TY, NODE_BOSS)));
+            bossSpawn = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TSX, NODE_BOSS),
+                                              configurer.getInteger(ATT_BOSS_TSY, NODE_BOSS)));
         }
         else
         {
             boss = Optional.empty();
+            bossSpawn = Optional.empty();
         }
 
         configurer.getChildren(NODE_CHECKPOINT, NODE_CHECKPOINTS).forEach(this::addCheckpoints);
@@ -294,6 +303,16 @@ public final class StageConfig
     public Optional<Coord> getBoss()
     {
         return boss;
+    }
+
+    /**
+     * Get the boss spawn location.
+     * 
+     * @return The boss spawn location.
+     */
+    public Optional<Coord> getBossSpawn()
+    {
+        return bossSpawn;
     }
 
     /**

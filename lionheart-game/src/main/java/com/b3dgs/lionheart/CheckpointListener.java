@@ -30,6 +30,9 @@ public interface CheckpointListener
 
     /**
      * Called on boss reached.
+     * 
+     * @param x The horizontal location.
+     * @param y The vertical location.
      */
-    void notifyReachedBoss();
+    void notifyReachedBoss(double x, double y);
 }

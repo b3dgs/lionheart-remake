@@ -312,24 +312,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
 
             @Override
-            public void notifyReachedBoss()
+            public void notifyReachedBoss(double x, double y)
             {
-                // TODO Swamp
-                // camera.setLimitLeft((int) camera.getX());
-                // spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"),
-                // player.getFeature(Transformable.class).getX(),
-                // -100.0);
-                // trackerY = 1.0;
-
-                // TODO Lava
-                // spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), 860 * map.getTileWidth(), 3 *
-                // map.getTileHeight());
-
-                // TODO Dragonfly
-                spawn(Medias.create(Folder.BOSS, theme, "BossBody.xml"),
-                      752 * map.getTileWidth(),
-                      6 * map.getTileHeight());
-
+                if (WorldType.SWAMP.getFolder().equals(theme))
+                {
+                    camera.setLimitLeft((int) camera.getX());
+                    trackerY = 1.0;
+                }
+                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y);
                 playMusic(Music.BOSS);
             }
         });

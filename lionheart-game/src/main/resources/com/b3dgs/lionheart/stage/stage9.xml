@@ -17,7 +17,7 @@
         <checkpoint tx="673" ty="4"/>
         <checkpoint tx="754" ty="5"/>
     </checkpoints>
-    <boss tx="880" ty="25" next="stage/stage11.xml"/>
+    <boss tx="880" ty="17" tsx="860" tsy="3" next="stage/stage11.xml"/>
     <entities>
         <entity file="entity/item/lava/PotionLittle.xml" tx="186.0" ty="10.0"/>
         <entity file="entity/item/lava/Talisment.xml" tx="293.0" ty="12.0"/>
