@@ -46,15 +46,18 @@ import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.FileReading;
-import com.b3dgs.lionengine.io.InputDevicePointer;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.extro.Extro;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
+import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Canon1;
@@ -75,6 +78,9 @@ import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.state.StateCheats;
+import com.b3dgs.lionheart.object.state.StateCrouch;
+import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
@@ -84,8 +90,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
-    private final Hud hud = new Hud(services);
-    private final InputDevicePointer pointer = services.add(getInputDevice(InputDevicePointer.class));
+    private final Hud hud = services.create(Hud.class);
+    private final ScreenShaker shaker = services.create(ScreenShaker.class);
+    private final DeviceController device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+
     private final Tick tick = new Tick();
 
     private Landscape landscape;
@@ -94,6 +102,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private double trackerY;
     private StageConfig stage;
     private StateHandler player;
+    private boolean paused;
+    private boolean cheats;
+    private boolean fly;
 
     /**
      * Create the world.
@@ -110,6 +121,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
+
+        device.setDisabled(Constant.DEVICE_MOUSE, true, true);
     }
 
     /**
@@ -285,6 +298,107 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     /**
+     * Update pause checking.
+     */
+    private void updatePause()
+    {
+        if (device.isFiredOnce(DeviceMapping.PAUSE))
+        {
+            paused = !paused;
+            hud.setPaused(paused);
+        }
+    }
+
+    /**
+     * Update quit checking.
+     */
+    private void updateQuit()
+    {
+        if (device.isFiredOnce(DeviceMapping.QUIT))
+        {
+            if (paused)
+            {
+                sequencer.end(Menu.class);
+            }
+            paused = !paused;
+            hud.setExit(paused);
+        }
+    }
+
+    /**
+     * Update cheats activation.
+     */
+    private void updateCheats()
+    {
+        if (paused && device.isFired(DeviceMapping.FIRE))
+        {
+            if (!player.isState(StateCrouch.class))
+            {
+                paused = false;
+                hud.setPaused(false);
+            }
+            else if (device.isFiredOnce(DeviceMapping.PAGE_DOWN))
+            {
+                device.isFiredOnce(DeviceMapping.FIRE);
+                cheats = !cheats;
+                shaker.start();
+                paused = false;
+                hud.setPaused(false);
+            }
+        }
+        else if (cheats)
+        {
+            updateCheatsFly();
+            updateCheatsStages();
+        }
+    }
+
+    /**
+     * Update fly mode cheat.
+     */
+    private void updateCheatsFly()
+    {
+        if (device.isFiredOnce(DeviceMapping.FIRE))
+        {
+            device.setDisabled(Constant.DEVICE_MOUSE, fly, fly);
+            fly = !fly;
+            device.setDisabled(Constant.DEVICE_KEYBOARD, fly, fly);
+
+            if (fly)
+            {
+                player.changeState(StateCheats.class);
+            }
+            else
+            {
+                player.changeState(StateIdle.class);
+            }
+        }
+        if (fly)
+        {
+            player.getFeature(Transformable.class)
+                  .moveLocation(1.0, device.getHorizontalDirection(), device.getVerticalDirection());
+        }
+    }
+
+    /**
+     * Update stage jumping cheat.
+     */
+    private void updateCheatsStages()
+    {
+        for (int i = 0; i < 14; i++)
+        {
+            if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
+            {
+                sequencer.end(SceneBlack.class, Stage.values()[i].getFile());
+            }
+        }
+        if (device.isFiredOnce(DeviceMapping.K5))
+        {
+            sequencer.end(Extro.class, Boolean.TRUE);
+        }
+    }
+
+    /**
      * Load the stage from configuration.
      * 
      * @param config The stage configuration.
@@ -349,6 +463,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         tick.restart();
     }
 
+    /**
+     * Terminate world.
+     */
+    public void terminate()
+    {
+        if (audio != null)
+        {
+            audio.stop();
+            audio = null;
+        }
+    }
+
     @Override
     public void loadNextStage(String next, int tickDelay)
     {
@@ -391,15 +517,23 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-        pointer.update(extrp);
-        super.update(extrp);
-        checkpoint.update(extrp);
-        landscape.update(extrp, camera);
-        if (trackerY > 0)
+        device.update(extrp);
+        updatePause();
+        updateQuit();
+        updateCheats();
+
+        if (!paused)
         {
-            trackerY = UtilMath.clamp(trackerY += 0.5, 0.0, 21.0);
-            tracker.setOffset(0, trackerInitY + (int) Math.floor(trackerY));
+            tick.update(extrp);
+            shaker.update(extrp);
+            super.update(extrp);
+            checkpoint.update(extrp);
+            landscape.update(extrp, camera);
+            if (trackerY > 0)
+            {
+                trackerY = UtilMath.clamp(trackerY += 0.5, 0.0, 21.0);
+                tracker.setOffset(0, trackerInitY + (int) Math.floor(trackerY));
+            }
         }
         hud.update(extrp);
     }

@@ -16,8 +16,6 @@
  */
 package com.b3dgs.lionheart.menu;
 
-import java.util.Map.Entry;
-
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
@@ -25,10 +23,8 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.UtilReflection;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
-import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -39,10 +35,10 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.helper.InputControllerConfig;
-import com.b3dgs.lionengine.io.InputDeviceControl;
-import com.b3dgs.lionengine.io.InputDeviceDirectional;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Sfx;
@@ -110,7 +106,7 @@ public class Menu extends Sequence
     /** Vertical factor. */
     private final double factorV;
     /** Input device reference. */
-    private final InputDeviceControl input;
+    private final DeviceController device;
     /** Screen mask alpha current value. */
     private double alpha;
     /** Line choice on */
@@ -139,23 +135,9 @@ public class Menu extends Sequence
     {
         super(context, Constant.MENU_RESOLUTION.get2x());
 
-        final InputControllerConfig config = InputControllerConfig.imports(new Services(),
-                                                                           new Configurer(Medias.create(Folder.PLAYERS,
-                                                                                                        "default",
-                                                                                                        "Valdyn.xml")));
-        try
-        {
-            input = UtilReflection.createReduce(config.getControl(), getInputDevice(InputDeviceDirectional.class));
-
-            for (final Entry<Integer, Integer> entry : config.getCodes().entrySet())
-            {
-                input.setFireButton(entry.getKey(), entry.getValue());
-            }
-        }
-        catch (final NoSuchMethodException exception)
-        {
-            throw new LionEngineException(exception);
-        }
+        final Services services = new Services();
+        services.add(context);
+        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
 
         text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
         factorH = getWidth() / (double) com.b3dgs.lionheart.Constant.MENU_RESOLUTION.getWidth();
@@ -215,8 +197,8 @@ public class Menu extends Sequence
     private int changeOption(int option, int min, int max, boolean once)
     {
         int value = option;
-        final boolean left = once ? input.isLeftButtonOnce() : input.getHorizontalDirection() < 0;
-        final boolean right = once ? input.isRightButtonOnce() : input.getHorizontalDirection() > 0;
+        final boolean left = once ? device.isFiredOnce(DeviceMapping.LEFT) : device.getHorizontalDirection() < 0;
+        final boolean right = once ? device.isFiredOnce(DeviceMapping.RIGHT) : device.getHorizontalDirection() > 0;
         if (left)
         {
             value--;
@@ -241,11 +223,11 @@ public class Menu extends Sequence
     private void updateMenuNavigation(int menuId)
     {
         final int choiceOld = choice;
-        if (input.isUpButtonOnce())
+        if (device.isFiredOnce(DeviceMapping.UP))
         {
             choice--;
         }
-        if (input.isDownButtonOnce())
+        if (device.isFiredOnce(DeviceMapping.DOWN))
         {
             choice++;
         }
@@ -257,7 +239,7 @@ public class Menu extends Sequence
         }
         final MenuType next = data.choices[choice].next;
         // Accept choice
-        if (next != null && input.isFireButtonOnce(Constant.FIRE1))
+        if (next != null && device.isFiredOnce(DeviceMapping.FIRE))
         {
             menuNext = next;
             transition = TransitionType.OUT;
@@ -281,7 +263,7 @@ public class Menu extends Sequence
         else if (choice == 2)
         {
             music = changeOption(music, 0, OPTIONS_MUSIC.length - 1, true);
-            if (input.isFireButtonOnce(Constant.FIRE1))
+            if (device.isFiredOnce(DeviceMapping.FIRE))
             {
                 stopAudio();
                 if (music > 0)
@@ -452,6 +434,7 @@ public class Menu extends Sequence
     @Override
     public void update(double extrp)
     {
+        device.update(extrp);
         handleMenuTransition(extrp);
         handleMenu(extrp);
     }

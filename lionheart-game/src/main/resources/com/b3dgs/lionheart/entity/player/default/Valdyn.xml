@@ -3,17 +3,18 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionengine.helper.EntityInputController</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Drownable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionengine.helper.EntityInputController</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Valdyn.png"/>
     <lionengine:frames horizontal="13" vertical="12"/>
     <lionengine:size width="20" height="55"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
+        <lionengine:animation name="cheats" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="idle" start="1" end="1" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
@@ -361,10 +362,7 @@
             <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:input class="com.b3dgs.lionengine.awt.KeyboardController">
-        <lionengine:code index="0" value="17"/>
-        <lionengine:code index="1" value="18"/>
-    </lionengine:input>
+    <lionengine:input config="input.xml"/>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="9"/>
     <lionengine:body gravity="6.5" gravityMax="6.5"/>

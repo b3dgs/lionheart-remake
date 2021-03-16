@@ -88,7 +88,7 @@ public final class StateFall extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override

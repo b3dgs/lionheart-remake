@@ -48,6 +48,11 @@ public final class Constant
     /** Audio volume percent. */
     public static final int AUDIO_VOLUME = 50;
 
+    /** Keyboard device. */
+    public static final String DEVICE_KEYBOARD = "Keyboard";
+    /** Mouse device. */
+    public static final String DEVICE_MOUSE = "Mouse";
+
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
     /** Collision group enemies. */
@@ -91,11 +96,6 @@ public final class Constant
     public static final String RASTER_FILE_TILE = "tiles.png";
     /** Raster water file. */
     public static final String RASTER_FILE_WATER = "water.png";
-
-    /** Fire button 1. */
-    public static final Integer FIRE1 = Integer.valueOf(0);
-    /** Fire button 2. */
-    public static final Integer FIRE2 = Integer.valueOf(1);
 
     /**
      * Private constructor.

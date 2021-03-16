@@ -97,4 +97,12 @@ public final class Scene extends SequenceGame<World>
         textEngine.render(g);
         textName.render(g);
     }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        super.onTerminated(hasNextSequence);
+
+        world.terminate();
+    }
 }

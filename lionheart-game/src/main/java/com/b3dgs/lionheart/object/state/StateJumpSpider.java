@@ -54,6 +54,6 @@ public final class StateJumpSpider extends State
     public void update(double extrp)
     {
         body.resetGravity();
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 }

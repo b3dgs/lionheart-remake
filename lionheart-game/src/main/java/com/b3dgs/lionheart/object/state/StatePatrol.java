@@ -86,8 +86,8 @@ public final class StatePatrol extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED,
-                                input.getVerticalDirection() * Constant.WALK_SPEED);
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED,
+                                device.getVerticalDirection() * Constant.WALK_SPEED);
         if (Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
             || Double.compare(movement.getDirectionVertical(), 0.0) != 0)
         {

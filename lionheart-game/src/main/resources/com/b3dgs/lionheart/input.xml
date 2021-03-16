@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:input mapping="com.b3dgs.lionheart.DeviceMapping" xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/input.xsd">
+    <lionengine:device class="com.b3dgs.lionengine.awt.Keyboard">
+        <lionengine:horizontal positive="39" negative="37"/>
+        <lionengine:vertical positive="38" negative="40"/>
+        <lionengine:fire index="LEFT" positive="39" negative="39"/>
+        <lionengine:fire index="RIGHT" positive="37" negative="37"/>
+        <lionengine:fire index="UP" positive="38" negative="38"/>
+        <lionengine:fire index="DOWN" positive="40" negative="40"/>
+        <lionengine:fire index="FIRE" positive="17" negative="17"/>
+        <lionengine:fire index="PAUSE" positive="80" negative="80"/>
+        <lionengine:fire index="QUIT" positive="27" negative="27"/>
+        <lionengine:fire index="PAGE_DOWN" positive="34" negative="34"/>
+        <lionengine:fire index="F1" positive="112" negative="112"/>
+        <lionengine:fire index="F2" positive="113" negative="113"/>
+        <lionengine:fire index="F3" positive="114" negative="114"/>
+        <lionengine:fire index="F4" positive="115" negative="115"/>
+        <lionengine:fire index="F5" positive="116" negative="116"/>
+        <lionengine:fire index="F6" positive="117" negative="117"/>
+        <lionengine:fire index="F7" positive="118" negative="118"/>
+        <lionengine:fire index="F8" positive="119" negative="119"/>
+        <lionengine:fire index="F9" positive="120" negative="120"/>
+        <lionengine:fire index="F10" positive="121" negative="121"/>
+        <lionengine:fire index="K1" positive="49" negative="49"/>
+        <lionengine:fire index="K2" positive="50" negative="50"/>
+        <lionengine:fire index="K3" positive="51" negative="51"/>
+        <lionengine:fire index="K4" positive="52" negative="52"/>
+        <lionengine:fire index="K5" positive="53" negative="53"/>
+    </lionengine:device>
+    <lionengine:device disabled="true" class="com.b3dgs.lionengine.awt.Mouse"/>
+</lionengine:input>

@@ -122,7 +122,7 @@ public final class StateWalk extends State
     @Override
     public void update(double extrp)
     {
-        final double sx = input.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope);
+        final double sx = device.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope);
         movement.setDestination(sx, -Math.abs(factor * sx));
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }

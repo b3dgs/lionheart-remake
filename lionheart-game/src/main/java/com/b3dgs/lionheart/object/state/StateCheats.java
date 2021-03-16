@@ -17,15 +17,13 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 
 /**
- * Idle dragon state implementation.
+ * Idle state implementation.
  */
-public final class StateIdleDragon extends State
+public final class StateCheats extends State
 {
     /**
      * Create the state.
@@ -33,21 +31,25 @@ public final class StateIdleDragon extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateIdleDragon(EntityModel model, Animation animation)
+    StateCheats(EntityModel model, Animation animation)
     {
         super(model, animation);
+    }
 
-        addTransition(StateAttackDragon.class, this::isFireOnce);
-        addTransition(StateJump.class, () -> isFire() && isGoUp());
+    @Override
+    public void enter()
+    {
+        super.enter();
+
+        jump.zero();
+        movement.zero();
+        tileCollidable.setEnabled(false);
     }
 
     @Override
     public void update(double extrp)
     {
         super.update(extrp);
-
-        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED,
-                                device.getVerticalDirection() * Constant.WALK_SPEED);
 
         body.resetGravity();
     }
@@ -57,6 +59,8 @@ public final class StateIdleDragon extends State
     {
         super.exit();
 
-        rasterable.setFrameOffsets(0, 0);
+        jump.zero();
+        movement.zero();
+        tileCollidable.setEnabled(true);
     }
 }

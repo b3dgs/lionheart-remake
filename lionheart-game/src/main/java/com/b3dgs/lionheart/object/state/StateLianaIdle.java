@@ -87,6 +87,6 @@ public final class StateLianaIdle extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.1);
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.1);
     }
 }

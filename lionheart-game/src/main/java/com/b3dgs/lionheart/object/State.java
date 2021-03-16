@@ -28,7 +28,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.helper.StateHelper;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.feature.Glue;
@@ -230,7 +230,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFire()
     {
-        return isFire(Constant.FIRE1);
+        return isFire(DeviceMapping.FIRE);
     }
 
     /**
@@ -240,7 +240,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFireOnce()
     {
-        return isFireOnce(Constant.FIRE1);
+        return isFireOnce(DeviceMapping.FIRE);
     }
 
     @Override

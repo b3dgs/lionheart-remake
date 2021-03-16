@@ -46,7 +46,7 @@ public final class StateIdleAnimal extends State
     {
         super.update(extrp);
 
-        final double sx = input.getHorizontalDirection() * Constant.WALK_SPEED;
+        final double sx = device.getHorizontalDirection() * Constant.WALK_SPEED;
         movement.setDestination(sx, 0.0);
 
         body.resetGravity();

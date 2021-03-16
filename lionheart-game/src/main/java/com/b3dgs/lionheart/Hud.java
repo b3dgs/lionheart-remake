@@ -16,17 +16,22 @@
  */
 package com.b3dgs.lionheart;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resource;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.Text;
+import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.drawable.SpriteDigit;
@@ -60,9 +65,12 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int LIFE_Y = 1;
 
+    private static final int PAUSE_FLICKER_TICK = 14;
+
     private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_HEART));
     private final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Folder.SPRITES, IMG_HUD));
     private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITES, IMG_NUMBERS));
+    private final Text text = Graphics.createText(Constant.FONT_DIALOG, 9, TextStyle.BOLD);
 
     private final SpriteTiled talisment = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteTiled sword = Drawable.loadSpriteTiled(hudSurface, 16, 16);
@@ -71,9 +79,13 @@ public final class Hud implements Resource, Updatable, Renderable
     private final SpriteDigit numberLife = Drawable.loadSpriteDigit(number, 8, 16, 2);
 
     private final SpriteTiled[] hearts = new SpriteTiled[HEALTH_MAX];
+    private final Tick tick = new Tick();
     private final Viewer viewer;
 
     private Stats stats;
+    private boolean paused;
+    private boolean exit;
+    private boolean flicker;
 
     /**
      * Create hud.
@@ -83,7 +95,30 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     public Hud(Services services)
     {
+        super();
+
         viewer = services.get(Viewer.class);
+    }
+
+    /**
+     * Set paused flag.
+     * 
+     * @param paused The paused flag.
+     */
+    public void setPaused(boolean paused)
+    {
+        this.paused = paused;
+    }
+
+    /**
+     * Set exit flag.
+     * 
+     * @param exit The exit flag.
+     */
+    public void setExit(boolean exit)
+    {
+        paused = exit;
+        this.exit = exit;
     }
 
     /**
@@ -184,6 +219,7 @@ public final class Hud implements Resource, Updatable, Renderable
         loadSword();
         loadLife();
 
+        tick.start();
     }
 
     @Override
@@ -214,6 +250,17 @@ public final class Hud implements Resource, Updatable, Renderable
             }
             numberLife.setValue(stats.getLife());
         }
+
+        if (paused)
+        {
+            tick.update(extrp);
+            if (tick.elapsed(PAUSE_FLICKER_TICK))
+            {
+                flicker = !flicker;
+                text.setColor(flicker ? ColorRgba.BLACK : ColorRgba.WHITE);
+                tick.restart();
+            }
+        }
     }
 
     @Override
@@ -221,9 +268,24 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         if (stats != null)
         {
-            for (final SpriteTiled heart : hearts)
+            if (paused)
             {
-                heart.render(g);
+                if (exit)
+                {
+                    text.draw(g, HEALTH_X, HEALTH_Y, "OK  TO");
+                    text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), "QUIT ?");
+                }
+                else
+                {
+                    text.draw(g, HEALTH_X, HEALTH_Y, "PAUSE");
+                }
+            }
+            else
+            {
+                for (final SpriteTiled heart : hearts)
+                {
+                    heart.render(g);
+                }
             }
 
             talisment.render(g);

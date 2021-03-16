@@ -58,7 +58,7 @@ public final class StateJump extends State
 
         checkJumpStopped = extrp ->
         {
-            if (!isFire() && Double.compare(input.getVerticalDirection(), 0.0) <= 0)
+            if (!isFire() && Double.compare(device.getVerticalDirection(), 0.0) <= 0)
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
@@ -103,7 +103,7 @@ public final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override

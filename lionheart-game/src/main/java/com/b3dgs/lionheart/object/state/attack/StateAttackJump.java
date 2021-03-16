@@ -53,7 +53,7 @@ public final class StateAttackJump extends State
 
         checkJumpAbort = extrp ->
         {
-            if (Double.compare(input.getVerticalDirection(), 0.0) <= 0)
+            if (Double.compare(device.getVerticalDirection(), 0.0) <= 0)
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
@@ -102,7 +102,7 @@ public final class StateAttackJump extends State
         {
             movement.setVelocity(0.07);
         }
-        movement.setDestination(input.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
     }
 
     @Override

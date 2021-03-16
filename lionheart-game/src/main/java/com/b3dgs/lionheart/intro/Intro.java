@@ -16,26 +16,20 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import java.util.Map.Entry;
-
 import com.b3dgs.lionengine.Context;
-import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.UtilReflection;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
-import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.helper.InputControllerConfig;
-import com.b3dgs.lionengine.io.InputDeviceControl;
-import com.b3dgs.lionengine.io.InputDeviceDirectional;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
-import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.menu.Menu;
 
 /**
@@ -74,7 +68,7 @@ public final class Intro extends Sequence
     /** Music. */
     private final Audio audio;
     /** Input device reference. */
-    private final InputDeviceControl input;
+    private final DeviceController device;
     /** Music seek. */
     private long seek;
     /** Back alpha. */
@@ -91,6 +85,10 @@ public final class Intro extends Sequence
     {
         super(context, Constant.NATIVE_RESOLUTION);
 
+        final Services services = new Services();
+        services.add(context);
+        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+
         part1 = new Part1();
         part2 = new Part2();
         part3 = new Part3();
@@ -98,29 +96,7 @@ public final class Intro extends Sequence
 
         audio = AudioFactory.loadAudio(Music.INTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);
-
-        final InputControllerConfig config = InputControllerConfig.imports(new Services(),
-                                                                           new Configurer(Medias.create(Folder.PLAYERS,
-                                                                                                        "default",
-                                                                                                        "Valdyn.xml")));
-        try
-        {
-            input = UtilReflection.createReduce(config.getControl(), getInputDevice(InputDeviceDirectional.class));
-
-            for (final Entry<Integer, Integer> entry : config.getCodes().entrySet())
-            {
-                input.setFireButton(entry.getKey(), entry.getValue());
-            }
-        }
-        catch (final NoSuchMethodException exception)
-        {
-            throw new LionEngineException(exception);
-        }
     }
-
-    /*
-     * Sequence
-     */
 
     @Override
     public void load()
@@ -139,6 +115,7 @@ public final class Intro extends Sequence
     public void update(double extrp)
     {
         seek = audio.getTicks();
+        device.update(extrp);
 
         if (seek < 47200)
         {
@@ -159,7 +136,7 @@ public final class Intro extends Sequence
 
         alphaBack += alphaSpeed;
         alphaBack = UtilMath.clamp(alphaBack, 0, 255);
-        if (alphaSpeed > 0 && (seek > 201000 || input.isFireButtonOnce(Constant.FIRE1)))
+        if (alphaSpeed > 0 && (seek > 201000 || device.isFiredOnce(DeviceMapping.FIRE)))
         {
             alphaSpeed = -alphaSpeed * 2;
         }
