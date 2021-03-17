@@ -37,16 +37,19 @@ import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.DeviceController;
@@ -77,10 +80,9 @@ import com.b3dgs.lionheart.object.feature.Rotating;
 import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
+import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.SwordShade;
-import com.b3dgs.lionheart.object.state.StateCheats;
 import com.b3dgs.lionheart.object.state.StateCrouch;
-import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
@@ -218,11 +220,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Create player and track with camera.
      * 
+     * @param init The initial configuration.
      * @return The created player.
      */
-    private Featurable createPlayerAndLoadCheckpoints()
+    private Featurable createPlayerAndLoadCheckpoints(InitConfig init)
     {
         final Featurable featurable = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 0, 0);
+        featurable.getFeature(Stats.class).apply(init);
         checkpoint.load(stage, featurable);
 
         final Transformable transformable = featurable.getFeature(Transformable.class);
@@ -364,20 +368,25 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             fly = !fly;
             device.setDisabled(Constant.DEVICE_KEYBOARD, fly, fly);
 
-            if (fly)
-            {
-                player.changeState(StateCheats.class);
-            }
-            else
-            {
-                player.changeState(StateIdle.class);
-            }
+            unlockPlayer(fly);
         }
         if (fly)
         {
             player.getFeature(Transformable.class)
                   .moveLocation(1.0, device.getHorizontalDirection(), device.getVerticalDirection());
         }
+    }
+
+    /**
+     * Unlock player for cheats.
+     * 
+     * @param unlock <code>true</code> to unlock, <code>false</code> else.
+     */
+    private void unlockPlayer(boolean unlock)
+    {
+        player.getFeature(TileCollidable.class).setEnabled(!unlock);
+        player.getFeature(Collidable.class).setEnabled(!unlock);
+        player.getFeature(EntityChecker.class).setCheckerUpdate(() -> !unlock);
     }
 
     /**
@@ -389,21 +398,38 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
-                sequencer.end(SceneBlack.class, Stage.values()[i].getFile());
+                sequencer.end(SceneBlack.class, Stage.values()[i].getFile(), getInitConfig());
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
         {
-            sequencer.end(Extro.class, Boolean.TRUE);
+            sequencer.end(Extro.class, Boolean.valueOf(player.getFeature(Stats.class).hasAmulet()));
         }
+    }
+
+    /**
+     * Get init configuration.
+     * 
+     * @return The init configuration.
+     */
+    private InitConfig getInitConfig()
+    {
+        final Stats stats = player.getFeature(Stats.class);
+        return new InitConfig(stats.getHealthMax(),
+                              stats.getTalisment(),
+                              stats.getLife(),
+                              stats.getSword(),
+                              stats.hasAmulet(),
+                              cheats);
     }
 
     /**
      * Load the stage from configuration.
      * 
      * @param config The stage configuration.
+     * @param init The initial configuration.
      */
-    public void load(Media config)
+    public void load(Media config, InitConfig init)
     {
         Sfx.cacheStart();
 
@@ -414,7 +440,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
         landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
 
-        createPlayerAndLoadCheckpoints();
+        cheats = init.isCheats();
+        createPlayerAndLoadCheckpoints(init);
 
         final String theme = stage.getBackground().getWorld().getFolder();
         checkpoint.addListener(new CheckpointListener()
@@ -484,13 +511,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.addAction(() ->
             {
                 audio.stop();
-                sequencer.end(SceneBlack.class, Medias.create(next));
+                sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig());
             }, tickDelay);
         }
         else
         {
             audio.stop();
-            sequencer.end(SceneBlack.class, Medias.create(next));
+            sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig());
         }
     }
 

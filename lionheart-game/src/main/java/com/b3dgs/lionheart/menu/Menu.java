@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Sfx;
@@ -191,19 +192,16 @@ public class Menu extends Sequence
      * @param option The option.
      * @param min The minimum value.
      * @param max The maximum value.
-     * @param once Can be pressed once.
      * @return The new value.
      */
-    private int changeOption(int option, int min, int max, boolean once)
+    private int changeOption(int option, int min, int max)
     {
         int value = option;
-        final boolean left = once ? device.isFiredOnce(DeviceMapping.LEFT) : device.getHorizontalDirection() < 0;
-        final boolean right = once ? device.isFiredOnce(DeviceMapping.RIGHT) : device.getHorizontalDirection() > 0;
-        if (left)
+        if (device.isFiredOnce(DeviceMapping.LEFT))
         {
             value--;
         }
-        if (right)
+        if (device.isFiredOnce(DeviceMapping.RIGHT))
         {
             value++;
         }
@@ -254,15 +252,15 @@ public class Menu extends Sequence
     {
         if (choice == 0)
         {
-            difficulty = changeOption(difficulty, 0, OPTIONS_DIFFICULTY.length - 1, true);
+            difficulty = changeOption(difficulty, 0, OPTIONS_DIFFICULTY.length - 1);
         }
         else if (choice == 1)
         {
-            joystick = changeOption(joystick, 0, OPTIONS_JOYSTICK.length - 1, true);
+            joystick = changeOption(joystick, 0, OPTIONS_JOYSTICK.length - 1);
         }
         else if (choice == 2)
         {
-            music = changeOption(music, 0, OPTIONS_MUSIC.length - 1, true);
+            music = changeOption(music, 0, OPTIONS_MUSIC.length - 1);
             if (device.isFiredOnce(DeviceMapping.FIRE))
             {
                 stopAudio();
@@ -288,7 +286,7 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                end(ScenePicture.class, Stage.STAGE_1.getFile());
+                end(ScenePicture.class, Stage.STAGE_1.getFile(), new InitConfig(4, 0, 2, 1, false, false));
                 break;
             case OPTIONS:
                 handleMenuOptions();

@@ -48,6 +48,7 @@ public final class ScenePicture extends Sequence
 
     private final Tick tick = new Tick();
     private final Media stage;
+    private final InitConfig init;
     private final Sprite picture;
     private final SpriteFont font;
     private final DeviceController input;
@@ -62,11 +63,14 @@ public final class ScenePicture extends Sequence
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param stage The associated stage.
+     * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    public ScenePicture(Context context, Media stage)
+    public ScenePicture(Context context, Media stage, InitConfig init)
     {
         super(context, Constant.MENU_RESOLUTION);
+
+        this.init = init;
 
         final Services services = new Services();
         services.add(context);
@@ -150,7 +154,7 @@ public final class ScenePicture extends Sequence
             {
                 if (!tick.isStarted())
                 {
-                    load(Scene.class, stage);
+                    load(Scene.class, stage, init);
                     tick.start();
                 }
                 else if (input.isFiredOnce(DeviceMapping.FIRE))

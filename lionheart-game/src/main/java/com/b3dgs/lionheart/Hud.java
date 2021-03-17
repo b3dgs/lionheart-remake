@@ -108,6 +108,7 @@ public final class Hud implements Resource, Updatable, Renderable
     public void setPaused(boolean paused)
     {
         this.paused = paused;
+        exit = false;
     }
 
     /**

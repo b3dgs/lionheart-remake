@@ -59,25 +59,28 @@ public final class Scene extends SequenceGame<World>
     private final Text textName = Graphics.createText(9);
     private final Text textEngine = Graphics.createText(9);
     private final Media stage;
+    private final InitConfig init;
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param stage The stage run.
+     * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    Scene(Context context, Media stage)
+    Scene(Context context, Media stage, InitConfig init)
     {
         super(context, Constant.NATIVE_RESOLUTION, World::new);
 
         this.stage = stage;
+        this.init = init;
     }
 
     @Override
     public void load()
     {
-        world.load(stage);
+        world.load(stage, init);
 
         setText(textEngine, ENGINE, 0, getHeight() - textEngine.getSize(), Align.LEFT);
         setText(textName, NAME, getWidth(), getHeight() - textName.getSize(), Align.RIGHT);

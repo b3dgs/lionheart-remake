@@ -35,8 +35,6 @@ public final class Loading extends Sequence
 
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_LOADING));
 
-    private boolean loaded;
-
     /**
      * Constructor.
      * 
@@ -45,7 +43,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Constant.MENU_RESOLUTION);
 
         setSystemCursorVisible(false);
     }
@@ -62,11 +60,7 @@ public final class Loading extends Sequence
     @Override
     public void update(double extrp)
     {
-        if (loaded)
-        {
-            end(Scene.class, Stage.STAGE_1.getFile());
-        }
-        loaded = true;
+        end(Scene.class, Stage.STAGE_1.getFile(), new InitConfig(4, 0, 2, 1, false, false));
     }
 
     @Override
@@ -79,6 +73,5 @@ public final class Loading extends Sequence
     public void onTerminated(boolean hasNextSequence)
     {
         loading.dispose();
-        loaded = false;
     }
 }

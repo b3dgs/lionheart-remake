@@ -29,19 +29,22 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 public final class SceneBlack extends Sequence
 {
     private final Media stage;
+    private final InitConfig init;
 
     /**
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param stage The stage run.
+     * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    public SceneBlack(Context context, Media stage)
+    public SceneBlack(Context context, Media stage, InitConfig init)
     {
         super(context, Constant.NATIVE_RESOLUTION);
 
         this.stage = stage;
+        this.init = init;
         setSystemCursorVisible(false);
     }
 
@@ -57,11 +60,11 @@ public final class SceneBlack extends Sequence
         final StageConfig config = StageConfig.imports(new Configurer(stage));
         if (config.getPic().isPresent())
         {
-            end(ScenePicture.class, stage);
+            end(ScenePicture.class, stage, init);
         }
         else
         {
-            end(Scene.class, stage);
+            end(Scene.class, stage, init);
         }
     }
 
