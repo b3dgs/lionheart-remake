@@ -2,6 +2,7 @@
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.BossSwampEffect</lionengine:feature>
@@ -23,24 +24,25 @@
         <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="400">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="25">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="800">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="50">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="1200">
+        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="75">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:launcher level="1">
-        <lionengine:launchable media="entity/boss/swamp/Bird.xml" ox="-64" oy="48" delay="100">
+        <lionengine:launchable media="entity/boss/swamp/Bird.xml" ox="-64" oy="48" delay="10">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bird.xml" ox="-64" oy="48" delay="2500">
+        <lionengine:launchable media="entity/boss/swamp/Bird.xml" ox="-64" oy="48" delay="160">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="3"/>
+    <stats health="6"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

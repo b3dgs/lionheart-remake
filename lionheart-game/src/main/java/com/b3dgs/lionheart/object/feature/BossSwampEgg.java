@@ -48,7 +48,6 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Boss Swamp 2 egg feature implementation.
@@ -141,8 +140,10 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         }
         else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.getLast())
         {
-            spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLittle.xml"), transformable);
-            spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Little.xml"), transformable)
+            spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeLittle.xml"),
+                          transformable.getX(),
+                          transformable.getY() + transformable.getHeight() / 2);
+            spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Little.xml"), transformable)
                    .getFeature(Rasterable.class)
                    .setAnimOffset2(offset * 8);
             identifiable.destroy();

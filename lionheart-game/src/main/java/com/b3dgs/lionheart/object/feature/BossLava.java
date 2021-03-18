@@ -40,9 +40,11 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -57,6 +59,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossLava extends FeatureModel implements Routine, Recyclable
 {
+    private static final int END_TICK = 500;
     private static final int Y = 60;
     private static final int WALK_OFFSET = 60;
     private static final int RANGE_X = 368;
@@ -490,6 +493,8 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private final Tick tick = new Tick();
 
     private final Spawner spawner = services.get(Spawner.class);
+    private final MusicPlayer music = services.get(MusicPlayer.class);
+    private final LoadNextStage stage = services.get(LoadNextStage.class);
 
     private final Animation rise;
     private final Animation idle;
@@ -537,7 +542,8 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
      */
     private Featurable create(String limb)
     {
-        return spawner.spawn(Medias.create(Folder.BOSS, "lava", limb + Factory.FILE_DATA_DOT_EXTENSION), transformable);
+        return spawner.spawn(Medias.create(setup.getMedia().getParentPath(), limb + Factory.FILE_DATA_DOT_EXTENSION),
+                             transformable);
     }
 
     /**
@@ -775,13 +781,16 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
         checkGroundCollision();
         updateLimbs();
 
-        if (stats.getHealth() == 0)
+        if (stats != null && stats.getHealth() == 0)
         {
             for (int i = 1; i < limbs.length; i++)
             {
-                limbs[i].getFeature(Hurtable.class).kill();
+                limbs[i].getFeature(Hurtable.class).kill(true);
             }
             identifiable.destroy();
+            music.playMusic(Music.BOSS_WIN);
+            stage.loadNextStage(model.getNext().get(), END_TICK);
+            stats = null;
         }
     }
 

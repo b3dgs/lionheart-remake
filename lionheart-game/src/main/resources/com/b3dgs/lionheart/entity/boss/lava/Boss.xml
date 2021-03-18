@@ -16,4 +16,5 @@
         <lionengine:animation name="land" start="119" end="135" speed="0.5" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:body gravity="1.4" gravityMax="4.0"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -11,6 +11,6 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="10" speed="0.4" reversed="false" repeat="false"/>
     </lionengine:animations>
-    <lionengine:layerable layerRefresh="1" layerDisplay="5"/>
+    <lionengine:layerable layerRefresh="1" layerDisplay="1"/>
     <sfx_explode count="1"/>
 </lionengine:featurable>

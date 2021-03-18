@@ -106,6 +106,9 @@ public final class Scene extends SequenceGame<World>
     {
         super.onTerminated(hasNextSequence);
 
-        world.terminate();
+        if (!hasNextSequence)
+        {
+            world.stopMusic();
+        }
     }
 }

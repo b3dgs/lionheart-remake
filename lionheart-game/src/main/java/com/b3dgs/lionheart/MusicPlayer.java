@@ -39,4 +39,9 @@ public interface MusicPlayer
     {
         playMusic(music.get());
     }
+
+    /**
+     * Stop current music.
+     */
+    void stopMusic();
 }

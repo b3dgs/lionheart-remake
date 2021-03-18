@@ -118,7 +118,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         super(services);
 
-        services.add((MusicPlayer) this::playMusic);
+        services.add(new MusicPlayer()
+        {
+            @Override
+            public void playMusic(Media media)
+            {
+                World.this.playMusic(media);
+            }
+
+            @Override
+            public void stopMusic()
+            {
+                World.this.stopMusic();
+            }
+        });
         services.add(tick);
         map.addFeature(new LayerableModel(4, 2));
 
@@ -322,6 +335,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (paused)
             {
+                stopMusic();
                 sequencer.end(Menu.class);
             }
             paused = !paused;
@@ -334,7 +348,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void updateCheats()
     {
-        if (paused && device.isFired(DeviceMapping.FIRE))
+        if (paused && device.isFired(DeviceMapping.CTRL_LEFT))
         {
             if (!player.isState(StateCrouch.class))
             {
@@ -343,7 +357,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
             else if (device.isFiredOnce(DeviceMapping.PAGE_DOWN))
             {
-                device.isFiredOnce(DeviceMapping.FIRE);
+                device.isFiredOnce(DeviceMapping.CTRL_LEFT);
                 cheats = !cheats;
                 shaker.start();
                 paused = false;
@@ -362,7 +376,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void updateCheatsFly()
     {
-        if (device.isFiredOnce(DeviceMapping.FIRE))
+        if (device.isFiredOnce(DeviceMapping.CTRL_LEFT))
         {
             device.setDisabled(Constant.DEVICE_MOUSE, fly, fly);
             fly = !fly;
@@ -398,12 +412,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
+                stopMusic();
                 sequencer.end(SceneBlack.class, Stage.values()[i].getFile(), getInitConfig());
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
         {
-            sequencer.end(Extro.class, Boolean.valueOf(player.getFeature(Stats.class).hasAmulet()));
+            stopMusic();
+            sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
         }
     }
 
@@ -460,7 +476,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     camera.setLimitLeft((int) camera.getX());
                     trackerY = 1.0;
                 }
-                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y);
+                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y).getFeature(EntityModel.class)
+                                                                          .setNext(stage.getBossNext().get());
                 playMusic(Music.BOSS);
             }
         });
@@ -490,18 +507,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         tick.restart();
     }
 
-    /**
-     * Terminate world.
-     */
-    public void terminate()
-    {
-        if (audio != null)
-        {
-            audio.stop();
-            audio = null;
-        }
-    }
-
     @Override
     public void loadNextStage(String next, int tickDelay)
     {
@@ -524,10 +529,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void playMusic(Media media)
     {
-        if (audio != null)
-        {
-            audio.stop();
-        }
+        stopMusic();
         audio = AudioFactory.loadAudio(media);
         if (!Constant.AUDIO_MUTE)
         {
@@ -538,6 +540,15 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         else
         {
             AudioFactory.setVolume(0);
+        }
+    }
+
+    @Override
+    public void stopMusic()
+    {
+        if (audio != null)
+        {
+            audio.stop();
         }
     }
 

@@ -28,14 +28,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 
 /**
- * Boss Swamp 1 feature implementation.
- * <ol>
- * <li>Fly vertical up on spawn.</li>
- * <li>Track player horizontally.</li>
- * <li>Spawn bowls on proximity.</li>
- * <li>Destroy bowls on hit and fly away.</li>
- * <li>Spawn BossSwamp2 on exited screen.</li>
- * </ol>
+ * Boss Swamp 1 effect.
  */
 @FeatureInterface
 public final class BossSwampEffect extends FeatureModel implements Recyclable

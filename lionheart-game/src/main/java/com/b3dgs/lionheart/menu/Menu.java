@@ -237,7 +237,7 @@ public class Menu extends Sequence
         }
         final MenuType next = data.choices[choice].next;
         // Accept choice
-        if (next != null && device.isFiredOnce(DeviceMapping.FIRE))
+        if (next != null && device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
         {
             menuNext = next;
             transition = TransitionType.OUT;
@@ -261,7 +261,7 @@ public class Menu extends Sequence
         else if (choice == 2)
         {
             music = changeOption(music, 0, OPTIONS_MUSIC.length - 1);
-            if (device.isFiredOnce(DeviceMapping.FIRE))
+            if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
             {
                 stopAudio();
                 if (music > 0)
@@ -286,7 +286,7 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                end(ScenePicture.class, Stage.STAGE_1.getFile(), new InitConfig(4, 0, 2, 1, false, false));
+                end(ScenePicture.class, Stage.STAGE_1.getFile(), new InitConfig(4, 2));
                 break;
             case OPTIONS:
                 handleMenuOptions();

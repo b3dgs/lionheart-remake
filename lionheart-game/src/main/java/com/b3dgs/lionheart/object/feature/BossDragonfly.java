@@ -33,7 +33,11 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Boss Dragonfly feature implementation.
@@ -46,6 +50,7 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class BossDragonfly extends FeatureModel implements Routine, Recyclable
 {
+    private static final int END_TICK = 500;
     private static final int APPROACH_DELAY_TICK = 40;
     private static final double SPEED = 13.0 / 31.0;
     private static final double SPEED_LEAVE = -2.5;
@@ -56,6 +61,8 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
+    private final MusicPlayer music = services.get(MusicPlayer.class);
+    private final LoadNextStage stage = services.get(LoadNextStage.class);
 
     private Updatable updater;
 
@@ -64,6 +71,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private Stats stats;
     private int oldHealth;
 
+    @FeatureGet private EntityModel model;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Collidable collidable;
@@ -163,6 +171,8 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
         {
             updater = this::updateExplode;
             head.kill();
+            music.playMusic(Music.BOSS_WIN);
+            stage.loadNextStage(model.getNext().get(), END_TICK);
             tick.restart();
         }
         else if (hurtable.isHurting())

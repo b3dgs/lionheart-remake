@@ -32,12 +32,23 @@ public final class InitConfig
     /** Sword level. */
     private final int sword;
     /** Amulet flag. */
-    private final boolean amulet;
+    private final Boolean amulet;
     /** Cheats flag. */
     private final boolean cheats;
 
     /**
-     * Create config.
+     * Create first config.
+     * 
+     * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
+     * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
+     */
+    public InitConfig(int healthMax, int life)
+    {
+        this(healthMax, 0, life, 1, Boolean.FALSE, false);
+    }
+
+    /**
+     * Create inherited config.
      * 
      * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
@@ -46,7 +57,7 @@ public final class InitConfig
      * @param amulet The amulet flag.
      * @param cheats The cheats flag.
      */
-    public InitConfig(int healthMax, int talisment, int life, int sword, boolean amulet, boolean cheats)
+    public InitConfig(int healthMax, int talisment, int life, int sword, Boolean amulet, boolean cheats)
     {
         super();
 
@@ -115,7 +126,7 @@ public final class InitConfig
      * 
      * @return <code>true</code> if amulet, <code>false</code> else.
      */
-    public boolean isAmulet()
+    public Boolean isAmulet()
     {
         return amulet;
     }

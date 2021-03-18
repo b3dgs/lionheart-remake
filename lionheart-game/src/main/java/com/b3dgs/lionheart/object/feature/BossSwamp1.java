@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
+import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -42,7 +43,7 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Boss Swamp 1 feature implementation.
@@ -75,6 +76,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private boolean fired;
     private int hit;
 
+    @FeatureGet private EntityModel model;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Launcher launcher;
@@ -227,11 +229,11 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             if (transformable.getY() > MAX_AWAY_Y)
             {
                 identifiable.destroy();
-                spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Boss2.xml"),
-                              transformable.getX(),
-                              transformable.getY())
-                       .getFeature(Stats.class)
-                       .applyDamages(stats.getHealthMax() - stats.getHealth());
+                final Featurable boss2 = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss2.xml"),
+                                                       transformable.getX(),
+                                                       transformable.getY());
+                boss2.getFeature(EntityModel.class).setNext(model.getNext().get());
+                boss2.getFeature(Stats.class).applyDamages(stats.getHealthMax() - stats.getHealth());
             }
         }
         else

@@ -30,7 +30,6 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -46,11 +45,16 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.Sequencer;
+import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
+import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.extro.Extro;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
  * Boss Norka feature implementation.
@@ -69,11 +73,9 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossNorka extends FeatureModel implements Routine, Recyclable
 {
+    private static final int END_TICK = 500;
     private static final double CURVE_SPEED = 8.0;
     private static final double CURVE_AMPLITUDE = 3.0;
-    private static final int SHAKE_DELAY = 2;
-    private static final int SHAKE_COUNT = 5;
-    private static final int SHAKE_AMPLITUDE = 4;
     private static final int Y = 60;
     private static final int WALK_OFFSET = 47;
     private static final int TICK_JUMP = 300;
@@ -492,8 +494,9 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
 
     private final Spawner spawner = services.get(Spawner.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
-    private final LoadNextStage stage = services.get(LoadNextStage.class);
-    private final Camera camera = services.get(Camera.class);
+    private final Sequencer sequencer = services.get(Sequencer.class);
+    private final ScreenShaker shaker = services.get(ScreenShaker.class);
+    private final StateHandler player = services.get(SwordShade.class).getFeature(StateHandler.class);
 
     private final Animation idle;
     private final Animation rise;
@@ -507,9 +510,6 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private int patrol;
     private int walkedCount;
     private Updatable phase;
-    private int shakeX;
-    private int shakeY;
-    private int shakeCount;
     private double angle;
 
     @FeatureGet private Identifiable identifiable;
@@ -747,7 +747,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
             phase = this::updateShakeScreen;
             body.resetGravity();
             transformable.teleportY(startY - 68);
-            tick.restart();
+            shaker.start();
         }
     }
 
@@ -759,28 +759,10 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private void updateShakeScreen(double extrp)
     {
         transformable.teleportY(startY - 68);
-        tick.update(extrp);
-        if (tick.elapsed(SHAKE_DELAY))
+        if (shaker.hasShaken())
         {
             tick.restart();
-            if (shakeX == 0)
-            {
-                shakeX = SHAKE_AMPLITUDE;
-                shakeY = -SHAKE_AMPLITUDE;
-            }
-            else
-            {
-                shakeX = 0;
-                shakeY = 0;
-            }
-            shakeCount++;
-            camera.setShake(shakeX, shakeY);
-            if (shakeCount > SHAKE_COUNT)
-            {
-                shakeCount = 0;
-                tick.restart();
-                phase = this::updateAwait;
-            }
+            phase = this::updateAwait;
         }
     }
 
@@ -802,6 +784,23 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
             transformable.teleportY(startY);
             patrol = UtilMath.wrap(patrol + 1, 0, PATROLS.length);
             animator.play(rise);
+        }
+    }
+
+    /**
+     * Update end win.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateEnd(double extrp)
+    {
+        tick.update(extrp);
+        body.resetGravity();
+        if (tick.elapsed(END_TICK))
+        {
+            identifiable.destroy();
+            music.stopMusic();
+            sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
         }
     }
 
@@ -850,7 +849,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
 
         launcher.addListener(l ->
         {
-            if (!l.hasFeature(Fly.class))
+            if (stats != null && !l.hasFeature(Fly.class))
             {
                 if (l.hasFeature(NorkaPlatform.class))
                 {
@@ -870,16 +869,21 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         phase.update(extrp);
-
-        updateLimbs();
-
-        if (stats.getHealth() == 0)
+        if (stats != null)
         {
-            for (int i = 1; i < limbs.length; i++)
+            updateLimbs();
+            if (stats.getHealth() == 0)
             {
-                limbs[i].getFeature(Hurtable.class).kill();
+                for (int i = 1; i < limbs.length; i++)
+                {
+                    limbs[i].getFeature(Hurtable.class).kill(true);
+                }
+                music.playMusic(Music.NORKA_WIN);
+                player.changeState(StateWin.class);
+                phase = this::updateEnd;
+                stats = null;
+                tick.restart();
             }
-            identifiable.destroy();
         }
     }
 
@@ -888,8 +892,5 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     {
         phase = this::start;
         patrol = 0;
-        shakeX = 0;
-        shakeY = 0;
-        shakeCount = 0;
     }
 }

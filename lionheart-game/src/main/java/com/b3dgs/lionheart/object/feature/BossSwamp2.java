@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
+import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -44,9 +45,10 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
+import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Boss Swamp 2 feature implementation.
@@ -66,7 +68,7 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int END_TICK = 400;
+    private static final int END_TICK = 500;
     private static final int PALLET_OFFSET = 3;
     private static final int PALLET_HURT = 9;
     private static final double MOVE_BACK_X = 0.8;
@@ -75,7 +77,6 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private static final double GROUND_Y = 118;
     private static final double MIN_Y_MOVE_BACK = 200;
     private static final double MAX_Y = 388;
-    private static final int SHAKE_DELAY = 2;
     private static final int STAND_DELAY = 300;
     private static final int FLICKER_MAX = 20;
     private static final double MOVE_LEAVE_X = -4.0;
@@ -89,6 +90,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private final Camera camera = services.get(Camera.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
+    private final ScreenShaker shaker = services.get(ScreenShaker.class);
     private final Animation idle;
     private final Animation land;
     private final CollidableListener listener;
@@ -101,11 +103,9 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private int step;
     private double lastX;
     private double lastY;
-    private int shakeX;
-    private int shakeY;
-    private int shakeCount;
     private int flickerCount;
 
+    @FeatureGet private EntityModel model;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Launcher launcher;
@@ -145,7 +145,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                         {
                             step = 10;
                             music.playMusic(Music.BOSS_WIN);
-                            stage.loadNextStage("stage/stage6.xml", END_TICK);
+                            stage.loadNextStage(model.getNext().get(), END_TICK);
                             tick.restart();
                         }
                     }
@@ -270,11 +270,10 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             moveX = 0.0;
             moveY = 0.0;
             tick.restart();
-            tick.set(SHAKE_DELAY);
             Sfx.MONSTER_LAND.play();
             launcher.setLevel(1);
             launcher.fire(player);
-            shakeCount = 0;
+            shaker.start();
             step = 5;
         }
     }
@@ -286,27 +285,10 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
      */
     private void shakeScreen(double extrp)
     {
-        tick.update(extrp);
-        if (tick.elapsed(SHAKE_DELAY))
+        if (shaker.hasShaken())
         {
-            tick.restart();
-            if (shakeX == 0)
-            {
-                shakeX = 4;
-                shakeY = -4;
-            }
-            else
-            {
-                shakeX = 0;
-                shakeY = 0;
-            }
-            shakeCount++;
-            camera.setShake(shakeX, shakeY);
-            if (shakeCount > 5)
-            {
-                lastY = transformable.getY();
-                step = 6;
-            }
+            lastY = transformable.getY();
+            step = 6;
         }
     }
 
@@ -391,9 +373,11 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         {
             identifiable.destroy();
             neck.destroy();
-            spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Boss1.xml"), player.getX(), MAX_Y)
-                   .getFeature(Stats.class)
-                   .applyDamages(stats.getHealthMax() - stats.getHealth());
+            final Featurable boss = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss.xml"),
+                                                  player.getX(),
+                                                  MAX_Y);
+            boss.getFeature(EntityModel.class).setNext(model.getNext().get());
+            boss.getFeature(Stats.class).applyDamages(stats.getHealthMax() - stats.getHealth());
         }
     }
 
@@ -427,7 +411,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         final int width = transformable.getWidth() / 2;
         final int height = transformable.getHeight() / 2;
 
-        spawner.spawn(Medias.create(Folder.BOSS, "swamp", "ExplodeLittle.xml"),
+        spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeBoss.xml"),
                       transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
                       transformable.getY() + UtilRandom.getRandomInteger(height));
     }
@@ -520,7 +504,8 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     @Override
     public void recycle()
     {
-        neck = spawner.spawn(Medias.create(Folder.BOSS, "swamp", "Neck.xml"), 0, 0).getFeature(BossSwampNeck.class);
+        neck = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Neck.xml"), 0, 0)
+                      .getFeature(BossSwampNeck.class);
         moveX = 0.0;
         moveY = 0.0;
         movedX = false;

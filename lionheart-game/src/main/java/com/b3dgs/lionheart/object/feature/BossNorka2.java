@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -37,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
@@ -51,9 +51,6 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossNorka2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int SHAKE_DELAY = 2;
-    private static final int SHAKE_COUNT = 5;
-    private static final int SHAKE_AMPLITUDE = 4;
     private static final int MOVE_DOWN_DELAY_TICK = 50;
     private static final int START_ATTACK_DELAY_TICK = 30;
     private static final int END_ATTACK_DELAY_TICK = 100;
@@ -71,13 +68,10 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private final Animation attack;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Camera camera = services.get(Camera.class);
+    private final ScreenShaker shaker = services.get(ScreenShaker.class);
 
     private Updatable current;
     private int side;
-    private int shakeX;
-    private int shakeY;
-    private int shakeCount;
     private boolean forceJump;
 
     @FeatureGet private Animatable animatable;
@@ -127,7 +121,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
                 transformable.teleportY(MOVE_DOWN_Y);
                 current = this::shakeScreen;
                 forceJump = true;
-                tick.restart();
+                shaker.start();
             }
         }
         else
@@ -145,27 +139,9 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         transformable.teleportY(MOVE_DOWN_Y);
         body.resetGravity();
-        tick.update(extrp);
-        if (tick.elapsed(SHAKE_DELAY))
+        if (shaker.hasShaken())
         {
-            tick.restart();
-            if (shakeX == 0)
-            {
-                shakeX = SHAKE_AMPLITUDE;
-                shakeY = -SHAKE_AMPLITUDE;
-            }
-            else
-            {
-                shakeX = 0;
-                shakeY = 0;
-            }
-            shakeCount++;
-            camera.setShake(shakeX, shakeY);
-            if (shakeCount > SHAKE_COUNT)
-            {
-                shakeCount = 0;
-                current = this::updateTrack;
-            }
+            current = this::updateTrack;
         }
     }
 
@@ -219,6 +195,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
                 animatable.play(attack);
                 forceJump = true;
                 current = this::updateAttack;
+                tick.restart();
             }
             else
             {
@@ -250,7 +227,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
             transformable.teleportY(MOVE_DOWN_Y);
             current = this::shakeScreen;
             forceJump = false;
-            tick.restart();
+            shaker.start();
         }
     }
 
@@ -281,7 +258,6 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         transformable.teleportY(MOVE_DOWN_Y);
         body.resetGravity();
-
         tick.update(extrp);
         if (tick.elapsed(END_ATTACK_DELAY_TICK) && !hurtable.isHurting())
         {

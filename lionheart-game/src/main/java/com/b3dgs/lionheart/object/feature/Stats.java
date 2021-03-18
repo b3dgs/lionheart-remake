@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.InitConfig;
 
 /**
  * Stats feature implementation.
@@ -48,6 +49,7 @@ public final class Stats extends FeatureModel implements Recyclable
     private final Damages damages = new Damages(1, 1);
     private final StatsConfig config;
     private int sword;
+    private Boolean amulet;
 
     /**
      * Create feature.
@@ -74,6 +76,27 @@ public final class Stats extends FeatureModel implements Recyclable
     }
 
     /**
+     * Apply init.
+     * 
+     * @param config The init config to apply.
+     */
+    public void apply(InitConfig config)
+    {
+        health.setMax(config.getHealthMax());
+        health.fill();
+        talisment.set(config.getTalisment());
+        life.set(config.getLife());
+        sword = config.getSword();
+        damages.setDamages(sword, sword);
+        amulet = config.isAmulet();
+        final int n = listeners.size();
+        for (int i = 0; i < n; i++)
+        {
+            listeners.get(i).notifyNextSword(sword);
+        }
+    }
+
+    /**
      * Apply config.
      * 
      * @param config The config to apply.
@@ -83,6 +106,10 @@ public final class Stats extends FeatureModel implements Recyclable
         health.increase(config.getHealth());
         talisment.increase(config.getTalisment());
         life.increase(config.getLife());
+        if (config.isAmulet())
+        {
+            amulet = Boolean.TRUE;
+        }
 
         final int nextSword = config.getSword();
         if (nextSword > 0 && sword != nextSword)
@@ -167,16 +194,6 @@ public final class Stats extends FeatureModel implements Recyclable
     }
 
     /**
-     * Get the max life.
-     * 
-     * @return The max life.
-     */
-    public int getLifeMax()
-    {
-        return life.getMax();
-    }
-
-    /**
      * Get random damages.
      * 
      * @return The random damages.
@@ -194,6 +211,16 @@ public final class Stats extends FeatureModel implements Recyclable
     public int getSword()
     {
         return sword;
+    }
+
+    /**
+     * Check if has amulet.
+     * 
+     * @return <code>true</code> if has amulet, <code>false</code> else.
+     */
+    public Boolean hasAmulet()
+    {
+        return amulet;
     }
 
     @Override

@@ -86,6 +86,8 @@ public final class StageConfig
     private static final String ATT_BOSS_TSX = "tsx";
     /** Boss spawn tile y attribute name. */
     private static final String ATT_BOSS_TSY = "tsy";
+    /** Boss next stage attribute name. */
+    private static final String ATT_BOSS_NEXT = "next";
 
     /** Entities node name. */
     private static final String NODE_ENTITIES = "entities";
@@ -124,6 +126,8 @@ public final class StageConfig
     private final Optional<Coord> boss;
     /** Boss spawn tile. */
     private final Optional<Coord> bossSpawn;
+    /** Boss next stage. */
+    private final Optional<String> bossNext;
     /** Checkpoints tiles. */
     private final Collection<Checkpoint> checkpoints = new ArrayList<>();
     /** Entities configuration. */
@@ -161,11 +165,13 @@ public final class StageConfig
                                          configurer.getInteger(ATT_BOSS_TY, NODE_BOSS)));
             bossSpawn = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TSX, NODE_BOSS),
                                               configurer.getInteger(ATT_BOSS_TSY, NODE_BOSS)));
+            bossNext = Optional.of(configurer.getString(ATT_BOSS_NEXT, NODE_BOSS));
         }
         else
         {
             boss = Optional.empty();
             bossSpawn = Optional.empty();
+            bossNext = Optional.empty();
         }
 
         configurer.getChildren(NODE_CHECKPOINT, NODE_CHECKPOINTS).forEach(this::addCheckpoints);
@@ -313,6 +319,16 @@ public final class StageConfig
     public Optional<Coord> getBossSpawn()
     {
         return bossSpawn;
+    }
+
+    /**
+     * Get the boss next stage.
+     * 
+     * @return The next stage.
+     */
+    public Optional<String> getBossNext()
+    {
+        return bossNext;
     }
 
     /**
