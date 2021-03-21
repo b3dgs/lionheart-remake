@@ -25,40 +25,46 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Intro part 2 implementation.
  */
 public final class Part2
 {
-    /** Mask. */
-    private final Sprite mask;
     /** Door. */
-    private final SpriteAnimated door;
+    private final SpriteAnimated door = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "door.png"), 3, 2);
     /** Pillar. */
-    private final Sprite[] pillar;
+    private final Sprite[] pillar = new Sprite[6];
     /** Cave 1. */
-    private final Sprite cave1;
+    private final Sprite cave1 = Drawable.loadSprite(Medias.create("intro", "part2", "cave1.png"));
     /** Cave 2. */
-    private final Sprite cave2;
+    private final Sprite cave2 = Drawable.loadSprite(Medias.create("intro", "part2", "cave2.png"));
     /** Valdyn. */
-    private final Sprite valdyn;
+    private final Sprite valdyn = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn.png"));
     /** Equip sword. */
-    private final SpriteAnimated equipSword;
+    private final SpriteAnimated equipSword = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "sword.png"),
+                                                                          3,
+                                                                          1);
     /** Equip foot. */
-    private final SpriteAnimated equipFoot;
+    private final SpriteAnimated equipFoot = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "foot.png"),
+                                                                         3,
+                                                                         1);
     /** Equip hand. */
-    private final SpriteAnimated equipHand;
+    private final SpriteAnimated equipHand = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "hand.png"),
+                                                                         3,
+                                                                         1);
     /** Valdyn 0. */
-    private final Sprite valdyn0;
+    private final Sprite valdyn0 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn0.png"));
     /** Valdyn 1. */
-    private final Sprite valdyn1;
+    private final Sprite valdyn1 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn1.png"));
     /** Valdyn 2. */
-    private final Sprite valdyn2;
+    private final Sprite valdyn2 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn2.png"));
     /** Valdyn coordinate. */
-    private final Coord valdynCoord;
+    private final Coord valdynCoord = new Coord(320, 240);
     /** Z locations. */
-    private final double[] z;
+    private final double[] z = new double[2 + pillar.length];
+
     /** Alpha. */
     private double alpha;
     /** Alpha 2. */
@@ -71,25 +77,13 @@ public final class Part2
      */
     public Part2()
     {
-        mask = Drawable.loadSprite(Medias.create("intro", "part2", "mask.png"));
-        door = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "door.png"), 3, 2);
-        pillar = new Sprite[6];
+        super();
+
         for (int i = 0; i < pillar.length; i++)
         {
             pillar[i] = Drawable.loadSprite(Medias.create("intro", "part2", "pillar.png"));
             pillar[i].load();
         }
-        cave1 = Drawable.loadSprite(Medias.create("intro", "part2", "cave1.png"));
-        valdyn = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn.png"));
-        cave2 = Drawable.loadSprite(Medias.create("intro", "part2", "cave2.png"));
-        equipSword = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "sword.png"), 3, 1);
-        equipFoot = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "foot.png"), 3, 1);
-        equipHand = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "hand.png"), 3, 1);
-        valdyn0 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn0.png"));
-        valdyn1 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn1.png"));
-        valdyn2 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn2.png"));
-        valdynCoord = new Coord(320, 240);
-        z = new double[2 + pillar.length];
     }
 
     /**
@@ -97,11 +91,11 @@ public final class Part2
      */
     public void load()
     {
-        mask.load();
         door.load();
         cave1.load();
         valdyn.load();
         cave2.load();
+        cave2.setOrigin(Origin.MIDDLE);
         equipFoot.load();
         equipSword.load();
         equipHand.load();
@@ -143,7 +137,7 @@ public final class Part2
             {
                 for (int i = 1; i < z.length; i++)
                 {
-                    z[i] = i * 10 + 20;
+                    z[i] = i * 15 + 25;
                 }
             }
         }
@@ -159,21 +153,21 @@ public final class Part2
         {
             for (int i = 1; i < z.length; i++)
             {
-                z[i] -= 0.13;
+                z[i] -= 0.16;
             }
         }
 
         // Valdyn approaching
         if (seek > 66500 && seek < 71000)
         {
-            valdynCoord.translate(-1.35 * extrp, -1.5 * 1.35 * extrp);
+            valdynCoord.translate(-1.05 * extrp, -1.5 * 1.28 * extrp);
             if (valdynCoord.getX() < 195)
             {
                 valdynCoord.setX(195);
             }
-            if (valdynCoord.getY() < 56)
+            if (valdynCoord.getY() < 16)
             {
-                valdynCoord.setY(56);
+                valdynCoord.setY(16);
             }
         }
 
@@ -222,11 +216,11 @@ public final class Part2
         }
 
         // Fade in valdyn rage
-        if (seek > 83360 && seek < 84560)
+        if (seek > 83300 && seek < 84560)
         {
             alpha2 += 10.0;
         }
-        if (seek > 84490 && seek < 84900 && flash < 12)
+        if (seek > 84340 && seek < 84900 && flash < 12)
         {
             flash++;
         }
@@ -253,10 +247,12 @@ public final class Part2
     {
         g.clear(0, 0, width, height);
 
+        final int bandHeight = (int) (Math.floor(height - 144) / 2.0);
+
         // Render door
         if (z[0] > 2)
         {
-            door.setLocation(width / 2 - door.getTileWidth() / 2, height / 2 - door.getTileHeight() / 2);
+            door.setLocation(Math.floor(width / 2.0) - door.getTileWidth() / 2, height / 2 - door.getTileHeight() / 2);
             door.render(g);
         }
 
@@ -302,30 +298,31 @@ public final class Part2
         // Render valdyn
         if (seek > 66500 && seek < 72200)
         {
-            valdyn.setLocation((int) valdynCoord.getX(), (int) valdynCoord.getY());
+            valdyn.setLocation((int) valdynCoord.getX(), (int) valdynCoord.getY() + bandHeight);
             valdyn.render(g);
         }
 
         // Render cave 2
         if (seek > 71900 && seek < 81370)
         {
+            cave2.setLocation(width / 2, height / 2);
             cave2.render(g);
         }
 
         // Render equipment
         if (seek > 74500 && seek < 81370)
         {
-            equipSword.setLocation(20, 32);
+            equipSword.setLocation(20, bandHeight + 4);
             equipSword.render(g);
         }
         if (seek > 76300 && seek < 81370)
         {
-            equipFoot.setLocation(70, 39);
+            equipFoot.setLocation(70, bandHeight + 11);
             equipFoot.render(g);
         }
         if (seek > 78060 && seek < 81370)
         {
-            equipHand.setLocation(120, 47);
+            equipHand.setLocation(120, bandHeight + 19);
             equipHand.render(g);
         }
 
@@ -335,7 +332,7 @@ public final class Part2
             valdyn0.setLocation(width / 2, height / 2);
             valdyn0.render(g);
         }
-        if (seek > 83360 && seek < 88000)
+        if (seek > 83300 && seek < 88000)
         {
             valdyn1.setAlpha((int) alpha2);
             valdyn1.setLocation(width / 2, height / 2);
@@ -350,9 +347,11 @@ public final class Part2
         // Render fade
         if (seek > 50500 && alpha < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - (int) alpha]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alpha]);
             g.drawRect(0, 0, width, height, true);
         }
-        mask.render(g);
+
+        g.clear(0, 0, width, bandHeight);
+        g.clear(0, height - bandHeight, width, bandHeight);
     }
 }

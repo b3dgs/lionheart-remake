@@ -18,50 +18,67 @@ package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Util;
 
 /**
  * Intro part 3 implementation.
  */
-public final class Part3
+public final class Part3 extends Sequence
 {
+    private static final int MIN_HEIGHT = 208;
+    private static final int MAX_WIDTH = 400;
+    private static final int MARGIN_WIDTH = 80;
+
     /** Scene. */
-    private final Sprite scene;
+    private final Sprite scene = Drawable.loadSprite(Medias.create("intro", "part3", "scene.png"));
     /** Scene. */
-    private final SpriteAnimated valdyn;
+    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "valdyn.png"),
+                                                                      8,
+                                                                      3);
     /** Dragon 1. */
-    private final SpriteAnimated dragon1;
+    private final SpriteAnimated dragon1 = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "dragon1.png"),
+                                                                       6,
+                                                                       3);
     /** Dragon 2. */
-    private final SpriteAnimated dragon2;
+    private final SpriteAnimated dragon2 = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "dragon2.png"),
+                                                                       5,
+                                                                       4);
     /** Valdyn walk. */
-    private final Animation valdynWalk;
+    private final Animation valdynWalk = new Animation(Animation.DEFAULT_NAME, 1, 10, 0.2f, false, true);
     /** Valdyn prepare. */
-    private final Animation valdynPrepare;
+    private final Animation valdynPrepare = new Animation(Animation.DEFAULT_NAME, 11, 12, 0.2f, false, false);
     /** Valdyn prepare loop. */
-    private final Animation valdynPrepareLoop;
+    private final Animation valdynPrepareLoop = new Animation(Animation.DEFAULT_NAME, 13, 14, 0.2f, false, true);
     /** Valdyn dragon. */
-    private final Animation valdynDragon;
+    private final Animation valdynDragon = new Animation(Animation.DEFAULT_NAME, 15, 24, 0.2f, false, false);
     /** Dragon idle. */
-    private final Animation dragonIdle;
+    private final Animation dragonIdle = new Animation(Animation.DEFAULT_NAME, 1, 15, 0.2f, false, false);
     /** Dragon eat. */
-    private final Animation dragonEat;
+    private final Animation dragonEat = new Animation(Animation.DEFAULT_NAME, 16, 18, 0.2f, false, true);
     /** Dragon back. */
-    private final Animation dragonBack;
+    private final Animation dragonBack = new Animation(Animation.DEFAULT_NAME, 1, 15, 0.2f, true, false);
     /** Dragon back. */
-    private final Animation dragonFly;
+    private final Animation dragonFly = new Animation(Animation.DEFAULT_NAME, 1, 20, 0.2f, true, true);
     /** Dragon location. */
-    private final Coord valdynCoord;
+    private final Coord valdynCoord = new Coord(28, -76);
     /** Dragon location. */
-    private final Coord dragonCoord;
+    private final Coord dragonCoord = new Coord(176, -44);
     /** Camera back. */
-    private final Camera camera;
+    private final Camera camera = new Camera();
+    /** Audio. */
+    private final Audio audio;
     /** Back alpha. */
     private double alphaBack;
     /** Valdyn state. */
@@ -70,38 +87,32 @@ public final class Part3
     private int dragonState;
     /** Dragon go down. */
     private double dragonGoDown;
+    /** Current seek. */
+    private long seek;
 
     /**
      * Constructor.
+     * 
+     * @param context The context reference.
+     * @param audio The audio reference.
      */
-    public Part3()
+    public Part3(Context context, Audio audio)
     {
-        scene = Drawable.loadSprite(Medias.create("intro", "part3", "scene.png"));
-        valdyn = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "valdyn.png"), 8, 3);
-        dragon1 = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "dragon1.png"), 6, 3);
-        dragon2 = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "dragon2.png"), 5, 4);
-        valdynWalk = new Animation(Animation.DEFAULT_NAME, 1, 10, 0.2f, false, true);
-        valdynPrepare = new Animation(Animation.DEFAULT_NAME, 11, 12, 0.2f, false, false);
-        valdynPrepareLoop = new Animation(Animation.DEFAULT_NAME, 13, 14, 0.2f, false, true);
-        valdynDragon = new Animation(Animation.DEFAULT_NAME, 15, 24, 0.2f, false, false);
-        dragonIdle = new Animation(Animation.DEFAULT_NAME, 1, 15, 0.2f, false, false);
-        dragonEat = new Animation(Animation.DEFAULT_NAME, 16, 18, 0.2f, false, true);
-        dragonBack = new Animation(Animation.DEFAULT_NAME, 1, 15, 0.2f, true, false);
-        dragonFly = new Animation(Animation.DEFAULT_NAME, 1, 20, 0.2f, true, true);
-        camera = new Camera();
-        camera.setView(0, 0, 370, 208, 208);
-        valdynCoord = new Coord(28, -76);
-        dragonCoord = new Coord(176, -44);
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+
+        this.audio = audio;
         dragon2.setFrameOffsets(3, -33);
+
+        load(Part4.class, audio);
     }
 
-    /**
-     * Load part.
-     */
+    @Override
     public void load()
     {
         scene.load();
         scene.prepare();
+
+        camera.setView(0, (getHeight() - scene.getHeight()) / 2, getWidth(), getHeight(), getHeight());
 
         valdyn.load();
         valdyn.prepare();
@@ -115,14 +126,11 @@ public final class Part3
         valdyn.play(valdynWalk);
     }
 
-    /**
-     * Update part.
-     * 
-     * @param seek The current seek.
-     * @param extrp The extrapolation value.
-     */
-    public void update(long seek, double extrp)
+    @Override
+    public void update(double extrp)
     {
+        seek = audio.getTicks();
+
         valdyn.update(extrp);
         dragon1.update(extrp);
         dragon2.update(extrp);
@@ -171,9 +179,10 @@ public final class Part3
                 dragonState = 1;
                 dragon1.play(dragonIdle);
             }
-            if (camera.getX() > 30)
+            final int maxX = MAX_WIDTH - getWidth();
+            if (camera.getX() > maxX)
             {
-                camera.setLocation(30, camera.getY());
+                camera.setLocation(maxX, camera.getY() - camera.getViewY());
             }
         }
         if (dragonState == 1 && dragon1.getAnimState() == AnimState.FINISHED)
@@ -202,12 +211,12 @@ public final class Part3
         {
             if (dragon2.getFrame() > 10)
             {
-                dragonGoDown += 0.02;
-                if (dragonGoDown > 1.6)
+                dragonGoDown -= 0.03;
+                if (dragonGoDown < -1.6)
                 {
-                    dragonGoDown = 1.6;
+                    dragonGoDown = -1.6;
                 }
-                dragonCoord.translate(1.3, -1.2 + dragonGoDown);
+                dragonCoord.translate(1.3, 1.4 + dragonGoDown);
             }
             if (dragon2.getAnimState() == AnimState.REVERSING && dragon2.getFrameAnim() == 18)
             {
@@ -223,46 +232,44 @@ public final class Part3
         }
 
         // First Fade out
-        if (seek > 108500 && seek < 120000)
+        if (seek > 108500 && seek < 110000)
         {
             alphaBack -= 5.0;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
+
+        if (seek >= 110000)
+        {
+            end();
+        }
     }
 
-    /**
-     * Render part.
-     * 
-     * @param width The width.
-     * @param height The height.
-     * @param seek The current seek.
-     * @param g The graphic output.
-     */
-    public void render(int width, int height, long seek, Graphic g)
+    @Override
+    public void render(Graphic g)
     {
-        g.clear(0, 0, width, height);
+        g.clear(0, 0, getWidth(), getHeight());
 
         if (seek > 93660 && seek < 95730)
         {
             valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
-                               camera.getViewpointY(valdynCoord.getY()) - height);
+                               camera.getViewpointY(valdynCoord.getY()) - getHeight());
             valdyn.render(g);
         }
 
-        scene.setLocation(camera.getViewpointX(0), camera.getViewpointY(0) - height);
+        scene.setLocation(camera.getViewpointX(0), camera.getViewpointY(0) - getHeight());
         scene.render(g);
 
         // Render dragon
         if (seek > 93660 && seek < 101200)
         {
             dragon1.setLocation(camera.getViewpointX(dragonCoord.getX()),
-                                camera.getViewpointY(dragonCoord.getY()) - height);
+                                camera.getViewpointY(dragonCoord.getY()) - getHeight());
             dragon1.render(g);
         }
         else if (seek >= 101200 && seek < 107000)
         {
             dragon2.setLocation(camera.getViewpointX(dragonCoord.getX()),
-                                camera.getViewpointY(dragonCoord.getY()) - height);
+                                camera.getViewpointY(dragonCoord.getY()) - getHeight());
             dragon2.render(g);
         }
 
@@ -270,15 +277,19 @@ public final class Part3
         if (seek > 95730 && seek < 101200)
         {
             valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
-                               camera.getViewpointY(valdynCoord.getY()) - height);
+                               camera.getViewpointY(valdynCoord.getY()) - getHeight());
             valdyn.render(g);
         }
 
         // Render fade in
         if (alphaBack < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
-            g.drawRect(0, 0, width, height, true);
+            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        final int bandHeight = (int) (Math.floor(getHeight() - MIN_HEIGHT) / 2.0);
+        g.clear(0, 0, getWidth(), bandHeight);
+        g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
     }
 }

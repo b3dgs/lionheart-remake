@@ -18,11 +18,11 @@ package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -30,45 +30,26 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
-import com.b3dgs.lionheart.menu.Menu;
+import com.b3dgs.lionheart.Util;
 
 /**
  * Introduction implementation.
  */
 public final class Intro extends Sequence
 {
-    /** Alpha black values. */
-    public static final ColorRgba[] ALPHAS_BLACK;
-    /** Alpha white values. */
-    static final ColorRgba[] ALPHAS_WHITE;
-
-    /** Init. */
-    static
-    {
-        ALPHAS_BLACK = new ColorRgba[256];
-        for (int i = 0; i < 256; i++)
-        {
-            Intro.ALPHAS_BLACK[i] = new ColorRgba(0, 0, 0, i);
-        }
-        ALPHAS_WHITE = new ColorRgba[256];
-        for (int i = 0; i < 256; i++)
-        {
-            Intro.ALPHAS_WHITE[i] = new ColorRgba(255, 255, 255, i);
-        }
-    }
+    private static final int MIN_HEIGHT = 180;
+    private static final int MAX_WIDTH = 400;
+    private static final int MARGIN_WIDTH = 80;
 
     /** Part 1. */
     private final Part1 part1;
     /** Part 2. */
-    private final Part2 part2;
-    /** Part 3. */
-    private final Part3 part3;
-    /** Part 3. */
-    private final Part4 part4;
+    private final Part2 part2 = new Part2();
     /** Music. */
-    private final Audio audio;
+    private final Audio audio = AudioFactory.loadAudio(Music.INTRO.get());
     /** Input device reference. */
     private final DeviceController device;
+
     /** Music seek. */
     private long seek;
     /** Back alpha. */
@@ -83,18 +64,18 @@ public final class Intro extends Sequence
      */
     public Intro(Context context)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+
+        final Resolution output = context.getConfig().getOutput();
+        final double factor = getHeight() / (double) output.getHeight();
+        final double wide = Math.floor(output.getWidth() * factor) / Constant.RESOLUTION.getWidth();
+
+        part1 = new Part1(wide);
 
         final Services services = new Services();
         services.add(context);
         device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
 
-        part1 = new Part1();
-        part2 = new Part2();
-        part3 = new Part3();
-        part4 = new Part4();
-
-        audio = AudioFactory.loadAudio(Music.INTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);
     }
 
@@ -103,10 +84,8 @@ public final class Intro extends Sequence
     {
         part1.load();
         part2.load();
-        part3.load();
-        part4.load();
 
-        load(Menu.class);
+        load(Part3.class, audio);
 
         audio.play();
     }
@@ -125,18 +104,14 @@ public final class Intro extends Sequence
         {
             part2.update(seek, extrp);
         }
-        else if (seek >= 94000 && seek < 110000)
+        else if (seek >= 94000)
         {
-            part3.update(seek, extrp);
-        }
-        else if (seek >= 110000 && seek < 201000)
-        {
-            part4.update(seek, extrp);
+            end();
         }
 
         alphaBack += alphaSpeed;
         alphaBack = UtilMath.clamp(alphaBack, 0, 255);
-        if (alphaSpeed > 0 && (seek > 201000 || device.isFiredOnce(DeviceMapping.FIRE)))
+        if (alphaSpeed > 0 && (seek > 201000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
         {
             alphaSpeed = -alphaSpeed * 2;
         }
@@ -157,18 +132,10 @@ public final class Intro extends Sequence
         {
             part2.render(getWidth(), getHeight(), seek, g);
         }
-        else if (seek >= 94000 && seek < 110000)
-        {
-            part3.render(getWidth(), getHeight(), seek, g);
-        }
-        else if (seek >= 110000 && seek < 201000)
-        {
-            part4.render(getWidth(), getHeight(), seek, g);
-        }
 
         if (alphaBack < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - alphaBack]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
@@ -176,6 +143,9 @@ public final class Intro extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
-        audio.stop();
+        if (!hasNextSequence)
+        {
+            audio.stop();
+        }
     }
 }

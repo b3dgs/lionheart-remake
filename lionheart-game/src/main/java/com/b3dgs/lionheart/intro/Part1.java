@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Align;
-import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -27,6 +26,7 @@ import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionheart.Constant;
 
 /**
  * Intro part 1 implementation.
@@ -34,31 +34,36 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 public final class Part1
 {
     /** Text large. */
-    private final Text textLarge;
+    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF,
+                                                         24,
+                                                         TextStyle.NORMAL);
+
     /** Backgrounds. */
-    private final Sprite[] backs;
+    private final Sprite[] backs = new Sprite[4];
     /** Sceneries. */
-    private final Sprite[] sceneries;
+    private final Sprite[] sceneries = new Sprite[6];
     /** Title. */
-    private final Sprite title;
+    private final Sprite title = Drawable.loadSprite(Medias.create("intro", "part1", "title.png"));
     /** Camera back. */
-    private final Camera cameraBack;
+    private final Camera cameraBack = new Camera();
     /** Camera scenery. */
-    private final Camera cameraScenery;
+    private final Camera cameraScenery = new Camera();
+    /** Wide factor. */
+    private final double wide;
+
     /** Text alpha. */
     private double alphaText;
 
     /**
      * Constructor.
+     * 
+     * @param wide The wide factor.
      */
-    public Part1()
+    public Part1(double wide)
     {
-        textLarge = Graphics.createText(Constant.FONT_SERIF, 24, TextStyle.NORMAL);
-        title = Drawable.loadSprite(Medias.create("intro", "part1", "title.png"));
-        backs = new Sprite[4];
-        sceneries = new Sprite[6];
-        cameraBack = new Camera();
-        cameraScenery = new Camera();
+        super();
+
+        this.wide = wide;
     }
 
     /**
@@ -90,7 +95,7 @@ public final class Part1
     public void update(long seek, double extrp)
     {
         // Text fades
-        updateAlphaText(2600, 5350, 5350, 6450, seek, extrp);
+        updateAlphaText(2700, 5350, 5350, 6450, seek, extrp);
         updateAlphaText(7050, 10000, 12000, 14000, seek, extrp);
         updateAlphaText(15200, 18100, 18100, 20200, seek, extrp);
         updateAlphaText(20200, 23100, 23100, 25200, seek, extrp);
@@ -102,9 +107,10 @@ public final class Part1
         {
             cameraBack.moveLocation(extrp, 0.45, 0.0);
             cameraScenery.moveLocation(extrp, 0.77, 0.0);
-            if (cameraScenery.getX() > 1577.0)
+            final double x = cameraScenery.getX();
+            if (x > 1760 - Math.ceil(158.4 * wide))
             {
-                cameraScenery.setLocation(1577.0, cameraScenery.getY());
+                cameraScenery.setLocation(1760 - Math.round(158.4 * wide), cameraScenery.getY());
             }
         }
     }
@@ -146,16 +152,16 @@ public final class Part1
     {
         if (seek > start && seek < end)
         {
-            textLarge.setColor(Intro.ALPHAS_WHITE[(int) alphaText]);
-            textLarge.draw(g, width / 2 + x1, height / 2 + y1, align, text1);
-            textLarge.draw(g, width / 2 + x2, height / 2 + y2, align, text2);
+            TEXT.setColor(Constant.ALPHAS_WHITE[(int) alphaText]);
+            TEXT.draw(g, width / 2 + x1, height / 2 + y1, align, text1);
+            TEXT.draw(g, width / 2 + x2, height / 2 + y2, align, text2);
             if (text3 != null)
             {
-                textLarge.draw(g, width / 2 + x2, height / 2 + y2 + 24, align, text3);
+                TEXT.draw(g, width / 2 + x2, height / 2 + y2 + 24, align, text3);
             }
             if (text4 != null)
             {
-                textLarge.draw(g, width / 2 + x2, height / 2 + y2 + 48, align, text4);
+                TEXT.draw(g, width / 2 + x2, height / 2 + y2 + 48, align, text4);
             }
         }
     }
@@ -211,7 +217,7 @@ public final class Part1
                    height,
                    seek,
                    g);
-        if (seek > 6450 && seek < 12700)
+        if (seek > 6450 && seek < 13100)
         {
             title.setAlpha((int) alphaText);
             title.setLocation(width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 16);
@@ -219,14 +225,14 @@ public final class Part1
         }
         renderText(15200,
                    19200,
-                   -110,
+                   -115,
                    -60,
-                   -95,
+                   -100,
                    -35,
                    Align.LEFT,
                    "PROGRAMMING",
-                   "Erwin Kloibhofer (original)",
-                   "Michael Bittner (original)",
+                   "Erwin Kloibhofer",
+                   "Michael Bittner",
                    "Pierre-Alexandre (remake)",
                    width,
                    height,
@@ -315,7 +321,8 @@ public final class Part1
      */
     private void renderScenery(int height, int id, int x, Graphic g)
     {
-        sceneries[id].setLocation(Math.floor(cameraScenery.getViewpointX(x)), height - sceneries[id].getHeight() - 32);
+        sceneries[id].setLocation(Math.floor(cameraScenery.getViewpointX(x)),
+                                  height - sceneries[id].getHeight() + (144 - height) / 2.0);
         sceneries[id].render(g);
     }
 }

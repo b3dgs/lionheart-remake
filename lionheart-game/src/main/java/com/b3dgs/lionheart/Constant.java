@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 
 /**
  * Game constants.
@@ -32,14 +33,12 @@ public final class Constant
     /** Application version. */
     public static final Version PROGRAM_VERSION = Version.create(1, 0, 0);
 
-    /** Menu display. */
-    public static final Resolution MENU_RESOLUTION = new Resolution(427, 240, 60); // original = 320 * 240
-    /** Original display. */
-    public static final Resolution NATIVE_RESOLUTION = new Resolution(370, 208, 60); // original = 281 * 208
-    /** Extro display. */
-    public static final Resolution EXTRO_RESOLUTION = new Resolution(455, 256, 60); // original = 320 * 256
-    /** Default display. */
-    public static final Resolution DEFAULT_RESOLUTION = MENU_RESOLUTION.get3x();
+    /** Resolution. */
+    public static final Resolution RESOLUTION = new Resolution(320, 240, 60);
+    /** Game resolution. */
+    public static final Resolution RESOLUTION_GAME = new Resolution(280, 208, 60);
+    /** Resolution. */
+    public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, 60);
 
     /** Debug flag (shows collisions). */
     public static final boolean DEBUG = false;
@@ -96,6 +95,29 @@ public final class Constant
     public static final String RASTER_FILE_TILE = "tiles.png";
     /** Raster water file. */
     public static final String RASTER_FILE_WATER = "water.png";
+
+    /** Alpha black values. */
+    public static final ColorRgba[] ALPHAS_BLACK;
+    /** Alpha white values. */
+    public static final ColorRgba[] ALPHAS_WHITE;
+
+    /**
+     * Static init.
+     */
+    static
+    {
+        ALPHAS_BLACK = new ColorRgba[com.b3dgs.lionengine.Constant.UNSIGNED_BYTE];
+        for (int i = 0; i < com.b3dgs.lionengine.Constant.UNSIGNED_BYTE; i++)
+        {
+            ALPHAS_BLACK[i] = new ColorRgba(0, 0, 0, i);
+        }
+
+        ALPHAS_WHITE = new ColorRgba[256];
+        for (int i = 0; i < 256; i++)
+        {
+            ALPHAS_WHITE[i] = new ColorRgba(255, 255, 255, i);
+        }
+    }
 
     /**
      * Private constructor.
