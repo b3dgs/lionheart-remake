@@ -66,5 +66,5 @@
     <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ExplodeBig"/>
+    <hurtable effect="swamp/ExplodeBig"/>
 </lionengine:featurable>
