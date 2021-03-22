@@ -23,14 +23,20 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Util;
+import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Intro part 3 implementation.
@@ -42,17 +48,23 @@ public final class Part3 extends Sequence
     private static final int MARGIN_WIDTH = 80;
 
     /** Scene. */
-    private final Sprite scene = Drawable.loadSprite(Medias.create("intro", "part3", "scene.png"));
+    private final Sprite scene = Drawable.loadSprite(Medias.create(Folder.INTRO, "part3", "scene.png"));
     /** Scene. */
-    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "valdyn.png"),
+    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
+                                                                                    "part3",
+                                                                                    "valdyn.png"),
                                                                       8,
                                                                       3);
     /** Dragon 1. */
-    private final SpriteAnimated dragon1 = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "dragon1.png"),
+    private final SpriteAnimated dragon1 = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
+                                                                                     "part3",
+                                                                                     "dragon1.png"),
                                                                        6,
                                                                        3);
     /** Dragon 2. */
-    private final SpriteAnimated dragon2 = Drawable.loadSpriteAnimated(Medias.create("intro", "part3", "dragon2.png"),
+    private final SpriteAnimated dragon2 = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
+                                                                                     "part3",
+                                                                                     "dragon2.png"),
                                                                        5,
                                                                        4);
     /** Valdyn walk. */
@@ -77,6 +89,8 @@ public final class Part3 extends Sequence
     private final Coord dragonCoord = new Coord(176, -44);
     /** Camera back. */
     private final Camera camera = new Camera();
+    /** Input device reference. */
+    private final DeviceController device;
     /** Audio. */
     private final Audio audio;
     /** Back alpha. */
@@ -89,6 +103,8 @@ public final class Part3 extends Sequence
     private double dragonGoDown;
     /** Current seek. */
     private long seek;
+    /** Skip intro. */
+    private boolean skip;
 
     /**
      * Constructor.
@@ -102,6 +118,10 @@ public final class Part3 extends Sequence
 
         this.audio = audio;
         dragon2.setFrameOffsets(3, -33);
+
+        final Services services = new Services();
+        services.add(context);
+        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
 
         load(Part4.class, audio);
     }
@@ -226,21 +246,34 @@ public final class Part3 extends Sequence
         }
 
         // First Fade in
-        if (seek > 93660 && seek < 96000)
+        if (seek > 93660 && seek < 96000 && !skip)
         {
             alphaBack += 5.0;
         }
 
+        if (!skip)
+        {
+            skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT);
+        }
+
         // First Fade out
-        if (seek > 108500 && seek < 110000)
+        if (seek > 108500 && seek < 110000 || skip)
         {
             alphaBack -= 5.0;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
-        if (seek >= 110000)
+        if (seek >= 110000 || skip)
         {
-            end();
+            if (skip)
+            {
+                audio.stop();
+                end(Menu.class);
+            }
+            else
+            {
+                end();
+            }
         }
     }
 

@@ -62,7 +62,7 @@ final class Secret extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight() + 72);
+        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + 72);
         backdrop.setScreenWidth(width);
     }
 

@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Intro part 2 implementation.
@@ -33,33 +34,41 @@ import com.b3dgs.lionheart.Constant;
 public final class Part2
 {
     /** Door. */
-    private final SpriteAnimated door = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "door.png"), 3, 2);
+    private final SpriteAnimated door = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO, "part2", "door.png"),
+                                                                    3,
+                                                                    2);
     /** Pillar. */
     private final Sprite[] pillar = new Sprite[6];
     /** Cave 1. */
-    private final Sprite cave1 = Drawable.loadSprite(Medias.create("intro", "part2", "cave1.png"));
+    private final Sprite cave1 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "cave1.png"));
     /** Cave 2. */
-    private final Sprite cave2 = Drawable.loadSprite(Medias.create("intro", "part2", "cave2.png"));
+    private final Sprite cave2 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "cave2.png"));
     /** Valdyn. */
-    private final Sprite valdyn = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn.png"));
+    private final Sprite valdyn = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn.png"));
     /** Equip sword. */
-    private final SpriteAnimated equipSword = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "sword.png"),
+    private final SpriteAnimated equipSword = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
+                                                                                        "part2",
+                                                                                        "sword.png"),
                                                                           3,
                                                                           1);
     /** Equip foot. */
-    private final SpriteAnimated equipFoot = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "foot.png"),
+    private final SpriteAnimated equipFoot = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
+                                                                                       "part2",
+                                                                                       "foot.png"),
                                                                          3,
                                                                          1);
     /** Equip hand. */
-    private final SpriteAnimated equipHand = Drawable.loadSpriteAnimated(Medias.create("intro", "part2", "hand.png"),
+    private final SpriteAnimated equipHand = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
+                                                                                       "part2",
+                                                                                       "hand.png"),
                                                                          3,
                                                                          1);
     /** Valdyn 0. */
-    private final Sprite valdyn0 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn0.png"));
+    private final Sprite valdyn0 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn0.png"));
     /** Valdyn 1. */
-    private final Sprite valdyn1 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn1.png"));
+    private final Sprite valdyn1 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn1.png"));
     /** Valdyn 2. */
-    private final Sprite valdyn2 = Drawable.loadSprite(Medias.create("intro", "part2", "valdyn2.png"));
+    private final Sprite valdyn2 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn2.png"));
     /** Valdyn coordinate. */
     private final Coord valdynCoord = new Coord(320, 240);
     /** Z locations. */
@@ -81,7 +90,7 @@ public final class Part2
 
         for (int i = 0; i < pillar.length; i++)
         {
-            pillar[i] = Drawable.loadSprite(Medias.create("intro", "part2", "pillar.png"));
+            pillar[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "pillar.png"));
             pillar[i].load();
         }
     }

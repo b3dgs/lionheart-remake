@@ -31,6 +31,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Util;
+import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Introduction implementation.
@@ -56,6 +57,8 @@ public final class Intro extends Sequence
     private int alphaBack;
     /** Alpha speed. */
     private int alphaSpeed = 4;
+    /** Skip intro. */
+    private boolean skip;
 
     /**
      * Constructor.
@@ -111,13 +114,26 @@ public final class Intro extends Sequence
 
         alphaBack += alphaSpeed;
         alphaBack = UtilMath.clamp(alphaBack, 0, 255);
-        if (alphaSpeed > 0 && (seek > 201000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
+
+        if (!skip)
+        {
+            skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT);
+        }
+        if (alphaSpeed > 0 && (seek > 201000 || skip))
         {
             alphaSpeed = -alphaSpeed * 2;
         }
         if (alphaBack == 0 && alphaSpeed < 0)
         {
-            end();
+            if (skip)
+            {
+                audio.stop();
+                end(Menu.class);
+            }
+            else
+            {
+                end();
+            }
         }
     }
 

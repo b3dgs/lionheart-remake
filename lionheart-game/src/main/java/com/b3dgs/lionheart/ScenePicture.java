@@ -68,8 +68,9 @@ public final class ScenePicture extends Sequence
      */
     public ScenePicture(Context context, Media stage, InitConfig init)
     {
-        super(context, Constant.MENU_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.stage = stage;
         this.init = init;
 
         final Services services = new Services();
@@ -77,44 +78,12 @@ public final class ScenePicture extends Sequence
         input = DeviceControllerConfig.create(services, Medias.create("input.xml"));
 
         final StageConfig config = StageConfig.imports(new Configurer(stage));
-
-        this.stage = stage;
         picture = Drawable.loadSprite(config.getPic().get());
         font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
                                        Medias.create(Folder.SPRITES, "fontdata.xml"),
                                        12,
                                        12);
-        font.setText(config.getText().get());
-    }
-
-    @Override
-    public void load()
-    {
-        picture.load();
-        picture.prepare();
-        picture.setOrigin(Origin.CENTER_TOP);
-        picture.setLocation(getWidth() / 2 - 1, PIC_Y);
-        picture.setAlpha(0);
-
-        font.load();
-        font.prepare();
-        font.setOrigin(Origin.TOP_LEFT);
-        font.setAlign(Align.CENTER);
-        font.setLocation(getWidth() / 2 - 12, TEXT_Y);
-        font.setAlpha(0);
-
-        fadePic = 0;
-        fadeText = 0;
-
-        tick.stop();
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        updatePicture();
-        updateText();
-        updatePushButton(extrp);
+        config.getText().ifPresent(m -> font.setText(Util.toFontText(Medias.create(Folder.TEXTS, m))));
     }
 
     /**
@@ -157,9 +126,10 @@ public final class ScenePicture extends Sequence
                     load(Scene.class, stage, init);
                     tick.start();
                 }
-                else if (input.isFiredOnce(DeviceMapping.FIRE))
+                else if (input.isFiredOnce(DeviceMapping.CTRL_RIGHT))
                 {
                     speed = -speed;
+                    showPush = false;
                 }
             }
         }
@@ -173,11 +143,39 @@ public final class ScenePicture extends Sequence
     private void updatePushButton(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(PUSH_BUTTON_TICK))
+        if (speed > 0 && tick.elapsed(PUSH_BUTTON_TICK))
         {
             showPush = !showPush;
             tick.restart();
         }
+    }
+
+    @Override
+    public void load()
+    {
+        picture.load();
+        picture.prepare();
+        picture.setOrigin(Origin.CENTER_TOP);
+        picture.setLocation(getWidth() / 2 - 1, PIC_Y);
+        picture.setAlpha(0);
+
+        font.load();
+        font.prepare();
+        font.setOrigin(Origin.TOP_LEFT);
+        font.setAlign(Align.CENTER);
+        font.setLocation(getWidth() / 2 - 11, TEXT_Y);
+        font.setAlpha(0);
+
+        fadePic = 0;
+        fadeText = 0;
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        updatePicture();
+        updateText();
+        updatePushButton(extrp);
     }
 
     @Override

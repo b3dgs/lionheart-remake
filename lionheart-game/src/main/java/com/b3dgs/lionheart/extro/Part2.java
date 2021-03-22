@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.Context;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
@@ -37,13 +36,13 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
+import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 
 /**
@@ -56,16 +55,12 @@ public final class Part2 extends Sequence
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
     private final Handler handler = services.create(Handler.class);
-    private final Spawner spawner = services.add(new Spawner()
+    private final Spawner spawner = services.add((Spawner) (media, x, y) ->
     {
-        @Override
-        public Featurable spawn(Media media, double x, double y)
-        {
-            final Featurable featurable = factory.create(media);
-            featurable.getFeature(Transformable.class).teleport(x, y);
-            handler.add(featurable);
-            return featurable;
-        }
+        final Featurable featurable = factory.create(media);
+        featurable.getFeature(Transformable.class).teleport(x, y);
+        handler.add(featurable);
+        return featurable;
     });
     private final Tick tick = new Tick();
     private DragonEnd background;
@@ -80,26 +75,26 @@ public final class Part2 extends Sequence
      */
     public Part2(Context context, Audio audio, Boolean alternative)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
             @Override
             public int getWidth()
             {
-                return Constant.NATIVE_RESOLUTION.getWidth();
+                return Part2.this.getWidth();
             }
 
             @Override
             public int getHeight()
             {
-                return Constant.NATIVE_RESOLUTION.getHeight();
+                return Part2.this.getHeight();
             }
 
             @Override
             public int getRate()
             {
-                return Constant.NATIVE_RESOLUTION.getRate();
+                return Part2.this.getRate();
             }
         });
         final Camera camera = services.create(Camera.class);
@@ -109,15 +104,11 @@ public final class Part2 extends Sequence
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
         services.add(new MapTileWater(services));
-        services.add(new LoadNextStage()
+        services.add((LoadNextStage) (next, tickDelay) ->
         {
-            @Override
-            public void loadNextStage(String next, int tickDelay)
-            {
-                // Mock
-            }
+            // Mock
         });
-        services.add(new InputDeviceControlVoid());
+        services.add(DeviceControllerVoid.getInstance());
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -134,9 +125,9 @@ public final class Part2 extends Sequence
     @Override
     public void load()
     {
-        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), 210, 100)
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), getWidth() / 2 + 16, 100)
                             .getFeature(SwordShade.class));
-        spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "DragonExtro.xml"), 210, 100);
+        spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "DragonExtro.xml"), getWidth() / 2 + 16, 100);
     }
 
     @Override
@@ -170,7 +161,7 @@ public final class Part2 extends Sequence
 
         if (alpha < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - alpha]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - alpha]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }

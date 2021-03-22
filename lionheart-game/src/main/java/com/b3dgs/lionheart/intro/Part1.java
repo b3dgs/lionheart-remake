@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.intro;
 
+import java.util.List;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
@@ -27,6 +29,8 @@ import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Util;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Intro part 1 implementation.
@@ -37,13 +41,15 @@ public final class Part1
     private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF,
                                                          24,
                                                          TextStyle.NORMAL);
+    /** Titles. */
+    private static final List<String> TITLES = Util.readLines(Medias.create(Folder.TEXTS, Folder.INTRO, "part1.txt"));
 
     /** Backgrounds. */
     private final Sprite[] backs = new Sprite[4];
     /** Sceneries. */
     private final Sprite[] sceneries = new Sprite[6];
     /** Title. */
-    private final Sprite title = Drawable.loadSprite(Medias.create("intro", "part1", "title.png"));
+    private final Sprite title = Drawable.loadSprite(Medias.create(Folder.INTRO, "part1", "title.png"));
     /** Camera back. */
     private final Camera cameraBack = new Camera();
     /** Camera scenery. */
@@ -74,13 +80,13 @@ public final class Part1
         title.load();
         for (int i = 0; i < backs.length; i++)
         {
-            backs[i] = Drawable.loadSprite(Medias.create("intro", "part1", "back" + i + ".png"));
+            backs[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part1", "back" + i + ".png"));
             backs[i].load();
             backs[i].prepare();
         }
         for (int i = 0; i < sceneries.length; i++)
         {
-            sceneries[i] = Drawable.loadSprite(Medias.create("intro", "part1", "scenery" + i + ".png"));
+            sceneries[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part1", "scenery" + i + ".png"));
             sceneries[i].load();
             sceneries[i].prepare();
         }
@@ -230,7 +236,7 @@ public final class Part1
                    -100,
                    -35,
                    Align.LEFT,
-                   "PROGRAMMING",
+                   TITLES.get(0),
                    "Erwin Kloibhofer",
                    "Michael Bittner",
                    "Pierre-Alexandre (remake)",
@@ -246,7 +252,7 @@ public final class Part1
                    -58,
                    -12,
                    Align.LEFT,
-                   "GRAPHICS",
+                   TITLES.get(1),
                    "Henk Nieborg",
                    null,
                    null,
@@ -262,7 +268,7 @@ public final class Part1
                    -42,
                    -12,
                    Align.LEFT,
-                   "GAMEDESIGN",
+                   TITLES.get(2),
                    "Erik Simon",
                    null,
                    null,
@@ -278,7 +284,7 @@ public final class Part1
                    -110,
                    -12,
                    Align.LEFT,
-                   "MUSIC & SFX",
+                   TITLES.get(3),
                    "Matthias Steinwachs",
                    null,
                    null,

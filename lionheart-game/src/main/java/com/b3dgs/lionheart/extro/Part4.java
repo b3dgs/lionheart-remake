@@ -35,14 +35,19 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Extro part 4 implementation.
  */
 public final class Part4 extends Sequence
 {
+    /** Stories. */
+    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story4.txt"));
+    private static final String STORY5 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story5.txt"));
+    private static final String STORY6 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story6.txt"));
+    private static final String STORY7 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story7.txt"));
     private static final Animation GLOW = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
 
     private final Sprite credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part4", "credits.png"));
@@ -58,9 +63,11 @@ public final class Part4 extends Sequence
                                                                       2);
     private final Tick tick = new Tick();
     private final Audio audio;
+    private final boolean alternative;
+    private final int textX = getWidth() / 2 - 124;
+
     private Audio audioAlternative;
     private double alphaBack;
-    private final boolean alternative;
     private boolean alternativeMusic;
     private int glowed;
     private boolean played;
@@ -74,7 +81,7 @@ public final class Part4 extends Sequence
      */
     public Part4(Context context, Audio audio, Boolean alternative)
     {
-        super(context, Constant.EXTRO_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.audio = audio;
         this.alternative = alternative.booleanValue();
@@ -98,7 +105,8 @@ public final class Part4 extends Sequence
     {
         credits.load();
         credits.prepare();
-        credits.setOrigin(Origin.CENTER_TOP);
+        credits.setOrigin(Origin.MIDDLE);
+        credits.setLocation(getWidth() / 2, getHeight() / 2);
 
         for (int i = 0; i < pics.length; i++)
         {
@@ -107,15 +115,15 @@ public final class Part4 extends Sequence
             pics[i].prepare();
         }
 
-        pics[0].setLocation(110, 20);
-        pics[1].setLocation(208, 70);
+        pics[0].setLocation(getWidth() / 2 - 114, 12);
+        pics[1].setLocation(getWidth() / 2 - 20, 62);
 
         font.load();
         font.prepare();
 
         amulet.load();
         amulet.prepare();
-        amulet.setLocation(179, 160);
+        amulet.setLocation(getWidth() / 2 - 48, 152);
         amulet.addListener((AnimatorFrameListener) f ->
         {
             if (f == 1 && amulet.getAnimState() != AnimState.STOPPED)
@@ -170,7 +178,6 @@ public final class Part4 extends Sequence
         g.clear(0, 0, getWidth(), getHeight());
 
         // Render histories
-        credits.setLocation(getWidth() / 2, 0);
         credits.render(g);
 
         if (alternative)
@@ -179,7 +186,7 @@ public final class Part4 extends Sequence
 
             if (tick.elapsed() >= 1330)
             {
-                g.setColor(Intro.ALPHAS_BLACK[128]);
+                g.setColor(Constant.ALPHAS_BLACK[128]);
                 g.drawRect(0, 0, getWidth(), getHeight(), true);
                 pics[0].render(g);
             }
@@ -192,15 +199,11 @@ public final class Part4 extends Sequence
         // Render texts
         if (tick.elapsed() > 180 && tick.elapsed() < 1330)
         {
-            font.draw(g,
-                      104,
-                      30,
-                      Align.LEFT,
-                      "The kingdom was saved. But%what did that mean to Valdyn ?%Ilene was gone forever.");
+            font.draw(g, textX, 22, Align.LEFT, STORY4);
 
             if (alternativeMusic)
             {
-                font.draw(g, 104, 82, Align.LEFT, "Wait! What's this ?");
+                font.draw(g, textX, 74, Align.LEFT, STORY5);
 
                 if (!played)
                 {
@@ -211,25 +214,17 @@ public final class Part4 extends Sequence
         }
         else if (alternativeMusic && tick.elapsed() >= 1330 && tick.elapsed() < 2220)
         {
-            font.draw(g,
-                      104,
-                      180,
-                      Align.LEFT,
-                      "Valdyn stared at the amulet he had%found in the hidden cave. It glowed%with an eerie light!");
+            font.draw(g, textX, 172, Align.LEFT, STORY6);
         }
         else if (alternativeMusic && tick.elapsed() >= 2220 && tick.elapsed() < 3100)
         {
-            font.draw(g,
-                      104,
-                      180,
-                      Align.LEFT,
-                      "With trembling hands, he put the%amulet around Ilene's petrified%neck.");
+            font.draw(g, textX, 172, Align.LEFT, STORY7);
         }
 
         // Render fade in
         if (alphaBack < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }

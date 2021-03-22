@@ -28,20 +28,26 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Extro part 3 implementation.
  */
 public final class Part3 extends Sequence
 {
+    /** Stories. */
+    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story1.txt"));
+    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story2.txt"));
+    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story3.txt"));
+
     private final Sprite[] pics = new Sprite[3];
     private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
                                                             Medias.create(Folder.SPRITES, "fontdata.xml"),
                                                             12,
                                                             12);
     private final Tick tick = new Tick();
+
     private double alphaBack = 255;
 
     /**
@@ -53,7 +59,7 @@ public final class Part3 extends Sequence
      */
     public Part3(Context context, Audio audio, Boolean alternative)
     {
-        super(context, Constant.MENU_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         for (int i = 0; i < pics.length; i++)
         {
@@ -116,33 +122,21 @@ public final class Part3 extends Sequence
         // Render texts
         if (tick.elapsed() > 390 && tick.elapsed() < 1290)
         {
-            font.draw(g,
-                      1,
-                      128,
-                      Align.LEFT,
-                      "In the temple, Valdyn took the Lionheart%and put it back in the shrine. As the%jewel returned to it's ancient resting%place, it glowed and sparkled as if to%express satisfaction.");
+            font.draw(g, 1, 128, Align.LEFT, STORY1);
         }
         if (tick.elapsed() >= 1290 && tick.elapsed() < 2190)
         {
-            font.draw(g,
-                      1,
-                      128,
-                      Align.LEFT,
-                      "'Our eternal thanks, Valdyn,' said the king%who had entered with two guards. 'The%realm may live in happiness once more.'%%But Valdyn did not feel happy.");
+            font.draw(g, 1, 128, Align.LEFT, STORY2);
         }
         if (tick.elapsed() >= 2190)
         {
-            font.draw(g,
-                      1,
-                      128,
-                      Align.LEFT,
-                      "Leaving the surprised king behind him,%Valdyn walked into the chamber where%Llene's petrified body stood.");
+            font.draw(g, 1, 128, Align.LEFT, STORY3);
         }
 
         // Render fade in
         if (alphaBack < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - (int) alphaBack]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }

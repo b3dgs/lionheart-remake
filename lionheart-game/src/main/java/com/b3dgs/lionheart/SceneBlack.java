@@ -41,7 +41,7 @@ public final class SceneBlack extends Sequence
      */
     public SceneBlack(Context context, Media stage, InitConfig init)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.stage = stage;
         this.init = init;

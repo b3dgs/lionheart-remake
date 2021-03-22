@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
@@ -44,8 +43,8 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Extro part 5 implementation.
@@ -71,22 +70,18 @@ public final class Part5 extends Sequence
                                            verticalFrames);
     }
 
+    private final Tick tick = new Tick();
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
     private final Handler handler = services.create(Handler.class);
-    private final Spawner spawner = services.add(new Spawner()
+    private final Spawner spawner = services.add((Spawner) (media, x, y) ->
     {
-        @Override
-        public Featurable spawn(Media media, double x, double y)
-        {
-            final Featurable featurable = factory.create(media);
-            featurable.getFeature(Transformable.class).teleport(x, y);
-            handler.add(featurable);
-            return featurable;
-        }
+        final Featurable featurable = factory.create(media);
+        featurable.getFeature(Transformable.class).teleport(x, y);
+        handler.add(featurable);
+        return featurable;
     });
 
-    private final Tick tick = new Tick();
     private int alphaBack;
     private int alpha0b;
     private int flick0c;
@@ -102,26 +97,26 @@ public final class Part5 extends Sequence
      */
     public Part5(Context context, Audio audio, Boolean alternative)
     {
-        super(context, Constant.MENU_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
             @Override
             public int getWidth()
             {
-                return Constant.NATIVE_RESOLUTION.getWidth();
+                return Part5.this.getWidth();
             }
 
             @Override
             public int getHeight()
             {
-                return Constant.NATIVE_RESOLUTION.getHeight();
+                return Part5.this.getHeight();
             }
 
             @Override
             public int getRate()
             {
-                return Constant.NATIVE_RESOLUTION.getRate();
+                return Part5.this.getRate();
             }
         });
         final Camera camera = services.create(Camera.class);
@@ -172,15 +167,17 @@ public final class Part5 extends Sequence
         {
             alphaBack += 3;
         }
-        else if (tick.elapsed() > 1220)
+        else if (tick.elapsed() > 1180)
         {
             alphaBack -= 6;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0, 255);
 
+        final int x = getWidth() / 2 - 2;
+        final int y = getHeight() / 2 - 54;
         if (tick.elapsed() > 100 && tick.elapsed() < 110 && !spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 210, 64);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y);
             spawned = !spawned;
         }
 
@@ -193,35 +190,35 @@ public final class Part5 extends Sequence
             }
         }
 
-        if (tick.elapsed() > 240 && tick.elapsed() < 250 && spawned)
+        if (tick.elapsed() > 240 && tick.elapsed() < 280 && spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform2.xml"), 216, 80);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform2.xml"), x + 4, y);
             spawned = !spawned;
         }
-        if (tick.elapsed() > 295 && tick.elapsed() < 305 && !spawned)
+        if (tick.elapsed() > 295 && tick.elapsed() < 380 && !spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform3.xml"), 210, 164);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform3.xml"), x - 1, y);
             spawned = !spawned;
         }
-        if (tick.elapsed() > 395 && tick.elapsed() < 405 && spawned)
+        if (tick.elapsed() > 395 && tick.elapsed() < 480 && spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform4.xml"), 210, 164);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform4.xml"), x - 2, y + 116);
             spawned = !spawned;
         }
 
         if (tick.elapsed() > 500 && tick.elapsed() < 510 && !spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 180, 96);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x - 40, y + 32);
             spawned = !spawned;
         }
         if (tick.elapsed() > 560 && tick.elapsed() < 570 && spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 210, 96);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y + 32);
             spawned = !spawned;
         }
         if (tick.elapsed() > 620 && tick.elapsed() < 630 && !spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 240, 96);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x + 40, y + 32);
             spawned = !spawned;
         }
 
@@ -236,13 +233,13 @@ public final class Part5 extends Sequence
             alpha0b = 255;
         }
 
-        if (tick.elapsed() > 840 && tick.elapsed() < 900 && spawned)
+        if (tick.elapsed() > 830 && tick.elapsed() < 890 && spawned)
         {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), 210, 64);
+            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y);
             spawned = !spawned;
         }
 
-        if (tick.elapsed() > 930 && tick.elapsed() < 1000)
+        if (tick.elapsed() > 890 && tick.elapsed() < 1000)
         {
             alpha0b -= 3;
             if (alpha0b > -1)
@@ -250,12 +247,12 @@ public final class Part5 extends Sequence
                 transform0b.setAlpha(UtilMath.clamp(alpha0b, 0, 255));
             }
         }
-        if (tick.elapsed() > 1010 && eyes.getAnimState() == AnimState.STOPPED)
+        if (tick.elapsed() > 1000 && eyes.getAnimState() == AnimState.STOPPED)
         {
             eyes.play(OPEN);
         }
 
-        if (tick.elapsed() > 1280)
+        if (tick.elapsed() > 1250)
         {
             end();
         }
@@ -288,7 +285,7 @@ public final class Part5 extends Sequence
         // Render fade in
         if (alphaBack < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - alphaBack]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }

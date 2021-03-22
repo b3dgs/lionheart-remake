@@ -58,10 +58,10 @@ final class Swamp extends BackgroundAbstract
         super(theme, 0, 338);
 
         this.scaleH = scaleH;
-        totalHeight = 85;
+        totalHeight = 82;
 
         final int width = source.getWidth();
-        final int halfScreen = (int) (source.getWidth() / 3.5);
+        final int halfScreen = source.getWidth() / 3;
 
         final String path = UtilFolder.getPathSeparator(Medias.getSeparator(),
                                                         Folder.BACKGROUNDS,
@@ -89,8 +89,8 @@ final class Swamp extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        scaleH = width / (double) Constant.NATIVE_RESOLUTION.getWidth();
-        setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight());
+        scaleH = width / (double) Constant.RESOLUTION_GAME.getWidth();
+        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight());
         backdrop.setScreenWidth(width);
         clouds.setScreenWidth(width);
         parallax.setScreenSize(width, height);
@@ -191,7 +191,7 @@ final class Swamp extends BackgroundAbstract
         {
             final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY()));
             moon.setRaster(id);
-            moon.setLocation(moon.getMainX(), moon.getOffsetY() + moon.getMainY());
+            moon.setLocation(moon.getMainX() - 56, moon.getOffsetY() + moon.getMainY());
             moon.render(g);
         }
 

@@ -23,12 +23,17 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Util;
 
 /**
  * Extro implementation.
  */
 public final class Extro extends Sequence
 {
+    private static final int MIN_HEIGHT = 208;
+    private static final int MAX_WIDTH = 400;
+    private static final int MARGIN_WIDTH = 80;
+
     /**
      * Constructor.
      * 
@@ -37,7 +42,7 @@ public final class Extro extends Sequence
      */
     public Extro(Context context, Boolean alternative)
     {
-        super(context, Constant.MENU_RESOLUTION);
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
         final Audio audio = AudioFactory.loadAudio(Music.EXTRO.get());
         audio.setVolume(Constant.AUDIO_VOLUME);

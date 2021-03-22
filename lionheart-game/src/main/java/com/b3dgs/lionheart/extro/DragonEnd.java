@@ -52,14 +52,14 @@ final class DragonEnd extends BackgroundAbstract
         totalHeight = 85;
 
         final int width = source.getWidth();
-        final int halfScreen = (int) (source.getWidth() / 3.5);
+        final int halfScreen = source.getWidth() / 3;
 
         final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.BACKGROUNDS, "extro");
         backdrop = new Backdrop(path, width);
-        clouds = new Parallax(source, Medias.create(path, "clouds.png"), 138, halfScreen, 0, 50, 100);
+        clouds = new Parallax(source, Medias.create(path, "clouds.png"), PARALLAX_Y, halfScreen, 22, 50, 100);
         clouds.setInverted(true);
 
-        ground = new Parallax(source, Medias.create(path, "ground.png"), 80, halfScreen, PARALLAX_Y + 16, 50, 100);
+        ground = new Parallax(source, Medias.create(path, "ground.png"), 80, halfScreen, PARALLAX_Y + 44, 50, 100);
         add(backdrop);
         add(clouds);
         add(ground);
@@ -73,7 +73,7 @@ final class DragonEnd extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight());
+        setOffsetY(height - Constant.RESOLUTION.getHeight());
         backdrop.setScreenWidth(width);
         clouds.setScreenSize(width, height);
         ground.setScreenSize(width, height);
@@ -100,8 +100,8 @@ final class DragonEnd extends BackgroundAbstract
         {
             super();
 
-            backcolor = createElement(path, "backcolor.png", 0, 64);
-            mountain = createElement(path, "mountain.png", 0, 202);
+            backcolor = createElement(path, "backcolor.png", 0, 92);
+            mountain = createElement(path, "mountain.png", 0, 230);
             mountainSprite = (Sprite) mountain.getRenderable();
             this.screenWidth = screenWidth;
             w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;

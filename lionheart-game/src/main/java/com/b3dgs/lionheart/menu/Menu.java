@@ -16,10 +16,12 @@
  */
 package com.b3dgs.lionheart.menu;
 
+import java.util.List;
+import java.util.Locale;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.UtilMath;
@@ -44,6 +46,7 @@ import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.Stage;
+import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
 
@@ -52,78 +55,69 @@ import com.b3dgs.lionheart.intro.Intro;
  */
 public class Menu extends Sequence
 {
+    /** Center X. */
+    private static final int CENTER_X = 320;
     /** Main Y. */
-    public static final int Y = 44;
-    /** List of difficulties. */
-    private static final String[] OPTIONS_DIFFICULTY =
-    {
-        "Normal", "Hard", "Lionhard"
-    };
-    /** List of joystick. */
-    private static final String[] OPTIONS_JOYSTICK =
-    {
-        "1 Button", "2 Buttons"
-    };
-    /** List of music. */
-    private static final String[] OPTIONS_MUSIC =
-    {
-        "Music 00", "Music 01", "Music 02", "Music 03", "Music 04", "Music 05", "Music 06", "Music 07", "Music 08"
-    };
-    /** Error message. */
-    private static final String ERROR_MESSAGE = "Unknown type: ";
-    /** Font filename. */
-    private static final Media FONT_SPRITE = Medias.create(Folder.SPRITES, "font_big.png");
-    /** Font data. */
-    private static final Media FONT_DATA = Medias.create(Folder.SPRITES, "fontdata_big.xml");
+    private static final int Y = 28;
     /** Text color in menu option. */
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
+    /** Title text color. */
+    private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
+    /** Text instance for the title. */
+    private static final Text TEXT_TITLE = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF,
+                                                               26,
+                                                               TextStyle.BOLD);
+    /** Text for menu content. */
+    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
-    /** Cached alpha values. */
-    private static final ColorRgba[] ALPHAS;
+    /** Main menu. */
+    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXTS, Folder.MENU, "main.txt"));
+    /** Options menu. */
+    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXTS, Folder.MENU, "options.txt"));
+    /** List of difficulties. */
+    private static final List<String> OPTIONS_DIFFICULTY = Util.readLines(Medias.create(Folder.TEXTS,
+                                                                                        Folder.MENU,
+                                                                                        "difficulties.txt"));
+    /** List of joystick. */
+    private static final List<String> OPTIONS_JOYSTICK = Util.readLines(Medias.create(Folder.TEXTS,
+                                                                                      Folder.MENU,
+                                                                                      "joystick.txt"));
+    /** List of music. */
+    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXTS,
+                                                                                   Folder.MENU,
+                                                                                   "music.txt"));
 
-    /**
-     * Static init.
-     */
-    static
-    {
-        ALPHAS = new ColorRgba[256];
-        for (int i = 0; i < 256; i++)
-        {
-            ALPHAS[i] = new ColorRgba(0, 0, 0, i);
-        }
-    }
-
-    /** Text for menu content. */
-    private final Text text;
-    /** Background menus. */
-    private final Sprite[] menus;
     /** Level loading text font. */
-    private final SpriteFont font;
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font_big.png"),
+                                                            Medias.create(Folder.SPRITES, "fontdata_big.xml"),
+                                                            24,
+                                                            24);
+    /** Background menus. */
+    private final Sprite[] menus = new Sprite[2];
     /** List of menu data with their content. */
-    private final Data[] menusData;
-    /** Horizontal factor. */
-    private final double factorH;
-    /** Vertical factor. */
-    private final double factorV;
-    /** Input device reference. */
+    private final Data[] menusData = new Data[menus.length];
+    /** Device controller reference. */
     private final DeviceController device;
+    /** Horizontal factor. */
+    private final double factorH = getWidth() / 640.0;
+
     /** Screen mask alpha current value. */
-    private double alpha;
+    private double alpha = 255.0;
+    /** Current menu transition. */
+    private TransitionType transition = TransitionType.IN;
     /** Line choice on */
-    private int choice;
+    private int choice = 1;
     /** Current difficulty index. */
     private int difficulty;
     /** Current joystick value. */
     private int joystick;
     /** Current music test. */
-    private int music;
+    private int music = 1;
     /** Current */
-    private MenuType menu;
+    private MenuType menu = MenuType.MAIN;
     /** Next */
     private MenuType menuNext;
-    /** Current menu transition. */
-    private TransitionType transition;
     /** Music player. */
     private Audio audio;
 
@@ -134,56 +128,104 @@ public class Menu extends Sequence
      */
     public Menu(Context context)
     {
-        super(context, Constant.MENU_RESOLUTION.get2x());
+        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
 
         final Services services = new Services();
         services.add(context);
         device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
 
-        text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
-        factorH = getWidth() / (double) com.b3dgs.lionheart.Constant.MENU_RESOLUTION.getWidth();
-        factorV = getHeight() / (double) com.b3dgs.lionheart.Constant.MENU_RESOLUTION.getHeight();
+        loadMenu();
+        menusData[0] = createMain();
+        menusData[1] = createOptions();
+    }
 
-        font = Drawable.loadSpriteFont(FONT_SPRITE, FONT_DATA, 24, 24);
-
-        menus = new Sprite[2];
+    /**
+     * Load menu background.
+     */
+    private void loadMenu()
+    {
         for (int i = 0; i < menus.length; i++)
         {
-            menus[i] = Drawable.loadSprite(Medias.create("menu", "menu" + (i + 1) + ".png"));
+            menus[i] = Drawable.loadSprite(Medias.create(Folder.MENU, "menu" + (i + 1) + ".png"));
             menus[i].setOrigin(Origin.CENTER_TOP);
         }
-        menus[0].setLocation(getWidth() / 2, Y + 64 * factorV / 2);
-        menus[1].setLocation(getWidth() / 2, Y + 32 * factorV / 2);
-        menusData = new Data[2];
 
-        // Main menu
-        Choice[] choices = new Choice[]
+        final int x = (int) (CENTER_X * factorH);
+        menus[0].setLocation(x, Y + 64);
+        menus[1].setLocation(x, Y + 32);
+    }
+
+    /**
+     * Create main menu.
+     * 
+     * @return The created data.
+     */
+    private Data createMain()
+    {
+        final int x = (int) (CENTER_X * factorH);
+        final Choice[] choices = new Choice[]
         {
-            new Choice(text, factorH, factorV, "Start game", 213, Y + 54, Align.CENTER, MenuType.NEW),
-            new Choice(text, factorH, factorV, "Options", 213, Y + 71, Align.CENTER, MenuType.OPTIONS),
-            new Choice(text, factorH, factorV, "Introduction", 213, Y + 89, Align.CENTER, MenuType.INTRO),
-            new Choice(text, factorH, factorV, "Quit", 213, Y + 114, Align.CENTER, MenuType.EXIT)
+            new Choice(TEXT, MAIN.get(0), x, Y + 152, Align.CENTER, MenuType.NEW),
+            new Choice(TEXT, MAIN.get(1), x, Y + 186, Align.CENTER, MenuType.OPTIONS),
+            new Choice(TEXT, MAIN.get(2), x, Y + 222, Align.CENTER, MenuType.INTRO),
+            new Choice(TEXT, MAIN.get(3), x, Y + 272, Align.CENTER, MenuType.EXIT)
         };
-        menusData[0] = new Data(text, factorH, factorV, "Main", false, choices);
+        return new Data(TEXT, choices);
+    }
 
-        // Options menu
-        choices = new Choice[]
+    /**
+     * Create options menu.
+     * 
+     * @return The created data.
+     */
+    private Data createOptions()
+    {
+        final int x = (int) (CENTER_X * factorH);
+        final Choice[] choices = new Choice[]
         {
-            new Choice(text, factorH, factorV, "Difficulty", (int) (192 / factorH), Y + 58, Align.LEFT),
-            new Choice(text, factorH, factorV, "Joystick", (int) (192 / factorH), Y + 76, Align.LEFT),
-            new Choice(text, factorH, factorV, "Soundtest", (int) (192 / factorH), Y + 94, Align.LEFT),
-            new Choice(text, factorH, factorV, "Done", 213, Y + 116, Align.CENTER, MenuType.MAIN)
+            new Choice(TEXT, OPTIONS.get(0), x - 115, Y + 160, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(1), x - 115, Y + 196, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(2), x - 115, Y + 232, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(3), x, Y + 276, Align.CENTER, MenuType.MAIN)
         };
-        menusData[1] = new Data(text, factorH, factorV, "OPTIONS", true, choices);
+        return new Data(TEXT, choices);
+    }
 
-        menu = MenuType.MAIN;
-        transition = TransitionType.IN;
-        alpha = 255.0;
-        choice = 1;
-        difficulty = 0;
-        joystick = 0;
-        music = 1;
-        menuNext = null;
+    /**
+     * Handle the menu options.
+     */
+    private void handleOptions()
+    {
+        if (choice == 0)
+        {
+            difficulty = changeOption(difficulty, 0, OPTIONS_DIFFICULTY.size() - 1);
+        }
+        else if (choice == 1)
+        {
+            joystick = changeOption(joystick, 0, OPTIONS_JOYSTICK.size() - 1);
+        }
+        else if (choice == 2)
+        {
+            music = changeOption(music, 0, OPTIONS_MUSIC.size() - 1);
+            handleOptionMusic();
+        }
+    }
+
+    /**
+     * Handle music option listening.
+     */
+    private void handleOptionMusic()
+    {
+        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+        {
+            stopAudio();
+            if (music > 0)
+            {
+                audio = AudioFactory.loadAudio(Music.values()[music - 1].get());
+                audio.setVolume(Constant.AUDIO_VOLUME);
+                audio.play();
+            }
+        }
     }
 
     /**
@@ -214,6 +256,88 @@ public class Menu extends Sequence
     }
 
     /**
+     * Update the menu transitions.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransition(double extrp)
+    {
+        switch (transition)
+        {
+            case IN:
+                updateFadeIn(extrp);
+                break;
+            case OUT:
+                updateFadeOut(extrp);
+                break;
+            case NONE:
+                final int menuId = getMenuId();
+                if (menuId > -1)
+                {
+                    updateMenuNavigation(menuId);
+                }
+                break;
+            default:
+                throw new LionEngineException(transition);
+        }
+    }
+
+    /**
+     * Update fade in to menu.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeIn(double extrp)
+    {
+        alpha -= ALPHA_STEP * extrp;
+        if (alpha < 0.0)
+        {
+            alpha = 0.0;
+            transition = TransitionType.NONE;
+        }
+    }
+
+    /**
+     * Update fade out from menu.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha += ALPHA_STEP * extrp;
+        if (alpha > 255.0)
+        {
+            alpha = 255.0;
+            menu = menuNext;
+            transition = TransitionType.IN;
+            choice = 0;
+        }
+    }
+
+    /**
+     * Get the menu id.
+     * 
+     * @return The menu id.
+     */
+    private int getMenuId()
+    {
+        final int id;
+        if (menu == MenuType.MAIN)
+        {
+            id = 0;
+        }
+        else if (menu == MenuType.OPTIONS)
+        {
+            id = 1;
+        }
+        else
+        {
+            id = -1;
+        }
+        return id;
+    }
+
+    /**
      * Update the navigation against the
      * 
      * @param menuId The menu id.
@@ -235,7 +359,7 @@ public class Menu extends Sequence
         {
             Sfx.MENU_SELECT.play();
         }
-        final MenuType next = data.choices[choice].next;
+        final MenuType next = data.choices[choice].getNext();
         // Accept choice
         if (next != null && device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
         {
@@ -246,50 +370,21 @@ public class Menu extends Sequence
     }
 
     /**
-     * Handle the menu options sub
-     */
-    private void handleMenuOptions()
-    {
-        if (choice == 0)
-        {
-            difficulty = changeOption(difficulty, 0, OPTIONS_DIFFICULTY.length - 1);
-        }
-        else if (choice == 1)
-        {
-            joystick = changeOption(joystick, 0, OPTIONS_JOYSTICK.length - 1);
-        }
-        else if (choice == 2)
-        {
-            music = changeOption(music, 0, OPTIONS_MUSIC.length - 1);
-            if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
-            {
-                stopAudio();
-                if (music > 0)
-                {
-                    audio = AudioFactory.loadAudio(Music.values()[music - 1].get());
-                    audio.setVolume(Constant.AUDIO_VOLUME);
-                    audio.play();
-                }
-            }
-        }
-    }
-
-    /**
-     * Handle the menu states.
+     * Update the menu states.
      * 
      * @param extrp The extrapolation value.
      */
-    private void handleMenu(double extrp)
+    private void updateMenu(double extrp)
     {
         switch (menu)
         {
             case MAIN:
                 break;
             case NEW:
-                end(ScenePicture.class, Stage.STAGE_1.getFile(), new InitConfig(4, 2));
+                end(ScenePicture.class, Stage.STAGE_1.getFile(), new InitConfig(difficulty < 2 ? 4 : 3, 2));
                 break;
             case OPTIONS:
-                handleMenuOptions();
+                handleOptions();
                 break;
             case INTRO:
                 end(Intro.class);
@@ -298,49 +393,7 @@ public class Menu extends Sequence
                 end();
                 break;
             default:
-                throw new LionEngineException(ERROR_MESSAGE + menu);
-        }
-    }
-
-    /**
-     * Handle the menu transitions.
-     * 
-     * @param extrp The extrapolation value.
-     */
-    private void handleMenuTransition(double extrp)
-    {
-        switch (transition)
-        {
-            // Fading in to new menu
-            case IN:
-                alpha -= ALPHA_STEP * extrp;
-                if (alpha < 0.0 - ALPHA_STEP)
-                {
-                    alpha = 0.0;
-                    transition = TransitionType.NONE;
-                }
-                break;
-            // Ready to navigate inside the current menu
-            case NONE:
-                final int menuId = getMenuId();
-                if (menuId > -1)
-                {
-                    updateMenuNavigation(menuId);
-                }
-                break;
-            // Fading out from current menu
-            case OUT:
-                alpha += ALPHA_STEP * extrp;
-                if (alpha >= 255.0 + ALPHA_STEP)
-                {
-                    alpha = 255.0;
-                    menu = menuNext;
-                    transition = TransitionType.IN;
-                    choice = 0;
-                }
-                break;
-            default:
-                throw new LionEngineException(ERROR_MESSAGE + transition);
+                throw new LionEngineException(menu);
         }
     }
 
@@ -348,58 +401,79 @@ public class Menu extends Sequence
      * Render the menus.
      * 
      * @param g The graphic output.
-     * @param id The menu id.
      */
-    private void renderMenus(Graphic g, int id)
+    private void renderMenus(Graphic g)
     {
         switch (menu)
         {
             case MAIN:
-            case NEW:
+                menus[0].render(g);
+                menusData[0].render(g, choice);
                 break;
             case OPTIONS:
-                text.setColor(COLOR_OPTION);
-                text.draw(g,
-                          (int) (219 * factorH),
-                          menusData[id].choices[0].y,
-                          Align.LEFT,
-                          OPTIONS_DIFFICULTY[difficulty]);
-                text.draw(g, (int) (219 * factorH), menusData[id].choices[1].y, Align.LEFT, OPTIONS_JOYSTICK[joystick]);
-                text.draw(g, (int) (219 * factorH), menusData[id].choices[2].y, Align.LEFT, OPTIONS_MUSIC[music]);
+                renderOptions(g);
                 break;
+            case NEW:
             case INTRO:
-                break;
             case EXIT:
-                end();
                 break;
             default:
-                throw new LionEngineException(ERROR_MESSAGE + menu);
+                throw new LionEngineException(menu);
         }
     }
 
     /**
-     * Get the menu id.
+     * Render the options menu.
      * 
-     * @return The menu id.
+     * @param g The graphic output.
      */
-    private int getMenuId()
+    private void renderOptions(Graphic g)
     {
-        if (menu == MenuType.MAIN)
+        menus[1].render(g);
+        menusData[1].render(g, choice);
+
+        TEXT_TITLE.setColor(COLOR_TITLE);
+        TEXT_TITLE.draw(g,
+                        (int) (Menu.CENTER_X * factorH),
+                        Menu.Y + 128,
+                        Align.CENTER,
+                        MAIN.get(1).toUpperCase(Locale.ENGLISH));
+
+        TEXT.setColor(COLOR_OPTION);
+        drawOptionText(g, 0, OPTIONS_DIFFICULTY.get(difficulty));
+        drawOptionText(g, 1, OPTIONS_JOYSTICK.get(joystick));
+        drawOptionText(g, 2, OPTIONS_MUSIC.get(music));
+    }
+
+    /**
+     * Draw text option.
+     * 
+     * @param g The graphic output.
+     * @param index The option index.
+     * @param data The option text.
+     */
+    private void drawOptionText(Graphic g, int index, String data)
+    {
+        TEXT.draw(g, (int) (CENTER_X * factorH) + 10, menusData[1].choices[index].getY(), Align.LEFT, data);
+    }
+
+    /**
+     * Render transition fading.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderTransition(Graphic g)
+    {
+        if (transition != TransitionType.NONE)
         {
-            return 0;
-        }
-        else if (menu == MenuType.OPTIONS)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
+            final int a = UtilMath.clamp((int) Math.floor(alpha), 0, 255);
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
     }
 
     /**
-     * Stop audio if exists.
+     * Stop active music.
      */
     private void stopAudio()
     {
@@ -433,32 +507,28 @@ public class Menu extends Sequence
     public void update(double extrp)
     {
         device.update(extrp);
-        handleMenuTransition(extrp);
-        handleMenu(extrp);
+
+        updateTransition(extrp);
+        updateMenu(extrp);
     }
 
     @Override
     public void render(Graphic g)
     {
         g.clear(0, 0, getWidth(), getHeight());
-        final int id = getMenuId();
-        if (id > -1)
-        {
-            menus[id].render(g);
-            menusData[id].render(g, choice);
-        }
-        renderMenus(g, id);
-        if (transition != TransitionType.NONE)
-        {
-            final int a = UtilMath.clamp((int) alpha, 0, 255);
-            g.setColor(ALPHAS[a]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
+
+        renderMenus(g);
+        renderTransition(g);
     }
 
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
         stopAudio();
+        font.dispose();
+        for (final Sprite element : menus)
+        {
+            element.dispose();
+        }
     }
 }

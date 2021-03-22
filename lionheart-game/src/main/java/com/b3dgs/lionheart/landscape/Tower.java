@@ -62,7 +62,7 @@ final class Tower extends BackgroundAbstract
      */
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.NATIVE_RESOLUTION.getHeight() + 64);
+        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + 64);
         backdrop.setScreenWidth(width);
     }
 

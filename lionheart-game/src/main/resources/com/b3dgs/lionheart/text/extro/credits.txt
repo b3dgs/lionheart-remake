@@ -1,6 +1,6 @@
-C30 Congratulation for
-C30 completing LIONHEART !
-C30 (remake version)
+C26 Congratulation for
+C26 completing LIONHEART !
+C26 (remake version)
 
 
 
@@ -8,32 +8,32 @@ C30 (remake version)
 
 
 
-C30 The staff:
+C26 The staff:
 C14 ------------------
 
 
-L26 Erwin Kloibhofer
+L24 Erwin Kloibhofer
 L11 general programming, Schnitzel-cooking
-L26 Michael Bittner
+L24 Michael Bittner
 L11 additional programming, intro, extro,
 L11 3D-scroller, ideas, Spaetzle
-L26 Henk Nieborg
+L24 Henk Nieborg
 L11 graphics, animations, ideas & console
 L11 inspiration
-L26 Erik Simon
+L24 Erik Simon
 L11 concept, game design, some colors,
 L11 curried chicken, beating up the staff
-L26 Matthias Steinwachs
+L24 Matthias Steinwachs
 L11 composing, music, sound effects,
 L11 funny letters
-L26 Matthias Moerstedt
+L24 Matthias Moerstedt
 L11 soundroutine patching,
 L11 board supervising (sigh)
-L26 Jurie Horneman
+L24 Jurie Horneman
 L11 story writing, ideas, chili con carne
-L26 Dieter Rottermund
+L24 Dieter Rottermund
 L11 cover illustration
-L26 Pierre-Alexandre
+L24 Pierre-Alexandre
 L11 Remake Programming
 
 
@@ -42,11 +42,11 @@ L11 Remake Programming
 
 
 
-C30 Personal messages:
+C26 Personal messages:
 C14 ------------------------------------------
 
 
-L26 Henk Nieborg
+L24 Henk Nieborg
 L14 ------------------------------
 
 L11 Just want to hand out a big 'thank you' to all dedicated LH
@@ -61,7 +61,7 @@ L11 people still appreciate the work done so many years ago.
 L11 Thanks and may the pixel be with you! :)
 
 
-L26 Erik Simon
+L24 Erik Simon
 L14 ----------------------------
 
 L11 After working in the games industry for 20 years, most get
@@ -85,7 +85,7 @@ L11 thanks to everybody out there who had fun with our games and
 L11 who still remembers...
 
 
-L26 Matthias Steinwachs
+L24 Matthias Steinwachs
 L14 ----------------------------
 
 L11 For the re-release-remake-re-anything-whatever of that great
@@ -99,7 +99,7 @@ L11 (www.audiotexturat.de) And yes - someday the music-remake
 L11 will come - its done when its done...
 
 
-L26 Pierre-Alexandre
+L24 Pierre-Alexandre
 L14 ----------------------------
 
 L11 
@@ -128,4 +128,4 @@ L11 In memory of old Games ... don't let the Amiga die !
 
 
 
-C30 T H E    E N D
+C26 T H E    E N D

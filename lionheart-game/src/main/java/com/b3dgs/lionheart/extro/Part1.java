@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
@@ -43,14 +42,17 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Extro part 1 implementation.
  */
 public final class Part1 extends Sequence
 {
+    private static final int MIN_HEIGHT = 208;
+    private static final int MAX_WIDTH = 400;
+    private static final int MARGIN_WIDTH = 80;
     private static final int ALPHA_SPEED = 3;
     private static final int SPAWN_EXPLODE_DELAY = 35;
     private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
@@ -73,22 +75,19 @@ public final class Part1 extends Sequence
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
     private final Handler handler = services.create(Handler.class);
-    private final Spawner spawner = services.add(new Spawner()
+    private final Spawner spawner = services.add((Spawner) (media, x, y) ->
     {
-        @Override
-        public Featurable spawn(Media media, double x, double y)
-        {
-            final Featurable featurable = factory.create(media);
-            featurable.getFeature(Transformable.class).teleport(x, y);
-            handler.add(featurable);
-            return featurable;
-        }
+        final Featurable featurable = factory.create(media);
+        featurable.getFeature(Transformable.class).teleport(x, y);
+        handler.add(featurable);
+        return featurable;
     });
     private final Tick tick = new Tick();
     private final Tick tickExplode = new Tick();
+    private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
 
     private int alpha;
-    private double citadelY;
+    private double citadelY = 4;
     private double citadelYacc;
     private double valdynX;
     private double valdynY;
@@ -104,26 +103,26 @@ public final class Part1 extends Sequence
      */
     public Part1(Context context, Audio audio, Boolean alternative)
     {
-        super(context, Constant.NATIVE_RESOLUTION);
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
         final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
         {
             @Override
             public int getWidth()
             {
-                return Constant.NATIVE_RESOLUTION.getWidth();
+                return Part1.this.getWidth();
             }
 
             @Override
             public int getHeight()
             {
-                return Constant.NATIVE_RESOLUTION.getHeight();
+                return Part1.this.getHeight();
             }
 
             @Override
             public int getRate()
             {
-                return Constant.NATIVE_RESOLUTION.getRate();
+                return Part1.this.getRate();
             }
         });
         final Camera camera = services.create(Camera.class);
@@ -158,7 +157,7 @@ public final class Part1 extends Sequence
                                         "part1",
                                         UtilRandom.getRandomBoolean() ? "ExplodeLittle.xml" : "ExplodeBig.xml"),
                           citadel.getX() + UtilRandom.getRandomInteger(width),
-                          citadel.getY() + UtilRandom.getRandomInteger((int) (height * 0.75)) + height);
+                          citadel.getY() + UtilRandom.getRandomInteger((int) (height * 0.6)) + height + bandHeight);
         }
     }
 
@@ -167,9 +166,11 @@ public final class Part1 extends Sequence
     {
         backcolor.load();
         backcolor.prepare();
+        backcolor.setLocation(0, bandHeight);
 
         clouds.load();
         clouds.prepare();
+        clouds.setLocation(0, bandHeight);
 
         citadel.load();
         citadel.prepare();
@@ -179,7 +180,7 @@ public final class Part1 extends Sequence
         valdyn.prepare();
         valdyn.play(new Animation(Animation.DEFAULT_NAME, 1, 12, 0.2, false, true));
         valdynX = 100.0;
-        valdynY = 50.0;
+        valdynY = 66.0;
         valdynZ = 100.0;
         valdynZacc = -0.3;
 
@@ -232,7 +233,7 @@ public final class Part1 extends Sequence
             citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, 500);
             citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED, 0.0, 3.0);
         }
-        citadel.setLocation(82, 4 + citadelY);
+        citadel.setLocation(82, bandHeight + citadelY);
 
         if (tick.elapsed() > 1370)
         {
@@ -254,8 +255,11 @@ public final class Part1 extends Sequence
 
         if (alpha < 255)
         {
-            g.setColor(Intro.ALPHAS_BLACK[255 - alpha]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - alpha]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        g.clear(0, 0, getWidth(), bandHeight);
+        g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
     }
 }

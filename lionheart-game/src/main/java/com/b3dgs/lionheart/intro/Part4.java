@@ -40,6 +40,12 @@ import com.b3dgs.lionheart.menu.Menu;
  */
 public final class Part4 extends Sequence
 {
+    /** Stories. */
+    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story1.txt"));
+    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story2.txt"));
+    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story3.txt"));
+    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story4.txt"));
+
     /** Font. */
     private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
                                                             Medias.create(Folder.SPRITES, "fontdata.xml"),
@@ -76,7 +82,7 @@ public final class Part4 extends Sequence
 
         for (int i = 0; i < history.length; i++)
         {
-            history[i] = Drawable.loadSprite(Medias.create("intro", "part4", "history" + i + ".png"));
+            history[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part4", "history" + i + ".png"));
             history[i].load();
         }
 
@@ -147,35 +153,19 @@ public final class Part4 extends Sequence
         // Render texts
         if (seek >= 113500 && seek < 130000)
         {
-            font.draw(g,
-                      1,
-                      history[0].getHeight() + 2,
-                      Align.LEFT,
-                      "Valdyn crossed the border and flew into %Norka's country. Everything had gone %smoothly until now. %Then he noticed a shape on the horizon %which rapidly grew bigger. One of Norka's %air-ship!");
+            font.draw(g, 1, history[0].getHeight() + 2, Align.LEFT, STORY1);
         }
         if (seek >= 130000 && seek < 154000)
         {
-            font.draw(g,
-                      1,
-                      history[1].getHeight() + 22,
-                      Align.LEFT,
-                      "Frantically, Valdyn urged the dragon %to fly faster. Maybe he could still escape! %But the airship grew ever larger. %It had neared to a distance of a few meters %when a explosion sounded and rapidly %expanding net flew towards Valdyn and %the dragon!");
+            font.draw(g, 1, history[1].getHeight() + 22, Align.LEFT, STORY2);
         }
         if (seek >= 154000 && seek < 180000)
         {
-            font.draw(g,
-                      1,
-                      history[2].getHeight() + 42,
-                      Align.LEFT,
-                      "They were caught by the net and were %swiftly hauled towards the ship. %Valdyn, who was having a hard time with %the panicking dragon, drew his sword and %hacked a way through the tough material. %Just before being drawn into the air-ship, %he jumped out and plummeted towards the %ground!");
+            font.draw(g, 1, history[2].getHeight() + 42, Align.LEFT, STORY3);
         }
         if (seek >= 180000 && seek < 201000)
         {
-            font.draw(g,
-                      1,
-                      history[3].getHeight() + 62,
-                      Align.LEFT,
-                      "Due to his new powers, Valdyn had survived %the long fall without even a scratch. %He stood forlornly in the swamps and %watched the air-ship fly out the sight. %He cursed. His mission wouldn't be so %easy now.");
+            font.draw(g, 1, history[3].getHeight() + 62, Align.LEFT, STORY4);
         }
 
         // Render fade in

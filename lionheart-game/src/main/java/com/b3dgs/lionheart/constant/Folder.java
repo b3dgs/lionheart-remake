@@ -27,6 +27,8 @@ public final class Folder
 {
     /** Sprites folder. */
     public static final String SPRITES = "sprite";
+    /** Intro folder. */
+    public static final String INTRO = "intro";
     /** Menu folder. */
     public static final String MENU = "menu";
     /** Extro folder. */
@@ -55,6 +57,8 @@ public final class Folder
     public static final String LEVELS = "levels";
     /** Stages folder. */
     public static final String STAGES = "stage";
+    /** Texts folder. */
+    public static final String TEXTS = "text";
     /** Sounds folder. */
     public static final String SOUNDS = "sfx";
     /** Musics folder. */
