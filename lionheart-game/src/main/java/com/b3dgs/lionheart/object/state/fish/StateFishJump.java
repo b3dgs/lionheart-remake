@@ -17,7 +17,7 @@
 package com.b3dgs.lionheart.object.state.fish;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -49,7 +49,7 @@ final class StateFishJump extends State
     {
         super.enter();
 
-        model.setInput(new InputDeviceControlVoid()
+        model.setInput(new DeviceControllerVoid()
         {
             @Override
             public double getVerticalDirection()
@@ -74,6 +74,6 @@ final class StateFishJump extends State
     {
         super.exit();
 
-        model.setInput(InputDeviceControlVoid.getInstance());
+        model.setInput(DeviceControllerVoid.getInstance());
     }
 }

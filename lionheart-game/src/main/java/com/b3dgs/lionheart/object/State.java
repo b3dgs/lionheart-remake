@@ -230,7 +230,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFire()
     {
-        return isFire(DeviceMapping.FIRE);
+        return isFire(DeviceMapping.CTRL_RIGHT);
     }
 
     /**
@@ -240,7 +240,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFireOnce()
     {
-        return isFireOnce(DeviceMapping.FIRE);
+        return isFireOnce(DeviceMapping.CTRL_RIGHT);
     }
 
     @Override

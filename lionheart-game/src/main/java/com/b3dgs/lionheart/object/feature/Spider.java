@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
@@ -95,7 +95,7 @@ public final class Spider extends FeatureModel implements Routine, Recyclable
     {
         this.distance = distance;
         enabled = true;
-        model.setInput(new InputDeviceControlVoid()
+        model.setInput(new DeviceControllerVoid()
         {
             @Override
             public double getHorizontalDirection()

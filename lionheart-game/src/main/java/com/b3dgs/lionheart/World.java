@@ -55,6 +55,7 @@ import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
@@ -150,7 +151,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final Media media = config.getMapFile();
         if (!media.exists())
         {
-            MapTileHelper.importAndSave(Medias.create(media.getPath().replace(".lvl", ".png")), media);
+            MapTileHelper.importAndSave(Medias.create(media.getPath().replace(Extension.MAP, Extension.IMAGE)), media);
         }
 
         final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
@@ -158,7 +159,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECTS, "Liana.xml"), tile);
+                spawn(Medias.create(Folder.EFFECTS, "swamp", "Liana.xml"), tile);
             }
             else if (CollisionName.BLOCK.equals(mapGroup.getGroup(tile)))
             {
@@ -364,7 +365,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 hud.setPaused(false);
             }
         }
-        else if (cheats)
+        else if (cheats && !player.isState(StateWin.class))
         {
             updateCheatsFly();
             updateCheatsStages();
@@ -418,8 +419,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         if (device.isFiredOnce(DeviceMapping.K5))
         {
-            stopMusic();
-            sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
+            player.changeState(StateWin.class);
+            tick.addAction(() ->
+            {
+                stopMusic();
+                sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
+            }, 400L);
         }
     }
 

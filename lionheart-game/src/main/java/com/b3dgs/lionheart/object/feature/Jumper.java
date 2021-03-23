@@ -34,8 +34,8 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
-import com.b3dgs.lionengine.io.InputDeviceControl;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -58,7 +58,7 @@ public final class Jumper extends FeatureModel implements Routine
     private final Tick jumpStopTick = new Tick();
     private final MapTile map;
     private final MapTileGroup mapGroup;
-    private final InputDeviceControl jumpControl = new InputDeviceControlVoid()
+    private final DeviceController jumpControl = new DeviceControllerVoid()
     {
         @Override
         public double getHorizontalDirection()
@@ -71,16 +71,10 @@ public final class Jumper extends FeatureModel implements Routine
         {
             return jumpPress ? 1.0 : 0.0;
         }
-
-        @Override
-        public boolean isUpButtonOnce()
-        {
-            return jump;
-        }
     };
     private final int offset = setup.getIntegerDefault(0, ATT_OFFSET, NODE);
 
-    private InputDeviceControl oldControl;
+    private DeviceController oldControl;
     private int jumpTick;
     private double move;
     private boolean jump;

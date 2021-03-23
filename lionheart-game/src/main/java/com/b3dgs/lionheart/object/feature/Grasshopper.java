@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -75,7 +75,7 @@ public final class Grasshopper extends FeatureModel implements Routine
     {
         super.prepare(provider);
 
-        model.setInput(new InputDeviceControlVoid()
+        model.setInput(new DeviceControllerVoid()
         {
             @Override
             public double getHorizontalDirection()

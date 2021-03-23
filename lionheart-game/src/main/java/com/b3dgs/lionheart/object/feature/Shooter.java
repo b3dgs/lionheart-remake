@@ -217,11 +217,10 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
             if (config != null && !config.getTrack())
             {
                 final Force direction = l.getDirection();
-                direction.setDirection(direction.getDirectionHorizontal() * config.getSvx(),
-                                       direction.getDirectionVertical() * config.getSvy());
-
-                direction.setDestination(direction.getDirectionHorizontal() * config.getDvx(),
-                                         direction.getDirectionVertical() * config.getDvy());
+                final double dx = direction.getDirectionHorizontal();
+                final double dy = direction.getDirectionVertical();
+                direction.setDirection(dx * config.getSvx(), dy * config.getSvy());
+                direction.setDestination(dx * config.getDvx(), dy * config.getDvy());
             }
         });
     }

@@ -7,7 +7,8 @@
         <lionengine:fire index="RIGHT" positive="39" negative="39"/>
         <lionengine:fire index="UP" positive="38" negative="38"/>
         <lionengine:fire index="DOWN" positive="40" negative="40"/>
-        <lionengine:fire index="FIRE" positive="17" negative="17"/>
+        <lionengine:fire index="CTRL_RIGHT" positive="17" negative="17"/>
+        <lionengine:fire index="CTRL_LEFT" positive="16711697" negative="16711697"/>
         <lionengine:fire index="PAUSE" positive="80" negative="80"/>
         <lionengine:fire index="QUIT" positive="27" negative="27"/>
         <lionengine:fire index="PAGE_DOWN" positive="34" negative="34"/>

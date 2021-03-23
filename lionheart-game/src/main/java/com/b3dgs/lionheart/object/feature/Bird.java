@@ -34,8 +34,8 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionengine.io.InputDeviceControl;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -69,7 +69,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @FeatureGet private Glue glue;
 
     private Transformable other;
-    private InputDeviceControl input;
+    private DeviceController device;
     private boolean hit;
     private Force old;
 
@@ -99,7 +99,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         {
             stateHandler.changeState(StatePatrol.class);
             launchable.setVector(old);
-            model.setInput(input);
+            model.setInput(device);
             glue.recycle();
             tick.stop();
         }
@@ -119,8 +119,8 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
             tick.restart();
             Sfx.MONSTER_HURT.play();
             hit = true;
-            input = model.getInput();
-            model.setInput(InputDeviceControlVoid.getInstance());
+            device = model.getInput();
+            model.setInput(DeviceControllerVoid.getInstance());
             glue.setTransformY(() -> UtilMath.cos(animatable.getFrameAnim() * 36) * CURVE_FORCE);
             glue.start();
         }
@@ -132,6 +132,6 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         tick.stop();
         hit = false;
         old = null;
-        input = null;
+        device = null;
     }
 }

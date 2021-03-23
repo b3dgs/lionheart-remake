@@ -46,7 +46,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionengine.io.InputDeviceControlVoid;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -292,7 +292,7 @@ public final class Patrol extends FeatureModel
         {
             collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
         });
-        model.setInput(new InputDeviceControlVoid()
+        model.setInput(new DeviceControllerVoid()
         {
             @Override
             public double getHorizontalDirection()

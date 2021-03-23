@@ -25,8 +25,10 @@ public final class Extension
 {
     /** Image file extension (with dot). */
     public static final String IMAGE = ".png";
-    /** Levels file extension (with dot). */
-    public static final String LEVEL = ".xml";
+    /** Stages file extension (with dot). */
+    public static final String STAGE = ".xml";
+    /** Map file extension (with dot). */
+    public static final String MAP = ".lvl";
     /** Sounds file extension (with dot). */
     public static final String SFX = ".wav";
     /** Musics file extension (with dot). */

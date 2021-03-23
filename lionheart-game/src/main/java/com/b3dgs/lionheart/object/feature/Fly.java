@@ -40,7 +40,7 @@ public final class Fly extends FeatureModel implements Routine, Recyclable
     private static final double SPEED = 1.1;
 
     private final Force direction = new Force();
-    private final Transformable track;
+    private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
 
     @FeatureGet private Transformable transformable;
 
@@ -54,8 +54,6 @@ public final class Fly extends FeatureModel implements Routine, Recyclable
     public Fly(Services services, Setup setup)
     {
         super(services, setup);
-
-        track = services.get(SwordShade.class).getFeature(Transformable.class);
 
         direction.setVelocity(0.04);
         direction.setSensibility(0.01);

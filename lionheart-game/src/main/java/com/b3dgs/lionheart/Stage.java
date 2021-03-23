@@ -65,7 +65,7 @@ public enum Stage
      */
     Stage(String file)
     {
-        this.file = Medias.create(Folder.STAGES, file + Extension.LEVEL);
+        this.file = Medias.create(Folder.STAGES, file + Extension.STAGE);
     }
 
     /**

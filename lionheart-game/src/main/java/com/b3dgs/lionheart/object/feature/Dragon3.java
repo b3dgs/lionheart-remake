@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
- * Dragon2 feature implementation.
+ * Dragon3 feature implementation.
  * <ol>
  * <li>Fire on delay.</li>
  * <li>Follow player a moment.</li>
