@@ -7,7 +7,7 @@
     </lionengine:features>
     <lionengine:surface image="Transform3.png"/>
     <lionengine:frames horizontal="10" vertical="2"/>
-    <lionengine:origin>CENTER_TOP</lionengine:origin>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="20" speed="0.2" repeat="false" reversed="false"/>
     </lionengine:animations>
