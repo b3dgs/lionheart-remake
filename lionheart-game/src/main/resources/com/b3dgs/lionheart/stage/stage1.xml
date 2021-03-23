@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="menu/pic1.png" text="Nothing could be done. Valdyn would have%to make the entire journey on foot.%He sighted and entered the swamps.">
-   <music file="music/swamp.sc68"/>
+<stage pic="menu/pic1.png" text="swamp.txt">
+    <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage1.lvl"/>
     <raster folder="levels/swamp/raster/dusk/"/>
     <background type="SWAMP_DUSK"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="12" ty="4"/>
+        <checkpoint tx="13" ty="4"/>
         <checkpoint tx="79" ty="11"/>
         <checkpoint tx="147" ty="4"/>
         <checkpoint tx="200" ty="9"/>
@@ -148,7 +148,7 @@
             <patrol sh="-0.2" amplitude="64"/>
         </entity>
         <entity file="entity/monster/swamp/Crawling.xml" tx="185.5" ty="7.0" jump="6">
-            <patrol sh="-0.2" amplitude="80"/>
+            <patrol sh="-0.2" amplitude="144"/>
         </entity>
         <entity file="entity/monster/swamp/Crawling.xml" tx="214.5" ty="8.0">
             <patrol sh="-0.2" amplitude="96"/>

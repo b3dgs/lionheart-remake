@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="menu/pic6.png" text="Valdyn had penetrated Norka's defenses%and now saw the citadel looming before him.%At the bottom he saw an entrance...">
+<stage pic="menu/pic6.png" text="tower.txt">
     <music file="music/tower.sc68"/>
     <map file="levels/tower/stage13.lvl"/>
     <raster folder="levels/tower/raster/tower/"/>
     <background type="TOWER"/>
-    <foreground type="WATER" waterDepth="8" waterOffset="32" raise="true"/>
+    <foreground type="WATER" waterDepth="8" waterOffset="32" raise="2448"/>
     <checkpoints>
         <checkpoint tx="26" ty="6"/>
         <checkpoint tx="22" ty="60"/>

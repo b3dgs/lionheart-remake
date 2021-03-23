@@ -6,7 +6,7 @@
     <background type="SWAMP_DAY"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="45" ty="4"/>
+        <checkpoint tx="46" ty="4"/>
         <checkpoint tx="36" ty="20"/>
         <checkpoint tx="117" ty="4"/>
         <checkpoint tx="191" ty="4"/>

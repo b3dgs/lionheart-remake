@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="menu/pic2.png" text="Valdyn finally emerged from the swamps.%In the distance he could see the ancient%city on the border of Norka's country.">
+<stage pic="menu/pic2.png" text="ancienttown.txt">
     <music file="music/ancient_town.sc68"/>
     <map file="levels/ancient_town/stage6.lvl"/>
     <raster folder="levels/ancient_town/raster/dusk/"/>
