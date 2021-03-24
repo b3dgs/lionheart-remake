@@ -11,7 +11,7 @@
     <lionengine:size width="48" height="48"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="6" end="6" speed="0.20" reversed="false" repeat="false"/>
+        <lionengine:animation name="none" start="1" end="1" speed="0.20" reversed="false" repeat="false"/>
         <lionengine:animation name="open" start="1" end="6" speed="0.20" reversed="false" repeat="false"/>
         <lionengine:animation name="attack" start="11" end="11" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="6" end="6" speed="1.0" reversed="false" repeat="false"/>
@@ -19,6 +19,7 @@
     <lionengine:collisions>
         <lionengine:collision name="body" offsetX="0" offsetY="8" width="24" height="24" mirror="false"/>
     </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>

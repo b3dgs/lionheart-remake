@@ -51,6 +51,7 @@ import com.b3dgs.lionheart.object.state.StatePatrolCeil;
 public final class Spider extends FeatureModel implements Routine, Recyclable
 {
     private static final int TRACKED_DISTANCE = 80;
+    private static final int FALL_DISTANCE = 16;
     private static final double TRACK_SPEED = 0.5;
 
     private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -118,7 +119,10 @@ public final class Spider extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        if (distance < 0 || UtilMath.getDistance(track, transformable) < distance)
+        if (distance < 0
+            || UtilMath.getDistance(track, transformable) < distance
+            || stateHandler.isState(StatePatrolCeil.class)
+               && Math.abs(track.getX() - transformable.getX()) < FALL_DISTANCE)
         {
             if (stateHandler.isState(StatePatrolCeil.class))
             {
