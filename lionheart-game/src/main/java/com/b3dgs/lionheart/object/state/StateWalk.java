@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 public final class StateWalk extends State
 {
     private static final double ANIM_SPEED_DIVISOR = 6.0;
-    private static final double WALK_MIN_SPEED = 0.005;
+    private static final double WALK_MIN_SPEED = 0.2;
     private static final double SPEED_SLOPE_RISING = -0.3;
     private static final double SPEED_SLOPE_DESCENDING = 0.8;
 
@@ -70,7 +70,7 @@ public final class StateWalk extends State
     private boolean isWalkingSlowEnough()
     {
         final double speedH = movement.getDirectionHorizontal();
-        return !isGoHorizontal() && UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
+        return UtilMath.isBetween(speedH, -WALK_MIN_SPEED, WALK_MIN_SPEED);
     }
 
     @Override

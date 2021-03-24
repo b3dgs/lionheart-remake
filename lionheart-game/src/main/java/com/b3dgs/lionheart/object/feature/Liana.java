@@ -267,7 +267,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                         mapCollision.updateCollisions(tile);
                     }
 
-                    spawner.spawn(Medias.create(Folder.EFFECTS, "ExplodeLiana.xml"), tile.getX(), tile.getY());
+                    spawner.spawn(Medias.create(Folder.EFFECTS, "swamp", "ExplodeLiana.xml"), tile.getX(), tile.getY());
                     Sfx.MONSTER_HURT.play();
                 }
                 identifiable.destroy();

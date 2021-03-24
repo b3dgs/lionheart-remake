@@ -4,17 +4,19 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.NestLittle</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="NestLittle.png" icon="NestLittle_ico.png"/>
     <lionengine:frames horizontal="2" vertical="1"/>
     <lionengine:size width="48" height="48"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="fall" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="patrol" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="attack" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="4" width="24" height="24" mirror="false"/>
@@ -29,10 +31,16 @@
             <lionengine:group>ground</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
+    <lionengine:launcher>
+        <lionengine:launchable media="projectile/swamp/FlyTrack.xml" sfx="sfx/projectile_fly.wav" ox="0" oy="0">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="2"/>
     <hurtable fall="true" effect="swamp/ExplodeBig"/>
+    <shooter fireDelay="200" firedDelay="0" svx="0" svy="0"/>
 </lionengine:featurable>

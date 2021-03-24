@@ -24,22 +24,22 @@
         <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="25">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="2">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="32" oy="0" delay="50">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="32" oy="0" delay="4">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="48" oy="0" delay="75">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="48" oy="0" delay="6">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="64" oy="0" delay="100">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="64" oy="0" delay="8">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="80" oy="0" delay="125">
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="80" oy="0" delay="10">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/TongueEnd.xml" ox="96" oy="0" delay="150">
+        <lionengine:launchable media="projectile/swamp/TongueEnd.xml" ox="96" oy="0" delay="12">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

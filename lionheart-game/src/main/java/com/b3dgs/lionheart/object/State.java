@@ -113,8 +113,14 @@ public abstract class State extends StateHelper<EntityModel>
     protected void onCollideKnee(CollisionResult result, CollisionCategory category)
     {
         collideX.set(true);
-        collideXright.set(result.endWithX(CollisionName.LEFT_VERTICAL));
-        collideXleft.set(result.endWithX(CollisionName.RIGHT_VERTICAL));
+        if (result.endWithX(CollisionName.LEFT_VERTICAL))
+        {
+            collideXright.set(true);
+        }
+        if (result.endWithX(CollisionName.RIGHT_VERTICAL))
+        {
+            collideXleft.set(true);
+        }
 
         if (movement.getDirectionHorizontal() < 0 && result.endWithX(CollisionName.RIGHT_VERTICAL)
             || movement.getDirectionHorizontal() > 0 && result.endWithX(CollisionName.LEFT_VERTICAL))
@@ -260,13 +266,6 @@ public abstract class State extends StateHelper<EntityModel>
         liana.reset();
     }
 
-    @Override
-    public void exit()
-    {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(this::onCollided);
-    }
-
     /**
      * {@inheritDoc} Does nothing by default.
      */
@@ -274,6 +273,13 @@ public abstract class State extends StateHelper<EntityModel>
     public void update(double extrp)
     {
         // Nothing by default
+    }
+
+    @Override
+    public void exit()
+    {
+        tileCollidable.removeListener(listenerTileCollidable);
+        collidable.removeListener(this::onCollided);
     }
 
     @Override

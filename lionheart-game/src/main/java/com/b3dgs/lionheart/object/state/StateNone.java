@@ -35,4 +35,16 @@ public final class StateNone extends State
     {
         super(model, animation);
     }
+
+    @Override
+    public void enter()
+    {
+        // Nothing to do
+    }
+
+    @Override
+    public void exit()
+    {
+        // Nothing to do
+    }
 }

@@ -16,16 +16,20 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.state.StateIdle;
-import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
  * Turning hit feature implementation.
@@ -38,8 +42,10 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </ol>
  */
 @FeatureInterface
-public final class TurningHit extends Turning
+public final class TurningHit extends Turning implements CollidableListener
 {
+    private final Animation idle;
+
     @FeatureGet private Animatable animatable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Hurtable hurtable;
@@ -57,6 +63,9 @@ public final class TurningHit extends Turning
     public TurningHit(Services services, Setup setup)
     {
         super(services, setup);
+
+        final AnimationConfig config = AnimationConfig.imports(setup);
+        idle = config.getAnimation(Anim.IDLE);
     }
 
     @Override
@@ -64,28 +73,21 @@ public final class TurningHit extends Turning
     {
         super.update(extrp);
 
-        if (stateHandler.isState(StateTurn.class))
+        if (stopped && animatable.getFrameAnim() == idle.getFirst())
         {
-            hurtable.setEnabled(true);
-            collidable.setEnabled(true);
-        }
-        else
-        {
-            collidable.setEnabled(false);
-        }
-        if (stateHandler.isState(StateIdle.class))
-        {
-            collidable.setEnabled(true);
-            hurtable.setEnabled(false);
-            if (!stopped)
-            {
-                resetTick();
-                stopped = true;
-            }
-        }
-        else
-        {
+            startIdle();
+            resetTick();
+            stateHandler.changeState(StateIdle.class);
             stopped = false;
+        }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        if (by.getName().startsWith(Anim.ATTACK))
+        {
+            stopped = true;
         }
     }
 

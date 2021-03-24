@@ -72,7 +72,16 @@ public final class StateBitten extends State
         layerRefresh = layerable.getLayerRefresh();
         layerDisplay = layerable.getLayerDisplay();
         layerable.setLayer(layerRefresh, Integer.valueOf(0));
+        collidable.setEnabled(false);
+        tileCollidable.setEnabled(false);
         Sfx.VALDYN_DIE.play();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        body.resetGravity();
+        model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
     }
 
     @Override
@@ -87,13 +96,8 @@ public final class StateBitten extends State
         mirrorable.mirror(Mirror.NONE);
         stats.fillHealth();
         stats.decreaseLife();
+        collidable.setEnabled(true);
+        tileCollidable.setEnabled(true);
         drownable.recycle();
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        body.resetGravity();
-        model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
     }
 }

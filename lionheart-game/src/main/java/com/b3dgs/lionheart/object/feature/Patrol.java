@@ -246,7 +246,6 @@ public final class Patrol extends FeatureModel
                     {
                         transformable.teleportY(startY - amplitude);
                     }
-                    model.getMovement().zero();
 
                     if (Double.compare(sh, 0.0) != 0)
                     {
@@ -256,14 +255,8 @@ public final class Patrol extends FeatureModel
                     {
                         sv = -sv;
                     }
-                    if (anim.hasAnimation(Anim.TURN))
-                    {
-                        stateHandler.changeState(StateTurn.class);
-                    }
-                    else
-                    {
-                        applyMirror();
-                    }
+                    model.getMovement().zero();
+                    changeDirection();
                     if (patrols.size() > 1)
                     {
                         loadNextPatrol();
@@ -283,6 +276,21 @@ public final class Patrol extends FeatureModel
         }
     }
 
+    /**
+     * Change direction side.
+     */
+    private void changeDirection()
+    {
+        if (anim.hasAnimation(Anim.TURN))
+        {
+            stateHandler.changeState(StateTurn.class);
+        }
+        else
+        {
+            applyMirror();
+        }
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
@@ -297,7 +305,9 @@ public final class Patrol extends FeatureModel
             @Override
             public double getHorizontalDirection()
             {
-                return enabled && stateHandler.isState(StatePatrol.class) ? sh : 0.0;
+                return enabled
+                       && (stateHandler.isState(StatePatrol.class) || stateHandler.isState(StatePatrolCeil.class)) ? sh
+                                                                                                                   : 0.0;
             }
 
             @Override
@@ -359,10 +369,12 @@ public final class Patrol extends FeatureModel
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (by.getName().startsWith(CollisionName.SPIKE))
+        if (sh < 0 && by.getName().equals(CollisionName.RIGHT_VERTICAL)
+            || sh > 0 && by.getName().equals(CollisionName.LEFT_VERTICAL))
         {
             sh = -sh;
             transformable.teleportX(transformable.getOldX() + sh);
+            changeDirection();
         }
     }
 
