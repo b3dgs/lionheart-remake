@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com">
+<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/tileGroups.xsd">
     <lionengine:group name="ground" type="NONE">
         <lionengine:tile number="0"/>
         <lionengine:tile number="1"/>
@@ -100,15 +100,6 @@
     </lionengine:group>
     <lionengine:group name="right_horizontal" type="NONE">
         <lionengine:tile number="306"/>
-    </lionengine:group>
-    <lionengine:group name="none" type="NONE">
-        <lionengine:tile number="32"/>
-        <lionengine:tile number="154"/>
-        <lionengine:tile number="28"/>
-        <lionengine:tile number="29"/>
-        <lionengine:tile number="30"/>
-        <lionengine:tile number="31"/>
-        <lionengine:tile number="233"/>
     </lionengine:group>
     <lionengine:group name="vertical" type="NONE">
         <lionengine:tile number="94"/>
