@@ -34,11 +34,11 @@ public enum BackgroundType
     /** Spider cave 2. */
     SPIDERCAVE2(WorldType.SPIDERCAVE2, null),
     /** Ancient Town dusk. */
-    ANCIENT_TOWN_DUSK(WorldType.ANCIENT_TOWN, "dusk"),
+    ANCIENTTOWN_DUSK(WorldType.ANCIENTTOWN, "dusk"),
     /** Ancient Town dawn. */
-    ANCIENT_TOWN_DAWN(WorldType.ANCIENT_TOWN, "dawn"),
+    ANCIENTTOWN_DAWN(WorldType.ANCIENTTOWN, "dawn"),
     /** Ancient Town day. */
-    ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day"),
+    ANCIENTTOWN_DAY(WorldType.ANCIENTTOWN, "day"),
     /** Lava. */
     LAVA(WorldType.LAVA, "lava"),
     /** Secret. */

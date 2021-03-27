@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
-    <music file="music/ancient_town.sc68"/>
-    <map file="levels/ancient_town/stage8.lvl"/>
-    <raster folder="levels/ancient_town/raster/day/"/>
-    <background type="ANCIENT_TOWN_DAY"/>
+    <music file="music/ancienttown.sc68"/>
+    <map file="levels/ancienttown/stage8.lvl"/>
+    <raster folder="levels/ancienttown/raster/day/"/>
+    <background type="ANCIENTTOWN_DAY"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>
     <checkpoints>
         <checkpoint tx="11" ty="42"/>

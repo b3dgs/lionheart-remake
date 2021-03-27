@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.geom.Coord;
  */
 public class CheckpointHandler implements Updatable, Listenable<CheckpointListener>
 {
+    private static final int CHECKPOINT_DISTANCE_TILE = 4;
     private static final int END_DISTANCE_TILE = 2;
     private static final int BOSS_DISTANCE = 128;
 
@@ -102,19 +103,6 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         if (bossFound)
         {
             return boss.get();
-        }
-        final int start = last + 1;
-        for (int i = start; i < count; i++)
-        {
-            final Checkpoint current = checkpoints.get(i);
-            if (transformable.getX() > current.getTx() * map.getTileWidth())
-            {
-                last = i;
-            }
-            else
-            {
-                break;
-            }
         }
         return new Coord(checkpoints.get(last).getTx() * map.getTileWidth(),
                          checkpoints.get(last).getTy() * map.getTileHeight());
@@ -197,5 +185,19 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     {
         updateNext();
         checkerBoss.update(extrp);
+
+        final int start = last + 1;
+        for (int i = start; i < count; i++)
+        {
+            final Checkpoint checkpoint = checkpoints.get(i);
+            if (UtilMath.getDistance(map.getInTileX(player),
+                                     map.getInTileY(player),
+                                     checkpoint.getTx(),
+                                     checkpoint.getTy()) < CHECKPOINT_DISTANCE_TILE
+                && map.getInTileX(player) > checkpoint.getTx())
+            {
+                last = i;
+            }
+        }
     }
 }

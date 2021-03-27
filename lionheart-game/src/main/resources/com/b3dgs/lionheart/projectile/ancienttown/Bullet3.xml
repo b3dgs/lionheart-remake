@@ -43,6 +43,6 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <hurtable effect="ExplodeLittle"/>
+    <hurtable effect="ancienttown/ExplodeLittle"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

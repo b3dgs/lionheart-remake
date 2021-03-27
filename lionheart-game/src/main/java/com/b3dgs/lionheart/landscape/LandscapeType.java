@@ -37,11 +37,11 @@ public enum LandscapeType
     /** Swamp day. */
     SWAMP_DAY(WorldType.SWAMP, "day", "raster3.xml", ForegroundType.WATER),
     /** Ancient Town dusk. */
-    ANCIENT_TOWN_DUSK(WorldType.ANCIENT_TOWN, "dusk", "raster1.xml", ForegroundType.WATER),
+    ANCIENTTOWN_DUSK(WorldType.ANCIENTTOWN, "dusk", "raster1.xml", ForegroundType.WATER),
     /** Ancient Town dawn. */
-    ANCIENT_TOWN_DAWN(WorldType.ANCIENT_TOWN, "dawn", "raster2.xml", ForegroundType.WATER),
+    ANCIENTTOWN_DAWN(WorldType.ANCIENTTOWN, "dawn", "raster2.xml", ForegroundType.WATER),
     /** Ancient Town day. */
-    ANCIENT_TOWN_DAY(WorldType.ANCIENT_TOWN, "day", "raster3.xml", ForegroundType.WATER),
+    ANCIENTTOWN_DAY(WorldType.ANCIENTTOWN, "day", "raster3.xml", ForegroundType.WATER),
     /** Lava. */
     LAVA(WorldType.LAVA, "lava", "raster.xml", ForegroundType.LAVA),
     /** Secret. */

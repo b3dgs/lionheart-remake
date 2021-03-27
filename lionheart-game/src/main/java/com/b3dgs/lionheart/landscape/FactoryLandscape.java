@@ -103,7 +103,7 @@ public final class FactoryLandscape
             case SPIDERCAVE2:
                 background = new BackgroundNone(source);
                 break;
-            case ANCIENT_TOWN:
+            case ANCIENTTOWN:
                 background = new AncientTown(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case LAVA:

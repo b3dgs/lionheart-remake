@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -92,7 +93,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         this.setup = setup;
         speedUp = setup.getDouble(ATT_SPEEDUP, NODE);
         speedDown = setup.getDouble(ATT_SPEEDDOWN, NODE);
-        max = setup.getInteger(ATT_MAX, NODE);
+        max = setup.getIntegerDefault(0, ATT_MAX, NODE);
         waterLevel = setup.getBooleanDefault(true, ATT_WATER_LEVEL, NODE);
         hit = setup.getBooleanDefault(false, ATT_HIT, NODE);
     }
@@ -128,6 +129,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
             }
         });
 
+        final FramesConfig config = FramesConfig.imports(setup);
         rasterableWater = new RasterableModel(services, new SetupSurfaceRastered(setup.getMedia()))
         {
             @Override
@@ -136,10 +138,13 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
                 return UtilMath.clamp((int) Math.floor(water.getCurrent() - transformable.getY()),
                                       0,
                                       transformable.getHeight())
-                       - 2;
+                       - 2
+                       + config.getOffsetY();
             }
         };
         rasterableWater.prepare(provider);
+
+        rasterableWater.setFrameOffsets(config.getOffsetX(), config.getOffsetY());
     }
 
     @Override
@@ -162,7 +167,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         if (start)
         {
             down -= speedDown;
-            if (down < -max)
+            if (max > 0 && down < -max)
             {
                 down = -max;
             }

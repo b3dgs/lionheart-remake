@@ -17,7 +17,7 @@
         </lionengine:animation>
         <lionengine:animation name="attack" start="3" end="34" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="fall" start="35" end="65" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="hurt" start="1" end="2" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
@@ -29,5 +29,5 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>
-    <hurtable frame="2" effect="ExplodeBig"/>
+    <hurtable frame="2" effect="ancienttown/ExplodeBig"/>
 </lionengine:featurable>

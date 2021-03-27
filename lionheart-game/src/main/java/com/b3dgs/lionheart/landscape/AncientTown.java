@@ -46,7 +46,7 @@ final class AncientTown extends BackgroundAbstract
     {
         super(theme, 0, 1800);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancient_town", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancienttown", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width);
         add(backdrop);

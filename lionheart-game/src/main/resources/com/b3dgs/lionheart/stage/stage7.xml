@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
-    <music file="music/ancient_town.sc68"/>
-    <map file="levels/ancient_town/stage7.lvl"/>
-    <raster folder="levels/ancient_town/raster/dawn/"/>
-    <background type="ANCIENT_TOWN_DAWN"/>
+    <music file="music/ancienttown.sc68"/>
+    <map file="levels/ancienttown/stage7.lvl"/>
+    <raster folder="levels/ancienttown/raster/dawn/"/>
+    <background type="ANCIENTTOWN_DAWN"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>
     <checkpoints>
         <checkpoint tx="11" ty="54"/>
@@ -112,10 +112,10 @@
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="175.0" ty="14.0">
-            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="2.0"/>
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="-2.0"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="187.0" ty="14.0">
-            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="4.0"/>
+            <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="-4.0"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Rotating1.xml" tx="205.0" ty="19.0">
             <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
@@ -130,8 +130,8 @@
             <rotating extremity="entity/scenery/ancienttown/FireBall.xml" ring="entity/scenery/ancienttown/FireBall.xml" length="3" speed="3.0"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="227.0" ty="19.0"/>
-        <entity file="entity/scenery/ancienttown/Floater.xml" tx="256.0" ty="7.0"/>
-        <entity file="entity/scenery/ancienttown/Floater.xml" tx="260.0" ty="7.0"/>
+        <entity file="entity/scenery/ancienttown/Floater.xml" tx="256.0" ty="3.0"/>
+        <entity file="entity/scenery/ancienttown/Floater.xml" tx="260.0" ty="3.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="262.0" ty="12.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="263.0" ty="12.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="264.0" ty="12.0"/>

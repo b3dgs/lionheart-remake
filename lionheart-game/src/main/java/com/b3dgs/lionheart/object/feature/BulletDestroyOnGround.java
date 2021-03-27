@@ -78,7 +78,7 @@ public final class BulletDestroyOnGround extends FeatureModel implements Recycla
             && (collFromBottom || transformable.getY() < transformable.getOldY()))
         {
             tileCollidable.apply(result);
-            hurtable.kill();
+            hurtable.kill(true);
         }
     }
 

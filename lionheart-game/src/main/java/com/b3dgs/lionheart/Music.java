@@ -36,7 +36,7 @@ public enum Music
     /** Spider cave music. */
     SPIDERCAVE,
     /** Ancient Town music. */
-    ANCIENT_TOWN,
+    ANCIENTTOWN,
     /** Lava music. */
     LAVA,
     /** Airship music. */

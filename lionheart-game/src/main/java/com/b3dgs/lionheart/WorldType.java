@@ -40,7 +40,7 @@ public enum WorldType
     /** Spider cave 2 world. */
     SPIDERCAVE2(Music.SPIDERCAVE),
     /** Ancient town world. */
-    ANCIENT_TOWN(Music.ANCIENT_TOWN),
+    ANCIENTTOWN(Music.ANCIENTTOWN),
     /** Lava world. */
     LAVA(Music.LAVA),
     /** Secret world. */
