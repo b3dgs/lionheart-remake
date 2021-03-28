@@ -1,276 +1,272 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/tileGroups.xsd">
+<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/tileGroups.xsd">
     <lionengine:group name="ground" type="NONE">
-        <lionengine:tile number="97" sheet="0"/>
-        <lionengine:tile number="225" sheet="0"/>
-        <lionengine:tile number="640" sheet="0"/>
-        <lionengine:tile number="638" sheet="0"/>
-        <lionengine:tile number="186" sheet="0"/>
-        <lionengine:tile number="504" sheet="0"/>
-        <lionengine:tile number="692" sheet="0"/>
-        <lionengine:tile number="496" sheet="0"/>
-        <lionengine:tile number="494" sheet="0"/>
-        <lionengine:tile number="492" sheet="0"/>
-        <lionengine:tile number="108" sheet="0"/>
-        <lionengine:tile number="265" sheet="0"/>
-        <lionengine:tile number="133" sheet="0"/>
-        <lionengine:tile number="100" sheet="0"/>
-        <lionengine:tile number="546" sheet="0"/>
-        <lionengine:tile number="641" sheet="0"/>
-        <lionengine:tile number="639" sheet="0"/>
-        <lionengine:tile number="156" sheet="0"/>
-        <lionengine:tile number="495" sheet="0"/>
-        <lionengine:tile number="493" sheet="0"/>
-        <lionengine:tile number="646" sheet="0"/>
-        <lionengine:tile number="326" sheet="0"/>
-        <lionengine:tile number="99" sheet="0"/>
-        <lionengine:tile number="547" sheet="0"/>
-        <lionengine:tile number="132" sheet="0"/>
-        <lionengine:tile number="545" sheet="0"/>
-        <lionengine:tile number="185" sheet="0"/>
-        <lionengine:tile number="184" sheet="0"/>
-        <lionengine:tile number="183" sheet="0"/>
-        <lionengine:tile number="731" sheet="0"/>
-        <lionengine:tile number="135" sheet="0"/>
-        <lionengine:tile number="136" sheet="0"/>
-        <lionengine:tile number="137" sheet="0"/>
-        <lionengine:tile number="138" sheet="0"/>
-        <lionengine:tile number="139" sheet="0"/>
-        <lionengine:tile number="282" sheet="0"/>
-        <lionengine:tile number="283" sheet="0"/>
-        <lionengine:tile number="284" sheet="0"/>
-        <lionengine:tile number="285" sheet="0"/>
-        <lionengine:tile number="286" sheet="0"/>
-        <lionengine:tile number="287" sheet="0"/>
-        <lionengine:tile number="288" sheet="0"/>
-        <lionengine:tile number="289" sheet="0"/>
-        <lionengine:tile number="290" sheet="0"/>
-        <lionengine:tile number="291" sheet="0"/>
-        <lionengine:tile number="292" sheet="0"/>
-        <lionengine:tile number="293" sheet="0"/>
-        <lionengine:tile number="294" sheet="0"/>
-        <lionengine:tile number="626" sheet="0"/>
-        <lionengine:tile number="684" sheet="0"/>
-        <lionengine:tile number="102" sheet="0"/>
-        <lionengine:tile number="357" sheet="0"/>
-        <lionengine:tile number="71" sheet="0"/>
-        <lionengine:tile number="358" sheet="0"/>
-        <lionengine:tile number="359" sheet="0"/>
-        <lionengine:tile number="74" sheet="0"/>
-        <lionengine:tile number="73" sheet="0"/>
-        <lionengine:tile number="72" sheet="0"/>
-        <lionengine:tile number="355" sheet="0"/>
-        <lionengine:tile number="356" sheet="0"/>
-        <lionengine:tile number="354" sheet="0"/>
-        <lionengine:tile number="134" sheet="0"/>
-        <lionengine:tile number="497" sheet="0"/>
-        <lionengine:tile number="498" sheet="0"/>
-        <lionengine:tile number="418" sheet="0"/>
-        <lionengine:tile number="419" sheet="0"/>
-        <lionengine:tile number="420" sheet="0"/>
-        <lionengine:tile number="644" sheet="0"/>
-        <lionengine:tile number="643" sheet="0"/>
-        <lionengine:tile number="645" sheet="0"/>
-        <lionengine:tile number="101" sheet="0"/>
-        <lionengine:tile number="505" sheet="0"/>
-        <lionengine:tile number="98" sheet="0"/>
-        <lionengine:tile number="486" sheet="0"/>
-        <lionengine:tile number="642" sheet="0"/>
-        <lionengine:tile number="452" sheet="0"/>
-        <lionengine:tile number="657" sheet="0"/>
-        <lionengine:tile number="281" sheet="0"/>
-        <lionengine:tile number="548" sheet="0"/>
-        <lionengine:tile number="871" sheet="0"/>
-        <lionengine:tile number="870" sheet="0"/>
-        <lionengine:tile number="822" sheet="0"/>
-        <lionengine:tile number="823" sheet="0"/>
-        <lionengine:tile number="828" sheet="0"/>
-        <lionengine:tile number="829" sheet="0"/>
-        <lionengine:tile number="842" sheet="0"/>
-        <lionengine:tile number="843" sheet="0"/>
-        <lionengine:tile number="910" sheet="0"/>
+        <lionengine:tile number="97"/>
+        <lionengine:tile number="225"/>
+        <lionengine:tile number="640"/>
+        <lionengine:tile number="638"/>
+        <lionengine:tile number="186"/>
+        <lionengine:tile number="504"/>
+        <lionengine:tile number="692"/>
+        <lionengine:tile number="496"/>
+        <lionengine:tile number="494"/>
+        <lionengine:tile number="492"/>
+        <lionengine:tile number="265"/>
+        <lionengine:tile number="133"/>
+        <lionengine:tile number="100"/>
+        <lionengine:tile number="546"/>
+        <lionengine:tile number="641"/>
+        <lionengine:tile number="639"/>
+        <lionengine:tile number="156"/>
+        <lionengine:tile number="495"/>
+        <lionengine:tile number="493"/>
+        <lionengine:tile number="646"/>
+        <lionengine:tile number="326"/>
+        <lionengine:tile number="99"/>
+        <lionengine:tile number="547"/>
+        <lionengine:tile number="132"/>
+        <lionengine:tile number="545"/>
+        <lionengine:tile number="185"/>
+        <lionengine:tile number="184"/>
+        <lionengine:tile number="183"/>
+        <lionengine:tile number="731"/>
+        <lionengine:tile number="135"/>
+        <lionengine:tile number="136"/>
+        <lionengine:tile number="137"/>
+        <lionengine:tile number="138"/>
+        <lionengine:tile number="139"/>
+        <lionengine:tile number="282"/>
+        <lionengine:tile number="283"/>
+        <lionengine:tile number="284"/>
+        <lionengine:tile number="285"/>
+        <lionengine:tile number="286"/>
+        <lionengine:tile number="287"/>
+        <lionengine:tile number="288"/>
+        <lionengine:tile number="289"/>
+        <lionengine:tile number="290"/>
+        <lionengine:tile number="291"/>
+        <lionengine:tile number="292"/>
+        <lionengine:tile number="293"/>
+        <lionengine:tile number="294"/>
+        <lionengine:tile number="626"/>
+        <lionengine:tile number="684"/>
+        <lionengine:tile number="102"/>
+        <lionengine:tile number="134"/>
+        <lionengine:tile number="497"/>
+        <lionengine:tile number="498"/>
+        <lionengine:tile number="418"/>
+        <lionengine:tile number="419"/>
+        <lionengine:tile number="420"/>
+        <lionengine:tile number="644"/>
+        <lionengine:tile number="643"/>
+        <lionengine:tile number="645"/>
+        <lionengine:tile number="101"/>
+        <lionengine:tile number="505"/>
+        <lionengine:tile number="98"/>
+        <lionengine:tile number="486"/>
+        <lionengine:tile number="642"/>
+        <lionengine:tile number="452"/>
+        <lionengine:tile number="657"/>
+        <lionengine:tile number="281"/>
+        <lionengine:tile number="548"/>
+        <lionengine:tile number="871"/>
+        <lionengine:tile number="870"/>
+        <lionengine:tile number="822"/>
+        <lionengine:tile number="823"/>
+        <lionengine:tile number="828"/>
+        <lionengine:tile number="829"/>
+        <lionengine:tile number="842"/>
+        <lionengine:tile number="843"/>
+        <lionengine:tile number="910"/>
+    </lionengine:group>
+    <lionengine:group name="ground15" type="NONE">
+        <lionengine:tile number="80"/>
+        <lionengine:tile number="79"/>
+        <lionengine:tile number="78"/>
+        <lionengine:tile number="81"/>
+        <lionengine:tile number="131"/>
     </lionengine:group>
     <lionengine:group name="slope_0_left" type="NONE">
-        <lionengine:tile number="142" sheet="0"/>
-        <lionengine:tile number="557" sheet="0"/>
-        <lionengine:tile number="551" sheet="0"/>
-        <lionengine:tile number="570" sheet="0"/>
-        <lionengine:tile number="169" sheet="0"/>
-        <lionengine:tile number="575" sheet="0"/>
-        <lionengine:tile number="117" sheet="0"/>
-        <lionengine:tile number="514" sheet="0"/>
+        <lionengine:tile number="142"/>
+        <lionengine:tile number="557"/>
+        <lionengine:tile number="551"/>
+        <lionengine:tile number="570"/>
+        <lionengine:tile number="169"/>
+        <lionengine:tile number="575"/>
+        <lionengine:tile number="117"/>
+        <lionengine:tile number="514"/>
     </lionengine:group>
     <lionengine:group name="slope_1_left" type="NONE">
-        <lionengine:tile number="508" sheet="0"/>
-        <lionengine:tile number="530" sheet="0"/>
-        <lionengine:tile number="118" sheet="0"/>
-        <lionengine:tile number="571" sheet="0"/>
-        <lionengine:tile number="170" sheet="0"/>
-        <lionengine:tile number="143" sheet="0"/>
-        <lionengine:tile number="324" sheet="0"/>
-        <lionengine:tile number="515" sheet="0"/>
+        <lionengine:tile number="508"/>
+        <lionengine:tile number="530"/>
+        <lionengine:tile number="118"/>
+        <lionengine:tile number="571"/>
+        <lionengine:tile number="170"/>
+        <lionengine:tile number="143"/>
+        <lionengine:tile number="324"/>
+        <lionengine:tile number="515"/>
     </lionengine:group>
     <lionengine:group name="slope_0_right" type="NONE">
-        <lionengine:tile number="126" sheet="0"/>
-        <lionengine:tile number="636" sheet="0"/>
-        <lionengine:tile number="574" sheet="0"/>
-        <lionengine:tile number="509" sheet="0"/>
-        <lionengine:tile number="241" sheet="0"/>
-        <lionengine:tile number="203" sheet="0"/>
-        <lionengine:tile number="588" sheet="0"/>
-        <lionengine:tile number="851" sheet="0"/>
+        <lionengine:tile number="126"/>
+        <lionengine:tile number="636"/>
+        <lionengine:tile number="574"/>
+        <lionengine:tile number="509"/>
+        <lionengine:tile number="241"/>
+        <lionengine:tile number="203"/>
+        <lionengine:tile number="588"/>
+        <lionengine:tile number="851"/>
     </lionengine:group>
     <lionengine:group name="slope_1_right" type="NONE">
-        <lionengine:tile number="202" sheet="0"/>
-        <lionengine:tile number="555" sheet="0"/>
-        <lionengine:tile number="280" sheet="0"/>
-        <lionengine:tile number="719" sheet="0"/>
-        <lionengine:tile number="240" sheet="0"/>
-        <lionengine:tile number="125" sheet="0"/>
+        <lionengine:tile number="202"/>
+        <lionengine:tile number="555"/>
+        <lionengine:tile number="280"/>
+        <lionengine:tile number="719"/>
+        <lionengine:tile number="240"/>
+        <lionengine:tile number="125"/>
     </lionengine:group>
     <lionengine:group name="spike" type="NONE">
-        <lionengine:tile number="487" sheet="0"/>
-        <lionengine:tile number="490" sheet="0"/>
-        <lionengine:tile number="488" sheet="0"/>
-        <lionengine:tile number="489" sheet="0"/>
-        <lionengine:tile number="491" sheet="0"/>
+        <lionengine:tile number="487"/>
+        <lionengine:tile number="490"/>
+        <lionengine:tile number="488"/>
+        <lionengine:tile number="489"/>
+        <lionengine:tile number="491"/>
     </lionengine:group>
     <lionengine:group name="steep_0_right" type="NONE">
-        <lionengine:tile number="503" sheet="0"/>
-        <lionengine:tile number="666" sheet="0"/>
-        <lionengine:tile number="454" sheet="0"/>
+        <lionengine:tile number="503"/>
+        <lionengine:tile number="666"/>
+        <lionengine:tile number="454"/>
     </lionengine:group>
     <lionengine:group name="steep_1_right" type="NONE">
-        <lionengine:tile number="474" sheet="0"/>
-        <lionengine:tile number="661" sheet="0"/>
-        <lionengine:tile number="673" sheet="0"/>
+        <lionengine:tile number="474"/>
+        <lionengine:tile number="661"/>
+        <lionengine:tile number="673"/>
     </lionengine:group>
     <lionengine:group name="steep_1_right_spike" type="NONE">
-        <lionengine:tile number="696" sheet="0"/>
+        <lionengine:tile number="696"/>
     </lionengine:group>
     <lionengine:group name="steep_0_left" type="NONE">
-        <lionengine:tile number="470" sheet="0"/>
-        <lionengine:tile number="295" sheet="0"/>
-        <lionengine:tile number="525" sheet="0"/>
+        <lionengine:tile number="470"/>
+        <lionengine:tile number="295"/>
+        <lionengine:tile number="525"/>
     </lionengine:group>
     <lionengine:group name="steep_1_left" type="NONE">
-        <lionengine:tile number="499" sheet="0"/>
-        <lionengine:tile number="256" sheet="0"/>
-        <lionengine:tile number="318" sheet="0"/>
-        <lionengine:tile number="744" sheet="0"/>
+        <lionengine:tile number="499"/>
+        <lionengine:tile number="256"/>
+        <lionengine:tile number="318"/>
+        <lionengine:tile number="744"/>
     </lionengine:group>
     <lionengine:group name="steep_left_ground" type="NONE">
-        <lionengine:tile number="732" sheet="0"/>
+        <lionengine:tile number="732"/>
     </lionengine:group>
     <lionengine:group name="liana_horizontal" type="NONE">
-        <lionengine:tile number="878" sheet="0"/>
-        <lionengine:tile number="596" sheet="0"/>
-        <lionengine:tile number="595" sheet="0"/>
-        <lionengine:tile number="594" sheet="0"/>
-        <lionengine:tile number="593" sheet="0"/>
-        <lionengine:tile number="592" sheet="0"/>
-        <lionengine:tile number="591" sheet="0"/>
-        <lionengine:tile number="597" sheet="0"/>
-        <lionengine:tile number="598" sheet="0"/>
-        <lionengine:tile number="599" sheet="0"/>
-        <lionengine:tile number="600" sheet="0"/>
+        <lionengine:tile number="878"/>
+        <lionengine:tile number="596"/>
+        <lionengine:tile number="595"/>
+        <lionengine:tile number="594"/>
+        <lionengine:tile number="593"/>
+        <lionengine:tile number="592"/>
+        <lionengine:tile number="591"/>
+        <lionengine:tile number="597"/>
+        <lionengine:tile number="598"/>
+        <lionengine:tile number="599"/>
+        <lionengine:tile number="600"/>
     </lionengine:group>
     <lionengine:group name="liana_left" type="NONE">
-        <lionengine:tile number="881" sheet="0"/>
-        <lionengine:tile number="879" sheet="0"/>
-        <lionengine:tile number="877" sheet="0"/>
-        <lionengine:tile number="883" sheet="0"/>
-        <lionengine:tile number="887" sheet="0"/>
-        <lionengine:tile number="885" sheet="0"/>
-        <lionengine:tile number="891" sheet="0"/>
-        <lionengine:tile number="896" sheet="0"/>
-        <lionengine:tile number="899" sheet="0"/>
-        <lionengine:tile number="590" sheet="0"/>
+        <lionengine:tile number="881"/>
+        <lionengine:tile number="879"/>
+        <lionengine:tile number="877"/>
+        <lionengine:tile number="883"/>
+        <lionengine:tile number="887"/>
+        <lionengine:tile number="885"/>
+        <lionengine:tile number="891"/>
+        <lionengine:tile number="896"/>
+        <lionengine:tile number="899"/>
+        <lionengine:tile number="590"/>
     </lionengine:group>
     <lionengine:group name="liana_right" type="NONE">
-        <lionengine:tile number="601" sheet="0"/>
+        <lionengine:tile number="601"/>
     </lionengine:group>
     <lionengine:group name="steep_vertical" type="NONE">
-        <lionengine:tile number="219" sheet="0"/>
-        <lionengine:tile number="437" sheet="0"/>
+        <lionengine:tile number="219"/>
+        <lionengine:tile number="437"/>
     </lionengine:group>
     <lionengine:group name="steep_left_vertical" type="NONE">
-        <lionengine:tile number="743" sheet="0"/>
+        <lionengine:tile number="743"/>
     </lionengine:group>
     <lionengine:group name="steep_right_vertical" type="NONE"/>
     <lionengine:group name="vertical" type="NONE">
-        <lionengine:tile number="676" sheet="0"/>
-        <lionengine:tile number="679" sheet="0"/>
-        <lionengine:tile number="693" sheet="0"/>
-        <lionengine:tile number="683" sheet="0"/>
-        <lionengine:tile number="689" sheet="0"/>
-        <lionengine:tile number="675" sheet="0"/>
+        <lionengine:tile number="676"/>
+        <lionengine:tile number="679"/>
+        <lionengine:tile number="693"/>
+        <lionengine:tile number="683"/>
+        <lionengine:tile number="689"/>
+        <lionengine:tile number="675"/>
     </lionengine:group>
     <lionengine:group name="liana_full" type="NONE">
-        <lionengine:tile number="701" sheet="0"/>
-        <lionengine:tile number="702" sheet="0"/>
+        <lionengine:tile number="701"/>
+        <lionengine:tile number="702"/>
     </lionengine:group>
     <lionengine:group name="liana_ground_top" type="NONE">
-        <lionengine:tile number="704" sheet="0"/>
-        <lionengine:tile number="705" sheet="0"/>
-        <lionengine:tile number="708" sheet="0"/>
-        <lionengine:tile number="709" sheet="0"/>
-        <lionengine:tile number="813" sheet="0"/>
-        <lionengine:tile number="818" sheet="0"/>
-        <lionengine:tile number="817" sheet="0"/>
-        <lionengine:tile number="814" sheet="0"/>
-        <lionengine:tile number="821" sheet="0"/>
-        <lionengine:tile number="820" sheet="0"/>
-        <lionengine:tile number="812" sheet="0"/>
-        <lionengine:tile number="811" sheet="0"/>
-        <lionengine:tile number="806" sheet="0"/>
-        <lionengine:tile number="807" sheet="0"/>
-        <lionengine:tile number="805" sheet="0"/>
-        <lionengine:tile number="804" sheet="0"/>
-        <lionengine:tile number="810" sheet="0"/>
-        <lionengine:tile number="815" sheet="0"/>
-        <lionengine:tile number="808" sheet="0"/>
-        <lionengine:tile number="809" sheet="0"/>
-        <lionengine:tile number="819" sheet="0"/>
-        <lionengine:tile number="816" sheet="0"/>
-        <lionengine:tile number="835" sheet="0"/>
-        <lionengine:tile number="836" sheet="0"/>
-        <lionengine:tile number="837" sheet="0"/>
-        <lionengine:tile number="838" sheet="0"/>
-        <lionengine:tile number="839" sheet="0"/>
-        <lionengine:tile number="844" sheet="0"/>
-        <lionengine:tile number="845" sheet="0"/>
+        <lionengine:tile number="704"/>
+        <lionengine:tile number="705"/>
+        <lionengine:tile number="708"/>
+        <lionengine:tile number="709"/>
+        <lionengine:tile number="813"/>
+        <lionengine:tile number="818"/>
+        <lionengine:tile number="817"/>
+        <lionengine:tile number="814"/>
+        <lionengine:tile number="821"/>
+        <lionengine:tile number="820"/>
+        <lionengine:tile number="812"/>
+        <lionengine:tile number="811"/>
+        <lionengine:tile number="806"/>
+        <lionengine:tile number="807"/>
+        <lionengine:tile number="805"/>
+        <lionengine:tile number="804"/>
+        <lionengine:tile number="810"/>
+        <lionengine:tile number="815"/>
+        <lionengine:tile number="808"/>
+        <lionengine:tile number="809"/>
+        <lionengine:tile number="819"/>
+        <lionengine:tile number="816"/>
+        <lionengine:tile number="835"/>
+        <lionengine:tile number="836"/>
+        <lionengine:tile number="837"/>
+        <lionengine:tile number="838"/>
+        <lionengine:tile number="839"/>
+        <lionengine:tile number="844"/>
+        <lionengine:tile number="845"/>
     </lionengine:group>
     <lionengine:group name="liana_cut" type="NONE">
-        <lionengine:tile number="907" sheet="0"/>
-        <lionengine:tile number="908" sheet="0"/>
+        <lionengine:tile number="907"/>
+        <lionengine:tile number="908"/>
     </lionengine:group>
     <lionengine:group name="liana_slope_0_right" type="NONE">
-        <lionengine:tile number="735" sheet="0"/>
-        <lionengine:tile number="722" sheet="0"/>
-        <lionengine:tile number="769" sheet="0"/>
-        <lionengine:tile number="777" sheet="0"/>
-        <lionengine:tile number="711" sheet="0"/>
+        <lionengine:tile number="735"/>
+        <lionengine:tile number="722"/>
+        <lionengine:tile number="769"/>
+        <lionengine:tile number="777"/>
+        <lionengine:tile number="711"/>
     </lionengine:group>
     <lionengine:group name="liana_slope_1_right" type="NONE">
-        <lionengine:tile number="734" sheet="0"/>
-        <lionengine:tile number="721" sheet="0"/>
-        <lionengine:tile number="768" sheet="0"/>
-        <lionengine:tile number="776" sheet="0"/>
-        <lionengine:tile number="710" sheet="0"/>
-        <lionengine:tile number="784" sheet="0"/>
+        <lionengine:tile number="734"/>
+        <lionengine:tile number="721"/>
+        <lionengine:tile number="768"/>
+        <lionengine:tile number="776"/>
+        <lionengine:tile number="710"/>
+        <lionengine:tile number="784"/>
     </lionengine:group>
     <lionengine:group name="horizontal" type="NONE">
-        <lionengine:tile number="443" sheet="0"/>
-        <lionengine:tile number="440" sheet="0"/>
-        <lionengine:tile number="439" sheet="0"/>
-        <lionengine:tile number="441" sheet="0"/>
-        <lionengine:tile number="442" sheet="0"/>
+        <lionengine:tile number="443"/>
+        <lionengine:tile number="440"/>
+        <lionengine:tile number="439"/>
+        <lionengine:tile number="441"/>
+        <lionengine:tile number="442"/>
     </lionengine:group>
     <lionengine:group name="left_horizontal" type="NONE">
-        <lionengine:tile number="438" sheet="0"/>
+        <lionengine:tile number="438"/>
     </lionengine:group>
     <lionengine:group name="right_horizontal" type="NONE">
-        <lionengine:tile number="444" sheet="0"/>
+        <lionengine:tile number="444"/>
     </lionengine:group>
 </lionengine:groups>
