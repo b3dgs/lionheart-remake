@@ -64,12 +64,8 @@ import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
-import com.b3dgs.lionheart.object.feature.Canon1;
-import com.b3dgs.lionheart.object.feature.Canon2;
 import com.b3dgs.lionheart.object.feature.Canon2Airship;
-import com.b3dgs.lionheart.object.feature.Canon3;
 import com.b3dgs.lionheart.object.feature.Dragon1;
-import com.b3dgs.lionheart.object.feature.Dragon2;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
@@ -284,12 +280,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
               .ifPresent(mirror -> featurable.getFeature(Mirrorable.class)
                                              .mirror(mirror.booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE));
         entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
-        entity.getCanon().ifPresent(config ->
-        {
-            featurable.ifIs(Canon1.class, canon -> canon.load(config));
-            featurable.ifIs(Canon2.class, canon -> canon.load(config));
-            featurable.ifIs(Canon3.class, canon -> canon.load(config));
-        });
         entity.getRotating().ifPresent(config -> featurable.ifIs(Rotating.class, rotating -> rotating.load(config)));
         entity.getHotFireBall().ifPresent(config -> featurable.ifIs(HotFireBall.class, hot -> hot.load(config)));
         entity.getGeyzer().ifPresent(config -> featurable.ifIs(Geyzer.class, geyzer -> geyzer.load(config)));
@@ -304,10 +294,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             featurable.ifIs(Spider.class, Spider::track);
         }
         entity.getDragon1().ifPresent(config -> featurable.ifIs(Dragon1.class, dragon1 -> dragon1.load(config)));
-        entity.getDragon2().ifPresent(config -> featurable.ifIs(Dragon2.class, dragon2 -> dragon2.load(config)));
         entity.getCanon2().ifPresent(config -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(config)));
         entity.getShooter().ifPresent(config -> featurable.ifIs(Shooter.class, shooter -> shooter.load(config)));
         entity.getPillar().ifPresent(config -> featurable.ifIs(Pillar.class, pillar -> pillar.load(config)));
+        featurable.ifIs(BulletBounceOnGround.class, bounce -> bounce.load(entity.getVx()));
         stage.getRasterFolder().ifPresent(r ->
         {
             featurable.ifIs(Floater.class, floater -> floater.loadRaster(r));
