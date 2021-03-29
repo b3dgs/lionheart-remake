@@ -229,7 +229,7 @@ public final class Stats extends FeatureModel implements Recyclable
         health.setMax(config.getHealth());
         health.fill();
         life.set(config.getLife());
-        damages.setDamages(1, 1);
+        damages.setDamages(config.getDamages(), config.getDamages());
         sword = 1;
     }
 }

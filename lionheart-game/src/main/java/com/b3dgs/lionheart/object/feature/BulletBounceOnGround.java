@@ -107,6 +107,17 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
         rasterable.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
     }
 
+    /**
+     * Load init move.
+     * 
+     * @param vx The horizontal direction.
+     */
+    public void load(double vx)
+    {
+        model.getMovement().setDirection(vx, 0.0);
+        model.getMovement().setDestination(vx, 0.0);
+    }
+
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
@@ -125,9 +136,9 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
                 body.resetGravity();
                 tick.restart();
                 tileCollidable.apply(result);
-                transformable.teleportY(transformable.getY() + 1.0);
+                transformable.teleportY(transformable.getY() + 2.0);
 
-                int sideX;
+                final int sideX;
                 if (result.contains(CollisionName.LEFT))
                 {
                     sideX = -1;
@@ -142,15 +153,16 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
                 }
                 if (result.containsY(CollisionName.SLOPE))
                 {
-                    bounceX += 0.35;
-                    jump.setDestination(bounceX * sideX, 0.0);
+                    bounceX += 0.5 * sideX;
+                    jump.setDestination(bounceX, 0.0);
                 }
                 if (result.containsY(CollisionName.INCLINE))
                 {
-                    bounceX += 0.5;
-                    jump.setDestination(bounceX * sideX, 0.0);
+                    bounceX += 0.75 * sideX;
+                    jump.setDestination(bounceX, 0.0);
                 }
-                jump.setDirection(bounceX * sideX, bounce);
+                bounceX = UtilMath.clamp(bounceX, -3, 3);
+                jump.setDirection(bounceX, bounce);
 
                 bounced++;
             }

@@ -164,7 +164,7 @@
             <spike delay="0"/>
         </entity>
         <entity file="entity/monster/secret/Canon.xml" tx="43.0" ty="34.0">
-            <canon fireDelay="200" vx="-2.0" vy="2.0"/>
+            <shooter fireDelay="200" firedDelay="0" svx="-1.1" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/scenery/secret/Spike1.xml" tx="45.0" ty="5.0">
             <spike delay="0"/>
@@ -179,7 +179,7 @@
             <spike delay="30"/>
         </entity>
         <entity file="entity/monster/secret/Canon.xml" tx="64.0" ty="8.0">
-            <canon fireDelay="120" vx="-1.5" vy="1.5"/>
+            <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/scenery/secret/Rotating2.xml" tx="62.0" ty="15.0">
             <rotating amplitude="90" extremity="entity/scenery/secret/Platform1.xml" ring="entity/scenery/secret/Ring.xml" length="4" speed="0.05"/>
@@ -227,13 +227,13 @@
             <spike delay="20"/>
         </entity>
         <entity file="entity/monster/secret/Canon.xml" tx="208.0" ty="11.0">
-            <canon fireDelay="120" vx="-1.5" vy="1.5"/>
+            <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/secret/Ghost1.xml" tx="219.0" ty="3.0">
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
         <entity file="entity/monster/secret/Canon.xml" tx="207.0" ty="27.0">
-            <canon fireDelay="120" vx="1.5" vy="1.5"/>
+            <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/scenery/secret/Spike1.xml" tx="218.0" ty="35.0">
             <spike delay="0"/>

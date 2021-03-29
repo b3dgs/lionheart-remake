@@ -7,7 +7,7 @@
     <foreground type="LAVA" waterDepth="2" waterOffset="30" waterSpeed="0.1" waterEffect="false"/>
     <checkpoints>
         <checkpoint tx="11" ty="3"/>
-        <checkpoint tx="64" ty="3"/>
+        <checkpoint tx="63" ty="3"/>
         <checkpoint tx="184" ty="7"/>
         <checkpoint tx="243" ty="5"/>
         <checkpoint tx="308" ty="3"/>
@@ -63,11 +63,11 @@
         <entity file="entity/scenery/lava/HotFireBall.xml" tx="52.0" ty="2.0">
             <hotfireball delay="60" count="12" level="1" vx="-1.2" vy="5.0"/>
         </entity>
-        <entity file="entity/scenery/lava/FireBallBig.xml" tx="82.0" ty="21.0"/>
-        <entity file="entity/scenery/lava/FireBallMedium.xml" tx="105.0" ty="25.0"/>
-        <entity file="entity/scenery/lava/FireBallLittle.xml" tx="124.0" ty="27.0"/>
-        <entity file="entity/scenery/lava/FireBallLittle.xml" tx="129.0" ty="27.0"/>
-        <entity file="entity/scenery/lava/FireBallBig.xml" tx="134.0" ty="38.0"/>
+        <entity file="entity/scenery/lava/FireBallBig.xml" tx="85.0" ty="23.0" vx="-1.5"/>
+        <entity file="entity/scenery/lava/FireBallMedium.xml" tx="105.0" ty="27.0" vx="-1.5"/>
+        <entity file="entity/scenery/lava/FireBallLittle.xml" tx="124.0" ty="29.0" vx="-1.5"/>
+        <entity file="entity/scenery/lava/FireBallLittle.xml" tx="129.0" ty="29.0" vx="-1.5"/>
+        <entity file="entity/scenery/lava/FireBallBig.xml" tx="131.0" ty="47.0" vx="0.4"/>
         <entity file="entity/scenery/lava/HotFireBall.xml" tx="192.0" ty="2.0">
             <hotfireball delay="120" count="6" level="1" vx="-0.8" vy="6.0"/>
         </entity>

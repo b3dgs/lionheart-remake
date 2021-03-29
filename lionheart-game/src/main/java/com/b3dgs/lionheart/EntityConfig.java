@@ -31,9 +31,7 @@ import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.Canon2AirshipConfig;
-import com.b3dgs.lionheart.object.feature.CanonConfig;
 import com.b3dgs.lionheart.object.feature.Dragon1Config;
-import com.b3dgs.lionheart.object.feature.Dragon2Config;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
@@ -63,6 +61,8 @@ public final class EntityConfig
     private static final String ATT_SECRET = "secret";
     /** Next attribute name. */
     private static final String ATT_NEXT = "next";
+    /** Vx attribute name. */
+    private static final String ATT_VX = "vx";
 
     /**
      * Imports the config from configurer.
@@ -90,8 +90,6 @@ public final class EntityConfig
     private final List<PatrolConfig> patrols;
     /** Spike configuration. */
     private final Optional<SpikeConfig> spike;
-    /** Canon1 configuration. */
-    private final Optional<CanonConfig> canon;
     /** Rotating configuration. */
     private final Optional<RotatingConfig> rotating;
     /** HotFireBall configuration. */
@@ -100,8 +98,6 @@ public final class EntityConfig
     private final Optional<GeyzerConfig> geyzer;
     /** Dragon1 configuration. */
     private final Optional<Dragon1Config> dragon1;
-    /** Dragon2 configuration. */
-    private final Optional<Dragon2Config> dragon2;
     /** Canon2 configuration. */
     private final Optional<Canon2AirshipConfig> canon2;
     /** Shooter configuration. */
@@ -116,6 +112,8 @@ public final class EntityConfig
     private final Optional<Boolean> secret;
     /** Next stage. */
     private final Optional<String> next;
+    /** Vx. */
+    private final double vx;
 
     /**
      * Create config.
@@ -139,12 +137,10 @@ public final class EntityConfig
 
         patrols = PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL));
         spike = root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports);
-        canon = root.getChildOptional(CanonConfig.NODE_CANON).map(CanonConfig::imports);
         rotating = root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports);
         hotFireBall = root.getChildOptional(HotFireBallConfig.NODE_HOTFIREBALL).map(HotFireBallConfig::imports);
         geyzer = root.getChildOptional(GeyzerConfig.NODE_GEYZER).map(GeyzerConfig::imports);
         dragon1 = root.getChildOptional(Dragon1Config.NODE_DRAGON1).map(Dragon1Config::imports);
-        dragon2 = root.getChildOptional(Dragon2Config.NODE_DRAGON2).map(Dragon2Config::imports);
         canon2 = root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports);
         shooter = root.getChildOptional(ShooterConfig.NODE_SHOOTER).map(ShooterConfig::imports);
         pillar = root.getChildOptional(PillarConfig.NODE_PILLARD).map(PillarConfig::imports);
@@ -152,6 +148,7 @@ public final class EntityConfig
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
         next = root.readStringOptional(ATT_NEXT);
+        vx = root.readDouble(0.0, ATT_VX);
     }
 
     /**
@@ -239,16 +236,6 @@ public final class EntityConfig
     }
 
     /**
-     * Get the canon configuration.
-     * 
-     * @return The canon configuration.
-     */
-    public Optional<CanonConfig> getCanon()
-    {
-        return canon;
-    }
-
-    /**
      * Get the rotating configuration.
      * 
      * @return The rotating configuration.
@@ -286,16 +273,6 @@ public final class EntityConfig
     public Optional<Dragon1Config> getDragon1()
     {
         return dragon1;
-    }
-
-    /**
-     * Get the dragon2 configuration.
-     * 
-     * @return The dragon2 configuration.
-     */
-    public Optional<Dragon2Config> getDragon2()
-    {
-        return dragon2;
     }
 
     /**
@@ -366,5 +343,15 @@ public final class EntityConfig
     public Optional<String> getNext()
     {
         return next;
+    }
+
+    /**
+     * Get the vx.
+     * 
+     * @return The vx.
+     */
+    public double getVx()
+    {
+        return vx;
     }
 }

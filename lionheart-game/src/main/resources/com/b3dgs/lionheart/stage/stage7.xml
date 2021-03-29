@@ -23,19 +23,19 @@
     </checkpoints>
     <entities>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="11.0" ty="60.0">
-            <canon fireDelay="180" vx="1.0" vy="1.0"/>
+            <shooter fireDelay="180" firedDelay="0" anim="1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="12.0" ty="57.0">
-            <canon fireDelay="210" vx="1.0" vy="1.0"/>
+            <shooter fireDelay="210" firedDelay="0" anim="1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="17.0" ty="59.0">
-            <canon fireDelay="200" vx="1.0" vy="1.0"/>
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="23.0" ty="60.0">
-            <canon fireDelay="230" vx="1.0" vy="1.0"/>
+            <shooter fireDelay="230" firedDelay="0" anim="1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="28.0" ty="56.0">
-            <canon fireDelay="190" vx="1.0" vy="1.0"/>
+            <shooter fireDelay="190" firedDelay="0" anim="1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="62.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>
@@ -47,7 +47,7 @@
         <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="39.0" ty="44.0"/>
         <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="41.0" ty="44.0"/>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="47.0" ty="53.0">
-            <canon fireDelay="200" vx="0.4" vy="2.5"/>
+            <shooter fireDelay="200" firedDelay="0" svx="0.4" svy="2.5" dvy="0.0"/>
         </entity>
         <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="99.0" ty="25.0"/>
         <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="101.0" ty="25.0"/>
@@ -74,7 +74,7 @@
             <patrol sh="-0.3" amplitude="176"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="97.0" ty="11.0">
-            <canon fireDelay="180" vx="1.0" vy="3.0"/>
+            <shooter fireDelay="180" firedDelay="20" anim="1" svx="1.0" svy="3.0" dvy="0.0"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="98.0" ty="10.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="99.0" ty="10.0"/>
@@ -162,16 +162,16 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="244.0" ty="57.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="245.0" ty="57.0"/>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="246.0" ty="49.0">
-            <canon fireDelay="200"/>
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="262.0" ty="52.0">
-            <canon fireDelay="200" vx="0.7" vy="1.5"/>
+            <shooter fireDelay="200" firedDelay="20" anim="1" svx="0.7" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Executioner.xml" tx="267.0" ty="47.0">
             <patrol sh="-0.3" sv="0.0" amplitude="128"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
-            <canon fireDelay="200" vx="0.5" vy="1.5"/>
+            <shooter fireDelay="200" firedDelay="0" svx="0.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Bee.xml" tx="287.0" ty="46.0" mirror="true">
             <patrol sh="-0.7" sv="-0.7" amplitude="64"/>

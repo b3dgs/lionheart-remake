@@ -84,22 +84,22 @@
         <entity file="entity/item/ancienttown/Talisment.xml" tx="67.0" ty="34.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="68.0" ty="34.0"/>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="49.0" ty="30.0">
-            <canon fireDelay="110" vx="1.0" vy="4.0"/>
+            <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.0" svy="4.0" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="38.0" ty="34.0">
-            <canon fireDelay="50" vx="0.8" vy="2.5"/>
+            <shooter fireDelay="50" firedDelay="20" anim="1" svx="0.8" svy="2.5" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="29.0" ty="30.0">
-            <canon fireDelay="50" vx="1.05" vy="5.0"/>
+            <shooter fireDelay="50" firedDelay="20" anim="1" svx="1.05" svy="5.0" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="24.0" ty="30.0">
-            <canon fireDelay="200" vx="1.25" vy="3.6"/>
+            <shooter fireDelay="200" firedDelay="20" anim="1" svx="1.25" svy="3.6" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="15.0" ty="34.0">
-            <canon fireDelay="110" vx="1.0" vy="2.8"/>
+            <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.0" svy="2.8" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="11.0" ty="36.0">
-            <canon fireDelay="110" vx="0.9" vy="1.8"/>
+            <shooter fireDelay="110" firedDelay="20" anim="1" svx="0.9" svy="1.8" dvy="0.0"/>
         </entity>
         <entity file="entity/scenery/ancienttown/Bird.xml" tx="9.0" ty="37.0">
             <patrol sv="0.5" amplitude="48" mirror="false"/>
@@ -108,7 +108,7 @@
             <patrol sh="-0.3" sv="0.0" amplitude="128"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon3.xml" tx="16.0" ty="68.0">
-            <canon fireDelay="200" vx="1.2" vy="1.2"/>
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
         </entity>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="17.0" ty="63.0"/>
         <entity file="entity/item/ancienttown/Talisment.xml" tx="18.0" ty="63.0"/>
@@ -125,10 +125,10 @@
             <patrol sh="-0.5" sv="0.0" amplitude="64" mirror="false"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="62.0" ty="43.0">
-            <canon fireDelay="120" vx="-1.5" vy="2.0"/>
+            <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="2.0" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="75.0" ty="47.0">
-            <canon fireDelay="200" vx="-1.2" vy="2.0"/>
+            <shooter fireDelay="200" firedDelay="0" svx="-1.2" svy="2.0" dvy="0.0"/>
         </entity>
         <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="81.0" ty="50.0">
             <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
@@ -160,28 +160,28 @@
         </entity>
         <entity file="entity/item/ancienttown/PotionLittle.xml" tx="94.0" ty="60.0"/>
         <entity file="entity/item/ancienttown/Sword2.xml" tx="95.0" ty="60.0"/>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="51.0" ty="72.0">
-            <canon fireDelay="180" vx="0.9" vy="1.5"/>
+        <entity file="entity/monster/ancienttown/Canon2.xml" tx="51.0" ty="72.0" dvy="0.0">
+            <shooter fireDelay="180" firedDelay="0" svx="-0.9" svy="1.5"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="41.0" ty="79.0">
-            <canon fireDelay="140" vx="1.2" vy="1.6"/>
+            <shooter fireDelay="140" firedDelay="20" anim="1" svx="1.2" svy="1.6" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="37.0" ty="81.0">
-            <canon fireDelay="140" vx="1.2" vy="1.6"/>
+            <shooter fireDelay="140" firedDelay="20" anim="1" svx="1.2" svy="1.6" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="5.0" ty="78.0">
-            <canon fireDelay="100" vx="0.9" vy="1.7"/>
+            <shooter fireDelay="100" firedDelay="0" svx="0.9" svy="1.7" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="12.0" ty="86.0">
-            <canon fireDelay="60" vx="1.8" vy="1.7"/>
+            <shooter fireDelay="60" firedDelay="0" svx="1.8" svy="1.7" dvy="0.0"/>
         </entity>
         <entity file="entity/item/ancienttown/PotionBig.xml" tx="6.0" ty="99.0"/>
         <entity file="entity/item/ancienttown/Life.xml" tx="5.0" ty="98.0"/>
         <entity file="entity/monster/ancienttown/Canon1.xml" tx="40.0" ty="94.0">
-            <canon fireDelay="110" vx="1.2" vy="3.0"/>
+            <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.2" svy="3.0" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Canon2.xml" tx="54.0" ty="101.0">
-            <canon fireDelay="40" vx="-1.0" vy="1.7"/>
+            <shooter fireDelay="40" firedDelay="0" svx="-1.0" svy="1.7" dvy="0.0"/>
         </entity>
         <entity file="entity/monster/ancienttown/Bee.xml" tx="73.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>

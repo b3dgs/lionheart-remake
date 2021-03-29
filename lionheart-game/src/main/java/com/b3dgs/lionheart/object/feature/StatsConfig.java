@@ -32,6 +32,8 @@ public final class StatsConfig
     private static final String ATT_HEALTH = "health";
     /** Life attribute name. */
     private static final String ATT_LIFE = "life";
+    /** Damages attribute name. */
+    private static final String ATT_DAMAGES = "damages";
 
     /**
      * Imports from configurer.
@@ -46,23 +48,27 @@ public final class StatsConfig
 
         final int health = configurer.getIntegerDefault(0, ATT_HEALTH, NODE_STATS);
         final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_STATS);
+        final int damages = configurer.getIntegerDefault(1, ATT_DAMAGES, NODE_STATS);
 
-        return new StatsConfig(health, life);
+        return new StatsConfig(health, life, damages);
     }
 
     /** Health. */
     private final int health;
     /** Life. */
     private final int life;
+    /** Damages. */
+    private final int damages;
 
     /**
      * Create config.
      * 
      * @param health The health (between -1 for indestructible and {@link Constant#STATS_MAX_HEALTH} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
+     * @param damages The damages (strictly positive).
      * @throws LionEngineException If invalid arguments.
      */
-    private StatsConfig(int health, int life)
+    private StatsConfig(int health, int life, int damages)
     {
         super();
 
@@ -72,8 +78,11 @@ public final class StatsConfig
         Check.superiorOrEqual(life, 0);
         Check.inferiorOrEqual(life, Constant.STATS_MAX_LIFE);
 
+        Check.superiorStrict(damages, 0);
+
         this.health = health < 0 ? Integer.MAX_VALUE : health;
         this.life = life;
+        this.damages = damages;
     }
 
     /**
@@ -94,5 +103,15 @@ public final class StatsConfig
     public int getLife()
     {
         return life;
+    }
+
+    /**
+     * Get the damages.
+     * 
+     * @return The damages.
+     */
+    public int getDamages()
+    {
+        return damages;
     }
 }

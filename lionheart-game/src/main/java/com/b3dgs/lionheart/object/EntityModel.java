@@ -48,6 +48,7 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Guard;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.SwordShade;
@@ -183,6 +184,7 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     private void updateMirror(double extrp)
     {
         if (!hasFeature(Patrol.class)
+            && !hasFeature(BulletBounceOnGround.class)
             && !hasFeature(Guard.class)
             && !state.isState(StateHurt.class)
             && !state.isState(StateSlide.class)

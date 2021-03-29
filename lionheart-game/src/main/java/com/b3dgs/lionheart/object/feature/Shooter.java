@@ -94,6 +94,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
         this.config = config;
         updater = this::updatePrepare;
         tick.restart();
+        tick.set(config.getFireDelay() / 2);
     }
 
     /**
@@ -114,13 +115,17 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
     private void updatePrepare(double extrp)
     {
         tick.update(extrp);
-        if (enabled && tick.elapsed(config.getFireDelay()))
+        if (enabled
+            && tick.elapsed(config.getFireDelay())
+            && (animatable.is(AnimState.FINISHED)
+                || animatable.is(AnimState.STOPPED)
+                || animatable.getFrameAnim() == 1))
         {
+            updater = this::updateFire;
             if (config.getAnim() > 0)
             {
                 animatable.play(attack);
             }
-            updater = this::updateFire;
         }
     }
 
@@ -167,7 +172,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
      */
     private void updateCheckAnimEnd(double extrp)
     {
-        if (animatable.is(AnimState.FINISHED))
+        if (animatable.is(AnimState.FINISHED) || animatable.getFrameAnim() == config.getAnim())
         {
             if (config.getFiredDelay() > 0)
             {
@@ -175,9 +180,12 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
             }
             else
             {
+                if (animatable.is(AnimState.FINISHED))
+                {
+                    animatable.play(idle);
+                }
                 updater = this::updatePrepare;
             }
-            animatable.play(idle);
             tick.restart();
         }
     }
@@ -190,8 +198,9 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
     private void updateFired(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(config.getFireDelay()))
+        if (tick.elapsed(config.getFiredDelay()))
         {
+            animatable.play(idle);
             updater = this::updatePrepare;
             tick.restart();
         }
