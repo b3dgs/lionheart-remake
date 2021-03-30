@@ -27,30 +27,30 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
- * Ancient Town full background implementation.
+ * Gradient color background implementation.
  */
-final class AncientTown extends BackgroundAbstract
+final class Grandient extends BackgroundAbstract
 {
     private final Backdrop backdrop;
 
     /**
      * Constructor.
      * 
+     * @param maxHeight The max height.
+     * @param totalHeight The total height.
      * @param source The resolution source reference.
-     * @param scaleH The horizontal factor.
-     * @param scaleV The horizontal factor.
-     * @param theme The theme name.
+     * @param type The background type.
      * @param flickering The flickering flag.
      */
-    AncientTown(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
+    Grandient(int maxHeight, int totalHeight, SourceResolutionProvider source, BackgroundType type, boolean flickering)
     {
-        super(theme, 0, 1800);
+        super(type.getTheme(), 0, maxHeight);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "ancienttown", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, type.getWorld().getFolder(), type.getTheme());
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width);
         add(backdrop);
-        totalHeight = 470;
+        this.totalHeight = totalHeight;
         setScreenSize(source.getWidth(), source.getHeight());
     }
 

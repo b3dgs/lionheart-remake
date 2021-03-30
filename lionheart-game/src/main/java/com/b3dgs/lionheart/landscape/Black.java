@@ -24,14 +24,14 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 /**
  * No background implementation.
  */
-final class BackgroundNone extends BackgroundAbstract
+final class Black extends BackgroundAbstract
 {
     /**
      * Constructor.
      * 
      * @param source The source reference.
      */
-    BackgroundNone(SourceResolutionProvider source)
+    Black(SourceResolutionProvider source)
     {
         super(null, 0, 0);
 

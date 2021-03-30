@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.background.Background;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.WorldType;
 
 /**
  * Landscape factory.
@@ -94,23 +95,24 @@ public final class FactoryLandscape
     private Background createBackground(BackgroundType backgroundType)
     {
         final Background background;
-        switch (backgroundType.getWorld())
+        final WorldType world = backgroundType.getWorld();
+        switch (world)
         {
             case SWAMP:
                 background = new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case SPIDERCAVE1:
             case SPIDERCAVE2:
-                background = new BackgroundNone(source);
+                background = new Black(source);
                 break;
             case ANCIENTTOWN:
-                background = new AncientTown(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Grandient(1800, 470, source, backgroundType, flicker);
                 break;
             case LAVA:
                 background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case SECRET:
-                background = new Secret(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Grandient(1600, 384, source, backgroundType, flicker);
                 break;
             case AIRSHIP:
                 background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
@@ -119,7 +121,7 @@ public final class FactoryLandscape
                 background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case TOWER:
-                background = new Tower(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Grandient(2448, 676, source, backgroundType, flicker);
                 break;
             case NORKA:
                 background = new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
