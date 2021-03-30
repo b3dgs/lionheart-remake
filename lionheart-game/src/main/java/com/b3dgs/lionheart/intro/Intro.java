@@ -25,8 +25,10 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
@@ -50,6 +52,8 @@ public final class Intro extends Sequence
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO.get());
     /** Input device reference. */
     private final DeviceController device;
+    /** App info. */
+    private final AppInfo info;
 
     /** Music seek. */
     private long seek;
@@ -77,7 +81,28 @@ public final class Intro extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+        services.add(new SourceResolutionProvider()
+        {
+            @Override
+            public int getWidth()
+            {
+                return Intro.this.getWidth();
+            }
+
+            @Override
+            public int getHeight()
+            {
+                return Intro.this.getHeight();
+            }
+
+            @Override
+            public int getRate()
+            {
+                return Intro.this.getRate();
+            }
+        });
+        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         audio.setVolume(Constant.AUDIO_VOLUME);
     }
@@ -135,6 +160,8 @@ public final class Intro extends Sequence
                 end();
             }
         }
+
+        info.update(extrp);
     }
 
     @Override
@@ -154,6 +181,8 @@ public final class Intro extends Sequence
             g.setColor(Constant.ALPHAS_BLACK[255 - alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        info.render(g);
     }
 
     @Override

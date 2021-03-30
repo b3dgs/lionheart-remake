@@ -39,7 +39,9 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Util;
@@ -85,6 +87,7 @@ public final class Part1 extends Sequence
     private final Tick tick = new Tick();
     private final Tick tickExplode = new Tick();
     private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
+    private final AppInfo info;
 
     private int alpha;
     private double citadelY = 4;
@@ -128,9 +131,12 @@ public final class Part1 extends Sequence
         final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, source.getWidth(), source.getHeight(), source.getHeight());
 
+        services.add(context);
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
+        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -239,6 +245,8 @@ public final class Part1 extends Sequence
         {
             end();
         }
+
+        info.update(extrp);
     }
 
     @Override
@@ -261,5 +269,7 @@ public final class Part1 extends Sequence
 
         g.clear(0, 0, getWidth(), bandHeight);
         g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
+
+        info.render(g);
     }
 }

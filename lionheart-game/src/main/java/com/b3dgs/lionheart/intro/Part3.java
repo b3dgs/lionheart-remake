@@ -30,8 +30,10 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Util;
@@ -91,6 +93,8 @@ public final class Part3 extends Sequence
     private final Camera camera = new Camera();
     /** Input device reference. */
     private final DeviceController device;
+    /** App info. */
+    private final AppInfo info;
     /** Audio. */
     private final Audio audio;
     /** Back alpha. */
@@ -121,7 +125,28 @@ public final class Part3 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+        services.add(new SourceResolutionProvider()
+        {
+            @Override
+            public int getWidth()
+            {
+                return Part3.this.getWidth();
+            }
+
+            @Override
+            public int getHeight()
+            {
+                return Part3.this.getHeight();
+            }
+
+            @Override
+            public int getRate()
+            {
+                return Part3.this.getRate();
+            }
+        });
+        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         load(Part4.class, audio);
     }
@@ -275,6 +300,8 @@ public final class Part3 extends Sequence
                 end();
             }
         }
+
+        info.update(extrp);
     }
 
     @Override
@@ -324,5 +351,7 @@ public final class Part3 extends Sequence
         final int bandHeight = (int) (Math.floor(getHeight() - MIN_HEIGHT) / 2.0);
         g.clear(0, 0, getWidth(), bandHeight);
         g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
+
+        info.render(g);
     }
 }

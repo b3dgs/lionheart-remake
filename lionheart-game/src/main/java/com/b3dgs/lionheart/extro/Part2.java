@@ -35,8 +35,9 @@ import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
-import com.b3dgs.lionengine.io.DeviceControllerVoid;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
@@ -63,6 +64,8 @@ public final class Part2 extends Sequence
         return featurable;
     });
     private final Tick tick = new Tick();
+    private final AppInfo info;
+
     private DragonEnd background;
     private int alpha;
 
@@ -100,6 +103,7 @@ public final class Part2 extends Sequence
         final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, source.getWidth(), source.getHeight(), source.getHeight());
 
+        services.add(context);
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
@@ -108,7 +112,8 @@ public final class Part2 extends Sequence
         {
             // Mock
         });
-        services.add(DeviceControllerVoid.getInstance());
+        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -151,6 +156,8 @@ public final class Part2 extends Sequence
         {
             end();
         }
+
+        info.update(extrp);
     }
 
     @Override
@@ -164,5 +171,7 @@ public final class Part2 extends Sequence
             g.setColor(Constant.ALPHAS_BLACK[255 - alpha]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        info.render(g);
     }
 }

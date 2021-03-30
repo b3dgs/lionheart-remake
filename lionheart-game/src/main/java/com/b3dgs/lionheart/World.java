@@ -91,7 +91,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
     private final Hud hud = services.create(Hud.class);
     private final ScreenShaker shaker = services.create(ScreenShaker.class);
-    private final DeviceController device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+    private final DeviceController device = services.add(DeviceControllerConfig.create(services,
+                                                                                       Medias.create("input.xml")));
 
     private final Tick tick = new Tick();
 
@@ -133,8 +134,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-
-        device.setDisabled(Constant.DEVICE_MOUSE, true, true);
     }
 
     /**

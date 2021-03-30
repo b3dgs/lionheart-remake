@@ -16,48 +16,19 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
-import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Graphics;
-import com.b3dgs.lionengine.graphic.Text;
 
 /**
  * Game scene implementation.
  */
 public final class Scene extends SequenceGame<World>
 {
-    private static final String NAME = Constant.PROGRAM_NAME
-                                       + com.b3dgs.lionengine.Constant.SPACE
-                                       + Constant.PROGRAM_VERSION;
-    private static final String ENGINE = com.b3dgs.lionengine.Constant.ENGINE_NAME
-                                         + com.b3dgs.lionengine.Constant.SPACE
-                                         + com.b3dgs.lionengine.Constant.ENGINE_VERSION;
-
-    /**
-     * Set text data.
-     * 
-     * @param text The text object.
-     * @param value The text value.
-     * @param x The horizontal location.
-     * @param y The vertical location.
-     * @param align The align used.
-     */
-    private static void setText(Text text, String value, int x, int y, Align align)
-    {
-        text.setLocation(x, y);
-        text.setAlign(align);
-        text.setText(value);
-        text.setColor(ColorRgba.GRAY_LIGHT);
-    }
-
-    private final Text textName = Graphics.createText(9);
-    private final Text textEngine = Graphics.createText(9);
+    private final AppInfo info = new AppInfo(this::getFps, services);
     private final Media stage;
     private final InitConfig init;
 
@@ -81,9 +52,6 @@ public final class Scene extends SequenceGame<World>
     public void load()
     {
         world.load(stage, init);
-
-        setText(textEngine, ENGINE, 0, getHeight() - textEngine.getSize(), Align.LEFT);
-        setText(textName, NAME, getWidth(), getHeight() - textName.getSize(), Align.RIGHT);
     }
 
     @Override
@@ -93,12 +61,19 @@ public final class Scene extends SequenceGame<World>
     }
 
     @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        info.update(extrp);
+    }
+
+    @Override
     public void render(Graphic g)
     {
         super.render(g);
 
-        textEngine.render(g);
-        textName.render(g);
+        info.render(g);
     }
 
     @Override

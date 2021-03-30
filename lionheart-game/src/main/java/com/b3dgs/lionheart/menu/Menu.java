@@ -37,8 +37,10 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.InitConfig;
@@ -99,6 +101,8 @@ public class Menu extends Sequence
     private final Data[] menusData = new Data[menus.length];
     /** Device controller reference. */
     private final DeviceController device;
+    /** App info. */
+    private final AppInfo info;
     /** Horizontal factor. */
     private final double factorH = getWidth() / 640.0;
 
@@ -132,7 +136,28 @@ public class Menu extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+        services.add(new SourceResolutionProvider()
+        {
+            @Override
+            public int getWidth()
+            {
+                return Menu.this.getWidth();
+            }
+
+            @Override
+            public int getHeight()
+            {
+                return Menu.this.getHeight();
+            }
+
+            @Override
+            public int getRate()
+            {
+                return Menu.this.getRate();
+            }
+        });
+        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         loadMenu();
         menusData[0] = createMain();
@@ -510,6 +535,8 @@ public class Menu extends Sequence
 
         updateTransition(extrp);
         updateMenu(extrp);
+
+        info.update(extrp);
     }
 
     @Override
@@ -519,6 +546,8 @@ public class Menu extends Sequence
 
         renderMenus(g);
         renderTransition(g);
+
+        info.render(g);
     }
 
     @Override

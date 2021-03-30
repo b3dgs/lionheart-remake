@@ -31,6 +31,7 @@ public enum DeviceMapping implements DeviceMapper
     CTRL_LEFT,
     PAUSE,
     QUIT,
+    TAB,
     PAGE_DOWN,
     F1,
     F2,

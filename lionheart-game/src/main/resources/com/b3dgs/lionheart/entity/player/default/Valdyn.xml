@@ -362,7 +362,6 @@
             <lionengine:group>ground15</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:input config="input.xml"/>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="9"/>
     <lionengine:body gravity="6.5" gravityMax="6.5"/>

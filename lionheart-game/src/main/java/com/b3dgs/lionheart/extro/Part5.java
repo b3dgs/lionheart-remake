@@ -40,7 +40,9 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Util;
@@ -81,6 +83,7 @@ public final class Part5 extends Sequence
         handler.add(featurable);
         return featurable;
     });
+    private final AppInfo info;
 
     private int alphaBack;
     private int alpha0b;
@@ -122,9 +125,12 @@ public final class Part5 extends Sequence
         final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, source.getWidth(), source.getHeight(), source.getHeight());
 
+        services.add(context);
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
+        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -258,6 +264,8 @@ public final class Part5 extends Sequence
         }
 
         eyes.update(extrp);
+
+        info.update(extrp);
     }
 
     @Override
@@ -288,5 +296,7 @@ public final class Part5 extends Sequence
             g.setColor(Constant.ALPHAS_BLACK[255 - alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        info.render(g);
     }
 }

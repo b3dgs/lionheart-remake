@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.constant.Folder;
@@ -51,7 +52,8 @@ public final class ScenePicture extends Sequence
     private final InitConfig init;
     private final Sprite picture;
     private final SpriteFont font;
-    private final DeviceController input;
+    private final DeviceController device;
+    private final AppInfo info;
 
     private int fadePic;
     private int fadeText;
@@ -75,7 +77,28 @@ public final class ScenePicture extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        input = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+        services.add(new SourceResolutionProvider()
+        {
+            @Override
+            public int getWidth()
+            {
+                return ScenePicture.this.getWidth();
+            }
+
+            @Override
+            public int getHeight()
+            {
+                return ScenePicture.this.getHeight();
+            }
+
+            @Override
+            public int getRate()
+            {
+                return ScenePicture.this.getRate();
+            }
+        });
+        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         final StageConfig config = StageConfig.imports(new Configurer(stage));
         picture = Drawable.loadSprite(config.getPic().get());
@@ -126,7 +149,7 @@ public final class ScenePicture extends Sequence
                     load(Scene.class, stage, init);
                     tick.start();
                 }
-                else if (input.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+                else if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
                 {
                     speed = -speed;
                     showPush = false;
@@ -163,7 +186,7 @@ public final class ScenePicture extends Sequence
         font.prepare();
         font.setOrigin(Origin.TOP_LEFT);
         font.setAlign(Align.CENTER);
-        font.setLocation(getWidth() / 2 - 11, TEXT_Y);
+        font.setLocation(getWidth() / 2 - 1, TEXT_Y);
         font.setAlpha(0);
 
         fadePic = 0;
@@ -176,6 +199,8 @@ public final class ScenePicture extends Sequence
         updatePicture();
         updateText();
         updatePushButton(extrp);
+
+        info.update(extrp);
     }
 
     @Override
@@ -189,6 +214,8 @@ public final class ScenePicture extends Sequence
         {
             font.draw(g, getWidth() / 2, PUSH_Y, Align.CENTER, PUSH_BUTTON_MESSAGE);
         }
+
+        info.render(g);
     }
 
     @Override

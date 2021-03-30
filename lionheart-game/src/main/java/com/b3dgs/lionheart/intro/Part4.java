@@ -27,8 +27,10 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Util;
@@ -55,6 +57,8 @@ public final class Part4 extends Sequence
     private final Sprite[] history = new Sprite[4];
     /** Input device reference. */
     private final DeviceController device;
+    /** App info. */
+    private final AppInfo info;
     /** Audio. */
     private final Audio audio;
     /** Back alpha. */
@@ -78,7 +82,28 @@ public final class Part4 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = DeviceControllerConfig.create(services, Medias.create("input.xml"));
+        services.add(new SourceResolutionProvider()
+        {
+            @Override
+            public int getWidth()
+            {
+                return Part4.this.getWidth();
+            }
+
+            @Override
+            public int getHeight()
+            {
+                return Part4.this.getHeight();
+            }
+
+            @Override
+            public int getRate()
+            {
+                return Part4.this.getRate();
+            }
+        });
+        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         for (int i = 0; i < history.length; i++)
         {
@@ -121,6 +146,8 @@ public final class Part4 extends Sequence
         {
             end();
         }
+
+        info.update(extrp);
     }
 
     @Override
@@ -174,6 +201,8 @@ public final class Part4 extends Sequence
             g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        info.render(g);
     }
 
     @Override

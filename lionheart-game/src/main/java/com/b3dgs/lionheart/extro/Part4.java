@@ -27,12 +27,15 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Util;
@@ -65,6 +68,7 @@ public final class Part4 extends Sequence
     private final Audio audio;
     private final boolean alternative;
     private final int textX = getWidth() / 2 - 124;
+    private final AppInfo info;
 
     private Audio audioAlternative;
     private double alphaBack;
@@ -85,6 +89,11 @@ public final class Part4 extends Sequence
 
         this.audio = audio;
         this.alternative = alternative.booleanValue();
+
+        final Services services = new Services();
+        services.add(context);
+        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        info = new AppInfo(this::getFps, services);
 
         if (alternative.booleanValue())
         {
@@ -170,6 +179,8 @@ public final class Part4 extends Sequence
         {
             end();
         }
+
+        info.update(extrp);
     }
 
     @Override
@@ -227,5 +238,7 @@ public final class Part4 extends Sequence
             g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+
+        info.render(g);
     }
 }

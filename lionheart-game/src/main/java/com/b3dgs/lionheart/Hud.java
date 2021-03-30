@@ -205,6 +205,24 @@ public final class Hud implements Resource, Updatable, Renderable
         }
     }
 
+    /**
+     * Render pause exit.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderPause(Graphic g)
+    {
+        if (exit)
+        {
+            text.draw(g, HEALTH_X, HEALTH_Y, "OK  TO");
+            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), "QUIT ?");
+        }
+        else
+        {
+            text.draw(g, HEALTH_X, HEALTH_Y, "PAUSE");
+        }
+    }
+
     @Override
     public void load()
     {
@@ -271,21 +289,13 @@ public final class Hud implements Resource, Updatable, Renderable
         {
             if (paused)
             {
-                if (exit)
-                {
-                    text.draw(g, HEALTH_X, HEALTH_Y, "OK  TO");
-                    text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), "QUIT ?");
-                }
-                else
-                {
-                    text.draw(g, HEALTH_X, HEALTH_Y, "PAUSE");
-                }
+                renderPause(g);
             }
             else
             {
-                for (final SpriteTiled heart : hearts)
+                for (int i = 0; i < hearts.length; i++)
                 {
-                    heart.render(g);
+                    hearts[i].render(g);
                 }
             }
 
