@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Point;
 
 /**
  * Handle checkpoints.
@@ -70,13 +71,23 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      * 
      * @param config The configuration reference.
      * @param player The player reference.
+     * @param spawn The spawn tile.
      */
-    public void load(StageConfig config, Featurable player)
+    public void load(StageConfig config, Featurable player, Optional<Point> spawn)
     {
         this.player = player.getFeature(Transformable.class);
         last = 0;
         checkpoints.clear();
-        checkpoints.addAll(config.getCheckpoints());
+        for (final Checkpoint checkpoint : config.getCheckpoints())
+        {
+            if (!spawn.isPresent()
+                || !checkpoint.getNext().isPresent()
+                || checkpoint.getTx() != spawn.get().getX()
+                || checkpoint.getTy() != spawn.get().getY())
+            {
+                checkpoints.add(checkpoint);
+            }
+        }
         count = checkpoints.size();
 
         nexts.clear();
@@ -127,7 +138,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
                     final int n = listenable.size();
                     for (int j = 0; j < n; j++)
                     {
-                        listenable.get(j).notifyNextStage(nextStage.get());
+                        listenable.get(j).notifyNextStage(nextStage.get(), checkpoint.getSpawn());
                     }
                 }
             }

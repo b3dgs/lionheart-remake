@@ -47,6 +47,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
@@ -236,11 +237,21 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Featurable featurable = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 0, 0);
         featurable.getFeature(Stats.class).apply(init);
-        checkpoint.load(stage, featurable);
+
+        final Optional<Point> spawn = init.getSpawn();
+        checkpoint.load(stage, featurable, spawn);
 
         final Transformable transformable = featurable.getFeature(Transformable.class);
-        final Coord coord = checkpoint.getCurrent(transformable);
-        transformable.teleport(coord.getX(), coord.getY());
+
+        if (spawn.isPresent())
+        {
+            transformable.teleport(spawn.get().getX() * map.getTileWidth(), spawn.get().getY() * map.getTileHeight());
+        }
+        else
+        {
+            final Coord coord = checkpoint.getCurrent(transformable);
+            transformable.teleport(coord.getX(), coord.getY());
+        }
 
         player = featurable.getFeature(StateHandler.class);
         hud.setFeaturable(featurable);
@@ -274,7 +285,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
-        entity.getNext().ifPresent(next -> featurable.getFeature(EntityModel.class).setNext(next));
+        entity.getNext()
+              .ifPresent(next -> featurable.getFeature(EntityModel.class).setNext(next, entity.getNextSpawn()));
         entity.getMirror()
               .ifPresent(mirror -> featurable.getFeature(Mirrorable.class)
                                              .mirror(mirror.booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE));
@@ -403,7 +415,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
                 stopMusic();
-                sequencer.end(SceneBlack.class, Stage.values()[i].getFile(), getInitConfig());
+                sequencer.end(SceneBlack.class, Stage.values()[i].getFile(), getInitConfig(Optional.empty()));
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
@@ -420,9 +432,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Get init configuration.
      * 
+     * @param spawn The next spawn.
      * @return The init configuration.
      */
-    private InitConfig getInitConfig()
+    private InitConfig getInitConfig(Optional<Point> spawn)
     {
         final Stats stats = player.getFeature(Stats.class);
         return new InitConfig(stats.getHealthMax(),
@@ -430,7 +443,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                               stats.getLife(),
                               stats.getSword(),
                               stats.hasAmulet(),
-                              cheats);
+                              cheats,
+                              spawn);
     }
 
     /**
@@ -457,9 +471,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         checkpoint.addListener(new CheckpointListener()
         {
             @Override
-            public void notifyNextStage(String next)
+            public void notifyNextStage(String next, Optional<Point> spawn)
             {
-                loadNextStage(next);
+                loadNextStage(next, 0, spawn);
             }
 
             @Override
@@ -471,7 +485,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     trackerY = 1.0;
                 }
                 spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y).getFeature(EntityModel.class)
-                                                                          .setNext(stage.getBossNext().get());
+                                                                          .setNext(stage.getBossNext().get(),
+                                                                                   Optional.empty());
                 playMusic(Music.BOSS);
             }
         });
@@ -502,7 +517,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     @Override
-    public void loadNextStage(String next, int tickDelay)
+    public void loadNextStage(String next, int tickDelay, Optional<Point> spawn)
     {
         if (tickDelay > 0)
         {
@@ -510,13 +525,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.addAction(() ->
             {
                 audio.stop();
-                sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig());
+                sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig(spawn));
             }, tickDelay);
         }
         else
         {
             audio.stop();
-            sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig());
+            sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig(spawn));
         }
     }
 

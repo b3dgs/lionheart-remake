@@ -12,7 +12,7 @@
         <checkpoint tx="175" ty="17"/>
         <checkpoint tx="245" ty="64"/>
         <checkpoint tx="272" ty="40"/>
-        <checkpoint tx="297" ty="40" next="stage/stage9.xml"/>
+        <checkpoint tx="297" ty="40" next="stage/stage9.xml" stx="580" sty="3"/>
     </checkpoints>
     <entities>
         <entity file="entity/item/secret/Talisment.xml" tx="20.0" ty="26.0"/>
@@ -295,7 +295,7 @@
         <entity file="entity/monster/secret/Ghost1.xml" tx="288.0" ty="42.0">
             <patrol sh="-1.0" amplitude="128"/>
         </entity>
-        <entity file="entity/item/secret/Amulet.xml" tx="287.0" ty="45.0" next="stage/stage9.xml"/>
+        <entity file="entity/item/secret/Amulet.xml" tx="287.0" ty="45.0" next="stage/stage9.xml" stx="580" sty="3"/>
         <entity file="entity/monster/secret/Ghost2.xml" tx="291.0" ty="47.0"/>
         <entity file="entity/monster/secret/Ghost2.xml" tx="290.0" ty="37.0"/>
         <entity file="entity/scenery/secret/Spike1.xml" tx="257.0" ty="76.0">

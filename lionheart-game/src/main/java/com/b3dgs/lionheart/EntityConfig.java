@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionheart.object.feature.Canon2AirshipConfig;
 import com.b3dgs.lionheart.object.feature.Dragon1Config;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
@@ -61,6 +62,10 @@ public final class EntityConfig
     private static final String ATT_SECRET = "secret";
     /** Next attribute name. */
     private static final String ATT_NEXT = "next";
+    /** Spawn tile x attribute name. */
+    private static final String ATT_SPAWN_TX = "stx";
+    /** Spawn tile y attribute name. */
+    private static final String ATT_SPAWN_TY = "sty";
     /** Vx attribute name. */
     private static final String ATT_VX = "vx";
 
@@ -112,6 +117,8 @@ public final class EntityConfig
     private final Optional<Boolean> secret;
     /** Next stage. */
     private final Optional<String> next;
+    /** Next spawn. */
+    private final Optional<Point> nextSpawn;
     /** Vx. */
     private final double vx;
 
@@ -148,6 +155,14 @@ public final class EntityConfig
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
         next = root.readStringOptional(ATT_NEXT);
+        if (root.hasAttribute(ATT_SPAWN_TX) && root.hasAttribute(ATT_SPAWN_TY))
+        {
+            nextSpawn = Optional.of(new Point(root.readInteger(ATT_SPAWN_TX), root.readInteger(ATT_SPAWN_TY)));
+        }
+        else
+        {
+            nextSpawn = Optional.empty();
+        }
         vx = root.readDouble(0.0, ATT_VX);
     }
 
@@ -343,6 +358,16 @@ public final class EntityConfig
     public Optional<String> getNext()
     {
         return next;
+    }
+
+    /**
+     * Get the next spawn.
+     * 
+     * @return The next spawn.
+     */
+    public Optional<Point> getNextSpawn()
+    {
+        return nextSpawn;
     }
 
     /**

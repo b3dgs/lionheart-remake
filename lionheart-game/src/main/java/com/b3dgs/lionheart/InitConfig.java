@@ -16,7 +16,10 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.geom.Point;
 
 /**
  * Init configuration.
@@ -35,6 +38,8 @@ public final class InitConfig
     private final Boolean amulet;
     /** Cheats flag. */
     private final boolean cheats;
+    /** Spawn tile. */
+    private final Optional<Point> spawn;
 
     /**
      * Create first config.
@@ -59,6 +64,28 @@ public final class InitConfig
      */
     public InitConfig(int healthMax, int talisment, int life, int sword, Boolean amulet, boolean cheats)
     {
+        this(healthMax, talisment, life, sword, amulet, cheats, Optional.empty());
+    }
+
+    /**
+     * Create inherited config.
+     * 
+     * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
+     * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
+     * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
+     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
+     * @param amulet The amulet flag.
+     * @param cheats The cheats flag.
+     * @param spawn The spawn tile.
+     */
+    public InitConfig(int healthMax,
+                      int talisment,
+                      int life,
+                      int sword,
+                      Boolean amulet,
+                      boolean cheats,
+                      Optional<Point> spawn)
+    {
         super();
 
         Check.superiorOrEqual(healthMax, 0);
@@ -79,6 +106,7 @@ public final class InitConfig
         this.sword = sword;
         this.amulet = amulet;
         this.cheats = cheats;
+        this.spawn = spawn;
     }
 
     /**
@@ -139,5 +167,15 @@ public final class InitConfig
     public boolean isCheats()
     {
         return cheats;
+    }
+
+    /**
+     * Get spawn tile.
+     * 
+     * @return The spawn tile.
+     */
+    public Optional<Point> getSpawn()
+    {
+        return spawn;
     }
 }

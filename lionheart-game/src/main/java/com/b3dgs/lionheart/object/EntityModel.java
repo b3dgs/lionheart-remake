@@ -43,6 +43,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
@@ -93,6 +94,7 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     private Transformable player;
     private boolean secret;
     private Optional<String> next = Optional.empty();
+    private Optional<Point> nextSpawn = Optional.empty();
     private final int frames;
 
     @FeatureGet private Body body;
@@ -170,10 +172,12 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
      * Set the next stage.
      * 
      * @param next The next stage.
+     * @param nextSpawn The next spawn.
      */
-    public void setNext(String next)
+    public void setNext(String next, Optional<Point> nextSpawn)
     {
         this.next = Optional.ofNullable(next);
+        this.nextSpawn = nextSpawn;
     }
 
     /**
@@ -346,6 +350,16 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     public Optional<String> getNext()
     {
         return next;
+    }
+
+    /**
+     * Get next spawn.
+     * 
+     * @return The next spawn.
+     */
+    public Optional<Point> getNextSpawn()
+    {
+        return nextSpawn;
     }
 
     @Override

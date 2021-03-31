@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.ForegroundConfig;
 
@@ -75,6 +76,10 @@ public final class StageConfig
     private static final String ATT_CHECKPOINT_TY = "ty";
     /** Checkpoint next stage attribute name. */
     private static final String ATT_CHECKPOINT_NEXT = "next";
+    /** Spawn tile x attribute name. */
+    private static final String ATT_SPAWN_TX = "stx";
+    /** Spawn tile y attribute name. */
+    private static final String ATT_SPAWN_TY = "sty";
 
     /** Boss node name. */
     private static final String NODE_BOSS = "boss";
@@ -186,9 +191,19 @@ public final class StageConfig
      */
     private void addCheckpoints(XmlReader checkpoint)
     {
+        final Optional<Point> spawn;
+        if (checkpoint.hasAttribute(ATT_SPAWN_TX) && checkpoint.hasAttribute(ATT_SPAWN_TY))
+        {
+            spawn = Optional.of(new Point(checkpoint.readInteger(ATT_SPAWN_TX), checkpoint.readInteger(ATT_SPAWN_TY)));
+        }
+        else
+        {
+            spawn = Optional.empty();
+        }
         checkpoints.add(new Checkpoint(checkpoint.readInteger(ATT_CHECKPOINT_TX),
                                        checkpoint.readInteger(ATT_CHECKPOINT_TY),
-                                       checkpoint.readStringOptional(ATT_CHECKPOINT_NEXT)));
+                                       checkpoint.readStringOptional(ATT_CHECKPOINT_NEXT),
+                                       spawn));
     }
 
     /**

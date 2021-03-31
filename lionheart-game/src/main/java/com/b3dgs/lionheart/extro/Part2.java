@@ -108,7 +108,7 @@ public final class Part2 extends Sequence
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
         services.add(new MapTileWater(services));
-        services.add((LoadNextStage) (next, tickDelay) ->
+        services.add((LoadNextStage) (next, tickDelay, spawn) ->
         {
             // Mock
         });

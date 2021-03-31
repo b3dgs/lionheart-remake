@@ -81,7 +81,8 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
                 if (config.isAmulet())
                 {
                     player.playMusic(Music.SECRET_WIN);
-                    model.getNext().ifPresent(next -> stageLoader.loadNextStage(next, AMULET_TICK));
+                    model.getNext()
+                         .ifPresent(next -> stageLoader.loadNextStage(next, AMULET_TICK, model.getNextSpawn()));
                 }
                 else
                 {
