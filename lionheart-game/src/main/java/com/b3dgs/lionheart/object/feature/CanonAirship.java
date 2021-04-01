@@ -95,7 +95,7 @@ public final class CanonAirship extends FeatureModel implements Routine, Recycla
         else
         {
             stateHandler.changeState(StateDecay.class);
-            hurtable.kill();
+            hurtable.kill(true);
             current = UpdatableVoid.getInstance();
         }
     }

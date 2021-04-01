@@ -102,7 +102,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
         else
         {
             stateHandler.changeState(StateDecay.class);
-            hurtable.kill();
+            hurtable.kill(true);
             current = UpdatableVoid.getInstance();
         }
     }

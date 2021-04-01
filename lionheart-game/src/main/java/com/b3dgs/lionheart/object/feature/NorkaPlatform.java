@@ -87,7 +87,7 @@ public final class NorkaPlatform extends FeatureModel implements Routine, Recycl
         tick.update(extrp);
         if (tick.elapsed(delay))
         {
-            hurtable.kill();
+            hurtable.kill(true);
         }
     }
 

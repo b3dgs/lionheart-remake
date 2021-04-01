@@ -26,6 +26,6 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="4"/>
+    <stats health="20"/>
     <hurtable frame="5" effect="dragonfly/Explode5"/>
 </lionengine:featurable>

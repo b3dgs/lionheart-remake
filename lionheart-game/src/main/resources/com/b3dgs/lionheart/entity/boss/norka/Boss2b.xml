@@ -32,7 +32,7 @@
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:collidable group="2" accepted="1%2"/>
-    <stats health="1"/>
+    <stats health="4"/>
     <hurtable frame="15" effect="norka/ExplodeBig"/>
     <lionengine:body gravity="2.0" gravityMax="5.0"/>
     <alwaysUpdate>true</alwaysUpdate>

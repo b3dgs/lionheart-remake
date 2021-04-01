@@ -73,6 +73,7 @@ public final class HotFireBall extends FeatureModel implements Routine, Recyclab
     {
         this.config = config;
         launcher.setLevel(config.getLevel());
+        tick.set(config.getDelay() / 2);
     }
 
     @Override

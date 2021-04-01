@@ -20,5 +20,5 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <takeable effect="effect/Taken.xml" sfx="ITEM_TAKEN" talisment="1"/>
+    <takeable effect="effect/lava/Taken.xml" sfx="ITEM_TAKEN" talisment="1"/>
 </lionengine:featurable>

@@ -21,6 +21,6 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="4"/>
+    <stats health="16"/>
     <hurtable frame="6" effect="norka/ExplodeBig" sfx="BOSS_NORKA_HURT"/>
 </lionengine:featurable>

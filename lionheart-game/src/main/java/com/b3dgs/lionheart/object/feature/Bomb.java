@@ -69,7 +69,7 @@ public final class Bomb extends FeatureModel implements Routine, Recyclable, Col
             count++;
             if (count > 4)
             {
-                hurtable.kill();
+                hurtable.kill(true);
             }
             tick.stop();
         }

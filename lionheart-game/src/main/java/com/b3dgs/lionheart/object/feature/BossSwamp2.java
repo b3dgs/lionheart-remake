@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
@@ -376,7 +378,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             final Featurable boss = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss.xml"),
                                                   player.getX(),
                                                   MAX_Y);
-            boss.getFeature(EntityModel.class).setNext(model.getNext().get());
+            boss.getFeature(EntityModel.class).setNext(model.getNext().get(), Optional.empty());
             boss.getFeature(Stats.class).applyDamages(stats.getHealthMax() - stats.getHealth());
         }
     }

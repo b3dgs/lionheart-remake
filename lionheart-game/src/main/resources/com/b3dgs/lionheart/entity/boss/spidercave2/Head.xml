@@ -22,6 +22,6 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="3"/>
+    <stats health="4"/>
     <hurtable frame="12" effect="spidercave2/ExplodeBig"/>
 </lionengine:featurable>
