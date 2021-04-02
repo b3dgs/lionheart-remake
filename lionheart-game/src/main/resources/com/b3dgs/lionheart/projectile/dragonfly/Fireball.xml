@@ -20,4 +20,5 @@
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="1" accepted="2"/>
     <alwaysUpdate>true</alwaysUpdate>
+    <stats damages="5"/>
 </lionengine:featurable>
