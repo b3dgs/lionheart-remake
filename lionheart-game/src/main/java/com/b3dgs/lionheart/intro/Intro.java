@@ -25,7 +25,7 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
@@ -81,26 +81,7 @@ public final class Intro extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(new SourceResolutionProvider()
-        {
-            @Override
-            public int getWidth()
-            {
-                return Intro.this.getWidth();
-            }
-
-            @Override
-            public int getHeight()
-            {
-                return Intro.this.getHeight();
-            }
-
-            @Override
-            public int getRate()
-            {
-                return Intro.this.getRate();
-            }
-        });
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 

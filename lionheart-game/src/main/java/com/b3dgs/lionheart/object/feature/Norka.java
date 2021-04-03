@@ -98,7 +98,7 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
         {
             for (int i = 0; i < pillar.length; i++)
             {
-                pillar[i] = spawner.spawn(Medias.create(Folder.SCENERIES, "norka", "Pillar.xml"), 88 + i * 80, 86.4)
+                pillar[i] = spawner.spawn(Medias.create(Folder.ENTITY, "norka", "Pillar.xml"), 88 + i * 80, 86.4)
                                    .getFeature(Identifiable.class);
                 pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
             }

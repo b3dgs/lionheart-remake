@@ -54,7 +54,7 @@ final class DragonEnd extends BackgroundAbstract
         final int width = source.getWidth();
         final int halfScreen = source.getWidth() / 3;
 
-        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.BACKGROUNDS, "extro");
+        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.BACKGROUND, "extro");
         backdrop = new Backdrop(path, width);
         clouds = new Parallax(source, Medias.create(path, "clouds.png"), PARALLAX_Y, halfScreen, 22, 50, 100);
         clouds.setInverted(true);

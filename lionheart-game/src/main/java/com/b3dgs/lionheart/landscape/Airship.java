@@ -59,7 +59,7 @@ final class Airship extends BackgroundAbstract
         final int width = source.getWidth();
 
         final String path = UtilFolder.getPathSeparator(Medias.getSeparator(),
-                                                        Folder.BACKGROUNDS,
+                                                        Folder.BACKGROUND,
                                                         WorldType.AIRSHIP.getFolder(),
                                                         theme);
         backdrop = new Backdrop(path, flickering, width);

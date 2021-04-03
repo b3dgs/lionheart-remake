@@ -108,7 +108,7 @@ public final class HurtableConfig
         this.frame = frame;
         if (effect != null)
         {
-            this.effect = Medias.create(Folder.EFFECTS, effect + Factory.FILE_DATA_DOT_EXTENSION);
+            this.effect = Medias.create(Folder.EFFECT, effect + Factory.FILE_DATA_DOT_EXTENSION);
         }
         else
         {

@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
@@ -47,16 +48,16 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class Part4 extends Sequence
 {
     /** Stories. */
-    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story4.txt"));
-    private static final String STORY5 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story5.txt"));
-    private static final String STORY6 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story6.txt"));
-    private static final String STORY7 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story7.txt"));
+    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story4.txt"));
+    private static final String STORY5 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story5.txt"));
+    private static final String STORY6 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story6.txt"));
+    private static final String STORY7 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story7.txt"));
     private static final Animation GLOW = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
 
     private final Sprite credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part4", "credits.png"));
     private final Sprite[] pics = new Sprite[2];
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
-                                                            Medias.create(Folder.SPRITES, "fontdata.xml"),
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
+                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
                                                             12,
                                                             12);
     private final SpriteAnimated amulet = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
@@ -93,6 +94,7 @@ public final class Part4 extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
         if (alternative.booleanValue())

@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
@@ -43,14 +43,14 @@ import com.b3dgs.lionheart.menu.Menu;
 public final class Part4 extends Sequence
 {
     /** Stories. */
-    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story1.txt"));
-    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story2.txt"));
-    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story3.txt"));
-    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.INTRO, "story4.txt"));
+    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story1.txt"));
+    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story2.txt"));
+    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story3.txt"));
+    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story4.txt"));
 
     /** Font. */
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
-                                                            Medias.create(Folder.SPRITES, "fontdata.xml"),
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
+                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
                                                             12,
                                                             12);
     /** Pictures. */
@@ -82,26 +82,7 @@ public final class Part4 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(new SourceResolutionProvider()
-        {
-            @Override
-            public int getWidth()
-            {
-                return Part4.this.getWidth();
-            }
-
-            @Override
-            public int getHeight()
-            {
-                return Part4.this.getHeight();
-            }
-
-            @Override
-            public int getRate()
-            {
-                return Part4.this.getRate();
-            }
-        });
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 

@@ -37,7 +37,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
@@ -74,25 +74,25 @@ public class Menu extends Sequence
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
     /** Main menu. */
-    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXTS, Folder.MENU, "main.txt"));
+    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXT, Folder.SPRITE, "main.txt"));
     /** Options menu. */
-    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXTS, Folder.MENU, "options.txt"));
+    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXT, Folder.SPRITE, "options.txt"));
     /** List of difficulties. */
-    private static final List<String> OPTIONS_DIFFICULTY = Util.readLines(Medias.create(Folder.TEXTS,
-                                                                                        Folder.MENU,
+    private static final List<String> OPTIONS_DIFFICULTY = Util.readLines(Medias.create(Folder.TEXT,
+                                                                                        Folder.SPRITE,
                                                                                         "difficulties.txt"));
     /** List of joystick. */
-    private static final List<String> OPTIONS_JOYSTICK = Util.readLines(Medias.create(Folder.TEXTS,
-                                                                                      Folder.MENU,
+    private static final List<String> OPTIONS_JOYSTICK = Util.readLines(Medias.create(Folder.TEXT,
+                                                                                      Folder.SPRITE,
                                                                                       "joystick.txt"));
     /** List of music. */
-    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXTS,
-                                                                                   Folder.MENU,
+    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXT,
+                                                                                   Folder.SPRITE,
                                                                                    "music.txt"));
 
     /** Level loading text font. */
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font_big.png"),
-                                                            Medias.create(Folder.SPRITES, "fontdata_big.xml"),
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font_big.png"),
+                                                            Medias.create(Folder.SPRITE, "fontdata_big.xml"),
                                                             24,
                                                             24);
     /** Background menus. */
@@ -136,26 +136,7 @@ public class Menu extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(new SourceResolutionProvider()
-        {
-            @Override
-            public int getWidth()
-            {
-                return Menu.this.getWidth();
-            }
-
-            @Override
-            public int getHeight()
-            {
-                return Menu.this.getHeight();
-            }
-
-            @Override
-            public int getRate()
-            {
-                return Menu.this.getRate();
-            }
-        });
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 
@@ -171,7 +152,7 @@ public class Menu extends Sequence
     {
         for (int i = 0; i < menus.length; i++)
         {
-            menus[i] = Drawable.loadSprite(Medias.create(Folder.MENU, "menu" + (i + 1) + ".png"));
+            menus[i] = Drawable.loadSprite(Medias.create(Folder.SPRITE, "menu" + (i + 1) + ".png"));
             menus[i].setOrigin(Origin.CENTER_TOP);
         }
 

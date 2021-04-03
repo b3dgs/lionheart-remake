@@ -42,7 +42,7 @@ public final class Part1
                                                          24,
                                                          TextStyle.NORMAL);
     /** Titles. */
-    private static final List<String> TITLES = Util.readLines(Medias.create(Folder.TEXTS, Folder.INTRO, "part1.txt"));
+    private static final List<String> TITLES = Util.readLines(Medias.create(Folder.TEXT, Folder.INTRO, "part1.txt"));
 
     /** Backgrounds. */
     private final Sprite[] backs = new Sprite[4];

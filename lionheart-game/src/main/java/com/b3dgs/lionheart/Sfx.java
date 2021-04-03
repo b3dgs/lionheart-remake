@@ -190,7 +190,7 @@ public enum Sfx
      */
     Sfx()
     {
-        final Media media = Medias.create(Folder.SOUNDS, name().toLowerCase(Locale.ENGLISH) + Extension.SFX);
+        final Media media = Medias.create(Folder.SFX, name().toLowerCase(Locale.ENGLISH) + Extension.SFX);
         audio = AudioFactory.loadAudio(media);
     }
 

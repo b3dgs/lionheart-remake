@@ -205,7 +205,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
         final int width = transformable.getWidth();
         final int height = transformable.getHeight();
 
-        spawner.spawn(Medias.create(Folder.EFFECTS, "dragonfly", "ExplodeBig.xml"),
+        spawner.spawn(Medias.create(Folder.EFFECT, "dragonfly", "ExplodeBig.xml"),
                       transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
                       transformable.getY() + UtilRandom.getRandomInteger(height));
     }

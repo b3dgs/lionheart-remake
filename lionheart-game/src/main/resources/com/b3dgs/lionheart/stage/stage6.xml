@@ -18,10 +18,10 @@
         <checkpoint tx="94" ty="93" next="stage/stage7.xml"/>
     </checkpoints>
     <entities>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="45.0" ty="14.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="45.0" ty="14.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="192"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="51.0" ty="14.0">
+        <entity file="entity/ancienttown/TurningCube.xml" tx="51.0" ty="14.0">
             <patrol sh="-0.5" sv="0.0" amplitude="48" mirror="false"/>
             <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
             <patrol sh="-0.5" sv="0.0" amplitude="144" mirror="false"/>
@@ -35,7 +35,7 @@
             <patrol sh="0.5" sv="0.0" amplitude="48" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="58.0" ty="15.0">
+        <entity file="entity/ancienttown/TurningCube.xml" tx="58.0" ty="15.0">
             <patrol sh="0.0" sv="1.0" amplitude="80" mirror="false"/>
             <patrol sh="1.0" sv="0.0" amplitude="64" mirror="false"/>
             <patrol sh="0.0" sv="-1.0" amplitude="80" mirror="false"/>
@@ -45,92 +45,92 @@
             <patrol sh="0.0" sv="-1.0" amplitude="80" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="71.0" ty="27.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="71.0" ty="27.0" mirror="true">
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="72.0" ty="27.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="72.0" ty="27.0" mirror="true">
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="70.0" ty="28.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="70.0" ty="28.0" mirror="true">
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="71.0" ty="28.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="71.0" ty="28.0" mirror="true">
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="75.0" ty="24.0" mirror="true"/>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="80.0" ty="23.0" mirror="true"/>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="85.0" ty="22.0" mirror="true"/>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="73.0" ty="21.0">
+        <entity file="entity/ancienttown/Bee.xml" tx="75.0" ty="24.0" mirror="true"/>
+        <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="23.0" mirror="true"/>
+        <entity file="entity/ancienttown/Bee.xml" tx="85.0" ty="22.0" mirror="true"/>
+        <entity file="entity/ancienttown/TurningCube.xml" tx="73.0" ty="21.0">
             <patrol sh="1.2" sv="0.0" amplitude="256" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
             <patrol sh="-1.2" sv="0.0" amplitude="256" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
-        <entity file="entity/item/ancienttown/Life.xml" tx="94.0" ty="19.0"/>
-        <entity file="entity/item/ancienttown/Life.xml" tx="95.0" ty="19.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="90.0" ty="20.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="91.0" ty="20.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="92.0" ty="20.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="93.0" ty="20.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="94.0" ty="23.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="94.0" ty="24.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="95.0" ty="24.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="95.0" ty="23.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="96.0" ty="24.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="96.0" ty="23.0"/>
-        <entity file="entity/item/ancienttown/Life.xml" tx="96.0" ty="19.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="65.0" ty="34.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="66.0" ty="34.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="67.0" ty="34.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="68.0" ty="34.0"/>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="49.0" ty="30.0">
+        <entity file="entity/ancienttown/Life.xml" tx="94.0" ty="19.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="95.0" ty="19.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="90.0" ty="20.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="91.0" ty="20.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="92.0" ty="20.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="93.0" ty="20.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="94.0" ty="23.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="94.0" ty="24.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="95.0" ty="24.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="95.0" ty="23.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="96.0" ty="24.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="96.0" ty="23.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="96.0" ty="19.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="65.0" ty="34.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="66.0" ty="34.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="67.0" ty="34.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="68.0" ty="34.0"/>
+        <entity file="entity/ancienttown/Canon1.xml" tx="49.0" ty="30.0">
             <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.0" svy="4.0" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="38.0" ty="34.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="38.0" ty="34.0">
             <shooter fireDelay="50" firedDelay="20" anim="1" svx="0.8" svy="2.5" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="29.0" ty="30.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="29.0" ty="30.0">
             <shooter fireDelay="50" firedDelay="20" anim="1" svx="1.05" svy="5.0" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="24.0" ty="30.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="24.0" ty="30.0">
             <shooter fireDelay="200" firedDelay="20" anim="1" svx="1.25" svy="3.6" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="15.0" ty="34.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="15.0" ty="34.0">
             <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.0" svy="2.8" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="11.0" ty="36.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="11.0" ty="36.0">
             <shooter fireDelay="110" firedDelay="20" anim="1" svx="0.9" svy="1.8" dvy="0.0"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/Bird.xml" tx="9.0" ty="37.0">
+        <entity file="entity/ancienttown/Bird.xml" tx="9.0" ty="37.0">
             <patrol sv="0.5" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Executioner.xml" tx="26.0" ty="46.0">
+        <entity file="entity/ancienttown/Executioner.xml" tx="26.0" ty="46.0">
             <patrol sh="-0.3" sv="0.0" amplitude="128"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon3.xml" tx="16.0" ty="68.0">
+        <entity file="entity/ancienttown/Canon3.xml" tx="16.0" ty="68.0">
             <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
         </entity>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="17.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="18.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="19.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="20.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="21.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="22.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>
-        <entity file="entity/item/ancienttown/PotionLittle.xml" tx="27.0" ty="63.0"/>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="41.0" ty="41.0">
+        <entity file="entity/ancienttown/Talisment.xml" tx="17.0" ty="63.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="18.0" ty="63.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="19.0" ty="63.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="20.0" ty="63.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="21.0" ty="63.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="22.0" ty="63.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="27.0" ty="63.0"/>
+        <entity file="entity/ancienttown/TurningCube.xml" tx="41.0" ty="41.0">
             <patrol sh="0.0" sv="0.5" amplitude="64" mirror="false"/>
             <patrol sh="0.5" sv="0.0" amplitude="64" mirror="false"/>
             <patrol sh="0.0" sv="-0.5" amplitude="64" mirror="false"/>
             <patrol sh="-0.5" sv="0.0" amplitude="64" mirror="false"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="62.0" ty="43.0">
+        <entity file="entity/ancienttown/Canon2.xml" tx="62.0" ty="43.0">
             <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="2.0" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="75.0" ty="47.0">
+        <entity file="entity/ancienttown/Canon2.xml" tx="75.0" ty="47.0">
             <shooter fireDelay="200" firedDelay="0" svx="-1.2" svy="2.0" dvy="0.0"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="81.0" ty="50.0">
+        <entity file="entity/ancienttown/TurningCube.xml" tx="81.0" ty="50.0">
             <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
             <patrol sh="0.5" sv="0.0" amplitude="144" mirror="false"/>
             <patrol sh="0.0" sv="-0.5" amplitude="48" mirror="false"/>
@@ -140,78 +140,78 @@
             <patrol sh="0.0" sv="-0.5" amplitude="48" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="83.0" ty="55.0">
+        <entity file="entity/ancienttown/TurningCube.xml" tx="83.0" ty="55.0">
             <patrol sh="0.0" sv="0.3" amplitude="48" mirror="false"/>
             <patrol sh="0.3" sv="0.0" amplitude="80" mirror="false"/>
             <patrol sh="0.0" sv="-0.3" amplitude="48" mirror="false"/>
             <patrol sh="-0.3" sv="0.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="88.0" ty="58.0">
+        <entity file="entity/ancienttown/TurningCube.xml" tx="88.0" ty="58.0">
             <patrol sh="0.0" sv="-0.3" amplitude="48" mirror="false"/>
             <patrol sh="-0.3" sv="0.0" amplitude="80" mirror="false"/>
             <patrol sh="0.0" sv="0.3" amplitude="48" mirror="false"/>
             <patrol sh="0.3" sv="0.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/TurningCube.xml" tx="78.0" ty="61.0">
+        <entity file="entity/ancienttown/TurningCube.xml" tx="78.0" ty="61.0">
             <patrol sh="0.8" sv="0.0" amplitude="240" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
             <patrol sh="-0.8" sv="0.0" amplitude="240" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
-        <entity file="entity/item/ancienttown/PotionLittle.xml" tx="94.0" ty="60.0"/>
-        <entity file="entity/item/ancienttown/Sword2.xml" tx="95.0" ty="60.0"/>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="51.0" ty="72.0" dvy="0.0">
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="94.0" ty="60.0"/>
+        <entity file="entity/ancienttown/Sword2.xml" tx="95.0" ty="60.0"/>
+        <entity file="entity/ancienttown/Canon2.xml" tx="51.0" ty="72.0" dvy="0.0">
             <shooter fireDelay="180" firedDelay="0" svx="-0.9" svy="1.5"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="41.0" ty="79.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="41.0" ty="79.0">
             <shooter fireDelay="140" firedDelay="20" anim="1" svx="1.2" svy="1.6" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="37.0" ty="81.0">
+        <entity file="entity/ancienttown/Canon1.xml" tx="37.0" ty="81.0">
             <shooter fireDelay="140" firedDelay="20" anim="1" svx="1.2" svy="1.6" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="5.0" ty="78.0">
+        <entity file="entity/ancienttown/Canon2.xml" tx="5.0" ty="78.0">
             <shooter fireDelay="100" firedDelay="0" svx="0.9" svy="1.7" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="12.0" ty="86.0">
+        <entity file="entity/ancienttown/Canon2.xml" tx="12.0" ty="86.0">
             <shooter fireDelay="60" firedDelay="0" svx="1.8" svy="1.7" dvy="0.0"/>
         </entity>
-        <entity file="entity/item/ancienttown/PotionBig.xml" tx="6.0" ty="99.0"/>
-        <entity file="entity/item/ancienttown/Life.xml" tx="5.0" ty="98.0"/>
-        <entity file="entity/monster/ancienttown/Canon1.xml" tx="40.0" ty="94.0">
+        <entity file="entity/ancienttown/PotionBig.xml" tx="6.0" ty="99.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="5.0" ty="98.0"/>
+        <entity file="entity/ancienttown/Canon1.xml" tx="40.0" ty="94.0">
             <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.2" svy="3.0" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Canon2.xml" tx="54.0" ty="101.0">
+        <entity file="entity/ancienttown/Canon2.xml" tx="54.0" ty="101.0">
             <shooter fireDelay="40" firedDelay="0" svx="-1.0" svy="1.7" dvy="0.0"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="73.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="73.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="75.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="75.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="77.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="77.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="80.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="93.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="93.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="95.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="95.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/monster/ancienttown/Bee.xml" tx="97.0" ty="95.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="97.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
         </entity>
-        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="94.0" ty="45.0"/>
-        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="96.0" ty="45.0"/>
-        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="98.0" ty="45.0"/>
-        <entity file="entity/scenery/ancienttown/CarnivorousPlant.xml" tx="100.0" ty="45.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="52.0" ty="23.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="52.0" ty="24.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="53.0" ty="24.0"/>
-        <entity file="entity/item/ancienttown/Talisment.xml" tx="53.0" ty="23.0"/>
-        <entity file="entity/item/ancienttown/PotionLittle.xml" tx="54.0" ty="23.0"/>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="94.0" ty="45.0"/>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="96.0" ty="45.0"/>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="98.0" ty="45.0"/>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="100.0" ty="45.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="52.0" ty="23.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="52.0" ty="24.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="53.0" ty="24.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="53.0" ty="23.0"/>
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="54.0" ty="23.0"/>
     </entities>
 </stage>

@@ -29,7 +29,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
- * Tower full background implementation.
+ * Norka full background implementation.
  */
 final class Norka extends BackgroundAbstract
 {
@@ -48,7 +48,7 @@ final class Norka extends BackgroundAbstract
     {
         super(theme, 0, 0);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "norka", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUND, "norka", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width, source);
         add(backdrop);

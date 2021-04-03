@@ -17,52 +17,42 @@
 package com.b3dgs.lionheart.constant;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilFolder;
 
 /**
  * Folder constants.
  */
 public final class Folder
 {
-    /** Sprites folder. */
-    public static final String SPRITES = "sprite";
+    /** Sprite folder. */
+    public static final String SPRITE = "sprite";
     /** Intro folder. */
     public static final String INTRO = "intro";
-    /** Menu folder. */
-    public static final String MENU = "menu";
     /** Extro folder. */
     public static final String EXTRO = "extro";
-    /** Backgrounds folder. */
-    public static final String BACKGROUNDS = "background";
-    /** Backgrounds folder. */
-    public static final String FOREGROUNDS = "foreground";
-    /** Entities folder. */
-    public static final String ENTITIES = "entity";
+    /** Background folder. */
+    public static final String BACKGROUND = "background";
+    /** Background folder. */
+    public static final String FOREGROUND = "foreground";
+    /** Hero folder. */
+    public static final String HERO = "hero";
+    /** Entity folder. */
+    public static final String ENTITY = "entity";
     /** Boss folder. */
-    public static final String BOSS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "boss");
-    /** Items folder. */
-    public static final String ITEMS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "item");
-    /** Monsters folder. */
-    public static final String MONSTERS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "monster");
-    /** Sceneries folder. */
-    public static final String SCENERIES = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "scenery");
-    /** Players folder. */
-    public static final String PLAYERS = UtilFolder.getPathSeparator(Medias.getSeparator(), ENTITIES, "player");
-    /** Effects folder. */
-    public static final String EFFECTS = "effect";
-    /** Projectiles folder. */
-    public static final String PROJECTILES = "projectile";
-    /** Levels folder. */
-    public static final String LEVELS = "levels";
-    /** Stages folder. */
-    public static final String STAGES = "stage";
-    /** Texts folder. */
-    public static final String TEXTS = "text";
-    /** Sounds folder. */
-    public static final String SOUNDS = "sfx";
-    /** Musics folder. */
-    public static final String MUSICS = "music";
+    public static final String BOSS = "boss";
+    /** Effect folder. */
+    public static final String EFFECT = "effect";
+    /** Projectile folder. */
+    public static final String PROJECTILE = "projectile";
+    /** Level folder. */
+    public static final String LEVEL = "levels";
+    /** Stage folder. */
+    public static final String STAGE = "stage";
+    /** Text folder. */
+    public static final String TEXT = "text";
+    /** Sfx folder. */
+    public static final String SFX = "sfx";
+    /** Music folder. */
+    public static final String MUSIC = "music";
 
     /**
      * Private constructor.

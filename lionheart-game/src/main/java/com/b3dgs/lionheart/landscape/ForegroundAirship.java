@@ -53,7 +53,7 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
     {
         super(theme, 0, 0);
 
-        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUNDS, theme);
+        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUND, theme);
         secondary = new Secondary(path);
 
         setScreenSize(source.getWidth(), source.getHeight());

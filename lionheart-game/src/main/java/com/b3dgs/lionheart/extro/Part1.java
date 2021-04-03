@@ -38,7 +38,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.AppInfo;
@@ -108,28 +108,9 @@ public final class Part1 extends Sequence
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
-        final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
-        {
-            @Override
-            public int getWidth()
-            {
-                return Part1.this.getWidth();
-            }
-
-            @Override
-            public int getHeight()
-            {
-                return Part1.this.getHeight();
-            }
-
-            @Override
-            public int getRate()
-            {
-                return Part1.this.getRate();
-            }
-        });
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         final Camera camera = services.create(Camera.class);
-        camera.setView(0, 0, source.getWidth(), source.getHeight(), source.getHeight());
+        camera.setView(0, 0, getWidth(), getHeight(), getHeight());
 
         services.add(context);
         services.add(new CameraTracker(services));

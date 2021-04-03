@@ -64,7 +64,7 @@ final class Swamp extends BackgroundAbstract
         final int halfScreen = source.getWidth() / 3;
 
         final String path = UtilFolder.getPathSeparator(Medias.getSeparator(),
-                                                        Folder.BACKGROUNDS,
+                                                        Folder.BACKGROUND,
                                                         WorldType.SWAMP.getFolder(),
                                                         theme);
         backdrop = new Backdrop(path, flickering, width);

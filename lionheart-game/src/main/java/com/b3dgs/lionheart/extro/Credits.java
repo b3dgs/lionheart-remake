@@ -81,7 +81,7 @@ public final class Credits extends Sequence
         }
 
         int y = 256;
-        for (final String line : Util.readLines(Medias.create(Folder.TEXTS, Folder.EXTRO, "credits.txt")))
+        for (final String line : Util.readLines(Medias.create(Folder.TEXT, Folder.EXTRO, "credits.txt")))
         {
             if (!line.isEmpty())
             {

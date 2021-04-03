@@ -46,7 +46,7 @@ final class Dragonfly extends BackgroundAbstract
     {
         super(theme, 0, 400);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, "dragonfly", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUND, "dragonfly", theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width);
         add(backdrop);

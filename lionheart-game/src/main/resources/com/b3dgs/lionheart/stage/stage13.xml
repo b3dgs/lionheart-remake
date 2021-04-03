@@ -11,61 +11,61 @@
         <checkpoint tx="28" ty="136" next="stage/stage14.xml"/>
     </checkpoints>
     <entities>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="21.0" ty="14.0">
-            <rotating amplitude="30" extremity="entity/scenery/tower/Platform1.xml" ring="entity/scenery/tower/Ring.xml" length="4" speed="0.05"/>
+        <entity file="entity/tower/Rotating.xml" tx="21.0" ty="14.0">
+            <rotating amplitude="30" extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="4" speed="0.05"/>
         </entity>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="21.0" ty="24.0">
-            <rotating amplitude="40" extremity="entity/scenery/tower/Platform1.xml" ring="entity/scenery/tower/Ring.xml" length="5" speed="-0.05"/>
+        <entity file="entity/tower/Rotating.xml" tx="21.0" ty="24.0">
+            <rotating amplitude="40" extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="5" speed="-0.05"/>
         </entity>
-        <entity file="entity/item/tower/PotionLittle.xml" tx="11.0" ty="20.0"/>
-        <entity file="entity/monster/tower/Face.xml" tx="31.0" ty="27.0">
+        <entity file="entity/tower/PotionLittle.xml" tx="11.0" ty="20.0"/>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="27.0">
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="-1.0" svy="0.0"/>
         </entity>
-        <entity file="entity/monster/tower/Crawling.xml" tx="25.0" ty="36.0">
+        <entity file="entity/tower/Crawling.xml" tx="25.0" ty="36.0">
             <patrol sh="0.3" amplitude="80"/>
         </entity>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="23.0" ty="44.0">
-            <rotating amplitude="8" controlled="true" extremity="entity/scenery/tower/Platform2.xml" ring="entity/scenery/tower/Ring.xml" length="6" speed="0.05"/>
+        <entity file="entity/tower/Rotating.xml" tx="23.0" ty="44.0">
+            <rotating amplitude="8" controlled="true" extremity="entity/tower/Platform2.xml" ring="entity/tower/Ring.xml" length="6" speed="0.05"/>
         </entity>
-        <entity file="entity/monster/tower/Face.xml" tx="11.0" ty="47.0" mirror="true">
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="47.0" mirror="true">
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="1.0" svy="0.0"/>
         </entity>
-        <entity file="entity/monster/tower/Face.xml" tx="31.0" ty="47.0">
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="47.0">
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="-1.0" svy="0.0"/>
         </entity>
-        <entity file="entity/monster/tower/Crawling.xml" tx="25.0" ty="51.0">
+        <entity file="entity/tower/Crawling.xml" tx="25.0" ty="51.0">
             <patrol sh="0.3" amplitude="16"/>
         </entity>
-        <entity file="entity/monster/tower/Fish.xml" tx="15.0" ty="60.0"/>
-        <entity file="entity/monster/tower/Fish.xml" tx="28.0" ty="63.0"/>
-        <entity file="entity/item/tower/PotionLittle.xml" tx="12.0" ty="60.0"/>
-        <entity file="entity/item/tower/PotionLittle.xml" tx="31.0" ty="60.0"/>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="21.0" ty="69.0">
-            <rotating extremity="entity/scenery/tower/Platform1.xml" ring="entity/scenery/tower/Ring.xml" length="6" speed="-0.2"/>
+        <entity file="entity/tower/Fish.xml" tx="15.0" ty="60.0"/>
+        <entity file="entity/tower/Fish.xml" tx="28.0" ty="63.0"/>
+        <entity file="entity/tower/PotionLittle.xml" tx="12.0" ty="60.0"/>
+        <entity file="entity/tower/PotionLittle.xml" tx="31.0" ty="60.0"/>
+        <entity file="entity/tower/Rotating.xml" tx="21.0" ty="69.0">
+            <rotating extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="6" speed="-0.2"/>
         </entity>
-        <entity file="entity/monster/tower/Face.xml" tx="11.0" ty="82.0" mirror="true">
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="82.0" mirror="true">
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="1.0" svy="0.0"/>
         </entity>
-        <entity file="entity/monster/tower/Face.xml" tx="31.0" ty="82.0">
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="82.0">
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="-1.0" svy="0.0"/>
         </entity>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="21.0" ty="86.0">
-            <rotating extremity="entity/scenery/tower/Platform1.xml" ring="entity/scenery/tower/Ring.xml" length="4" speed="-2.0"/>
+        <entity file="entity/tower/Rotating.xml" tx="21.0" ty="86.0">
+            <rotating extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="4" speed="-2.0"/>
         </entity>
-        <entity file="entity/item/tower/PotionBig.xml" tx="21.0" ty="88.0"/>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="25.0" ty="100.0">
-            <rotating extremity="entity/scenery/tower/SpikeBowl.xml" ring="entity/scenery/tower/Ring.xml" length="3" speed="2.0"/>
+        <entity file="entity/tower/PotionBig.xml" tx="21.0" ty="88.0"/>
+        <entity file="entity/tower/Rotating.xml" tx="25.0" ty="100.0">
+            <rotating extremity="entity/tower/SpikeBowl.xml" ring="entity/tower/Ring.xml" length="3" speed="2.0"/>
         </entity>
-        <entity file="entity/scenery/tower/Rotating.xml" tx="21.0" ty="113.0">
-            <rotating extremity="entity/scenery/tower/SpikeBowl.xml" ring="entity/scenery/tower/Ring.xml" length="3" speed="-2.0"/>
+        <entity file="entity/tower/Rotating.xml" tx="21.0" ty="113.0">
+            <rotating extremity="entity/tower/SpikeBowl.xml" ring="entity/tower/Ring.xml" length="3" speed="-2.0"/>
         </entity>
-        <entity file="entity/item/tower/PotionLittle.xml" tx="16.0" ty="119.0"/>
-        <entity file="entity/scenery/tower/Spike1.xml" tx="21.0" ty="123.0"/>
-        <entity file="entity/monster/tower/Face.xml" anim="6" tx="31.0" ty="124.0">
+        <entity file="entity/tower/PotionLittle.xml" tx="16.0" ty="119.0"/>
+        <entity file="entity/tower/Spike1.xml" tx="21.0" ty="123.0"/>
+        <entity file="entity/tower/Face.xml" anim="6" tx="31.0" ty="124.0">
             <shooter fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
-        <entity file="entity/scenery/tower/Spike1.xml" tx="27.0" ty="126.0"/>
-        <entity file="entity/monster/tower/Face.xml" anim="6" tx="31.0" ty="132.0">
+        <entity file="entity/tower/Spike1.xml" tx="27.0" ty="126.0"/>
+        <entity file="entity/tower/Face.xml" anim="6" tx="31.0" ty="132.0">
             <shooter fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
     </entities>

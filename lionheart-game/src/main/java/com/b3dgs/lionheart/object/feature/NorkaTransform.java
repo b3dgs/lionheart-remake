@@ -71,6 +71,11 @@ public final class NorkaTransform extends FeatureModel implements Routine, Recyc
         idle = config.getAnimation(Anim.IDLE);
     }
 
+    /**
+     * Update transform phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
     private void updateTransform(double extrp)
     {
         if (animatable.is(AnimState.FINISHED))

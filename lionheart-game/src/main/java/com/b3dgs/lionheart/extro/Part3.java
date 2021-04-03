@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
@@ -40,13 +41,13 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class Part3 extends Sequence
 {
     /** Stories. */
-    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story1.txt"));
-    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story2.txt"));
-    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXTS, Folder.EXTRO, "story3.txt"));
+    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story1.txt"));
+    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story2.txt"));
+    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story3.txt"));
 
     private final Sprite[] pics = new Sprite[3];
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
-                                                            Medias.create(Folder.SPRITES, "fontdata.xml"),
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
+                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
                                                             12,
                                                             12);
     private final Tick tick = new Tick();
@@ -75,6 +76,7 @@ public final class Part3 extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
         load(Part4.class, audio, alternative);

@@ -29,7 +29,7 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Gradient color background implementation.
  */
-final class Grandient extends BackgroundAbstract
+final class Gradient extends BackgroundAbstract
 {
     private final Backdrop backdrop;
 
@@ -42,11 +42,11 @@ final class Grandient extends BackgroundAbstract
      * @param type The background type.
      * @param flickering The flickering flag.
      */
-    Grandient(int maxHeight, int totalHeight, SourceResolutionProvider source, BackgroundType type, boolean flickering)
+    Gradient(int maxHeight, int totalHeight, SourceResolutionProvider source, BackgroundType type, boolean flickering)
     {
         super(type.getTheme(), 0, maxHeight);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUNDS, type.getWorld().getFolder(), type.getTheme());
+        final String path = UtilFolder.getPath(Folder.BACKGROUND, type.getWorld().getFolder(), type.getTheme());
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width);
         add(backdrop);

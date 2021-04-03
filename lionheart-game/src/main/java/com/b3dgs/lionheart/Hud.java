@@ -67,9 +67,9 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int PAUSE_FLICKER_TICK = 14;
 
-    private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_HEART));
-    private final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Folder.SPRITES, IMG_HUD));
-    private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITES, IMG_NUMBERS));
+    private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITE, IMG_HEART));
+    private final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_HUD));
+    private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_NUMBERS));
     private final Text text = Graphics.createText(Constant.FONT_DIALOG, 9, TextStyle.BOLD);
 
     private final SpriteTiled talisment = Drawable.loadSpriteTiled(hudSurface, 16, 16);

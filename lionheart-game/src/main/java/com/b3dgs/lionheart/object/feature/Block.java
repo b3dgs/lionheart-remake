@@ -83,7 +83,7 @@ public final class Block extends FeatureModel implements CollidableListener, Rec
                 {
                     map.removeTile(tile.getInTileX(), tile.getInTileY());
 
-                    spawner.spawn(Medias.create(Folder.EFFECTS, "ancienttown", "ExplodeBlock.xml"),
+                    spawner.spawn(Medias.create(Folder.EFFECT, "ancienttown", "ExplodeBlock.xml"),
                                   tile.getX(),
                                   tile.getY());
                     Sfx.MONSTER_HURT.play();

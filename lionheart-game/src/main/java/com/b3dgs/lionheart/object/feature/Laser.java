@@ -100,7 +100,7 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
         }
         else if (tickEffect.elapsed(EFFECT_DELAY))
         {
-            spawner.spawn(Medias.create(Folder.EFFECTS, "airship", "Smoke.xml"),
+            spawner.spawn(Medias.create(Folder.EFFECT, "airship", "Smoke.xml"),
                           transformable.getX(),
                           transformable.getY() - 4)
                    .getFeature(EntityModel.class)

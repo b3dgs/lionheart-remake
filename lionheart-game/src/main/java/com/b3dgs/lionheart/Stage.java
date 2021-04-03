@@ -44,8 +44,6 @@ public enum Stage
     STAGE_8("stage8"),
     /** Lava stage. */
     STAGE_9("stage9"),
-    /** Secret stage. */
-    STAGE_10("stage10"),
     /** Airship stage. */
     STAGE_11("stage11"),
     /** Dragonfly stage. */
@@ -53,7 +51,9 @@ public enum Stage
     /** Tower stage. */
     STAGE_13("stage13"),
     /** Norka stage. */
-    STAGE_14("stage14");
+    STAGE_14("stage14"),
+    /** Secret stage. */
+    STAGE_10("stage10");
 
     /** Level file. */
     private final Media file;
@@ -65,7 +65,7 @@ public enum Stage
      */
     Stage(String file)
     {
-        this.file = Medias.create(Folder.STAGES, file + Extension.STAGE);
+        this.file = Medias.create(Folder.STAGE, file + Extension.STAGE);
     }
 
     /**

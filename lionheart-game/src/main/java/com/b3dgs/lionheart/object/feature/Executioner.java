@@ -168,7 +168,7 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     @Override
     public void recycle()
     {
-        final Featurable featurable = spawner.spawn(Medias.create(Folder.SCENERIES, "ancienttown", "Wall.xml"),
+        final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "ancienttown", "Wall.xml"),
                                                     -100.0,
                                                     -100.0);
         wall = featurable.getFeature(Animatable.class);

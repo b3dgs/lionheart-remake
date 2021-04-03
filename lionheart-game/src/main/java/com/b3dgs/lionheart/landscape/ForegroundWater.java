@@ -100,7 +100,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
 
         mapWater = services.get(MapTileWater.class);
 
-        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUNDS, theme);
+        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUND, theme);
         primary = new Primary(path, this);
         secondary = new Secondary(path, this);
 

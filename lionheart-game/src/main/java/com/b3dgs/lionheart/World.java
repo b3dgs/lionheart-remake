@@ -155,11 +155,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECTS, "swamp", "Liana.xml"), tile);
+                spawn(Medias.create(Folder.EFFECT, "swamp", "Liana.xml"), tile);
             }
             else if (CollisionName.BLOCK.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECTS, "ancienttown", "Block.xml"), tile);
+                spawn(Medias.create(Folder.EFFECT, "ancienttown", "Block.xml"), tile);
             }
         });
 
@@ -235,7 +235,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private Featurable createPlayerAndLoadCheckpoints(InitConfig init)
     {
-        final Featurable featurable = spawn(Medias.create(Folder.PLAYERS, "default", "Valdyn.xml"), 0, 0);
+        final Featurable featurable = spawn(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"), 0, 0);
         featurable.getFeature(Stats.class).apply(init);
 
         final Optional<Point> spawn = init.getSpawn();
@@ -502,8 +502,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
-        factory.createCache(spawner, Medias.create(Folder.EFFECTS, theme), 4);
-        factory.createCache(spawner, Medias.create(Folder.PROJECTILES, theme), 6);
+        factory.createCache(spawner, Medias.create(Folder.EFFECT, theme), 4);
+        factory.createCache(spawner, Medias.create(Folder.PROJECTILE, theme), 6);
 
         hud.load();
         handler.updateRemove();

@@ -106,7 +106,7 @@ public final class StateAttackFall extends State
             map.setTile(liana.getInTileX(), liana.getInTileY(), liana.getNumber() + 206);
             mapCollision.updateCollisions(tile);
             jumpHit(BOUNCE_LIANA);
-            spawner.spawn(Medias.create(Folder.EFFECTS, "swamp", "ExplodeLiana.xml"), liana.getX(), liana.getY());
+            spawner.spawn(Medias.create(Folder.EFFECT, "swamp", "ExplodeLiana.xml"), liana.getX(), liana.getY());
             Sfx.MONSTER_HURT.play();
         }
     }

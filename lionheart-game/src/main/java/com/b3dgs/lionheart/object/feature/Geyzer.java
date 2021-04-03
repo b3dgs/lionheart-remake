@@ -85,12 +85,12 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
     {
         this.config = config;
 
-        bottom.add(spawner.spawn(Medias.create(Folder.SCENERIES, "lava", "GeyzerCalc.xml"), transformable)
+        bottom.add(spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerCalc.xml"), transformable)
                           .getFeature(Transformable.class));
 
         for (int i = 0; i < Math.ceil(config.getHeight() / (double) transformable.getHeight()); i++)
         {
-            final Featurable featurable = spawner.spawn(Medias.create(Folder.SCENERIES, "lava", "GeyzerBottom.xml"),
+            final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerBottom.xml"),
                                                         transformable);
             final Animation idle = AnimationConfig.imports(new Configurer(featurable.getMedia()))
                                                   .getAnimation(Anim.IDLE);

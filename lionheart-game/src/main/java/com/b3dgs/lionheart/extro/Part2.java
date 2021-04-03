@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
@@ -66,7 +67,7 @@ public final class Part2 extends Sequence
     private final Tick tick = new Tick();
     private final AppInfo info;
 
-    private DragonEnd background;
+    private final DragonEnd background;
     private int alpha;
 
     /**
@@ -80,28 +81,8 @@ public final class Part2 extends Sequence
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
-        final SourceResolutionProvider source = services.add(new SourceResolutionProvider()
-        {
-            @Override
-            public int getWidth()
-            {
-                return Part2.this.getWidth();
-            }
-
-            @Override
-            public int getHeight()
-            {
-                return Part2.this.getHeight();
-            }
-
-            @Override
-            public int getRate()
-            {
-                return Part2.this.getRate();
-            }
-        });
         final Camera camera = services.create(Camera.class);
-        camera.setView(0, 0, source.getWidth(), source.getHeight(), source.getHeight());
+        camera.setView(0, 0, getWidth(), getHeight(), getHeight());
 
         services.add(context);
         services.add(new CameraTracker(services));
@@ -113,14 +94,17 @@ public final class Part2 extends Sequence
             // Mock
         });
         services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
-        info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
         handler.addComponent(new ComponentCollision());
         handler.addListener(factory);
 
+        final SourceResolutionProvider source = services.add(new SourceResolutionDelegate(this::getWidth,
+                                                                                          this::getHeight,
+                                                                                          this::getRate));
         background = new DragonEnd(source);
+        info = new AppInfo(this::getFps, services);
 
         load(Part3.class, audio, alternative);
 
@@ -132,7 +116,7 @@ public final class Part2 extends Sequence
     {
         services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), getWidth() / 2 + 16, 100)
                             .getFeature(SwordShade.class));
-        spawner.spawn(Medias.create(Folder.SCENERIES, "dragonfly", "DragonExtro.xml"), getWidth() / 2 + 16, 100);
+        spawner.spawn(Medias.create(Folder.ENTITY, "dragonfly", "DragonExtro.xml"), getWidth() / 2 + 16, 100);
     }
 
     @Override

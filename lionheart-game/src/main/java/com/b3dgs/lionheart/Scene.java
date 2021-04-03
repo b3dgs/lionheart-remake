@@ -30,6 +30,7 @@ public final class Scene extends SequenceGame<World>
 {
     private final AppInfo info = new AppInfo(this::getFps, services);
     private final Media stage;
+    private final Media music;
     private final InitConfig init;
 
     /**
@@ -46,6 +47,7 @@ public final class Scene extends SequenceGame<World>
 
         this.stage = stage;
         this.init = init;
+        music = StageConfig.imports(new Configurer(stage)).getMusic();
     }
 
     @Override
@@ -57,7 +59,7 @@ public final class Scene extends SequenceGame<World>
     @Override
     protected void onLoaded(double extrp, Graphic g)
     {
-        world.playMusic(StageConfig.imports(new Configurer(stage)).getMusic());
+        world.playMusic(music);
     }
 
     @Override

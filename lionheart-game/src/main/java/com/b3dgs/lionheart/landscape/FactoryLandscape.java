@@ -106,13 +106,13 @@ public final class FactoryLandscape
                 background = new Black(source);
                 break;
             case ANCIENTTOWN:
-                background = new Grandient(1800, 470, source, backgroundType, flicker);
+                background = new Gradient(1800, 470, source, backgroundType, flicker);
                 break;
             case LAVA:
                 background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case SECRET:
-                background = new Grandient(1600, 384, source, backgroundType, flicker);
+                background = new Gradient(1600, 384, source, backgroundType, flicker);
                 break;
             case AIRSHIP:
                 background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
@@ -121,7 +121,7 @@ public final class FactoryLandscape
                 background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case TOWER:
-                background = new Grandient(2448, 676, source, backgroundType, flicker);
+                background = new Gradient(2448, 676, source, backgroundType, flicker);
                 break;
             case NORKA:
                 background = new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flicker);

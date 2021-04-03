@@ -71,6 +71,11 @@ public final class NorkaWalk extends FeatureModel implements Routine, Recyclable
         walk = config.getAnimation(Anim.WALK);
     }
 
+    /**
+     * Update raise phase from chair.
+     * 
+     * @param extrp The extrapolation value.
+     */
     private void updateRaise(double extrp)
     {
         if (animatable.is(AnimState.FINISHED))
@@ -80,6 +85,11 @@ public final class NorkaWalk extends FeatureModel implements Routine, Recyclable
         }
     }
 
+    /**
+     * Update walk phase until front.
+     * 
+     * @param extrp The extrapolation value.
+     */
     private void updateWalk(double extrp)
     {
         transformable.moveLocationY(extrp, -0.15);

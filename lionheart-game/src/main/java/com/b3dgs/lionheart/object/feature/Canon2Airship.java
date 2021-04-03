@@ -174,12 +174,12 @@ public final class Canon2Airship extends FeatureModel implements Routine, Recycl
     @Override
     public void recycle()
     {
-        dotStart = spawner.spawn(Medias.create(Folder.EFFECTS, "airship", "LaserDot.xml"),
+        dotStart = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
                                  transformable.getX(),
                                  transformable.getY())
                           .getFeature(Transformable.class);
 
-        dotEnd = spawner.spawn(Medias.create(Folder.EFFECTS, "airship", "LaserDot.xml"),
+        dotEnd = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
                                transformable.getX(),
                                transformable.getY())
                         .getFeature(Transformable.class);

@@ -33,7 +33,9 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 @FeatureInterface
 public final class BossSwampEffect extends FeatureModel implements Recyclable
 {
+    /** Fly effect speed. */
     static final double EFFECT_SPEED = 0.2;
+    /** Fly effect margin. */
     static final int EFFECT_MARGIN = 5;
 
     private final Tick effectTickX = new Tick();

@@ -52,7 +52,7 @@ public final class Road extends FeatureModel implements Routine
     {
         super(services, setup);
 
-        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUNDS, "airship");
+        final String path = UtilFolder.getPathSeparator(Medias.getSeparator(), Folder.FOREGROUND, "airship");
         final Sprite sprite0 = Drawable.loadSprite(Medias.create(path, "road.png"));
         sprite0.load();
         sprite0.prepare();

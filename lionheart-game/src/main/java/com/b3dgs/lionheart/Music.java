@@ -74,7 +74,7 @@ public enum Music
      */
     Music()
     {
-        media = Medias.create(Folder.MUSICS, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
+        media = Medias.create(Folder.MUSIC, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
     }
 
     /**

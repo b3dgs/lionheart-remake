@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.constant.Folder;
@@ -77,36 +77,17 @@ public final class ScenePicture extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(new SourceResolutionProvider()
-        {
-            @Override
-            public int getWidth()
-            {
-                return ScenePicture.this.getWidth();
-            }
-
-            @Override
-            public int getHeight()
-            {
-                return ScenePicture.this.getHeight();
-            }
-
-            @Override
-            public int getRate()
-            {
-                return ScenePicture.this.getRate();
-            }
-        });
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 
         final StageConfig config = StageConfig.imports(new Configurer(stage));
         picture = Drawable.loadSprite(config.getPic().get());
-        font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITES, "font.png"),
-                                       Medias.create(Folder.SPRITES, "fontdata.xml"),
+        font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
+                                       Medias.create(Folder.SPRITE, "fontdata.xml"),
                                        12,
                                        12);
-        config.getText().ifPresent(m -> font.setText(Util.toFontText(Medias.create(Folder.TEXTS, m))));
+        config.getText().ifPresent(m -> font.setText(Util.toFontText(Medias.create(Folder.TEXT, m))));
     }
 
     /**

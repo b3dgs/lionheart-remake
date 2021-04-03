@@ -31,9 +31,7 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public final class Loading extends Sequence
 {
-    private static final String IMG_LOADING = "logo.png";
-
-    private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITES, IMG_LOADING));
+    private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
 
     /**
      * Constructor.
@@ -43,7 +41,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context)
     {
-        super(context, Constant.MENU_RESOLUTION);
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         setSystemCursorVisible(false);
     }
@@ -60,7 +58,8 @@ public final class Loading extends Sequence
     @Override
     public void update(double extrp)
     {
-        end(Scene.class, Stage.STAGE_1.getFile(), new InitConfig(4, 0, 2, 1, false, false));
+        end(Scene.class, Stage.STAGE_1.getFile(), new InitConfig(4, 2));
+        // end(Menu.class);
     }
 
     @Override
