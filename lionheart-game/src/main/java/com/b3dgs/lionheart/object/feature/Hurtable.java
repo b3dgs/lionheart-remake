@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.Optional;
 import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.LionEngineException;
@@ -42,6 +43,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
@@ -84,7 +86,7 @@ public final class Hurtable extends FeatureModel
     private final double hurtForceValue;
     private final Spawner spawner = services.get(Spawner.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
-    private final Media effect;
+    private final Optional<Media> effect;
     private final OptionalInt frame;
     private final boolean persist;
     private final boolean fall;
@@ -104,6 +106,7 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private EntityModel model;
     @FeatureGet private Stats stats;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -335,7 +338,12 @@ public final class Hurtable extends FeatureModel
         }
         if (fall)
         {
-            spawner.spawn(effect, transformable.getX(), transformable.getY() + transformable.getHeight() / 2);
+            if (effect.isPresent())
+            {
+                spawner.spawn(effect.get(), transformable.getX(), transformable.getY() + transformable.getHeight() / 2)
+                       .getFeature(Rasterable.class)
+                       .setAnimOffset2(rasterable.getAnimOffset2());
+            }
             identifiable.destroy();
         }
     }
@@ -387,9 +395,13 @@ public final class Hurtable extends FeatureModel
         {
             if (!fall)
             {
-                if (effect != null)
+                if (effect.isPresent())
                 {
-                    spawner.spawn(effect, transformable.getX(), transformable.getY() + transformable.getHeight() / 2);
+                    spawner.spawn(effect.get(),
+                                  transformable.getX(),
+                                  transformable.getY() + transformable.getHeight() / 2)
+                           .getFeature(Rasterable.class)
+                           .setAnimOffset2(rasterable.getAnimOffset2());
                 }
                 if (!persist)
                 {

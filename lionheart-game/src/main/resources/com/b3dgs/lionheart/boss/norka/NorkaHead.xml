@@ -22,5 +22,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="16"/>
-    <hurtable frame="6" effect="norka/ExplodeBig" sfx="BOSS_NORKA_HURT"/>
+    <hurtable frame="6" effect="boss/norka/ExplodeBig.xml" sfx="BOSS_NORKA_HURT"/>
 </lionengine:featurable>

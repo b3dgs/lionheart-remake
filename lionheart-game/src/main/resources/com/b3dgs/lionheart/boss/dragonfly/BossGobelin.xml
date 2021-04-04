@@ -25,12 +25,12 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:launcher>
-        <lionengine:launchable media="entity/boss/dragonfly/BossProjectile.xml" ox="-3" oy="4">
+        <lionengine:launchable media="boss/dragonfly/BossProjectile.xml" ox="-3" oy="4">
             <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-2.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
-    <hurtable effect="dragonfly/ExplodeBig"/>
+    <hurtable effect="dragonfly/ExplodeBig.xml"/>
     <shooter fireDelay="30" firedDelay="10" anim="13" svx="1.0" svy="1.0"/>
 </lionengine:featurable>

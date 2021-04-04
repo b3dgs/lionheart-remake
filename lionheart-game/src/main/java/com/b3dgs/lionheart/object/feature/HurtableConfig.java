@@ -23,10 +23,7 @@ import java.util.OptionalInt;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.game.Configurer;
-import com.b3dgs.lionengine.game.feature.Factory;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Hurtable configuration.
@@ -62,7 +59,7 @@ public final class HurtableConfig
         if (configurer.hasNode(NODE_HURTABLE))
         {
             final OptionalInt frame = configurer.getIntegerOptional(ATT_FRAME, NODE_HURTABLE);
-            final String effect = configurer.getStringDefault(null, ATT_EFFECT, NODE_HURTABLE);
+            final Optional<Media> effect = configurer.getMediaOptional(ATT_EFFECT, NODE_HURTABLE);
             final OptionalDouble backward = configurer.getDoubleOptional(ATT_BACKWARD, NODE_HURTABLE);
             final boolean persist = configurer.getBooleanDefault(false, ATT_PERSIST, NODE_HURTABLE);
             final boolean fall = configurer.getBooleanDefault(false, ATT_FALL, NODE_HURTABLE);
@@ -70,13 +67,18 @@ public final class HurtableConfig
 
             return new HurtableConfig(frame, effect, backward, persist, fall, sfx);
         }
-        return new HurtableConfig(OptionalInt.empty(), null, OptionalDouble.empty(), false, false, Optional.empty());
+        return new HurtableConfig(OptionalInt.empty(),
+                                  Optional.empty(),
+                                  OptionalDouble.empty(),
+                                  false,
+                                  false,
+                                  Optional.empty());
     }
 
     /** Frame hurt. */
     private final OptionalInt frame;
     /** Effect media. */
-    private final Media effect;
+    private final Optional<Media> effect;
     /** Move backward force. */
     private final OptionalDouble backward;
     /** Persist on death flag. */
@@ -97,7 +99,7 @@ public final class HurtableConfig
      * @param sfx The media sfx.
      */
     private HurtableConfig(OptionalInt frame,
-                           String effect,
+                           Optional<Media> effect,
                            OptionalDouble backward,
                            boolean persist,
                            boolean fall,
@@ -106,14 +108,7 @@ public final class HurtableConfig
         super();
 
         this.frame = frame;
-        if (effect != null)
-        {
-            this.effect = Medias.create(Folder.EFFECT, effect + Factory.FILE_DATA_DOT_EXTENSION);
-        }
-        else
-        {
-            this.effect = null;
-        }
+        this.effect = effect;
         this.backward = backward;
         this.persist = persist;
         this.fall = fall;
@@ -135,7 +130,7 @@ public final class HurtableConfig
      * 
      * @return The effect media, <code>null</code> if not defined.
      */
-    public Media getEffect()
+    public Optional<Media> getEffect()
     {
         return effect;
     }

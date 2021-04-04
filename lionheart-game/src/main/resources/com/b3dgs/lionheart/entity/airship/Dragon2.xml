@@ -30,5 +30,5 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
-    <hurtable effect="airship/ExplodeLittle"/>
+    <hurtable effect="airship/ExplodeLittle.xml"/>
 </lionengine:featurable>

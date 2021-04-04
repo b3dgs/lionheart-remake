@@ -23,10 +23,10 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:launcher>
-        <lionengine:launchable media="entity/boss/dragonfly/BossLaser.xml" ox="-122" oy="6">
+        <lionengine:launchable media="boss/dragonfly/BossLaser.xml" ox="-122" oy="6">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/dragonfly/BossLaser.xml" ox="-378" oy="6">
+        <lionengine:launchable media="boss/dragonfly/BossLaser.xml" ox="-378" oy="6">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

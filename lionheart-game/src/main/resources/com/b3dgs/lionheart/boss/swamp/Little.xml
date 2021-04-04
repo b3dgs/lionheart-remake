@@ -23,5 +23,5 @@
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ExplodeLittle"/>
+    <hurtable effect="boss/swamp/ExplodeLittle.xml"/>
 </lionengine:featurable>

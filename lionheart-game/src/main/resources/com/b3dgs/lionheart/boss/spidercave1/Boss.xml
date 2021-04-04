@@ -27,12 +27,12 @@
     </lionengine:categories>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher level="0">
-        <lionengine:launchable media="entity/monster/spidercave1/Spider1.xml" ox="0" oy="16" delay="0">
+        <lionengine:launchable media="entity/spidercave1/Spider1.xml" ox="0" oy="16" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:launcher level="1">
-        <lionengine:launchable media="entity/boss/spidercave1/Bowl.xml" ox="-48" oy="16" delay="0">
+        <lionengine:launchable media="boss/spidercave1/Bowl.xml" ox="-48" oy="16" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="-1.5" vy="2.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

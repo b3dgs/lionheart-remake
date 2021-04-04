@@ -41,6 +41,6 @@
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:body gravity="1.2" gravityMax="6.0"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <hurtable effect="airship/Explode"/>
+    <hurtable effect="airship/Explode.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

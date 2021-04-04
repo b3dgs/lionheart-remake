@@ -21,24 +21,24 @@
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="0"/>
     <lionengine:launcher level="0">
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="0">
+        <lionengine:launchable media="boss/swamp/Egg.xml" ox="96" oy="64" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="25">
+        <lionengine:launchable media="boss/swamp/Egg.xml" ox="96" oy="64" delay="25">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="50">
+        <lionengine:launchable media="boss/swamp/Egg.xml" ox="96" oy="64" delay="50">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Egg.xml" ox="96" oy="64" delay="75">
+        <lionengine:launchable media="boss/swamp/Egg.xml" ox="96" oy="64" delay="75">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:launcher level="1">
-        <lionengine:launchable media="entity/boss/swamp/Bird.xml" ox="-64" oy="48" delay="10">
+        <lionengine:launchable media="boss/swamp/Bird.xml" ox="-64" oy="48" delay="10">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="entity/boss/swamp/Bird.xml" ox="-64" oy="48" delay="160">
+        <lionengine:launchable media="boss/swamp/Bird.xml" ox="-64" oy="48" delay="160">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

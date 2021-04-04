@@ -142,10 +142,14 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         {
             spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeLittle.xml"),
                           transformable.getX(),
-                          transformable.getY() + transformable.getHeight() / 2);
+                          transformable.getY() + transformable.getHeight() / 2)
+                   .getFeature(Rasterable.class)
+                   .setAnimOffset2(offset * 8);
+
             spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Little.xml"), transformable)
                    .getFeature(Rasterable.class)
                    .setAnimOffset2(offset * 8);
+
             identifiable.destroy();
         }
     }

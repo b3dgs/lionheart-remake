@@ -45,5 +45,5 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="20"/>
-    <hurtable effect="dragonfly/ExplodeBig"/>
+    <hurtable effect="dragonfly/ExplodeBig.xml"/>
 </lionengine:featurable>

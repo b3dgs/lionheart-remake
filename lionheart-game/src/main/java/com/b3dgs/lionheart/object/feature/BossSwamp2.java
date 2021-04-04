@@ -423,7 +423,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateFlickerHurt()
     {
-        rasterable.setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * PALLET_OFFSET);
         if (flickerCount > 0)
         {
             if (flickerCount % 2 == 1)
@@ -438,6 +438,16 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         }
     }
 
+    /**
+     * Get frame offset based on health.
+     * 
+     * @return The frame offset.
+     */
+    private int getFrameOffset()
+    {
+        return (stats.getHealthMax() - stats.getHealth()) / 2;
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
@@ -446,7 +456,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         collidable.setCollisionVisibility(Constant.DEBUG);
         launcher.addListener(l ->
         {
-            final int offset = UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 2);
+            final int offset = UtilMath.clamp(getFrameOffset(), 0, 2);
             l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset2(offset * 20));
             l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset));
         });
@@ -498,7 +508,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         }
         transformable.moveLocation(extrp, moveX, moveY);
         neck.setLocation(transformable);
-        neck.setFrameOffset(stats.getHealthMax() - stats.getHealth());
+        neck.setFrameOffset(getFrameOffset());
 
         updateFlickerHurt();
     }

@@ -170,7 +170,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             {
                 final Transformable trans = bowls.get(i).getFeature(Transformable.class);
                 final BossSwampBowl bowl = trans.getFeature(BossSwampBowl.class);
-                bowl.setFrameOffset(stats.getHealthMax() - stats.getHealth());
+                bowl.setFrameOffset(getFrameOffset());
                 final double x = transformable.getX()
                                  + Math.sin(-bowl.getEffect() + i * 0.9) * (i + 1) * (i + 1) * 0.25;
 
@@ -205,6 +205,16 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             launcher.fire();
             fired = true;
         }
+    }
+
+    /**
+     * Get frame offset based on health.
+     * 
+     * @return The frame offset.
+     */
+    private int getFrameOffset()
+    {
+        return (stats.getHealthMax() - stats.getHealth()) / 2;
     }
 
     @Override
@@ -247,7 +257,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             updateBowls(extrp);
         }
 
-        rasterable.setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * PALLET_OFFSET);
 
         transformable.moveLocation(extrp, moveX, moveY);
     }

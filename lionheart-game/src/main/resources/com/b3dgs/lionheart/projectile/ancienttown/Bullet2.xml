@@ -50,7 +50,7 @@
     <lionengine:body gravity="1.0" gravityMax="7.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ancienttown/ExplodeLittle"/>
+    <hurtable effect="ancienttown/ExplodeLittle.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
     <bulletBounceOnGround sfx="PROJECTILE_BULLET2"/>
 </lionengine:featurable>

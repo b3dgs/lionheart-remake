@@ -41,6 +41,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="2"/>
-    <hurtable fall="true" effect="swamp/ExplodeBig"/>
+    <hurtable fall="true" effect="swamp/ExplodeBig.xml"/>
     <shooter fireDelay="200" firedDelay="0" svx="0" svy="0"/>
 </lionengine:featurable>

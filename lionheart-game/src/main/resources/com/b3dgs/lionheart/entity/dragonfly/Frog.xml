@@ -24,5 +24,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
-    <hurtable effect="dragonfly/ExplodeBig"/>
+    <hurtable effect="dragonfly/ExplodeBig.xml"/>
 </lionengine:featurable>
