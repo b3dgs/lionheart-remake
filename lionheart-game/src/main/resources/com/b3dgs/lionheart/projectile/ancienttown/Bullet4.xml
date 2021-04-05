@@ -32,6 +32,6 @@
     <lionengine:body gravity="2.0" gravityMax="7.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ancienttown/ExplodeLittle.xml"/>
+    <hurtable effect="effect/ancienttown/ExplodeLittle.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

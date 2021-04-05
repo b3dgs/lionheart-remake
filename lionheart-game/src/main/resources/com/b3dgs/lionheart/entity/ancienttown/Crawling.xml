@@ -58,6 +58,6 @@
     <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="ancienttown/ExplodeBig.xml"/>
+    <hurtable effect="effect/ancienttown/ExplodeBig.xml"/>
     <jumper offset="-2"/>
 </lionengine:featurable>

@@ -35,5 +35,5 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable effect="swamp/ExplodeBig.xml" persist="true"/>
+    <hurtable effect="effect/swamp/ExplodeBig.xml" persist="true"/>
 </lionengine:featurable>

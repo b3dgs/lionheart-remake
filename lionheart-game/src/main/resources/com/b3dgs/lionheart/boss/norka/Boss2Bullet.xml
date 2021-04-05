@@ -22,6 +22,6 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1%2"/>
-    <hurtable frame="4" effect="norka/ExplodeLittle.xml"/>
+    <hurtable frame="4" effect="effect/norka/ExplodeLittle.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -34,5 +34,5 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
-    <hurtable fall="true" effect="tower/ExplodeBig.xml"/>
+    <hurtable fall="true" effect="effect/tower/ExplodeBig.xml"/>
 </lionengine:featurable>

@@ -39,6 +39,6 @@
     </lionengine:categories>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <hurtable frame="-1" effect="airship/ExplodeLittle.xml"/>
+    <hurtable frame="-1" effect="effect/airship/ExplodeLittle.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

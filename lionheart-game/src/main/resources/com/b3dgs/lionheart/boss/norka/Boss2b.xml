@@ -19,7 +19,7 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="24" height="56"/>
         </lionengine:animation>
         <lionengine:animation name="none" start="14" end="14" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="14" end="14" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="24" height="56" mirror="false"/>
@@ -33,7 +33,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:collidable group="2" accepted="1%2"/>
     <stats health="4"/>
-    <hurtable frame="15" effect="boss/norka/ExplodeBig.xml"/>
+    <hurtable frame="15" effect="effect/norka/ExplodeBig.xml"/>
     <lionengine:body gravity="2.0" gravityMax="5.0"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

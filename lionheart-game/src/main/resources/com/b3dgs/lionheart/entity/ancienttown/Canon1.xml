@@ -33,5 +33,5 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>
-    <hurtable effect="ancienttown/ExplodeBig.xml"/>
+    <hurtable effect="effect/ancienttown/ExplodeBig.xml"/>
 </lionengine:featurable>

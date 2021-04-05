@@ -15,5 +15,5 @@
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <hurtable effect="lava/ExplodeSilent.xml"/>
+    <hurtable effect="effect/lava/ExplodeSilent.xml"/>
 </lionengine:featurable>

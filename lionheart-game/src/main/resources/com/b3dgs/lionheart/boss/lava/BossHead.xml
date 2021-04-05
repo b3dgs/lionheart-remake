@@ -22,5 +22,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="40"/>
-    <hurtable effect="lava/ExplodeBig.xml" sfx="BOSS3_HURT"/>
+    <hurtable effect="effect/lava/ExplodeBig.xml" sfx="BOSS3_HURT"/>
 </lionengine:featurable>

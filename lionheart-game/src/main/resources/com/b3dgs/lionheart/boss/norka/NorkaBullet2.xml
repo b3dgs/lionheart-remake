@@ -28,6 +28,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable frame="-1" effect="norka/ExplodeLittle.xml"/>
+    <hurtable frame="-1" effect="effect/norka/ExplodeLittle.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
