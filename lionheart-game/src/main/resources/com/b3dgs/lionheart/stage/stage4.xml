@@ -14,7 +14,7 @@
         <checkpoint tx="223" ty="26" next="stage/stage5.xml"/>
     </checkpoints>
     <entities>
-        <entity file="entity/boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>
+        <entity file="boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>
         <entity file="entity/spidercave2/Talisment.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/spidercave2/PotionBig.xml" tx="48.0" ty="64.0"/>
         <entity file="entity/spidercave2/PotionLittle.xml" tx="71.0" ty="40.0"/>
@@ -182,6 +182,6 @@
         <entity file="entity/spidercave2/Spider1.xml" tx="161.2" ty="31.0"/>
         <entity file="entity/spidercave2/Spider1.xml" tx="161.4" ty="31.0"/>
         <entity file="entity/spidercave2/Spider1.xml" tx="162.0" ty="29.0"/>
-        <entity file="entity/boss/spidercave2/Boss.xml" tx="219.0" ty="29.5"/>
+        <entity file="boss/spidercave2/Boss.xml" tx="219.0" ty="29.5"/>
     </entities>
 </stage>

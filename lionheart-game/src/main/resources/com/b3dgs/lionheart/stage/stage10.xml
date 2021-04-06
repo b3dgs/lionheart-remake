@@ -145,19 +145,19 @@
         <entity file="entity/secret/Talisment.xml" tx="295.0" ty="65.0"/>
         <entity file="entity/secret/Talisment.xml" tx="294.0" ty="65.0"/>
         <entity file="entity/secret/Talisment.xml" tx="293.0" ty="65.0"/>
-        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="51.0">
+        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="51.0" mirror="true">
             <patrol sh="-0.5" sv="-0.4" proximity="96"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="44.0">
+        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="44.0" mirror="true">
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="40.0">
+        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="40.0" mirror="true">
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="36.0">
+        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="36.0" mirror="true">
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="32.0">
+        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="32.0" mirror="true">
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="27.0" ty="25.0">

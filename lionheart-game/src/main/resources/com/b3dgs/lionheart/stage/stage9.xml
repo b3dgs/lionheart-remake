@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="menu/pic3.png" text="lava.txt">
+<stage pic="sprite/pic3.png" text="lava.txt">
     <music file="music/lava.sc68"/>
     <map file="levels/lava/stage9.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="levels/lava/raster/lava"/>

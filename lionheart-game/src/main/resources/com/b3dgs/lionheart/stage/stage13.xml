@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="menu/pic6.png" text="tower.txt">
+<stage pic="sprite/pic6.png" text="tower.txt">
     <music file="music/tower.sc68"/>
     <map file="levels/tower/stage13.lvl"/>
     <raster folder="levels/tower/raster/tower/"/>

@@ -250,10 +250,10 @@
         <entity file="entity/swamp/Floater.xml" tx="239.0" ty="2.0"/>
         <entity file="entity/swamp/Floater.xml" tx="235.0" ty="2.0"/>
         <entity file="entity/swamp/Bee.xml" tx="363.0" ty="6.0">
-            <patrol sh="-1.2" sv="0.6" amplitude="192"/>
+            <patrol sh="-1.2" sv="0.6" amplitude="192" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="350.0" ty="12.5">
-            <patrol sh="1.2" sv="-0.6" amplitude="192"/>
+            <patrol sh="1.2" sv="-0.6" amplitude="192" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Dragon.xml" tx="377.5" ty="6.0"/>
         <entity file="entity/swamp/Dragon.xml" tx="391.5" ty="7.0"/>
@@ -265,7 +265,7 @@
         <entity file="entity/swamp/PotionLittle.xml" tx="430.0" ty="1.0"/>
         <entity file="entity/swamp/Flower.xml" tx="428.0" ty="22.0"/>
         <entity file="entity/swamp/Bird.xml" tx="446.0" ty="20.5">
-            <patrol sv="0.5" amplitude="40"/>
+            <patrol sv="0.5" amplitude="40" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Talisment.xml" tx="445.0" ty="31.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="448.0" ty="31.0"/>
@@ -294,19 +294,19 @@
         <entity file="entity/swamp/Talisment.xml" tx="542.0" ty="4.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="543.0" ty="5.0"/>
         <entity file="entity/swamp/Bird.xml" tx="503.0" ty="18.5">
-            <patrol sv="0.5" amplitude="48"/>
+            <patrol sv="0.5" amplitude="48" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bird.xml" tx="508.0" ty="25.0">
-            <patrol sv="0.5" amplitude="48"/>
+            <patrol sv="0.5" amplitude="48" mirror="false"/>
         </entity>
         <entity file="entity/swamp/PotionLittle.xml" tx="521.0" ty="29.0"/>
         <entity file="entity/swamp/PotionLittle.xml" tx="524.0" ty="29.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="523.0" ty="39.0"/>
         <entity file="entity/swamp/Bird.xml" tx="516.0" ty="45.0">
-            <patrol sh="0.5" amplitude="64"/>
+            <patrol sh="0.5" amplitude="64" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bird.xml" tx="514.0" ty="47.0">
-            <patrol sh="0.5" amplitude="64"/>
+            <patrol sh="0.5" amplitude="64" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Dragon.xml" tx="498.5" ty="51.0"/>
         <entity file="entity/swamp/Bee.xml" tx="483.0" ty="51.0">

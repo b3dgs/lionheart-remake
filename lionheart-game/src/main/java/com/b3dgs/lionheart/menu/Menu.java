@@ -74,21 +74,19 @@ public class Menu extends Sequence
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
     /** Main menu. */
-    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXT, Folder.SPRITE, "main.txt"));
+    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXT, "menu", "main.txt"));
     /** Options menu. */
-    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXT, Folder.SPRITE, "options.txt"));
+    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXT, "menu", "options.txt"));
     /** List of difficulties. */
     private static final List<String> OPTIONS_DIFFICULTY = Util.readLines(Medias.create(Folder.TEXT,
-                                                                                        Folder.SPRITE,
+                                                                                        "menu",
                                                                                         "difficulties.txt"));
     /** List of joystick. */
     private static final List<String> OPTIONS_JOYSTICK = Util.readLines(Medias.create(Folder.TEXT,
-                                                                                      Folder.SPRITE,
+                                                                                      "menu",
                                                                                       "joystick.txt"));
     /** List of music. */
-    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXT,
-                                                                                   Folder.SPRITE,
-                                                                                   "music.txt"));
+    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXT, "menu", "music.txt"));
 
     /** Level loading text font. */
     private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font_big.png"),

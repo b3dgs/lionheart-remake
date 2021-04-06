@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="menu/pic1.png" text="swamp.txt">
+<stage pic="sprite/pic1.png" text="swamp.txt">
     <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage1.lvl"/>
     <raster folder="levels/swamp/raster/dusk/"/>

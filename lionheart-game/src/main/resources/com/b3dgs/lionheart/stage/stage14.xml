@@ -9,6 +9,6 @@
         <checkpoint tx="9" ty="5"/>
     </checkpoints>
     <entities>
-        <entity file="entity/boss/norka/NorkaShield.xml" tx="13.0" ty="9.0"/>
+        <entity file="boss/norka/NorkaShield.xml" tx="13.0" ty="9.0"/>
     </entities>
 </stage>
