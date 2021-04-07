@@ -2,7 +2,7 @@
 <stage pic="sprite/pic6.png" text="tower.txt">
     <music file="music/tower.sc68"/>
     <map file="levels/tower/stage13.lvl"/>
-    <raster folder="levels/tower/raster/tower/"/>
+    <raster folder="raster/tower/"/>
     <background type="TOWER"/>
     <foreground type="WATER" waterDepth="8" waterOffset="32" raise="2448"/>
     <checkpoints>

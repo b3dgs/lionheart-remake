@@ -2,7 +2,7 @@
 <stage pic="sprite/pic2.png" text="ancienttown.txt">
     <music file="music/ancienttown.sc68"/>
     <map file="levels/ancienttown/stage6.lvl"/>
-    <raster folder="levels/ancienttown/raster/dusk/"/>
+    <raster folder="raster/ancienttown/dusk/"/>
     <background type="ANCIENTTOWN_DUSK"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>
     <checkpoints>

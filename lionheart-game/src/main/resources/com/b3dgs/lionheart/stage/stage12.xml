@@ -2,7 +2,7 @@
 <stage pic="sprite/pic5.png" text="dragonfly.txt">
     <music file="music/dragonfly.sc68"/>
     <map file="levels/dragonfly/stage12.lvl"/>
-    <raster folder="levels/dragonfly/raster/dragonfly/"/>
+    <raster folder="raster/dragonfly/"/>
     <background type="DRAGONFLY"/>
     <foreground type="NONE"/>
     <checkpoints>

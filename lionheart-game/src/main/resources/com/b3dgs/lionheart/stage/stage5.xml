@@ -2,7 +2,7 @@
 <stage>
     <music file="music/swamp.sc68"/>
     <map file="levels/swamp/stage5.lvl"/>
-    <raster folder="levels/swamp/raster/day/"/>
+    <raster folder="raster/swamp/day/"/>
     <background type="SWAMP_DAY"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
