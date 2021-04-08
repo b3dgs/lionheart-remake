@@ -125,10 +125,8 @@
         <lionengine:tile number="50"/>
         <lionengine:tile number="66"/>
         <lionengine:tile number="86"/>
-                
         <lionengine:tile number="5"/>
         <lionengine:tile number="10"/>
         <lionengine:tile number="0"/>
     </lionengine:group>
-    <lionengine:group name="none"/>
 </lionengine:groups>
