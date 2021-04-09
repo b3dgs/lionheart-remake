@@ -17,10 +17,7 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -40,7 +37,6 @@ public final class StateDrowned extends State
     private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
     private final Drownable drownable = model.getFeature(Drownable.class);
-    private final CheckpointHandler checkpoint;
 
     /**
      * Create the state.
@@ -52,9 +48,7 @@ public final class StateDrowned extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> tick.elapsed(DROWN_END_TICK));
-
-        checkpoint = model.getCheckpoint();
+        addTransition(StateRespawn.class, () -> tick.elapsed(DROWN_END_TICK));
     }
 
     @Override
@@ -73,13 +67,6 @@ public final class StateDrowned extends State
     {
         super.exit();
 
-        final Coord check = checkpoint.getCurrent(transformable);
-        transformable.teleport(check.getX(), check.getY());
-        model.getCamera().resetInterval(transformable);
-        model.getTracker().track(transformable);
-        mirrorable.mirror(Mirror.NONE);
-        stats.fillHealth();
-        stats.decreaseLife();
         drownable.recycle();
     }
 

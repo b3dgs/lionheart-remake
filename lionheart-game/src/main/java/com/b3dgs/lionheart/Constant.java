@@ -70,6 +70,8 @@ public final class Constant
     /** Stats maximum sword. */
     public static final int STATS_MAX_SWORD = 3;
 
+    /** Default credits. */
+    public static final int CREDITS = 7;
     /** Camera horizontal margin. */
     public static final int CAMERA_HORIZONTAL_MARGIN = 16;
     /** Maximum gravity. */

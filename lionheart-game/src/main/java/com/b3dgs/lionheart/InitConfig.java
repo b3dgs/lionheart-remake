@@ -36,6 +36,8 @@ public final class InitConfig
     private final int sword;
     /** Amulet flag. */
     private final Boolean amulet;
+    /** Remaining credits. */
+    private final int credits;
     /** Cheats flag. */
     private final boolean cheats;
     /** Spawn tile. */
@@ -49,7 +51,7 @@ public final class InitConfig
      */
     public InitConfig(int healthMax, int life)
     {
-        this(healthMax, 0, life, 1, Boolean.FALSE, false);
+        this(healthMax, 0, life, 1, Boolean.FALSE, Constant.CREDITS, false, Optional.empty());
     }
 
     /**
@@ -60,21 +62,7 @@ public final class InitConfig
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
      * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
      * @param amulet The amulet flag.
-     * @param cheats The cheats flag.
-     */
-    public InitConfig(int healthMax, int talisment, int life, int sword, Boolean amulet, boolean cheats)
-    {
-        this(healthMax, talisment, life, sword, amulet, cheats, Optional.empty());
-    }
-
-    /**
-     * Create inherited config.
-     * 
-     * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
-     * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
-     * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
-     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
-     * @param amulet The amulet flag.
+     * @param credits The credits value.
      * @param cheats The cheats flag.
      * @param spawn The spawn tile.
      */
@@ -83,6 +71,7 @@ public final class InitConfig
                       int life,
                       int sword,
                       Boolean amulet,
+                      int credits,
                       boolean cheats,
                       Optional<Point> spawn)
     {
@@ -100,10 +89,13 @@ public final class InitConfig
         Check.superiorOrEqual(sword, 0);
         Check.inferiorOrEqual(sword, Constant.STATS_MAX_SWORD);
 
+        Check.superiorOrEqual(credits, 0);
+
         this.healthMax = healthMax;
         this.talisment = talisment;
         this.life = life;
         this.sword = sword;
+        this.credits = credits;
         this.amulet = amulet;
         this.cheats = cheats;
         this.spawn = spawn;
@@ -147,6 +139,16 @@ public final class InitConfig
     public int getSword()
     {
         return sword;
+    }
+
+    /**
+     * Get the credits modifier.
+     * 
+     * @return The credits modifier.
+     */
+    public int getCredits()
+    {
+        return credits;
     }
 
     /**

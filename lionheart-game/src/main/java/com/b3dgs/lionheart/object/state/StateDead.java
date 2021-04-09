@@ -17,13 +17,9 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Stats;
 
 /**
  * Dead state implementation.
@@ -34,8 +30,6 @@ public final class StateDead extends State
     private static final long DEAD_DELAY_TICK = 60L;
 
     private final Tick tick = new Tick();
-    private final Stats stats = model.getFeature(Stats.class);
-    private final CheckpointHandler checkpoint;
 
     /**
      * Create the state.
@@ -47,9 +41,7 @@ public final class StateDead extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> tick.elapsed(DEAD_DELAY_TICK));
-
-        checkpoint = model.getCheckpoint();
+        addTransition(StateRespawn.class, () -> tick.elapsed(DEAD_DELAY_TICK));
     }
 
     @Override
@@ -59,19 +51,6 @@ public final class StateDead extends State
 
         movement.zero();
         tick.restart();
-    }
-
-    @Override
-    public void exit()
-    {
-        super.exit();
-
-        final Coord check = checkpoint.getCurrent(transformable);
-        transformable.teleport(check.getX(), check.getY());
-        model.getCamera().resetInterval(transformable);
-        mirrorable.mirror(Mirror.NONE);
-        stats.fillHealth();
-        stats.decreaseLife();
     }
 
     @Override

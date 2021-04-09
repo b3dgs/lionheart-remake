@@ -443,6 +443,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                               stats.getLife(),
                               stats.getSword(),
                               stats.hasAmulet(),
+                              stats.getCredits(),
                               cheats,
                               spawn);
     }
@@ -457,6 +458,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         Sfx.cacheStart();
 
+        services.add(config);
         stage = services.add(StageConfig.imports(new Configurer(config)));
 
         loadMap(stage);
@@ -543,7 +545,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         if (!Constant.AUDIO_MUTE)
         {
             AudioFactory.setVolume(Constant.AUDIO_VOLUME);
-            audio.setVolume(Constant.AUDIO_VOLUME / 2);
+            audio.setVolume(Constant.AUDIO_VOLUME / 4);
             audio.play();
         }
         else

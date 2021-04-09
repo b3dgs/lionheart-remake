@@ -50,6 +50,7 @@ public final class Stats extends FeatureModel implements Recyclable
     private final StatsConfig config;
     private int sword;
     private Boolean amulet;
+    private int credits;
 
     /**
      * Create feature.
@@ -94,6 +95,7 @@ public final class Stats extends FeatureModel implements Recyclable
         {
             listeners.get(i).notifyNextSword(sword);
         }
+        credits = config.getCredits();
     }
 
     /**
@@ -211,6 +213,16 @@ public final class Stats extends FeatureModel implements Recyclable
     public int getSword()
     {
         return sword;
+    }
+
+    /**
+     * Get the credits count.
+     * 
+     * @return The credits count.
+     */
+    public int getCredits()
+    {
+        return credits;
     }
 
     /**
