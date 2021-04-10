@@ -51,7 +51,7 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossNorka1 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int MOVE_DOWN_DELAY_TICK = 0;// 150;
+    private static final int MOVE_DOWN_DELAY_TICK = 150;
     private static final int PATROL_DELAY_TICK = 50;
     private static final int PATROL_END_DELAY_TICK = 50;
     private static final int APPROACHED_DELAY_TICK = 60;
@@ -147,8 +147,12 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         updateCurve();
         if (tick.elapsed(PATROL_DELAY_TICK))
         {
-            patrol = (patrol + 2) % PATROL_X.length;
-            side = UtilMath.getSign(PATROL_X[patrol] - transformable.getX());
+            do
+            {
+                patrol = (patrol + 1) % PATROL_X.length;
+                side = UtilMath.getSign(PATROL_X[patrol] - transformable.getX());
+            }
+            while (side == 0);
             mirrorable.mirror(side > 0 ? Mirror.HORIZONTAL : Mirror.NONE);
             current = this::updatePatrol;
             animatable.play(walk);
@@ -315,14 +319,14 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateMoveBack(double extrp)
     {
-        if (transformable.getY() < MOVE_DOWN_Y + UtilMath.cos(angle) * CURVE_AMPLITUDE)
+        final double margin = UtilMath.cos(angle) * CURVE_AMPLITUDE;
+        if (transformable.getY() + margin < MOVE_DOWN_Y)
         {
             transformable.moveLocationY(extrp, MOVE_SPEED);
         }
-        if (transformable.getY() > MOVE_DOWN_Y + UtilMath.cos(angle) * CURVE_AMPLITUDE
-            && animatable.is(AnimState.FINISHED))
+        if (transformable.getY() + margin > MOVE_DOWN_Y && animatable.is(AnimState.FINISHED))
         {
-            transformable.teleportY(MOVE_DOWN_Y + UtilMath.cos(angle) * CURVE_AMPLITUDE);
+            transformable.teleportY(MOVE_DOWN_Y);
             animatable.play(idle);
             patrol = (patrol + 1) % PATROL_X.length;
             current = this::updateAwaitPatrol;
