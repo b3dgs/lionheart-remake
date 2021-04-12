@@ -23,4 +23,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="40"/>
     <hurtable effect="effect/lava/ExplodeBig.xml" sfx="BOSS3_HURT"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

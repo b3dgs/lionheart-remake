@@ -22,4 +22,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>
     <hurtable effect="effect/spidercave1/ExplodeBig.xml"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

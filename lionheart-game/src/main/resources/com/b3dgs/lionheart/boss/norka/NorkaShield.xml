@@ -13,4 +13,5 @@
         <lionengine:animation name="idle" start="1" end="16" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -23,4 +23,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="16"/>
     <hurtable frame="6" effect="effect/norka/ExplodeBig.xml" sfx="BOSS_NORKA_HURT"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

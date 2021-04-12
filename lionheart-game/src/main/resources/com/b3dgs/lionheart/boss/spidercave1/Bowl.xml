@@ -24,4 +24,5 @@
     </lionengine:categories>
     <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
     <lionengine:collidable group="2" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -14,4 +14,5 @@
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="1" layerDisplay="1"/>
     <lionengine:collidable group="2" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

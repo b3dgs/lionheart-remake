@@ -32,4 +32,5 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

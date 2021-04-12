@@ -13,4 +13,5 @@
     </lionengine:animations>
     <lionengine:layerable layerRefresh="1" layerDisplay="5"/>
     <sfx_explode count="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

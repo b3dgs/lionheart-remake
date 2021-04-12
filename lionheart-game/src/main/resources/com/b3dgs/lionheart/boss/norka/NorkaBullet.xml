@@ -28,4 +28,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <lionengine:body gravity="1.5" gravityMax="4.0"/>
     <bulletBounceOnGround count="1" sfx="MONSTER_LAND"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

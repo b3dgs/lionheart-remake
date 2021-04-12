@@ -33,4 +33,5 @@
     <stats health="4"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shooter fireDelay="30" firedDelay="10" anim="13" svx="1.0" svy="1.0"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
