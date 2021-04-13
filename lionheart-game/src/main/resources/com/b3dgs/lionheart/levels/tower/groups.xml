@@ -30,10 +30,8 @@
     <lionengine:group name="slope_0_left" type="NONE"/>
     <lionengine:group name="slope_0_right" type="NONE"/>
     <lionengine:group name="slope_1_right" type="NONE"/>
-    <lionengine:group name="incline_1_right" type="NONE"/>
-    <lionengine:group name="incline_0_right" type="NONE"/>
-    <lionengine:group name="incline_0_left" type="NONE"/>
-    <lionengine:group name="incline_1_left" type="NONE"/>
+    <lionengine:group name="incline_right" type="NONE"/>
+    <lionengine:group name="incline_left" type="NONE"/>
     <lionengine:group name="spike" type="NONE"/>
     <lionengine:group name="steep_0_right" type="NONE"/>
     <lionengine:group name="steep_1_right" type="NONE"/>

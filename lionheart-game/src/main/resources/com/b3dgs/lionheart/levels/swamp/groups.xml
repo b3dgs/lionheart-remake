@@ -77,6 +77,11 @@
         <lionengine:tile number="829"/>
         <lionengine:tile number="842"/>
         <lionengine:tile number="843"/>
+        <lionengine:tile number="358"/>
+        <lionengine:tile number="359"/>
+        <lionengine:tile number="357"/>
+    </lionengine:group>
+    <lionengine:group name="groundboss" type="NONE">
         <lionengine:tile number="910"/>
     </lionengine:group>
     <lionengine:group name="ground15" type="NONE">

@@ -31,10 +31,8 @@
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
-            <lionengine:group>incline_0_right</lionengine:group>
-            <lionengine:group>incline_1_right</lionengine:group>
-            <lionengine:group>incline_0_left</lionengine:group>
-            <lionengine:group>incline_1_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>

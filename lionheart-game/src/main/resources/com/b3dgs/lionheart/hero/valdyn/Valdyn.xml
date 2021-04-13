@@ -340,10 +340,6 @@
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
-            <lionengine:group>incline_0_right</lionengine:group>
-            <lionengine:group>incline_1_right</lionengine:group>
-            <lionengine:group>incline_0_left</lionengine:group>
-            <lionengine:group>incline_1_left</lionengine:group>
             <lionengine:group>steep_0_left</lionengine:group>
             <lionengine:group>steep_left_ground</lionengine:group>
             <lionengine:group>steep_1_left</lionengine:group>
@@ -355,12 +351,18 @@
         </lionengine:category>
         <lionengine:category name="leg_left_2" axis="Y" x="-4" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right_2" axis="Y" x="4" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center_2" axis="Y" x="0" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

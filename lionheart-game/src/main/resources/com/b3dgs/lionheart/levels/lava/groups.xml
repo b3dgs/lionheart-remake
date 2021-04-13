@@ -4,7 +4,6 @@
     <lionengine:group name="ground15" type="NONE">
         <lionengine:tile number="23"/>
         <lionengine:tile number="24"/>
-        <lionengine:tile number="85"/>
         <lionengine:tile number="405"/>
         <lionengine:tile number="103"/>
         <lionengine:tile number="102"/>
@@ -18,7 +17,6 @@
         <lionengine:tile number="418"/>
         <lionengine:tile number="448"/>
         <lionengine:tile number="449"/>
-        <lionengine:tile number="124"/>
         <lionengine:tile number="514"/>
         <lionengine:tile number="516"/>
     </lionengine:group>
@@ -50,7 +48,7 @@
         <lionengine:tile number="471"/>
         <lionengine:tile number="484"/>
     </lionengine:group>
-    <lionengine:group name="incline_1_right" type="NONE">
+    <lionengine:group name="incline_right" type="NONE">
         <lionengine:tile number="371"/>
         <lionengine:tile number="383"/>
         <lionengine:tile number="388"/>
@@ -59,31 +57,13 @@
         <lionengine:tile number="414"/>
         <lionengine:tile number="437"/>
     </lionengine:group>
-    <lionengine:group name="incline_0_right" type="NONE">
-        <lionengine:tile number="382"/>
-        <lionengine:tile number="387"/>
-        <lionengine:tile number="394"/>
-        <lionengine:tile number="402"/>
-        <lionengine:tile number="413"/>
-        <lionengine:tile number="300"/>
-        <lionengine:tile number="408"/>
-    </lionengine:group>
-    <lionengine:group name="incline_0_left" type="NONE">
+    <lionengine:group name="incline_left" type="NONE">
         <lionengine:tile number="154"/>
         <lionengine:tile number="175"/>
         <lionengine:tile number="194"/>
         <lionengine:tile number="216"/>
         <lionengine:tile number="237"/>
         <lionengine:tile number="262"/>
-    </lionengine:group>
-    <lionengine:group name="incline_1_left" type="NONE">
-        <lionengine:tile number="176"/>
-        <lionengine:tile number="195"/>
-        <lionengine:tile number="155"/>
-        <lionengine:tile number="217"/>
-        <lionengine:tile number="238"/>
-        <lionengine:tile number="263"/>
-        <lionengine:tile number="278"/>
     </lionengine:group>
     <lionengine:group name="spike" type="NONE"/>
     <lionengine:group name="steep_0_right" type="NONE"/>
