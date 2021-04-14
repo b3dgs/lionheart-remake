@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.Constant;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
@@ -34,25 +33,25 @@ import com.b3dgs.lionengine.io.FileWriting;
 public enum WorldType
 {
     /** Swamp world. */
-    SWAMP(Music.SWAMP),
+    SWAMP,
     /** Spider cave 1 world. */
-    SPIDERCAVE1(Music.SPIDERCAVE),
+    SPIDERCAVE1,
     /** Spider cave 2 world. */
-    SPIDERCAVE2(Music.SPIDERCAVE),
+    SPIDERCAVE2,
     /** Ancient town world. */
-    ANCIENTTOWN(Music.ANCIENTTOWN),
+    ANCIENTTOWN,
     /** Lava world. */
-    LAVA(Music.LAVA),
+    LAVA,
     /** Secret world. */
-    SECRET(Music.SECRET),
+    SECRET,
     /** Airship world. */
-    AIRSHIP(Music.AIRSHIP),
+    AIRSHIP,
     /** Dragonfly world. */
-    DRAGONFLY(Music.DRAGONFLY),
+    DRAGONFLY,
     /** Tower world. */
-    TOWER(Music.TOWER),
+    TOWER,
     /** Norka world. */
-    NORKA(Music.TOWER);
+    NORKA;
 
     /**
      * Load type from its saved format.
@@ -66,8 +65,6 @@ public enum WorldType
         return WorldType.valueOf(file.readString());
     }
 
-    /** World music. */
-    private final Media music;
     /** Associated folder. */
     private final String folder;
     /** To string. */
@@ -75,12 +72,9 @@ public enum WorldType
 
     /**
      * Constructor.
-     * 
-     * @param music The music type.
      */
-    WorldType(Music music)
+    WorldType()
     {
-        this.music = music.get();
         folder = name().toLowerCase(Locale.ENGLISH);
         toString = UtilConversion.toTitleCase(name().replace(Constant.UNDERSCORE, Constant.SPACE));
     }
@@ -94,16 +88,6 @@ public enum WorldType
     public void save(FileWriting file) throws IOException
     {
         file.writeString(name());
-    }
-
-    /**
-     * Get the music type.
-     * 
-     * @return The music type.
-     */
-    public Media getMusic()
-    {
-        return music;
     }
 
     /**

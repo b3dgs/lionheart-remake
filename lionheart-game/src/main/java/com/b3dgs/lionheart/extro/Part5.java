@@ -84,6 +84,7 @@ public final class Part5 extends Sequence
         return featurable;
     });
     private final AppInfo info;
+    private final Audio audio;
 
     private int alphaBack;
     private int alpha0b;
@@ -101,6 +102,8 @@ public final class Part5 extends Sequence
     public Part5(Context context, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
+
+        this.audio = audio;
 
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         final Camera camera = services.create(Camera.class);
@@ -120,6 +123,8 @@ public final class Part5 extends Sequence
         load(Credits.class, audio, alternative);
 
         tick.start();
+
+        setSystemCursorVisible(false);
     }
 
     @Override
@@ -279,5 +284,14 @@ public final class Part5 extends Sequence
         }
 
         info.render(g);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            audio.stop();
+        }
     }
 }

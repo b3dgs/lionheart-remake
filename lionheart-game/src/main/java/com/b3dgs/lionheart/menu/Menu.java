@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
@@ -35,7 +36,6 @@ import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
-import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -43,9 +43,9 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
-import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.ScenePicture;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.Stage;
 import com.b3dgs.lionheart.Util;
@@ -57,10 +57,11 @@ import com.b3dgs.lionheart.intro.Intro;
  */
 public class Menu extends Sequence
 {
+    private static final int MIN_HEIGHT = 360;
+    private static final int MAX_WIDTH = 640;
+    private static final int MARGIN_WIDTH = 0;
     /** Center X. */
     private static final int CENTER_X = 320;
-    /** Main Y. */
-    private static final int Y = 28;
     /** Text color in menu option. */
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
     /** Title text color. */
@@ -88,21 +89,18 @@ public class Menu extends Sequence
     /** List of music. */
     private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXT, "menu", "music.txt"));
 
-    /** Level loading text font. */
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font_big.png"),
-                                                            Medias.create(Folder.SPRITE, "fontdata_big.xml"),
-                                                            24,
-                                                            24);
     /** Background menus. */
     private final Sprite[] menus = new Sprite[2];
     /** List of menu data with their content. */
     private final Data[] menusData = new Data[menus.length];
     /** Device controller reference. */
     private final DeviceController device;
-    /** App info. */
+    /** Application info. */
     private final AppInfo info;
     /** Horizontal factor. */
     private final double factorH = getWidth() / 640.0;
+    /** Main Y. */
+    private final int mainY;
 
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
@@ -130,7 +128,7 @@ public class Menu extends Sequence
      */
     public Menu(Context context)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
         final Services services = new Services();
         services.add(context);
@@ -138,9 +136,13 @@ public class Menu extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 
+        mainY = (getHeight() - 360) / 2;
+
         loadMenu();
         menusData[0] = createMain();
         menusData[1] = createOptions();
+
+        setSystemCursorVisible(false);
     }
 
     /**
@@ -155,8 +157,8 @@ public class Menu extends Sequence
         }
 
         final int x = (int) (CENTER_X * factorH);
-        menus[0].setLocation(x, Y + 64);
-        menus[1].setLocation(x, Y + 32);
+        menus[0].setLocation(x, mainY + 32);
+        menus[1].setLocation(x, mainY);
     }
 
     /**
@@ -169,10 +171,10 @@ public class Menu extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(TEXT, MAIN.get(0), x, Y + 152, Align.CENTER, MenuType.NEW),
-            new Choice(TEXT, MAIN.get(1), x, Y + 186, Align.CENTER, MenuType.OPTIONS),
-            new Choice(TEXT, MAIN.get(2), x, Y + 222, Align.CENTER, MenuType.INTRO),
-            new Choice(TEXT, MAIN.get(3), x, Y + 272, Align.CENTER, MenuType.EXIT)
+            new Choice(TEXT, MAIN.get(0), x, mainY + 120, Align.CENTER, MenuType.NEW),
+            new Choice(TEXT, MAIN.get(1), x, mainY + 154, Align.CENTER, MenuType.OPTIONS),
+            new Choice(TEXT, MAIN.get(2), x, mainY + 190, Align.CENTER, MenuType.INTRO),
+            new Choice(TEXT, MAIN.get(3), x, mainY + 240, Align.CENTER, MenuType.EXIT)
         };
         return new Data(TEXT, choices);
     }
@@ -187,10 +189,10 @@ public class Menu extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(TEXT, OPTIONS.get(0), x - 115, Y + 160, Align.LEFT),
-            new Choice(TEXT, OPTIONS.get(1), x - 115, Y + 196, Align.LEFT),
-            new Choice(TEXT, OPTIONS.get(2), x - 115, Y + 232, Align.LEFT),
-            new Choice(TEXT, OPTIONS.get(3), x, Y + 276, Align.CENTER, MenuType.MAIN)
+            new Choice(TEXT, OPTIONS.get(0), x - 115, mainY + 128, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(1), x - 115, mainY + 164, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(2), x - 115, mainY + 200, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(3), x, mainY + 244, Align.CENTER, MenuType.MAIN)
         };
         return new Data(TEXT, choices);
     }
@@ -225,8 +227,8 @@ public class Menu extends Sequence
             stopAudio();
             if (music > 0)
             {
-                audio = AudioFactory.loadAudio(Music.values()[music - 1].get());
-                audio.setVolume(Constant.AUDIO_VOLUME);
+                audio = AudioFactory.loadAudio(Music.values()[music - 1]);
+                audio.setVolume(Settings.getInstance().getVolumeMusic());
                 audio.play();
             }
         }
@@ -385,7 +387,9 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                end(ScenePicture.class, Stage.STAGE_1.getFile(), new InitConfig(difficulty < 2 ? 4 : 3, 2));
+                end(ScenePicture.class,
+                    Stage.STAGE_1,
+                    difficulty < 2 ? Constant.INIT_STANDARD : Constant.INIT_LIONHARD);
                 break;
             case OPTIONS:
                 handleOptions();
@@ -439,7 +443,7 @@ public class Menu extends Sequence
         TEXT_TITLE.setColor(COLOR_TITLE);
         TEXT_TITLE.draw(g,
                         (int) (Menu.CENTER_X * factorH),
-                        Menu.Y + 128,
+                        mainY + 96,
                         Align.CENTER,
                         MAIN.get(1).toUpperCase(Locale.ENGLISH));
 
@@ -493,10 +497,6 @@ public class Menu extends Sequence
     {
         Sfx.cacheStart();
 
-        font.load();
-        font.prepare();
-        font.setAlpha(0);
-
         for (final Sprite element : menus)
         {
             element.load();
@@ -533,10 +533,13 @@ public class Menu extends Sequence
     public void onTerminated(boolean hasNextSequence)
     {
         stopAudio();
-        font.dispose();
         for (final Sprite element : menus)
         {
             element.dispose();
+        }
+        if (!hasNextSequence)
+        {
+            Engine.terminate();
         }
     }
 }

@@ -44,8 +44,8 @@ public final class ScenePicture extends Sequence
     private static final int PIC_Y = 17;
     private static final int TEXT_Y = 186;
     private static final int PUSH_Y = 225;
-    private static final String PUSH_BUTTON_MESSAGE = "Push button";
     private static final int PUSH_BUTTON_TICK = 30;
+    private static final String PUSH_BUTTON_MESSAGE = Util.readLines(Medias.create(Folder.TEXT, "push.txt")).get(0);
 
     private final Tick tick = new Tick();
     private final Media stage;
@@ -88,6 +88,8 @@ public final class ScenePicture extends Sequence
                                        12,
                                        12);
         config.getText().ifPresent(m -> font.setText(Util.toFontText(Medias.create(Folder.TEXT, m))));
+
+        setSystemCursorVisible(false);
     }
 
     /**

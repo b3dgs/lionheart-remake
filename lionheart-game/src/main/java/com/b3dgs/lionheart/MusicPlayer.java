@@ -31,16 +31,6 @@ public interface MusicPlayer
     void playMusic(Media media);
 
     /**
-     * Init music volume and play.
-     * 
-     * @param music The music.
-     */
-    default void playMusic(Music music)
-    {
-        playMusic(music.get());
-    }
-
-    /**
      * Stop current music.
      */
     void stopMusic();

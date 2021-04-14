@@ -16,6 +16,11 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.Collection;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.Media;
@@ -29,7 +34,7 @@ import com.b3dgs.lionheart.constant.Folder;
  * Music file name is enum name in lower case.
  * </p>
  */
-public enum Music
+public enum Music implements Media
 {
     /** Swamp music. */
     SWAMP,
@@ -67,23 +72,59 @@ public enum Music
     CREDITS;
 
     /** The associated media. */
-    private final Media media;
+    private final Media media = Medias.create(Folder.MUSIC, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
 
-    /**
-     * Create music.
-     */
-    Music()
+    @Override
+    public String getPath()
     {
-        media = Medias.create(Folder.MUSIC, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
+        return media.getPath();
     }
 
-    /**
-     * Get the music media.
-     * 
-     * @return The music media.
-     */
-    public Media get()
+    @Override
+    public String getParentPath()
     {
-        return media;
+        return media.getParentPath();
+    }
+
+    @Override
+    public File getFile()
+    {
+        return media.getFile();
+    }
+
+    @Override
+    public URL getUrl()
+    {
+        return media.getUrl();
+    }
+
+    @Override
+    public Collection<Media> getMedias()
+    {
+        return media.getMedias();
+    }
+
+    @Override
+    public InputStream getInputStream()
+    {
+        return media.getInputStream();
+    }
+
+    @Override
+    public OutputStream getOutputStream()
+    {
+        return media.getOutputStream();
+    }
+
+    @Override
+    public boolean exists()
+    {
+        return media.exists();
+    }
+
+    @Override
+    public String getName()
+    {
+        return media.getName();
     }
 }

@@ -32,6 +32,7 @@ import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.menu.Menu;
 
@@ -49,7 +50,7 @@ public final class Intro extends Sequence
     /** Part 2. */
     private final Part2 part2 = new Part2();
     /** Music. */
-    private final Audio audio = AudioFactory.loadAudio(Music.INTRO.get());
+    private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
     /** Input device reference. */
     private final DeviceController device;
     /** App info. */
@@ -85,7 +86,9 @@ public final class Intro extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 
-        audio.setVolume(Constant.AUDIO_VOLUME);
+        audio.setVolume(Settings.getInstance().getVolumeMusic());
+
+        setSystemCursorVisible(false);
     }
 
     @Override

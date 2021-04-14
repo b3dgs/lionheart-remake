@@ -66,6 +66,7 @@ public final class Part2 extends Sequence
     });
     private final Tick tick = new Tick();
     private final AppInfo info;
+    private final Audio audio;
 
     private final DragonEnd background;
     private int alpha;
@@ -80,6 +81,8 @@ public final class Part2 extends Sequence
     public Part2(Context context, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
+
+        this.audio = audio;
 
         final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, getWidth(), getHeight(), getHeight());
@@ -109,6 +112,8 @@ public final class Part2 extends Sequence
         load(Part3.class, audio, alternative);
 
         tick.start();
+
+        setSystemCursorVisible(false);
     }
 
     @Override
@@ -157,5 +162,14 @@ public final class Part2 extends Sequence
         }
 
         info.render(g);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            audio.stop();
+        }
     }
 }

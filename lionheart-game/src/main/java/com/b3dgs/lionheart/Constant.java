@@ -42,10 +42,6 @@ public final class Constant
 
     /** Debug flag (shows collisions). */
     public static final boolean DEBUG = false;
-    /** Disable audio flag. */
-    public static final boolean AUDIO_MUTE = false;
-    /** Audio volume percent. */
-    public static final int AUDIO_VOLUME = 50;
 
     /** Keyboard device. */
     public static final String DEVICE_KEYBOARD = "Keyboard";
@@ -92,6 +88,11 @@ public final class Constant
     public static final Direction JUMP_MAX = new Force(0.0, 5.4);
     /** Jump spider height. */
     public static final Direction JUMP_SPIDER = new Force(0.0, 3.5);
+
+    /** Init config normal/hard. */
+    public static final InitConfig INIT_STANDARD = new InitConfig(4, 2);
+    /** Init config lion hard. */
+    public static final InitConfig INIT_LIONHARD = new InitConfig(3, 2);
 
     /** Raster tile file. */
     public static final String RASTER_FILE_TILE = "tiles.png";

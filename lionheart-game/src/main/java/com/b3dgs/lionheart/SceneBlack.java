@@ -45,6 +45,7 @@ public final class SceneBlack extends Sequence
 
         this.stage = stage;
         this.init = init;
+
         setSystemCursorVisible(false);
     }
 

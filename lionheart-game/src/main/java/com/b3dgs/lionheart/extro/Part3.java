@@ -52,6 +52,7 @@ public final class Part3 extends Sequence
                                                             12);
     private final Tick tick = new Tick();
     private final AppInfo info;
+    private final Audio audio;
 
     private double alphaBack = 255;
 
@@ -65,6 +66,8 @@ public final class Part3 extends Sequence
     public Part3(Context context, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
+
+        this.audio = audio;
 
         for (int i = 0; i < pics.length; i++)
         {
@@ -82,6 +85,8 @@ public final class Part3 extends Sequence
         load(Part4.class, audio, alternative);
 
         tick.start();
+
+        setSystemCursorVisible(false);
     }
 
     @Override
@@ -154,5 +159,14 @@ public final class Part3 extends Sequence
         }
 
         info.render(g);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            audio.stop();
+        }
     }
 }

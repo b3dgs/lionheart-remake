@@ -88,6 +88,7 @@ public final class Part1 extends Sequence
     private final Tick tickExplode = new Tick();
     private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
     private final AppInfo info;
+    private final Audio audio;
 
     private int alpha;
     private double citadelY = 4;
@@ -108,6 +109,8 @@ public final class Part1 extends Sequence
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
+        this.audio = audio;
+
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, getWidth(), getHeight(), getHeight());
@@ -126,6 +129,8 @@ public final class Part1 extends Sequence
         load(Part2.class, audio, alternative);
 
         tick.start();
+
+        setSystemCursorVisible(false);
     }
 
     /**
@@ -252,5 +257,14 @@ public final class Part1 extends Sequence
         g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
 
         info.render(g);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            audio.stop();
+        }
     }
 }

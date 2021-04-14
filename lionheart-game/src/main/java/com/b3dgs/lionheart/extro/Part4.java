@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -99,8 +100,8 @@ public final class Part4 extends Sequence
 
         if (alternative.booleanValue())
         {
-            audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE.get());
-            audioAlternative.setVolume(Constant.AUDIO_VOLUME);
+            audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE);
+            audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());
             load(Part5.class, audioAlternative, alternative);
         }
         else
@@ -109,6 +110,8 @@ public final class Part4 extends Sequence
         }
 
         tick.start();
+
+        setSystemCursorVisible(false);
     }
 
     @Override
@@ -242,5 +245,14 @@ public final class Part4 extends Sequence
         }
 
         info.render(g);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            audio.stop();
+        }
     }
 }

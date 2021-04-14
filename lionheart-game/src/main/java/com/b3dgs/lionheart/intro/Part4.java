@@ -93,6 +93,8 @@ public final class Part4 extends Sequence
         }
 
         load(Menu.class);
+
+        setSystemCursorVisible(false);
     }
 
     @Override

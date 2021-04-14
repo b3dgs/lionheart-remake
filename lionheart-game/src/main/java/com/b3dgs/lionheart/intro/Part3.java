@@ -130,6 +130,8 @@ public final class Part3 extends Sequence
         info = new AppInfo(this::getFps, services);
 
         load(Part4.class, audio);
+
+        setSystemCursorVisible(false);
     }
 
     @Override

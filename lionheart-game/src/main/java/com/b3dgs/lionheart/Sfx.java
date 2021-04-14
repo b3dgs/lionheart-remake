@@ -82,7 +82,7 @@ public enum Sfx
     MONSTER_CANON2,
     /** Monster canon3 fire. */
     MONSTER_CANON3,
-    /** Monster gobelin rise. */
+    /** Monster goblin rise. */
     MONSTER_GOBELIN,
     /** Monster executioner hurt. */
     MONSTER_EXECUTIONER_HURT,
@@ -136,7 +136,7 @@ public enum Sfx
      */
     public static void cacheStart()
     {
-        if (!Constant.AUDIO_MUTE && !cached)
+        if (Settings.getInstance().getVolumeSfx() > 0 && !cached)
         {
             for (final Sfx sfx : Sfx.values())
             {
@@ -151,12 +151,13 @@ public enum Sfx
      */
     public static void cacheEnd()
     {
-        if (!Constant.AUDIO_MUTE && !cached)
+        final int volume = Settings.getInstance().getVolumeSfx();
+        if (volume > 0 && !cached)
         {
             for (final Sfx sfx : Sfx.values())
             {
                 sfx.audio.await();
-                sfx.audio.setVolume(Constant.AUDIO_VOLUME);
+                sfx.audio.setVolume(volume);
             }
             cached = true;
         }
@@ -199,7 +200,7 @@ public enum Sfx
      */
     public void play()
     {
-        if (!Constant.AUDIO_MUTE)
+        if (Settings.getInstance().getVolumeSfx() > 0)
         {
             audio.play();
         }

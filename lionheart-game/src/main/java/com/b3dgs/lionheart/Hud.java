@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.List;
+
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
@@ -52,6 +54,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final String IMG_HEART = "health.png";
     private static final String IMG_HUD = "hud.png";
     private static final String IMG_NUMBERS = "numbers.png";
+    private static final List<String> TEXT = Util.readLines(Medias.create(Folder.TEXT, "hud.txt"));
 
     private static final int HEALTH_MAX = 8;
     private static final int HEALTH_X = 1;
@@ -98,6 +101,18 @@ public final class Hud implements Resource, Updatable, Renderable
         super();
 
         viewer = services.get(Viewer.class);
+    }
+
+    /**
+     * Called when the resolution changed.
+     * 
+     * @param width The new width.
+     * @param height The new height.
+     */
+    public void setScreenSize(int width, int height)
+    {
+        life.setLocation(width - life.getTileWidth() - numberLife.getWidth() - 4, LIFE_Y);
+        numberLife.setLocation(life.getX() + life.getTileWidth() + 2, LIFE_Y + 1);
     }
 
     /**
@@ -214,12 +229,12 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         if (exit)
         {
-            text.draw(g, HEALTH_X, HEALTH_Y, "OK  TO");
-            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), "QUIT ?");
+            text.draw(g, HEALTH_X, HEALTH_Y, TEXT.get(1));
+            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), TEXT.get(2));
         }
         else
         {
-            text.draw(g, HEALTH_X, HEALTH_Y, "PAUSE");
+            text.draw(g, HEALTH_X, HEALTH_Y, TEXT.get(0));
         }
     }
 

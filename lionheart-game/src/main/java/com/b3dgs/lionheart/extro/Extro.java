@@ -21,8 +21,8 @@ import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 
 /**
@@ -44,11 +44,13 @@ public final class Extro extends Sequence
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
-        final Audio audio = AudioFactory.loadAudio(Music.EXTRO.get());
-        audio.setVolume(Constant.AUDIO_VOLUME);
+        final Audio audio = AudioFactory.loadAudio(Music.EXTRO);
+        audio.setVolume(Settings.getInstance().getVolumeMusic());
         audio.play();
 
         load(Part1.class, audio, alternative);
+
+        setSystemCursorVisible(false);
     }
 
     @Override

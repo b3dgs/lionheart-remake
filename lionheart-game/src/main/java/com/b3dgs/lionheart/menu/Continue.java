@@ -56,12 +56,14 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class Continue extends Sequence
 {
+    private static final int MIN_HEIGHT = 360;
+    private static final int MAX_WIDTH = 640;
+    private static final int MARGIN_WIDTH = 0;
+
     /** Max time. */
     private static final int TIME_MAX_MILLI = 20_000;
     /** Center X. */
     private static final int CENTER_X = 320;
-    /** Main Y. */
-    private static final int Y = 28;
     /** Fade out tick. */
     private static final int FADE_OUT_TICK = 70;
     /** Text color in menu option. */
@@ -101,6 +103,8 @@ public class Continue extends Sequence
     private final Tick tick = new Tick();
     /** Horizontal factor. */
     private final double factorH = getWidth() / 640.0;
+    /** Main Y. */
+    private final int mainY;
     /** Time left. */
     private final Timing timeLeft = new Timing();
     /** Current stage. */
@@ -124,7 +128,7 @@ public class Continue extends Sequence
      */
     public Continue(Context context, Media stage, InitConfig init)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
         this.stage = stage;
         this.init = init;
@@ -135,12 +139,14 @@ public class Continue extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 
+        mainY = (getHeight() - 336) / 2;
+
         back.setOrigin(Origin.CENTER_TOP);
-        back.setLocation(CENTER_X * factorH, Y + 32);
+        back.setLocation(CENTER_X * factorH, mainY);
 
         valdyn.setOrigin(Origin.CENTER_BOTTOM);
         valdyn.setFrameOffsets(-8, 0);
-        valdyn.setLocation(CENTER_X * factorH, Y + 274);
+        valdyn.setLocation(CENTER_X * factorH, mainY + 242);
 
         data = create();
 
@@ -157,8 +163,8 @@ public class Continue extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(TEXT, CONTINUE.get(1), x - 100, Y + 220, Align.CENTER, null),
-            new Choice(TEXT, CONTINUE.get(2), x + 100, Y + 220, Align.CENTER, null),
+            new Choice(TEXT, CONTINUE.get(1), x - 100, mainY + 188, Align.CENTER, null),
+            new Choice(TEXT, CONTINUE.get(2), x + 100, mainY + 188, Align.CENTER, null),
         };
         return new Data(TEXT, choices);
     }
@@ -280,16 +286,16 @@ public class Continue extends Sequence
         valdyn.render(g);
 
         TEXT_TITLE.setColor(COLOR_TITLE);
-        TEXT_TITLE.draw(g, (int) (CENTER_X * factorH), Y + 128, Align.CENTER, CONTINUE.get(0));
+        TEXT_TITLE.draw(g, (int) (CENTER_X * factorH), mainY + 96, Align.CENTER, CONTINUE.get(0));
         if (!tick.isStarted() && timeLeft.elapsed() < TIME_MAX_MILLI)
         {
-            TEXT_TITLE.draw(g, (int) (CENTER_X * factorH), Y + 150, Align.CENTER, formatTime());
+            TEXT_TITLE.draw(g, (int) (CENTER_X * factorH), mainY + 118, Align.CENTER, formatTime());
         }
 
         TEXT.setColor(COLOR_OPTION);
         TEXT.draw(g,
                   (int) (CENTER_X * factorH),
-                  Y + 276,
+                  mainY + 244,
                   Align.CENTER,
                   CONTINUE.get(3) + String.valueOf(init.getCredits()));
     }

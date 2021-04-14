@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -51,7 +52,7 @@ public final class Credits extends Sequence
     private final Tick tick = new Tick();
     private final Sprite credits;
     private final Audio audio;
-    private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS.get());
+    private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
     private final boolean alternative;
 
     private double alphaBack;
@@ -137,7 +138,7 @@ public final class Credits extends Sequence
 
         this.audio = audio;
 
-        audioAlternative.setVolume(Constant.AUDIO_VOLUME);
+        audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());
 
         tick.start();
     }
@@ -208,6 +209,7 @@ public final class Credits extends Sequence
         if (!hasNextSequence)
         {
             audio.stop();
+            audioAlternative.stop();
         }
     }
 }
