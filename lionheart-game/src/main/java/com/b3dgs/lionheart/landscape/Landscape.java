@@ -83,7 +83,7 @@ public class Landscape
      */
     public void setScreenSize(int width, int height)
     {
-        ((Swamp) background).setScreenSize(width, height);
+        background.setScreenSize(width, height);
         foreground.setScreenSize(width, height);
     }
 }

@@ -81,12 +81,7 @@ final class Swamp extends BackgroundAbstract
         add(parallax);
     }
 
-    /**
-     * Called when the resolution changed.
-     * 
-     * @param width The new width.
-     * @param height The new height.
-     */
+    @Override
     public void setScreenSize(int width, int height)
     {
         scaleH = width / (double) Constant.RESOLUTION_GAME.getWidth();

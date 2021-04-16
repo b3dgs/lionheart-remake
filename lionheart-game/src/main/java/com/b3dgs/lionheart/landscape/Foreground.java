@@ -44,17 +44,6 @@ public interface Foreground extends Background
         // Nothing by default
     }
 
-    /**
-     * Called when the resolution changed.
-     * 
-     * @param width The new width.
-     * @param height The new height.
-     */
-    default void setScreenSize(int width, int height)
-    {
-        // Nothing by default
-    }
-
     @Override
     default void update(double extrp, double speed, double x, double y)
     {

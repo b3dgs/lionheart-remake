@@ -54,12 +54,7 @@ final class Gradient extends BackgroundAbstract
         setScreenSize(source.getWidth(), source.getHeight());
     }
 
-    /**
-     * Called when the resolution changed.
-     * 
-     * @param width The new width.
-     * @param height The new height.
-     */
+    @Override
     public void setScreenSize(int width, int height)
     {
         setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + 72);

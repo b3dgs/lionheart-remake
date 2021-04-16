@@ -71,12 +71,7 @@ final class Airship extends BackgroundAbstract
         add(backdropForest);
     }
 
-    /**
-     * Called when the resolution changed.
-     * 
-     * @param width The new width.
-     * @param height The new height.
-     */
+    @Override
     public void setScreenSize(int width, int height)
     {
         setOffsetY(height - Constant.RESOLUTION_GAME.getHeight());
