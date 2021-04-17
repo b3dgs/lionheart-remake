@@ -4,6 +4,7 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Floater</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Floater.png" icon="Floater_ico.png"/>

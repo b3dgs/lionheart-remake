@@ -6,6 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Floater</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="FloaterCube.png" icon="FloaterCube_ico.png"/>

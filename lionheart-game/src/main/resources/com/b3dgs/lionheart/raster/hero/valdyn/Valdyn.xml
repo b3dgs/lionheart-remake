@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Valdyn.png"/>
+    <lionengine:frames horizontal="6" vertical="6"/>
+    <lionengine:size width="20" height="55"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="crouch" start="2" end="2" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="3" end="3" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="land" start="4" end="4" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="walk" start="5" end="14" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="hurt" start="15" end="15" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="drowned" start="15" end="17" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="die" start="15" end="17" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="prepareattack" start="18" end="18" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="preparedattack" start="19" end="19" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="unprepareattack" start="18" end="18" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="prepareattackcrouch" start="20" end="20" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="preparedattackcrouch" start="21" end="21" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="unprepareattackcrouch" start="20" end="20" speed="0.125" reversed="false" repeat="false"/>
+        <lionengine:animation name="attackcrouchhorizontal" start="22" end="26" speed="0.4" reversed="true" repeat="false"/>
+        <lionengine:animation name="attacktop" start="27" end="29" speed="0.35" reversed="true" repeat="false"/>
+        <lionengine:animation name="attackhorizontal" start="30" end="34" speed="0.4" reversed="true" repeat="false"/>
+        <lionengine:animation name="win" start="35" end="35" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="1" layerDisplay="10"/>
+</lionengine:featurable>
