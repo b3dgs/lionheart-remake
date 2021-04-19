@@ -83,13 +83,33 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         super.prepare(provider);
 
         player.getFeature(TileCollidable.class).addListener((result, category) -> off());
-        player.getFeature(Collidable.class).addListener((collidable, with, by) ->
+
+        final Collidable collidable = player.getFeature(Collidable.class);
+        collidable.addListener((c, with, by) ->
         {
             if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND))
             {
                 off();
             }
         });
+        start(collidable, 76);
+    }
+
+    /**
+     * Start locking.
+     * 
+     * @param collidable The collidable reference.
+     * @param offsetY The vertical offset.
+     */
+    private void start(Collidable collidable, int offsetY)
+    {
+        collidable.getFeature(StateHandler.class).changeState(StateIdleAnimal.class);
+        collidable.getFeature(Transformable.class).teleportY(transformable.getY() + offsetY);
+        collidable.getFeature(Body.class).resetGravity();
+        camera.setIntervals(0, 0);
+        tracker.stop();
+        player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
+        on = true;
     }
 
     /**
@@ -172,15 +192,11 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.ANIMAL) && by.getName().startsWith(Anim.LEG))
+        if (with.getName().startsWith(CollisionName.ANIMAL)
+            && by.getName().startsWith(Anim.LEG)
+            && collidable.getFeature(Stats.class).getHealth() > 0)
         {
-            collidable.getFeature(StateHandler.class).changeState(StateIdleAnimal.class);
-            collidable.getFeature(Transformable.class).teleportY(transformable.getY() + with.getOffsetY());
-            collidable.getFeature(Body.class).resetGravity();
-            camera.setIntervals(0, 0);
-            tracker.stop();
-            player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
-            on = true;
+            start(collidable, with.getOffsetY());
         }
     }
 }

@@ -26,7 +26,6 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.ForegroundConfig;
 
@@ -191,17 +190,17 @@ public final class StageConfig
      */
     private void addCheckpoints(XmlReader checkpoint)
     {
-        final Optional<Point> spawn;
+        final Optional<Coord> spawn;
         if (checkpoint.hasAttribute(ATT_SPAWN_TX) && checkpoint.hasAttribute(ATT_SPAWN_TY))
         {
-            spawn = Optional.of(new Point(checkpoint.readInteger(ATT_SPAWN_TX), checkpoint.readInteger(ATT_SPAWN_TY)));
+            spawn = Optional.of(new Coord(checkpoint.readDouble(ATT_SPAWN_TX), checkpoint.readDouble(ATT_SPAWN_TY)));
         }
         else
         {
             spawn = Optional.empty();
         }
-        checkpoints.add(new Checkpoint(checkpoint.readInteger(ATT_CHECKPOINT_TX),
-                                       checkpoint.readInteger(ATT_CHECKPOINT_TY),
+        checkpoints.add(new Checkpoint(checkpoint.readDouble(ATT_CHECKPOINT_TX),
+                                       checkpoint.readDouble(ATT_CHECKPOINT_TY),
                                        checkpoint.readStringOptional(ATT_CHECKPOINT_NEXT),
                                        spawn));
     }

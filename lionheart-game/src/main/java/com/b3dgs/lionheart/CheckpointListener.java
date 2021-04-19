@@ -18,7 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Optional;
 
-import com.b3dgs.lionengine.geom.Point;
+import com.b3dgs.lionengine.geom.Coord;
 
 /**
  * Listen to checkpoint events.
@@ -31,7 +31,7 @@ public interface CheckpointListener
      * @param next The next stage.
      * @param spawn The next spawn.
      */
-    void notifyNextStage(String next, Optional<Point> spawn);
+    void notifyNextStage(String next, Optional<Coord> spawn);
 
     /**
      * Called on boss reached.

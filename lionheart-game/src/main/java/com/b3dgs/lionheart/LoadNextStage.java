@@ -18,7 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Optional;
 
-import com.b3dgs.lionengine.geom.Point;
+import com.b3dgs.lionengine.geom.Coord;
 
 /**
  * Load next stage.
@@ -32,7 +32,7 @@ public interface LoadNextStage
      * @param tickDelay The tick delay before load stage.
      * @param spawn The next spawn.
      */
-    void loadNextStage(String next, int tickDelay, Optional<Point> spawn);
+    void loadNextStage(String next, int tickDelay, Optional<Coord> spawn);
 
     /**
      * Load next stage.

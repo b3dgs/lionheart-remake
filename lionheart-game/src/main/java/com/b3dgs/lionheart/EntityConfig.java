@@ -30,7 +30,6 @@ import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionheart.object.feature.Canon2AirshipConfig;
 import com.b3dgs.lionheart.object.feature.Dragon1Config;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
@@ -118,7 +117,7 @@ public final class EntityConfig
     /** Next stage. */
     private final Optional<String> next;
     /** Next spawn. */
-    private final Optional<Point> nextSpawn;
+    private final Optional<Coord> nextSpawn;
     /** Vx. */
     private final double vx;
 
@@ -157,7 +156,7 @@ public final class EntityConfig
         next = root.readStringOptional(ATT_NEXT);
         if (root.hasAttribute(ATT_SPAWN_TX) && root.hasAttribute(ATT_SPAWN_TY))
         {
-            nextSpawn = Optional.of(new Point(root.readInteger(ATT_SPAWN_TX), root.readInteger(ATT_SPAWN_TY)));
+            nextSpawn = Optional.of(new Coord(root.readDouble(ATT_SPAWN_TX), root.readDouble(ATT_SPAWN_TY)));
         }
         else
         {
@@ -365,7 +364,7 @@ public final class EntityConfig
      * 
      * @return The next spawn.
      */
-    public Optional<Point> getNextSpawn()
+    public Optional<Coord> getNextSpawn()
     {
         return nextSpawn;
     }

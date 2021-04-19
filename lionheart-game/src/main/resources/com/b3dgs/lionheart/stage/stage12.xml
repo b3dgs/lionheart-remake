@@ -7,34 +7,34 @@
     <foreground type="NONE"/>
     <checkpoints>
         <checkpoint tx="12" ty="7"/>
-        <checkpoint tx="36" ty="12"/>
-        <checkpoint tx="60" ty="12"/>
-        <checkpoint tx="84" ty="12"/>
-        <checkpoint tx="108" ty="12"/>
-        <checkpoint tx="132" ty="12"/>
-        <checkpoint tx="156" ty="12"/>
-        <checkpoint tx="180" ty="12"/>
-        <checkpoint tx="204" ty="12"/>
-        <checkpoint tx="228" ty="12"/>
-        <checkpoint tx="252" ty="12"/>
-        <checkpoint tx="276" ty="12"/>
-        <checkpoint tx="300" ty="12"/>
-        <checkpoint tx="324" ty="12"/>
-        <checkpoint tx="348" ty="12"/>
-        <checkpoint tx="372" ty="12"/>
-        <checkpoint tx="396" ty="12"/>
-        <checkpoint tx="420" ty="12"/>
-        <checkpoint tx="444" ty="12"/>
-        <checkpoint tx="468" ty="12"/>
-        <checkpoint tx="492" ty="12"/>
-        <checkpoint tx="516" ty="12"/>
-        <checkpoint tx="540" ty="12"/>
-        <checkpoint tx="564" ty="12"/>
-        <checkpoint tx="588" ty="12"/>
-        <checkpoint tx="612" ty="12"/>
-        <checkpoint tx="636" ty="12"/>
-        <checkpoint tx="660" ty="12"/>
-        <checkpoint tx="684" ty="12"/>
+        <checkpoint tx="36" ty="7"/>
+        <checkpoint tx="60" ty="7"/>
+        <checkpoint tx="84" ty="7"/>
+        <checkpoint tx="108" ty="7"/>
+        <checkpoint tx="132" ty="7"/>
+        <checkpoint tx="156" ty="7"/>
+        <checkpoint tx="180" ty="7"/>
+        <checkpoint tx="204" ty="7"/>
+        <checkpoint tx="228" ty="7"/>
+        <checkpoint tx="252" ty="7"/>
+        <checkpoint tx="276" ty="7"/>
+        <checkpoint tx="300" ty="7"/>
+        <checkpoint tx="324" ty="7"/>
+        <checkpoint tx="348" ty="7"/>
+        <checkpoint tx="372" ty="7"/>
+        <checkpoint tx="396" ty="7"/>
+        <checkpoint tx="420" ty="7"/>
+        <checkpoint tx="444" ty="7"/>
+        <checkpoint tx="468" ty="7"/>
+        <checkpoint tx="492" ty="7"/>
+        <checkpoint tx="516" ty="7"/>
+        <checkpoint tx="540" ty="7"/>
+        <checkpoint tx="564" ty="7"/>
+        <checkpoint tx="588" ty="7"/>
+        <checkpoint tx="612" ty="7"/>
+        <checkpoint tx="636" ty="7"/>
+        <checkpoint tx="660" ty="7"/>
+        <checkpoint tx="684" ty="7"/>
     </checkpoints>
     <boss tx="725" ty="12" tsx="752" tsy="6" next="stage/stage13.xml"/>
     <entities>

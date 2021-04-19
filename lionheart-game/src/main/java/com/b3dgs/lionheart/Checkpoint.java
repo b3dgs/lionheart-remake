@@ -18,7 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Optional;
 
-import com.b3dgs.lionengine.geom.Point;
+import com.b3dgs.lionengine.geom.Coord;
 
 /**
  * Checkpoint data.
@@ -26,13 +26,13 @@ import com.b3dgs.lionengine.geom.Point;
 public final class Checkpoint
 {
     /** Horizontal tile. */
-    private final int tx;
+    private final double tx;
     /** Vertical tile. */
-    private final int ty;
+    private final double ty;
     /** Next stage. */
     private final Optional<String> next;
     /** Next spawn. */
-    private final Optional<Point> spawn;
+    private final Optional<Coord> spawn;
 
     /**
      * Create checkpoint.
@@ -42,7 +42,7 @@ public final class Checkpoint
      * @param next The next stage.
      * @param spawn The spawn tile.
      */
-    public Checkpoint(int tx, int ty, Optional<String> next, Optional<Point> spawn)
+    public Checkpoint(double tx, double ty, Optional<String> next, Optional<Coord> spawn)
     {
         super();
 
@@ -57,7 +57,7 @@ public final class Checkpoint
      * 
      * @return The horizontal tile.
      */
-    public int getTx()
+    public double getTx()
     {
         return tx;
     }
@@ -67,7 +67,7 @@ public final class Checkpoint
      * 
      * @return The vertical tile.
      */
-    public int getTy()
+    public double getTy()
     {
         return ty;
     }
@@ -87,7 +87,7 @@ public final class Checkpoint
      * 
      * @return The next spawn.
      */
-    public Optional<Point> getSpawn()
+    public Optional<Coord> getSpawn()
     {
         return spawn;
     }

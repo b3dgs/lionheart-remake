@@ -19,7 +19,7 @@ package com.b3dgs.lionheart;
 import java.util.Optional;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.geom.Point;
+import com.b3dgs.lionengine.geom.Coord;
 
 /**
  * Init configuration.
@@ -41,7 +41,7 @@ public final class InitConfig
     /** Cheats flag. */
     private final boolean cheats;
     /** Spawn tile. */
-    private final Optional<Point> spawn;
+    private final Optional<Coord> spawn;
 
     /**
      * Create first config.
@@ -73,7 +73,7 @@ public final class InitConfig
                       Boolean amulet,
                       int credits,
                       boolean cheats,
-                      Optional<Point> spawn)
+                      Optional<Coord> spawn)
     {
         super();
 
@@ -176,7 +176,7 @@ public final class InitConfig
      * 
      * @return The spawn tile.
      */
-    public Optional<Point> getSpawn()
+    public Optional<Coord> getSpawn()
     {
         return spawn;
     }

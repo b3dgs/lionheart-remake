@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -58,13 +59,14 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     private static final double SPEED = 13.0 / 31.0; // 0.4195;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Stats playerStats = player.getFeature(Stats.class);
     private final Rasterable playerSprite = player.getFeature(Rasterable.class);
     private final StateHandler playerState = player.getFeature(StateHandler.class);
     private final Camera camera = services.get(Camera.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
-
     private int offsetY;
     private boolean on = true;
+    private int oldHealth;
     private final boolean free;
 
     @FeatureGet private Transformable transformable;
@@ -86,6 +88,23 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     }
 
     /**
+     * Start locking.
+     * 
+     * @param feature The feature reference.
+     * @param offsetY The vertical offset.
+     */
+    private void start(Feature feature, int offsetY)
+    {
+        feature.getFeature(StateHandler.class).changeState(StateIdleDragon.class);
+        feature.getFeature(Transformable.class).teleportY(transformable.getY() + offsetY);
+        feature.getFeature(Body.class).resetGravity();
+        camera.setIntervals(0, 0);
+        tracker.stop();
+        player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
+        on = true;
+    }
+
+    /**
      * Disable player on animal locking.
      */
     private void off()
@@ -98,13 +117,88 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         }
     }
 
+    /**
+     * Check player respawn.
+     */
+    private void updateRespawn()
+    {
+        if (oldHealth == 0 && playerStats.getHealth() > 0)
+        {
+            transformable.teleportY(player.getY() + OFFSET_Y);
+            start(player, 128);
+        }
+        oldHealth = playerStats.getHealth();
+    }
+
+    /**
+     * Update frame offset.
+     */
+    private void updateFrameOffset()
+    {
+        final int frame = animatable.getFrame();
+        if (frame == 1)
+        {
+            offsetY = 0;
+        }
+        else if (frame == 2 || frame == 13)
+        {
+            offsetY = -1;
+        }
+        else if (frame == 3 || frame == 12)
+        {
+            offsetY = -2;
+        }
+        else if (frame == 4 || frame == 11)
+        {
+            offsetY = -3;
+        }
+        else if (frame == 5 || frame == 10)
+        {
+            offsetY = -4;
+        }
+        else if (frame == 6 || frame == 9)
+        {
+            offsetY = -5;
+        }
+        else if (frame == 7 || frame == 8)
+        {
+            offsetY = -6;
+        }
+        playerSprite.setFrameOffsets(0, offsetY);
+    }
+
+    /**
+     * Update fire orientation.
+     */
+    private void updateFireOrientation()
+    {
+        if (!free)
+        {
+            final int side = Double.compare(transformable.getY(), transformable.getOldY());
+            if (side < 0)
+            {
+                launcher.setLevel(2);
+            }
+            else if (side > 0)
+            {
+                launcher.setLevel(1);
+            }
+            else
+            {
+                launcher.setLevel(0);
+            }
+        }
+    }
+
     @Override
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
 
         player.getFeature(TileCollidable.class).addListener((result, category) -> off());
-        player.getFeature(Collidable.class).addListener((collidable, with, by) ->
+
+        final Collidable collidable = player.getFeature(Collidable.class);
+        collidable.addListener((c, with, by) ->
         {
             if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND)
                 || with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
@@ -112,11 +206,16 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
                 off();
             }
         });
+
+        start(collidable, 128);
+        oldHealth = playerStats.getHealth();
     }
 
     @Override
     public void update(double extrp)
     {
+        updateRespawn();
+
         if (on)
         {
             if (!free)
@@ -153,72 +252,24 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
                     player.teleportY(0);
                 }
 
-                final int frame = animatable.getFrame();
-                if (frame == 1)
-                {
-                    offsetY = 0;
-                }
-                else if (frame == 2 || frame == 13)
-                {
-                    offsetY = -1;
-                }
-                else if (frame == 3 || frame == 12)
-                {
-                    offsetY = -2;
-                }
-                else if (frame == 4 || frame == 11)
-                {
-                    offsetY = -3;
-                }
-                else if (frame == 5 || frame == 10)
-                {
-                    offsetY = -4;
-                }
-                else if (frame == 6 || frame == 9)
-                {
-                    offsetY = -5;
-                }
-                else if (frame == 7 || frame == 8)
-                {
-                    offsetY = -6;
-                }
-                playerSprite.setFrameOffsets(0, offsetY);
+                updateFrameOffset();
 
                 transformable.setLocationY(player.getY() + OFFSET_Y);
             }
         }
         transformable.setLocationX(player.getX() + OFFSET_X);
 
-        if (!free)
-        {
-            final int side = Double.compare(transformable.getY(), transformable.getOldY());
-            if (side < 0)
-            {
-                launcher.setLevel(2);
-            }
-            else if (side > 0)
-            {
-                launcher.setLevel(1);
-            }
-            else
-            {
-                launcher.setLevel(0);
-            }
-        }
+        updateFireOrientation();
     }
 
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.ANIMAL) && by.getName().startsWith(Anim.LEG))
+        if (with.getName().startsWith(CollisionName.ANIMAL)
+            && by.getName().startsWith(Anim.LEG)
+            && collidable.getFeature(Stats.class).getHealth() > 0)
         {
-            collidable.getFeature(StateHandler.class).changeState(StateIdleDragon.class);
-            collidable.getFeature(Transformable.class).teleportY(transformable.getY() + with.getOffsetY());
-            collidable.getFeature(Body.class).resetGravity();
-            camera.setIntervals(0, 0);
-            tracker.stop();
-            player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
-            on = true;
+            start(collidable, with.getOffsetY());
         }
     }
 }

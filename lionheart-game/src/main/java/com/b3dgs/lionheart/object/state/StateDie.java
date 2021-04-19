@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -35,7 +36,10 @@ public final class StateDie extends State
     private static final double DIE_VY = 3.0;
     /** Vertical die acceleration. */
     private static final double DIE_AY = -0.15;
+    /** Stay in die state during this delay in tick. */
+    private static final long DIE_DELAY_TICK = 30L;
 
+    private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
 
     /** Initial horizontal position. */
@@ -55,7 +59,8 @@ public final class StateDie extends State
     {
         super(model, animation);
 
-        addTransition(StateDead.class, () -> x - transformable.getX() > DIE_HORIZONTAL_OFFSET_MAX);
+        addTransition(StateDead.class,
+                      () -> tick.elapsed(DIE_DELAY_TICK) || x - transformable.getX() > DIE_HORIZONTAL_OFFSET_MAX);
     }
 
     @Override
@@ -70,11 +75,13 @@ public final class StateDie extends State
         vx = DIE_VX;
         vy = DIE_VY;
         Sfx.VALDYN_DIE.play();
+        tick.restart();
     }
 
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         body.resetGravity();
         if (Double.compare(x - transformable.getX(), DIE_HORIZONTAL_OFFSET_MAX) <= 0)
         {
