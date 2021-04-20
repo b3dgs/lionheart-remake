@@ -19,9 +19,11 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.engine.Zooming;
 
 /**
  * Game scene implementation.
@@ -62,6 +64,12 @@ public final class Scene extends SequenceGame<World>
     protected void onLoaded(double extrp, Graphic g)
     {
         world.playMusic(music);
+
+        final double zoom = Settings.getInstance().getZoom();
+        if (Double.compare(zoom, 1.0) != 0)
+        {
+            services.get(Zooming.class).setZoom(UtilMath.clamp(zoom, 0.8, 1.3));
+        }
     }
 
     @Override

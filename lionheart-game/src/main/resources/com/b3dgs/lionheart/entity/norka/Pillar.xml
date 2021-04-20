@@ -110,4 +110,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>
     <floater speedUp="0.0" speedDown="0.0" max="0" waterLevel="false"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
