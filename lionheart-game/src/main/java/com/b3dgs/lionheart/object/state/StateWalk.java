@@ -97,7 +97,7 @@ public final class StateWalk extends State
         }
         else if (result.startWithY(CollisionName.INCLINE))
         {
-            factor = 1.0;
+            factor = 2;
 
             if (movement.getDirectionHorizontal() > 0 && result.endWithY(CollisionName.LEFT)
                 || movement.getDirectionHorizontal() < 0 && result.endWithY(CollisionName.RIGHT))
@@ -124,6 +124,7 @@ public final class StateWalk extends State
     {
         final double sx = device.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope);
         movement.setDestination(sx, -Math.abs(factor * sx));
+        movement.setDirection(movement.getDirectionHorizontal(), -Math.abs(factor * sx));
         animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 
