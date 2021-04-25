@@ -4,111 +4,22 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Floater</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Pillar</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Pillar.png"/>
-    <lionengine:frames horizontal="30" vertical="3"/>
+    <lionengine:frames horizontal="1" vertical="1"/>
     <lionengine:size width="16" height="96"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="90" speed="0.4" reversed="true" repeat="true">
-            <lionengine:collisionFramed prefix="ground" number="1" x="0" height="2" width="16" y="95"/>
-            <lionengine:collisionFramed prefix="ground" number="2" x="0" height="2" width="16" y="94"/>
-            <lionengine:collisionFramed prefix="ground" number="3" x="0" height="2" width="16" y="93"/>
-            <lionengine:collisionFramed prefix="ground" number="4" x="0" height="2" width="16" y="92"/>
-            <lionengine:collisionFramed prefix="ground" number="5" x="0" height="2" width="16" y="91"/>
-            <lionengine:collisionFramed prefix="ground" number="6" x="0" height="2" width="16" y="90"/>
-            <lionengine:collisionFramed prefix="ground" number="7" x="0" height="2" width="16" y="89"/>
-            <lionengine:collisionFramed prefix="ground" number="8" x="0" height="2" width="16" y="88"/>
-            <lionengine:collisionFramed prefix="ground" number="9" x="0" height="2" width="16" y="87"/>
-            <lionengine:collisionFramed prefix="ground" number="10" x="0" height="2" width="16" y="86"/>
-            <lionengine:collisionFramed prefix="ground" number="11" x="0" height="2" width="16" y="85"/>
-            <lionengine:collisionFramed prefix="ground" number="12" x="0" height="2" width="16" y="84"/>
-            <lionengine:collisionFramed prefix="ground" number="13" x="0" height="2" width="16" y="83"/>
-            <lionengine:collisionFramed prefix="ground" number="14" x="0" height="2" width="16" y="82"/>
-            <lionengine:collisionFramed prefix="ground" number="15" x="0" height="2" width="16" y="81"/>
-            <lionengine:collisionFramed prefix="ground" number="16" x="0" height="2" width="16" y="80"/>
-            <lionengine:collisionFramed prefix="ground" number="17" x="0" height="2" width="16" y="79"/>
-            <lionengine:collisionFramed prefix="ground" number="18" x="0" height="2" width="16" y="78"/>
-            <lionengine:collisionFramed prefix="ground" number="19" x="0" height="2" width="16" y="77"/>
-            <lionengine:collisionFramed prefix="ground" number="20" x="0" height="2" width="16" y="76"/>
-            <lionengine:collisionFramed prefix="ground" number="21" x="0" height="2" width="16" y="75"/>
-            <lionengine:collisionFramed prefix="ground" number="22" x="0" height="2" width="16" y="74"/>
-            <lionengine:collisionFramed prefix="ground" number="23" x="0" height="2" width="16" y="73"/>
-            <lionengine:collisionFramed prefix="ground" number="24" x="0" height="2" width="16" y="72"/>
-            <lionengine:collisionFramed prefix="ground" number="25" x="0" height="2" width="16" y="71"/>
-            <lionengine:collisionFramed prefix="ground" number="26" x="0" height="2" width="16" y="70"/>
-            <lionengine:collisionFramed prefix="ground" number="27" x="0" height="2" width="16" y="69"/>
-            <lionengine:collisionFramed prefix="ground" number="28" x="0" height="2" width="16" y="68"/>
-            <lionengine:collisionFramed prefix="ground" number="29" x="0" height="2" width="16" y="67"/>
-            <lionengine:collisionFramed prefix="ground" number="30" x="0" height="2" width="16" y="66"/>
-            <lionengine:collisionFramed prefix="ground" number="31" x="0" height="2" width="16" y="65"/>
-            <lionengine:collisionFramed prefix="ground" number="32" x="0" height="2" width="16" y="64"/>
-            <lionengine:collisionFramed prefix="ground" number="33" x="0" height="2" width="16" y="63"/>
-            <lionengine:collisionFramed prefix="ground" number="34" x="0" height="2" width="16" y="62"/>
-            <lionengine:collisionFramed prefix="ground" number="35" x="0" height="2" width="16" y="61"/>
-            <lionengine:collisionFramed prefix="ground" number="36" x="0" height="2" width="16" y="60"/>
-            <lionengine:collisionFramed prefix="ground" number="37" x="0" height="2" width="16" y="59"/>
-            <lionengine:collisionFramed prefix="ground" number="38" x="0" height="2" width="16" y="58"/>
-            <lionengine:collisionFramed prefix="ground" number="39" x="0" height="2" width="16" y="57"/>
-            <lionengine:collisionFramed prefix="ground" number="40" x="0" height="2" width="16" y="56"/>
-            <lionengine:collisionFramed prefix="ground" number="41" x="0" height="2" width="16" y="55"/>
-            <lionengine:collisionFramed prefix="ground" number="42" x="0" height="2" width="16" y="54"/>
-            <lionengine:collisionFramed prefix="ground" number="43" x="0" height="2" width="16" y="53"/>
-            <lionengine:collisionFramed prefix="ground" number="44" x="0" height="2" width="16" y="52"/>
-            <lionengine:collisionFramed prefix="ground" number="45" x="0" height="2" width="16" y="51"/>
-            <lionengine:collisionFramed prefix="ground" number="46" x="0" height="2" width="16" y="50"/>
-            <lionengine:collisionFramed prefix="ground" number="47" x="0" height="2" width="16" y="49"/>
-            <lionengine:collisionFramed prefix="ground" number="48" x="0" height="2" width="16" y="48"/>
-            <lionengine:collisionFramed prefix="ground" number="49" x="0" height="2" width="16" y="47"/>
-            <lionengine:collisionFramed prefix="ground" number="50" x="0" height="2" width="16" y="46"/>
-            <lionengine:collisionFramed prefix="ground" number="51" x="0" height="2" width="16" y="45"/>
-            <lionengine:collisionFramed prefix="ground" number="52" x="0" height="2" width="16" y="44"/>
-            <lionengine:collisionFramed prefix="ground" number="53" x="0" height="2" width="16" y="43"/>
-            <lionengine:collisionFramed prefix="ground" number="54" x="0" height="2" width="16" y="42"/>
-            <lionengine:collisionFramed prefix="ground" number="55" x="0" height="2" width="16" y="41"/>
-            <lionengine:collisionFramed prefix="ground" number="56" x="0" height="2" width="16" y="40"/>
-            <lionengine:collisionFramed prefix="ground" number="57" x="0" height="2" width="16" y="39"/>
-            <lionengine:collisionFramed prefix="ground" number="58" x="0" height="2" width="16" y="38"/>
-            <lionengine:collisionFramed prefix="ground" number="59" x="0" height="2" width="16" y="37"/>
-            <lionengine:collisionFramed prefix="ground" number="60" x="0" height="2" width="16" y="36"/>
-            <lionengine:collisionFramed prefix="ground" number="61" x="0" height="2" width="16" y="35"/>
-            <lionengine:collisionFramed prefix="ground" number="62" x="0" height="2" width="16" y="34"/>
-            <lionengine:collisionFramed prefix="ground" number="63" x="0" height="2" width="16" y="33"/>
-            <lionengine:collisionFramed prefix="ground" number="64" x="0" height="2" width="16" y="32"/>
-            <lionengine:collisionFramed prefix="ground" number="65" x="0" height="2" width="16" y="31"/>
-            <lionengine:collisionFramed prefix="ground" number="66" x="0" height="2" width="16" y="30"/>
-            <lionengine:collisionFramed prefix="ground" number="67" x="0" height="2" width="16" y="29"/>
-            <lionengine:collisionFramed prefix="ground" number="68" x="0" height="2" width="16" y="28"/>
-            <lionengine:collisionFramed prefix="ground" number="69" x="0" height="2" width="16" y="27"/>
-            <lionengine:collisionFramed prefix="ground" number="70" x="0" height="2" width="16" y="26"/>
-            <lionengine:collisionFramed prefix="ground" number="71" x="0" height="2" width="16" y="25"/>
-            <lionengine:collisionFramed prefix="ground" number="72" x="0" height="2" width="16" y="24"/>
-            <lionengine:collisionFramed prefix="ground" number="73" x="0" height="2" width="16" y="23"/>
-            <lionengine:collisionFramed prefix="ground" number="74" x="0" height="2" width="16" y="22"/>
-            <lionengine:collisionFramed prefix="ground" number="75" x="0" height="2" width="16" y="21"/>
-            <lionengine:collisionFramed prefix="ground" number="76" x="0" height="2" width="16" y="20"/>
-            <lionengine:collisionFramed prefix="ground" number="77" x="0" height="2" width="16" y="19"/>
-            <lionengine:collisionFramed prefix="ground" number="78" x="0" height="2" width="16" y="18"/>
-            <lionengine:collisionFramed prefix="ground" number="79" x="0" height="2" width="16" y="17"/>
-            <lionengine:collisionFramed prefix="ground" number="80" x="0" height="2" width="16" y="16"/>
-            <lionengine:collisionFramed prefix="ground" number="81" x="0" height="2" width="16" y="15"/>
-            <lionengine:collisionFramed prefix="ground" number="82" x="0" height="2" width="16" y="14"/>
-            <lionengine:collisionFramed prefix="ground" number="83" x="0" height="2" width="16" y="13"/>
-            <lionengine:collisionFramed prefix="ground" number="84" x="0" height="2" width="16" y="12"/>
-            <lionengine:collisionFramed prefix="ground" number="85" x="0" height="2" width="16" y="11"/>
-            <lionengine:collisionFramed prefix="ground" number="86" x="0" height="2" width="16" y="10"/>
-            <lionengine:collisionFramed prefix="ground" number="87" x="0" height="2" width="16" y="9"/>
-            <lionengine:collisionFramed prefix="ground" number="88" x="0" height="2" width="16" y="8"/>
-            <lionengine:collisionFramed prefix="ground" number="89" x="0" height="2" width="16" y="7"/>
-            <lionengine:collisionFramed prefix="ground" number="90" x="0" height="2" width="16" y="6"/>
-        </lionengine:animation>
-        <lionengine:animation name="fall" start="1" end="90" speed="2.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="ground" offsetX="0" offsetY="96" width="16" height="2" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <floater speedUp="0.0" speedDown="0.0" max="0" waterLevel="false"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

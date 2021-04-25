@@ -16,14 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import com.b3dgs.lionengine.AnimState;
-import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
-import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -32,9 +28,9 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionheart.constant.Anim;
 
 /**
  * Pillar feature implementation.
@@ -45,14 +41,19 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Pillar extends FeatureModel implements Routine, Recyclable
 {
+    private static final double SPEED_MOVE = 0.5;
+    private static final double SPEED_CLOSE = -2.0;
+    private static final int MIN_Y = -6;
+    private static final int MAX_Y = 80;
+
     private final Tick tick = new Tick();
-    private final Animation idle;
-    private final Animation fall;
 
     private PillarConfig config;
     private Updatable updater;
+    private double y;
+    private int side;
 
-    @FeatureGet private Animatable animatable;
+    @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Identifiable identifiable;
@@ -67,10 +68,6 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
     public Pillar(Services services, Setup setup)
     {
         super(services, setup);
-
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        fall = config.getAnimation(Anim.FALL);
     }
 
     /**
@@ -82,6 +79,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
     {
         this.config = config;
         updater = this::updateDelay;
+        y = transformable.getY();
         tick.restart();
     }
 
@@ -90,9 +88,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
      */
     public void close()
     {
-        final int old = animatable.getFrame();
-        animatable.play(fall);
-        animatable.setFrame(old);
+        updater = this::updateClose;
     }
 
     /**
@@ -105,11 +101,43 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         if (tick.elapsed(config.getDelay()))
         {
-            animatable.play(idle);
-            animatable.setFrame(idle.getLast());
-            animatable.setAnimSpeed(-animatable.getAnimSpeed());
             rasterable.setVisibility(true);
             collidable.setEnabled(true);
+            updater = this::updateMove;
+        }
+    }
+
+    /**
+     * Update until delay.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateMove(double extrp)
+    {
+        y += SPEED_MOVE * side;
+        if (y > MAX_Y)
+        {
+            y = MAX_Y;
+            side = -side;
+        }
+        else if (y < MIN_Y)
+        {
+            y = MIN_Y;
+            side = -side;
+        }
+    }
+
+    /**
+     * Update until delay.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateClose(double extrp)
+    {
+        y += SPEED_CLOSE;
+        if (y < MIN_Y)
+        {
+            identifiable.destroy();
             updater = UpdatableVoid.getInstance();
         }
     }
@@ -118,10 +146,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         updater.update(extrp);
-        if (animatable.is(AnimState.FINISHED))
-        {
-            identifiable.destroy();
-        }
+        transformable.setLocationY(y);
     }
 
     @Override
@@ -130,7 +155,7 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
         config = null;
         rasterable.setVisibility(false);
         collidable.setEnabled(false);
-        animatable.setFrame(idle.getLast());
         updater = UpdatableVoid.getInstance();
+        side = 1;
     }
 }

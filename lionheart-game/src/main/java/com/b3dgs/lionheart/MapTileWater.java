@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.DisplayableModel;
 import com.b3dgs.lionengine.game.feature.FeaturableAbstract;
@@ -36,6 +37,8 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteTiled;
  */
 public class MapTileWater extends FeaturableAbstract implements Renderable
 {
+    /** Top. */
+    private final MapTileWater top;
     /** Camera reference. */
     private final Viewer viewer;
     /** Map tile surface. */
@@ -60,10 +63,38 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
      */
     public MapTileWater(Services services)
     {
+        this(services, false);
+    }
+
+    /**
+     * Create feature.
+     * <p>
+     * The {@link Services} must provide:
+     * </p>
+     * <ul>
+     * <li>{@link MapTileSurface}</li>
+     * <li>{@link Viewer}</li>
+     * </ul>
+     * 
+     * @param services The services reference (must not be <code>null</code>).
+     * @param bottom The bottom flag.
+     * @throws LionEngineException If invalid argument.
+     */
+    public MapTileWater(Services services, boolean bottom)
+    {
         super();
 
         map = services.get(MapTile.class).getFeature(MapTileSurface.class);
         viewer = services.get(Viewer.class);
+
+        if (bottom)
+        {
+            top = services.get(MapTileWater.class);
+        }
+        else
+        {
+            top = null;
+        }
 
         addFeature(new DisplayableModel(this::render));
     }
@@ -109,6 +140,10 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
     @Override
     public void render(Graphic g)
     {
+        if (top != null)
+        {
+            waterHeight = UtilMath.clamp(top.getCurrent(), 0, 81);
+        }
         if (waterHeight > 1)
         {
             final double viewY = viewer.getY() + viewer.getScreenHeight();
@@ -117,7 +152,9 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
             final int vtx = map.getInTileX(viewer);
             final int vtx2 = vtx + (int) Math.ceil(viewer.getWidth() / (double) map.getTileWidth());
             int ty;
-            for (ty = 0; ty < (int) Math.floor((waterHeight - 2) / (double) map.getTileHeight()); ty++)
+            final int max = (int) Math.floor((waterHeight - 2) / (double) map.getTileHeight());
+
+            for (ty = 0; ty < max; ty++)
             {
                 final SpriteTiled water = tiles[tiles.length - 1];
                 for (int tx = vtx; tx < vtx2; tx++)

@@ -107,7 +107,7 @@ public final class Underwater extends FeatureModel implements Routine
                 return UtilMath.clamp((int) Math.floor(water.getCurrent() - transformable.getY()),
                                       0,
                                       transformable.getHeight())
-                       - 2
+                       - 1
                        + config.getOffsetY();
             }
         };

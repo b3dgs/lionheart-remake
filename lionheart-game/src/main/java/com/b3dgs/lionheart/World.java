@@ -39,15 +39,24 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
+import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
+import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
@@ -67,7 +76,6 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Canon2Airship;
 import com.b3dgs.lionheart.object.feature.Dragon1;
-import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
@@ -80,6 +88,7 @@ import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Underwater;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateWin;
 
@@ -88,6 +97,28 @@ import com.b3dgs.lionheart.object.state.StateWin;
  */
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
+    /**
+     * Load map tiles data.
+     * 
+     * @param map The map reference.
+     * @param media The map tiles data.
+     */
+    private static void loadMapTiles(MapTile map, Media media)
+    {
+        try (FileReading reading = new FileReading(media))
+        {
+            final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
+            mapPersister.load(reading);
+            map.getFeature(MapTileCollision.class)
+               .loadCollisions(Medias.create(Folder.LEVEL, CollisionFormulaConfig.FILENAME),
+                               Medias.create(Folder.LEVEL, CollisionGroupConfig.FILENAME));
+        }
+        catch (final IOException exception)
+        {
+            throw new LionEngineException(exception);
+        }
+    }
+
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
     private final Hud hud = services.create(Hud.class);
@@ -168,9 +199,57 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                  .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
                                             config.getLinesPerRaster(),
                                             config.getRasterLineOffset()));
-        loadMapTiles(media);
-        loadWaterRaster(config, raster);
+        loadMapTiles(map, media);
+        loadMapBottom(config, media, raster);
+
         createMapCollisionDebug();
+    }
+
+    /**
+     * Load map bottom part.
+     * 
+     * @param config The stage config.
+     * @param media The media reference.
+     * @param raster The raster reference.
+     */
+    private void loadMapBottom(StageConfig config, Media media, Optional<String> raster)
+    {
+        final Media bottomRip = Medias.create(media.getPath().replace(Extension.MAP, "_bottom" + Extension.IMAGE));
+        final Media bottom = Medias.create(media.getPath().replace(Extension.MAP, "_bottom" + Extension.MAP));
+        if (bottomRip.exists())
+        {
+            if (!bottom.exists())
+            {
+                MapTileHelper.importAndSave(bottomRip, bottom);
+            }
+            final MapTileGame mapBottom = new MapTileGame();
+            mapBottom.addFeature(new MapTilePersisterModel());
+            mapBottom.addFeature(new MapTileGroupModel());
+            mapBottom.addFeature(new MapTileCollisionModel());
+            mapBottom.addFeature(new LayerableModel(4, 5));
+            final MapTileViewer mapViewer = mapBottom.addFeatureAndGet(new MapTileViewerModel(services));
+            loadMapTiles(mapBottom, bottom);
+
+            raster.ifPresent(r ->
+            {
+                final MapTileRastered mapRaster = mapBottom.addFeatureAndGet(new MapTileRasteredModel());
+                if (mapRaster.loadSheets())
+                {
+                    mapViewer.clear();
+                    mapViewer.addRenderer(mapRaster);
+                    mapRaster.setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
+                                        config.getLinesPerRaster(),
+                                        config.getRasterLineOffset());
+                }
+            });
+
+            handler.add(mapBottom);
+            loadWaterRaster(config, raster, mapBottom, true);
+        }
+        else
+        {
+            loadWaterRaster(config, raster, map, false);
+        }
     }
 
     /**
@@ -178,8 +257,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * 
      * @param config The stage configuration.
      * @param raster The raster folder.
+     * @param map The map tile reference.
+     * @param bottom The bottom flag.
      */
-    private void loadWaterRaster(StageConfig config, Optional<String> raster)
+    private void loadWaterRaster(StageConfig config, Optional<String> raster, MapTile map, boolean bottom)
     {
         final ForegroundType foreground = config.getForeground().getType();
         if (foreground == ForegroundType.WATER || foreground == ForegroundType.LAVA)
@@ -187,28 +268,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             raster.ifPresent(r ->
             {
                 mapWater.create(r);
-                mapWater.addFeature(new LayerableModel(map.getFeature(Layerable.class).getLayerDisplay().intValue()
-                                                       + 1));
+                mapWater.addFeature(new LayerableModel(4, 3));
                 handler.add(mapWater);
-            });
-        }
-    }
 
-    /**
-     * Load map tiles data.
-     * 
-     * @param media The map tiles data.
-     */
-    private void loadMapTiles(Media media)
-    {
-        try (FileReading reading = new FileReading(media))
-        {
-            final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
-            mapPersister.load(reading);
-        }
-        catch (final IOException exception)
-        {
-            throw new LionEngineException(exception);
+                if (bottom)
+                {
+                    final MapTileWater mapWaterBottom = new MapTileWater(services, true);
+                    mapWaterBottom.create(r);
+                    mapWaterBottom.addFeature(new LayerableModel(4, 6));
+                    handler.add(mapWaterBottom);
+                }
+            });
         }
     }
 
@@ -237,8 +307,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Featurable featurable = spawn(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"), 0, 0);
         featurable.getFeature(Stats.class).apply(init);
+        featurable.getFeature(Underwater.class).loadRaster("raster/" + Folder.HERO + "/valdyn/");
 
-        final Optional<Point> spawn = init.getSpawn();
+        final Optional<Coord> spawn = init.getSpawn();
         checkpoint.load(stage, featurable, spawn);
 
         final Transformable transformable = featurable.getFeature(Transformable.class);
@@ -311,8 +382,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         featurable.ifIs(BulletBounceOnGround.class, bounce -> bounce.load(entity.getVx()));
         stage.getRasterFolder().ifPresent(r ->
         {
-            featurable.ifIs(Floater.class, floater -> floater.loadRaster(r));
-            featurable.ifIs(BulletBounceOnGround.class, buller -> buller.loadRaster(r));
+            featurable.ifIs(Underwater.class, underwater -> underwater.loadRaster(r));
+            featurable.ifIs(BulletBounceOnGround.class, bullet -> bullet.loadRaster(r));
         });
     }
 
@@ -415,7 +486,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
                 stopMusic();
-                sequencer.end(SceneBlack.class, Stage.values()[i].getFile(), getInitConfig(Optional.empty()));
+                sequencer.end(SceneBlack.class, Stage.values()[i], getInitConfig(Optional.empty()));
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
@@ -425,7 +496,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             {
                 stopMusic();
                 sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
-            }, 400L);
+            }, 200L);
         }
     }
 
@@ -435,7 +506,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * @param spawn The next spawn.
      * @return The init configuration.
      */
-    private InitConfig getInitConfig(Optional<Point> spawn)
+    private InitConfig getInitConfig(Optional<Coord> spawn)
     {
         final Stats stats = player.getFeature(Stats.class);
         return new InitConfig(stats.getHealthMax(),
@@ -473,7 +544,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         checkpoint.addListener(new CheckpointListener()
         {
             @Override
-            public void notifyNextStage(String next, Optional<Point> spawn)
+            public void notifyNextStage(String next, Optional<Coord> spawn)
             {
                 loadNextStage(next, 0, spawn);
             }
@@ -519,7 +590,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     @Override
-    public void loadNextStage(String next, int tickDelay, Optional<Point> spawn)
+    public void loadNextStage(String next, int tickDelay, Optional<Coord> spawn)
     {
         if (tickDelay > 0)
         {
@@ -542,15 +613,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         stopMusic();
         audio = AudioFactory.loadAudio(media);
-        if (!Constant.AUDIO_MUTE)
+
+        final Settings settings = Settings.getInstance();
+        if (settings.getVolumeMaster() > 0)
         {
-            AudioFactory.setVolume(Constant.AUDIO_VOLUME);
-            audio.setVolume(Constant.AUDIO_VOLUME / 4);
+            audio.setVolume(settings.getVolumeMusic());
             audio.play();
-        }
-        else
-        {
-            AudioFactory.setVolume(0);
         }
     }
 
@@ -601,5 +669,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         camera.setView(0, 0, width, height, height);
         landscape.setScreenSize(width, height);
+        hud.setScreenSize(width, height);
     }
 }
