@@ -47,18 +47,12 @@ import com.b3dgs.lionheart.object.state.StateJump;
  */
 public final class StateAttackFall extends State
 {
-    private static final double BOUNCE_SPEED = 0.02;
-    private static final double BOUNCE_LIANA = 3.0;
-
     private final MapTile map = model.getMap();
     private final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
     private final MapTileCollision mapCollision = map.getFeature(MapTileCollision.class);
     private final Spawner spawner = model.getSpawner();
 
     private final AtomicBoolean collideSword = new AtomicBoolean();
-
-    private double bounce;
-    private double bounceAcc;
 
     /**
      * Create the state.
@@ -90,8 +84,6 @@ public final class StateAttackFall extends State
 
         body.resetGravity();
         collideSword.set(true);
-        bounce = 0.0;
-        bounceAcc = BOUNCE_SPEED;
     }
 
     @Override
@@ -105,7 +97,7 @@ public final class StateAttackFall extends State
         {
             map.setTile(liana.getInTileX(), liana.getInTileY(), liana.getNumber() + 206);
             mapCollision.updateCollisions(tile);
-            jumpHit(BOUNCE_LIANA);
+            jumpHit(UtilMath.clamp(Math.abs(body.getDirectionVertical() * 0.65), Constant.JUMP_MIN, Constant.JUMP_HIT));
             spawner.spawn(Medias.create(Folder.EFFECT, "swamp", "ExplodeLiana.xml"), liana.getX(), liana.getY());
             Sfx.MONSTER_HURT.play();
         }
@@ -120,8 +112,7 @@ public final class StateAttackFall extends State
             && by.getName().startsWith(CollisionName.BODY)
             && with.getName().startsWith(Anim.ATTACK_FALL))
         {
-            final double vy = UtilMath.clamp(bounce, Constant.JUMP_MIN, Constant.JUMP_HIT);
-            jumpHit(vy);
+            jumpHit(UtilMath.clamp(Math.abs(body.getDirectionVertical() * 0.65), Constant.JUMP_MIN, Constant.JUMP_HIT));
         }
     }
 
@@ -131,19 +122,11 @@ public final class StateAttackFall extends State
         super.enter();
 
         collideSword.set(false);
-        bounce = 0.0;
-        bounceAcc = BOUNCE_SPEED;
     }
 
     @Override
     public void update(double extrp)
     {
-        if (transformable.getY() < transformable.getOldY())
-        {
-            bounce += bounceAcc;
-            bounceAcc += BOUNCE_SPEED;
-        }
-
         if (Double.compare(jump.getDirectionVertical(), 0.0) > 0)
         {
             body.resetGravity();
