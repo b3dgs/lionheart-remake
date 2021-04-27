@@ -61,6 +61,31 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     private static final String ATT_COUNT = "count";
 
     private static final double BOUNCE_MAX = 3.5;
+    private static final int BOUNCE_DELAY_TICK = 4;
+
+    /**
+     * Get horizontal side.
+     * 
+     * @param result The result reference.
+     * @return The side value.
+     */
+    private static int getSideX(CollisionResult result)
+    {
+        final int sideX;
+        if (result.contains(CollisionName.LEFT))
+        {
+            sideX = -1;
+        }
+        else if (result.contains(CollisionName.RIGHT))
+        {
+            sideX = 1;
+        }
+        else
+        {
+            sideX = 0;
+        }
+        return sideX;
+    }
 
     private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
@@ -121,14 +146,18 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if ((count == 0 || bounced < count) && category.getName().contains(CollisionName.LEG))
+        if ((count == 0 || bounced < count)
+            && category.getName().contains(CollisionName.LEG)
+            && tick.elapsed(BOUNCE_DELAY_TICK))
         {
             if (result.containsY(CollisionName.GROUND)
                 || result.containsY(CollisionName.SLOPE)
                 || result.containsY(CollisionName.INCLINE)
                 || result.containsY(CollisionName.BLOCK))
             {
-                final double bounce = UtilMath.clamp(transformable.getOldY() - transformable.getY(), 0.0, BOUNCE_MAX);
+                final double bounce = UtilMath.clamp(Math.abs(transformable.getOldY() - transformable.getY()) * 0.75,
+                                                     0.0,
+                                                     BOUNCE_MAX);
                 if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
                 {
                     sfx.play();
@@ -138,19 +167,7 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
                 tileCollidable.apply(result);
                 transformable.teleportY(transformable.getY() + 2.0);
 
-                final int sideX;
-                if (result.contains(CollisionName.LEFT))
-                {
-                    sideX = -1;
-                }
-                else if (result.contains(CollisionName.RIGHT))
-                {
-                    sideX = 1;
-                }
-                else
-                {
-                    sideX = 0;
-                }
+                final int sideX = getSideX(result);
                 if (result.containsY(CollisionName.SLOPE))
                 {
                     bounceX += 0.5 * sideX;
@@ -236,7 +253,9 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
     {
         animatable.play(idle);
         tick.restart();
-        tick.set(10);
+        tick.set(BOUNCE_DELAY_TICK);
         bounceX = 0.0;
+        bounced = 0;
     }
+
 }
