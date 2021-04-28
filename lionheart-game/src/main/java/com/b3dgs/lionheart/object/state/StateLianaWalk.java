@@ -78,6 +78,13 @@ final class StateLianaWalk extends State
     }
 
     @Override
+    public void update(double extrp)
+    {
+        movement.setDestination(device.getHorizontalDirection() * SPEED, 0.0);
+        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
+    }
+
+    @Override
     public void exit()
     {
         super.exit();
@@ -87,12 +94,5 @@ final class StateLianaWalk extends State
         {
             transformable.teleportY(transformable.getY() - 1.0);
         }
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        movement.setDestination(device.getHorizontalDirection() * SPEED, 0.0);
-        animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal()) / ANIM_SPEED_DIVISOR);
     }
 }

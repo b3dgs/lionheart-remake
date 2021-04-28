@@ -63,19 +63,19 @@ public final class StateDrowned extends State
     }
 
     @Override
-    public void exit()
-    {
-        super.exit();
-
-        drownable.recycle();
-    }
-
-    @Override
     public void update(double extrp)
     {
         tick.update(extrp);
         body.resetGravity();
         model.getMovement().setDestination(0.0, DEATH_FALL_SPEED);
         model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        drownable.recycle();
     }
 }

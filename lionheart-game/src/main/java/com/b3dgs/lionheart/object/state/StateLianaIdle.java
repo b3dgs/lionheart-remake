@@ -73,6 +73,12 @@ public final class StateLianaIdle extends State
     }
 
     @Override
+    public void update(double extrp)
+    {
+        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.1);
+    }
+
+    @Override
     public void exit()
     {
         super.exit();
@@ -82,11 +88,5 @@ public final class StateLianaIdle extends State
         {
             transformable.teleportY(transformable.getY() - 1.0);
         }
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.1);
     }
 }

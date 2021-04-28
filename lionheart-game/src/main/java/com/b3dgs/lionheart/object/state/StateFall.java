@@ -64,17 +64,6 @@ public final class StateFall extends State
     }
 
     @Override
-    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
-    {
-        super.onCollideLeg(result, category);
-
-        if (!result.startWithY(CollisionName.LIANA) && !result.startWithY(CollisionName.SPIKE))
-        {
-            // jump.setDirection(DirectionNone.INSTANCE);
-        }
-    }
-
-    @Override
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         super.onCollideHand(result, category);

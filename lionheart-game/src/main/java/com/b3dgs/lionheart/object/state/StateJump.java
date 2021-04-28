@@ -94,19 +94,19 @@ public final class StateJump extends State
     }
 
     @Override
-    public void exit()
-    {
-        super.exit();
-
-        jump.setDirectionMaximum(Constant.JUMP_MAX);
-    }
-
-    @Override
     public void update(double extrp)
     {
         check.update(extrp);
         body.resetGravity();
         movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        jump.setDirectionMaximum(Constant.JUMP_MAX);
     }
 
     @Override
