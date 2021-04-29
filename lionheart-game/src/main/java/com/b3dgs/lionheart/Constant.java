@@ -79,7 +79,7 @@ public final class Constant
     /** Walk velocity on slope decrease. */
     public static final double WALK_VELOCITY_SLOPE_DECREASE = 0.0001;
     /** Walk maximum velocity. */
-    public static final double WALK_VELOCITY_MAX = 0.12;
+    public static final double WALK_VELOCITY_MAX = 0.1;
     /** Jump minimum height. */
     public static final double JUMP_MIN = 2.5;
     /** Jump maximum height on hit. */

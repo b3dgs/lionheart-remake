@@ -147,7 +147,7 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
         }
 
         movement.setVelocity(0.1);
-        movement.setSensibility(0.01);
+        movement.setSensibility(0.001);
 
         body.setDesiredFps(source.getRate());
 
