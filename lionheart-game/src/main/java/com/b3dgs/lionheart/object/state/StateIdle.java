@@ -51,6 +51,7 @@ public final class StateIdle extends State
         addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
         addTransition(StateJump.class, () -> collideY.get() && isGoUpOnce());
         addTransition(StatePrepareAttack.class, () -> collideY.get() && isFire());
+        addTransition(StateSlide.class, () -> steep.is());
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && !collideY.get()
@@ -95,13 +96,17 @@ public final class StateIdle extends State
     {
         super.exit();
 
-        if (border.isLeft())
+        if (border.isLeft() || steep.isLeft())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-        else if (border.isRight())
+        else if (border.isRight() || steep.isRight())
         {
             mirrorable.mirror(Mirror.NONE);
+        }
+        if (steep.is())
+        {
+            movement.zero();
         }
     }
 
