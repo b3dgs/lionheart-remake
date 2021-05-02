@@ -51,7 +51,7 @@ public final class InitConfig
      */
     public InitConfig(int healthMax, int life)
     {
-        this(healthMax, 0, life, 1, Boolean.FALSE, Constant.CREDITS, false, Optional.empty());
+        this(healthMax, 0, life, 0, Boolean.FALSE, Constant.CREDITS, false, Optional.empty());
     }
 
     /**
@@ -60,7 +60,7 @@ public final class InitConfig
      * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
-     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
+     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} excluded).
      * @param amulet The amulet flag.
      * @param credits The credits value.
      * @param cheats The cheats flag.

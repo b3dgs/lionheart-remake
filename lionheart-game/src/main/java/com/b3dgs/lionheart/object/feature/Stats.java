@@ -51,6 +51,7 @@ public final class Stats extends FeatureModel implements Recyclable
     private int sword;
     private Boolean amulet;
     private int credits;
+    private boolean win;
 
     /**
      * Create feature.
@@ -88,7 +89,7 @@ public final class Stats extends FeatureModel implements Recyclable
         talisment.set(config.getTalisment());
         life.set(config.getLife());
         sword = config.getSword();
-        damages.setDamages(sword, sword);
+        damages.setDamages(sword + 1, sword + 1);
         amulet = config.isAmulet();
         final int n = listeners.size();
         for (int i = 0; i < n; i++)
@@ -117,7 +118,7 @@ public final class Stats extends FeatureModel implements Recyclable
         if (nextSword > 0 && sword != nextSword)
         {
             sword = nextSword;
-            damages.setDamages(sword, sword);
+            damages.setDamages(sword + 1, sword + 1);
 
             final int n = listeners.size();
             for (int i = 0; i < n; i++)
@@ -137,6 +138,14 @@ public final class Stats extends FeatureModel implements Recyclable
     {
         health.decrease(damages);
         return health.isEmpty();
+    }
+
+    /**
+     * Set win.
+     */
+    public void win()
+    {
+        win = true;
     }
 
     /**
@@ -235,6 +244,16 @@ public final class Stats extends FeatureModel implements Recyclable
         return amulet;
     }
 
+    /**
+     * Check if won.
+     * 
+     * @return <code>true</code> if won, <code>false</code> else.
+     */
+    public boolean hasWin()
+    {
+        return win;
+    }
+
     @Override
     public void recycle()
     {
@@ -242,6 +261,7 @@ public final class Stats extends FeatureModel implements Recyclable
         health.fill();
         life.set(config.getLife());
         damages.setDamages(config.getDamages(), config.getDamages());
-        sword = 1;
+        sword = 0;
+        win = false;
     }
 }

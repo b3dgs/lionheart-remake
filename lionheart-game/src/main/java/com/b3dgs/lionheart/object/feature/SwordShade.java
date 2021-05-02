@@ -79,7 +79,7 @@ public final class SwordShade extends FeatureModel implements Routine
         for (int i = 0; i < shades.length; i++)
         {
             shades[i] = Drawable.loadSpriteAnimated(Medias.create(setup.getMedia().getParentPath(),
-                                                                  "shade" + (i + 1) + ".png"),
+                                                                  "shade" + i + ".png"),
                                                     10,
                                                     5);
             shades[i].load();
@@ -106,7 +106,7 @@ public final class SwordShade extends FeatureModel implements Routine
             }
         });
 
-        stats.addListener(sword -> shade = shades[sword - 1]);
+        stats.addListener(sword -> shade = shades[sword]);
     }
 
     @Override

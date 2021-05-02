@@ -64,7 +64,7 @@ public final class Constant
     /** Stats maximum life. */
     public static final int STATS_MAX_LIFE = 99;
     /** Stats maximum sword. */
-    public static final int STATS_MAX_SWORD = 3;
+    public static final int STATS_MAX_SWORD = 4;
 
     /** Default credits. */
     public static final int CREDITS = 7;

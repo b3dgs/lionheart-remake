@@ -93,7 +93,7 @@ public final class TakeableConfig
      * @param health The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
-     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} included).
+     * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} excluded).
      * @param amulet The amulet flag.
      */
     private TakeableConfig(Media effect, String sfx, int health, int talisment, int life, int sword, boolean amulet)
