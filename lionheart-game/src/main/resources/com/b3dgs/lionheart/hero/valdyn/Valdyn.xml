@@ -316,6 +316,7 @@
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>groundboss</lionengine:group>
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
@@ -327,6 +328,7 @@
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>groundboss</lionengine:group>
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
@@ -334,6 +336,7 @@
         </lionengine:category>
         <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>groundboss</lionengine:group>
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>

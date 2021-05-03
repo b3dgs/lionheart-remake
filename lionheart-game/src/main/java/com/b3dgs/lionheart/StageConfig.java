@@ -165,10 +165,10 @@ public final class StageConfig
 
         if (configurer.hasAttribute(ATT_BOSS_TX, NODE_BOSS) && configurer.hasAttribute(ATT_BOSS_TY, NODE_BOSS))
         {
-            boss = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TX, NODE_BOSS),
-                                         configurer.getInteger(ATT_BOSS_TY, NODE_BOSS)));
-            bossSpawn = Optional.of(new Coord(configurer.getInteger(ATT_BOSS_TSX, NODE_BOSS),
-                                              configurer.getInteger(ATT_BOSS_TSY, NODE_BOSS)));
+            boss = Optional.of(new Coord(configurer.getDouble(ATT_BOSS_TX, NODE_BOSS),
+                                         configurer.getDouble(ATT_BOSS_TY, NODE_BOSS)));
+            bossSpawn = Optional.of(new Coord(configurer.getDouble(ATT_BOSS_TSX, NODE_BOSS),
+                                              configurer.getDouble(ATT_BOSS_TSY, NODE_BOSS)));
             bossNext = Optional.of(configurer.getString(ATT_BOSS_NEXT, NODE_BOSS));
         }
         else
