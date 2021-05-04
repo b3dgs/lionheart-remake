@@ -52,4 +52,12 @@ final class StatePreparedAttack extends State
     {
         return isFire() && (is(Mirror.NONE) && isGoLeftOnce() || is(Mirror.HORIZONTAL) && isGoRightOnce());
     }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
+    }
 }

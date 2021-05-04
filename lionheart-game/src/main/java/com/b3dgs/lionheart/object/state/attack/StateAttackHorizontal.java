@@ -38,4 +38,12 @@ final class StateAttackHorizontal extends State
 
         addTransition(StatePreparedAttack.class, () -> is(AnimState.FINISHED));
     }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
+    }
 }

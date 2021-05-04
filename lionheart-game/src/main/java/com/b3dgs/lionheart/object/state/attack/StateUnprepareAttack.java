@@ -39,4 +39,12 @@ final class StateUnprepareAttack extends State
 
         addTransition(StateIdle.class, () -> is(AnimState.FINISHED));
     }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
+    }
 }

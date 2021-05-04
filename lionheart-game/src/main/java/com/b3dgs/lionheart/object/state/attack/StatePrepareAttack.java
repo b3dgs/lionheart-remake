@@ -42,9 +42,9 @@ public final class StatePrepareAttack extends State
     }
 
     @Override
-    public void enter()
+    public void update(double extrp)
     {
-        super.enter();
+        super.update(extrp);
 
         movement.zero();
     }

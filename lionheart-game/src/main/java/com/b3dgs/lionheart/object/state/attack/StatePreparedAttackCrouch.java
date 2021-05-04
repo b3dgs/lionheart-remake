@@ -39,4 +39,12 @@ final class StatePreparedAttackCrouch extends State
         addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
         addTransition(StateAttackTop.class, () -> isFire() && isGoUp());
     }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
+    }
 }

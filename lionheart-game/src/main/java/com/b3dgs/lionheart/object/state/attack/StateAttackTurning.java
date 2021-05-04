@@ -41,6 +41,14 @@ final class StateAttackTurning extends State
     }
 
     @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
+    }
+
+    @Override
     public void exit()
     {
         super.exit();

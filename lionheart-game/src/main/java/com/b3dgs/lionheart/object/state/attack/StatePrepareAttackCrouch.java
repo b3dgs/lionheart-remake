@@ -40,4 +40,12 @@ public final class StatePrepareAttackCrouch extends State
         addTransition(StateCrouch.class, () -> !isFire() && is(AnimState.FINISHED));
         addTransition(StatePreparedAttackCrouch.class, () -> isFire() && is(AnimState.FINISHED));
     }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
+    }
 }
