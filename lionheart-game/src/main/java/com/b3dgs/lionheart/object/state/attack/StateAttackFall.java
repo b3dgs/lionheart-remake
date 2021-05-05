@@ -64,7 +64,7 @@ public final class StateAttackFall extends State
     {
         super(model, animation);
 
-        addTransition(StateCrouch.class, () -> !steep.is() && collideY.get() && isGoDown());
+        addTransition(StateCrouch.class, () -> !hasWin() && !steep.is() && collideY.get() && isGoDown());
         addTransition(StateJump.class, () -> collideSword.get() && jump.getDirectionVertical() > 0);
         addTransition(StateFall.class,
                       () -> steep.is()
@@ -96,6 +96,7 @@ public final class StateAttackFall extends State
         if (mapGroup.getGroup(liana).equals(CollisionName.LIANA_FULL))
         {
             map.setTile(liana.getInTileX(), liana.getInTileY(), liana.getNumber() + 206);
+            mapGroup.changeGroup(tile, null);
             mapCollision.updateCollisions(tile);
             jumpHit(UtilMath.clamp(Math.abs(body.getDirectionVertical() * 0.65), Constant.JUMP_MIN, Constant.JUMP_HIT));
             spawner.spawn(Medias.create(Folder.EFFECT, "swamp", "ExplodeLiana.xml"), liana.getX(), liana.getY());

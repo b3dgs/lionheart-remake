@@ -26,6 +26,8 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StateWin extends State
 {
+    private double y;
+
     /**
      * Create the state.
      * 
@@ -44,5 +46,15 @@ public final class StateWin extends State
 
         movement.zero();
         mirrorable.mirror(Mirror.NONE);
+        y = transformable.getY();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        body.resetGravity();
+        transformable.teleportY(y);
     }
 }

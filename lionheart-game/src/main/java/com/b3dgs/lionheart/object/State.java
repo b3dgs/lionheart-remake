@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
@@ -32,6 +33,7 @@ import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.feature.Glue;
+import com.b3dgs.lionheart.object.feature.Stats;
 
 /**
  * Base state with animation implementation.
@@ -63,6 +65,8 @@ public abstract class State extends StateHelper<EntityModel>
     protected final GameplayLiana liana = new GameplayLiana();
     /** Tile collidable listener. */
     private final TileCollidableListener listenerTileCollidable;
+    /** Win flag. */
+    private final BooleanSupplier win;
 
     /**
      * Create the state.
@@ -76,6 +80,14 @@ public abstract class State extends StateHelper<EntityModel>
 
         movement = model.getMovement();
         jump = model.getJump();
+        if (model.hasFeature(Stats.class))
+        {
+            win = model.getFeature(Stats.class)::hasWin;
+        }
+        else
+        {
+            win = () -> false;
+        }
 
         listenerTileCollidable = (result, category) ->
         {
@@ -247,6 +259,16 @@ public abstract class State extends StateHelper<EntityModel>
     protected final boolean isFireOnce()
     {
         return isFireOnce(DeviceMapping.CTRL_RIGHT);
+    }
+
+    /**
+     * Check win flag.
+     * 
+     * @return The win flag.
+     */
+    protected final boolean hasWin()
+    {
+        return win.getAsBoolean();
     }
 
     @Override

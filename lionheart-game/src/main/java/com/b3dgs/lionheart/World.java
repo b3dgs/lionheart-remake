@@ -491,7 +491,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         if (device.isFiredOnce(DeviceMapping.K5))
         {
-            player.changeState(StateWin.class);
+            player.getFeature(Stats.class).win();
             tick.addAction(() ->
             {
                 stopMusic();
@@ -535,7 +535,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         loadMap(stage);
 
         final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
-        landscape = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
+        landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
         cheats = init.isCheats();
         createPlayerAndLoadCheckpoints(init);
@@ -594,7 +594,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         if (tickDelay > 0)
         {
-            player.changeState(StateWin.class);
+            player.getFeature(Stats.class).win();
             tick.addAction(() ->
             {
                 audio.stop();

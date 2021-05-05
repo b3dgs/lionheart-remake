@@ -46,17 +46,19 @@ public final class StateIdle extends State
     {
         super(model, animation);
 
-        addTransition(StateBorder.class, () -> collideY.get() && !isGoHorizontal() && border.is());
-        addTransition(StateWalk.class, () -> !collideX.get() && isWalkingFastEnough());
-        addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
-        addTransition(StateJump.class, () -> collideY.get() && isGoUpOnce());
-        addTransition(StatePrepareAttack.class, () -> collideY.get() && isFire());
-        addTransition(StateSlide.class, () -> steep.is());
+        addTransition(StateBorder.class, () -> !hasWin() && collideY.get() && !isGoHorizontal() && border.is());
+        addTransition(StateWalk.class, () -> !hasWin() && !collideX.get() && isWalkingFastEnough());
+        addTransition(StateCrouch.class, () -> !hasWin() && collideY.get() && isGoDown());
+        addTransition(StateJump.class, () -> !hasWin() && collideY.get() && isGoUpOnce());
+        addTransition(StatePrepareAttack.class, () -> !hasWin() && collideY.get() && isFire());
+        addTransition(StateSlide.class, () -> !hasWin() && steep.is());
         addTransition(StateFall.class,
-                      () -> model.hasGravity()
+                      () -> !hasWin()
+                            && model.hasGravity()
                             && !collideY.get()
                             && !steep.is()
                             && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
+        addTransition(StateWin.class, this::hasWin);
     }
 
     private boolean isWalkingFastEnough()
