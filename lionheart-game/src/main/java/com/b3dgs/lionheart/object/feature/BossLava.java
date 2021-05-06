@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -45,6 +44,7 @@ import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -63,6 +63,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private static final int Y = 60;
     private static final int WALK_OFFSET = 60;
     private static final int RANGE_X = 368;
+    private static final int TICK_RISE = 200;
     private static final int TICK_IDLE = 100;
     private static final int TICK_JUMP = 14;
 
@@ -495,6 +496,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private final Spawner spawner = services.get(Spawner.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
+    private final Landscape landscape = services.get(Landscape.class);
 
     private final Animation rise;
     private final Animation idle;
@@ -553,11 +555,30 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
      */
     private void start(double extrp)
     {
-        startX = transformable.getX();
-        startY = transformable.getY();
-        minY = startY;
-        animator.play(rise);
-        phase = this::updateRise;
+        if (!tick.isStarted())
+        {
+            startY = transformable.getY();
+            startX = transformable.getX();
+            landscape.setEnabled(false);
+            tick.start();
+        }
+        tick.update(extrp);
+        body.resetGravity();
+        transformable.teleportY(startY);
+
+        if (tick.elapsed(TICK_RISE))
+        {
+            for (int i = 0; i < LIMBS.length; i++)
+            {
+                final Featurable featurable = create(LIMBS[i]);
+                limbs[i] = featurable.getFeature(Transformable.class);
+                limbsAnim[i] = featurable.getFeature(Animatable.class);
+            }
+            stats = limbs[0].getFeature(Stats.class);
+            minY = startY;
+            animator.play(rise);
+            phase = this::updateRise;
+        }
     }
 
     /**
@@ -748,29 +769,17 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private void updateLimbs()
     {
         final int id = animator.getFrame() - 1;
+        final boolean hurting = limbsAnim[0].getFeature(Hurtable.class).isHurting();
+        final int frame = limbsAnim[0].getFrame();
+
         for (int i = 0; i < LIMBS.length; i++)
         {
             limbs[i].setLocation(transformable.getX() + DATA[id * 2][i], transformable.getY() - DATA[id * 2 + 1][i]);
-            if (i == 2 || i == 6 || i == 8 || i == 12)
+            if (i > 0)
             {
-                limbsAnim[i].setFrame(limbsAnim[0].getFeature(Hurtable.class).isHurting() ? limbsAnim[0].getFrame() + 5
-                                                                                          : limbsAnim[0].getFrame());
+                limbsAnim[i].setFrame(hurting ? frame + 5 : frame);
             }
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        for (int i = 0; i < LIMBS.length; i++)
-        {
-            final Featurable featurable = create(LIMBS[i]);
-            limbs[i] = featurable.getFeature(Transformable.class);
-            limbsAnim[i] = featurable.getFeature(Animatable.class);
-        }
-        stats = limbs[0].getFeature(Stats.class);
     }
 
     @Override
@@ -778,25 +787,30 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     {
         phase.update(extrp);
 
-        checkGroundCollision();
-        updateLimbs();
-
-        if (stats != null && stats.getHealth() == 0)
+        if (stats != null)
         {
-            for (int i = 1; i < limbs.length; i++)
+            checkGroundCollision();
+            updateLimbs();
+
+            if (stats.getHealth() == 0)
             {
-                limbs[i].getFeature(Hurtable.class).kill(true);
+                for (int i = 1; i < limbs.length; i++)
+                {
+                    limbs[i].getFeature(Hurtable.class).kill(true);
+                }
+                identifiable.destroy();
+                music.playMusic(Music.BOSS_WIN);
+                stage.loadNextStage(model.getNext().get(), END_TICK);
+                stats = null;
             }
-            identifiable.destroy();
-            music.playMusic(Music.BOSS_WIN);
-            stage.loadNextStage(model.getNext().get(), END_TICK);
-            stats = null;
         }
     }
 
     @Override
     public void recycle()
     {
+        stats = null;
         phase = this::start;
+        tick.stop();
     }
 }

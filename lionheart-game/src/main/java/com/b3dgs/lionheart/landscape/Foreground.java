@@ -44,6 +44,13 @@ public interface Foreground extends Background
         // Nothing by default
     }
 
+    /**
+     * Set enabled flag.
+     * 
+     * @param enabled <code>true</code> to enable, <code>false</code> to disable.
+     */
+    void setEnabled(boolean enabled);
+
     @Override
     default void update(double extrp, double speed, double x, double y)
     {

@@ -73,6 +73,12 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
         screenHeight = height;
     }
 
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        // Void
+    }
+
     /**
      * Second front component.
      */

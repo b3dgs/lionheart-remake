@@ -86,4 +86,14 @@ public class Landscape
         background.setScreenSize(width, height);
         foreground.setScreenSize(width, height);
     }
+
+    /**
+     * Set enabled flag.
+     * 
+     * @param enabled <code>true</code> to enable, <code>false</code> to disable.
+     */
+    public void setEnabled(boolean enabled)
+    {
+        foreground.setEnabled(enabled);
+    }
 }

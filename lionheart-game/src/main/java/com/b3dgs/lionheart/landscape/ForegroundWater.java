@@ -42,6 +42,10 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     private static final int WATER_SIDE_COUNT_MAX = 4;
     private static final double RAISE_SPEED = 0.4;
 
+    /** Water line offset. */
+    private final int[] offset = new int[WATER_LINES];
+    /** Water line delay */
+    private final Tick tick = new Tick();
     /** Services reference. */
     private final MapTileWater mapWater;
     /** Water depth. */
@@ -58,8 +62,6 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     private final Primary primary;
     /** Secondary. */
     private final Secondary secondary;
-    /** Water line delay */
-    private final Tick tick = new Tick();
     /** Screen width. */
     private int screenWidth;
     /** Screen height. */
@@ -72,12 +74,12 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     private double raiseMax;
     /** Water current line. */
     private int offsetLine;
-    /** Water line offset. */
-    private final int[] offset = new int[WATER_LINES];
     /** Water line offset side. */
     private int offsetSide = 1;
     /** Water line offset side counter. */
     private int offsetSideCount = 0;
+    /** Enabled flag. */
+    private boolean enabled = true;
 
     /**
      * Constructor.
@@ -124,29 +126,35 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     @Override
     public void renderBack(Graphic g)
     {
-        if (raise < raiseMax)
+        if (enabled)
         {
-            raise += RAISE_SPEED;
-        }
-        else if (raiseMax < 0)
-        {
-            raise -= RAISE_SPEED * 5;
-            if (raise < -32)
+            if (raise < raiseMax)
             {
-                raise = -32;
+                raise += RAISE_SPEED;
             }
+            else if (raiseMax < 0)
+            {
+                raise -= RAISE_SPEED * 5;
+                if (raise < -32)
+                {
+                    raise = -32;
+                }
+            }
+            else
+            {
+                raise = raiseMax;
+            }
+            renderComponent(0, g);
         }
-        else
-        {
-            raise = raiseMax;
-        }
-        renderComponent(0, g);
     }
 
     @Override
     public void renderFront(Graphic g)
     {
-        renderComponent(1, g);
+        if (enabled)
+        {
+            renderComponent(1, g);
+        }
     }
 
     @Override
@@ -154,6 +162,12 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     {
         screenWidth = width;
         screenHeight = height;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
     }
 
     /**
@@ -349,7 +363,14 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
 
             height = UtilMath.wrapDouble(height + water.getSpeed() * extrp, 0.0, 360.0);
             water.setHeight(Math.cos(height) * water.getDepth());
-            mapWater.setWaterHeight((int) water.getHeight());
+            if (enabled)
+            {
+                mapWater.setWaterHeight((int) water.getHeight());
+            }
+            else
+            {
+                mapWater.setWaterHeight(-1);
+            }
 
             py = y;
         }

@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileSurface;
+import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
@@ -47,6 +48,8 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
     private SpriteTiled[] tiles;
     /** The water height. */
     private int waterHeight;
+    /** Disabled. */
+    private boolean disabled;
 
     /**
      * Create feature.
@@ -125,6 +128,15 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
     public void setWaterHeight(int waterHeight)
     {
         this.waterHeight = waterHeight;
+
+        if (!disabled && waterHeight < 0)
+        {
+            final MapTileViewer viewer = map.getFeature(MapTileViewer.class);
+            map.getFeature(MapTileViewer.class).clear();
+            map.getFeature(MapTileViewer.class).addRenderer(viewer);
+
+            disabled = true;
+        }
     }
 
     /**
