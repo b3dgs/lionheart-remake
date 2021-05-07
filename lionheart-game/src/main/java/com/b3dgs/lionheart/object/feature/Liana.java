@@ -38,7 +38,6 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
@@ -185,7 +184,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                         && !CollisionName.LIANA_TOP.equals(mapGroup.getGroup(bottom)))
                     {
                         map.setTile(top.getInTileX(), top.getInTileY(), getVoid(top));
-                        mapGroup.changeGroup(top, MapTileGroupModel.NO_GROUP_NAME);
+                        mapGroup.changeGroup(top, null);
                         mapCollision.updateCollisions(top);
                         ground = true;
                     }
@@ -196,14 +195,14 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
 
                     number = tile.getNumber();
                     map.setTile(tile.getInTileX(), tile.getInTileY(), getVoid(tile));
-                    mapGroup.changeGroup(tile, MapTileGroupModel.NO_GROUP_NAME);
+                    mapGroup.changeGroup(tile, null);
                     mapCollision.updateCollisions(tile);
 
                     if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(top))
                         && !CollisionName.LIANA_TOP.equals(mapGroup.getGroup(top2)))
                     {
                         map.setTile(top.getInTileX(), top.getInTileY(), getVoid(top));
-                        mapGroup.changeGroup(top, MapTileGroupModel.NO_GROUP_NAME);
+                        mapGroup.changeGroup(top, null);
                         mapCollision.updateCollisions(top);
                     }
                     else
@@ -218,7 +217,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                         if (bottom2.getNumber() == TILE_VOID)
                         {
                             map.setTile(bottom.getInTileX(), bottom.getInTileY(), getVoid(bottom));
-                            mapGroup.changeGroup(bottom, MapTileGroupModel.NO_GROUP_NAME);
+                            mapGroup.changeGroup(bottom, null);
                             mapCollision.updateCollisions(bottom);
                         }
                         else if (top != null
@@ -290,10 +289,25 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         // Case for ground liana hole
         if (top != null && top2 != null)
         {
-            // Upper part
-            if (CollisionName.GROUND.equals(mapGroup.getGroup(top2)))
+            System.out.println(top.getNumber() + " " + top2.getNumber());
+            // Bottom part
+            if (top.getNumber() == 909 && top2.getNumber() == 908
+                || (top.getNumber() == 911 || top.getNumber() == 6) && top2.getNumber() == 701)
             {
-                if (top.getNumber() == 907)
+                return 5;
+            }
+            else if (top.getNumber() == 6 && (top2.getNumber() == 702 || top2.getNumber() == 907))
+            {
+                return 8;
+            }
+
+            // Upper part
+            if (top2.getNumber() == 545
+                || top2.getNumber() == 547
+                || top2.getNumber() == 842
+                || top2.getNumber() == 843)
+            {
+                if (top.getNumber() == 907 || top.getNumber() == 701 || top.getNumber() == 702)
                 {
                     return 6;
                 }
@@ -301,16 +315,6 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                 {
                     return 909;
                 }
-            }
-
-            // Bottom part
-            if (top.getNumber() == 909 && top2.getNumber() == 908)
-            {
-                return 5;
-            }
-            else if (top.getNumber() == 6 && top2.getNumber() == 907)
-            {
-                return 8;
             }
         }
         // Case for other liana
