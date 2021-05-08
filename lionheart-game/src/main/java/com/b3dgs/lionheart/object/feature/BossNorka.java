@@ -54,7 +54,6 @@ import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
 import com.b3dgs.lionheart.object.EntityModel;
-import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
  * Boss Norka feature implementation.
@@ -462,7 +461,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         
         // Await
         { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { -65, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000 }
+        { -65, -500, -500, -500, -500, -500, -500, -500, -500 }
     };
     // @formatter:on
 
@@ -879,7 +878,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
                     limbs[i].getFeature(Hurtable.class).kill(true);
                 }
                 music.playMusic(Music.NORKA_WIN);
-                player.changeState(StateWin.class);
+                player.getFeature(Stats.class).win();
                 phase = this::updateEnd;
                 stats = null;
                 tick.restart();
