@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
@@ -109,8 +110,11 @@ public final class Gobelin extends FeatureModel implements Routine, Recyclable
     {
         super.prepare(provider);
 
-        launcher.addListener(l -> l.ifIs(Rasterable.class,
-                                         r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
+        if (Settings.getInstance().getRasterObject())
+        {
+            launcher.addListener(l -> l.ifIs(Rasterable.class,
+                                             r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
+        }
     }
 
     @Override

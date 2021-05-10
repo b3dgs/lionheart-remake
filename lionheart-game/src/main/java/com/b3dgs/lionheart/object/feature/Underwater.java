@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.MapTileWater;
+import com.b3dgs.lionheart.Settings;
 
 /**
  * Floater feature implementation.
@@ -79,7 +80,12 @@ public final class Underwater extends FeatureModel implements Routine
      */
     public void loadRaster(String raster)
     {
-        rasterableWater.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
+        if (Settings.getInstance().getRasterObjectWater())
+        {
+            rasterableWater.setRaster(false,
+                                      Medias.create(raster, Constant.RASTER_FILE_WATER),
+                                      transformable.getHeight());
+        }
     }
 
     @Override

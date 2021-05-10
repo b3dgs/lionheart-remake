@@ -45,6 +45,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -129,7 +130,10 @@ public final class BulletBounceOnGround extends FeatureModel implements Routine,
      */
     public void loadRaster(String raster)
     {
-        rasterable.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
+        if (Settings.getInstance().getRasterObject())
+        {
+            rasterable.setRaster(false, Medias.create(raster, Constant.RASTER_FILE_WATER), transformable.getHeight());
+        }
     }
 
     /**

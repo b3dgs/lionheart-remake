@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -220,8 +221,12 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
         final MapTile map = services.get(MapTile.class);
         launcher.addListener(l ->
         {
-            rasterable.getMedia()
-                      .ifPresent(media -> l.ifIs(Rasterable.class, r -> r.setRaster(true, media, map.getTileHeight())));
+            if (Settings.getInstance().getRasterObject())
+            {
+                rasterable.getMedia()
+                          .ifPresent(media -> l.ifIs(Rasterable.class,
+                                                     r -> r.setRaster(true, media, map.getTileHeight())));
+            }
 
             if (config != null && !config.getTrack())
             {

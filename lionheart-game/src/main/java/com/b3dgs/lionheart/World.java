@@ -195,10 +195,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         });
 
         final Optional<String> raster = config.getRasterFolder();
-        raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
-                                 .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
-                                            config.getLinesPerRaster(),
-                                            config.getRasterLineOffset()));
+        if (Settings.getInstance().getRasterMap())
+        {
+            raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
+                                     .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
+                                                config.getLinesPerRaster(),
+                                                config.getRasterLineOffset()));
+        }
         loadMapTiles(map, media);
         loadMapBottom(config, media, raster);
 
@@ -233,7 +236,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             raster.ifPresent(r ->
             {
                 final MapTileRastered mapRaster = mapBottom.addFeatureAndGet(new MapTileRasteredModel());
-                if (mapRaster.loadSheets())
+                if (mapRaster.loadSheets() && Settings.getInstance().getRasterMap())
                 {
                     mapViewer.clear();
                     mapViewer.addRenderer(mapRaster);
@@ -262,23 +265,26 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void loadWaterRaster(StageConfig config, Optional<String> raster, MapTile map, boolean bottom)
     {
-        final ForegroundType foreground = config.getForeground().getType();
-        if (foreground == ForegroundType.WATER || foreground == ForegroundType.LAVA)
+        if (Settings.getInstance().getRasterMapWater())
         {
-            raster.ifPresent(r ->
+            final ForegroundType foreground = config.getForeground().getType();
+            if (foreground == ForegroundType.WATER || foreground == ForegroundType.LAVA)
             {
-                mapWater.create(r);
-                mapWater.addFeature(new LayerableModel(4, 3));
-                handler.add(mapWater);
-
-                if (bottom)
+                raster.ifPresent(r ->
                 {
-                    final MapTileWater mapWaterBottom = new MapTileWater(services, true);
-                    mapWaterBottom.create(r);
-                    mapWaterBottom.addFeature(new LayerableModel(4, 6));
-                    handler.add(mapWaterBottom);
-                }
-            });
+                    mapWater.create(r);
+                    mapWater.addFeature(new LayerableModel(4, 3));
+                    handler.add(mapWater);
+
+                    if (bottom)
+                    {
+                        final MapTileWater mapWaterBottom = new MapTileWater(services, true);
+                        mapWaterBottom.create(r);
+                        mapWaterBottom.addFeature(new LayerableModel(4, 6));
+                        handler.add(mapWaterBottom);
+                    }
+                });
+            }
         }
     }
 
@@ -307,7 +313,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Featurable featurable = spawn(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"), 0, 0);
         featurable.getFeature(Stats.class).apply(init);
-        featurable.getFeature(Underwater.class).loadRaster("raster/" + Folder.HERO + "/valdyn/");
+        if (Settings.getInstance().getRasterHeroWater())
+        {
+            featurable.getFeature(Underwater.class).loadRaster("raster/" + Folder.HERO + "/valdyn/");
+        }
 
         final Optional<Coord> spawn = init.getSpawn();
         checkpoint.load(stage, featurable, spawn);
@@ -563,14 +572,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 playMusic(Music.BOSS);
             }
         });
-        stage.getRasterFolder().ifPresent(r ->
+        if (Settings.getInstance().getRasterObject())
         {
-            final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
-            if (rasterMedia.exists())
+            stage.getRasterFolder().ifPresent(r ->
             {
-                spawner.setRaster(rasterMedia);
-            }
-        });
+                final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
+                if (rasterMedia.exists())
+                {
+                    spawner.setRaster(rasterMedia);
+                }
+            });
+        }
 
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
@@ -583,8 +595,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         handler.updateAdd();
 
         Sfx.cacheEnd();
-
-        System.gc();
 
         tick.restart();
     }
