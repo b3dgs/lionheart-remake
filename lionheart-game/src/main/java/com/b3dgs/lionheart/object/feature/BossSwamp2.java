@@ -415,7 +415,9 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
 
         spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeBoss.xml"),
                       transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
-                      transformable.getY() + UtilRandom.getRandomInteger(height));
+                      transformable.getY() + UtilRandom.getRandomInteger(height))
+               .getFeature(Rasterable.class)
+               .setAnimOffset2(UtilMath.clamp(getFrameOffset(), 0, 2) * 8);
     }
 
     /**
