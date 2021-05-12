@@ -153,7 +153,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
      */
     private void updateAwait(double extrp)
     {
-        if (camera.getX() < 736 * 16)
+        if (camera.getX() < 741 * 16)
         {
             camera.moveLocation(extrp, SPEED, 0.0);
             player.moveLocationX(extrp, SPEED);
