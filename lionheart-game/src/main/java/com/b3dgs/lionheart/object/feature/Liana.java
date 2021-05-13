@@ -289,14 +289,14 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         // Case for ground liana hole
         if (top != null && top2 != null)
         {
-            System.out.println(top.getNumber() + " " + top2.getNumber());
             // Bottom part
             if (top.getNumber() == 909 && top2.getNumber() == 908
                 || (top.getNumber() == 911 || top.getNumber() == 6) && top2.getNumber() == 701)
             {
                 return 5;
             }
-            else if (top.getNumber() == 6 && (top2.getNumber() == 702 || top2.getNumber() == 907))
+            else if (top.getNumber() == 6 && (top2.getNumber() == 702 || top2.getNumber() == 907)
+                     || top.getNumber() == 5 && (top2.getNumber() == 907 || top2.getNumber() == 908))
             {
                 return 8;
             }
@@ -305,7 +305,9 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
             if (top2.getNumber() == 545
                 || top2.getNumber() == 547
                 || top2.getNumber() == 842
-                || top2.getNumber() == 843)
+                || top2.getNumber() == 843
+                || top2.getNumber() == 98
+                || top2.getNumber() == 101)
             {
                 if (top.getNumber() == 907 || top.getNumber() == 701 || top.getNumber() == 702)
                 {
