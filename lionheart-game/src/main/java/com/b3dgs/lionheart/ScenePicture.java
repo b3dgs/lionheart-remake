@@ -26,8 +26,12 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
@@ -59,6 +63,7 @@ public final class ScenePicture extends Sequence
     private int fadeText;
     private int speed = 6;
     private boolean showPush;
+    private final Image text;
 
     /**
      * Constructor.
@@ -87,7 +92,21 @@ public final class ScenePicture extends Sequence
                                        Medias.create(Folder.SPRITE, "fontdata.xml"),
                                        12,
                                        12);
-        config.getText().ifPresent(m -> font.setText(Util.toFontText(Medias.create(Folder.TEXT, m))));
+
+        font.load();
+        font.prepare();
+
+        final String str = Util.toFontText(Medias.create(Folder.TEXT, config.getText().get()));
+        final ImageBuffer buffer = Graphics.createImageBuffer(getWidth(), font.getTextHeight(str) + 8);
+        buffer.prepare();
+
+        final Graphic g = buffer.createGraphic();
+        font.draw(g, getWidth() / 2 - 1, 0, Align.CENTER, str);
+        g.dispose();
+
+        text = Drawable.loadImage(buffer);
+        text.setLocation(0, TEXT_Y);
+        text.setOrigin(Origin.TOP_LEFT);
 
         setSystemCursorVisible(false);
     }
@@ -97,15 +116,10 @@ public final class ScenePicture extends Sequence
      */
     private void updatePicture()
     {
-        if (fadeText == 0)
+        if (fadeText == 255)
         {
-            final int oldPic = fadePic;
-            fadePic = UtilMath.clamp(fadePic + speed, 0, 255);
-            if (oldPic != fadePic)
-            {
-                picture.setAlpha(fadePic);
-            }
-            if (speed < 0 && fadePic == 0)
+            fadePic = UtilMath.clamp(fadePic - speed, 0, 255);
+            if (speed < 0 && fadePic == 255)
             {
                 end();
             }
@@ -117,15 +131,10 @@ public final class ScenePicture extends Sequence
      */
     private void updateText()
     {
-        if (fadePic == 255)
+        if (fadePic == 0)
         {
-            final int oldText = fadeText;
-            fadeText = UtilMath.clamp(fadeText + speed, 0, 255);
-            if (oldText != fadeText)
-            {
-                font.setAlpha(fadeText);
-            }
-            if (fadeText == 255)
+            fadeText = UtilMath.clamp(fadeText - speed, 0, 255);
+            if (fadeText == 0)
             {
                 if (!tick.isStarted())
                 {
@@ -163,17 +172,9 @@ public final class ScenePicture extends Sequence
         picture.prepare();
         picture.setOrigin(Origin.CENTER_TOP);
         picture.setLocation(getWidth() / 2 - 1, PIC_Y);
-        picture.setAlpha(0);
 
-        font.load();
-        font.prepare();
-        font.setOrigin(Origin.TOP_LEFT);
-        font.setAlign(Align.CENTER);
-        font.setLocation(getWidth() / 2 - 1, TEXT_Y);
-        font.setAlpha(0);
-
-        fadePic = 0;
-        fadeText = 0;
+        fadePic = 255;
+        fadeText = 255;
     }
 
     @Override
@@ -190,9 +191,26 @@ public final class ScenePicture extends Sequence
     public void render(Graphic g)
     {
         g.clear(0, 0, getWidth(), getHeight());
-        picture.render(g);
-        font.render(g);
 
+        picture.render(g);
+        if (fadePic > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[fadePic]);
+            g.drawRect((int) picture.getX() - picture.getWidth() / 2,
+                       (int) picture.getY(),
+                       picture.getWidth(),
+                       picture.getHeight(),
+                       true);
+        }
+
+        text.render(g);
+        if (fadeText > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[fadeText]);
+            g.drawRect(0, (int) text.getY(), getWidth(), 40, true);
+        }
+
+        g.setColor(ColorRgba.WHITE);
         if (showPush)
         {
             font.draw(g, getWidth() / 2, PUSH_Y, Align.CENTER, PUSH_BUTTON_MESSAGE);
@@ -205,6 +223,6 @@ public final class ScenePicture extends Sequence
     public void onTerminated(boolean hasNextSequence)
     {
         picture.dispose();
-        font.dispose();
+        text.dispose();
     }
 }
