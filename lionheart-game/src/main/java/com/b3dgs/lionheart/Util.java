@@ -46,10 +46,14 @@ public final class Util
     public static Resolution getResolution(Resolution source, Context context)
     {
         final Resolution output = context.getConfig().getOutput();
-        final double factor = source.getHeight() / (double) output.getHeight();
-        return new Resolution((int) Math.floor(output.getWidth() * factor),
-                              (int) Math.floor(output.getHeight() * factor),
-                              source.getRate());
+        if (Settings.getInstance().getResolutionResize())
+        {
+            final double factor = source.getHeight() / (double) output.getHeight();
+            return new Resolution((int) Math.floor(output.getWidth() * factor),
+                                  (int) Math.floor(output.getHeight() * factor),
+                                  source.getRate());
+        }
+        return output;
     }
 
     /**
@@ -63,9 +67,13 @@ public final class Util
      */
     public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth)
     {
+        final Resolution output = context.getConfig().getOutput();
+        if (!Settings.getInstance().getResolutionResize())
+        {
+            return output;
+        }
         final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
-        final double ratio = (double) context.getConfig().getOutput().getWidth()
-                             / (double) context.getConfig().getOutput().getHeight();
+        final double ratio = (double) output.getWidth() / (double) output.getHeight();
         final int width = adjusted.getWidth() - (adjusted.getWidth() - maxWidth + marginWidth);
         final int height = (int) Math.floor(width / ratio);
 

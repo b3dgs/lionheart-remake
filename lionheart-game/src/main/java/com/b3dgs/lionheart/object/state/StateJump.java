@@ -85,8 +85,7 @@ public final class StateJump extends State
         super.enter();
 
         check = checkJumpStopped;
-
-        if (Double.compare(transformable.getY(), transformable.getOldY()) == 0)
+        if (Math.abs(transformable.getY() - transformable.getOldY()) < 1)
         {
             jump.setDirection(Constant.JUMP_MAX);
             jump.setDirectionMaximum(Constant.JUMP_MAX);
