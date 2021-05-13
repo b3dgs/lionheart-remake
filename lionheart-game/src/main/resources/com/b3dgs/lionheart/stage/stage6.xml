@@ -161,7 +161,7 @@
         <entity file="entity/ancienttown/PotionLittle.xml" tx="94.0" ty="60.0"/>
         <entity file="entity/ancienttown/Sword2.xml" tx="95.0" ty="60.0"/>
         <entity file="entity/ancienttown/Canon2.xml" tx="51.0" ty="72.0" dvy="0.0">
-            <shooter fireDelay="180" firedDelay="0" svx="-0.9" svy="1.5"/>
+            <shooter fireDelay="180" firedDelay="0" svx="0.9" svy="1.5"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="41.0" ty="79.0">
             <shooter fireDelay="140" firedDelay="20" anim="1" svx="1.2" svy="1.6" dvy="0.0"/>
@@ -181,7 +181,7 @@
             <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.2" svy="3.0" dvy="0.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="54.0" ty="101.0">
-            <shooter fireDelay="40" firedDelay="0" svx="-1.0" svy="1.7" dvy="0.0"/>
+            <shooter fireDelay="40" firedDelay="0" svx="1.0" svy="1.7" dvy="0.0"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="73.0" ty="95.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="160"/>
