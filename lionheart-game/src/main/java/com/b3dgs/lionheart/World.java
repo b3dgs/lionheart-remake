@@ -68,6 +68,7 @@ import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
+import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
@@ -536,10 +537,26 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     public void load(Media config, InitConfig init)
     {
-        Sfx.cacheStart();
-
         services.add(config);
         stage = services.add(StageConfig.imports(new Configurer(config)));
+
+        if (stage.getBoss().isPresent() || stage.getBackground() == BackgroundType.NORKA)
+        {
+            Sfx.cacheStart(Sfx.BOSS1_BOWL,
+                           Sfx.BOSS1_HURT,
+                           Sfx.BOSS3_HURT,
+                           Sfx.BOSS3_JUMP,
+                           Sfx.BOSS_DAEMON_FIRE,
+                           Sfx.BOSS_DAEMON_LAND,
+                           Sfx.BOSS_FLYER,
+                           Sfx.BOSS_NORKA_FIRE,
+                           Sfx.BOSS_NORKA_HURT,
+                           Sfx.BOSS_NORKA_PLATFORM);
+        }
+        else
+        {
+            Sfx.cacheStart();
+        }
 
         loadMap(stage);
 

@@ -16,6 +16,9 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.Media;
@@ -129,19 +132,68 @@ public enum Sfx
     /** Boss flyer. */
     BOSS_NORKA_HURT;
 
-    private static boolean cached;
+    private static final int MAX_PARALLEL_CACHE = 3;
+    private static final List<Sfx> TO_CACHE = new ArrayList<>(Arrays.asList(MENU_SELECT,
+                                                                            VALDYN_HURT,
+                                                                            VALDYN_DIE,
+                                                                            VALDYN_SWORD,
+                                                                            ITEM_POTIONLITTLE,
+                                                                            ITEM_POTIONBIG,
+                                                                            ITEM_TAKEN,
+                                                                            SCENERY_DRAGON,
+                                                                            SCENERY_TURNING,
+                                                                            SCENERY_TURNINGCUBE,
+                                                                            SCENERY_ROTATINGPLATFORM,
+                                                                            SCENERY_SPIKE,
+                                                                            SCENERY_MELTINGPLATFORM,
+                                                                            SCENERY_FIREBALL,
+                                                                            SCENERY_GEYZER,
+                                                                            SCENERY_GEYZERPLATFORM,
+                                                                            MONSTER_HURT,
+                                                                            MONSTER_LAND,
+                                                                            MONSTER_GRASSHOPER,
+                                                                            MONSTER_SPIDER,
+                                                                            MONSTER_CANON1,
+                                                                            MONSTER_CANON2,
+                                                                            MONSTER_CANON3,
+                                                                            MONSTER_GOBELIN,
+                                                                            MONSTER_EXECUTIONER_HURT,
+                                                                            MONSTER_EXECUTIONER_ATTACK,
+                                                                            MONSTER_DRAGONBALL,
+                                                                            MONSTER_FROG,
+                                                                            MONSTER_WIZARD,
+                                                                            EFFECT_EXPLODE1,
+                                                                            EFFECT_EXPLODE2,
+                                                                            EFFECT_EXPLODE3,
+                                                                            PROJECTILE_FLOWER,
+                                                                            PROJECTILE_FLY,
+                                                                            PROJECTILE_BULLET2,
+                                                                            BOSS2));
 
     /**
      * Cache sfx start.
+     * 
+     * @param sfxs The sfx to cache.
      */
-    public static void cacheStart()
+    public static void cacheStart(Sfx... sfxs)
     {
-        if (Settings.getInstance().getVolumeSfx() > 0 && !cached)
+        TO_CACHE.addAll(Arrays.asList(sfxs));
+        if (Settings.getInstance().getVolumeSfx() > 0)
         {
-            for (final Sfx sfx : Sfx.values())
+            int i = 0;
+            for (final Sfx sfx : sfxs)
             {
-                sfx.audio.setVolume(0);
-                sfx.play();
+                if (!sfx.cached)
+                {
+                    sfx.audio.setVolume(0);
+                    sfx.play();
+                    i++;
+                    if (i > MAX_PARALLEL_CACHE)
+                    {
+                        i = 0;
+                        sfx.audio.await();
+                    }
+                }
             }
         }
     }
@@ -152,14 +204,14 @@ public enum Sfx
     public static void cacheEnd()
     {
         final int volume = Settings.getInstance().getVolumeSfx();
-        if (volume > 0 && !cached)
+        if (!TO_CACHE.isEmpty() && volume > 0)
         {
-            for (final Sfx sfx : Sfx.values())
+            for (final Sfx sfx : TO_CACHE)
             {
                 sfx.audio.await();
                 sfx.audio.setVolume(volume);
             }
-            cached = true;
+            TO_CACHE.clear();
         }
     }
 
@@ -185,6 +237,8 @@ public enum Sfx
 
     /** Audio handler. */
     private final Audio audio;
+    /** Cached flag. */
+    private boolean cached;
 
     /**
      * Create Sfx.
@@ -203,6 +257,7 @@ public enum Sfx
         if (Settings.getInstance().getVolumeSfx() > 0)
         {
             audio.play();
+            cached = true;
         }
     }
 
