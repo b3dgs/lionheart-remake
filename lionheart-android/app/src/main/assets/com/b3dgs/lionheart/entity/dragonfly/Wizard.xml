@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon4</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Wizard.png"/>
+    <lionengine:frames horizontal="10" vertical="4"/>
+    <lionengine:size width="64" height="80"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="patrol" start="1" end="10" speed="0.15" reversed="false" repeat="true"/>
+        <lionengine:animation name="attack" start="11" end="20" speed="4.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="12" width="32" height="44" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="12" width="32" height="44" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:launcher>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" sfx="sfx/monster_wizard.wav" ox="0" oy="50">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-2.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="-2" oy="48">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.8" vy="-2.5"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="48">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-2.5"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="2" oy="48">
+            <lionengine:force velocity="1" sensibility="0" vx="-0.8" vy="-2.5"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="46">
+            <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-3.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="20"/>
+    <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
+</lionengine:featurable>

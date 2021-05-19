@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="BossLaser.png"/>
+    <lionengine:frames horizontal="1" vertical="24"/>
+    <lionengine:size width="256" height="16"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="24" speed="0.35" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="attack" number="9" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="10" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="11" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="12" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="13" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="14" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="15" x="0" y="0" width="256" height="12"/>
+            <lionengine:collisionFramed prefix="attack" number="16" x="0" y="0" width="256" height="12"/>
+        </lionengine:animation>
+    </lionengine:animations>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:layerable layerRefresh="1" layerDisplay="6"/>
+    <lionengine:collidable group="2" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>

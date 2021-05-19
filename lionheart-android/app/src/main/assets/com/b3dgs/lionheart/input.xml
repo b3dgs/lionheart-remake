@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:input mapping="com.b3dgs.lionheart.DeviceMapping" xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/input.xsd">
+    <lionengine:device class="com.b3dgs.lionengine.android.VirtualDeviceButton">
+        <lionengine:horizontal positive="2" negative="1"/>
+        <lionengine:vertical positive="4" negative="3"/>
+        <lionengine:fire index="LEFT" positive="1" negative="1"/>
+        <lionengine:fire index="RIGHT" positive="2" negative="2"/>
+        <lionengine:fire index="UP" positive="4" negative="4"/>
+        <lionengine:fire index="DOWN" positive="3" negative="3"/>
+        <lionengine:fire index="CTRL_RIGHT" positive="0" negative="0"/>
+        <lionengine:fire index="PAUSE" positive="5" negative="5"/>
+        <lionengine:fire index="CTRL_LEFT" positive="6" negative="6"/>
+        <lionengine:fire index="TAB" positive="7" negative="7"/>
+        <lionengine:fire index="PAGE_DOWN" positive="8" negative="8"/>
+        <lionengine:fire index="F1" positive="9" negative="9"/>
+        <lionengine:fire index="F2" positive="10" negative="10"/>
+        <lionengine:fire index="F3" positive="11" negative="11"/>
+        <lionengine:fire index="F4" positive="12" negative="12"/>
+        <lionengine:fire index="F5" positive="13" negative="13"/>
+        <lionengine:fire index="F6" positive="14" negative="14"/>
+        <lionengine:fire index="F7" positive="15" negative="15"/>
+        <lionengine:fire index="F8" positive="16" negative="16"/>
+        <lionengine:fire index="F9" positive="17" negative="17"/>
+        <lionengine:fire index="F10" positive="18" negative="18"/>
+        <lionengine:fire index="K1" positive="19" negative="19"/>
+        <lionengine:fire index="K2" positive="20" negative="20"/>
+        <lionengine:fire index="K3" positive="21" negative="21"/>
+        <lionengine:fire index="K4" positive="22" negative="21"/>
+        <lionengine:fire index="K5" positive="23" negative="23"/>
+    </lionengine:device>
+</lionengine:input>

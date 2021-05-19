@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/spidercave.sc68"/>
+    <map file="levels/spidercave2/stage4.lvl"/>
+    <background type="SPIDERCAVE2"/>
+    <foreground type="NONE"/>
+    <checkpoints>
+        <checkpoint tx="11" ty="67"/>
+        <checkpoint tx="57" ty="55"/>
+        <checkpoint tx="54" ty="37"/>
+        <checkpoint tx="90" ty="46"/>
+        <checkpoint tx="107" ty="60"/>
+        <checkpoint tx="152" ty="48"/>
+        <checkpoint tx="223" ty="26" next="stage/stage5.xml"/>
+    </checkpoints>
+    <entities>
+        <entity file="boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="0.0" ty="0.0"/>
+        <entity file="entity/spidercave2/PotionBig.xml" tx="48.0" ty="64.0"/>
+        <entity file="entity/spidercave2/PotionLittle.xml" tx="71.0" ty="40.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="28.0" ty="39.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="27.0" ty="38.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="27.0" ty="37.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="23.0" ty="34.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="19.0" ty="31.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="11.0" ty="31.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="13.0" ty="28.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="14.0" ty="28.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="5.0" ty="36.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="4.0" ty="38.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="2.0" ty="39.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="8.0" ty="33.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="12.0" ty="44.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="13.0" ty="44.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="12.0" ty="43.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="13.0" ty="43.0"/>
+        <entity file="entity/spidercave2/PotionLittle.xml" tx="9.0" ty="43.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="91.0" ty="58.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="91.0" ty="57.0"/>
+        <entity file="entity/spidercave2/PotionLittle.xml" tx="132.0" ty="56.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="155.0" ty="53.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="156.0" ty="54.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="196.0" ty="46.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="196.0" ty="45.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="196.0" ty="44.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="196.0" ty="43.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="195.0" ty="42.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="189.0" ty="40.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="190.0" ty="40.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="191.0" ty="40.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="192.0" ty="40.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="190.0" ty="39.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="191.0" ty="39.0"/>
+        <entity file="entity/spidercave2/Life.xml" tx="191.0" ty="48.0"/>
+        <entity file="entity/spidercave2/PotionBig.xml" tx="190.0" ty="47.0"/>
+        <entity file="entity/spidercave2/Life.xml" tx="159.0" ty="32.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="177.0" ty="32.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="178.0" ty="31.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="188.0" ty="26.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="188.0" ty="27.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="36.0" ty="64.0">
+            <patrol sh="-0.35" amplitude="48" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="36.0" ty="64.0">
+            <patrol sh="-0.35" amplitude="48" offset="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="36.0" ty="64.0">
+            <patrol sh="-0.35" amplitude="48" offset="32"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="43.0" ty="66.0">
+            <patrol sh="-0.35" amplitude="32"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="4"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="8"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="12"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="20"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="49.5" ty="55.0">
+            <patrol sh="-0.35" amplitude="96" offset="24"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="69.25" ty="39.0">
+            <patrol sh="-0.35" amplitude="48" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="69.25" ty="39.0">
+            <patrol sh="-0.35" amplitude="48" offset="4"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="69.25" ty="39.0">
+            <patrol sh="-0.35" amplitude="48" offset="8"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="69.25" ty="39.0">
+            <patrol sh="-0.35" amplitude="48" offset="12"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="34.0" ty="37.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="36.0" ty="37.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="38.0">
+            <patrol sh="-0.35" amplitude="48" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="40.0">
+            <patrol sh="-0.35" amplitude="48" offset="4"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="40.0">
+            <patrol sh="-0.35" amplitude="48" offset="8"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="40.0">
+            <patrol sh="-0.35" amplitude="48" offset="12"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="76.0" ty="49.0">
+            <patrol sh="-0.35" amplitude="48"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="78.0" ty="54.0">
+            <patrol sh="-0.35" amplitude="48"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="83.0" ty="54.0">
+            <patrol sh="-0.35" amplitude="48"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="82.0" ty="49.0">
+            <patrol sh="-0.35" amplitude="48"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="94.0" ty="52.0">
+            <patrol sh="-0.35" amplitude="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="96.0" ty="48.0">
+            <patrol sh="-0.35" amplitude="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="96.0" ty="43.0">
+            <patrol sh="-0.35" amplitude="64" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="96.0" ty="43.0">
+            <patrol sh="-0.35" amplitude="64" offset="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="96.0" ty="43.0">
+            <patrol sh="-0.35" amplitude="64" offset="32"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="96.0" ty="59.0">
+            <patrol sh="-0.35" amplitude="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="99.0" ty="56.0">
+            <patrol sh="-0.35" amplitude="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="101.0" ty="61.0">
+            <patrol sh="-0.35" amplitude="32"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="108.0" ty="60.0" mirror="true"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="110.0" ty="67.0">
+            <patrol sh="-0.35" amplitude="24"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="126.0" ty="65.0">
+            <patrol sh="-0.7" amplitude="48" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="126.0" ty="65.0">
+            <patrol sh="-0.7" amplitude="48" offset="16"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="126.0" ty="65.0">
+            <patrol sh="-0.7" amplitude="48" offset="32"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="126.0" ty="65.0">
+            <patrol sh="-0.7" amplitude="48" offset="48"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="128.5" ty="59.0" mirror="true"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="131.5" ty="56.0" mirror="true"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="134.5" ty="53.0" mirror="true"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="146.0" ty="48.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="146.0" ty="48.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="146.0" ty="48.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="162.0" ty="56.0">
+            <patrol sh="-0.35" amplitude="96"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="161.0" ty="31.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="161.2" ty="31.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="161.4" ty="31.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="162.0" ty="29.0"/>
+        <entity file="boss/spidercave2/Boss.xml" tx="219.0" ty="29.5"/>
+    </entities>
+</stage>

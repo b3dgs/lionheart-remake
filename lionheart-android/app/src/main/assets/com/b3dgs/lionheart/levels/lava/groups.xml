@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/tileGroups.xsd">
+    <lionengine:group name="ground" type="NONE"/>
+    <lionengine:group name="ground15" type="NONE">
+        <lionengine:tile number="23"/>
+        <lionengine:tile number="24"/>
+        <lionengine:tile number="405"/>
+        <lionengine:tile number="103"/>
+        <lionengine:tile number="102"/>
+        <lionengine:tile number="104"/>
+        <lionengine:tile number="105"/>
+        <lionengine:tile number="106"/>
+        <lionengine:tile number="112"/>
+        <lionengine:tile number="113"/>
+        <lionengine:tile number="107"/>
+        <lionengine:tile number="417"/>
+        <lionengine:tile number="418"/>
+        <lionengine:tile number="448"/>
+        <lionengine:tile number="449"/>
+        <lionengine:tile number="514"/>
+        <lionengine:tile number="516"/>
+    </lionengine:group>
+    <lionengine:group name="slope_1_left" type="NONE">
+        <lionengine:tile number="252"/>
+        <lionengine:tile number="135"/>
+        <lionengine:tile number="117"/>
+        <lionengine:tile number="101"/>
+    </lionengine:group>
+    <lionengine:group name="slope_0_left" type="NONE">
+        <lionengine:tile number="228"/>
+        <lionengine:tile number="251"/>
+        <lionengine:tile number="134"/>
+        <lionengine:tile number="116"/>
+        <lionengine:tile number="100"/>
+        <lionengine:tile number="373"/>
+    </lionengine:group>
+    <lionengine:group name="slope_1_right" type="NONE">
+        <lionengine:tile number="229"/>
+        <lionengine:tile number="255"/>
+        <lionengine:tile number="276"/>
+        <lionengine:tile number="515"/>
+    </lionengine:group>
+    <lionengine:group name="slope_0_right" type="NONE">
+        <lionengine:tile number="277"/>
+        <lionengine:tile number="230"/>
+        <lionengine:tile number="256"/>
+        <lionengine:tile number="460"/>
+        <lionengine:tile number="471"/>
+        <lionengine:tile number="484"/>
+    </lionengine:group>
+    <lionengine:group name="incline_right" type="NONE">
+        <lionengine:tile number="371"/>
+        <lionengine:tile number="383"/>
+        <lionengine:tile number="388"/>
+        <lionengine:tile number="395"/>
+        <lionengine:tile number="403"/>
+        <lionengine:tile number="414"/>
+        <lionengine:tile number="437"/>
+    </lionengine:group>
+    <lionengine:group name="incline_left" type="NONE">
+        <lionengine:tile number="154"/>
+        <lionengine:tile number="175"/>
+        <lionengine:tile number="194"/>
+        <lionengine:tile number="216"/>
+        <lionengine:tile number="237"/>
+        <lionengine:tile number="262"/>
+    </lionengine:group>
+    <lionengine:group name="spike" type="NONE"/>
+    <lionengine:group name="steep_0_right" type="NONE"/>
+    <lionengine:group name="steep_1_right" type="NONE"/>
+    <lionengine:group name="steep_1_right_spike" type="NONE"/>
+    <lionengine:group name="steep_0_left" type="NONE"/>
+    <lionengine:group name="steep_1_left" type="NONE"/>
+    <lionengine:group name="steep_left_ground" type="NONE"/>
+    <lionengine:group name="liana_horizontal" type="NONE"/>
+    <lionengine:group name="liana_left" type="NONE"/>
+    <lionengine:group name="liana_right" type="NONE"/>
+    <lionengine:group name="steep_vertical" type="NONE"/>
+    <lionengine:group name="steep_left_vertical" type="NONE"/>
+    <lionengine:group name="steep_right_vertical" type="NONE"/>
+    <lionengine:group name="vertical" type="NONE"/>
+    <lionengine:group name="liana_full" type="NONE"/>
+    <lionengine:group name="liana_ground_top" type="NONE"/>
+    <lionengine:group name="liana_cut" type="NONE"/>
+    <lionengine:group name="liana_slope_0_right" type="NONE"/>
+    <lionengine:group name="liana_slope_1_right" type="NONE"/>
+    <lionengine:group name="horizontal" type="NONE"/>
+    <lionengine:group name="left_horizontal" type="NONE">
+        <lionengine:tile number="22"/>
+    </lionengine:group>
+    <lionengine:group name="right_horizontal" type="NONE">
+        <lionengine:tile number="25"/>
+    </lionengine:group>
+    <lionengine:group name="left_vertical" type="NONE">
+        <lionengine:tile number="33"/>
+        <lionengine:tile number="47"/>
+        <lionengine:tile number="63"/>
+        <lionengine:tile number="83"/>
+        <lionengine:tile number="161"/>
+        <lionengine:tile number="140"/>
+        <lionengine:tile number="183"/>
+    </lionengine:group>
+    <lionengine:group name="right_vertical" type="NONE">
+        <lionengine:tile number="36"/>
+        <lionengine:tile number="50"/>
+        <lionengine:tile number="66"/>
+        <lionengine:tile number="86"/>
+        <lionengine:tile number="5"/>
+        <lionengine:tile number="10"/>
+        <lionengine:tile number="0"/>
+    </lionengine:group>
+</lionengine:groups>

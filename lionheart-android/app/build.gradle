@@ -14,12 +14,15 @@ android {
         }
     }
     compileSdkVersion 30
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.3'
     defaultConfig {
         applicationId "com.b3dgs.lionheart"
         minSdkVersion 26
         targetSdkVersion 30
         signingConfig signingConfigs.app
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
     }
     buildTypes {
         release {
@@ -35,6 +38,12 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDir 'jniLibs'
+        }
+    }
 }
 
 repositories {
@@ -45,5 +54,8 @@ dependencies {
     implementation 'com.b3dgs:b3dgs-parent:2.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core-android:10.0.0-SNAPSHOT'
-    implementation 'com.b3dgs.lionheart:lionheart-game:0.2.0-SNAPSHOT'
+    //noinspection GradleDependency
+    implementation 'net.java.dev.jna:jna:5.5.0@aar'
+    implementation 'com.b3dgs.lionengine:lionengine-audio-sc68:10.0.0-SNAPSHOT'
+    implementation 'com.b3dgs.lionheart:lionheart-game:1.0.0-SNAPSHOT'
 }

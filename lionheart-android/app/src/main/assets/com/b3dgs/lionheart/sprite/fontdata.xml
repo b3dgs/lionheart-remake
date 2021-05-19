@@ -58,7 +58,7 @@
     <lionengine:letter char="+" width="6" height="0"/>
     <lionengine:letter char="*" width="7" height="0"/>
     <lionengine:letter char="/" width="7" height="0"/>
-    <lionengine:letter char=" " width="4" height="0"/>
+    <lionengine:letter char=" " width="5" height="0"/>
     <lionengine:letter char="!" width="4" height="0"/>
     <lionengine:letter char="à" width="7" height="0"/>
     <lionengine:letter char="é" width="6" height="0"/>
@@ -67,4 +67,5 @@
     <lionengine:letter char="ô" width="6" height="0"/>
     <lionengine:letter char="ñ" width="8" height="0"/>
     <lionengine:letter char="," width="4" height="2"/>
+    <lionengine:letter char="?" width="5" height="0"/>
 </lionengine:letters>

@@ -5,6 +5,7 @@
     android:versionName="0.1.0">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"

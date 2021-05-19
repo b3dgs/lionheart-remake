@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnGround</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="HotFireBall.png"/>
+    <lionengine:frames horizontal="6" vertical="1"/>
+    <lionengine:size width="16" height="16"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="12" height="12" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="leg" axis="Y" x="0" y="4">
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <lionengine:body gravity="2.0" gravityMax="10.0"/>
+    <lionengine:collidable group="3" accepted="1"/>
+</lionengine:featurable>

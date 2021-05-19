@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Executioner</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Executioner.png" icon="Executioner_ico.png"/>
+    <lionengine:frames horizontal="4" vertical="4"/>
+    <lionengine:size width="64" height="80"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="patrol" start="1" end="8" speed="0.2" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="24" height="60"/>
+            <lionengine:collisionFramed prefix="attack" x="0" y="0" width="24" height="60"/>
+        </lionengine:animation>
+        <lionengine:animation name="executionerdefense" start="10" end="10" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="executionerattackprepare" start="9" end="9" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="32" height="60"/>
+            <lionengine:collisionFramed prefix="attack" x="0" y="0" width="32" height="60"/>
+        </lionengine:animation>
+        <lionengine:animation name="executionerattack1" start="12" end="12" speed="0.10" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="8" y="0" width="36" height="44"/>
+            <lionengine:collisionFramed prefix="attack" x="8" y="0" width="36" height="40"/>
+        </lionengine:animation>
+        <lionengine:animation name="executionerattack2" start="13" end="14" speed="0.15" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="attack" x="8" y="0" width="36" height="40"/>
+        </lionengine:animation>
+        <lionengine:animation name="fall" start="15" end="15" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="15" end="15" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:categories>
+        <lionengine:category name="leg_2_center" axis="Y" x="0" y="-1" glue="true">
+            <lionengine:group>ground15</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:body gravity="1.0" gravityMax="2.5"/>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="6"/>
+    <hurtable frame="16" backward="0.85" effect="effect/ancienttown/ExplodeBig.xml" sfx="MONSTER_EXECUTIONER_HURT"/>
+</lionengine:featurable>

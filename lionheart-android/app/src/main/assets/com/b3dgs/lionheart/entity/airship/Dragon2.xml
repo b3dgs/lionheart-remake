@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Dragon2.png" icon="Dragon2_ico.png"/>
+    <lionengine:frames horizontal="7" vertical="4"/>
+    <lionengine:size width="16" height="32"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="patrol" start="1" end="14" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="attack" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="20" width="12" height="24" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="20" width="12" height="24" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:launcher>
+        <lionengine:launchable media="projectile/airship/Bullet2.xml" sfx="sfx/monster_dragon2.wav" ox="-4" oy="32">
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="-0.8"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="4"/>
+    <hurtable effect="effect/airship/ExplodeLittle.xml"/>
+</lionengine:featurable>
