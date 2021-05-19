@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -61,6 +62,8 @@ public final class Part4 extends Sequence
     private final AppInfo info;
     /** Audio. */
     private final Audio audio;
+    /** Timing. */
+    private final Timing timing;
     /** Back alpha. */
     private double alphaBack;
     /** Alpha speed. */
@@ -73,12 +76,14 @@ public final class Part4 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
+     * @param timing The timing reference.
      */
-    public Part4(Context context, Audio audio)
+    public Part4(Context context, Audio audio, Timing timing)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.audio = audio;
+        this.timing = timing;
 
         final Services services = new Services();
         services.add(context);
@@ -106,22 +111,22 @@ public final class Part4 extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        seek = timing.elapsed();
 
         // First Fade in
-        if (seek > 113500 && seek < 197000)
+        if (seek > 113500 && seek < 201000)
         {
             alphaBack += alphaSpeed;
         }
 
         // First Fade out
-        if (seek > 197000 && seek < 201000)
+        if (seek > 201000 && seek < 206000)
         {
             alphaBack += alphaSpeed;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
-        if (alphaSpeed > 0 && (seek > 197000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
+        if (alphaSpeed > 0 && (seek > 201000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
         {
             alphaSpeed = -alphaSpeed * 2;
         }
@@ -173,7 +178,7 @@ public final class Part4 extends Sequence
         {
             font.draw(g, 1, history[2].getHeight() + 42, Align.LEFT, STORY3);
         }
-        if (seek >= 180000 && seek < 201000)
+        if (seek >= 180000 && seek < 206000)
         {
             font.draw(g, 1, history[3].getHeight() + 62, Align.LEFT, STORY4);
         }
@@ -181,7 +186,7 @@ public final class Part4 extends Sequence
         // Render fade in
         if (alphaBack < 255)
         {
-            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alphaBack)]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
 

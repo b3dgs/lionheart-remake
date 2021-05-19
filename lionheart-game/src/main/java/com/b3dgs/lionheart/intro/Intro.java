@@ -19,10 +19,12 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
@@ -56,6 +58,8 @@ public final class Intro extends Sequence
     /** App info. */
     private final AppInfo info;
 
+    /** Timing. */
+    private final Timing timing = new Timing();
     /** Music seek. */
     private long seek;
     /** Back alpha. */
@@ -84,6 +88,7 @@ public final class Intro extends Sequence
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
         audio.setVolume(Settings.getInstance().getVolumeMusic());
@@ -97,15 +102,17 @@ public final class Intro extends Sequence
         part1.load();
         part2.load();
 
-        load(Part3.class, audio);
+        load(Part3.class, audio, timing);
 
         audio.play();
+
+        timing.start();
     }
 
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        seek = timing.elapsed();
         device.update(extrp);
 
         if (seek < 47200)
@@ -164,6 +171,7 @@ public final class Intro extends Sequence
         {
             g.setColor(Constant.ALPHAS_BLACK[255 - alphaBack]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
         }
 
         info.render(g);

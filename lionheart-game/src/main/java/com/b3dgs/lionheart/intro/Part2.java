@@ -255,7 +255,6 @@ public final class Part2
     public void render(int width, int height, long seek, Graphic g)
     {
         g.clear(0, 0, width, height);
-
         final int bandHeight = (int) (Math.floor(height - 144) / 2.0);
 
         // Render door
@@ -356,7 +355,7 @@ public final class Part2
         // Render fade
         if (seek > 50500 && alpha < 255)
         {
-            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alpha]);
+            g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
             g.drawRect(0, 0, width, height, true);
         }
 
