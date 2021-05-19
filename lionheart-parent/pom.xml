@@ -24,7 +24,9 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
         <lionengine.version>10.0.0-SNAPSHOT</lionengine.version>
+        <radial.base-package>com.b3dgs.lionheart</radial.base-package>
     </properties>
     <dependencies>
         <dependency>
@@ -56,6 +58,7 @@
         <profile>
             <id>pc</id>
             <modules>
+                <module>../lionheart-raster</module>
                 <module>../lionheart-game</module>
                 <module>../lionheart-pc</module>
             </modules>

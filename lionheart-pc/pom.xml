@@ -5,13 +5,15 @@
         <groupId>com.b3dgs.lionheart</groupId>
         <artifactId>lionheart-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../lionheart-parent</relativePath>
+        <relativePath>../lionheart-parent/pom.xml</relativePath>
     </parent>
     <artifactId>lionheart-pc</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart PC</name>
     <properties>
-        <jna.version>5.6.0</jna.version>
+        <jna.version>5.8.0</jna.version>
+        <moditect.version>1.0.0.RC1</moditect.version>
+        <checkstyle.skip>true</checkstyle.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -39,6 +41,11 @@
             <artifactId>lionheart-game</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.b3dgs.lionheart</groupId>
+            <artifactId>lionheart-raster</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -49,21 +56,18 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.b3dgs.lionheart.AppLionheartPc</mainClass>
+                            <mainClass>com.b3dgs.lionheart.AppLionheart</mainClass>
                         </manifest>
                     </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <excludes>**/*stage*.png</excludes>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.groupId}.game</Bundle-SymbolicName>
-                    </instructions>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
             <plugin>
@@ -117,4 +121,72 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>jlink</id>
+            <properties>
+                <jdk.version>11</jdk.version>
+                <maven.compiler.release>11</maven.compiler.release>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <release>${jdk.version}</release>
+                            <compilerArgs>
+                                <compilerArg>--module-path</compilerArg>
+                                <compilerArg>${project.build.directory}/modules</compilerArg>
+                            </compilerArgs>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.moditect</groupId>
+                        <artifactId>moditect-maven-plugin</artifactId>
+                        <version>${moditect.version}</version>
+                        <executions>
+                            <execution>
+                                <id>add-module-info-to-dependencies</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/modules</outputDirectory>
+                                    <module>
+                                        <mainClass>com.b3dgs.lionheart.AppLionheart</mainClass>
+                                        <moduleInfo>
+                                            <name>lionheart.pc</name>
+                                            <exports>!*;</exports>
+                                        </moduleInfo>
+                                    </module>
+                                </configuration>
+                                <goals>
+                                    <goal>add-module-info</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>create-runtime-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>create-runtime-image</goal>
+                                </goals>
+                                <configuration>
+                                    <modulePath>
+                                        <path>${project.build.directory}/modules</path>
+                                    </modulePath>
+                                    <modules>
+                                        <module>lionheart.pc</module>
+                                    </modules>
+                                    <launcher>
+                                        <name>lionheart</name>
+                                        <module>lionheart.pc</module>
+                                    </launcher>
+                                    <outputDirectory>${project.build.directory}/jlink-image</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
