@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Zooming;
+import com.b3dgs.lionengine.io.DeviceController;
 
 /**
  * Game scene implementation.
@@ -70,6 +71,8 @@ public final class Scene extends SequenceGame<World>
         {
             services.get(Zooming.class).setZoom(UtilMath.clamp(zoom, 0.8, 1.3));
         }
+
+        services.get(DeviceController.class).setVisible(true);
     }
 
     @Override

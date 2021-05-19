@@ -134,6 +134,7 @@ public class Menu extends Sequence
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
         mainY = (getHeight() - 360) / 2;
@@ -478,6 +479,7 @@ public class Menu extends Sequence
             g.setColor(Constant.ALPHAS_BLACK[a]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
         }
+        g.setColor(ColorRgba.BLACK);
     }
 
     /**
@@ -504,7 +506,6 @@ public class Menu extends Sequence
         }
 
         Sfx.cacheEnd();
-        System.gc();
     }
 
     @Override
