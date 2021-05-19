@@ -25,12 +25,17 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.intro.Intro;
 
 /**
  * Loading screen.
  */
 public final class Loading extends Sequence
 {
+    private static final int MIN_HEIGHT = 180;
+    private static final int MAX_WIDTH = 320;
+    private static final int MARGIN_WIDTH = 0;
+
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
 
     /**
@@ -41,7 +46,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
         setSystemCursorVisible(false);
     }
@@ -49,17 +54,20 @@ public final class Loading extends Sequence
     @Override
     public void load()
     {
+        Sfx.cacheStart();
+
         loading.load();
         loading.prepare();
         loading.setOrigin(Origin.MIDDLE);
         loading.setLocation(getWidth() / 2.0, getHeight() / 2.0);
+
+        Sfx.cacheEnd();
     }
 
     @Override
     public void update(double extrp)
     {
-        end(Scene.class, Stage.STAGE_1.getFile(), new InitConfig(4, 2));
-        // end(Menu.class);
+        end(Intro.class);
     }
 
     @Override
