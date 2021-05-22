@@ -17,10 +17,13 @@
 package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
@@ -47,6 +50,10 @@ public final class Extro extends Sequence
         final Audio audio = AudioFactory.loadAudio(Music.EXTRO);
         audio.setVolume(Settings.getInstance().getVolumeMusic());
         audio.play();
+
+        final Services services = new Services();
+        services.add(context);
+        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml"))).setVisible(false);
 
         load(Part1.class, audio, alternative);
 
