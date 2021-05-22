@@ -65,12 +65,7 @@ final class DragonEnd extends BackgroundAbstract
         add(ground);
     }
 
-    /**
-     * Called when the resolution changed.
-     * 
-     * @param width The new width.
-     * @param height The new height.
-     */
+    @Override
     public void setScreenSize(int width, int height)
     {
         setOffsetY(height - Constant.RESOLUTION.getHeight());
