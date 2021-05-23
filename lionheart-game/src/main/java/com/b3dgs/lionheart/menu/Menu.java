@@ -67,11 +67,13 @@ public class Menu extends Sequence
     /** Title text color. */
     private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
     /** Text instance for the title. */
-    private static final Text TEXT_TITLE = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF,
-                                                               26,
+    private static final Text TEXT_TITLE = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF,
+                                                               25,
                                                                TextStyle.BOLD);
     /** Text for menu content. */
-    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF,
+                                                         22,
+                                                         TextStyle.BOLD);
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
     /** Main menu. */
@@ -190,9 +192,9 @@ public class Menu extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(TEXT, OPTIONS.get(0), x - 115, mainY + 128, Align.LEFT),
-            new Choice(TEXT, OPTIONS.get(1), x - 115, mainY + 164, Align.LEFT),
-            new Choice(TEXT, OPTIONS.get(2), x - 115, mainY + 200, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(0), x - 120, mainY + 128, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(1), x - 120, mainY + 164, Align.LEFT),
+            new Choice(TEXT, OPTIONS.get(2), x - 120, mainY + 200, Align.LEFT),
             new Choice(TEXT, OPTIONS.get(3), x, mainY + 244, Align.CENTER, MenuType.MAIN)
         };
         return new Data(TEXT, choices);
@@ -463,7 +465,7 @@ public class Menu extends Sequence
      */
     private void drawOptionText(Graphic g, int index, String data)
     {
-        TEXT.draw(g, (int) (CENTER_X * factorH) + 10, menusData[1].choices[index].getY(), Align.LEFT, data);
+        TEXT.draw(g, (int) (CENTER_X * factorH) + 20, menusData[1].choices[index].getY(), Align.LEFT, data);
     }
 
     /**
