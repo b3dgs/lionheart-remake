@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core-android:10.0.0-SNAPSHOT'
     //noinspection GradleDependency
-    implementation 'net.java.dev.jna:jna:5.5.0@aar'
+    implementation 'net.java.dev.jna:jna:5.4.0@aar'
     implementation 'com.b3dgs.lionengine:lionengine-audio-sc68:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionheart:lionheart-game:1.0.0-SNAPSHOT'
 }
