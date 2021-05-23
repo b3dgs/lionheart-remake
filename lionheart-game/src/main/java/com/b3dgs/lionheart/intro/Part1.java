@@ -38,8 +38,8 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class Part1
 {
     /** Text large. */
-    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF,
-                                                         24,
+    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF,
+                                                         20,
                                                          TextStyle.NORMAL);
     /** Titles. */
     private static final List<String> TITLES = Util.readLines(Medias.create(Folder.TEXT, Folder.INTRO, "part1.txt"));
@@ -231,9 +231,9 @@ public final class Part1
         }
         renderText(15200,
                    19200,
-                   -115,
+                   -120,
                    -60,
-                   -100,
+                   -110,
                    -35,
                    Align.LEFT,
                    TITLES.get(0),
@@ -247,7 +247,7 @@ public final class Part1
 
         renderText(20200,
                    24200,
-                   -110,
+                   -120,
                    -38,
                    -58,
                    -12,
@@ -263,7 +263,7 @@ public final class Part1
 
         renderText(25200,
                    29200,
-                   -110,
+                   -120,
                    -38,
                    -42,
                    -12,

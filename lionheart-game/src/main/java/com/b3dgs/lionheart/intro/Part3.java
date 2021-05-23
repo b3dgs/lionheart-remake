@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -98,8 +97,6 @@ public final class Part3 extends Sequence
     private final AppInfo info;
     /** Audio. */
     private final Audio audio;
-    /** Timing. */
-    private final Timing timing;
     /** Back alpha. */
     private double alphaBack;
     /** Valdyn state. */
@@ -118,14 +115,12 @@ public final class Part3 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
-     * @param timing The timing reference.
      */
-    public Part3(Context context, Audio audio, Timing timing)
+    public Part3(Context context, Audio audio)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
         this.audio = audio;
-        this.timing = timing;
 
         dragon2.setFrameOffsets(3, -33);
 
@@ -135,7 +130,7 @@ public final class Part3 extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
         info = new AppInfo(this::getFps, services);
 
-        load(Part4.class, audio, timing);
+        load(Part4.class, audio);
 
         setSystemCursorVisible(false);
     }
@@ -163,7 +158,7 @@ public final class Part3 extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = timing.elapsed();
+        seek = audio.getTicks();
 
         valdyn.update(extrp);
         dragon1.update(extrp);

@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -58,8 +57,6 @@ public final class Intro extends Sequence
     /** App info. */
     private final AppInfo info;
 
-    /** Timing. */
-    private final Timing timing = new Timing();
     /** Music seek. */
     private long seek;
     /** Back alpha. */
@@ -102,17 +99,15 @@ public final class Intro extends Sequence
         part1.load();
         part2.load();
 
-        load(Part3.class, audio, timing);
+        load(Part3.class, audio);
 
         audio.play();
-
-        timing.start();
     }
 
     @Override
     public void update(double extrp)
     {
-        seek = timing.elapsed();
+        seek = audio.getTicks();
         device.update(extrp);
 
         if (seek < 47200)

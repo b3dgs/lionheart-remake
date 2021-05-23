@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -58,12 +57,10 @@ public final class Part4 extends Sequence
     private final Sprite[] history = new Sprite[4];
     /** Input device reference. */
     private final DeviceController device;
-    /** App info. */
+    /** Application info. */
     private final AppInfo info;
     /** Audio. */
     private final Audio audio;
-    /** Timing. */
-    private final Timing timing;
     /** Back alpha. */
     private double alphaBack;
     /** Alpha speed. */
@@ -76,14 +73,12 @@ public final class Part4 extends Sequence
      * 
      * @param context The context reference.
      * @param audio The audio reference.
-     * @param timing The timing reference.
      */
-    public Part4(Context context, Audio audio, Timing timing)
+    public Part4(Context context, Audio audio)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.audio = audio;
-        this.timing = timing;
 
         final Services services = new Services();
         services.add(context);
@@ -111,7 +106,7 @@ public final class Part4 extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = timing.elapsed();
+        seek = audio.getTicks();
 
         // First Fade in
         if (seek > 113500 && seek < 201000)
@@ -120,13 +115,13 @@ public final class Part4 extends Sequence
         }
 
         // First Fade out
-        if (seek > 201000 && seek < 206000)
+        if (seek > 200000 && seek < 205000)
         {
             alphaBack += alphaSpeed;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
-        if (alphaSpeed > 0 && (seek > 201000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
+        if (alphaSpeed > 0 && (seek > 200000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
         {
             alphaSpeed = -alphaSpeed * 2;
         }
@@ -178,7 +173,7 @@ public final class Part4 extends Sequence
         {
             font.draw(g, 1, history[2].getHeight() + 42, Align.LEFT, STORY3);
         }
-        if (seek >= 180000 && seek < 206000)
+        if (seek >= 180000 && seek < 205000)
         {
             font.draw(g, 1, history[3].getHeight() + 62, Align.LEFT, STORY4);
         }
