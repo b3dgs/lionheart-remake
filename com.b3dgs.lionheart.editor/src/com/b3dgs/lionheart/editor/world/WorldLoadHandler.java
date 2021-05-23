@@ -22,18 +22,22 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
 
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.Configurer;
-import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.StageConfig;
+import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.editor.Util;
 
 /**
@@ -58,6 +62,9 @@ public final class WorldLoadHandler
         try (FileReading reading = new FileReading(stage.getMapFile()))
         {
             mapPersister.load(reading);
+            mapPersister.getFeature(MapTileCollision.class)
+                        .loadCollisions(Medias.create(Folder.LEVEL, CollisionFormulaConfig.FILENAME),
+                                        Medias.create(Folder.LEVEL, CollisionGroupConfig.FILENAME));
         }
         catch (final IOException exception)
         {
@@ -82,7 +89,7 @@ public final class WorldLoadHandler
         final MapTile map = WorldModel.INSTANCE.getMap();
         final Spawner spawner = WorldModel.INSTANCE.getServices().get(Spawner.class);
 
-        final Featurable featurable = spawner.spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        spawner.spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
     }
 
     /**

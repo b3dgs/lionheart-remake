@@ -109,13 +109,13 @@ public class ApplicationConfiguration
                             @Override
                             public int getWidth()
                             {
-                                return Constant.NATIVE_RESOLUTION.getWidth();
+                                return Constant.RESOLUTION.getWidth();
                             }
 
                             @Override
                             public int getHeight()
                             {
-                                return Constant.NATIVE_RESOLUTION.getHeight();
+                                return Constant.RESOLUTION.getHeight();
                             }
 
                             @Override

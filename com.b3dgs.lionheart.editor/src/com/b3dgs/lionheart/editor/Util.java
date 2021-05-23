@@ -33,7 +33,7 @@ public class Util
     {
         return new String[]
         {
-            Extension.LEVEL.substring(1)
+            Extension.STAGE.substring(1)
         };
     }
 
