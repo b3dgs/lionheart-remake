@@ -145,7 +145,7 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     public void setFeaturable(Featurable featurable)
     {
-        if (featurable.hasFeature(Stats.class))
+        if (Settings.getInstance().getHudVisible() && featurable.hasFeature(Stats.class))
         {
             stats = featurable.getFeature(Stats.class);
         }

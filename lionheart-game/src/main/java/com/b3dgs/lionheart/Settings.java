@@ -63,6 +63,16 @@ public class Settings
     /** Raster hero water key. */
     private static final String RASTER_HERO_WATER = RASTER + ".hero.water";
 
+    /** Hud key. */
+    private static final String HUD = "hud";
+    /** Hud visible key. */
+    private static final String HUD_VISIBLE = HUD + ".visible";
+
+    /** Background key. */
+    private static final String BACKGROUND = "background";
+    /** Background flicker key. */
+    private static final String BACKGROUND_FLICKER = BACKGROUND + ".flicker";
+
     /** Zoom value. */
     private static final String ZOOM = "zoom";
 
@@ -241,6 +251,26 @@ public class Settings
     public boolean getRasterHeroWater()
     {
         return getRaster() && getBoolean(RASTER_HERO_WATER, true);
+    }
+
+    /**
+     * Get hud visible value.
+     * 
+     * @return The hud visible value.
+     */
+    public boolean getHudVisible()
+    {
+        return getBoolean(HUD_VISIBLE, true);
+    }
+
+    /**
+     * Get background flicker value.
+     * 
+     * @return The background flicker value.
+     */
+    public boolean getBackgroundFlicker()
+    {
+        return getBoolean(BACKGROUND_FLICKER, true);
     }
 
     /**

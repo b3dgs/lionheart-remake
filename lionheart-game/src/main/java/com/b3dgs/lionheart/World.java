@@ -560,7 +560,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         loadMap(stage);
 
-        final FactoryLandscape factoryLandscape = new FactoryLandscape(services, source, true);
+        final Settings settings = Settings.getInstance();
+        final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
+                                                                       source,
+                                                                       settings.getBackgroundFlicker());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
         cheats = init.isCheats();
@@ -589,7 +592,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 playMusic(Music.BOSS);
             }
         });
-        if (Settings.getInstance().getRasterObject())
+        if (settings.getRasterObject())
         {
             stage.getRasterFolder().ifPresent(r ->
             {
