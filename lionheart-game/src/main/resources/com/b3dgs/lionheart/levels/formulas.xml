@@ -5,6 +5,11 @@
         <lionengine:function a="0.0" b="0.0" type="LINEAR"/>
         <lionengine:constraint orientation="SOUTH" group="ground15"/>
     </lionengine:formula>
+        <lionengine:formula name="groundfix">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="0.0" b="0.0" type="LINEAR"/>
+        <lionengine:constraint orientation="SOUTH" group="slope_1_left"/>
+    </lionengine:formula>
     <lionengine:formula name="groundboss">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.0" b="1.0" type="LINEAR"/>
@@ -13,6 +18,8 @@
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.0" b="15.0" type="LINEAR"/>
         <lionengine:constraint orientation="NORTH" group="groundboss"/>
+        <lionengine:constraint orientation="NORTH" group="slope_0_right"/>
+        <lionengine:constraint orientation="NORTH" group="incline_left"/>
     </lionengine:formula>
     <lionengine:formula name="ground_top">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
@@ -54,6 +61,7 @@
     <lionengine:formula name="slope_1_right">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="-0.5" b="16.0" type="LINEAR"/>
+        <lionengine:constraint orientation="NORTH" group="ground"/>
     </lionengine:formula>
     <lionengine:formula name="incline_right">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
@@ -82,6 +90,10 @@
     <lionengine:formula name="steep_1_right">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="-2.0" b="16.0" type="LINEAR"/>
+    </lionengine:formula>
+    <lionengine:formula name="steep_right_ground">
+        <lionengine:range maxX="16" maxY="0" minX="8" minY="0" output="Y"/>
+        <lionengine:function a="0.0" b="0.0" type="LINEAR"/>
     </lionengine:formula>
     <lionengine:formula name="steep_1_right_vertical">
         <lionengine:range maxX="0" maxY="16" minX="0" minY="0" output="X"/>

@@ -3,7 +3,10 @@
     <lionengine:collision group="ground">
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>
-        <lionengine:collision group="groundboss">
+    <lionengine:collision group="groundfix">
+        <lionengine:formula>groundfix</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="groundboss">
         <lionengine:formula>groundboss</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="ground15">
@@ -79,6 +82,11 @@
         <lionengine:formula>steep_0_right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_1_right">
+        <lionengine:formula>steep_1_right</lionengine:formula>
+        <lionengine:formula>steep_1_right_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="steep_right_ground">
+        <lionengine:formula>steep_right_ground</lionengine:formula>
         <lionengine:formula>steep_1_right</lionengine:formula>
         <lionengine:formula>steep_1_right_vertical</lionengine:formula>
     </lionengine:collision>

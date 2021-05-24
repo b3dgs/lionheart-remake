@@ -80,6 +80,12 @@
         <lionengine:tile number="358"/>
         <lionengine:tile number="359"/>
         <lionengine:tile number="357"/>
+        <lionengine:tile number="698"/>
+        <lionengine:tile number="355"/>
+        <lionengine:tile number="356"/>
+    </lionengine:group>
+    <lionengine:group name="groundfix" type="NONE">
+        <lionengine:tile number="141"/>
     </lionengine:group>
     <lionengine:group name="groundboss" type="NONE">
         <lionengine:tile number="910"/>
@@ -140,11 +146,15 @@
         <lionengine:tile number="503"/>
         <lionengine:tile number="666"/>
         <lionengine:tile number="454"/>
+        <lionengine:tile number="699"/>
     </lionengine:group>
     <lionengine:group name="steep_1_right" type="NONE">
         <lionengine:tile number="474"/>
         <lionengine:tile number="661"/>
         <lionengine:tile number="673"/>
+    </lionengine:group>
+    <lionengine:group name="steep_right_ground" type="NONE">
+        <lionengine:tile number="697"/>
     </lionengine:group>
     <lionengine:group name="steep_1_right_spike" type="NONE">
         <lionengine:tile number="696"/>

@@ -91,16 +91,16 @@ public final class GameplaySteep
     {
         if (result.startWithY(CollisionName.STEEP))
         {
-            steep = true;
-
             if (result.endWithY(CollisionName.LEFT))
             {
                 side = -1;
+                steep = true;
                 steepLeft = true;
             }
             else if (result.endWithY(CollisionName.RIGHT))
             {
                 side = 1;
+                steep = true;
                 steepRight = true;
             }
         }

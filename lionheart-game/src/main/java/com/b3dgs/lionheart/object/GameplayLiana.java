@@ -92,7 +92,6 @@ public final class GameplayLiana
         if (result.startWithY(CollisionName.LIANA))
         {
             liana = true;
-
             if (result.containsY(CollisionName.LEFT))
             {
                 side = -1;

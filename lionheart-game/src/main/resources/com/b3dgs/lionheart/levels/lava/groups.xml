@@ -19,6 +19,7 @@
         <lionengine:tile number="449"/>
         <lionengine:tile number="514"/>
         <lionengine:tile number="516"/>
+        <lionengine:tile number="85"/>
     </lionengine:group>
     <lionengine:group name="slope_1_left" type="NONE">
         <lionengine:tile number="252"/>
@@ -96,17 +97,17 @@
         <lionengine:tile number="47"/>
         <lionengine:tile number="63"/>
         <lionengine:tile number="83"/>
-        <lionengine:tile number="161"/>
-        <lionengine:tile number="140"/>
-        <lionengine:tile number="183"/>
+        <lionengine:tile number="0"/>
+        <lionengine:tile number="5"/>
+        <lionengine:tile number="10"/>
     </lionengine:group>
     <lionengine:group name="right_vertical" type="NONE">
         <lionengine:tile number="36"/>
         <lionengine:tile number="50"/>
         <lionengine:tile number="66"/>
         <lionengine:tile number="86"/>
-        <lionengine:tile number="5"/>
-        <lionengine:tile number="10"/>
-        <lionengine:tile number="0"/>
+        <lionengine:tile number="140"/>
+        <lionengine:tile number="161"/>
+        <lionengine:tile number="183"/>
     </lionengine:group>
 </lionengine:groups>
