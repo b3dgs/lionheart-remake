@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.Damages;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -107,7 +108,15 @@ public final class Stats extends FeatureModel implements Recyclable
     public void apply(TakeableConfig config)
     {
         health.increase(config.getHealth());
-        talisment.increase(config.getTalisment());
+        if (talisment.isFull())
+        {
+            talisment.reset();
+            health.setMax(UtilMath.clamp(health.getMax() + 1, 1, 8));
+        }
+        else
+        {
+            talisment.increase(config.getTalisment());
+        }
         life.increase(config.getLife());
         if (config.isAmulet())
         {
