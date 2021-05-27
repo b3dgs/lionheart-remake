@@ -61,6 +61,8 @@ public final class CollisionName
     public static final String KNEE = "knee";
     /** Category collision knee center. */
     public static final String KNEE_CENTER = KNEE + "_" + CENTER;
+    /** Category collision knee x center. */
+    public static final String KNEE_X_CENTER = KNEE + "_x_" + CENTER;
 
     /** Category collision head prefix. */
     public static final String HEAD = "head";

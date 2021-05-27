@@ -311,7 +311,9 @@ public final class Hurtable extends FeatureModel
     {
         if (recover.elapsed(HURT_RECOVER_BODY_TICK)
             && (category.getAxis() == Axis.Y && result.contains(CollisionName.SPIKE)
-                || category.getName().equals(CollisionName.KNEE_CENTER) && result.contains(CollisionName.SPIKE)))
+                || (category.getName().equals(CollisionName.KNEE_CENTER)
+                    || category.getName().startsWith(CollisionName.KNEE_X_CENTER))
+                   && result.contains(CollisionName.SPIKE)))
         {
             if (stats.applyDamages(SPIKE_DAMAGES))
             {
