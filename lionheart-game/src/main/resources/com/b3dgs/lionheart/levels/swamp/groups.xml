@@ -83,6 +83,7 @@
         <lionengine:tile number="698"/>
         <lionengine:tile number="355"/>
         <lionengine:tile number="356"/>
+        <lionengine:tile number="354"/>
     </lionengine:group>
     <lionengine:group name="groundfix" type="NONE">
         <lionengine:tile number="141"/>
