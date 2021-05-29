@@ -171,7 +171,7 @@
             <patrol sh="-0.3" sv="0.0" amplitude="128"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
-            <shooter fireDelay="200" firedDelay="0" svx="0.5" svy="1.5" dvy="0.0"/>
+            <shooter fireDelay="200" firedDelay="0" svx="0.8" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="287.0" ty="46.0" mirror="true">
             <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
