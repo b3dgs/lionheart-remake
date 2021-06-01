@@ -34,6 +34,7 @@ public final class Tools
     private static final String FOLDER_RASTER = "raster";
     private static final String FILE_SHEETS = "0.png";
     private static final String FILE_RASTER_TILES = "tiles.png";
+    private static final String FILE_RASTER_INSIDE = "tiles_inside.png";
     private static final String FILE_RASTER_WATER = "water.png";
     private static final int TILE_HEIGHT = 16;
 
@@ -45,10 +46,12 @@ public final class Tools
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, Tools.class);
-        // generateTileRaster(LandscapeType.SWAMP_DAWN);
-        // generateTileWaterRaster(LandscapeType.SWAMP_DAWN);
-        generateObjectWaterRaster(LandscapeType.SWAMP_DAY, "Floater", 1, 1);
-        // generateMoonRaster(LandscapeType.SWAMP_DAWN);
+        // generateTileRaster(LandscapeType.DRAGONFLY);
+        // generateTileRasterInside(LandscapeType.LAVA);
+        // generateObjectRasterInside(LandscapeType.LAVA, "entity/lava/FloaterCube.png");
+        // generateTileWaterRaster(LandscapeType.NORKA);
+        // generateObjectWaterRaster(LandscapeType.NORKA, "pillar", 1, 1);
+        // generateMoonRaster(LandscapeType.LAVA);
     }
 
     /**
@@ -56,15 +59,58 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    private static void generateTileRaster(LandscapeType type)
+    static void generateTileRaster(LandscapeType type)
     {
         int i = 0;
         final String world = type.getWorld().getFolder();
-        final Media sheet = Medias.create(Folder.LEVELS, world, FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVELS, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_TILES);
+        final Media sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
+        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_TILES);
 
         for (final ImageBuffer b : Graphics.getRasterBuffer(Graphics.getImageBuffer(sheet),
                                                             Graphics.getImageBuffer(raster)))
+        {
+            Graphics.saveImage(b, Medias.create(i + PNG));
+            i++;
+        }
+    }
+
+    /**
+     * Generate tiles raster from sheet.
+     * 
+     * @param type The landscape type.
+     */
+    static void generateTileRasterInside(LandscapeType type)
+    {
+        int i = 0;
+        final String world = type.getWorld().getFolder();
+        final Media sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
+        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_INSIDE);
+
+        for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(sheet),
+                                                                  Graphics.getImageBuffer(raster),
+                                                                  16))
+        {
+            Graphics.saveImage(b, Medias.create(i + PNG));
+            i++;
+        }
+    }
+
+    /**
+     * Generate tiles raster from sheet.
+     * 
+     * @param type The landscape type.
+     * @param object The object name.
+     */
+    static void generateObjectRasterInside(LandscapeType type, String object)
+    {
+        int i = 0;
+        final String world = type.getWorld().getFolder();
+        final Media sheet = Medias.create(object);
+        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_INSIDE);
+
+        for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(sheet),
+                                                                  Graphics.getImageBuffer(raster),
+                                                                  32))
         {
             Graphics.saveImage(b, Medias.create(i + PNG));
             i++;
@@ -79,22 +125,21 @@ public final class Tools
      * @param fh The horizontal frames.
      * @param fv The vertical frames.
      */
-    private static void generateObjectWaterRaster(LandscapeType type, String file, int fh, int fv)
+    static void generateObjectWaterRaster(LandscapeType type, String file, int fh, int fv)
     {
         int i = 0;
         final String world = type.getWorld().getFolder();
-        final Media sheet = Medias.create(Folder.LEVELS,
+        final Media sheet = Medias.create(Folder.LEVEL,
                                           world,
                                           FOLDER_RASTER,
                                           type.getTheme(),
                                           "tiles_" + file,
                                           FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVELS, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_WATER);
+        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_WATER);
 
         for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(sheet),
                                                                   Graphics.getImageBuffer(raster),
-                                                                  fh,
-                                                                  fv))
+                                                                  96))
         {
             Graphics.saveImage(b, Medias.create(i + PNG));
             i++;
@@ -106,13 +151,13 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    private static void generateTileWaterRaster(LandscapeType type)
+    static void generateTileWaterRaster(LandscapeType type)
     {
         int i = 0;
         final String world = type.getWorld().getFolder();
         final String theme = type.getTheme();
-        final Media sheet = Medias.create(Folder.LEVELS, world, FOLDER_RASTER + "_" + theme, FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVELS, world, FOLDER_RASTER, theme, FILE_RASTER_WATER);
+        final Media sheet = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, theme, FILE_SHEETS);
+        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, theme, FILE_RASTER_WATER);
 
         for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(sheet),
                                                                   Graphics.getImageBuffer(raster),
@@ -128,13 +173,13 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    private static void generateMoonRaster(LandscapeType type)
+    static void generateMoonRaster(LandscapeType type)
     {
         final String world = type.getWorld().getFolder();
         final String theme = type.getTheme();
-        final Media moon = Medias.create(Folder.BACKGROUNDS, world, theme, "moon.png");
-        final Media palette = Medias.create(Folder.BACKGROUNDS, world, theme, "palette.png");
-        final Media raster = Medias.create(Folder.BACKGROUNDS, world, theme, "raster.png");
+        final Media moon = Medias.create(Folder.BACKGROUND, world, theme, "moon.png");
+        final Media palette = Medias.create(Folder.BACKGROUND, world, theme, "palette.png");
+        final Media raster = Medias.create(Folder.BACKGROUND, world, theme, "raster.png");
         final ImageBuffer[] rasters = Graphics.getRasterBufferOffset(moon, palette, raster, 1);
 
         Graphics.generateTileset(rasters, Medias.create("moon_raster.png"));
