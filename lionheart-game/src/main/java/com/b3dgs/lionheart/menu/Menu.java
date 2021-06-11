@@ -499,15 +499,11 @@ public class Menu extends Sequence
     @Override
     public void load()
     {
-        Sfx.cacheStart();
-
         for (final Sprite element : menus)
         {
             element.load();
             element.prepare();
         }
-
-        Sfx.cacheEnd();
     }
 
     @Override

@@ -13,4 +13,5 @@
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

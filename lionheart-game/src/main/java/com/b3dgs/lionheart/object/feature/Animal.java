@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -61,6 +62,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     private int offsetY;
     private double cameraHeight;
     private boolean on;
+    private double boatEffectY;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
@@ -184,6 +186,11 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
                 }
                 playerSprite.setFrameOffsets(0, offsetY);
             }
+        }
+        else
+        {
+            boatEffectY = UtilMath.wrapAngleDouble(boatEffectY + 5);
+            camera.setShake(0, (int) Math.round(UtilMath.sin(boatEffectY) * 2));
         }
 
         transformable.setLocationX(player.getX());

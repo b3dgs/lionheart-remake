@@ -20,20 +20,22 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -46,14 +48,16 @@ import com.b3dgs.lionheart.constant.CollisionName;
  * </ol>
  */
 @FeatureInterface
-public final class MeltingPlatform extends FeatureModel implements Recyclable, CollidableListener
+public final class MeltingPlatform extends FeatureModel implements Recyclable, CollidableListener, Routine
 {
     private final Animation idle;
     private final Animation fall;
+    private final Viewer viewer = services.get(Viewer.class);
 
-    @FeatureGet private Identifiable identifiable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Collidable collidable;
+    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -80,9 +84,19 @@ public final class MeltingPlatform extends FeatureModel implements Recyclable, C
         {
             if (frame == fall.getLast())
             {
-                identifiable.destroy();
+                collidable.setEnabled(false);
+                rasterable.setVisibility(false);
             }
         });
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        if (!collidable.isEnabled() && !viewer.isViewable(transformable, 0, 0))
+        {
+            recycle();
+        }
     }
 
     @Override
@@ -99,5 +113,7 @@ public final class MeltingPlatform extends FeatureModel implements Recyclable, C
     public void recycle()
     {
         animatable.play(idle);
+        collidable.setEnabled(true);
+        rasterable.setVisibility(true);
     }
 }

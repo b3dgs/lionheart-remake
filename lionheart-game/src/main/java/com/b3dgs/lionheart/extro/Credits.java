@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
@@ -35,11 +36,16 @@ import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Credits implementation.
@@ -47,16 +53,20 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class Credits extends Sequence
 {
     private static final ColorRgba COLOR = new ColorRgba(238, 238, 238);
+    private static final double SCROLL_SPEED = 0.2;
 
     private final List<Text> texts = new ArrayList<>();
     private final Tick tick = new Tick();
     private final Sprite credits;
     private final Audio audio;
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
+    private final DeviceController device;
     private final boolean alternative;
+    private final int count;
 
     private double alphaBack;
     private boolean started;
+    private final Text lastText;
 
     /**
      * Constructor.
@@ -69,9 +79,9 @@ public final class Credits extends Sequence
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
-        this.alternative = alternative.booleanValue();
+        this.alternative = Boolean.TRUE.equals(alternative);
 
-        if (alternative.booleanValue())
+        if (this.alternative)
         {
             credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part5", "credits.png"));
         }
@@ -81,9 +91,17 @@ public final class Credits extends Sequence
             credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part4", "credits.png"));
         }
 
+        final Services services = new Services();
+        services.add(context);
+        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device.setVisible(false);
+
         int y = 256;
-        for (final String line : Util.readLines(Medias.create(Folder.TEXT, Folder.EXTRO, "credits.txt")))
+        final List<String> lines = Util.readLines(Medias.create(Folder.TEXT, Folder.EXTRO, "credits.txt"));
+        for (int i = 0; i < lines.size(); i++)
         {
+            final String line = lines.get(i);
             if (!line.isEmpty())
             {
                 final int size = Integer.parseInt(line.substring(1, 3));
@@ -135,6 +153,8 @@ public final class Credits extends Sequence
                 y += 12;
             }
         }
+        count = texts.size();
+        lastText = texts.get(count - 1);
 
         this.audio = audio;
 
@@ -171,9 +191,17 @@ public final class Credits extends Sequence
 
         if (started)
         {
-            for (final Text text : texts)
+            if (lastText.getLocationY() > getHeight() - 48)
             {
-                text.setLocation(text.getLocationX(), text.getLocationY() - 0.2);
+                for (int i = 0; i < count; i++)
+                {
+                    final Text text = texts.get(i);
+                    text.setLocation(text.getLocationX(), text.getLocationY() - SCROLL_SPEED);
+                }
+            }
+            else if (device.isFired(DeviceMapping.CTRL_RIGHT))
+            {
+                end(Menu.class);
             }
         }
     }
@@ -185,8 +213,9 @@ public final class Credits extends Sequence
 
         credits.render(g);
 
-        for (final Text text : texts)
+        for (int i = 0; i < count; i++)
         {
+            final Text text = texts.get(i);
             if (text.getLocationY() < 256)
             {
                 text.render(g);
@@ -206,10 +235,7 @@ public final class Credits extends Sequence
     {
         super.onTerminated(hasNextSequence);
 
-        if (!hasNextSequence)
-        {
-            audio.stop();
-            audioAlternative.stop();
-        }
+        audio.stop();
+        audioAlternative.stop();
     }
 }

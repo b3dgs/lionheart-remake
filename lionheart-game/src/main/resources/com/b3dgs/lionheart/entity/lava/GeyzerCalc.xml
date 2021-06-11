@@ -8,5 +8,5 @@
     <lionengine:frames horizontal="1" vertical="1"/>
     <lionengine:size width="48" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
-    <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
 </lionengine:featurable>

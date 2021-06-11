@@ -90,7 +90,7 @@ public final class Part4 extends Sequence
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.audio = audio;
-        this.alternative = alternative.booleanValue();
+        this.alternative = Boolean.TRUE.equals(alternative);
 
         final Services services = new Services();
         services.add(context);
@@ -98,7 +98,7 @@ public final class Part4 extends Sequence
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
-        if (alternative.booleanValue())
+        if (this.alternative)
         {
             audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE);
             audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());

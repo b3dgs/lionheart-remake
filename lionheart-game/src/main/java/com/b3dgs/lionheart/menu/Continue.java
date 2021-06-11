@@ -137,6 +137,7 @@ public class Continue extends Sequence
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
         mainY = (getHeight() - 336) / 2;

@@ -87,8 +87,8 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
                 else
                 {
                     config.getSfx().play();
-                    collidable.getFeature(Stats.class).apply(config);
                 }
+                collidable.getFeature(Stats.class).apply(config);
                 spawner.spawn(config.getEffect(), transformable);
                 identifiable.destroy();
                 current = CollidableListenerVoid.getInstance();

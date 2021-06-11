@@ -368,9 +368,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
         entity.getNext()
               .ifPresent(next -> featurable.getFeature(EntityModel.class).setNext(next, entity.getNextSpawn()));
-        entity.getMirror()
-              .ifPresent(mirror -> featurable.getFeature(Mirrorable.class)
-                                             .mirror(mirror.booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE));
+        entity.getMirror().ifPresent(mirror ->
+        {
+            final Mirrorable mirrorable = featurable.getFeature(Mirrorable.class);
+            mirrorable.mirror(mirror.booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
+            mirrorable.update(1.0);
+        });
         entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
         entity.getRotating().ifPresent(config -> featurable.ifIs(Rotating.class, rotating -> rotating.load(config)));
         entity.getHotFireBall().ifPresent(config -> featurable.ifIs(HotFireBall.class, hot -> hot.load(config)));

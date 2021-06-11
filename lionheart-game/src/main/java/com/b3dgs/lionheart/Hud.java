@@ -62,6 +62,8 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int TALISMENT_Y = 1;
 
+    private static final int AMULET_Y = 1;
+
     private static final boolean SWORD_VISIBLE = false;
     private static final int SWORD_Y = 1;
     private static final int SWORD_TILE = 1;
@@ -76,6 +78,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private final Text text = Graphics.createText(Constant.FONT_DIALOG, 9, TextStyle.BOLD);
 
     private final SpriteTiled talisment = Drawable.loadSpriteTiled(hudSurface, 16, 16);
+    private final SpriteTiled amulet = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteTiled sword = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteTiled life = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteDigit numberTalisment = Drawable.loadSpriteDigit(number, 8, 16, 2);
@@ -189,6 +192,15 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     /**
+     * Load amulet location.
+     */
+    private void loadAmulet()
+    {
+        amulet.setTile(1);
+        amulet.setLocation(viewer.getWidth() * 0.72, AMULET_Y);
+    }
+
+    /**
      * Load life location.
      */
     private void loadLife()
@@ -251,6 +263,7 @@ public final class Hud implements Resource, Updatable, Renderable
 
         loadTalisment();
         loadSword();
+        loadAmulet();
         loadLife();
 
         tick.start();
@@ -320,6 +333,10 @@ public final class Hud implements Resource, Updatable, Renderable
             if (SWORD_VISIBLE)
             {
                 sword.render(g);
+            }
+            if (Boolean.TRUE.equals(stats.hasAmulet()))
+            {
+                amulet.render(g);
             }
 
             life.render(g);

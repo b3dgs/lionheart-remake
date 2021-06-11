@@ -64,12 +64,14 @@ public final class StateAttackFall extends State
     {
         super(model, animation);
 
-        addTransition(StateCrouch.class, () -> !hasWin() && !steep.is() && collideY.get() && isGoDown());
+        addTransition(StateCrouch.class,
+                      () -> !collideSword.get() && !hasWin() && !steep.is() && collideY.get() && isGoDown());
         addTransition(StateJump.class, () -> collideSword.get() && jump.getDirectionVertical() > 0);
         addTransition(StateFall.class,
-                      () -> steep.is()
-                            || !isGoDown() && collideY.get()
-                            || !isFire() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0);
+                      () -> !collideSword.get()
+                            && (steep.is()
+                                || !isGoDown() && collideY.get()
+                                || !isFire() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0));
     }
 
     /**

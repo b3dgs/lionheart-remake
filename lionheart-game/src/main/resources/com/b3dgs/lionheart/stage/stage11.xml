@@ -163,7 +163,7 @@
             <rotating extremity="entity/airship/SpikeBowl.xml" ring="entity/airship/Ring.xml" length="4" speed="-2.5"/>
         </entity>
         <entity file="entity/airship/Rotating.xml" tx="627.0" ty="69.0">
-            <rotating amplitude="30" extremity="entity/airship/Platform2.xml" ring="entity/airship/Ring.xml" length="3" speed="-0.05"/>
+            <rotating amplitude="8" controlled="true" extremity="entity/airship/Platform2.xml" ring="entity/airship/Ring.xml" length="4" speed="-0.05"/>
         </entity>
         <entity file="entity/airship/Rotating.xml" tx="656.0" ty="60.0">
             <rotating extremity="entity/airship/SpikeBowl.xml" ring="entity/airship/Ring.xml" length="5" speed="3.5"/>

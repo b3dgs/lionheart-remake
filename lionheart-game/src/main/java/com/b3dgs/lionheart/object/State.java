@@ -157,6 +157,7 @@ public abstract class State extends StateHelper<EntityModel>
     {
         if (!result.startWithY(CollisionName.LIANA)
             && !result.startWithY(CollisionName.SPIKE)
+            && !result.startWithY(CollisionName.GRIP)
             && Double.compare(transformable.getY(), transformable.getOldY()) <= 0)
         {
             collideY.set(true);
@@ -183,9 +184,11 @@ public abstract class State extends StateHelper<EntityModel>
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         liana.onCollideHand(result, category);
-        if (result.startWithY(CollisionName.GRIP))
+        if (result.startWithY(CollisionName.GRIP) && Double.compare(transformable.getY(), transformable.getOldY()) <= 0)
         {
             grip.set(true);
+            tileCollidable.apply(result);
+            body.resetGravity();
         }
     }
 
@@ -197,7 +200,10 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected void onCollideHead(CollisionResult result, CollisionCategory category)
     {
-        jump.zero();
+        if (Double.compare(transformable.getY(), transformable.getOldY()) > 0)
+        {
+            jump.zero();
+        }
     }
 
     /**

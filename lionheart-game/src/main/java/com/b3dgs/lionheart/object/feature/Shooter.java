@@ -63,6 +63,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Launcher launcher;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Stats stats;
 
     /**
      * Create feature.
@@ -210,7 +211,10 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        updater.update(extrp);
+        if (stats.getHealth() > 0)
+        {
+            updater.update(extrp);
+        }
     }
 
     @Override

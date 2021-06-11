@@ -110,7 +110,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @Override
     public void update(double extrp)
     {
-        if (Double.compare(transformable.getY(), water.getCurrent()) <= 0)
+        if (Double.compare(transformable.getY(), water.getCurrent() - transformable.getHeight() / 2.5 + down) <= 0)
         {
             if (waterLevel)
             {
@@ -143,7 +143,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         final Force movement = model.getMovement();
-        if (hit && by.getName().startsWith(Anim.ATTACK) && movement.isZero())
+        if (hit && by.getName().startsWith(Anim.ATTACK))
         {
             final Transformable other = collidable.getFeature(Transformable.class);
             if (transformable.getX() > other.getX())

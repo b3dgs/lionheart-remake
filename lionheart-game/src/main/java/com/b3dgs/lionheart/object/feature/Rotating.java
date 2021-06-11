@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -51,6 +52,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
 {
     private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
+    private final Viewer viewer = services.get(Viewer.class);
     private final StateHandler player = services.get(SwordShade.class).getFeature(StateHandler.class);
     private final Tick tick = new Tick();
 
@@ -113,7 +115,10 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
                 {
                     angle -= angleAcc;
                     angleAcc = -angleAcc;
-                    Sfx.SCENERY_ROTATINGPLATFORM.play();
+                    if (viewer.isViewable(transformable, 0, 0))
+                    {
+                        Sfx.SCENERY_ROTATINGPLATFORM.play();
+                    }
                     tick.restart();
                 }
             });
