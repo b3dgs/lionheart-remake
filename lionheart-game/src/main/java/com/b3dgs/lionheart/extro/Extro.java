@@ -37,6 +37,8 @@ public final class Extro extends Sequence
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
+    private final Audio audio;
+
     /**
      * Constructor.
      * 
@@ -47,9 +49,8 @@ public final class Extro extends Sequence
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
-        final Audio audio = AudioFactory.loadAudio(Music.EXTRO);
+        audio = AudioFactory.loadAudio(Music.EXTRO);
         audio.setVolume(Settings.getInstance().getVolumeMusic());
-        audio.play();
 
         final Services services = new Services();
         services.add(context);
@@ -64,6 +65,12 @@ public final class Extro extends Sequence
     public void load()
     {
         // Nothing to do
+    }
+
+    @Override
+    protected void onLoaded(double extrp, Graphic g)
+    {
+        audio.play();
     }
 
     @Override

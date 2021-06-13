@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -28,6 +30,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
@@ -129,8 +132,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private final Tick tick = new Tick();
 
+    private final BlockingDeque<Runnable> tasks = new LinkedBlockingDeque<>();
+    private final Thread task;
+    private volatile Audio audio;
+
     private Landscape landscape;
-    private Audio audio;
     private int trackerInitY;
     private double trackerY;
     private StageConfig stage;
@@ -167,6 +173,23 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         map.addFeature(new LayerableModel(4, 2));
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
+
+        task = new Thread(() ->
+        {
+            while (!Thread.currentThread().isInterrupted())
+            {
+                try
+                {
+                    tasks.take().run();
+                }
+                catch (@SuppressWarnings("unused") final InterruptedException exception)
+                {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        }, World.class.getSimpleName());
+        task.start();
     }
 
     /**
@@ -421,7 +444,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (paused)
             {
-                stopMusic();
                 sequencer.end(Menu.class);
             }
             paused = !paused;
@@ -498,7 +520,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
-                stopMusic();
                 sequencer.end(SceneBlack.class, Stage.values()[i], getInitConfig(Optional.empty()));
             }
         }
@@ -630,13 +651,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             player.getFeature(Stats.class).win();
             tick.addAction(() ->
             {
-                audio.stop();
                 sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig(spawn));
             }, tickDelay);
         }
         else
         {
-            audio.stop();
             sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig(spawn));
         }
     }
@@ -644,15 +663,21 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void playMusic(Media media)
     {
-        stopMusic();
-        audio = AudioFactory.loadAudio(media);
-
-        final Settings settings = Settings.getInstance();
-        if (settings.getVolumeMaster() > 0)
+        tasks.offer(() ->
         {
-            audio.setVolume(settings.getVolumeMusic());
-            audio.play();
-        }
+            if (audio != null)
+            {
+                audio.stop();
+            }
+            audio = AudioFactory.loadAudio(media);
+
+            final Settings settings = Settings.getInstance();
+            if (settings.getVolumeMaster() > 0)
+            {
+                audio.setVolume(settings.getVolumeMusic());
+                audio.play();
+            }
+        });
     }
 
     @Override
@@ -660,7 +685,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         if (audio != null)
         {
+            task.interrupt();
             audio.stop();
+
+            try
+            {
+                task.join(com.b3dgs.lionengine.Constant.HUNDRED);
+            }
+            catch (final InterruptedException exception)
+            {
+                Thread.currentThread().interrupt();
+                Verbose.exception(exception);
+            }
+            tasks.clear();
+            audio = null;
         }
     }
 

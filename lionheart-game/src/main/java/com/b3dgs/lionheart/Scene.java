@@ -64,8 +64,6 @@ public final class Scene extends SequenceGame<World>
     @Override
     protected void onLoaded(double extrp, Graphic g)
     {
-        world.playMusic(music);
-
         final double zoom = Settings.getInstance().getZoom();
         if (Double.compare(zoom, 1.0) != 0)
         {
@@ -73,6 +71,7 @@ public final class Scene extends SequenceGame<World>
         }
 
         services.get(DeviceController.class).setVisible(true);
+        world.playMusic(music);
     }
 
     @Override
@@ -96,9 +95,6 @@ public final class Scene extends SequenceGame<World>
     {
         super.onTerminated(hasNextSequence);
 
-        if (!hasNextSequence)
-        {
-            world.stopMusic();
-        }
+        world.stopMusic();
     }
 }

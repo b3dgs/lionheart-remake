@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.InitConfig;
-import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.menu.Continue;
 import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -78,7 +77,6 @@ public final class StateRespawn extends State
             {
                 sequencer.end(Menu.class);
             }
-            model.getServices().get(MusicPlayer.class).stopMusic();
         }
         else
         {

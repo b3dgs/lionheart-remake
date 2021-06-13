@@ -44,7 +44,11 @@ import com.b3dgs.lionheart.object.state.StateFall;
 @FeatureInterface
 public final class Glue extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
+    private static final String NODE = "glue";
+    private static final String ATT_FORCE = "force";
+
     private final Collection<GlueListener> listeners = new ArrayList<>();
+    private final boolean force = setup.getBooleanDefault(false, ATT_FORCE, NODE);
 
     private TransformY transformY;
     private double referenceY;
@@ -54,6 +58,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     private boolean collide;
     private boolean glue;
     private boolean started;
+    private double oldX;
 
     @FeatureGet private Transformable reference;
     @FeatureGet private Collidable collidable;
@@ -140,7 +145,8 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         }
         else if (glue && collide)
         {
-            other.moveLocationX(extrp, reference.getX() - reference.getOldX());
+            other.moveLocationX(extrp, reference.getX() - (force ? oldX : reference.getOldX()));
+            oldX = reference.getX();
             if (Double.compare(other.getFeature(EntityModel.class).getInput().getVerticalDirection(), 0.0) <= 0)
             {
                 other.getFeature(Body.class).resetGravity();
@@ -162,15 +168,16 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.GROUND) && by.getName().startsWith(Anim.LEG))
+        if (with.getName().startsWith(CollisionName.GROUND) && (force || by.getName().startsWith(Anim.LEG)))
         {
             other = collidable.getFeature(Transformable.class);
-            if (!collide && Double.compare(other.getY(), other.getOldY()) <= 0)
+            if (force || !collide && Double.compare(other.getY(), other.getOldY()) <= 0)
             {
                 collide = true;
                 offsetY = with.getOffsetY();
                 other.getFeature(Body.class).resetGravity();
                 other.teleportY(reference.getY() + offsetY);
+                oldX = reference.getOldX();
 
                 start();
             }

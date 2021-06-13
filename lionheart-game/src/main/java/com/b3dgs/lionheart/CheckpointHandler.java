@@ -41,6 +41,22 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     private static final int END_DISTANCE_TILE = 2;
     private static final int BOSS_DISTANCE = 128;
 
+    /**
+     * Check if checkpoint is previous to spawn.
+     * 
+     * @param spawn The spawn reference.
+     * @param checkpoint The checkpoint reference.
+     * @return <code>true</code> if previous, <code>false</code> else.
+     */
+    private static boolean isPrevious(Optional<Coord> spawn, Checkpoint checkpoint)
+    {
+        if (spawn.isPresent())
+        {
+            return checkpoint.getTx() < spawn.get().getX();
+        }
+        return false;
+    }
+
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     private final List<Checkpoint> nexts = new ArrayList<>();
     private final ListenableModel<CheckpointListener> listenable = new ListenableModel<>();
@@ -77,12 +93,16 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         this.player = player.getFeature(Transformable.class);
         last = 0;
         checkpoints.clear();
+
+        spawn.ifPresent(s -> checkpoints.add(new Checkpoint(s.getX(), s.getY(), Optional.empty(), Optional.empty())));
+
         for (final Checkpoint checkpoint : config.getCheckpoints())
         {
-            if (!spawn.isPresent()
-                || !checkpoint.getNext().isPresent()
-                || Double.compare(checkpoint.getTx(), spawn.get().getX()) != 0
-                || Double.compare(checkpoint.getTy(), spawn.get().getY()) != 0)
+            if (!isPrevious(spawn, checkpoint)
+                && (!spawn.isPresent()
+                    || !checkpoint.getNext().isPresent()
+                    || Double.compare(checkpoint.getTx(), spawn.get().getX()) != 0
+                    || Double.compare(checkpoint.getTy(), spawn.get().getY()) != 0))
             {
                 checkpoints.add(checkpoint);
             }

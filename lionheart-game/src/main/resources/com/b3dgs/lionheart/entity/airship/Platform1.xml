@@ -26,6 +26,11 @@
             <lionengine:group>block</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
         </lionengine:category>
+         <lionengine:category name="leg" axis="Y" x="0" y="0">
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+        </lionengine:category>
     </lionengine:categories>
     <lionengine:layerable layerRefresh="4" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>

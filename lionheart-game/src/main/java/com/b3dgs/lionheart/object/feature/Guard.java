@@ -23,16 +23,12 @@ import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
+import com.b3dgs.lionengine.game.feature.Recyclable;
+import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionengine.io.DeviceControllerVoid;
-import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -42,20 +38,24 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </p>
  */
 @FeatureInterface
-public final class Guard extends FeatureModel implements TileCollidableListener
+public final class Guard extends FeatureModel implements Routine, Recyclable
 {
     /** Max attack distance. */
     public static final double ATTACK_DISTANCE_MAX = 56.0;
+    /** Max move. */
+    private static final int MOVE_MAX = 176;
+    /** Min move. */
+    private static final int MOVE_MIN = 32;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-
-    private double sh;
-    private double sv;
 
     @FeatureGet private EntityModel model;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
+
+    private double startX;
+    private boolean started;
 
     /**
      * Create feature.
@@ -91,31 +91,34 @@ public final class Guard extends FeatureModel implements TileCollidableListener
     {
         super.prepare(provider);
 
-        model.setInput(new DeviceControllerVoid()
-        {
-            @Override
-            public double getHorizontalDirection()
-            {
-                return sh;
-            }
-
-            @Override
-            public double getVerticalDirection()
-            {
-                return sv;
-            }
-        });
         model.getMovement().setVelocity(1.0);
         mirrorable.update(1.0);
     }
 
     @Override
-    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
+    public void update(double extrp)
     {
-        if (category.getAxis() == Axis.X && result.startWithX(CollisionName.STEEP))
+        if (!started)
         {
-            sh = -sh;
-            transformable.teleportX(transformable.getOldX() + sh);
+            started = true;
+            startX = transformable.getX();
         }
+        else
+        {
+            if (transformable.getX() > startX + MOVE_MAX)
+            {
+                transformable.teleportX(startX + MOVE_MAX);
+            }
+            else if (transformable.getX() < startX - MOVE_MIN)
+            {
+                transformable.teleportX(startX - MOVE_MIN);
+            }
+        }
+    }
+
+    @Override
+    public void recycle()
+    {
+        started = false;
     }
 }
