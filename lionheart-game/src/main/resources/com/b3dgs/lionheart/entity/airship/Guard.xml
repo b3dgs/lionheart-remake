@@ -35,6 +35,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:body gravity="1.0" gravityMax="3.5"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="6"/>
+    <stats health="9"/>
     <hurtable frame="16" backward="0.85" effect="effect/airship/ExplodeBig.xml" sfx="MONSTER_EXECUTIONER_HURT"/>
 </lionengine:featurable>

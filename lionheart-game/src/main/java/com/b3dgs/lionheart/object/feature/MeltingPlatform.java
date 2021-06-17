@@ -93,7 +93,7 @@ public final class MeltingPlatform extends FeatureModel implements Recyclable, C
     @Override
     public void update(double extrp)
     {
-        if (!collidable.isEnabled() && !viewer.isViewable(transformable, 0, 0))
+        if (!collidable.isEnabled() && !viewer.isViewable(transformable, viewer.getWidth() / 2, viewer.getHeight() / 2))
         {
             recycle();
         }

@@ -40,6 +40,7 @@ public final class Bomb extends FeatureModel implements Routine, Recyclable, Col
 {
     private static final int TRIGGER_DELAY_TICK = 10;
     private static final String COLLISION_NAME = "trigger";
+    private static final String COLLISION_NAME_DRAGON = "dragonfly";
 
     private final Tick tick = new Tick();
 
@@ -78,7 +79,7 @@ public final class Bomb extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (COLLISION_NAME.equals(with.getName()))
+        if (COLLISION_NAME.equals(with.getName()) && !by.getName().endsWith(COLLISION_NAME_DRAGON))
         {
             tick.start();
         }

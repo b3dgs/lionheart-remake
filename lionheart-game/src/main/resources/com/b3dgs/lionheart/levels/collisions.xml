@@ -28,6 +28,11 @@
         <lionengine:formula>right_vertical</lionengine:formula>
         <lionengine:formula>block</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="pillar">
+        <lionengine:formula>ground_pillar</lionengine:formula>
+        <lionengine:formula>left_pillar_vertical</lionengine:formula>
+        <lionengine:formula>right_pillar_vertical</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="left_vertical">
         <lionengine:formula>left_vertical</lionengine:formula>
     </lionengine:collision>

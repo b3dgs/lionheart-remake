@@ -226,8 +226,8 @@ public final class Patrol extends FeatureModel
             checker = extrp ->
             {
                 if (skip == 0
-                    && (Double.compare(sh, 0.0) != 0 && Math.abs(startX - transformable.getX()) > amplitude
-                        || Double.compare(sv, 0.0) != 0 && Math.abs(startY - transformable.getY()) > amplitude)
+                    && (Double.compare(sh, 0.0) != 0 && Math.abs(startX - transformable.getX() - sh) >= amplitude
+                        || Double.compare(sv, 0.0) != 0 && Math.abs(startY - transformable.getY() - sv) >= amplitude)
                     || skip == 2)
                 {
                     if (sh > 0 && Double.compare(sv, 0) == 0)
@@ -298,7 +298,10 @@ public final class Patrol extends FeatureModel
 
         stateHandler.addListener((from, to) ->
         {
-            collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
+            if (stats.getHealth() > 0)
+            {
+                collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
+            }
         });
         model.setInput(new DeviceControllerVoid()
         {
@@ -381,7 +384,9 @@ public final class Patrol extends FeatureModel
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (category.getAxis() == Axis.X && result.startWithX(CollisionName.STEEP))
+        if (result.startWithX(CollisionName.STEEP)
+            && !result.endWithY(CollisionName.GROUND)
+            && stateHandler.isState(StatePatrol.class))
         {
             sh = -sh;
             transformable.teleportX(transformable.getOldX() + sh);

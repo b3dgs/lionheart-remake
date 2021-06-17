@@ -35,10 +35,10 @@
         <entity file="entity/swamp/Crawling.xml" tx="72.5" ty="52.0">
             <patrol sh="0.3" amplitude="368"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="105.0" ty="57.0">
+        <entity file="entity/swamp/Dino.xml" tx="107.0" ty="57.0">
             <patrol sh="-0.3"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="115.0" ty="57.0">
+        <entity file="entity/swamp/Dino.xml" tx="109.0" ty="57.0">
             <patrol sh="0.3"/>
         </entity>
         <entity file="entity/swamp/PotionBig.xml" tx="108.0" ty="56.0"/>

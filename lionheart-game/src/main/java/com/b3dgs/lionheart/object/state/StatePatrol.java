@@ -66,6 +66,30 @@ public final class StatePatrol extends State
     }
 
     @Override
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
+    {
+        super.onCollideLeg(result, category);
+
+        if (steep.isLeft() && movement.getDirectionHorizontal() > 0)
+        {
+            tileCollidable.apply(result);
+            transformable.teleportX(transformable.getOldX() - 1);
+            collideX.set(true);
+            collideXright.set(true);
+            turn = true;
+        }
+        else if (steep.isRight() && movement.getDirectionHorizontal() < 0)
+        {
+
+            tileCollidable.apply(result);
+            transformable.teleportX(transformable.getOldX() + 1);
+            collideX.set(true);
+            collideXleft.set(true);
+            turn = true;
+        }
+    }
+
+    @Override
     protected void onCollided(Collidable collidable, Collision with, Collision by)
     {
         super.onCollided(collidable, with, by);

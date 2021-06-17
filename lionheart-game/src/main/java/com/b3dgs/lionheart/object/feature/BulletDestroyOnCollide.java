@@ -65,6 +65,9 @@ public final class BulletDestroyOnCollide extends FeatureModel implements Routin
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        identifiable.destroy();
+        if (!by.getName().equals("trigger"))
+        {
+            identifiable.destroy();
+        }
     }
 }
