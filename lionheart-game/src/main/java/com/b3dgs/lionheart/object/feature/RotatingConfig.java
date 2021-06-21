@@ -42,6 +42,8 @@ public final class RotatingConfig
     public static final String ATT_AMPLITUDE = "amplitude";
     /** Controlled attribute name. */
     public static final String ATT_CONTROLLED = "controlled";
+    /** Back attribute name. */
+    public static final String ATT_BACK = "back";
 
     /**
      * Imports the config from configurer.
@@ -85,6 +87,8 @@ public final class RotatingConfig
     private final int amplitude;
     /** Controlled flag. */
     private final boolean controlled;
+    /** Controlled flag. */
+    private final int back;
 
     /**
      * Create config.
@@ -104,6 +108,7 @@ public final class RotatingConfig
         offset = root.readInteger(0, ATT_OFFSET);
         amplitude = root.readInteger(0, ATT_AMPLITUDE);
         controlled = root.readBoolean(false, ATT_CONTROLLED);
+        back = root.readInteger(-1, ATT_BACK);
     }
 
     /**
@@ -174,5 +179,15 @@ public final class RotatingConfig
     public boolean isControlled()
     {
         return controlled;
+    }
+
+    /**
+     * Get angle back.
+     * 
+     * @return The angle back.
+     */
+    public int getBack()
+    {
+        return back;
     }
 }

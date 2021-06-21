@@ -277,16 +277,16 @@
         <entity file="entity/secret/Crawling.xml" tx="255.0" ty="66.0">
             <patrol sh="-0.4" amplitude="80"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="261.0" ty="60.0">
+        <entity file="entity/secret/Ghost1.xml" tx="261.0" ty="60.0" mirror="true">
             <patrol sv="0.7" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="263.0" ty="57.0">
+        <entity file="entity/secret/Ghost1.xml" tx="263.0" ty="57.0" mirror="true">
             <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="265.0" ty="54.0">
+        <entity file="entity/secret/Ghost1.xml" tx="265.0" ty="54.0" mirror="true">
             <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="267.0" ty="51.0">
+        <entity file="entity/secret/Ghost1.xml" tx="267.0" ty="51.0" mirror="true">
             <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="281.0" ty="42.0">

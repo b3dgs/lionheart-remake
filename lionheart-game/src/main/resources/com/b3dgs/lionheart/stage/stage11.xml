@@ -140,7 +140,7 @@
             <rotating amplitude="15" controlled="true" extremity="entity/airship/Platform2.xml" ring="entity/airship/Ring.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/airship/Rotating.xml" tx="715.0" ty="30.0">
-            <rotating amplitude="180" offset="-45" extremity="entity/airship/Platform1.xml" ring="entity/airship/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="180" back="210" extremity="entity/airship/Platform1.xml" ring="entity/airship/Ring.xml" length="2" speed="-0.05"/>
         </entity>
         <entity file="entity/airship/Dragon3.xml" tx="706.0" ty="30.0"/>
         <entity file="entity/airship/Rotating.xml" tx="680.0" ty="21.0">

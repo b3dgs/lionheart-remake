@@ -144,7 +144,7 @@
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-2.5"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="238.0" ty="25.0">
-            <rotating amplitude="70" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="70" back="200" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="239.0" ty="32.0" mirror="true">
             <patrol sh="-0.8" sv="0.0" proximity="48"/>

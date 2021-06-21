@@ -119,6 +119,8 @@
             <geyzer delayStart="80" delayDown="80" height="90"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="384.0" ty="4.0"/>
+        <entity file="entity/lava/Talisment.xml" tx="386.0" ty="3.0"/>
+        <entity file="entity/lava/Talisment.xml" tx="387.0" ty="3.0"/>
         <entity file="entity/lava/FloaterCube.xml" tx="414.0" ty="4.0" mirror="false"/>
         <entity file="entity/lava/HotFireBall.xml" tx="435.0" ty="2.0">
             <hotfireball delay="60" count="6" level="0" vx="0.0" vy="3.0"/>

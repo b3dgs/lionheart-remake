@@ -16,7 +16,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Dragon3.xml" ox="0" oy="0">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-0.5"/>
+            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-0.8"/>
         </lionengine:launchable>
     </lionengine:launcher>
 </lionengine:featurable>

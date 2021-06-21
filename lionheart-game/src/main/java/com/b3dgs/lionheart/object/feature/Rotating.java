@@ -37,7 +37,6 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 
@@ -61,6 +60,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     private double angleStart;
     private double angle;
     private double angleAcc;
+    private int angleBack;
     private double max;
     private double side;
     private boolean collide;
@@ -100,6 +100,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
             angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
         }
         angle = angleStart + config.getOffset();
+        angleBack = config.getBack();
         side = config.getSpeed();
 
         for (int i = 0; i < config.getLength(); i++)
@@ -107,22 +108,6 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
             rings.add(spawner.spawn(Medias.create(config.getRing()), transformable).getFeature(Transformable.class));
         }
         platform = spawner.spawn(Medias.create(config.getExtremity()), transformable).getFeature(Transformable.class);
-        if (config.getAmplitude() > 0)
-        {
-            platform.getFeature(TileCollidable.class).addListener((result, category) ->
-            {
-                if (tick.elapsed(10))
-                {
-                    angle -= angleAcc;
-                    angleAcc = -angleAcc;
-                    if (viewer.isViewable(transformable, 0, 0))
-                    {
-                        Sfx.SCENERY_ROTATINGPLATFORM.play();
-                    }
-                    tick.restart();
-                }
-            });
-        }
 
         if (config.isControlled())
         {
@@ -207,8 +192,18 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
             {
                 angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
             }
-        }
 
+            if (angleBack > -1 && config.getSpeed() > 0 ? angle > angleBack : angle < angleBack)
+            {
+                angle = angleBack;
+                angle -= angleAcc;
+                angleAcc = -angleAcc;
+                if (viewer.isViewable(transformable, 0, 0))
+                {
+                    Sfx.SCENERY_ROTATINGPLATFORM.play();
+                }
+            }
+        }
         collide = false;
     }
 

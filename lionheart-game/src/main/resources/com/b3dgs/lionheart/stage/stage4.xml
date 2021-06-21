@@ -15,7 +15,6 @@
     </checkpoints>
     <entities>
         <entity file="boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>
-        <entity file="entity/spidercave2/Talisment.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/spidercave2/PotionBig.xml" tx="48.0" ty="64.0"/>
         <entity file="entity/spidercave2/PotionLittle.xml" tx="71.0" ty="40.0"/>
         <entity file="entity/spidercave2/Talisment.xml" tx="28.0" ty="39.0"/>

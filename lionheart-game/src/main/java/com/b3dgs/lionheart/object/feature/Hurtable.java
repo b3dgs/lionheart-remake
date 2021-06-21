@@ -53,6 +53,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -86,6 +87,7 @@ public final class Hurtable extends FeatureModel
     private final double hurtForceValue;
     private final Spawner spawner = services.get(Spawner.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
+    private final MapTileWater mapWater = services.get(MapTileWater.class);
     private final Optional<Media> effect;
     private final OptionalInt frame;
     private final boolean persist;
@@ -393,22 +395,17 @@ public final class Hurtable extends FeatureModel
      */
     public void kill(boolean force)
     {
-        if (force || stats.getHealthMax() > 0)
+        if (force || stats.getHealthMax() > 0 && !fall)
         {
-            if (!fall)
+            if (effect.isPresent())
             {
-                if (effect.isPresent())
-                {
-                    spawner.spawn(effect.get(),
-                                  transformable.getX(),
-                                  transformable.getY() + transformable.getHeight() / 2)
-                           .getFeature(Rasterable.class)
-                           .setAnimOffset2(rasterable.getAnimOffset2());
-                }
-                if (!persist)
-                {
-                    identifiable.destroy();
-                }
+                spawner.spawn(effect.get(), transformable.getX(), transformable.getY() + transformable.getHeight() / 2)
+                       .getFeature(Rasterable.class)
+                       .setAnimOffset2(rasterable.getAnimOffset2());
+            }
+            if (!persist)
+            {
+                identifiable.destroy();
             }
             model.getNext().ifPresent(next -> stage.loadNextStage(next, 400));
         }
@@ -435,6 +432,11 @@ public final class Hurtable extends FeatureModel
         recover.update(extrp);
         flickerCurrent.update(extrp);
         model.getMovement().addDirection(extrp, hurtForce);
+
+        if (fall && stats.getHealth() == 0 && transformable.getY() < mapWater.getCurrent())
+        {
+            kill(true);
+        }
     }
 
     @Override
