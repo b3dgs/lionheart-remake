@@ -119,7 +119,7 @@ public final class StateHurt extends State
             updater = updateFlicker;
         }
 
-        if (model.hasFeature(SwordShade.class) || model.hasFeature(Executioner.class))
+        if (model.getJumpOnHurt() && (model.hasFeature(SwordShade.class) || model.hasFeature(Executioner.class)))
         {
             velocity = jump.getVelocity();
             jump.setVelocity(0.1);
@@ -145,9 +145,12 @@ public final class StateHurt extends State
     {
         super.exit();
 
-        jump.setVelocity(velocity);
+        if (model.getJumpOnHurt())
+        {
+            jump.setVelocity(velocity);
+            jump.setDirectionMaximum(Constant.JUMP_MAX);
+        }
         rasterable.setAnimOffset(0);
-        jump.setDirectionMaximum(Constant.JUMP_MAX);
         hurtable.setEnabled(true);
     }
 }

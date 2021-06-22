@@ -41,6 +41,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
 
@@ -111,6 +112,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         camera.setIntervals(0, 0);
         tracker.stop();
         player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
+        player.getFeature(EntityModel.class).setJumpOnHurt(false);
         on = true;
     }
 
@@ -124,6 +126,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             on = false;
             camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
             tracker.track(player);
+            player.getFeature(EntityModel.class).setJumpOnHurt(true);
         }
     }
 

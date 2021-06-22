@@ -77,6 +77,7 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Collidable collidable;
+    @FeatureGet private Hurtable hurtable;
     @FeatureGet private Stats stats;
 
     /**
@@ -161,6 +162,7 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
             if (stats.getHealth() == 0 && wall.is(AnimState.FINISHED))
             {
                 wall.play(fall);
+                hurtable.kill(true);
             }
         }
     }

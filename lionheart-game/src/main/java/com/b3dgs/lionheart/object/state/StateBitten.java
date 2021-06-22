@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.CheckpointHandler;
@@ -33,10 +34,11 @@ import com.b3dgs.lionheart.object.feature.Stats;
 public final class StateBitten extends State
 {
     /** Bitten limit drown vertical position. */
-    private static final int BITTEN_FALL_Y = 32;
+    private static final int BITTEN_TICK = 50;
     /** Bitten fall speed. */
     private static final double DEATH_FALL_SPEED = -0.7;
 
+    private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
     private final Drownable drownable = model.getFeature(Drownable.class);
     private final Layerable layerable = model.getFeature(Layerable.class);
@@ -44,7 +46,6 @@ public final class StateBitten extends State
 
     private Integer layerRefresh;
     private Integer layerDisplay;
-    private double startY;
 
     /**
      * Create the state.
@@ -56,7 +57,7 @@ public final class StateBitten extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> startY - transformable.getY() > BITTEN_FALL_Y);
+        addTransition(StateIdle.class, () -> tick.elapsed(BITTEN_TICK));
 
         checkpoint = model.getCheckpoint();
     }
@@ -68,18 +69,19 @@ public final class StateBitten extends State
 
         stats.applyDamages(stats.getHealth());
         movement.zero();
-        startY = transformable.getY();
         layerRefresh = layerable.getLayerRefresh();
         layerDisplay = layerable.getLayerDisplay();
         layerable.setLayer(layerRefresh, Integer.valueOf(0));
         collidable.setEnabled(false);
         tileCollidable.setEnabled(false);
         Sfx.VALDYN_DIE.play();
+        tick.restart();
     }
 
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         body.resetGravity();
         model.getMovement().setDirection(0.0, DEATH_FALL_SPEED);
     }

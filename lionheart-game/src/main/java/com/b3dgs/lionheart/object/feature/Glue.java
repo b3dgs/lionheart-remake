@@ -35,7 +35,6 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
-import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 
 /**
@@ -147,18 +146,12 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         {
             other.moveLocationX(extrp, reference.getX() - (force ? oldX : reference.getOldX()));
             oldX = reference.getX();
-            if (Double.compare(other.getFeature(EntityModel.class).getInput().getVerticalDirection(), 0.0) <= 0)
-            {
-                other.getFeature(Body.class).resetGravity();
-                other.teleportY(reference.getY() + offsetY);
-            }
+            other.getFeature(Body.class).resetGravity();
+            other.teleportY(reference.getY() + offsetY);
         }
-        if (!collidable.isEnabled() && other != null)
+        if (!collidable.isEnabled() && other != null && Double.compare(other.getY(), other.getOldY()) == 0)
         {
-            if (Double.compare(other.getY(), other.getOldY()) == 0)
-            {
-                other.getFeature(StateHandler.class).changeState(StateFall.class);
-            }
+            other.getFeature(StateHandler.class).changeState(StateFall.class);
         }
 
         collide = false;

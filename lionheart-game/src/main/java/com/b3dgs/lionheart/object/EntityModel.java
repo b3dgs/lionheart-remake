@@ -92,11 +92,12 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
+    private final int frames;
     private Transformable player;
     private boolean secret;
     private Optional<String> next = Optional.empty();
     private Optional<Coord> nextSpawn = Optional.empty();
-    private final int frames;
+    private boolean jumpOnHurt = true;
 
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
@@ -245,6 +246,16 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     }
 
     /**
+     * Set jump on hurt flag.
+     * 
+     * @param jumpOnHurt <code>true</code> to enable, <code>false</code> else.
+     */
+    public void setJumpOnHurt(boolean jumpOnHurt)
+    {
+        this.jumpOnHurt = jumpOnHurt;
+    }
+
+    /**
      * Get the camera reference.
      * 
      * @return The camera reference.
@@ -362,6 +373,16 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     public Optional<Coord> getNextSpawn()
     {
         return nextSpawn;
+    }
+
+    /**
+     * Check if jump on hurt is enabled.
+     * 
+     * @return <code>true</code> if enabled, <code>false</code> else.
+     */
+    public boolean getJumpOnHurt()
+    {
+        return jumpOnHurt;
     }
 
     @Override
