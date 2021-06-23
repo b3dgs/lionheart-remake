@@ -31,4 +31,5 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:body gravity="2.0" gravityMax="10.0"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

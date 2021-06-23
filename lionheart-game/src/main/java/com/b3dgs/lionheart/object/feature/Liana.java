@@ -55,7 +55,7 @@ import com.b3dgs.lionheart.constant.Folder;
 @FeatureInterface
 public final class Liana extends FeatureModel implements CollidableListener, Recyclable
 {
-    private static final int TILE_VOID = 911;
+    private static final int TILE_VOID = 912;
 
     /**
      * Get top tile.
@@ -291,7 +291,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         {
             // Bottom part
             if (top.getNumber() == 909 && top2.getNumber() == 908
-                || (top.getNumber() == 911 || top.getNumber() == 6) && top2.getNumber() == 701)
+                || (top.getNumber() == TILE_VOID || top.getNumber() == 6) && top2.getNumber() == 701)
             {
                 return 5;
             }

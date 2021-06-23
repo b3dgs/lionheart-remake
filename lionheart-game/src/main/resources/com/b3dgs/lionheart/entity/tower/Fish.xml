@@ -29,7 +29,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.fish.StateFishFall</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/tower/Bullet2.xml" sfx="sfx/monster_fish.wav" ox="0" oy="24">
+        <lionengine:launchable media="projectile/tower/Bullet2.xml" sfx="sfx/monster_fish.wav" ox="0" oy="40">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

@@ -346,7 +346,7 @@
         <entity file="entity/swamp/Bee.xml" tx="218.0" ty="14.0" mirror="true">
             <patrol proximity="0"/>
         </entity>
-        <entity file="entity/swamp/Crawling.xml" tx="237.0" ty="12.0">
+        <entity file="entity/swamp/Crawling.xml" tx="243.0" ty="12.0">
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
         <entity file="entity/swamp/Dino.xml" tx="258.0" ty="25.0">

@@ -119,10 +119,10 @@
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-4.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="205.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="2.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="210.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="4.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="215.0" ty="19.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
@@ -226,9 +226,15 @@
         <entity file="entity/ancienttown/Rotating1.xml" tx="60.0" ty="37.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-4.0"/>
         </entity>
-        <entity file="entity/ancienttown/Canon3.xml" tx="113.0" ty="34.0"/>
-        <entity file="entity/ancienttown/Canon3.xml" tx="123.0" ty="9.0"/>
-        <entity file="entity/ancienttown/Canon3.xml" tx="452.0" ty="6.0"/>
+        <entity file="entity/ancienttown/Canon3.xml" tx="113.0" ty="34.0">
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="123.0" ty="9.0">
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="452.0" ty="6.0">
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
+        </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="480.0" ty="7.0">
             <rotating extremity="entity/ancienttown/SpikeBowl.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="-4.0"/>
         </entity>

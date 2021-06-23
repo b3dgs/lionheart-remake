@@ -87,12 +87,12 @@
         <entity file="entity/lava/HotFireBall.xml" tx="228.0" ty="2.0">
             <hotfireball delay="120" count="4" level="1" vx="1.2" vy="4.0"/>
         </entity>
-        <entity file="entity/lava/FireBallBig.xml" tx="267.0" ty="10.0"/>
+        <entity file="entity/lava/FireBallBig.xml" tx="265.0" ty="10.0"/>
         <entity file="entity/lava/HotFireBall.xml" tx="289.0" ty="2.0">
-            <hotfireball delay="60" count="6" level="1" vx="-1.0" vy="4.5"/>
+            <hotfireball delay="60" count="6" level="1" vx="-1.0" vy="5.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="284.0" ty="2.0">
-            <hotfireball delay="120" count="6" level="1" vx="1.0" vy="4.5"/>
+            <hotfireball delay="120" count="6" level="1" vx="1.0" vy="5.0"/>
         </entity>
         <entity file="entity/lava/Geyzer.xml" tx="312.5" ty="2.5">
             <geyzer delayStart="70" delayDown="150" height="56"/>

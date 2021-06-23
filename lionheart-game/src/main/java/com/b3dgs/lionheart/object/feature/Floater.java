@@ -17,6 +17,8 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Localizable;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -31,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
+import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -53,6 +56,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     private static final String ATT_HIT = "hit";
 
     private final MapTileWater water = services.get(MapTileWater.class);
+    private final Viewer viewer = services.get(Viewer.class);
 
     private final double speedUp;
     private final double speedDown;
@@ -61,6 +65,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     private final boolean waterLevel;
     private boolean start;
     private double down;
+    private Localizable origin;
 
     @FeatureGet private EntityModel model;
     @FeatureGet private Transformable transformable;
@@ -110,6 +115,10 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @Override
     public void update(double extrp)
     {
+        if (origin == null)
+        {
+            origin = Geom.createLocalizable(transformable.getX(), transformable.getY());
+        }
         if (Double.compare(transformable.getY(), water.getCurrent() - transformable.getHeight() / 2.5 + down) <= 0)
         {
             if (waterLevel)
@@ -137,6 +146,12 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
                 down = 0.0;
             }
         }
+        if (!viewer.isViewable(transformable, viewer.getWidth() / 2, viewer.getHeight() / 2)
+            && !viewer.isViewable(origin, 0, 0))
+        {
+            transformable.teleport(origin.getX(), origin.getY());
+            recycle();
+        }
     }
 
     @Override
@@ -160,6 +175,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @Override
     public void recycle()
     {
+        glue.setTransformY(null);
         start = false;
         down = 0.0;
     }

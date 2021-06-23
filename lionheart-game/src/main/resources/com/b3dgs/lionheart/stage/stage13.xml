@@ -7,7 +7,6 @@
     <foreground type="WATER" waterDepth="8" waterOffset="32" raise="2448"/>
     <checkpoints>
         <checkpoint tx="26" ty="6"/>
-        <checkpoint tx="22" ty="60"/>
         <checkpoint tx="28" ty="136" next="stage/stage14.xml"/>
     </checkpoints>
     <entities>

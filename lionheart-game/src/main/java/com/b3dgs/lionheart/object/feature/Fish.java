@@ -75,6 +75,8 @@ public final class Fish extends FeatureModel implements Routine, Recyclable
         else
         {
             transformable.teleportY(water.getCurrent() - 80);
+            rasterable.setVisibility(false);
+            collidable.setEnabled(false);
         }
     }
 

@@ -195,7 +195,6 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
 
             if (angleBack > -1 && config.getSpeed() > 0 ? angle > angleBack : angle < angleBack)
             {
-                angle = angleBack;
                 angle -= angleAcc;
                 angleAcc = -angleAcc;
                 if (viewer.isViewable(transformable, 0, 0))

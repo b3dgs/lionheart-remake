@@ -118,13 +118,13 @@
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-4.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="205.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="1.5"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="210.0" ty="19.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="215.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="2.5"/>
         </entity>
         <entity file="entity/ancienttown/PotionLittle.xml" tx="213.0" ty="20.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>

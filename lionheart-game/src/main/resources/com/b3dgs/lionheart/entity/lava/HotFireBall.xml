@@ -21,4 +21,5 @@
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

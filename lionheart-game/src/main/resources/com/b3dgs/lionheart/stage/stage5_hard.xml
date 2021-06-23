@@ -375,7 +375,7 @@
         <entity file="entity/swamp/Bee.xml" tx="155.0" ty="5.0" mirror="true">
             <patrol sv="1.0" amplitude="128" mirror="false"/>
         </entity>
-        <entity file="entity/swamp/Crawling.xml" tx="165.0" ty="5.0">
+        <entity file="entity/swamp/Crawling.xml" tx="166.0" ty="5.0">
             <patrol sh="-0.4" amplitude="32"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="194.0" ty="8.0"/>

@@ -35,4 +35,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
     <hurtable fall="true" effect="effect/tower/ExplodeBig.xml"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
