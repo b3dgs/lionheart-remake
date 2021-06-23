@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.SizeConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.object.feature.Canon2AirshipConfig;
+import com.b3dgs.lionheart.object.feature.CatapultConfig;
 import com.b3dgs.lionheart.object.feature.Dragon1Config;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
@@ -38,6 +39,7 @@ import com.b3dgs.lionheart.object.feature.PatrolConfig;
 import com.b3dgs.lionheart.object.feature.PillarConfig;
 import com.b3dgs.lionheart.object.feature.RotatingConfig;
 import com.b3dgs.lionheart.object.feature.ShooterConfig;
+import com.b3dgs.lionheart.object.feature.SpiderConfig;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
 
 /**
@@ -96,6 +98,8 @@ public final class EntityConfig
     private final Optional<SpikeConfig> spike;
     /** Rotating configuration. */
     private final Optional<RotatingConfig> rotating;
+    /** Spider configuration. */
+    private final Optional<SpiderConfig> spider;
     /** HotFireBall configuration. */
     private final Optional<HotFireBallConfig> hotFireBall;
     /** Geyzer configuration. */
@@ -108,6 +112,8 @@ public final class EntityConfig
     private final Optional<ShooterConfig> shooter;
     /** Pillar configuration. */
     private final Optional<PillarConfig> pillar;
+    /** Catapult configuration. */
+    private final Optional<CatapultConfig> catapult;
     /** Jump configuration. */
     private final int jump;
     /** Mirror configuration. */
@@ -144,12 +150,14 @@ public final class EntityConfig
         patrols = PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL));
         spike = root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports);
         rotating = root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports);
+        spider = root.getChildOptional(SpiderConfig.NODE_SPIDER).map(SpiderConfig::imports);
         hotFireBall = root.getChildOptional(HotFireBallConfig.NODE_HOTFIREBALL).map(HotFireBallConfig::imports);
         geyzer = root.getChildOptional(GeyzerConfig.NODE_GEYZER).map(GeyzerConfig::imports);
         dragon1 = root.getChildOptional(Dragon1Config.NODE_DRAGON1).map(Dragon1Config::imports);
         canon2 = root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports);
         shooter = root.getChildOptional(ShooterConfig.NODE_SHOOTER).map(ShooterConfig::imports);
         pillar = root.getChildOptional(PillarConfig.NODE_PILLARD).map(PillarConfig::imports);
+        catapult = root.getChildOptional(CatapultConfig.NODE_CATAPULT).map(CatapultConfig::imports);
         jump = root.readInteger(0, ATT_JUMP);
         mirror = root.readBooleanOptional(ATT_MIRROR);
         secret = root.readBooleanOptional(ATT_SECRET);
@@ -260,6 +268,16 @@ public final class EntityConfig
     }
 
     /**
+     * Get the spider configuration.
+     * 
+     * @return The spider configuration.
+     */
+    public Optional<SpiderConfig> getSpider()
+    {
+        return spider;
+    }
+
+    /**
      * Get the hot fire ball configuration.
      * 
      * @return The hot fire ball configuration.
@@ -312,11 +330,21 @@ public final class EntityConfig
     /**
      * Get the pillar configuration.
      * 
-     * @return The v configuration.
+     * @return The pillar configuration.
      */
     public Optional<PillarConfig> getPillar()
     {
         return pillar;
+    }
+
+    /**
+     * Get the catapult configuration.
+     * 
+     * @return The catapult configuration.
+     */
+    public Optional<CatapultConfig> getCatapult()
+    {
+        return catapult;
     }
 
     /**

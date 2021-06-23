@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
@@ -77,6 +79,23 @@ public final class Spider extends FeatureModel implements Routine, Recyclable
     public Spider(Services services, SetupSurfaceRastered setup)
     {
         super(services, setup);
+    }
+
+    /**
+     * Load configuration.
+     * 
+     * @param config The configuration reference.
+     */
+    public void load(Optional<SpiderConfig> config)
+    {
+        if (!config.isPresent() || config.get().getFollow())
+        {
+            track();
+        }
+        else
+        {
+            track(0);
+        }
     }
 
     /**

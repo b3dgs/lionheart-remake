@@ -79,6 +79,7 @@ import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Canon2Airship;
+import com.b3dgs.lionheart.object.feature.Catapult;
 import com.b3dgs.lionheart.object.feature.Dragon1;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
@@ -123,6 +124,22 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
     }
 
+    /**
+     * Get stage by difficulty.
+     * 
+     * @param difficulty The difficulty.
+     * @param index The stage index.
+     * @return The stage media.
+     */
+    private static Media getStage(Difficulty difficulty, int index)
+    {
+        if (Difficulty.NORMAL.equals(difficulty) || index > 9 && index < 13)
+        {
+            return Stage.values()[index];
+        }
+        return StageHard.values()[index];
+    }
+
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
     private final Hud hud = services.create(Hud.class);
@@ -141,6 +158,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private double trackerY;
     private StageConfig stage;
     private StateHandler player;
+    private Difficulty difficulty;
     private boolean paused;
     private boolean cheats;
     private boolean fly;
@@ -388,6 +406,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private void createEntity(StageConfig stage, EntityConfig entity, HashMap<Media, Set<Integer>> entitiesRasters)
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        if (Difficulty.LIONHARD.equals(difficulty))
+        {
+            featurable.ifIs(Stats.class, Stats::initLionhard);
+        }
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
         entity.getNext()
               .ifPresent(next -> featurable.getFeature(EntityModel.class).setNext(next, entity.getNextSpawn()));
@@ -409,12 +431,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         else
         {
-            featurable.ifIs(Spider.class, Spider::track);
+            featurable.ifIs(Spider.class, s -> s.load(entity.getSpider()));
         }
         entity.getDragon1().ifPresent(config -> featurable.ifIs(Dragon1.class, dragon1 -> dragon1.load(config)));
         entity.getCanon2().ifPresent(config -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(config)));
         entity.getShooter().ifPresent(config -> featurable.ifIs(Shooter.class, shooter -> shooter.load(config)));
         entity.getPillar().ifPresent(config -> featurable.ifIs(Pillar.class, pillar -> pillar.load(config)));
+        entity.getCatapult().ifPresent(config -> featurable.ifIs(Catapult.class, catapult -> catapult.load(config)));
         featurable.ifIs(BulletBounceOnGround.class, bounce -> bounce.load(entity.getVx()));
         stage.getRasterFolder().ifPresent(r ->
         {
@@ -520,7 +543,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
-                sequencer.end(SceneBlack.class, Stage.values()[i], getInitConfig(Optional.empty()));
+                sequencer.end(SceneBlack.class, getStage(difficulty, i), getInitConfig(Optional.empty()));
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
@@ -549,6 +572,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                               stats.getSword(),
                               stats.hasAmulet(),
                               stats.getCredits(),
+                              difficulty,
                               cheats,
                               spawn);
     }
@@ -590,6 +614,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                        settings.getBackgroundFlicker());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
+        difficulty = init.getDifficulty();
         cheats = init.isCheats();
         createPlayerAndLoadCheckpoints(init);
 

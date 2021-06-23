@@ -233,6 +233,7 @@ public class Continue extends Sequence
                                    init.getSword(),
                                    init.isAmulet(),
                                    init.getCredits(),
+                                   init.getDifficulty(),
                                    false,
                                    Optional.empty()));
             }

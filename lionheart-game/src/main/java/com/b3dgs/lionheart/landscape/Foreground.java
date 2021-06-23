@@ -51,6 +51,14 @@ public interface Foreground extends Background
      */
     void setEnabled(boolean enabled);
 
+    /**
+     * Reset foreground. Does nothing by default.
+     */
+    default void reset()
+    {
+        // Nothing by default
+    }
+
     @Override
     default void update(double extrp, double speed, double x, double y)
     {

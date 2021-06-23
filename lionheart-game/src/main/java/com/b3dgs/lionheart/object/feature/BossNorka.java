@@ -862,6 +862,13 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
                 }
             }
         });
+        identifiable.addListener(id ->
+        {
+            for (int i = 0; i < limbs.length; i++)
+            {
+                limbs[i].getFeature(Identifiable.class).destroy();
+            }
+        });
     }
 
     @Override

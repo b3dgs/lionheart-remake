@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
@@ -90,9 +92,21 @@ public final class Constant
     public static final Direction JUMP_SPIDER = new Force(0.0, 3.5);
 
     /** Init config normal/hard. */
-    public static final InitConfig INIT_STANDARD = new InitConfig(4, 2);
+    public static final InitConfig INIT_STANDARD = new InitConfig(4, 2, Difficulty.NORMAL);
+    /** Init config hard. */
+    public static final InitConfig INIT_HARD = new InitConfig(3, 2, Difficulty.HARD);
     /** Init config lion hard. */
-    public static final InitConfig INIT_LIONHARD = new InitConfig(3, 2);
+    public static final InitConfig INIT_LIONHARD = new InitConfig(3, 2, Difficulty.LIONHARD);
+    /** Init config debug. */
+    public static final InitConfig INIT_DEBUG = new InitConfig(8,
+                                                               99,
+                                                               99,
+                                                               3,
+                                                               Boolean.TRUE,
+                                                               9,
+                                                               Difficulty.LIONHARD,
+                                                               true,
+                                                               Optional.empty());
 
     /** Raster tile file. */
     public static final String RASTER_FILE_TILE = "tiles.png";

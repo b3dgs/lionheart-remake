@@ -20,6 +20,9 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.Direction;
+import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -49,6 +52,7 @@ public final class Catapult extends FeatureModel implements Routine, Recyclable,
     private final Animation idle;
     private final Animation fire;
 
+    private Direction vector = DirectionNone.INSTANCE;
     private boolean fired;
 
     @FeatureGet private Transformable transformable;
@@ -71,6 +75,16 @@ public final class Catapult extends FeatureModel implements Routine, Recyclable,
         fire = config.getAnimation(Anim.ATTACK);
     }
 
+    /**
+     * Load configuration.
+     * 
+     * @param config The configuration reference.
+     */
+    public void load(CatapultConfig config)
+    {
+        vector = new Force(config.getVx(), config.getVy());
+    }
+
     @Override
     public void update(double extrp)
     {
@@ -88,7 +102,7 @@ public final class Catapult extends FeatureModel implements Routine, Recyclable,
         {
             fired = true;
             animatable.play(fire);
-            launcher.fire();
+            launcher.fire(vector);
         }
     }
 

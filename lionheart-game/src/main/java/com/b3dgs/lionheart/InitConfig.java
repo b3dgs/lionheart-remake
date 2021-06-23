@@ -38,6 +38,8 @@ public final class InitConfig
     private final Boolean amulet;
     /** Remaining credits. */
     private final int credits;
+    /** Difficulty. */
+    private final Difficulty difficulty;
     /** Cheats flag. */
     private final boolean cheats;
     /** Spawn tile. */
@@ -48,10 +50,11 @@ public final class InitConfig
      * 
      * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
+     * @param difficulty The difficulty.
      */
-    public InitConfig(int healthMax, int life)
+    public InitConfig(int healthMax, int life, Difficulty difficulty)
     {
-        this(healthMax, 0, life, 0, Boolean.FALSE, Constant.CREDITS, false, Optional.empty());
+        this(healthMax, 0, life, 0, Boolean.FALSE, Constant.CREDITS, difficulty, false, Optional.empty());
     }
 
     /**
@@ -63,6 +66,7 @@ public final class InitConfig
      * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} excluded).
      * @param amulet The amulet flag.
      * @param credits The credits value.
+     * @param difficulty The difficulty.
      * @param cheats The cheats flag.
      * @param spawn The spawn tile.
      */
@@ -72,6 +76,7 @@ public final class InitConfig
                       int sword,
                       Boolean amulet,
                       int credits,
+                      Difficulty difficulty,
                       boolean cheats,
                       Optional<Coord> spawn)
     {
@@ -97,6 +102,7 @@ public final class InitConfig
         this.sword = sword;
         this.credits = credits;
         this.amulet = amulet;
+        this.difficulty = difficulty;
         this.cheats = cheats;
         this.spawn = spawn;
     }
@@ -159,6 +165,16 @@ public final class InitConfig
     public Boolean isAmulet()
     {
         return amulet;
+    }
+
+    /**
+     * Get the difficulty.
+     * 
+     * @return The difficulty.
+     */
+    public Difficulty getDifficulty()
+    {
+        return difficulty;
     }
 
     /**

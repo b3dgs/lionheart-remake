@@ -23,7 +23,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Locale;
 
-import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionheart.constant.Extension;
@@ -35,39 +34,36 @@ import com.b3dgs.lionheart.constant.Folder;
 public enum Stage implements Media
 {
     /** First swamp stage. */
-    STAGE_1,
+    STAGE1,
     /** First spider cave stage. */
-    STAGE_2,
+    STAGE2,
     /** Second swamp stage. */
-    STAGE_3,
+    STAGE3,
     /** Second spider cave stage. */
-    STAGE_4,
+    STAGE4,
     /** Third swamp stage. */
-    STAGE_5,
+    STAGE5,
     /** First ancient town stage. */
-    STAGE_6,
+    STAGE6,
     /** Second ancient town stage. */
-    STAGE_7,
+    STAGE7,
     /** Third ancient town stage. */
-    STAGE_8,
+    STAGE8,
     /** Lava stage. */
-    STAGE_9,
+    STAGE9,
     /** Airship stage. */
-    STAGE_11,
+    STAGE11,
     /** Dragonfly stage. */
-    STAGE_12,
+    STAGE12,
     /** Tower stage. */
-    STAGE_13,
+    STAGE13,
     /** Norka stage. */
-    STAGE_14,
+    STAGE14,
     /** Secret stage. */
-    STAGE_10;
+    STAGE10;
 
     /** Level file. */
-    private final Media file = Medias.create(Folder.STAGE,
-                                             name().toLowerCase(Locale.ENGLISH)
-                                                   .replace(Constant.UNDERSCORE, Constant.EMPTY_STRING)
-                                                           + Extension.STAGE);
+    private final Media file = Medias.create(Folder.STAGE, name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 
     @Override
     public String getPath()

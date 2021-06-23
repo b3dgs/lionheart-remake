@@ -24,7 +24,9 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
 import com.b3dgs.lionheart.CheckpointHandler;
+import com.b3dgs.lionheart.Difficulty;
 import com.b3dgs.lionheart.InitConfig;
+import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.menu.Continue;
 import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -37,7 +39,9 @@ import com.b3dgs.lionheart.object.feature.Stats;
 public final class StateRespawn extends State
 {
     private final Stats stats = model.getFeature(Stats.class);
-    private final CheckpointHandler checkpoint;
+    private final CheckpointHandler checkpoint = model.getCheckpoint();
+    private final Landscape landscape = model.getServices().get(Landscape.class);
+    private final Difficulty difficulty = model.getServices().get(Difficulty.class);
 
     /**
      * Create the state.
@@ -50,8 +54,6 @@ public final class StateRespawn extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> true);
-
-        checkpoint = model.getCheckpoint();
     }
 
     @Override
@@ -70,6 +72,7 @@ public final class StateRespawn extends State
                                              stats.getSword(),
                                              stats.hasAmulet(),
                                              stats.getCredits() - 1,
+                                             difficulty,
                                              false,
                                              Optional.empty()));
             }
@@ -90,6 +93,7 @@ public final class StateRespawn extends State
             mirrorable.mirror(Mirror.NONE);
             stats.fillHealth();
             stats.decreaseLife();
+            landscape.reset();
         }
     }
 }

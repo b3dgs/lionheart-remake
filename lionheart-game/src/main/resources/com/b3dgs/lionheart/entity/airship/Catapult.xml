@@ -21,7 +21,7 @@
     <lionengine:collidable group="3" accepted="1"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Rock.xml" ox="34" oy="-4">
-            <lionengine:force velocity="1" sensibility="0" vx="-2.0" vy="6.5"/>
+            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <alwaysUpdate>true</alwaysUpdate>

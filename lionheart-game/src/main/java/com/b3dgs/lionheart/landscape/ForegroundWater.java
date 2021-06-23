@@ -158,6 +158,12 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     }
 
     @Override
+    public void reset()
+    {
+        raise = 0;
+    }
+
+    @Override
     public void setScreenSize(int width, int height)
     {
         screenWidth = width;

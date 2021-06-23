@@ -69,6 +69,15 @@ public final class Stats extends FeatureModel implements Recyclable
     }
 
     /**
+     * Init Lionhard difficulty.
+     */
+    public void initLionhard()
+    {
+        health.setMax(health.getMax() * 2);
+        health.fill();
+    }
+
+    /**
      * Add stats listener.
      * 
      * @param listener The listener reference.

@@ -84,6 +84,14 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
+
+        for (int i = 0; i < pillar.length; i++)
+        {
+            pillar[i] = spawner.spawn(Medias.create(Folder.ENTITY, "norka", "Pillar.xml"), 88 + i * 80, 0)
+                               .getFeature(Identifiable.class);
+            pillar[i].getFeature(Underwater.class).loadRaster("raster/norka/");
+            pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
+        }
     }
 
     /**
@@ -96,13 +104,6 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         if (tick.elapsed(SPAWN_PILLAR_DELAY))
         {
-            for (int i = 0; i < pillar.length; i++)
-            {
-                pillar[i] = spawner.spawn(Medias.create(Folder.ENTITY, "norka", "Pillar.xml"), 88 + i * 80, 0)
-                                   .getFeature(Identifiable.class);
-                pillar[i].getFeature(Underwater.class).loadRaster("raster/norka/");
-                pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
-            }
             phase = this::spawnFlyer;
             tick.restart();
         }

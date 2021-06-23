@@ -88,6 +88,14 @@ public class Landscape
     }
 
     /**
+     * Reset foreground.
+     */
+    public void reset()
+    {
+        foreground.reset();
+    }
+
+    /**
      * Set enabled flag.
      * 
      * @param enabled <code>true</code> to enable, <code>false</code> to disable.

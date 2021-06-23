@@ -51,6 +51,7 @@ public final class Scene extends SequenceGame<World>
         this.stage = stage;
         this.init = init;
         music = StageConfig.imports(new Configurer(stage)).getMusic();
+        services.add(init.getDifficulty());
 
         setSystemCursorVisible(false);
     }

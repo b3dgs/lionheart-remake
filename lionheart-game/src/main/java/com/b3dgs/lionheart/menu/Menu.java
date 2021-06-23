@@ -43,11 +43,14 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.Difficulty;
+import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.Stage;
+import com.b3dgs.lionheart.StageHard;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
@@ -390,9 +393,7 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                end(ScenePicture.class,
-                    Stage.STAGE_1,
-                    difficulty < 2 ? Constant.INIT_STANDARD : Constant.INIT_LIONHARD);
+                end(ScenePicture.class, difficulty > 0 ? StageHard.STAGE1 : Stage.STAGE1, getInitConfig());
                 break;
             case OPTIONS:
                 handleOptions();
@@ -405,6 +406,27 @@ public class Menu extends Sequence
                 break;
             default:
                 throw new LionEngineException(menu);
+        }
+    }
+
+    /**
+     * Get init config.
+     * 
+     * @return The init config.
+     */
+    private InitConfig getInitConfig()
+    {
+        final Difficulty value = Difficulty.from(difficulty);
+        switch (value)
+        {
+            case NORMAL:
+                return Constant.INIT_STANDARD;
+            case HARD:
+                return Constant.INIT_HARD;
+            case LIONHARD:
+                return Constant.INIT_LIONHARD;
+            default:
+                throw new LionEngineException(value);
         }
     }
 

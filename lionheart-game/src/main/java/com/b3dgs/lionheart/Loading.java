@@ -16,8 +16,6 @@
  */
 package com.b3dgs.lionheart;
 
-import java.util.Optional;
-
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
@@ -71,7 +69,7 @@ public final class Loading extends Sequence
     {
         if (Constant.DEBUG)
         {
-            end(Scene.class, Stage.STAGE_1, new InitConfig(8, 99, 99, 3, Boolean.TRUE, 9, true, Optional.empty()));
+            end(Scene.class, StageHard.STAGE1, Constant.INIT_DEBUG);
         }
         else
         {
