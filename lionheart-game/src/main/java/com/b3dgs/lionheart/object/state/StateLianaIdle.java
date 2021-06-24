@@ -33,6 +33,8 @@ public final class StateLianaIdle extends State
 {
     private static final int FRAME_OFFSET_Y = 7;
 
+    private double oldVelocity;
+
     /**
      * Create the state.
      * 
@@ -67,6 +69,7 @@ public final class StateLianaIdle extends State
     {
         super.enter();
 
+        oldVelocity = movement.getVelocity();
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         movement.setDirection(DirectionNone.INSTANCE);
         rasterable.setFrameOffsets(0, FRAME_OFFSET_Y);
@@ -83,6 +86,7 @@ public final class StateLianaIdle extends State
     {
         super.exit();
 
+        movement.setVelocity(oldVelocity);
         rasterable.setFrameOffsets(0, 0);
         if (isGoDown())
         {

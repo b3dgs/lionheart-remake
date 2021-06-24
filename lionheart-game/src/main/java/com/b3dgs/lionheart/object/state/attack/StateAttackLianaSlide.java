@@ -38,6 +38,8 @@ public class StateAttackLianaSlide extends State
     private static final double LIANA_SPEED = 1.0;
 
     private double speed = 1.0;
+    private double oldVelocity;
+    private double oldSensibility;
 
     /**
      * Create the state.
@@ -72,6 +74,8 @@ public class StateAttackLianaSlide extends State
         super.enter();
 
         movement.zero();
+        oldVelocity = movement.getVelocity();
+        oldSensibility = movement.getSensibility();
         movement.setVelocity(1.0);
         movement.setSensibility(1.0);
 
@@ -112,5 +116,7 @@ public class StateAttackLianaSlide extends State
             transformable.teleportY(transformable.getY() - 3.0);
         }
         rasterable.setFrameOffsets(0, 0);
+        movement.setVelocity(oldVelocity);
+        movement.setSensibility(oldSensibility);
     }
 }

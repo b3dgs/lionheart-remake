@@ -35,11 +35,10 @@ import com.b3dgs.lionheart.object.state.StateFall;
  */
 public final class StateAttackJump extends State
 {
-    private static final double JUMP_MIN = 2.5;
-    private static final double JUMP_MAX = 5.4;
-
     private final Updatable checkJumpAbort;
+
     private Updatable check;
+    private double oldVelocity;
 
     /**
      * Create the state.
@@ -57,13 +56,19 @@ public final class StateAttackJump extends State
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
-                                                   UtilMath.clamp(JUMP_MAX - jump.getDirectionVertical(),
-                                                                  JUMP_MIN,
-                                                                  JUMP_MAX)));
+                                                   UtilMath.clamp(Constant.JUMP_MAX.getDirectionVertical()
+                                                                  - jump.getDirectionVertical(),
+                                                                  Constant.JUMP_MIN,
+                                                                  Constant.JUMP_MAX.getDirectionVertical())));
             }
         };
 
-        addTransition(StateFall.class, () -> collideY.get() || is(AnimState.FINISHED));
+        addTransition(StateFall.class,
+                      () -> !isGoDown()
+                            && is(AnimState.FINISHED)
+                            && (Double.compare(jump.getDirectionVertical(), 0.0) <= 0
+                                || transformable.getY() < transformable.getOldY()));
+        addTransition(StateAttackFall.class, () -> isGoDown() && isFire() && is(AnimState.FINISHED));
     }
 
     @Override
@@ -80,6 +85,7 @@ public final class StateAttackJump extends State
     {
         super.enter();
 
+        oldVelocity = movement.getVelocity();
         check = checkJumpAbort;
     }
 
@@ -110,6 +116,26 @@ public final class StateAttackJump extends State
     {
         super.exit();
 
-        jump.setDirectionMaximum(new Force(0.0, JUMP_MAX));
+        movement.setVelocity(oldVelocity);
+        jump.setDirectionMaximum(Constant.JUMP_MAX);
+    }
+
+    @Override
+    protected void postUpdate()
+    {
+        super.postUpdate();
+
+        if (isGoHorizontal()
+            && !(movement.getDirectionHorizontal() < 0 && isGoRight()
+                 || movement.getDirectionHorizontal() > 0 && isGoLeft())
+            && Math.abs(movement.getDirectionHorizontal()) > Constant.WALK_SPEED
+            && movement.isDecreasingHorizontal())
+        {
+            movement.setVelocity(Constant.WALK_VELOCITY_SLOPE_DECREASE);
+        }
+        else
+        {
+            movement.setVelocity(Constant.WALK_VELOCITY_MAX);
+        }
     }
 }

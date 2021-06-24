@@ -54,6 +54,8 @@ public final class StateAttackFall extends State
 
     private final AtomicBoolean collideSword = new AtomicBoolean();
 
+    private double oldVelocity;
+
     /**
      * Create the state.
      * 
@@ -124,6 +126,7 @@ public final class StateAttackFall extends State
     {
         super.enter();
 
+        oldVelocity = movement.getVelocity();
         collideSword.set(false);
     }
 
@@ -144,5 +147,13 @@ public final class StateAttackFall extends State
             movement.setVelocity(0.07);
         }
         movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        movement.setVelocity(oldVelocity);
     }
 }
