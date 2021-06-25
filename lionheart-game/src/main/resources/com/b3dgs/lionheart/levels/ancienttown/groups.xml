@@ -91,7 +91,7 @@
     <lionengine:group name="steep_vertical" type="NONE"/>
     <lionengine:group name="steep_left_vertical" type="NONE"/>
     <lionengine:group name="steep_right_vertical" type="NONE"/>
-    <lionengine:group name="vertical" type="NONE">
+    <lionengine:group name="block_fixed" type="NONE">
         <lionengine:tile number="271"/>
     </lionengine:group>
     <lionengine:group name="block" type="NONE">

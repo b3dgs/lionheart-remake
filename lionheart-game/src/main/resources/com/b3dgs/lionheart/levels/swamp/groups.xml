@@ -273,17 +273,17 @@
         <lionengine:tile number="710"/>
         <lionengine:tile number="784"/>
     </lionengine:group>
-    <lionengine:group name="horizontal" type="NONE">
+    <lionengine:group name="horizontal_top" type="NONE">
         <lionengine:tile number="443"/>
         <lionengine:tile number="440"/>
         <lionengine:tile number="439"/>
         <lionengine:tile number="441"/>
         <lionengine:tile number="442"/>
     </lionengine:group>
-    <lionengine:group name="left_horizontal" type="NONE">
+    <lionengine:group name="left_horizontal_top" type="NONE">
         <lionengine:tile number="438"/>
     </lionengine:group>
-    <lionengine:group name="right_horizontal" type="NONE">
+    <lionengine:group name="right_horizontal_top" type="NONE">
         <lionengine:tile number="444"/>
     </lionengine:group>
 </lionengine:groups>
