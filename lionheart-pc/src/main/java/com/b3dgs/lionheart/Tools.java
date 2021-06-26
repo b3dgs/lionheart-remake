@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionheart.constant.Folder;
@@ -46,12 +47,58 @@ public final class Tools
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, Tools.class);
-        // generateTileRaster(LandscapeType.DRAGONFLY);
+        // generateTileRaster(LandscapeType.SWAMP_DUSK);
         // generateTileRasterInside(LandscapeType.LAVA);
         // generateObjectRasterInside(LandscapeType.LAVA, "entity/lava/FloaterCube.png");
         // generateTileWaterRaster(LandscapeType.NORKA);
         // generateObjectWaterRaster(LandscapeType.NORKA, "pillar", 1, 1);
         // generateMoonRaster(LandscapeType.LAVA);
+        check(Medias.create("levels/spidercave2/level4_hard.png"));
+    }
+
+    private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
+
+    private static void check(Media level)
+    {
+        final ImageBuffer buffer = Graphics.getImageBuffer(level);
+        for (int y = 0; y < buffer.getHeight(); y += 16)
+        {
+            for (int x = 0; x < buffer.getWidth(); x += 16)
+            {
+                if (isColor(buffer, x, y))
+                {
+                    setColor(buffer, x, y);
+                }
+            }
+        }
+        Graphics.saveImage(buffer, Medias.create("stage10_hard.png"));
+    }
+
+    private static boolean isColor(ImageBuffer buffer, int x, int y)
+    {
+        for (int y1 = 0; y1 < 16; y1++)
+        {
+            for (int x1 = 0; x1 < 16; x1++)
+            {
+                if (buffer.getRgb(x + x1, y + y1) != ColorRgba.BLACK.getRgba())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean setColor(ImageBuffer buffer, int x, int y)
+    {
+        for (int y1 = 0; y1 < 16; y1++)
+        {
+            for (int x1 = 0; x1 < 16; x1++)
+            {
+                buffer.setRgb(x + x1, y + y1, COLOR2);
+            }
+        }
+        return true;
     }
 
     /**
