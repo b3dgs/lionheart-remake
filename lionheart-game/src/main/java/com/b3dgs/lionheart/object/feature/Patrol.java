@@ -386,10 +386,11 @@ public final class Patrol extends FeatureModel
     {
         if (result.startWithX(CollisionName.STEEP)
             && !result.endWithY(CollisionName.GROUND)
-            && stateHandler.isState(StatePatrol.class))
+            && category.getAxis() == Axis.X
+            && (result.containsX(CollisionName.LEFT) && sh > 0 || result.containsX(CollisionName.RIGHT) && sh < 0))
         {
+            transformable.teleportX(transformable.getX() - sh * 5);
             sh = -sh;
-            transformable.teleportX(transformable.getOldX() + sh);
         }
         if (category.getAxis() == Axis.Y && result.containsY(CollisionName.HORIZONTAL))
         {

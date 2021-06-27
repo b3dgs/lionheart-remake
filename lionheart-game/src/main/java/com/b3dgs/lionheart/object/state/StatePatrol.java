@@ -59,7 +59,9 @@ public final class StatePatrol extends State
     {
         collideX.set(true);
 
-        if (!model.hasFeature(Spider.class))
+        if (!model.hasFeature(Spider.class)
+            && (result.containsX(CollisionName.LEFT) && movement.getDirectionHorizontal() > 0
+                || result.containsX(CollisionName.RIGHT) && movement.getDirectionHorizontal() < 0))
         {
             turn = true;
         }

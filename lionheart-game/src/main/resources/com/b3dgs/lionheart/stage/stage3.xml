@@ -32,7 +32,7 @@
             <patrol sh="-0.3"/>
         </entity>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="69.0" ty="52.0"/>
-        <entity file="entity/swamp/Crawling.xml" tx="72.5" ty="52.0">
+        <entity file="entity/swamp/Crawling.xml" tx="72.0" ty="52.0">
             <patrol sh="0.3" amplitude="368"/>
         </entity>
         <entity file="entity/swamp/Dino.xml" tx="107.0" ty="57.0">

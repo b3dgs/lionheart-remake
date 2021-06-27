@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -68,7 +69,9 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     private final List<Launchable> tongue = new ArrayList<>();
     private final Tick tick = new Tick();
     private final MapTile map = services.get(MapTile.class);
+    private final Viewer viewer = services.get(Viewer.class);
     private final Transformable track;
+    private final Animation idle;
     private final Animation raise;
     private final Animation open;
     private final Animation close;
@@ -99,6 +102,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
         track = services.get(SwordShade.class).getFeature(Transformable.class);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
+        idle = config.getAnimation("idle");
         raise = config.getAnimation("raise");
         open = config.getAnimation("open");
         close = config.getAnimation("close");
@@ -267,12 +271,25 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         current.update(extrp);
+
+        if (hurt && !viewer.isViewable(transformable, 0, 0))
+        {
+            recycle();
+        }
     }
 
     @Override
     public void recycle()
     {
         current = this::updateCheck;
+        for (int i = 0; i < tongue.size(); i++)
+        {
+            tongue.get(i).getFeature(Identifiable.class).destroy();
+        }
+        animatable.play(idle);
         tongue.clear();
+        hurt = false;
+        fired = false;
+        tick.stop();
     }
 }

@@ -143,7 +143,14 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             }
             else
             {
-                speed = SPEED_BOAT;
+                if (camera.getX() < 11888)
+                {
+                    speed = SPEED_BOAT;
+                }
+                else
+                {
+                    speed = 0.0;
+                }
                 cameraHeight += 0.75;
                 if (cameraHeight > 16)
                 {

@@ -6,7 +6,7 @@
     <background type="SWAMP_DAWN"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="10" ty="60"/>
+        <checkpoint tx="112" ty="57"/>
         <checkpoint tx="60" ty="22"/>
         <checkpoint tx="171" ty="9"/>
         <checkpoint tx="240" ty="11"/>
@@ -32,7 +32,7 @@
             <patrol sh="-0.3"/>
         </entity>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="69.0" ty="52.0"/>
-        <entity file="entity/swamp/Crawling.xml" tx="72.5" ty="52.0">
+        <entity file="entity/swamp/Crawling.xml" tx="72.0" ty="52.0">
             <patrol sh="0.3" amplitude="368"/>
         </entity>
         <entity file="entity/swamp/Dino.xml" tx="107.0" ty="57.0">
@@ -320,7 +320,7 @@
         </entity>
         <entity file="entity/swamp/Flower.xml" tx="67.5" ty="27.0"/>
         <entity file="entity/swamp/TurningAuto.xml" tx="60.0" ty="38.0"/>
-        <entity file="entity/swamp/Crawling.xml" tx="94.0" ty="60.0">
+        <entity file="entity/swamp/Crawling.xml" tx="100.0" ty="60.0">
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="80.0" ty="28.0">

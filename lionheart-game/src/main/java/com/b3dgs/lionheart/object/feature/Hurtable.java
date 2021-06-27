@@ -93,6 +93,7 @@ public final class Hurtable extends FeatureModel
     private final boolean persist;
     private final boolean fall;
     private final Sfx sfx;
+    private final boolean boss;
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
@@ -126,6 +127,7 @@ public final class Hurtable extends FeatureModel
         persist = config.hasPersist();
         fall = config.hasFall();
         sfx = config.getSfx().map(Sfx::valueOf).orElse(Sfx.MONSTER_HURT);
+        boss = config.hasBoss();
 
         hurtForce.setDestination(0.0, 0.0);
         hurtForce.setSensibility(0.01);
@@ -239,7 +241,7 @@ public final class Hurtable extends FeatureModel
     {
         sfx.play();
         int damages = collidable.getFeature(Stats.class).getDamages();
-        if (by.getName().startsWith(Anim.ATTACK_FALL))
+        if (!boss && by.getName().startsWith(Anim.ATTACK_FALL))
         {
             damages *= 2;
         }

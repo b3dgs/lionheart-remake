@@ -44,6 +44,8 @@ public final class HurtableConfig
     private static final String ATT_FALL = "fall";
     /** Hurt sfx attribute name. */
     private static final String ATT_SFX = "sfx";
+    /** Boss attribute name. */
+    private static final String ATT_BOSS = "boss";
 
     /**
      * Imports from configurer.
@@ -64,15 +66,17 @@ public final class HurtableConfig
             final boolean persist = configurer.getBooleanDefault(false, ATT_PERSIST, NODE_HURTABLE);
             final boolean fall = configurer.getBooleanDefault(false, ATT_FALL, NODE_HURTABLE);
             final Optional<String> sfx = configurer.getStringOptional(ATT_SFX, NODE_HURTABLE);
+            final boolean boss = configurer.getBooleanDefault(false, ATT_BOSS, NODE_HURTABLE);
 
-            return new HurtableConfig(frame, effect, backward, persist, fall, sfx);
+            return new HurtableConfig(frame, effect, backward, persist, fall, sfx, boss);
         }
         return new HurtableConfig(OptionalInt.empty(),
                                   Optional.empty(),
                                   OptionalDouble.empty(),
                                   false,
                                   false,
-                                  Optional.empty());
+                                  Optional.empty(),
+                                  false);
     }
 
     /** Frame hurt. */
@@ -87,6 +91,8 @@ public final class HurtableConfig
     private final boolean fall;
     /** Effect media. */
     private final Optional<String> sfx;
+    /** Boss flag. */
+    private final boolean boss;
 
     /**
      * Create config.
@@ -97,13 +103,15 @@ public final class HurtableConfig
      * @param persist The persist flag.
      * @param fall The fall before death flag.
      * @param sfx The media sfx.
+     * @param boss The boss flag.
      */
     private HurtableConfig(OptionalInt frame,
                            Optional<Media> effect,
                            OptionalDouble backward,
                            boolean persist,
                            boolean fall,
-                           Optional<String> sfx)
+                           Optional<String> sfx,
+                           boolean boss)
     {
         super();
 
@@ -113,6 +121,7 @@ public final class HurtableConfig
         this.persist = persist;
         this.fall = fall;
         this.sfx = sfx;
+        this.boss = boss;
     }
 
     /**
@@ -173,5 +182,15 @@ public final class HurtableConfig
     public Optional<String> getSfx()
     {
         return sfx;
+    }
+
+    /**
+     * Get the boss flag.
+     * 
+     * @return The boss flag.
+     */
+    public boolean hasBoss()
+    {
+        return boss;
     }
 }

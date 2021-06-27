@@ -29,12 +29,16 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.StateFall;
+import com.b3dgs.lionheart.object.state.StateLand;
 
 /**
  * Jump attack state implementation.
  */
 public final class StateAttackJump extends State
 {
+    private static final int FRAME_JUMP = 19;
+    private static final int FRAME_FALL = 20;
+
     private final Updatable checkJumpAbort;
 
     private Updatable check;
@@ -68,6 +72,7 @@ public final class StateAttackJump extends State
                             && is(AnimState.FINISHED)
                             && (Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                                 || transformable.getY() < transformable.getOldY()));
+        addTransition(StateLand.class, () -> collideY.get());
         addTransition(StateAttackFall.class, () -> isGoDown() && isFire() && is(AnimState.FINISHED));
     }
 
@@ -109,6 +114,18 @@ public final class StateAttackJump extends State
             movement.setVelocity(0.07);
         }
         movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+
+        if (animatable.is(AnimState.FINISHED))
+        {
+            if (Double.compare(transformable.getY(), transformable.getOldY()) >= 0)
+            {
+                animatable.setFrame(FRAME_JUMP);
+            }
+            else
+            {
+                animatable.setFrame(FRAME_FALL);
+            }
+        }
     }
 
     @Override
