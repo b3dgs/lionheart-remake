@@ -260,14 +260,14 @@
         <entity file="entity/secret/Bird.xml" tx="226.0" ty="59.0">
             <patrol sh="-0.8" amplitude="160"/>
         </entity>
-        <entity file="entity/secret/Bird.xml" tx="233.0" ty="72.0">
-            <patrol sv="-1.0" amplitude="80" mirror="false"/>
+        <entity file="entity/secret/Bird.xml" tx="233.0" ty="67.0">
+            <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/secret/Bird.xml" tx="236.0" ty="72.0">
             <patrol sv="-1.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Bird.xml" tx="239.0" ty="72.0">
-            <patrol sv="-1.0" amplitude="80" mirror="false"/>
+        <entity file="entity/secret/Bird.xml" tx="239.0" ty="67.0">
+            <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="251.0" ty="66.0">
             <patrol sh="0.4" amplitude="80"/>

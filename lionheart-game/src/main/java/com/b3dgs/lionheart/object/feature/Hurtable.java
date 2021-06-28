@@ -99,6 +99,8 @@ public final class Hurtable extends FeatureModel
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
     private boolean enabled;
+    private double oldGravity;
+    private double oldGravityMax;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -249,6 +251,8 @@ public final class Hurtable extends FeatureModel
         {
             if (fall)
             {
+                oldGravity = body.getGravity();
+                oldGravityMax = body.getGravityMax();
                 body.setGravity(4.0);
                 body.setGravityMax(4.0);
                 tileCollidable.setEnabled(true);
@@ -460,6 +464,11 @@ public final class Hurtable extends FeatureModel
         currentTile = this::updateTile;
         flickerCurrent = UpdatableVoid.getInstance();
         enabled = true;
+        if (fall)
+        {
+            body.setGravity(oldGravity);
+            body.setGravityMax(oldGravityMax);
+        }
         recover.restart();
         recover.set(HURT_RECOVER_BODY_TICK);
     }

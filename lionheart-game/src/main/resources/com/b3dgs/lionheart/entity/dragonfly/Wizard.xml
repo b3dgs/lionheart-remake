@@ -39,7 +39,7 @@
         <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="2" oy="44">
             <lionengine:force velocity="1" sensibility="0" vx="-0.8" vy="-2.5"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="40">
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="42">
             <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-3.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

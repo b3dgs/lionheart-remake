@@ -25,7 +25,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Bullet2.xml" sfx="sfx/monster_dragon2.wav" ox="-4" oy="32">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="-0.8"/>
+            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
