@@ -61,6 +61,7 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
     private int phase;
     private double y;
     private double current;
+    private boolean first;
 
     @FeatureGet private Transformable transformable;
 
@@ -108,35 +109,46 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
         {
             tick.update(extrp);
 
-            if (phase == 0 && tick.elapsed(config.getDelayStart()))
+            if (first)
             {
-                phase = 1;
-                if (viewer.isViewable(transformable, 0, 0))
+                if (tick.elapsed(config.getDelayFirst()))
                 {
-                    Sfx.SCENERY_GEYZER.play();
+                    first = false;
+                    tick.restart();
                 }
-                tick.restart();
             }
-            else if (phase == 1 && tick.elapsed(config.getDelayDown()))
+            else
             {
-                phase = 0;
-                tick.restart();
-            }
+                if (phase == 0 && tick.elapsed(config.getDelayStart()))
+                {
+                    phase = 1;
+                    if (viewer.isViewable(transformable, 0, 0))
+                    {
+                        Sfx.SCENERY_GEYZER.play();
+                    }
+                    tick.restart();
+                }
+                else if (phase == 1 && tick.elapsed(config.getDelayDown()))
+                {
+                    phase = 0;
+                    tick.restart();
+                }
 
-            if (phase == 1 && current < config.getHeight())
-            {
-                current += SPEED;
-                transformable.setLocationY(y + current);
-            }
-            else if (phase == 0 && current > 0)
-            {
-                current -= SPEED;
-                transformable.setLocationY(y + current);
-            }
+                if (phase == 1 && current < config.getHeight())
+                {
+                    current += SPEED;
+                    transformable.setLocationY(y + current);
+                }
+                else if (phase == 0 && current > 0)
+                {
+                    current -= SPEED;
+                    transformable.setLocationY(y + current);
+                }
 
-            for (int i = 1; i < bottom.size(); i++)
-            {
-                bottom.get(i).teleportY(y + current - transformable.getHeight() * i);
+                for (int i = 1; i < bottom.size(); i++)
+                {
+                    bottom.get(i).teleportY(y + current - transformable.getHeight() * i);
+                }
             }
         }
     }
@@ -145,6 +157,7 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
     public void recycle()
     {
         phase = 0;
+        first = true;
         tick.restart();
     }
 }

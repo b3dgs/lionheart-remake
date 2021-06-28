@@ -28,6 +28,8 @@ public final class GeyzerConfig
 {
     /** Config node name. */
     public static final String NODE_GEYZER = "geyzer";
+    /** First delay attribute name. */
+    public static final String ATT_DELAY_FIRST = "delayFirst";
     /** Start delay attribute name. */
     public static final String ATT_DELAY_START = "delayStart";
     /** Down delay attribute name. */
@@ -63,6 +65,8 @@ public final class GeyzerConfig
         return new GeyzerConfig(root);
     }
 
+    /** First delay. */
+    private final int delayFirst;
     /** Start delay. */
     private final int delayStart;
     /** Down delay. */
@@ -81,9 +85,20 @@ public final class GeyzerConfig
 
         Check.notNull(root);
 
+        delayFirst = root.readInteger(0, ATT_DELAY_FIRST);
         delayStart = root.readInteger(ATT_DELAY_START);
         delayDown = root.readInteger(ATT_DELAY_DOWN);
         height = root.readInteger(ATT_HEIGHT);
+    }
+
+    /**
+     * Get the first delay.
+     * 
+     * @return The first delay.
+     */
+    public int getDelayFirst()
+    {
+        return delayFirst;
     }
 
     /**

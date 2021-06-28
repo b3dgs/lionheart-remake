@@ -231,7 +231,7 @@
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
         <entity file="entity/secret/Canon.xml" tx="207.0" ty="27.0">
-            <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="1.5" dvy="0.0"/>
+            <shooter fireDelay="120" firedDelay="0" svx="1.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="218.0" ty="35.0">
             <spike delay="0"/>

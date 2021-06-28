@@ -57,7 +57,6 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     private boolean collide;
     private boolean glue;
     private boolean started;
-    private double oldX;
 
     @FeatureGet private Transformable reference;
     @FeatureGet private Collidable collidable;
@@ -144,8 +143,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         }
         else if (glue && collide)
         {
-            other.moveLocationX(extrp, reference.getX() - (force ? oldX : reference.getOldX()));
-            oldX = reference.getX();
+            other.moveLocationX(extrp, reference.getX() - reference.getOldX());
             other.getFeature(Body.class).resetGravity();
             other.teleportY(reference.getY() + offsetY);
         }
@@ -161,16 +159,15 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.GROUND) && (force || by.getName().startsWith(Anim.LEG)))
+        if (with.getName().startsWith(CollisionName.GROUND) && by.getName().startsWith(Anim.LEG))
         {
             other = collidable.getFeature(Transformable.class);
-            if (force || !collide && Double.compare(other.getY(), other.getOldY()) <= 0)
+            if (!collide && Double.compare(other.getY(), other.getOldY()) <= 0 || force)
             {
                 collide = true;
                 offsetY = with.getOffsetY();
                 other.getFeature(Body.class).resetGravity();
                 other.teleportY(reference.getY() + offsetY);
-                oldX = reference.getOldX();
 
                 start();
             }

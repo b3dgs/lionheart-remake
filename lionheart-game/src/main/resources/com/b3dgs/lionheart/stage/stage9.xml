@@ -112,7 +112,7 @@
         </entity>
         <entity file="entity/lava/Platform.xml" tx="361.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="368.0" ty="2.5">
-            <geyzer delayStart="80" delayDown="80" height="32"/>
+            <geyzer delayFirst="50" delayStart="80" delayDown="80" height="32"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="367.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="384.5" ty="2.5">
@@ -200,15 +200,15 @@
         </entity>
         <entity file="entity/lava/Platform.xml" tx="709.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="721.0" ty="2.5">
-            <geyzer delayStart="90" delayDown="40" height="64"/>
+            <geyzer delayFirst="50" delayStart="90" delayDown="40" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="720.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="733.0" ty="2.5">
-            <geyzer delayStart="90" delayDown="40" height="64"/>
+            <geyzer delayFirst="100" delayStart="90" delayDown="40" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="732.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="744.0" ty="2.5">
-            <geyzer delayStart="90" delayDown="40" height="64"/>
+            <geyzer delayFirst="150" delayStart="90" delayDown="40" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="743.5" ty="4.0"/>
         <entity file="entity/lava/FireBallLittle.xml" tx="760.0" ty="20.0"/>

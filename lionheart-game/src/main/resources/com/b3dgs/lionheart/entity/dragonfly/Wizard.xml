@@ -14,9 +14,9 @@
     <lionengine:size width="64" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="10" speed="0.15" reversed="false" repeat="true"/>
         <lionengine:animation name="patrol" start="1" end="10" speed="0.15" reversed="false" repeat="true"/>
-        <lionengine:animation name="attack" start="11" end="20" speed="4.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="attack" start="11" end="20" speed="0.2" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -27,19 +27,19 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" sfx="sfx/monster_wizard.wav" ox="0" oy="50">
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" sfx="sfx/monster_wizard.wav" ox="0" oy="46">
             <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-2.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="-2" oy="48">
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="-2" oy="44">
             <lionengine:force velocity="1" sensibility="0" vx="-1.8" vy="-2.5"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="48">
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="44">
             <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-2.5"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="2" oy="48">
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="2" oy="44">
             <lionengine:force velocity="1" sensibility="0" vx="-0.8" vy="-2.5"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="46">
+        <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="40">
             <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-3.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

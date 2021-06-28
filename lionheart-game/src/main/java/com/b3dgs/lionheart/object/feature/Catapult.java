@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -83,6 +84,19 @@ public final class Catapult extends FeatureModel implements Routine, Recyclable,
     public void load(CatapultConfig config)
     {
         vector = new Force(config.getVx(), config.getVy());
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        launcher.addListener(l ->
+        {
+            final Force direction = l.getDirection();
+            final double vx = direction.getDirectionHorizontal();
+            direction.setDestination(vx, 0.0);
+        });
     }
 
     @Override

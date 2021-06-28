@@ -139,5 +139,6 @@ public final class CanonAirship extends FeatureModel implements Routine, Recycla
     {
         current = this::updateAlive;
         tick.restart();
+        tick.set(FIRE_DELAY / 2);
     }
 }

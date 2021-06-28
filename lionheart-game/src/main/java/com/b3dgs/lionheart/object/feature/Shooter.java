@@ -174,7 +174,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
      */
     private void updateCheckAnimEnd(double extrp)
     {
-        if (animatable.is(AnimState.FINISHED) || animatable.getFrameAnim() == config.getAnim())
+        if (animatable.is(AnimState.FINISHED))
         {
             if (config.getFiredDelay() > 0)
             {
@@ -182,10 +182,7 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
             }
             else
             {
-                if (animatable.is(AnimState.FINISHED))
-                {
-                    animatable.play(idle);
-                }
+                animatable.play(idle);
                 updater = this::updatePrepare;
             }
             tick.restart();

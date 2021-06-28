@@ -206,13 +206,13 @@
         <entity file="entity/airship/Dragon3.xml" tx="710.0" ty="54.0"/>
         <entity file="entity/airship/Guard.xml" tx="721.0" ty="56.0" next="stage/stage12.xml"/>
         <entity file="entity/airship/Catapult.xml" tx="736.0" ty="21.0">
-            <catapult vx="-2.0" vy="7.5"/>
+            <catapult vx="-1.5" vy="6.0"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="583.0" ty="35.0" mirror="true">
-            <catapult vx="-3.0" vy="13.0"/>
+            <catapult vx="1.5" vy="8.0"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="660.0" ty="55.0" mirror="true">
-            <catapult vx="-2.5" vy="13.0"/>
+            <catapult vx="1.7" vy="7.5"/>
         </entity>
         <entity file="entity/airship/Canon1.xml" tx="749.0" ty="10.0"/>
         <entity file="entity/airship/Canon1.xml" tx="739.0" ty="26.0"/>

@@ -45,6 +45,8 @@
         <lionengine:animation name="turn" start="26" end="35" speed="0.25" reversed="false" repeat="true"/>
         <lionengine:animation name="jump" start="17" end="19" speed="0.25" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="10" width="20" height="45"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="1" width="1" height="1"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="1" width="1" height="1"/>
         </lionengine:animation>
         <lionengine:animation name="fall" start="20" end="20" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
