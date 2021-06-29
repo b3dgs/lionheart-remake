@@ -17,22 +17,18 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
-import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 
 /**
- * Idle state implementation.
+ * Border state implementation.
  */
 final class StateBorder extends State
 {
-    /** Store vertical position on enter to detect falling on border. */
-    private double y;
-
     /**
      * Create the state.
      * 
@@ -43,22 +39,17 @@ final class StateBorder extends State
     {
         super(model, animation);
 
-        addTransition(StateWalk.class, this::isGoHorizontal);
-        addTransition(StateCrouch.class, () -> isGoDown() && !liana.is());
-        addTransition(StateJump.class, this::isGoUpOnce);
-        addTransition(StatePrepareAttack.class, this::isFire);
-        addTransition(StateFall.class, () -> !collideY.get() && Double.compare(transformable.getY(), y) != 0);
-    }
-
-    @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        super.onCollided(collidable, with, by);
-
-        if (collidable.hasFeature(Glue.class) && with.getName().startsWith(Anim.LEG))
-        {
-            collideY.set(true);
-        }
+        addTransition(StateWalk.class, () -> !hasWin() && !collideX.get() && isGoHorizontal());
+        addTransition(StateCrouch.class, () -> !hasWin() && collideY.get() && isGoDown());
+        addTransition(StateJump.class, () -> !hasWin() && collideY.get() && isGoUpOnce());
+        addTransition(StatePrepareAttack.class, () -> !hasWin() && collideY.get() && isFire());
+        addTransition(StateFall.class,
+                      () -> !hasWin()
+                            && model.hasGravity()
+                            && !collideY.get()
+                            && !steep.is()
+                            && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
+        addTransition(StateWin.class, this::hasWin);
     }
 
     @Override
@@ -67,14 +58,18 @@ final class StateBorder extends State
         super.enter();
 
         movement.zero();
-        y = transformable.getY();
     }
 
     @Override
-    public void update(double extrp)
+    protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
-        super.update(extrp);
+        super.onCollideLeg(result, category);
 
-        body.resetGravity();
+        if (result.containsY(CollisionName.LIANA))
+        {
+            collideY.set(true);
+            tileCollidable.apply(result);
+            body.resetGravity();
+        }
     }
 }

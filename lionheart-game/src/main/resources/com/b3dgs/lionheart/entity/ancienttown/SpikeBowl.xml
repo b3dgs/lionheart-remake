@@ -14,7 +14,7 @@
         <lionengine:collision name="attack" offsetX="0" offsetY="-1" width="18" height="18" mirror="false"/>
     </lionengine:collisions>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="3" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

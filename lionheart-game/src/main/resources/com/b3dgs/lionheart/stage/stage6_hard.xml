@@ -153,7 +153,7 @@
             <patrol sh="0.0" sv="-0.5" amplitude="48" mirror="false"/>
             <patrol sh="-0.5" sv="0.0" amplitude="80" mirror="false"/>
             <patrol sh="0.0" sv="0.5" amplitude="48" mirror="false"/>
-            <patrol sh="0.3" sv="0.0" amplitude="80" mirror="false"/>
+            <patrol sh="0.5" sv="0.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/TurningCube.xml" tx="78.0" ty="61.0">
             <patrol sh="0.9" sv="0.0" amplitude="240" mirror="false"/>

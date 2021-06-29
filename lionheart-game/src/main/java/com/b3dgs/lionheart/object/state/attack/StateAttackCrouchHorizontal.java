@@ -55,6 +55,16 @@ final class StateAttackCrouchHorizontal extends State
             mirrorable.mirror(Mirror.NONE);
         }
 
+        movement.zero();
+
         Sfx.VALDYN_SWORD.play();
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        super.update(extrp);
+
+        movement.zero();
     }
 }

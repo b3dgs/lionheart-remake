@@ -185,7 +185,7 @@
             <rotating amplitude="90" extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/secret/Rotating2.xml" tx="76.0" ty="13.0">
-            <rotating extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="5" speed="2.0"/>
+            <rotating extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="5" speed="-2.0"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="89.0" ty="10.0" jump="5">
             <patrol sh="0.4" amplitude="240"/>

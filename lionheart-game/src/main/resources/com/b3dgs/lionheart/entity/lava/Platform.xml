@@ -14,7 +14,7 @@
         <lionengine:collision name="ground" offsetX="0" offsetY="16" width="32" height="1" mirror="false"/>
         <lionengine:collision name="block" offsetX="0" offsetY="0" width="32" height="1" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
+    <lionengine:layerable layerRefresh="2" layerDisplay="8"/>
     <lionengine:body gravity="1.0" gravityMax="7.0"/>
     <lionengine:collidable group="2" accepted="1%2"/>
     <glue force="true"/>

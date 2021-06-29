@@ -39,6 +39,7 @@ public final class StateGripSoar extends State
 
     private final Camera camera;
     private double offset;
+    private double offset2;
     /** Handle frame vertical specific offset for rendering. */
     private final AnimatorFrameListener listener;
 
@@ -84,7 +85,8 @@ public final class StateGripSoar extends State
         movement.zero();
         animatable.addListener(listener);
 
-        offset = 0;
+        offset = 0.0;
+        offset2 = 0.0;
         frameOffset = OFFSET_1;
         animatable.setFrame(animation.getFirst());
     }
@@ -93,7 +95,15 @@ public final class StateGripSoar extends State
     public void update(double extrp)
     {
         offset += SOAR_SPEED;
-        camera.setShake(0, (int) offset);
+
+        if (camera.getViewpointY(transformable.getY() + offset) < 138)
+        {
+            camera.setShake(0, (int) (offset - offset2));
+        }
+        else
+        {
+            offset2 += SOAR_SPEED;
+        }
         rasterable.setFrameOffsets(0, frameOffset);
         body.resetGravity();
     }
@@ -103,7 +113,8 @@ public final class StateGripSoar extends State
     {
         super.exit();
 
-        offset = 0;
+        offset = 0.0;
+        offset2 = 0.0;
         frameOffset = 0;
         rasterable.setFrameOffsets(0, 0);
         transformable.teleportY(transformable.getY() + 55.0);

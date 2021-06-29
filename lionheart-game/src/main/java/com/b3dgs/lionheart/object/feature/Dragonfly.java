@@ -113,7 +113,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         {
             on = false;
             camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-            tracker.track(player);
+            tracker.track(player, true);
         }
     }
 

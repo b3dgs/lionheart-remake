@@ -369,7 +369,7 @@
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:layerable layerRefresh="1" layerDisplay="9"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="9"/>
     <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:collidable group="1" accepted="2%3"/>
     <underwater>raster/hero/valdyn/</underwater>

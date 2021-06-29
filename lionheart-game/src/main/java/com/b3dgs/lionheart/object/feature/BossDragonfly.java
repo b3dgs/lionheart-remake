@@ -177,9 +177,10 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
         }
         else if (hurtable.isHurting())
         {
-            collidable.setEnabled(false);
             updater = this::updateLeave;
         }
+
+        collidable.setEnabled(!hurtable.isHurting());
     }
 
     /**

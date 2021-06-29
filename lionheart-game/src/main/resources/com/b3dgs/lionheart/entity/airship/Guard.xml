@@ -32,7 +32,7 @@
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.guard.StateGuardAttackPrepare</lionengine:state>
-    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
     <lionengine:body gravity="1.0" gravityMax="3.5"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="9"/>

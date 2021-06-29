@@ -158,7 +158,7 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
                     }
                     else
                     {
-                        max -= 0.001;
+                        max -= 0.002;
                     }
                     max = UtilMath.clamp(max, 0.8, 5.5);
 

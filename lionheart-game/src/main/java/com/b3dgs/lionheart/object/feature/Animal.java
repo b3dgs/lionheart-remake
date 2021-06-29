@@ -125,7 +125,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         {
             on = false;
             camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-            tracker.track(player);
+            tracker.track(player, true);
             player.getFeature(EntityModel.class).setJumpOnHurt(true);
         }
     }
@@ -152,14 +152,14 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
                     speed = 0.0;
                 }
                 cameraHeight += 0.75;
-                if (cameraHeight > 16)
+                if (cameraHeight > 32)
                 {
-                    cameraHeight = 16;
+                    cameraHeight = 32;
                 }
             }
-            camera.setShake(0, (int) Math.floor(cameraHeight));
+            camera.setLimitBottom((int) Math.floor(cameraHeight));
             camera.moveLocation(extrp, speed, 0.0);
-            camera.setLocation(camera.getX(), player.getY() - 64);
+            camera.setLocationY(player.getY() - 64);
             player.moveLocationX(extrp, speed);
 
             if (player.getX() < camera.getX() + transformable.getWidth() / 2)
@@ -196,11 +196,12 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
                 }
                 playerSprite.setFrameOffsets(0, offsetY);
             }
+            camera.setShake2(0, 0);
         }
         else
         {
             boatEffectY = UtilMath.wrapAngleDouble(boatEffectY + 5);
-            camera.setShake(0, (int) Math.round(UtilMath.sin(boatEffectY) * 2));
+            camera.setShake2(0, (int) Math.round(UtilMath.sin(boatEffectY) * 2));
         }
 
         transformable.setLocationX(player.getX());

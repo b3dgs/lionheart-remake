@@ -43,6 +43,7 @@ final class StateLianaSoar extends State
 
     /** Progressive offset during soar. */
     private double offset;
+    private double offset2;
     /** Specific frame offset computed by listener. */
     private int frameOffset;
     /** Soar side (1 rising, -1 descending). */
@@ -98,7 +99,8 @@ final class StateLianaSoar extends State
         else
         {
             side = 1;
-            offset = 0;
+            offset = 0.0;
+            offset2 = 0.0;
             frameOffset = OFFSET_1;
             animatable.setFrame(animation.getFirst());
         }
@@ -108,7 +110,15 @@ final class StateLianaSoar extends State
     public void update(double extrp)
     {
         offset += SOAR_SPEED * side;
-        camera.setShake(0, (int) offset);
+
+        if (camera.getViewpointY(transformable.getY() + offset) < 138)
+        {
+            camera.setShake(0, (int) (offset - offset2));
+        }
+        else
+        {
+            offset2 += SOAR_SPEED;
+        }
         rasterable.setFrameOffsets(0, frameOffset);
         body.resetGravity();
     }
@@ -119,6 +129,7 @@ final class StateLianaSoar extends State
         super.exit();
 
         offset = 0.0;
+        offset2 = 0.0;
         frameOffset = 0;
         rasterable.setFrameOffsets(0, 0);
         transformable.teleportY(transformable.getY() + 55.0);
