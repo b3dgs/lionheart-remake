@@ -29,7 +29,6 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.StateFall;
-import com.b3dgs.lionheart.object.state.StateLand;
 
 /**
  * Jump attack state implementation.
@@ -69,11 +68,10 @@ public final class StateAttackJump extends State
 
         addTransition(StateFall.class,
                       () -> !isGoDown()
-                            && is(AnimState.FINISHED)
+                            && (is(AnimState.FINISHED) || collideY.get())
                             && (Double.compare(jump.getDirectionVertical(), 0.0) <= 0
                                 || transformable.getY() < transformable.getOldY()));
-        addTransition(StateLand.class, () -> collideY.get());
-        addTransition(StateAttackFall.class, () -> isGoDown() && isFire() && is(AnimState.FINISHED));
+        addTransition(StateAttackFall.class, () -> isGoDown() && isFire() && is(AnimState.FINISHED) && !collideY.get());
     }
 
     @Override

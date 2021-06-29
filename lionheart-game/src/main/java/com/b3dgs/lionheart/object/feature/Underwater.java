@@ -80,10 +80,22 @@ public final class Underwater extends FeatureModel implements Routine
      */
     public void loadRaster(String raster)
     {
+        loadRaster(raster, false);
+    }
+
+    /**
+     * Load raster data.
+     * 
+     * @param raster The raster folder.
+     * @param lava <code>true</code> if lava, <code>false</code> else.
+     */
+    public void loadRaster(String raster, boolean lava)
+    {
         if (Settings.getInstance().getRasterObjectWater())
         {
             rasterableWater.setRaster(false,
-                                      Medias.create(raster, Constant.RASTER_FILE_WATER),
+                                      Medias.create(raster,
+                                                    lava ? Constant.RASTER_FILE_LAVA : Constant.RASTER_FILE_WATER),
                                       transformable.getHeight());
         }
     }

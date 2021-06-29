@@ -27,5 +27,4 @@
     <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="-1" persist="true"/>
-    <glue force="true"/>
 </lionengine:featurable>

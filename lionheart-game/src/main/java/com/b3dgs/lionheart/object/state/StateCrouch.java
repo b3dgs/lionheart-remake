@@ -49,6 +49,8 @@ public final class StateCrouch extends State
         super.enter();
 
         movement.zero();
+        jump.zero();
+        body.resetGravity();
     }
 
     @Override

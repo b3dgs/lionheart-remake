@@ -58,6 +58,8 @@ public final class StateLand extends State
     {
         super.enter();
 
+        jump.zero();
+        body.resetGravity();
         landed.restart();
     }
 

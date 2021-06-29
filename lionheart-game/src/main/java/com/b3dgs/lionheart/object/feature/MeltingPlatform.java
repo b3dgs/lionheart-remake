@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * MeltingPlatform feature implementation.
@@ -102,7 +103,9 @@ public final class MeltingPlatform extends FeatureModel implements Recyclable, C
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (animatable.is(AnimState.FINISHED) && by.getName().startsWith(CollisionName.LEG))
+        if (animatable.is(AnimState.FINISHED)
+            && by.getName().startsWith(CollisionName.LEG)
+            && Double.compare(collidable.getFeature(EntityModel.class).getJump().getDirectionVertical(), 0.0) <= 0)
         {
             animatable.play(fall);
             Sfx.SCENERY_MELTINGPLATFORM.play();

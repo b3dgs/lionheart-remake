@@ -349,15 +349,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * Create player and track with camera.
      * 
      * @param init The initial configuration.
+     * @param foreground The foreground type.
      * @return The created player.
      */
-    private Featurable createPlayerAndLoadCheckpoints(InitConfig init)
+    private Featurable createPlayerAndLoadCheckpoints(InitConfig init, ForegroundType foreground)
     {
         final Featurable featurable = spawn(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"), 0, 0);
         featurable.getFeature(Stats.class).apply(init);
         if (Settings.getInstance().getRasterHeroWater())
         {
-            featurable.getFeature(Underwater.class).loadRaster("raster/" + Folder.HERO + "/valdyn/");
+            featurable.getFeature(Underwater.class)
+                      .loadRaster("raster/" + Folder.HERO + "/valdyn/", ForegroundType.LAVA.equals(foreground));
         }
 
         final Optional<Coord> spawn = init.getSpawn();
@@ -389,7 +391,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void trackPlayer(Featurable player)
     {
-        tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
+        tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 10));
         trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
         tracker.setOffset(0, trackerInitY);
         tracker.track(player);
@@ -616,7 +618,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         difficulty = init.getDifficulty();
         cheats = init.isCheats();
-        createPlayerAndLoadCheckpoints(init);
+        createPlayerAndLoadCheckpoints(init, stage.getForeground().getType());
 
         final String theme = stage.getBackground().getWorld().getFolder();
         checkpoint.addListener(new CheckpointListener()

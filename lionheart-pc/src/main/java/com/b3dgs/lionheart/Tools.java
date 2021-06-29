@@ -51,14 +51,19 @@ public final class Tools
         // generateTileRasterInside(LandscapeType.LAVA);
         // generateObjectRasterInside(LandscapeType.LAVA, "entity/lava/FloaterCube.png");
         // generateTileWaterRaster(LandscapeType.NORKA);
-        // generateObjectWaterRaster(LandscapeType.NORKA, "pillar", 1, 1);
+        // generateObjectWaterRaster(LandscapeType.LAVA, "valdyn", 6, 3);
         // generateMoonRaster(LandscapeType.LAVA);
-        check(Medias.create("levels/spidercave2/level4_hard.png"));
+        // check(Medias.create("levels/spidercave2/level4_hard.png"));
     }
 
     private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
 
-    private static void check(Media level)
+    /**
+     * Check for void tiles.
+     * 
+     * @param level The media reference.
+     */
+    static void check(Media level)
     {
         final ImageBuffer buffer = Graphics.getImageBuffer(level);
         for (int y = 0; y < buffer.getHeight(); y += 16)
@@ -186,7 +191,7 @@ public final class Tools
 
         for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(sheet),
                                                                   Graphics.getImageBuffer(raster),
-                                                                  96))
+                                                                  80))
         {
             Graphics.saveImage(b, Medias.create(i + PNG));
             i++;
