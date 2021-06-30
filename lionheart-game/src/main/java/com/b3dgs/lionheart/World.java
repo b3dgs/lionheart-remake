@@ -261,7 +261,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final Media bottomRip = Medias.create(media.getPath().replace(Extension.MAP, "_bottom" + Extension.IMAGE));
         final Media bottom = Medias.create(media.getPath().replace(Extension.MAP, "_bottom" + Extension.MAP));
-        if (bottomRip.exists())
+        if (bottom.exists() || bottomRip.exists())
         {
             if (!bottom.exists())
             {
