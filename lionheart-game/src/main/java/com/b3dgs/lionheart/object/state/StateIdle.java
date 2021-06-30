@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayBorder;
 import com.b3dgs.lionheart.object.State;
@@ -65,6 +66,15 @@ public final class StateIdle extends State
     {
         final double speedH = movement.getDirectionHorizontal();
         return isGoHorizontal() && !UtilMath.isBetween(speedH, -Constant.WALK_MIN_SPEED, Constant.WALK_MIN_SPEED);
+    }
+
+    @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        if (!category.getName().startsWith(CollisionName.KNEE + "_1"))
+        {
+            super.onCollideKnee(result, category);
+        }
     }
 
     @Override

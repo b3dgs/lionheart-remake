@@ -91,6 +91,12 @@ public final class StateAttackFall extends State
     }
 
     @Override
+    protected void onCollideHand(CollisionResult result, CollisionCategory category)
+    {
+        // Skip
+    }
+
+    @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
         super.onCollideLeg(result, category);

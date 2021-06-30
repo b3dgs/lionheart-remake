@@ -6,6 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnGround</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnPlayer</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Bullet2.png"/>
     <lionengine:frames horizontal="3" vertical="1"/>

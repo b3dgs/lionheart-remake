@@ -86,10 +86,10 @@
     <lionengine:group name="liana_slope_0_right" type="NONE"/>
     <lionengine:group name="liana_slope_1_right" type="NONE"/>
     <lionengine:group name="horizontal" type="NONE"/>
-    <lionengine:group name="left_horizontal" type="NONE">
+    <lionengine:group name="left_ground15_vertical" type="NONE">
         <lionengine:tile number="22"/>
     </lionengine:group>
-    <lionengine:group name="right_horizontal" type="NONE">
+    <lionengine:group name="right_ground15_vertical" type="NONE">
         <lionengine:tile number="25"/>
     </lionengine:group>
     <lionengine:group name="left_vertical" type="NONE">

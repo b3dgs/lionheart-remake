@@ -30,11 +30,15 @@
         </lionengine:category>
         <lionengine:category name="knee" axis="X" x="0" y="8">
             <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>left_vertical</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg" axis="Y" x="0" y="0">
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

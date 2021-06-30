@@ -102,9 +102,11 @@
         <lionengine:tile number="306"/>
     </lionengine:group>
     <lionengine:group name="vertical" type="NONE">
-        <lionengine:tile number="94"/>
     </lionengine:group>
     <lionengine:group name="pillar" type="NONE">
         <lionengine:tile number="125"/>
+    </lionengine:group>
+    <lionengine:group name="pillar2" type="NONE">
+        <lionengine:tile number="94"/>
     </lionengine:group>
 </lionengine:groups>

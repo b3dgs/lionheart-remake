@@ -57,6 +57,7 @@ public final class Canon2Airship extends FeatureModel implements Routine, Recycl
     private Updatable current;
     private Transformable dotStart;
     private Transformable dotEnd;
+    private Identifiable laser;
     private double dotEndY;
 
     @FeatureGet private Transformable transformable;
@@ -161,8 +162,20 @@ public final class Canon2Airship extends FeatureModel implements Routine, Recycl
         {
             dotStart.getFeature(Identifiable.class).destroy();
             dotEnd.getFeature(Identifiable.class).destroy();
+            if (laser != null)
+            {
+                laser.destroy();
+            }
         });
-        launcher.addListener(l -> l.getFeature(Laser.class).load(config.getStayDelay(), identifiable));
+        launcher.addListener(l ->
+        {
+            if (laser != null)
+            {
+                laser.destroy();
+                laser = l.getFeature(Identifiable.class);
+            }
+            l.getFeature(Laser.class).load(config.getStayDelay(), identifiable);
+        });
     }
 
     @Override
@@ -174,6 +187,11 @@ public final class Canon2Airship extends FeatureModel implements Routine, Recycl
     @Override
     public void recycle()
     {
+        if (laser != null)
+        {
+            laser.destroy();
+            laser = null;
+        }
         dotStart = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
                                  transformable.getX(),
                                  transformable.getY())

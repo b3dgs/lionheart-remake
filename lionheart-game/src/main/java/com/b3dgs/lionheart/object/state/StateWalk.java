@@ -74,6 +74,15 @@ public final class StateWalk extends State
     }
 
     @Override
+    protected void onCollideKnee(CollisionResult result, CollisionCategory category)
+    {
+        if (!category.getName().startsWith(CollisionName.KNEE + "_1"))
+        {
+            super.onCollideKnee(result, category);
+        }
+    }
+
+    @Override
     protected void onCollideLeg(CollisionResult result, CollisionCategory category)
     {
         super.onCollideLeg(result, category);

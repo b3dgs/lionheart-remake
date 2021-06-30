@@ -284,6 +284,8 @@ public final class Hurtable extends FeatureModel
      */
     private void updateCollideBody(Collidable collidable)
     {
+        collidable.ifIs(BulletDestroyOnPlayer.class, b -> b.ifIs(Hurtable.class, h -> h.kill(true)));
+
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
             if (hasFeature(SwordShade.class))
