@@ -112,6 +112,8 @@ public final class Constant
     public static final String RASTER_FILE_TILE = "tiles.png";
     /** Raster water file. */
     public static final String RASTER_FILE_WATER = "water.png";
+    /** Raster lava file. */
+    public static final String RASTER_FILE_LAVA = "lava.png";
 
     /** Alpha black values. */
     public static final ColorRgba[] ALPHAS_BLACK;
