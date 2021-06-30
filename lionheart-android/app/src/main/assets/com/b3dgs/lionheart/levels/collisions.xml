@@ -3,7 +3,10 @@
     <lionengine:collision group="ground">
         <lionengine:formula>ground</lionengine:formula>
     </lionengine:collision>
-        <lionengine:collision group="groundboss">
+    <lionengine:collision group="groundfix">
+        <lionengine:formula>groundfix</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="groundboss">
         <lionengine:formula>groundboss</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="ground15">
@@ -11,22 +14,51 @@
     </lionengine:collision>
     <lionengine:collision group="horizontal">
         <lionengine:formula>horizontal</lionengine:formula>
-        <lionengine:formula>ground_top</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="left_horizontal">
         <lionengine:formula>horizontal</lionengine:formula>
         <lionengine:formula>left_vertical</lionengine:formula>
-        <lionengine:formula>ground_top</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="right_horizontal">
         <lionengine:formula>horizontal</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
-        <lionengine:formula>ground_top</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="horizontal_top">
+        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>horizontal</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="left_ground15_vertical">
+        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>left_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="right_ground15_vertical">
+        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>right_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="left_horizontal_top">
+        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>horizontal</lionengine:formula>
+        <lionengine:formula>left_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="right_horizontal_top">
+        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>horizontal</lionengine:formula>
+        <lionengine:formula>right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="vertical">
         <lionengine:formula>left_vertical</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
         <lionengine:formula>block</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="pillar">
+        <lionengine:formula>ground_pillar</lionengine:formula>
+        <lionengine:formula>left_pillar_vertical</lionengine:formula>
+        <lionengine:formula>right_pillar_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="pillar2">
+        <lionengine:formula>ground15_pillar</lionengine:formula>
+        <lionengine:formula>left_vertical</lionengine:formula>
+        <lionengine:formula>right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="left_vertical">
         <lionengine:formula>left_vertical</lionengine:formula>
@@ -39,9 +71,16 @@
         <lionengine:formula>grip</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="block">
+        <lionengine:formula>ground_pillar</lionengine:formula>
         <lionengine:formula>left_vertical</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
-        <lionengine:formula>block</lionengine:formula>
+        <lionengine:formula>ground15</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="block_fixed">
+        <lionengine:formula>ground_pillar</lionengine:formula>
+        <lionengine:formula>left_vertical</lionengine:formula>
+        <lionengine:formula>right_vertical</lionengine:formula>
+        <lionengine:formula>ground15</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="slope_0_left">
         <lionengine:formula>slope_0_left</lionengine:formula>
@@ -82,6 +121,11 @@
         <lionengine:formula>steep_1_right</lionengine:formula>
         <lionengine:formula>steep_1_right_vertical</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="steep_right_ground">
+        <lionengine:formula>steep_right_ground</lionengine:formula>
+        <lionengine:formula>steep_1_right</lionengine:formula>
+        <lionengine:formula>steep_1_right_vertical</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="steep_1_right_spike">
         <lionengine:formula>steep_1_right_spike</lionengine:formula>
         <lionengine:formula>steep_1_right_vertical</lionengine:formula>
@@ -115,6 +159,6 @@
         <lionengine:formula>horizontal</lionengine:formula>
         <lionengine:formula>left_vertical</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
-        <lionengine:formula>ground_top</lionengine:formula>
+        <lionengine:formula>ground15</lionengine:formula>
     </lionengine:collision>
 </lionengine:collisions>

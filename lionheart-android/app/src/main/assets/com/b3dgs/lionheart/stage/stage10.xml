@@ -185,13 +185,13 @@
             <rotating amplitude="90" extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/secret/Rotating2.xml" tx="76.0" ty="13.0">
-            <rotating extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="5" speed="2.0"/>
+            <rotating extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="5" speed="-2.0"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="89.0" ty="10.0" jump="5">
-            <patrol sh="0.5" amplitude="240"/>
+            <patrol sh="0.4" amplitude="240"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="104.0" ty="8.0" jump="5">
-            <patrol sh="-0.5" amplitude="160"/>
+            <patrol sh="-0.4" amplitude="160"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="112.0" ty="16.0">
             <spike delay="0"/>
@@ -233,7 +233,7 @@
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
         <entity file="entity/secret/Canon.xml" tx="207.0" ty="27.0">
-            <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="1.5" dvy="0.0"/>
+            <shooter fireDelay="120" firedDelay="0" svx="1.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="218.0" ty="35.0">
             <spike delay="0"/>
@@ -262,38 +262,38 @@
         <entity file="entity/secret/Bird.xml" tx="226.0" ty="59.0">
             <patrol sh="-0.8" amplitude="160"/>
         </entity>
-        <entity file="entity/secret/Bird.xml" tx="233.0" ty="66.0">
-            <patrol sv="-1.2" amplitude="80" mirror="false"/>
+        <entity file="entity/secret/Bird.xml" tx="233.0" ty="67.0">
+            <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Bird.xml" tx="236.0" ty="66.0">
-            <patrol sv="-1.2" amplitude="80" mirror="false"/>
+        <entity file="entity/secret/Bird.xml" tx="236.0" ty="72.0">
+            <patrol sv="-1.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Bird.xml" tx="239.0" ty="66.0">
-            <patrol sv="-1.2" amplitude="80" mirror="false"/>
+        <entity file="entity/secret/Bird.xml" tx="239.0" ty="67.0">
+            <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="251.0" ty="66.0">
-            <patrol sh="0.7" amplitude="96"/>
+            <patrol sh="0.4" amplitude="80"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="255.0" ty="66.0">
-            <patrol sh="-0.7" amplitude="96"/>
+            <patrol sh="-0.4" amplitude="80"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="261.0" ty="60.0">
+        <entity file="entity/secret/Ghost1.xml" tx="261.0" ty="60.0" mirror="true">
             <patrol sv="0.7" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="263.0" ty="57.0">
-            <patrol sv="0.7" amplitude="48" mirror="false"/>
+        <entity file="entity/secret/Ghost1.xml" tx="263.0" ty="57.0" mirror="true">
+            <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="265.0" ty="54.0">
-            <patrol sv="0.7" amplitude="48" mirror="false"/>
+        <entity file="entity/secret/Ghost1.xml" tx="265.0" ty="54.0" mirror="true">
+            <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="267.0" ty="51.0">
-            <patrol sv="0.7" amplitude="48" mirror="false"/>
+        <entity file="entity/secret/Ghost1.xml" tx="267.0" ty="51.0" mirror="true">
+            <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="281.0" ty="42.0">
-            <patrol sh="1.0" amplitude="128"/>
+            <patrol sh="0.8" amplitude="128"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="288.0" ty="42.0">
-            <patrol sh="-1.0" amplitude="128"/>
+            <patrol sh="-0.8" amplitude="128"/>
         </entity>
         <entity file="entity/secret/Amulet.xml" tx="287.0" ty="45.0" next="stage/stage9.xml" stx="580" sty="3"/>
         <entity file="entity/secret/Ghost2.xml" tx="291.0" ty="47.0"/>

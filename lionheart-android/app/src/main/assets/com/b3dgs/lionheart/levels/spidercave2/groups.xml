@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/tileGroups.xsd">
+<lionengine:groups xmlns:lionengine="http://lionengine.b3dgs.com">
     <lionengine:group name="ground" type="NONE">
         <lionengine:tile number="0"/>
         <lionengine:tile number="1"/>
@@ -12,6 +12,8 @@
         <lionengine:tile number="51"/>
         <lionengine:tile number="52"/>
         <lionengine:tile number="64"/>
+        <lionengine:tile number="81"/>
+        <lionengine:tile number="82"/>
         <lionengine:tile number="97"/>
         <lionengine:tile number="123"/>
         <lionengine:tile number="124"/>
@@ -66,8 +68,6 @@
         <lionengine:tile number="508"/>
         <lionengine:tile number="509"/>
         <lionengine:tile number="510"/>
-        <lionengine:tile number="81"/>
-        <lionengine:tile number="82"/>
     </lionengine:group>
     <lionengine:group name="horizontal" type="NONE">
         <lionengine:tile number="416"/>
@@ -81,18 +81,18 @@
         <lionengine:tile number="415"/>
     </lionengine:group>
     <lionengine:group name="left_vertical" type="NONE">
+        <lionengine:tile number="273"/>
         <lionengine:tile number="98"/>
         <lionengine:tile number="235"/>
         <lionengine:tile number="68"/>
         <lionengine:tile number="126"/>
-        <lionengine:tile number="273"/>
     </lionengine:group>
     <lionengine:group name="right_vertical" type="NONE">
         <lionengine:tile number="232"/>
         <lionengine:tile number="122"/>
+        <lionengine:tile number="155"/>
         <lionengine:tile number="269"/>
         <lionengine:tile number="63"/>
-        <lionengine:tile number="155"/>
     </lionengine:group>
     <lionengine:group name="left_horizontal" type="NONE">
         <lionengine:tile number="272"/>
@@ -102,7 +102,11 @@
         <lionengine:tile number="306"/>
     </lionengine:group>
     <lionengine:group name="vertical" type="NONE">
-        <lionengine:tile number="94"/>
+    </lionengine:group>
+    <lionengine:group name="pillar" type="NONE">
         <lionengine:tile number="125"/>
+    </lionengine:group>
+    <lionengine:group name="pillar2" type="NONE">
+        <lionengine:tile number="94"/>
     </lionengine:group>
 </lionengine:groups>

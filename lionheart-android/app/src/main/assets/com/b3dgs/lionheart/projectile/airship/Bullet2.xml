@@ -6,6 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnGround</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BulletDestroyOnPlayer</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Bullet2.png"/>
     <lionengine:frames horizontal="3" vertical="1"/>
@@ -37,6 +38,7 @@
     </lionengine:categories>
     <lionengine:layerable layerRefresh="1" layerDisplay="8"/>
     <lionengine:collidable group="2" accepted="1"/>
+    <stats health="1"/>
     <hurtable frame="-1" effect="effect/airship/ExplodeLittle.xml"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -45,6 +45,8 @@
         <lionengine:animation name="turn" start="26" end="35" speed="0.25" reversed="false" repeat="true"/>
         <lionengine:animation name="jump" start="17" end="19" speed="0.25" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="10" width="20" height="45"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="1" width="1" height="1"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="1" width="1" height="1"/>
         </lionengine:animation>
         <lionengine:animation name="fall" start="20" end="20" speed="0.125" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
@@ -166,7 +168,7 @@
             <lionengine:collisionFramed number="2" x="-16" y="24" width="15" height="22"/>
             <lionengine:collisionFramed number="3" x="-10" y="40" width="35" height="22"/>
             <lionengine:collisionFramed number="4" x="-5" y="52" width="35" height="22"/>
-            <lionengine:collisionFramed number="5" x="15" y="34" width="15" height="32"/>
+            <lionengine:collisionFramed number="5" x="15" y="34" width="20" height="32"/>
             <lionengine:collisionFramed number="6" x="15" y="16" width="10" height="17"/>
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
@@ -226,11 +228,11 @@
         <lionengine:animation name="shade_attackdragon" start="26" end="27" speed="0.4" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:categories>
-        <lionengine:category name="head_left" axis="Y" x="-6" y="48">
+        <lionengine:category name="head_left" axis="Y" x="-4" y="48">
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="head_right" axis="Y" x="6" y="48">
+        <lionengine:category name="head_right" axis="Y" x="4" y="48">
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
         </lionengine:category>
@@ -269,6 +271,16 @@
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
         </lionengine:category>
+        <lionengine:category name="knee_1_left" axis="X" x="-6" y="1">
+            <lionengine:group>right_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_1_right" axis="X" x="6" y="1">
+            <lionengine:group>left_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_1" axis="X" x="0" y="1">
+            <lionengine:group>left_vertical</lionengine:group>
+            <lionengine:group>right_vertical</lionengine:group>
+        </lionengine:category>
         <lionengine:category name="hand_liana" axis="Y" x="0" y="55" glue="true">
             <lionengine:group>liana_left</lionengine:group>
             <lionengine:group>liana_right</lionengine:group>
@@ -279,7 +291,7 @@
         <lionengine:category name="hand_grip" axis="Y" x="0" y="43" glue="true">
             <lionengine:group>grip</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_x_left" axis="X" x="-6" y="4">
+        <lionengine:category name="knee_x_left" axis="X" x="-6" y="5">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_0_right</lionengine:group>
             <lionengine:group>steep_1_right</lionengine:group>
@@ -287,8 +299,9 @@
             <lionengine:group>vertical</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_x_right" axis="X" x="6" y="4">
+        <lionengine:category name="knee_x_right" axis="X" x="6" y="5">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_0_left</lionengine:group>
             <lionengine:group>steep_1_left</lionengine:group>
@@ -297,8 +310,9 @@
             <lionengine:group>vertical</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>left_vertical</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
         </lionengine:category>
-        <lionengine:category name="knee_x_center" axis="X" x="0" y="4">
+        <lionengine:category name="knee_x_center" axis="X" x="0" y="5">
             <lionengine:group>spike</lionengine:group>
             <lionengine:group>steep_0_left</lionengine:group>
             <lionengine:group>steep_1_left</lionengine:group>
@@ -309,6 +323,7 @@
             <lionengine:group>vertical</lionengine:group>
             <lionengine:group>left_vertical</lionengine:group>
             <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_left" axis="Y" x="-4" y="0" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
@@ -316,11 +331,12 @@
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+            <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
-            <lionengine:group>horizontal</lionengine:group>
-            <lionengine:group>left_horizontal</lionengine:group>
-            <lionengine:group>right_horizontal</lionengine:group>
-            <lionengine:group>liana_ground_top</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
@@ -328,18 +344,19 @@
             <lionengine:group>slope_0_right</lionengine:group>
             <lionengine:group>slope_1_right</lionengine:group>
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+            <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
-            <lionengine:group>horizontal</lionengine:group>
-            <lionengine:group>left_horizontal</lionengine:group>
-            <lionengine:group>right_horizontal</lionengine:group>
-            <lionengine:group>liana_ground_top</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
             <lionengine:group>ground</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+            <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
-            <lionengine:group>horizontal</lionengine:group>
-            <lionengine:group>left_horizontal</lionengine:group>
-            <lionengine:group>right_horizontal</lionengine:group>
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>
@@ -351,26 +368,30 @@
             <lionengine:group>steep_1_right</lionengine:group>
             <lionengine:group>steep_1_right_spike</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
-            <lionengine:group>liana_ground_top</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_left_2" axis="Y" x="-4" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right_2" axis="Y" x="4" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center_2" axis="Y" x="0" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:layerable layerRefresh="1" layerDisplay="9"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="9"/>
     <lionengine:body gravity="6.5" gravityMax="6.5"/>
     <lionengine:collidable group="1" accepted="2%3"/>
     <underwater>raster/hero/valdyn/</underwater>

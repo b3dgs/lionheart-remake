@@ -56,13 +56,13 @@
         <entity file="entity/lava/PotionBig.xml" tx="880.0" ty="25.0"/>
         <entity file="entity/lava/PotionBig.xml" tx="858.0" ty="4.0"/>
         <entity file="entity/lava/HotFireBall.xml" tx="16.0" ty="2.0">
-            <hotfireball delay="60" count="12" level="0" vx="0.0" vy="5.0"/>
+            <hotfireball delay="60" count="5" level="0" vx="0.0" vy="5.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="30.0" ty="2.0">
-            <hotfireball delay="50" count="15" level="0" vx="0.0" vy="6.5"/>
+            <hotfireball delay="50" count="6" level="0" vx="0.0" vy="6.5"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="52.0" ty="2.0">
-            <hotfireball delay="60" count="12" level="1" vx="-1.2" vy="5.0"/>
+            <hotfireball delay="60" count="5" level="1" vx="-1.2" vy="5.0"/>
         </entity>
         <entity file="entity/lava/FireBallBig.xml" tx="85.0" ty="23.0" vx="-1.5"/>
         <entity file="entity/lava/FireBallMedium.xml" tx="105.0" ty="27.0" vx="-1.5"/>
@@ -70,38 +70,38 @@
         <entity file="entity/lava/FireBallLittle.xml" tx="129.0" ty="29.0" vx="-1.5"/>
         <entity file="entity/lava/FireBallBig.xml" tx="131.0" ty="47.0" vx="0.4"/>
         <entity file="entity/lava/HotFireBall.xml" tx="192.0" ty="2.0">
-            <hotfireball delay="120" count="6" level="1" vx="-0.8" vy="6.0"/>
+            <hotfireball delay="120" count="5" level="1" vx="-0.8" vy="6.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="195.0" ty="2.0">
-            <hotfireball delay="120" count="6" level="1" vx="1.2" vy="4.0"/>
+            <hotfireball delay="120" count="4" level="1" vx="1.2" vy="4.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="207.0" ty="2.0">
-            <hotfireball delay="120" count="4" level="1" vx="1.2" vy="4.0"/>
+            <hotfireball delay="120" count="3" level="1" vx="1.2" vy="4.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="214.0" ty="2.0">
-            <hotfireball delay="120" count="4" level="1" vx="1.2" vy="4.0"/>
+            <hotfireball delay="120" count="3" level="1" vx="1.2" vy="4.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="221.0" ty="2.0">
-            <hotfireball delay="120" count="4" level="1" vx="1.2" vy="4.0"/>
+            <hotfireball delay="120" count="3" level="1" vx="1.2" vy="4.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="228.0" ty="2.0">
-            <hotfireball delay="120" count="4" level="1" vx="1.2" vy="4.0"/>
+            <hotfireball delay="120" count="3" level="1" vx="1.2" vy="4.0"/>
         </entity>
-        <entity file="entity/lava/FireBallBig.xml" tx="267.0" ty="10.0"/>
+        <entity file="entity/lava/FireBallBig.xml" tx="265.0" ty="10.0"/>
         <entity file="entity/lava/HotFireBall.xml" tx="289.0" ty="2.0">
-            <hotfireball delay="60" count="6" level="1" vx="-1.0" vy="4.5"/>
+            <hotfireball delay="80" count="4" level="1" vx="-1.0" vy="5.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="284.0" ty="2.0">
-            <hotfireball delay="120" count="6" level="1" vx="1.0" vy="4.5"/>
+            <hotfireball delay="140" count="4" level="1" vx="1.0" vy="5.0"/>
         </entity>
         <entity file="entity/lava/Geyzer.xml" tx="312.5" ty="2.5">
             <geyzer delayStart="70" delayDown="150" height="56"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="322.0" ty="2.0">
-            <hotfireball delay="30" count="4" level="0" vx="0.0" vy="2.5"/>
+            <hotfireball delay="30" count="3" level="0" vx="0.0" vy="2.5"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="328.0" ty="2.0">
-            <hotfireball delay="30" count="4" level="0" vx="0.0" vy="2.5"/>
+            <hotfireball delay="30" count="3" level="0" vx="0.0" vy="2.5"/>
         </entity>
         <entity file="entity/lava/Geyzer.xml" tx="342.5" ty="2.5">
             <geyzer delayStart="300" delayDown="80" height="56"/>
@@ -112,26 +112,28 @@
         </entity>
         <entity file="entity/lava/Platform.xml" tx="361.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="368.0" ty="2.5">
-            <geyzer delayStart="80" delayDown="80" height="32"/>
+            <geyzer delayFirst="50" delayStart="80" delayDown="80" height="32"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="367.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="384.5" ty="2.5">
             <geyzer delayStart="80" delayDown="80" height="90"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="384.0" ty="4.0"/>
+        <entity file="entity/lava/Talisment.xml" tx="386.0" ty="3.0"/>
+        <entity file="entity/lava/Talisment.xml" tx="387.0" ty="3.0"/>
         <entity file="entity/lava/FloaterCube.xml" tx="414.0" ty="4.0" mirror="false"/>
         <entity file="entity/lava/HotFireBall.xml" tx="435.0" ty="2.0">
-            <hotfireball delay="60" count="6" level="0" vx="0.0" vy="3.0"/>
+            <hotfireball delay="60" count="4" level="0" vx="0.0" vy="3.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="437.0" ty="2.0">
-            <hotfireball delay="70" count="6" level="0" vx="0.0" vy="5.0"/>
+            <hotfireball delay="70" count="4" level="0" vx="0.0" vy="5.0"/>
         </entity>
         <entity file="entity/lava/FloaterCube.xml" tx="442.0" ty="10.0" mirror="false"/>
         <entity file="entity/lava/HotFireBall.xml" tx="448.0" ty="2.0">
-            <hotfireball delay="50" count="6" level="0" vx="0.0" vy="3.0"/>
+            <hotfireball delay="50" count="4" level="0" vx="0.0" vy="3.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="452.0" ty="2.0">
-            <hotfireball delay="50" count="6" level="0" vx="0.0" vy="3.0"/>
+            <hotfireball delay="50" count="4" level="0" vx="0.0" vy="3.0"/>
         </entity>
         <entity file="entity/lava/MeltingPlatform.xml" tx="461.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="462.0" ty="2.0"/>
@@ -159,20 +161,20 @@
         <entity file="entity/lava/MeltingPlatform.xml" tx="538.0" ty="4.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="538.0" ty="5.0"/>
         <entity file="entity/lava/HotFireBall.xml" tx="536.0" ty="3.0">
-            <hotfireball delay="60" count="6" level="0" vx="0.0" vy="7.0"/>
+            <hotfireball delay="60" count="4" level="0" vx="0.0" vy="7.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="540.0" ty="3.0">
-            <hotfireball delay="60" count="6" level="0" vx="0.0" vy="4.0"/>
+            <hotfireball delay="60" count="4" level="0" vx="0.0" vy="4.0"/>
         </entity>
         <entity file="entity/lava/FloaterCube.xml" tx="546.0" ty="5.0" mirror="false"/>
         <entity file="entity/lava/HotFireBall.xml" tx="556.0" ty="14.0">
-            <hotfireball delay="4" count="6" level="0" vx="0.0" vy="1.0"/>
+            <hotfireball delay="4" count="4" level="0" vx="0.0" vy="1.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="560.0" ty="16.0">
-            <hotfireball delay="4" count="6" level="0" vx="0.0" vy="1.0"/>
+            <hotfireball delay="4" count="4" level="0" vx="0.0" vy="1.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="564.0" ty="18.0">
-            <hotfireball delay="4" count="6" level="0" vx="0.0" vy="1.0"/>
+            <hotfireball delay="4" count="4" level="0" vx="0.0" vy="1.0"/>
         </entity>
         <entity file="entity/lava/FireBallLittle.xml" tx="577.0" ty="24.0"/>
         <entity file="entity/lava/FireBallMedium.xml" tx="585.0" ty="22.0"/>
@@ -198,15 +200,15 @@
         </entity>
         <entity file="entity/lava/Platform.xml" tx="709.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="721.0" ty="2.5">
-            <geyzer delayStart="90" delayDown="40" height="64"/>
+            <geyzer delayFirst="50" delayStart="90" delayDown="40" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="720.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="733.0" ty="2.5">
-            <geyzer delayStart="90" delayDown="40" height="64"/>
+            <geyzer delayFirst="100" delayStart="90" delayDown="40" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="732.5" ty="4.0"/>
         <entity file="entity/lava/Geyzer.xml" tx="744.0" ty="2.5">
-            <geyzer delayStart="90" delayDown="40" height="64"/>
+            <geyzer delayFirst="150" delayStart="90" delayDown="40" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="743.5" ty="4.0"/>
         <entity file="entity/lava/FireBallLittle.xml" tx="760.0" ty="20.0"/>
@@ -217,13 +219,13 @@
         <entity file="entity/lava/MeltingPlatform.xml" tx="797.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="798.0" ty="2.0"/>
         <entity file="entity/lava/HotFireBall.xml" tx="788.5" ty="2.0">
-            <hotfireball delay="8" count="4" level="0" vx="0.0" vy="2.0"/>
+            <hotfireball delay="8" count="3" level="0" vx="0.0" vy="2.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="794.5" ty="2.0">
-            <hotfireball delay="8" count="4" level="0" vx="0.0" vy="2.0"/>
+            <hotfireball delay="8" count="3" level="0" vx="0.0" vy="2.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="800.0" ty="2.0">
-            <hotfireball delay="8" count="4" level="0" vx="0.0" vy="2.0"/>
+            <hotfireball delay="8" count="3" level="0" vx="0.0" vy="2.0"/>
         </entity>
         <entity file="entity/lava/Geyzer.xml" tx="815.5" ty="2.5">
             <geyzer delayStart="150" delayDown="40" height="64"/>

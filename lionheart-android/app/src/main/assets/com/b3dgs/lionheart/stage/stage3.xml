@@ -32,13 +32,13 @@
             <patrol sh="-0.3"/>
         </entity>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="69.0" ty="52.0"/>
-        <entity file="entity/swamp/Crawling.xml" tx="72.5" ty="52.0">
+        <entity file="entity/swamp/Crawling.xml" tx="72.0" ty="52.0">
             <patrol sh="0.3" amplitude="368"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="105.0" ty="57.0">
+        <entity file="entity/swamp/Dino.xml" tx="107.0" ty="57.0">
             <patrol sh="-0.3"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="115.0" ty="57.0">
+        <entity file="entity/swamp/Dino.xml" tx="109.0" ty="57.0">
             <patrol sh="0.3"/>
         </entity>
         <entity file="entity/swamp/PotionBig.xml" tx="108.0" ty="56.0"/>
@@ -260,7 +260,7 @@
         <entity file="entity/swamp/Beetle.xml" tx="412.0" ty="16.0">
             <patrol sv="0.95" amplitude="384" animOffset="12"/>
         </entity>
-        <entity file="entity/swamp/Crawling.xml" tx="407.5" ty="45.0">
+        <entity file="entity/swamp/Crawling.xml" tx="406.0" ty="45.0">
             <patrol sh="0.3" amplitude="64"/>
         </entity>
         <entity file="entity/swamp/Flower.xml" tx="397.0" ty="52.0"/>
@@ -272,7 +272,7 @@
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="380.0" ty="41.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="382.0" ty="41.0"/>
         <entity file="entity/swamp/Flower.xml" tx="360.0" ty="51.0"/>
-        <entity file="entity/swamp/Crawling.xml" tx="364.0" ty="45.0">
+        <entity file="entity/swamp/Crawling.xml" tx="366.0" ty="45.0">
             <patrol sh="0.3" amplitude="32"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="353.5" ty="45.0">

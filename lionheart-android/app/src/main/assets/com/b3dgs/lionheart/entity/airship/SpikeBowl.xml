@@ -13,14 +13,7 @@
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="-1" width="18" height="18" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:categories>
-        <lionengine:category name="leg_left" axis="Y" x="-6" y="22">
-            <lionengine:group>ground15</lionengine:group>
-        </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="5" y="22">
-            <lionengine:group>ground15</lionengine:group>
-        </lionengine:category>
-    </lionengine:categories>
-    <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

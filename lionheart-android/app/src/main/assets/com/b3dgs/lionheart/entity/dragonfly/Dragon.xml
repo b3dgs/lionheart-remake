@@ -27,8 +27,8 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/dragonfly/Bullet1.xml" sfx="sfx/monster_dragonball.wav" ox="-16" oy="16">
-            <lionengine:force velocity="1" sensibility="0" vx="-2.5" vy="0.0"/>
+        <lionengine:launchable media="projectile/dragonfly/Bullet1.xml" sfx="sfx/monster_dragonball.wav" ox="16" oy="16">
+            <lionengine:force velocity="1" sensibility="0" vx="2.5" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>

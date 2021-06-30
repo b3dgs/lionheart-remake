@@ -15,7 +15,6 @@
     </checkpoints>
     <entities>
         <entity file="boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>
-        <entity file="entity/spidercave2/Talisment.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/spidercave2/PotionBig.xml" tx="48.0" ty="64.0"/>
         <entity file="entity/spidercave2/PotionLittle.xml" tx="71.0" ty="40.0"/>
         <entity file="entity/spidercave2/Talisment.xml" tx="28.0" ty="39.0"/>
@@ -108,13 +107,13 @@
         <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="38.0">
             <patrol sh="-0.35" amplitude="48" offset="0"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="40.0">
+        <entity file="entity/spidercave2/Spider1.xml" tx="31.0" ty="40.0">
             <patrol sh="-0.35" amplitude="48" offset="4"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="40.0">
+        <entity file="entity/spidercave2/Spider1.xml" tx="31.5" ty="40.0">
             <patrol sh="-0.35" amplitude="48" offset="8"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="30.0" ty="40.0">
+        <entity file="entity/spidercave2/Spider1.xml" tx="32.0" ty="40.0">
             <patrol sh="-0.35" amplitude="48" offset="12"/>
         </entity>
         <entity file="entity/spidercave2/Spider1.xml" tx="76.0" ty="49.0">

@@ -13,7 +13,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="patrol" start="1" end="10" speed="0.15" reversed="false" repeat="true"/>
         <lionengine:animation name="turn" start="14" end="16" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="fall" start="11" end="11" speed="0.25" reversed="false" repeat="false"/>
         <lionengine:animation name="slide" start="13" end="13" speed="0.25" reversed="false" repeat="false"/>
@@ -37,6 +37,14 @@
             <lionengine:group>steep_1_left</lionengine:group>
             <lionengine:group>steep_0_right</lionengine:group>
             <lionengine:group>steep_1_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_x_left" axis="X" x="-6" y="5">
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_x_right" axis="X" x="6" y="5">
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

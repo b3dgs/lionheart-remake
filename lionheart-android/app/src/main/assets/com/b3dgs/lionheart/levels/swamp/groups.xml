@@ -80,6 +80,14 @@
         <lionengine:tile number="358"/>
         <lionengine:tile number="359"/>
         <lionengine:tile number="357"/>
+        <lionengine:tile number="698"/>
+        <lionengine:tile number="355"/>
+        <lionengine:tile number="356"/>
+        <lionengine:tile number="354"/>
+        <lionengine:tile number="911"/>
+    </lionengine:group>
+    <lionengine:group name="groundfix" type="NONE">
+        <lionengine:tile number="141"/>
     </lionengine:group>
     <lionengine:group name="groundboss" type="NONE">
         <lionengine:tile number="910"/>
@@ -140,11 +148,15 @@
         <lionengine:tile number="503"/>
         <lionengine:tile number="666"/>
         <lionengine:tile number="454"/>
+        <lionengine:tile number="699"/>
     </lionengine:group>
     <lionengine:group name="steep_1_right" type="NONE">
         <lionengine:tile number="474"/>
         <lionengine:tile number="661"/>
         <lionengine:tile number="673"/>
+    </lionengine:group>
+    <lionengine:group name="steep_right_ground" type="NONE">
+        <lionengine:tile number="697"/>
     </lionengine:group>
     <lionengine:group name="steep_1_right_spike" type="NONE">
         <lionengine:tile number="696"/>
@@ -261,17 +273,17 @@
         <lionengine:tile number="710"/>
         <lionengine:tile number="784"/>
     </lionengine:group>
-    <lionengine:group name="horizontal" type="NONE">
+    <lionengine:group name="horizontal_top" type="NONE">
         <lionengine:tile number="443"/>
         <lionengine:tile number="440"/>
         <lionengine:tile number="439"/>
         <lionengine:tile number="441"/>
         <lionengine:tile number="442"/>
     </lionengine:group>
-    <lionengine:group name="left_horizontal" type="NONE">
+    <lionengine:group name="left_horizontal_top" type="NONE">
         <lionengine:tile number="438"/>
     </lionengine:group>
-    <lionengine:group name="right_horizontal" type="NONE">
+    <lionengine:group name="right_horizontal_top" type="NONE">
         <lionengine:tile number="444"/>
     </lionengine:group>
 </lionengine:groups>

@@ -14,7 +14,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="patrol" start="1" end="8" speed="0.25" reversed="false" repeat="true">
+        <lionengine:animation name="patrol" start="1" end="8" speed="0.12" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="attack" x="0" y="3" width="35" height="20"/>
             <lionengine:collisionFramed prefix="body" x="0" y="3" width="35" height="20"/>
         </lionengine:animation>

@@ -14,8 +14,9 @@
         <lionengine:animation name="idle" start="1" end="6" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="12" height="12" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="8" height="8" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

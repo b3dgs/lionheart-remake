@@ -15,19 +15,8 @@
     <lionengine:collisions>
         <lionengine:collision name="ground" offsetX="0" offsetY="16" width="30" height="1" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:categories>
-        <lionengine:category name="leg_left" axis="Y" x="-18" y="28">
-            <lionengine:group>ground15</lionengine:group>
-            <lionengine:group>block</lionengine:group>
-            <lionengine:group>vertical</lionengine:group>
-        </lionengine:category>
-        <lionengine:category name="leg_right" axis="Y" x="18" y="28">
-            <lionengine:group>ground15</lionengine:group>
-            <lionengine:group>block</lionengine:group>
-            <lionengine:group>vertical</lionengine:group>
-        </lionengine:category>
-    </lionengine:categories>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="4" layerDisplay="5"/>
+    <lionengine:layerable layerRefresh="2" layerDisplay="7"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
