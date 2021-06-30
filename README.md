@@ -67,4 +67,4 @@ Each area has its own elements, monsters...
 
 ## Downloads
 
-* Coming soon !
+[Latest](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
