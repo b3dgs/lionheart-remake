@@ -139,7 +139,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             if (camera.getX() < 8544)
             {
                 speed = SPEED_GROUND;
-                cameraHeight = -16;
+                cameraHeight = 0;
             }
             else
             {
@@ -159,7 +159,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             }
             camera.setLimitBottom((int) Math.floor(cameraHeight));
             camera.moveLocation(extrp, speed, 0.0);
-            camera.setLocationY(player.getY() - 64);
+            camera.setLocationY(player.getY() - 80);
             player.moveLocationX(extrp, speed);
 
             if (player.getX() < camera.getX() + transformable.getWidth() / 2)

@@ -184,7 +184,9 @@ public abstract class State extends StateHelper<EntityModel>
     protected void onCollideHand(CollisionResult result, CollisionCategory category)
     {
         liana.onCollideHand(result, category);
-        if (result.startWithY(CollisionName.GRIP) && Double.compare(transformable.getY(), transformable.getOldY()) <= 0)
+        if (result.startWithY(CollisionName.GRIP)
+            && Double.compare(transformable.getY(), transformable.getOldY()) <= 0
+            && !isGoDown())
         {
             grip.set(true);
             tileCollidable.apply(result);

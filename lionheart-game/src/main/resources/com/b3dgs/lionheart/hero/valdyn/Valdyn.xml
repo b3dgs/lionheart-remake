@@ -335,6 +335,8 @@
             <lionengine:group>pillar2</lionengine:group>
             <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
             <lionengine:group>slope_0_left</lionengine:group>
@@ -346,6 +348,8 @@
             <lionengine:group>pillar2</lionengine:group>
             <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
             <lionengine:group>ground</lionengine:group>
@@ -364,19 +368,24 @@
             <lionengine:group>steep_1_right</lionengine:group>
             <lionengine:group>steep_1_right_spike</lionengine:group>
             <lionengine:group>liana_horizontal</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_left_2" axis="Y" x="-4" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_right_2" axis="Y" x="4" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>
         <lionengine:category name="leg_center_2" axis="Y" x="0" y="-1" glue="true">
             <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
         </lionengine:category>

@@ -39,6 +39,7 @@
             <lionengine:group>ground</lionengine:group>
             <lionengine:group>ground15</lionengine:group>
             <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
