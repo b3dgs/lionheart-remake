@@ -107,7 +107,17 @@ L11 its done when its done...
 L24 Pierre-Alexandre
 L14 ----------------------------
 
-L11 
+L11 Well, once again I made another remake of my
+L11 childhood game, Lionheart. I think it is the 4th
+L11 remake, but this one is now working on both PC
+L11 and Android ! It uses my own game engine, the
+L11 LionEngine (guess the name's origin...), full
+L11 java implementation, with special C library for
+L11 SonicArranger emulation (on Android too). This
+L11 remake is my best copy from the original game,
+L11 considering all aspects (even finer details).
+L11 I hope you will enjoy this remake again, and
+L11 see you for another project !
 
 
 L11 Don't forget my website, www.b3dgs.com !
