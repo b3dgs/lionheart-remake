@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.b3dgs.lionheart.editor</groupId>
         <artifactId>lionheart-editor-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../lionheart-editor-parent/pom.xml</relativePath>
     </parent>
     <artifactId>com.b3dgs.lionheart.editor.repository</artifactId>
