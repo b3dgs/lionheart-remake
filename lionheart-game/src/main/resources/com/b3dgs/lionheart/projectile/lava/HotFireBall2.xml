@@ -20,12 +20,6 @@
     <lionengine:categories>
         <lionengine:category name="leg" axis="Y" x="0" y="4">
             <lionengine:group>ground15</lionengine:group>
-            <lionengine:group>slope_0_right</lionengine:group>
-            <lionengine:group>slope_1_right</lionengine:group>
-            <lionengine:group>slope_0_left</lionengine:group>
-            <lionengine:group>slope_1_left</lionengine:group>
-            <lionengine:group>incline_right</lionengine:group>
-            <lionengine:group>incline_left</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>

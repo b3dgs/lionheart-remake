@@ -41,6 +41,8 @@ import com.b3dgs.lionheart.Sfx;
 @FeatureInterface
 public final class HotFireBall extends FeatureModel implements Routine, Recyclable
 {
+    private static final int BALL_DELAY_TICK = 8;
+
     private final Tick tick = new Tick();
     private final Tick series = new Tick();
     private final Viewer viewer = services.get(Viewer.class);
@@ -92,7 +94,7 @@ public final class HotFireBall extends FeatureModel implements Routine, Recyclab
         if (config != null && tick.elapsed(config.getDelay()))
         {
             series.update(extrp);
-            if (series.elapsed(6))
+            if (series.elapsed(BALL_DELAY_TICK))
             {
                 if (current == 0 && viewer.isViewable(transformable, 0, 0))
                 {
