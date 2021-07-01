@@ -1,4 +1,4 @@
-| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=65/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Downloads](#downloads) |
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![version](https://img.shields.io/badge/version-1.0.0-blue) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=65/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Downloads](#downloads) |
 |:---|:---:|---:|
 
 ## Presentation
@@ -67,4 +67,4 @@ Each area has its own elements, monsters...
 
 ## Downloads
 
-[Latest](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
+[![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
