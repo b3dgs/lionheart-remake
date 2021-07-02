@@ -72,7 +72,11 @@ Each area has its own elements, monsters...
 * [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
 
 ## Install
-* Have java installed, or get at least a JRE 8 : https://adoptopenjdk.net/
-* Unzip somewere, unzip lionheart remake
-* (if JRE not installed) Modify run.bat to put full path to javaw (from the extracted JRE zip)
-* Launch run.bat
+* Computer
+  * Have java installed, or get at least a JRE 8 : https://adoptopenjdk.net/
+  * Unzip somewere, unzip lionheart remake
+  * (if JRE not installed) Modify run.bat to put full path to javaw (from the extracted JRE zip)
+  * Launch run.bat
+* Android
+  * Copy APK from zip to your device
+  * Install it if you trust it, no right required to play
