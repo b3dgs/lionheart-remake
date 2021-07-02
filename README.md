@@ -1,4 +1,4 @@
-| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=65/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Wiki](#wiki)<br>[Downloads](#downloads) |
+| [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip) | <a href="http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake"><img src="http://www.b3dgs.com/v7/projects/lionheart_remake/lionheart_remake.jpg" hspace=65/></a> | [Presentation](#presentation)<br>[General features](#general-features)<br>[Screenshots](#screenshots)<br>[Wiki](#wiki)<br>[Downloads](#downloads)<br>[Install](#install) |
 |:---|:---:|---:|
 
 ## Presentation
@@ -70,3 +70,9 @@ Each area has its own elements, monsters...
 
 ## Downloads
 * [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
+
+## Install
+* Have java installed, or get at least a JRE 8 : https://adoptopenjdk.net/
+* Unzip somewere, unzip lionheart remake
+* (if JRE not installed) Modify run.bat to put full path to javaw (from the extracted JRE zip)
+* Launch run.bat
