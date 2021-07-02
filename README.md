@@ -67,6 +67,7 @@ Each area has its own elements, monsters...
 ## Wiki
 * [User Manual](https://github.com/b3dgs/lionheart-remake/wiki/UserManual)
 * [Guide](https://github.com/b3dgs/lionheart-remake/wiki/Guide)
+* [Discussions](https://github.com/b3dgs/lionheart-remake/discussions)
 
 ## Downloads
 * [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
