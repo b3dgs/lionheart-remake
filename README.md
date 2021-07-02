@@ -66,9 +66,8 @@ Each area has its own elements, monsters...
 | [![img1](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro1_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro1.png) | [![img2](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro2_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro2.png) | [![img3](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro3_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro3.png) | [![img4](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro4_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/extro4.png)
 
 ## Wiki
-[User Manual](https://github.com/b3dgs/lionheart-remake/wiki/UserManual)
-[Guide](https://github.com/b3dgs/lionheart-remake/wiki/Guide)
+* [User Manual](https://github.com/b3dgs/lionheart-remake/wiki/UserManual)
+* [Guide](https://github.com/b3dgs/lionheart-remake/wiki/Guide)
 
 ## Downloads
-
-[![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
+* [![version](https://img.shields.io/badge/version-1.0.0-blue)](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip)
