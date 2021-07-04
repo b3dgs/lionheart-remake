@@ -19,10 +19,10 @@ Each area has its own elements, monsters...
 
 * #### __Target__
 >  * Uses the [__LionEngine__](http://www.b3dgs.com/v7/page.php?lang=en&section=lionengine)
->  * Requires Java 8
+>  * Requires Java 8 / Android 8 minimum
 >  * Multiplatform (tested on Windows, Linux, Android)
->  * Need at least 32MB of RAM
->  * Need at least 6MB of free disk space
+>  * Need at least 256MB of RAM
+>  * Need at least 128MB of free disk space
 
 * #### __Background__
 >  * Introduction, Menu, Credits
