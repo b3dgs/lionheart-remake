@@ -48,16 +48,16 @@ public class MapTilePersisterOptimized extends MapTilePersisterModel
     {
         file.writeChar((char) tile.getNumber());
         file.writeByte(UtilConversion.fromUnsignedByte((short) (tile.getInTileX() % BLOC_SIZE)));
-        file.writeChar((char) tile.getInTileY());
+        file.writeByte(UtilConversion.fromUnsignedByte((short) (tile.getInTileY() % BLOC_SIZE)));
     }
 
     @Override
-    protected void loadTile(FileReading file, int i) throws IOException
+    protected void loadTile(FileReading file, int sx, int sy) throws IOException
     {
         final int number = file.readChar();
-        final byte b = file.readByte();
-        final int tx = UtilConversion.toUnsignedByte(b) + i * BLOC_SIZE;
-        final int ty = file.readChar();
+        final int tx = UtilConversion.toUnsignedByte(file.readByte()) + sx * BLOC_SIZE;
+        final int ty = UtilConversion.toUnsignedByte(file.readByte()) + sy * BLOC_SIZE;
+
         map.setTile(tx, ty, number);
     }
 }
