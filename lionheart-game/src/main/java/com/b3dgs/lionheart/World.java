@@ -46,6 +46,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
+import com.b3dgs.lionengine.game.feature.tile.map.TileSheetsConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
@@ -54,7 +55,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRend
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
-import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterModel;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterListener;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
@@ -189,6 +190,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         });
         services.add(tick);
         map.addFeature(new LayerableModel(4, 2));
+        map.addFeature(new MapTilePersisterOptimized(), true);
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
 
@@ -220,9 +222,26 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final Media media = config.getMapFile();
         if (!media.exists())
         {
-            MapTileHelper.importAndSave(Medias.create(media.getPath().replace(Extension.MAP, Extension.IMAGE)), media);
+            MapTileHelper.importAndSave(Medias.create(media.getPath().replace(Extension.MAP, Extension.IMAGE)),
+                                        media,
+                                        new MapTilePersisterOptimized());
         }
 
+        map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
+        {
+            @Override
+            public void notifyMapLoadStart()
+            {
+                map.loadBefore(map.getMedia());
+            }
+
+            @Override
+            public void notifyMapLoaded()
+            {
+                map.loadAfter(map.getMedia());
+                camera.setLimits(map);
+            }
+        });
         final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
         map.addListener(tile ->
         {
@@ -244,6 +263,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                 config.getLinesPerRaster(),
                                                 config.getRasterLineOffset()));
         }
+        map.loadSheets(Medias.create(media.getParentPath(), TileSheetsConfig.FILENAME));
         loadMapTiles(map, media);
         loadMapBottom(config, media, raster);
 
@@ -265,14 +285,15 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (!bottom.exists())
             {
-                MapTileHelper.importAndSave(bottomRip, bottom);
+                MapTileHelper.importAndSave(bottomRip, bottom, new MapTilePersisterOptimized());
             }
             final MapTileGame mapBottom = new MapTileGame();
-            mapBottom.addFeature(new MapTilePersisterModel());
+            mapBottom.addFeature(new MapTilePersisterOptimized());
             mapBottom.addFeature(new MapTileGroupModel());
             mapBottom.addFeature(new MapTileCollisionModel());
             mapBottom.addFeature(new LayerableModel(4, 5));
             final MapTileViewer mapViewer = mapBottom.addFeatureAndGet(new MapTileViewerModel(services));
+            mapBottom.loadSheets(Medias.create(media.getParentPath(), TileSheetsConfig.FILENAME));
             loadMapTiles(mapBottom, bottom);
 
             raster.ifPresent(r ->
