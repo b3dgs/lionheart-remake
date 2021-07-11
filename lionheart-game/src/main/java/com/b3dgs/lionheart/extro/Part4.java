@@ -49,10 +49,11 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class Part4 extends Sequence
 {
     /** Stories. */
-    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story4.txt"));
-    private static final String STORY5 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story5.txt"));
-    private static final String STORY6 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story6.txt"));
-    private static final String STORY7 = Util.toFontText(Medias.create(Folder.TEXT, Folder.EXTRO, "story7.txt"));
+    private static final String LANG = Settings.getInstance().getLang();
+    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story4.txt"));
+    private static final String STORY5 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story5.txt"));
+    private static final String STORY6 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story6.txt"));
+    private static final String STORY7 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story7.txt"));
     private static final Animation GLOW = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
 
     private final Sprite credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part4", "credits.png"));

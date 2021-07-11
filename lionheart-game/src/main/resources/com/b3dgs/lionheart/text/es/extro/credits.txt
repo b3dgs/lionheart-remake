@@ -1,0 +1,147 @@
+C26 Felicitaciones por
+C26 completando LIONHEART !
+C26 (remake versión)
+
+
+
+
+
+
+
+C26 El personal:
+C14 ------------------
+
+
+L24 Erwin Kloibhofer
+L11 programación general, Schnitzel-cooking
+L24 Michael Bittner
+L11 programación adicional, intro, extro,
+L11 3D-scroller, ideas, Spaetzle
+L24 Henk Nieborg
+L11 gráficos, animaciones, ideas & console
+L11 inspiración
+L24 Erik Simon
+L11 concepto, diseño de juegos, algunos colores,
+L11 pollo al curry, golpeando al personal
+L24 Matthias Steinwachs
+L11 composición, música, efectos de sonido,
+L11 letras divertidas
+L24 Matthias Moerstedt
+L11 parches de rutina de sonido,
+L11 supervisión de la junta (suspiro)
+L24 Jurie Horneman
+L11 escritura de historias, ideas, chili con carne
+L24 Dieter Rottermund
+L11 ilustración de portada
+L24 Pierre-Alexandre
+L11 programación de el remake
+
+
+
+
+
+
+
+C26 Mensajes personales:
+C14 ------------------------------------------
+
+
+L24 Henk Nieborg
+L14 ------------------------------
+L11 Just want to hand out a big 'thank you' to all
+L11 dedicated LH supporters out there. I really
+L11 appreciate it and i hope to give something back
+L11 one day. Also would like to praise Pierre-Alexandre
+L11  for doing such a insanely good job and keeping it
+L11 all alive for old and new LH gamers! I'm always
+L11 looking back with lots of good thoughts and fun
+L11 developing LH in those days discovering my
+L11 capabilities fed by all the other talented people
+L11 around me. It just makes me proud that people still
+L11 appreciate the work done so many years ago.
+L11 Thanks and may the pixel be with you! :)
+
+
+L24 Erik Simon
+L14 ----------------------------
+L11 After working in the games industry for 20 years,
+L11 most get hard-boiledand jaded. So many games
+L11 produced, so much work invested, and for what?
+L11 Games are high tech and are obsolete so very fast.
+L11 Nobody remembers the hits of last year, not to
+L11 mention old 16 bit games, right? And then there
+L11 is the occasional moment that reminds me why I'm
+L11 still passionate about making games even after all
+L11 these years. To some people, the games we worked
+L11 on so long ago are part of their memories and of
+L11 their youth. They had an emotional impact to them,
+L11 they mattered and made a difference to at least
+L11 some. And that makes it all worth while - the long
+L11 hours, the daily struggle. Projects like the
+L11 Lionheart remake and people like Pierre-Alexandre,
+L11 it's creator, reassure me that I've made the right
+L11 decision to dedicate my professional life to games.
+L11 And for that reassurance, I thank Pierre-Alexandre,
+L11 the original creators of Lionheart, Henk Nieborg,
+L11 Erwin Kloibhofer, Michael Bittner and Matthias
+L11 Steinwachs. And most of all, thanks to everybody
+L11 out there who had fun with our games and who still
+L11 remembers...
+
+
+L24 Matthias Steinwachs
+L14 ----------------------------
+L11 For the re-release-remake-re-anything-whatever of
+L11 that great game (thanks a lot to Pierre-Alexandre
+L11 - great job, man) its time to reveal a secret:
+L11 Did you ever asked yourself "Who is that hero with
+L11 that long blonde hair in Lionheart?" So here it
+L11 comes: Its Henk, the graphic designer! So if you
+L11 now also find Erik, Erwin & me maybe you'll win a
+L11 prize :-) So have fun to play Lionheart & feel
+L11 free to visit my website (www.audiotexturat.de)
+L11 And yes - someday the music-remake will come -
+L11 its done when its done...
+
+
+L24 Pierre-Alexandre
+L14 ----------------------------
+
+L11 Well, once again I made another remake of my
+L11 childhood game, Lionheart. I think it is the 4th
+L11 remake, but this one is now working on both PC
+L11 and Android ! It uses my own game engine, the
+L11 LionEngine (guess the name's origin...), full
+L11 java implementation, with special C library for
+L11 SonicArranger emulation (on Android too). This
+L11 remake is my best copy from the original game,
+L11 considering all aspects (even finer details).
+L11 I hope you will enjoy this remake again, and
+L11 see you for another project !
+
+
+L11 No olvides mi sitio web, www.b3dgs.com !
+
+
+
+L11 En memoria de los viejos Juegos...
+L11 no dejes que el Amiga muera !
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+C26 E L    F I N

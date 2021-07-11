@@ -98,7 +98,10 @@ public final class Credits extends Sequence
         device.setVisible(false);
 
         int y = 256;
-        final List<String> lines = Util.readLines(Medias.create(Folder.TEXT, Folder.EXTRO, "credits.txt"));
+        final List<String> lines = Util.readLines(Medias.create(Folder.TEXT,
+                                                                Settings.getInstance().getLang(),
+                                                                Folder.EXTRO,
+                                                                "credits.txt"));
         for (int i = 0; i < lines.size(); i++)
         {
             final String line = lines.get(i);

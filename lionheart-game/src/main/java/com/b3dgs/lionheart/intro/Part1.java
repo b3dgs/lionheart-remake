@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -42,7 +43,10 @@ public final class Part1
                                                          20,
                                                          TextStyle.NORMAL);
     /** Titles. */
-    private static final List<String> TITLES = Util.readLines(Medias.create(Folder.TEXT, Folder.INTRO, "part1.txt"));
+    private static final List<String> TITLES = Util.readLines(Medias.create(Folder.TEXT,
+                                                                            Settings.getInstance().getLang(),
+                                                                            Folder.INTRO,
+                                                                            "part1.txt"));
 
     /** Backgrounds. */
     private final Sprite[] backs = new Sprite[4];

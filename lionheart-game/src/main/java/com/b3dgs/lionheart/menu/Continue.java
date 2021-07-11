@@ -47,6 +47,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Scene;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
@@ -83,7 +84,10 @@ public class Continue extends Sequence
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
     /** Continue menu. */
-    private static final List<String> CONTINUE = Util.readLines(Medias.create(Folder.TEXT, "menu", "continue.txt"));
+    private static final List<String> CONTINUE = Util.readLines(Medias.create(Folder.TEXT,
+                                                                              Settings.getInstance().getLang(),
+                                                                              Folder.MENU,
+                                                                              "continue.txt"));
 
     /** Background menu. */
     private final Sprite back = Drawable.loadSprite(Medias.create(Folder.SPRITE, "menu2.png"));

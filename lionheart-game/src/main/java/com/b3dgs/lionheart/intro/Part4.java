@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.menu.Menu;
@@ -43,10 +44,11 @@ import com.b3dgs.lionheart.menu.Menu;
 public final class Part4 extends Sequence
 {
     /** Stories. */
-    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story1.txt"));
-    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story2.txt"));
-    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story3.txt"));
-    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, Folder.INTRO, "story4.txt"));
+    private static final String LANG = Settings.getInstance().getLang();
+    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story1.txt"));
+    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story2.txt"));
+    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story3.txt"));
+    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story4.txt"));
 
     /** Font. */
     private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),

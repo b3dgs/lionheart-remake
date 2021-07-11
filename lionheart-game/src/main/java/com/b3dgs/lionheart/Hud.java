@@ -54,7 +54,9 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final String IMG_HEART = "health.png";
     private static final String IMG_HUD = "hud.png";
     private static final String IMG_NUMBERS = "numbers.png";
-    private static final List<String> TEXT = Util.readLines(Medias.create(Folder.TEXT, "hud.txt"));
+    private static final List<String> TEXT = Util.readLines(Medias.create(Folder.TEXT,
+                                                                          Settings.getInstance().getLang(),
+                                                                          "hud.txt"));
 
     private static final int HEALTH_MAX = 8;
     private static final int HEALTH_X = 1;

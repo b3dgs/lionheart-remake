@@ -79,20 +79,31 @@ public class Menu extends Sequence
                                                          TextStyle.BOLD);
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
+    /** Language. */
+    private static final String LANG = Settings.getInstance().getLang();
     /** Main menu. */
-    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXT, "menu", "main.txt"));
+    private static final List<String> MAIN = Util.readLines(Medias.create(Folder.TEXT, LANG, Folder.MENU, "main.txt"));
     /** Options menu. */
-    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXT, "menu", "options.txt"));
+    private static final List<String> OPTIONS = Util.readLines(Medias.create(Folder.TEXT,
+                                                                             LANG,
+                                                                             Folder.MENU,
+                                                                             "options.txt"));
     /** List of difficulties. */
     private static final List<String> OPTIONS_DIFFICULTY = Util.readLines(Medias.create(Folder.TEXT,
-                                                                                        "menu",
+                                                                                        Settings.getInstance()
+                                                                                                .getLang(),
+                                                                                        Folder.MENU,
                                                                                         "difficulties.txt"));
     /** List of joystick. */
     private static final List<String> OPTIONS_JOYSTICK = Util.readLines(Medias.create(Folder.TEXT,
-                                                                                      "menu",
+                                                                                      LANG,
+                                                                                      Folder.MENU,
                                                                                       "joystick.txt"));
     /** List of music. */
-    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXT, "menu", "music.txt"));
+    private static final List<String> OPTIONS_MUSIC = Util.readLines(Medias.create(Folder.TEXT,
+                                                                                   LANG,
+                                                                                   Folder.MENU,
+                                                                                   "music.txt"));
 
     /** Background menus. */
     private final Sprite[] menus = new Sprite[2];

@@ -32,7 +32,10 @@ import com.b3dgs.lionengine.Verbose;
 public class Settings
 {
     /** Settings file. */
-    private static final String FILENAME = "lionheart.properties";
+    public static final String FILENAME = "lionheart.properties";
+
+    /** Language key. */
+    private static final String LANG = "lang";
 
     /** Resolution key. */
     private static final String RESOLUTION = "resolution";
@@ -78,6 +81,8 @@ public class Settings
 
     /** Single instance. */
     private static final Settings INSTANCE = new Settings();
+    /** Default language. */
+    private static final String DEFAULT_LANG = "en";
 
     /**
      * Load default properties.
@@ -139,6 +144,16 @@ public class Settings
     public void load(InputStream input) throws IOException
     {
         properties.load(input);
+    }
+
+    /**
+     * Get language.
+     * 
+     * @return The language.
+     */
+    public String getLang()
+    {
+        return properties.getProperty(LANG, DEFAULT_LANG);
     }
 
     /**

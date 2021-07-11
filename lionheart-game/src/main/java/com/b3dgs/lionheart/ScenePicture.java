@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
@@ -49,7 +50,10 @@ public final class ScenePicture extends Sequence
     private static final int TEXT_Y = 186;
     private static final int PUSH_Y = 225;
     private static final int PUSH_BUTTON_TICK = 30;
-    private static final String PUSH_BUTTON_MESSAGE = Util.readLines(Medias.create(Folder.TEXT, "push.txt")).get(0);
+    private static final String PUSH_BUTTON_MESSAGE = Util.readLines(Medias.create(Folder.TEXT,
+                                                                                   Settings.getInstance().getLang(),
+                                                                                   "push.txt"))
+                                                          .get(0);
 
     private final Tick tick = new Tick();
     private final Media stage;
@@ -96,7 +100,9 @@ public final class ScenePicture extends Sequence
         font.load();
         font.prepare();
 
-        final String str = Util.toFontText(Medias.create(Folder.TEXT, config.getText().get()));
+        final String str = Util.toFontText(Medias.create(Folder.TEXT,
+                                                         Settings.getInstance().getLang(),
+                                                         config.getText().get()));
         final ImageBuffer buffer = Graphics.createImageBuffer(getWidth(), font.getTextHeight(str) + 8);
         buffer.prepare();
 
@@ -224,5 +230,9 @@ public final class ScenePicture extends Sequence
     {
         picture.dispose();
         text.dispose();
+        if (!hasNextSequence)
+        {
+            Engine.terminate();
+        }
     }
 }
