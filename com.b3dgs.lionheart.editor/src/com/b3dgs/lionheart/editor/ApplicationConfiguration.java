@@ -39,8 +39,12 @@ import com.b3dgs.lionengine.editor.project.Project;
 import com.b3dgs.lionengine.editor.project.ProjectFactory;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterListener;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.MapTilePersisterOptimized;
 
 /**
  * Configure the editor with the right name.
@@ -126,14 +130,22 @@ public class ApplicationConfiguration
                         });
                         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
 
-                        // final MapTileHelper map = WorldModel.INSTANCE.getMap();
-                        // map.create(Medias.create("levels", "swamp", "level1-1.png"));
-                        // map.getFeature(MapTileGroup.class).loadGroups(Medias.create("levels", "swamp",
-                        // "groups.xml"));
-                        // map.getFeature(MapTileCollision.class)
-                        // .loadCollisions(Medias.create("levels", "swamp", "formulas.xml"),
-                        // Medias.create("levels", "swamp", "collisions.xml"));
-                        // UtilPart.getPart(WorldPart.ID, WorldPart.class).update();
+                        final MapTileHelper map = WorldModel.INSTANCE.getMap();
+                        map.addFeature(new MapTilePersisterOptimized(), true);
+                        map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
+                        {
+                            @Override
+                            public void notifyMapLoadStart()
+                            {
+                                map.loadBefore(map.getMedia());
+                            }
+
+                            @Override
+                            public void notifyMapLoaded()
+                            {
+                                map.loadAfter(map.getMedia());
+                            }
+                        });
                     }
                 }
             }
