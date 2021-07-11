@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
@@ -119,7 +120,7 @@ public final class Part1 extends Sequence
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
-        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
@@ -265,6 +266,7 @@ public final class Part1 extends Sequence
         if (!hasNextSequence)
         {
             audio.stop();
+            Engine.terminate();
         }
     }
 }

@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
@@ -96,7 +97,7 @@ public final class Part2 extends Sequence
         {
             // Mock
         });
-        services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -170,6 +171,7 @@ public final class Part2 extends Sequence
         if (!hasNextSequence)
         {
             audio.stop();
+            Engine.terminate();
         }
     }
 }

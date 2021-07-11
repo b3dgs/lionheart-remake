@@ -115,6 +115,11 @@ public final class Constant
     /** Raster lava file. */
     public static final String RASTER_FILE_LAVA = "lava.png";
 
+    /** Input default. */
+    public static final String INPUT_FILE_DEFAULT = "input.xml";
+    /** Input custom. */
+    public static final String INPUT_FILE_CUSTOM = "input_custom.xml";
+
     /** Alpha black values. */
     public static final ColorRgba[] ALPHAS_BLACK;
     /** Alpha white values. */

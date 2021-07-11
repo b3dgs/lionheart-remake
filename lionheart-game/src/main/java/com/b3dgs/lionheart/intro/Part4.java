@@ -85,7 +85,7 @@ public final class Part4 extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
         for (int i = 0; i < history.length; i++)

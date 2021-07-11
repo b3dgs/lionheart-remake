@@ -145,8 +145,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
     private final Hud hud = services.create(Hud.class);
     private final ScreenShaker shaker = services.create(ScreenShaker.class);
-    private final DeviceController device = services.add(DeviceControllerConfig.create(services,
-                                                                                       Medias.create("input.xml")));
+    private final DeviceController device;
 
     private final Tick tick = new Tick();
 
@@ -173,6 +172,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     World(Services services)
     {
         super(services);
+
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
 
         services.add(new MusicPlayer()
         {

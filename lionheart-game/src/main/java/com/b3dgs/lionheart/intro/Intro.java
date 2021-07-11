@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilMath;
@@ -84,7 +85,7 @@ public final class Intro extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
@@ -178,6 +179,7 @@ public final class Intro extends Sequence
         if (!hasNextSequence)
         {
             audio.stop();
+            Engine.terminate();
         }
     }
 }

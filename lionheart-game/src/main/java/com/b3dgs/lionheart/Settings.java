@@ -35,79 +35,66 @@ public class Settings
     public static final String FILENAME = "lionheart.properties";
 
     /** Language key. */
-    private static final String LANG = "lang";
+    public static final String LANG = "lang";
 
     /** Resolution key. */
-    private static final String RESOLUTION = "resolution";
+    public static final String RESOLUTION = "resolution";
     /** Resolution width. */
-    private static final String RESOLUTION_WIDTH = RESOLUTION + ".width";
+    public static final String RESOLUTION_WIDTH = RESOLUTION + ".width";
     /** Resolution height. */
-    private static final String RESOLUTION_HEIGHT = RESOLUTION + ".height";
+    public static final String RESOLUTION_HEIGHT = RESOLUTION + ".height";
     /** Resolution resize key. */
-    private static final String RESOLUTION_RESIZE = RESOLUTION + ".resize";
+    public static final String RESOLUTION_RESIZE = RESOLUTION + ".resize";
 
     /** Volume master. */
-    private static final String VOLUME = "volume";
+    public static final String VOLUME = "volume";
     /** Volume music. */
-    private static final String VOLUME_MUSIC = VOLUME + ".music";
+    public static final String VOLUME_MUSIC = VOLUME + ".music";
     /** Volume sfx. */
-    private static final String VOLUME_SFX = VOLUME + ".sfx";
+    public static final String VOLUME_SFX = VOLUME + ".sfx";
 
     /** Raster key. */
-    private static final String RASTER = "raster";
+    public static final String RASTER = "raster";
     /** Raster map key. */
-    private static final String RASTER_MAP = RASTER + ".map";
+    public static final String RASTER_MAP = RASTER + ".map";
     /** Raster map water key. */
-    private static final String RASTER_MAP_WATER = RASTER + ".map.water";
+    public static final String RASTER_MAP_WATER = RASTER + ".map.water";
     /** Raster object key. */
-    private static final String RASTER_OBJECT = RASTER + ".object";
+    public static final String RASTER_OBJECT = RASTER + ".object";
     /** Raster object water key. */
-    private static final String RASTER_OBJECT_WATER = RASTER + ".object.water";
+    public static final String RASTER_OBJECT_WATER = RASTER + ".object.water";
     /** Raster hero water key. */
-    private static final String RASTER_HERO_WATER = RASTER + ".hero.water";
+    public static final String RASTER_HERO_WATER = RASTER + ".hero.water";
 
     /** Hud key. */
-    private static final String HUD = "hud";
+    public static final String HUD = "hud";
     /** Hud visible key. */
-    private static final String HUD_VISIBLE = HUD + ".visible";
+    public static final String HUD_VISIBLE = HUD + ".visible";
 
     /** Background key. */
-    private static final String BACKGROUND = "background";
+    public static final String BACKGROUND = "background";
     /** Background flicker key. */
-    private static final String BACKGROUND_FLICKER = BACKGROUND + ".flicker";
+    public static final String BACKGROUND_FLICKER = BACKGROUND + ".flicker";
 
     /** Zoom value. */
-    private static final String ZOOM = "zoom";
+    public static final String ZOOM = "zoom";
 
+    /** Temp file. */
+    private static final File FILE = new File(new File(System.getProperty("java.io.tmpdir"), Constant.PROGRAM_NAME),
+                                              FILENAME);
     /** Single instance. */
     private static final Settings INSTANCE = new Settings();
     /** Default language. */
     private static final String DEFAULT_LANG = "en";
 
     /**
-     * Load default properties.
+     * Load settings.
      */
-    private static void loadDefault()
+    public static void load()
     {
-        try (InputStream input = Medias.create(FILENAME).getInputStream())
+        if (FILE.exists())
         {
-            INSTANCE.load(input);
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
-        }
-    }
-
-    /**
-     * Init.
-     */
-    static
-    {
-        final File file = new File(System.getProperty("user.home"), FILENAME);
-        if (file.exists())
-        {
-            try (InputStream input = new FileInputStream(file))
+            try (InputStream input = new FileInputStream(FILE))
             {
                 INSTANCE.load(input);
             }
@@ -123,6 +110,21 @@ public class Settings
     }
 
     /**
+     * Load default properties.
+     */
+    public static void loadDefault()
+    {
+        try (InputStream input = Medias.create(FILENAME).getInputStream())
+        {
+            INSTANCE.load(input);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
+    /**
      * Get settings.
      * 
      * @return The settings.
@@ -130,6 +132,16 @@ public class Settings
     public static Settings getInstance()
     {
         return INSTANCE;
+    }
+
+    /**
+     * Get the file.
+     * 
+     * @return The file.
+     */
+    public static File getFile()
+    {
+        return FILE;
     }
 
     /** Properties data. */
@@ -296,6 +308,16 @@ public class Settings
     public double getZoom()
     {
         return getDouble(ZOOM, 1.0);
+    }
+
+    /**
+     * Set text language.
+     * 
+     * @param lang The language value.
+     */
+    public void setLang(String lang)
+    {
+        properties.setProperty(LANG, lang);
     }
 
     /**

@@ -87,7 +87,7 @@ public final class ScenePicture extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
         final StageConfig config = StageConfig.imports(new Configurer(stage));

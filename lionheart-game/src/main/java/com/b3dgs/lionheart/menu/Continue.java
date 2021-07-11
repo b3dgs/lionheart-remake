@@ -22,6 +22,7 @@ import java.util.Optional;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
@@ -140,7 +141,7 @@ public class Continue extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create("input.xml")));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
@@ -375,5 +376,9 @@ public class Continue extends Sequence
     {
         back.dispose();
         valdyn.dispose();
+        if (!hasNextSequence)
+        {
+            Engine.terminate();
+        }
     }
 }
