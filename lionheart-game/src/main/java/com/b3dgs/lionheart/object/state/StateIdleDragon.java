@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
@@ -38,7 +39,7 @@ public final class StateIdleDragon extends State
         super(model, animation);
 
         addTransition(StateAttackDragon.class, this::isFireOnce);
-        addTransition(StateJump.class, () -> isFire() && isGoUp());
+        addTransition(StateJump.class, () -> isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
     }
 
     @Override

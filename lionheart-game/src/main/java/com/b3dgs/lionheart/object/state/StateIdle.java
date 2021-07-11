@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.GameplayBorder;
@@ -50,7 +51,7 @@ public final class StateIdle extends State
         addTransition(StateBorder.class, () -> !hasWin() && collideY.get() && !isGoHorizontal() && border.is());
         addTransition(StateWalk.class, () -> !hasWin() && !collideX.get() && isWalkingFastEnough());
         addTransition(StateCrouch.class, () -> !hasWin() && collideY.get() && isGoDown());
-        addTransition(StateJump.class, () -> !hasWin() && collideY.get() && isGoUpOnce());
+        addTransition(StateJump.class, () -> !hasWin() && collideY.get() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
         addTransition(StatePrepareAttack.class, () -> !hasWin() && collideY.get() && isFire());
         addTransition(StateSlide.class, () -> !hasWin() && steep.is());
         addTransition(StateFall.class,

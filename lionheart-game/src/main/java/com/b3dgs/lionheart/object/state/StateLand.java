@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
@@ -44,7 +45,7 @@ public final class StateLand extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsed(LAND_TICK));
-        addTransition(StateJump.class, () -> !hasWin() && !isFire() && isGoUpOnce());
+        addTransition(StateJump.class, () -> !hasWin() && !isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
         addTransition(StateCrouch.class, () -> !hasWin() && isGoDown());
         addTransition(StatePrepareAttack.class, () -> !hasWin() && isFire());
         addTransition(StateFall.class,

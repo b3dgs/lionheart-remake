@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -41,7 +42,7 @@ public final class StateGripIdle extends State
     {
         super(model, animation);
 
-        addTransition(StateGripSoar.class, this::isGoUp);
+        addTransition(StateGripSoar.class, () -> isGoUpOnce() || isFire(DeviceMapping.UP));
         addTransition(StateAttackGrip.class, this::isFireOnce);
         addTransition(StateFall.class, this::isGoDown);
     }

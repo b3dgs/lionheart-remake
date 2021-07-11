@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -104,7 +105,7 @@ public class StateLianaSlide extends State
     {
         super.exit();
 
-        if (isGoUp())
+        if (isGoUp() || isFire(DeviceMapping.UP))
         {
             movement.setDestination(0.0, 0.0);
         }

@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -52,7 +53,7 @@ public class StateSlideBase extends State
 
         addTransition(StateIdle.class, () -> (!steep.is() || abord.get()) && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> (!steep.is() || abord.get()) && model.hasFeature(Patrol.class));
-        addTransition(StateJump.class, this::isGoUpOnce);
+        addTransition(StateJump.class, () -> (isGoUpOnce() || isFire(DeviceMapping.UP)));
     }
 
     /**
@@ -111,7 +112,7 @@ public class StateSlideBase extends State
 
         movement.zero();
 
-        if (isGoUp())
+        if (isGoUp() || isFire(DeviceMapping.UP))
         {
             movement.setDirection(SPEED_JUMP_X * steep.getSide(), 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);

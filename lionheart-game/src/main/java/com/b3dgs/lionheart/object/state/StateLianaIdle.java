@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -47,7 +48,7 @@ public final class StateLianaIdle extends State
 
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
         addTransition(StateLianaWalk.class, this::isGoHorizontal);
-        addTransition(StateLianaSoar.class, () -> liana.is() && isGoUp());
+        addTransition(StateLianaSoar.class, () -> liana.is() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
         addTransition(StateAttackLiana.class, this::isFireOnce);
         addTransition(StateFall.class, () -> !liana.is() || isGoDown());
     }

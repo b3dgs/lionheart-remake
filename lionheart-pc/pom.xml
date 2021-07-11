@@ -14,7 +14,23 @@
         <jna.version>5.8.0</jna.version>
         <moditect.version>1.0.0.RC1</moditect.version>
         <checkstyle.skip>true</checkstyle.skip>
+        <sdl2gdx.version>1.0.4</sdl2gdx.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <layout>default</layout>
+            <url>https://jcenter.bintray.com/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
@@ -45,6 +61,11 @@
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-raster</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.co.electronstudio.sdl2gdx</groupId>
+            <artifactId>sdl2gdx</artifactId>
+            <version>${sdl2gdx.version}</version>
         </dependency>
     </dependencies>
     <build>

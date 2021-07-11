@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -59,7 +60,7 @@ public final class StateJump extends State
 
         checkJumpStopped = extrp ->
         {
-            if (!isFire() && Double.compare(device.getVerticalDirection(), 0.0) <= 0)
+            if (!isFire() && Double.compare(device.getVerticalDirection(), 0.0) <= 0 && !isFire(DeviceMapping.UP))
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,
