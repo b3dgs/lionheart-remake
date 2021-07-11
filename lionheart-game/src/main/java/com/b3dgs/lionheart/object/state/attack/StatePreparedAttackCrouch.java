@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.state.attack;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -37,7 +38,7 @@ final class StatePreparedAttackCrouch extends State
 
         addTransition(StateUnprepareAttackCrouch.class, () -> !isFire());
         addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
-        addTransition(StateAttackTop.class, () -> isFire() && isGoUp());
+        addTransition(StateAttackTop.class, () -> isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
     }
 
     @Override
