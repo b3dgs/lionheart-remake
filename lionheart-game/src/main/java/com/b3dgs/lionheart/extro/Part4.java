@@ -16,13 +16,12 @@
  */
 package com.b3dgs.lionheart.extro;
 
-import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
@@ -30,9 +29,7 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
-import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
-import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -48,20 +45,8 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public final class Part4 extends Sequence
 {
-    /** Stories. */
-    private static final String LANG = Settings.getInstance().getLang();
-    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story4.txt"));
-    private static final String STORY5 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story5.txt"));
-    private static final String STORY6 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story6.txt"));
-    private static final String STORY7 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story7.txt"));
-    private static final Animation GLOW = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
-
-    private final Sprite credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part4", "credits.png"));
-    private final Sprite[] pics = new Sprite[2];
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
-                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
-                                                            12,
-                                                            12);
+    private final Stories stories = new Stories(getWidth(), getHeight());
+    private final Animation glow = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
     private final SpriteAnimated amulet = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
                                                                                     "part4",
                                                                                     "amulet.png"),
@@ -70,7 +55,6 @@ public final class Part4 extends Sequence
     private final Tick tick = new Tick();
     private final Audio audio;
     private final boolean alternative;
-    private final int textX = getWidth() / 2 - 124;
     private final AppInfo info;
 
     private Audio audioAlternative;
@@ -118,23 +102,8 @@ public final class Part4 extends Sequence
     @Override
     public void load()
     {
-        credits.load();
-        credits.prepare();
-        credits.setOrigin(Origin.MIDDLE);
-        credits.setLocation(getWidth() / 2, getHeight() / 2);
-
-        for (int i = 0; i < pics.length; i++)
-        {
-            pics[i] = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part4", "pic" + i + ".png"));
-            pics[i].load();
-            pics[i].prepare();
-        }
-
-        pics[0].setLocation(getWidth() / 2 - 114, 12);
-        pics[1].setLocation(getWidth() / 2 - 20, 62);
-
-        font.load();
-        font.prepare();
+        stories.load();
+        stories.setStory(3);
 
         amulet.load();
         amulet.prepare();
@@ -194,48 +163,39 @@ public final class Part4 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        // Render histories
-        credits.render(g);
+        if (tick.elapsed() < 1330)
+        {
+            stories.render(g);
+        }
 
         if (alternative)
         {
             amulet.render(g);
-
-            if (tick.elapsed() >= 1330)
-            {
-                g.setColor(Constant.ALPHAS_BLACK[128]);
-                g.drawRect(0, 0, getWidth(), getHeight(), true);
-                pics[0].render(g);
-            }
-            if (tick.elapsed() >= 2220)
-            {
-                pics[1].render(g);
-            }
         }
 
-        // Render texts
         if (tick.elapsed() > 180 && tick.elapsed() < 1330)
         {
-            font.draw(g, textX, 22, Align.LEFT, STORY4);
+            stories.setStory(4);
 
             if (alternativeMusic)
             {
-                font.draw(g, textX, 74, Align.LEFT, STORY5);
-
+                stories.setStory(5);
                 if (!played)
                 {
                     played = true;
-                    amulet.play(GLOW);
+                    amulet.play(glow);
                 }
             }
         }
         else if (alternativeMusic && tick.elapsed() >= 1330 && tick.elapsed() < 2220)
         {
-            font.draw(g, textX, 172, Align.LEFT, STORY6);
+            stories.setStory(7);
+            stories.render(g);
         }
         else if (alternativeMusic && tick.elapsed() >= 2220 && tick.elapsed() < 3100)
         {
-            font.draw(g, textX, 172, Align.LEFT, STORY7);
+            stories.setStory(8);
+            stories.render(g);
         }
 
         // Render fade in
@@ -254,6 +214,7 @@ public final class Part4 extends Sequence
         if (!hasNextSequence)
         {
             audio.stop();
+            Engine.terminate();
         }
     }
 }

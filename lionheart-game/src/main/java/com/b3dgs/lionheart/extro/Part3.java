@@ -16,7 +16,6 @@
  */
 package com.b3dgs.lionheart.extro;
 
-import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
@@ -25,34 +24,19 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.drawable.Drawable;
-import com.b3dgs.lionengine.graphic.drawable.Sprite;
-import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Extro part 3 implementation.
  */
 public final class Part3 extends Sequence
 {
-    /** Stories. */
-    private static final String LANG = Settings.getInstance().getLang();
-    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story1.txt"));
-    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story2.txt"));
-    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.EXTRO, "story3.txt"));
-
-    private final Sprite[] pics = new Sprite[3];
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
-                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
-                                                            12,
-                                                            12);
+    private final Stories stories = new Stories(getWidth(), getHeight());
     private final Tick tick = new Tick();
     private final AppInfo info;
     private final Audio audio;
@@ -72,13 +56,6 @@ public final class Part3 extends Sequence
 
         this.audio = audio;
 
-        for (int i = 0; i < pics.length; i++)
-        {
-            pics[i] = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part3", "pic" + i + ".png"));
-            pics[i].load();
-            pics[i].prepare();
-        }
-
         final Services services = new Services();
         services.add(context);
         services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
@@ -95,14 +72,26 @@ public final class Part3 extends Sequence
     @Override
     public void load()
     {
-        font.load();
-        font.prepare();
+        stories.load();
     }
 
     @Override
     public void update(double extrp)
     {
         tick.update(extrp);
+
+        if (tick.elapsed() > 390)
+        {
+            stories.setStory(0);
+        }
+        if (tick.elapsed() >= 1290)
+        {
+            stories.setStory(1);
+        }
+        if (tick.elapsed() >= 2190)
+        {
+            stories.setStory(2);
+        }
 
         if (tick.elapsed() > 3000)
         {
@@ -123,35 +112,9 @@ public final class Part3 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        // Render histories
         if (tick.elapsed() > 390)
         {
-            pics[0].setLocation(0, 0);
-            pics[0].render(g);
-        }
-        if (tick.elapsed() >= 1290)
-        {
-            pics[1].setLocation(160, 14);
-            pics[1].render(g);
-        }
-        if (tick.elapsed() >= 2190)
-        {
-            pics[2].setLocation(80, 29);
-            pics[2].render(g);
-        }
-
-        // Render texts
-        if (tick.elapsed() > 390 && tick.elapsed() < 1290)
-        {
-            font.draw(g, 1, 128, Align.LEFT, STORY1);
-        }
-        if (tick.elapsed() >= 1290 && tick.elapsed() < 2190)
-        {
-            font.draw(g, 1, 128, Align.LEFT, STORY2);
-        }
-        if (tick.elapsed() >= 2190)
-        {
-            font.draw(g, 1, 128, Align.LEFT, STORY3);
+            stories.render(g);
         }
 
         // Render fade in

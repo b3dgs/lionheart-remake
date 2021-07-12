@@ -16,16 +16,12 @@
  */
 package com.b3dgs.lionheart.intro;
 
-import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.drawable.Drawable;
-import com.b3dgs.lionengine.graphic.drawable.Sprite;
-import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -33,9 +29,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
-import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
-import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.menu.Menu;
 
 /**
@@ -44,19 +38,7 @@ import com.b3dgs.lionheart.menu.Menu;
 public final class Part4 extends Sequence
 {
     /** Stories. */
-    private static final String LANG = Settings.getInstance().getLang();
-    private static final String STORY1 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story1.txt"));
-    private static final String STORY2 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story2.txt"));
-    private static final String STORY3 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story3.txt"));
-    private static final String STORY4 = Util.toFontText(Medias.create(Folder.TEXT, LANG, Folder.INTRO, "story4.txt"));
-
-    /** Font. */
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
-                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
-                                                            12,
-                                                            12);
-    /** Pictures. */
-    private final Sprite[] history = new Sprite[4];
+    private final Stories stories = new Stories();
     /** Input device reference. */
     private final DeviceController device;
     /** Application info. */
@@ -88,12 +70,6 @@ public final class Part4 extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
-        for (int i = 0; i < history.length; i++)
-        {
-            history[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part4", "history" + i + ".png"));
-            history[i].load();
-        }
-
         load(Menu.class);
 
         setSystemCursorVisible(false);
@@ -102,13 +78,31 @@ public final class Part4 extends Sequence
     @Override
     public void load()
     {
-        font.load();
+        stories.load();
+        audio.play();
     }
 
     @Override
     public void update(double extrp)
     {
         seek = audio.getTicks();
+
+        if (seek > 113500)
+        {
+            stories.setStory(0);
+        }
+        if (seek > 130000)
+        {
+            stories.setStory(1);
+        }
+        if (seek > 154000)
+        {
+            stories.setStory(2);
+        }
+        if (seek > 180000)
+        {
+            stories.setStory(3);
+        }
 
         // First Fade in
         if (seek > 113500 && seek < 201000)
@@ -140,45 +134,7 @@ public final class Part4 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        // Render histories
-        if (seek >= 113500)
-        {
-            history[0].setLocation(0, 0);
-            history[0].render(g);
-        }
-        if (seek >= 130000)
-        {
-            history[1].setLocation(45, 20);
-            history[1].render(g);
-        }
-        if (seek >= 154000)
-        {
-            history[2].setLocation(90, 40);
-            history[2].render(g);
-        }
-        if (seek >= 180000)
-        {
-            history[3].setLocation(135, 60);
-            history[3].render(g);
-        }
-
-        // Render texts
-        if (seek >= 113500 && seek < 130000)
-        {
-            font.draw(g, 1, history[0].getHeight() + 2, Align.LEFT, STORY1);
-        }
-        if (seek >= 130000 && seek < 154000)
-        {
-            font.draw(g, 1, history[1].getHeight() + 22, Align.LEFT, STORY2);
-        }
-        if (seek >= 154000 && seek < 180000)
-        {
-            font.draw(g, 1, history[2].getHeight() + 42, Align.LEFT, STORY3);
-        }
-        if (seek >= 180000 && seek < 205000)
-        {
-            font.draw(g, 1, history[3].getHeight() + 62, Align.LEFT, STORY4);
-        }
+        stories.render(g);
 
         // Render fade in
         if (alphaBack < 255)
