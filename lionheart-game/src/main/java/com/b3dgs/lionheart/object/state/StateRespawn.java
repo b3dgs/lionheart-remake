@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
+import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Difficulty;
 import com.b3dgs.lionheart.InitConfig;
@@ -42,6 +43,7 @@ public final class StateRespawn extends State
     private final CheckpointHandler checkpoint = model.getCheckpoint();
     private final Landscape landscape = model.getServices().get(Landscape.class);
     private final Difficulty difficulty = model.getServices().get(Difficulty.class);
+    private final boolean cheats = model.getServices().get(CheatsProvider.class).getCheats();
 
     /**
      * Create the state.
@@ -92,7 +94,10 @@ public final class StateRespawn extends State
             jump.zero();
             mirrorable.mirror(Mirror.NONE);
             stats.fillHealth();
-            stats.decreaseLife();
+            if (!cheats)
+            {
+                stats.decreaseLife();
+            }
             landscape.reset();
         }
     }
