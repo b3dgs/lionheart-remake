@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.menu.Menu;
 
@@ -45,23 +46,24 @@ public final class Part4 extends Sequence
     private final AppInfo info;
     /** Audio. */
     private final Audio audio;
+    private final Time time;
     /** Back alpha. */
     private double alphaBack;
     /** Alpha speed. */
     private double alphaSpeed = 3.0;
-    /** Current seek. */
-    private long seek;
 
     /**
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      */
-    public Part4(Context context, Audio audio)
+    public Part4(Context context, Time time, Audio audio)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.time = time;
         this.audio = audio;
 
         final Services services = new Services();
@@ -85,39 +87,39 @@ public final class Part4 extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        time.update(extrp);
 
-        if (seek > 113500)
+        if (time.isAfter(113500))
         {
             stories.setStory(0);
         }
-        if (seek > 130000)
+        if (time.isAfter(130000))
         {
             stories.setStory(1);
         }
-        if (seek > 154000)
+        if (time.isAfter(154000))
         {
             stories.setStory(2);
         }
-        if (seek > 180000)
+        if (time.isAfter(180000))
         {
             stories.setStory(3);
         }
 
         // First Fade in
-        if (seek > 113500 && seek < 201000)
+        if (time.isBetween(113500, 200000))
         {
             alphaBack += alphaSpeed;
         }
 
         // First Fade out
-        if (seek > 200000 && seek < 205000)
+        if (time.isAfter(200000))
         {
             alphaBack += alphaSpeed;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
-        if (alphaSpeed > 0 && (seek > 200000 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
+        if (alphaSpeed > 0 && (time.isAfter(200000) || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)))
         {
             alphaSpeed = -alphaSpeed * 2;
         }

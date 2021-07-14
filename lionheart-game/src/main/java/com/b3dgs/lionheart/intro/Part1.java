@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -60,6 +61,7 @@ public final class Part1
     private final Camera cameraScenery = new Camera();
     /** Wide factor. */
     private final double wide;
+    private final Time time;
 
     /** Text alpha. */
     private double alphaText;
@@ -67,12 +69,14 @@ public final class Part1
     /**
      * Constructor.
      * 
+     * @param time The time reference.
      * @param wide The wide factor.
      */
-    public Part1(double wide)
+    public Part1(Time time, double wide)
     {
         super();
 
+        this.time = time;
         this.wide = wide;
     }
 
@@ -99,21 +103,20 @@ public final class Part1
     /**
      * Update part.
      * 
-     * @param seek The current seek.
      * @param extrp The extrapolation value.
      */
-    public void update(long seek, double extrp)
+    public void update(double extrp)
     {
         // Text fades
-        updateAlphaText(2700, 5350, 5350, 6450, seek, extrp);
-        updateAlphaText(7050, 10000, 12000, 14000, seek, extrp);
-        updateAlphaText(15200, 18100, 18100, 20200, seek, extrp);
-        updateAlphaText(20200, 23100, 23100, 25200, seek, extrp);
-        updateAlphaText(25200, 28100, 28100, 30200, seek, extrp);
-        updateAlphaText(30200, 33100, 33100, 35200, seek, extrp);
+        updateAlphaText(2700, 5350, 5350, 6450, extrp);
+        updateAlphaText(7050, 10000, 12000, 14000, extrp);
+        updateAlphaText(15200, 18100, 18100, 20200, extrp);
+        updateAlphaText(20200, 23100, 23100, 25200, extrp);
+        updateAlphaText(25200, 28100, 28100, 30200, extrp);
+        updateAlphaText(30200, 33100, 33100, 35200, extrp);
 
         // Start moving camera until door
-        if (seek > 10500)
+        if (time.isAfter(10500))
         {
             cameraBack.moveLocation(extrp, 0.45, 0.0);
             cameraScenery.moveLocation(extrp, 0.77, 0.0);
@@ -141,7 +144,6 @@ public final class Part1
      * @param text4 The text 4.
      * @param width The width.
      * @param height The height.
-     * @param seek The current seek.
      * @param g The graphic output.
      */
     private void renderText(int start,
@@ -157,10 +159,9 @@ public final class Part1
                             String text4,
                             int width,
                             int height,
-                            long seek,
                             Graphic g)
     {
-        if (seek > start && seek < end)
+        if (time.isBetween(start, end))
         {
             TEXT.setColor(Constant.ALPHAS_WHITE[(int) alphaText]);
             TEXT.draw(g, width / 2 + x1, height / 2 + y1, align, text1);
@@ -181,15 +182,14 @@ public final class Part1
      * 
      * @param width The width.
      * @param height The height.
-     * @param seek The current seek.
      * @param g The graphic output.
      */
-    public void render(int width, int height, long seek, Graphic g)
+    public void render(int width, int height, Graphic g)
     {
         g.clear(0, 0, width, height);
 
         // Render backs
-        if (seek < 42000)
+        if (time.isBefore(42000))
         {
             for (int i = 0; i < backs.length; i++)
             {
@@ -225,9 +225,8 @@ public final class Part1
                    null,
                    width,
                    height,
-                   seek,
                    g);
-        if (seek > 6450 && seek < 13100)
+        if (time.isBetween(6450, 13100))
         {
             title.setAlpha((int) alphaText);
             title.setLocation(width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 16);
@@ -246,7 +245,6 @@ public final class Part1
                    "Pierre-Alexandre (remake)",
                    width,
                    height,
-                   seek,
                    g);
 
         renderText(20200,
@@ -262,7 +260,6 @@ public final class Part1
                    null,
                    width,
                    height,
-                   seek,
                    g);
 
         renderText(25200,
@@ -278,7 +275,6 @@ public final class Part1
                    null,
                    width,
                    height,
-                   seek,
                    g);
 
         renderText(30200,
@@ -294,7 +290,6 @@ public final class Part1
                    null,
                    width,
                    height,
-                   seek,
                    g);
     }
 
@@ -305,16 +300,15 @@ public final class Part1
      * @param end1 The entering end.
      * @param start2 The ending start.
      * @param end2 The ending end.
-     * @param seek The current seek.
      * @param extrp The extrapolation value.
      */
-    private void updateAlphaText(int start1, int end1, int start2, int end2, long seek, double extrp)
+    private void updateAlphaText(int start1, int end1, int start2, int end2, double extrp)
     {
-        if (seek >= start1 && seek < end1)
+        if (time.isBetween(start1, end1))
         {
             alphaText += 4.0 * extrp;
         }
-        else if (seek >= start2 && seek < end2)
+        else if (time.isBetween(start2, end2))
         {
             alphaText -= 4.0 * extrp;
         }

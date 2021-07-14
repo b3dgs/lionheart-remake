@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -73,6 +74,7 @@ public final class Part2
     private final Coord valdynCoord = new Coord(320, 240);
     /** Z locations. */
     private final double[] z = new double[2 + pillar.length];
+    private final Time time;
 
     /** Alpha. */
     private double alpha;
@@ -83,10 +85,14 @@ public final class Part2
 
     /**
      * Constructor.
+     * 
+     * @param time The time reference.
      */
-    public Part2()
+    public Part2(Time time)
     {
         super();
+
+        this.time = time;
 
         for (int i = 0; i < pillar.length; i++)
         {
@@ -125,19 +131,18 @@ public final class Part2
     /**
      * Update part.
      * 
-     * @param seek The current seek.
      * @param extrp The extrapolation value.
      */
-    public void update(long seek, double extrp)
+    public void update(double extrp)
     {
         // Open the door
-        if (seek < 48700)
+        if (time.isBefore(48700))
         {
             door.update(extrp);
         }
 
         // Enter in the door
-        if (seek > 49000 && z[0] > 2)
+        if (time.isAfter(49000) && z[0] > 2)
         {
             z[0] -= 0.08;
             final double doorZ = UtilMath.clamp(1000 / z[0], 100, 800);
@@ -152,7 +157,7 @@ public final class Part2
         }
 
         // Alpha inside cave
-        if (seek > 50500 && seek < 55000)
+        if (time.isBetween(50500, 55000))
         {
             alpha += 1.5;
         }
@@ -167,7 +172,7 @@ public final class Part2
         }
 
         // Valdyn approaching
-        if (seek > 66500 && seek < 71000)
+        if (time.isBetween(66500, 71000))
         {
             valdynCoord.translate(-1.05 * extrp, -1.5 * 1.28 * extrp);
             if (valdynCoord.getX() < 195)
@@ -181,61 +186,61 @@ public final class Part2
         }
 
         // Fade out from cave
-        if (seek > 71260 && seek < 71900)
+        if (time.isBetween(71260, 71900))
         {
             alpha -= 15.0;
         }
 
         // Fade in to equipment
-        if (seek > 71900 && seek < 72400)
+        if (time.isBetween(71900, 72400))
         {
             alpha += 15.0;
         }
 
         // Equipment
-        if (seek > 75100 && seek < 76100)
+        if (time.isBetween(75100, 76100))
         {
             equipSword.update(extrp);
         }
-        if (seek > 76900 && seek < 77900)
+        if (time.isBetween(76900, 77900))
         {
             equipFoot.update(extrp);
         }
-        if (seek > 78670 && seek < 79670)
+        if (time.isBetween(78670, 79670))
         {
             equipHand.update(extrp);
         }
 
         // Fade out from equipment
-        if (seek > 80800 && seek < 81370)
+        if (time.isBetween(80800, 81370))
         {
             alpha -= 15.0;
         }
 
         // Fade in to valdyn rage
-        if (seek > 81370 && seek < 81900)
+        if (time.isBetween(81370, 81900))
         {
             alpha += 15.0;
         }
 
         // Fade out from valdyn rage
-        if (seek > 86430 && seek < 88000)
+        if (time.isBetween(86430, 88000))
         {
             alpha -= 10.0;
         }
 
         // Fade in valdyn rage
-        if (seek > 83300 && seek < 84560)
+        if (time.isBetween(83300, 84560))
         {
             alpha2 += 10.0;
         }
-        if (seek > 84340 && seek < 84900 && flash < 12)
+        if (time.isBetween(84340, 84900) && flash < 12)
         {
             flash++;
         }
 
         // Fade out valdyn rage
-        if (seek > 84900 && seek < 85800)
+        if (time.isBetween(84900, 85800))
         {
             alpha2 -= 10.0;
         }
@@ -249,10 +254,9 @@ public final class Part2
      * 
      * @param width The width.
      * @param height The height.
-     * @param seek The current seek.
      * @param g The graphic output.
      */
-    public void render(int width, int height, long seek, Graphic g)
+    public void render(int width, int height, Graphic g)
     {
         g.clear(0, 0, width, height);
         final int bandHeight = (int) (Math.floor(height - 144) / 2.0);
@@ -265,7 +269,7 @@ public final class Part2
         }
 
         // Render cave
-        if (z[0] < 2 && seek < 71900)
+        if (z[0] < 2 && time.isBefore(71900))
         {
             if (z[7] > 0)
             {
@@ -304,43 +308,43 @@ public final class Part2
         }
 
         // Render valdyn
-        if (seek > 66500 && seek < 72200)
+        if (time.isBetween(66500, 72200))
         {
             valdyn.setLocation((int) valdynCoord.getX(), (int) valdynCoord.getY() + bandHeight);
             valdyn.render(g);
         }
 
         // Render cave 2
-        if (seek > 71900 && seek < 81370)
+        if (time.isBetween(71900, 81370))
         {
             cave2.setLocation(width / 2, height / 2);
             cave2.render(g);
         }
 
         // Render equipment
-        if (seek > 74500 && seek < 81370)
+        if (time.isBetween(74500, 81370))
         {
             equipSword.setLocation(20, bandHeight + 4);
             equipSword.render(g);
         }
-        if (seek > 76300 && seek < 81370)
+        if (time.isBetween(76300, 81370))
         {
             equipFoot.setLocation(70, bandHeight + 11);
             equipFoot.render(g);
         }
-        if (seek > 78060 && seek < 81370)
+        if (time.isBetween(78060, 81370))
         {
             equipHand.setLocation(120, bandHeight + 19);
             equipHand.render(g);
         }
 
         // Render valdyn rage
-        if (seek > 81370 && seek < 88000)
+        if (time.isBetween(81370, 88000))
         {
             valdyn0.setLocation(width / 2, height / 2);
             valdyn0.render(g);
         }
-        if (seek > 83300 && seek < 88000)
+        if (time.isBetween(83300, 88000))
         {
             valdyn1.setAlpha((int) alpha2);
             valdyn1.setLocation(width / 2, height / 2);
@@ -353,7 +357,7 @@ public final class Part2
         }
 
         // Render fade
-        if (seek > 50500 && alpha < 255)
+        if (time.isAfter(50500) && alpha < 255)
         {
             g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
             g.drawRect(0, 0, width, height, true);

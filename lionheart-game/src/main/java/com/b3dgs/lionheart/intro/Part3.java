@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.menu.Menu;
@@ -97,6 +98,7 @@ public final class Part3 extends Sequence
     private final AppInfo info;
     /** Audio. */
     private final Audio audio;
+    private final Time time;
     /** Back alpha. */
     private double alphaBack;
     /** Valdyn state. */
@@ -105,8 +107,6 @@ public final class Part3 extends Sequence
     private int dragonState;
     /** Dragon go down. */
     private double dragonGoDown;
-    /** Current seek. */
-    private long seek;
     /** Skip intro. */
     private boolean skip;
 
@@ -114,12 +114,14 @@ public final class Part3 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      */
-    public Part3(Context context, Audio audio)
+    public Part3(Context context, Time time, Audio audio)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
+        this.time = time;
         this.audio = audio;
 
         dragon2.setFrameOffsets(3, -33);
@@ -130,7 +132,7 @@ public final class Part3 extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
-        load(Part4.class, audio);
+        load(Part4.class, time, audio);
 
         setSystemCursorVisible(false);
     }
@@ -158,14 +160,14 @@ public final class Part3 extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        time.update(extrp);
 
         valdyn.update(extrp);
         dragon1.update(extrp);
         dragon2.update(extrp);
 
         // Move valdyn
-        if (seek > 95500 && valdynState == 0)
+        if (time.isAfter(95500) && valdynState == 0)
         {
             valdynCoord.translate(1.0, 0.0);
             if (valdynCoord.getX() > 224)
@@ -188,19 +190,19 @@ public final class Part3 extends Sequence
                 valdynState = 2;
             }
         }
-        if (valdynState == 2 && seek > 99260)
+        if (valdynState == 2 && time.isAfter(99260))
         {
             valdyn.stop();
             valdynState = 3;
         }
-        if (valdynState == 3 && seek > 99860)
+        if (valdynState == 3 && time.isAfter(99860))
         {
             valdyn.play(valdynDragon);
             valdynState = 4;
         }
 
         // Move camera
-        if (seek > 96360 && seek < 98300)
+        if (time.isBetween(96360, 98300))
         {
             camera.moveLocation(extrp, 1.0, 0.0);
             if (dragonState == 0)
@@ -219,19 +221,19 @@ public final class Part3 extends Sequence
             dragon1.play(dragonEat);
             dragonState = 2;
         }
-        if (dragonState == 2 && seek > 98230)
+        if (dragonState == 2 && time.isAfter(98230))
         {
             dragonState = 3;
             dragon1.stop();
             dragon1.setFrame(dragonBack.getLast() + 1);
         }
-        if (dragonState == 3 && seek > 99830)
+        if (dragonState == 3 && time.isAfter(99830))
         {
             dragon1.play(dragonBack);
             dragon1.setFrame(dragonBack.getLast() + 1);
             dragonState = 4;
         }
-        if (dragonState == 4 && seek > 101200)
+        if (dragonState == 4 && time.isAfter(101200))
         {
             dragon2.play(dragonFly);
             dragonState = 5;
@@ -255,7 +257,7 @@ public final class Part3 extends Sequence
         }
 
         // First Fade in
-        if (seek > 93660 && seek < 96000 && !skip)
+        if (time.isBetween(93660, 96000) && !skip)
         {
             alphaBack += 5.0;
         }
@@ -266,13 +268,13 @@ public final class Part3 extends Sequence
         }
 
         // First Fade out
-        if (seek > 108500 && seek < 110000 || skip)
+        if (time.isBetween(108500, 110000) || skip)
         {
             alphaBack -= 5.0;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
-        if (seek >= 110000 || skip)
+        if (time.isAfter(110000) || skip)
         {
             if (skip)
             {
@@ -293,7 +295,7 @@ public final class Part3 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        if (seek > 93660 && seek < 95730)
+        if (time.isBetween(93660, 95730))
         {
             valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
                                camera.getViewpointY(valdynCoord.getY()) - getHeight());
@@ -304,13 +306,13 @@ public final class Part3 extends Sequence
         scene.render(g);
 
         // Render dragon
-        if (seek > 93660 && seek < 101200)
+        if (time.isBetween(93660, 101200))
         {
             dragon1.setLocation(camera.getViewpointX(dragonCoord.getX()),
                                 camera.getViewpointY(dragonCoord.getY()) - getHeight());
             dragon1.render(g);
         }
-        else if (seek >= 101200 && seek < 107000)
+        else if (time.isBetween(101200, 107000))
         {
             dragon2.setLocation(camera.getViewpointX(dragonCoord.getX()),
                                 camera.getViewpointY(dragonCoord.getY()) - getHeight());
@@ -318,7 +320,7 @@ public final class Part3 extends Sequence
         }
 
         // Render valdyn
-        if (seek > 95730 && seek < 101200)
+        if (time.isBetween(95730, 101200))
         {
             valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
                                camera.getViewpointY(valdynCoord.getY()) - getHeight());

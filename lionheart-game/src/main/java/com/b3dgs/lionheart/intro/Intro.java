@@ -35,6 +35,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.menu.Menu;
 
@@ -47,10 +48,11 @@ public final class Intro extends Sequence
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
+    private final Time time = new Time(getRate());
     /** Part 1. */
     private final Part1 part1;
     /** Part 2. */
-    private final Part2 part2 = new Part2();
+    private final Part2 part2 = new Part2(time);
     /** Music. */
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
     /** Input device reference. */
@@ -58,8 +60,6 @@ public final class Intro extends Sequence
     /** App info. */
     private final AppInfo info;
 
-    /** Music seek. */
-    private long seek;
     /** Back alpha. */
     private int alphaBack;
     /** Alpha speed. */
@@ -80,7 +80,7 @@ public final class Intro extends Sequence
         final double factor = getHeight() / (double) output.getHeight();
         final double wide = Math.floor(output.getWidth() * factor) / Constant.RESOLUTION.getWidth();
 
-        part1 = new Part1(wide);
+        part1 = new Part1(time, wide);
 
         final Services services = new Services();
         services.add(context);
@@ -100,7 +100,7 @@ public final class Intro extends Sequence
         part1.load();
         part2.load();
 
-        load(Part3.class, audio);
+        load(Part3.class, time, audio);
 
         audio.play();
     }
@@ -108,18 +108,18 @@ public final class Intro extends Sequence
     @Override
     public void update(double extrp)
     {
-        seek = audio.getTicks();
+        time.update(extrp);
         device.update(extrp);
 
-        if (seek < 47200)
+        if (time.isBefore(47200))
         {
-            part1.update(seek, extrp);
+            part1.update(extrp);
         }
-        else if (seek >= 47200 && seek < 88000)
+        else if (time.isBetween(47200, 88000))
         {
-            part2.update(seek, extrp);
+            part2.update(extrp);
         }
-        else if (seek >= 94000)
+        else if (time.isAfter(94000))
         {
             end();
         }
@@ -131,7 +131,7 @@ public final class Intro extends Sequence
         {
             skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT);
         }
-        if (alphaSpeed > 0 && (seek > 201000 || skip))
+        if (alphaSpeed > 0 && (time.isAfter(201000) || skip))
         {
             alphaSpeed = -alphaSpeed * 2;
         }
@@ -154,13 +154,13 @@ public final class Intro extends Sequence
     @Override
     public void render(Graphic g)
     {
-        if (seek < 47200)
+        if (time.isBefore(47200))
         {
-            part1.render(getWidth(), getHeight(), seek, g);
+            part1.render(getWidth(), getHeight(), g);
         }
-        else if (seek >= 47200 && seek < 88000)
+        else if (time.isBetween(47200, 88000))
         {
-            part2.render(getWidth(), getHeight(), seek, g);
+            part2.render(getWidth(), getHeight(), g);
         }
 
         if (alphaBack < 255)
