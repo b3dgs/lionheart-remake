@@ -72,27 +72,20 @@ public class Continue extends Sequence
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
     /** Title text color. */
     private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
-    /** Text instance for the title. */
-    private static final Text TEXT_TITLE = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF,
-                                                               26,
-                                                               TextStyle.BOLD);
     /** Yes animation. */
     private static final Animation ANIM_YES = new Animation("yes", 2, 3, 0.1, false, false);
     /** No animation. */
     private static final Animation ANIM_NO = new Animation("no", 4, 7, 0.12, false, false);
-    /** Text for menu content. */
-    private static final Text TEXT = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
     /** Alpha step speed. */
     private static final double ALPHA_STEP = 8.0;
-    /** Continue menu. */
-    private static final List<String> CONTINUE = Util.readLines(Medias.create(Folder.TEXT,
-                                                                              Settings.getInstance().getLang(),
-                                                                              Folder.MENU,
-                                                                              "continue.txt"));
 
-    /** Background menu. */
+    private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private final List<String> continues = Util.readLines(Medias.create(Folder.TEXT,
+                                                                        Settings.getInstance().getLang(),
+                                                                        Folder.MENU,
+                                                                        "continue.txt"));
     private final Sprite back = Drawable.loadSprite(Medias.create(Folder.SPRITE, "menu2.png"));
-    /** Valdyn sprite. */
     private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.HERO,
                                                                                     "valdyn",
                                                                                     "Continue.png"),
@@ -100,21 +93,18 @@ public class Continue extends Sequence
                                                                       1);
     /** List of menu data with their content. */
     private final Data data;
-    /** Device controller reference. */
+
     private final DeviceController device;
-    /** App info. */
     private final AppInfo info;
-    /** Tick. */
     private final Tick tick = new Tick();
+
     /** Horizontal factor. */
     private final double factorH = getWidth() / 640.0;
-    /** Main Y. */
+
     private final int mainY;
-    /** Time left. */
+
     private final Timing timeLeft = new Timing();
-    /** Current stage. */
     private final Media stage;
-    /** Init config. */
     private final InitConfig init;
 
     /** Screen mask alpha current value. */
@@ -169,10 +159,10 @@ public class Continue extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(TEXT, CONTINUE.get(1), x - 100, mainY + 188, Align.CENTER, null),
-            new Choice(TEXT, CONTINUE.get(2), x + 100, mainY + 188, Align.CENTER, null),
+            new Choice(text, continues.get(1), x - 100, mainY + 188, Align.CENTER, null),
+            new Choice(text, continues.get(2), x + 100, mainY + 188, Align.CENTER, null),
         };
-        return new Data(TEXT, choices);
+        return new Data(text, choices);
     }
 
     /**
@@ -292,19 +282,19 @@ public class Continue extends Sequence
         data.render(g, choice);
         valdyn.render(g);
 
-        TEXT_TITLE.setColor(COLOR_TITLE);
-        TEXT_TITLE.draw(g, (int) (CENTER_X * factorH), mainY + 96, Align.CENTER, CONTINUE.get(0));
+        textTitle.setColor(COLOR_TITLE);
+        textTitle.draw(g, (int) (CENTER_X * factorH), mainY + 96, Align.CENTER, continues.get(0));
         if (!tick.isStarted() && timeLeft.elapsed() < TIME_MAX_MILLI)
         {
-            TEXT_TITLE.draw(g, (int) (CENTER_X * factorH), mainY + 118, Align.CENTER, formatTime());
+            textTitle.draw(g, (int) (CENTER_X * factorH), mainY + 118, Align.CENTER, formatTime());
         }
 
-        TEXT.setColor(COLOR_OPTION);
-        TEXT.draw(g,
+        text.setColor(COLOR_OPTION);
+        text.draw(g,
                   (int) (CENTER_X * factorH),
                   mainY + 244,
                   Align.CENTER,
-                  CONTINUE.get(3) + String.valueOf(init.getCredits()));
+                  continues.get(3) + String.valueOf(init.getCredits()));
     }
 
     /**
@@ -376,6 +366,8 @@ public class Continue extends Sequence
     {
         back.dispose();
         valdyn.dispose();
+        continues.clear();
+
         if (!hasNextSequence)
         {
             Engine.terminate();

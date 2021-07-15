@@ -212,6 +212,7 @@ public final class Part4 extends Sequence
     public void onTerminated(boolean hasNextSequence)
     {
         stories.dispose();
+        amulet.dispose();
 
         if (!hasNextSequence)
         {

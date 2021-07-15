@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
@@ -50,64 +51,44 @@ public final class Part3 extends Sequence
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
-    /** Scene. */
+    private static SpriteAnimated loadSpriteAnimated(String name, int fh, int fv)
+    {
+        return Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO, "part3", name), fh, fv);
+    }
+
+    private static Animation createAnimation(int start, int end, boolean reverse, boolean repeat)
+    {
+        return new Animation(Animation.DEFAULT_NAME, start, end, 0.2, reverse, repeat);
+    }
+
+    private final SpriteAnimated valdyn = loadSpriteAnimated("valdyn.png", 8, 3);
+    private final SpriteAnimated dragon1 = loadSpriteAnimated("dragon1.png", 6, 3);
+    private final SpriteAnimated dragon2 = loadSpriteAnimated("dragon2.png", 5, 4);
     private final Sprite scene = Drawable.loadSprite(Medias.create(Folder.INTRO, "part3", "scene.png"));
-    /** Scene. */
-    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
-                                                                                    "part3",
-                                                                                    "valdyn.png"),
-                                                                      8,
-                                                                      3);
-    /** Dragon 1. */
-    private final SpriteAnimated dragon1 = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
-                                                                                     "part3",
-                                                                                     "dragon1.png"),
-                                                                       6,
-                                                                       3);
-    /** Dragon 2. */
-    private final SpriteAnimated dragon2 = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
-                                                                                     "part3",
-                                                                                     "dragon2.png"),
-                                                                       5,
-                                                                       4);
-    /** Valdyn walk. */
-    private final Animation valdynWalk = new Animation(Animation.DEFAULT_NAME, 1, 10, 0.2f, false, true);
-    /** Valdyn prepare. */
-    private final Animation valdynPrepare = new Animation(Animation.DEFAULT_NAME, 11, 12, 0.2f, false, false);
-    /** Valdyn prepare loop. */
-    private final Animation valdynPrepareLoop = new Animation(Animation.DEFAULT_NAME, 13, 14, 0.2f, false, true);
-    /** Valdyn dragon. */
-    private final Animation valdynDragon = new Animation(Animation.DEFAULT_NAME, 15, 24, 0.2f, false, false);
-    /** Dragon idle. */
-    private final Animation dragonIdle = new Animation(Animation.DEFAULT_NAME, 1, 15, 0.2f, false, false);
-    /** Dragon eat. */
-    private final Animation dragonEat = new Animation(Animation.DEFAULT_NAME, 16, 18, 0.2f, false, true);
-    /** Dragon back. */
-    private final Animation dragonBack = new Animation(Animation.DEFAULT_NAME, 1, 15, 0.2f, true, false);
-    /** Dragon back. */
-    private final Animation dragonFly = new Animation(Animation.DEFAULT_NAME, 1, 20, 0.2f, true, true);
-    /** Dragon location. */
+
+    private final Animation valdynWalk = createAnimation(1, 10, false, true);
+    private final Animation valdynPrepare = createAnimation(11, 12, false, false);
+    private final Animation valdynPrepareLoop = createAnimation(13, 14, false, true);
+    private final Animation valdynDragon = createAnimation(15, 24, false, false);
+
+    private final Animation dragonIdle = createAnimation(1, 15, false, false);
+    private final Animation dragonEat = createAnimation(16, 18, false, true);
+    private final Animation dragonBack = createAnimation(1, 15, true, false);
+    private final Animation dragonFly = createAnimation(1, 20, true, true);
+
     private final Coord valdynCoord = new Coord(28, -76);
-    /** Dragon location. */
     private final Coord dragonCoord = new Coord(176, -44);
-    /** Camera back. */
+
     private final Camera camera = new Camera();
-    /** Input device reference. */
     private final DeviceController device;
-    /** App info. */
     private final AppInfo info;
-    /** Audio. */
-    private final Audio audio;
     private final Time time;
-    /** Back alpha. */
+    private final Audio audio;
+
     private double alphaBack;
-    /** Valdyn state. */
     private int valdynState;
-    /** Dragon state. */
     private int dragonState;
-    /** Dragon go down. */
     private double dragonGoDown;
-    /** Skip intro. */
     private boolean skip;
 
     /**
@@ -124,8 +105,6 @@ public final class Part3 extends Sequence
         this.time = time;
         this.audio = audio;
 
-        dragon2.setFrameOffsets(3, -33);
-
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
@@ -133,6 +112,10 @@ public final class Part3 extends Sequence
         info = new AppInfo(this::getFps, services);
 
         load(Part4.class, time, audio);
+
+        dragon2.setFrameOffsets(3, -33);
+
+        camera.setView(0, (getHeight() - scene.getHeight()) / 2, getWidth(), getHeight(), getHeight());
 
         setSystemCursorVisible(false);
     }
@@ -143,17 +126,14 @@ public final class Part3 extends Sequence
         scene.load();
         scene.prepare();
 
-        camera.setView(0, (getHeight() - scene.getHeight()) / 2, getWidth(), getHeight(), getHeight());
-
-        valdyn.load();
-        valdyn.prepare();
-
         dragon1.load();
         dragon1.prepare();
 
         dragon2.load();
         dragon2.prepare();
 
+        valdyn.load();
+        valdyn.prepare();
         valdyn.play(valdynWalk);
     }
 
@@ -339,5 +319,15 @@ public final class Part3 extends Sequence
         g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
 
         info.render(g);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            audio.stop();
+            Engine.terminate();
+        }
     }
 }

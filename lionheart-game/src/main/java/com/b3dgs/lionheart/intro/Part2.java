@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.intro;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -32,55 +33,36 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Intro part 2 implementation.
  */
-public final class Part2
+public final class Part2 implements Updatable
 {
-    /** Door. */
-    private final SpriteAnimated door = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO, "part2", "door.png"),
-                                                                    3,
-                                                                    2);
-    /** Pillar. */
+    private static SpriteAnimated loadSpriteAnimated(String name, int fh, int fv)
+    {
+        return Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO, "part2", name), fh, fv);
+    }
+
+    private final SpriteAnimated door = loadSpriteAnimated("door.png", 3, 2);
     private final Sprite[] pillar = new Sprite[6];
-    /** Cave 1. */
+
     private final Sprite cave1 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "cave1.png"));
-    /** Cave 2. */
     private final Sprite cave2 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "cave2.png"));
-    /** Valdyn. */
     private final Sprite valdyn = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn.png"));
-    /** Equip sword. */
-    private final SpriteAnimated equipSword = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
-                                                                                        "part2",
-                                                                                        "sword.png"),
-                                                                          3,
-                                                                          1);
-    /** Equip foot. */
-    private final SpriteAnimated equipFoot = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
-                                                                                       "part2",
-                                                                                       "foot.png"),
-                                                                         3,
-                                                                         1);
-    /** Equip hand. */
-    private final SpriteAnimated equipHand = Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO,
-                                                                                       "part2",
-                                                                                       "hand.png"),
-                                                                         3,
-                                                                         1);
-    /** Valdyn 0. */
+
+    private final SpriteAnimated equipSword = loadSpriteAnimated("sword.png", 3, 1);
+    private final SpriteAnimated equipFoot = loadSpriteAnimated("foot.png", 3, 1);
+    private final SpriteAnimated equipHand = loadSpriteAnimated("hand.png", 3, 1);
+
     private final Sprite valdyn0 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn0.png"));
-    /** Valdyn 1. */
     private final Sprite valdyn1 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn1.png"));
-    /** Valdyn 2. */
     private final Sprite valdyn2 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn2.png"));
-    /** Valdyn coordinate. */
+
     private final Coord valdynCoord = new Coord(320, 240);
-    /** Z locations. */
     private final double[] z = new double[2 + pillar.length];
+
     private final Time time;
 
-    /** Alpha. */
     private double alpha;
-    /** Alpha 2. */
     private double alpha2;
-    /** Flash. */
+    private double alpha2old;
     private int flash;
 
     /**
@@ -93,12 +75,6 @@ public final class Part2
         super();
 
         this.time = time;
-
-        for (int i = 0; i < pillar.length; i++)
-        {
-            pillar[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "pillar.png"));
-            pillar[i].load();
-        }
     }
 
     /**
@@ -107,32 +83,40 @@ public final class Part2
     public void load()
     {
         door.load();
-        cave1.load();
+
+        for (int i = 0; i < pillar.length; i++)
+        {
+            pillar[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "pillar.png"));
+            pillar[i].load();
+        }
         valdyn.load();
+
+        cave1.load();
         cave2.load();
         cave2.setOrigin(Origin.MIDDLE);
+
         equipFoot.load();
         equipSword.load();
         equipHand.load();
+
         valdyn0.load();
         valdyn0.setOrigin(Origin.MIDDLE);
         valdyn1.load();
         valdyn1.setOrigin(Origin.MIDDLE);
         valdyn2.load();
         valdyn2.setOrigin(Origin.MIDDLE);
+
         door.play(new Animation(Animation.DEFAULT_NAME, 1, 6, 0.15, false, false));
+
         final Animation equip = new Animation(Animation.DEFAULT_NAME, 1, 3, 0.15, false, false);
         equipFoot.play(equip);
         equipSword.play(equip);
         equipHand.play(equip);
+
         z[0] = 10;
     }
 
-    /**
-     * Update part.
-     * 
-     * @param extrp The extrapolation value.
-     */
+    @Override
     public void update(double extrp)
     {
         // Open the door
@@ -230,6 +214,7 @@ public final class Part2
         }
 
         // Fade in valdyn rage
+        alpha2old = alpha2;
         if (time.isBetween(83300, 84560))
         {
             alpha2 += 10.0;
@@ -252,11 +237,11 @@ public final class Part2
     /**
      * Render part.
      * 
+     * @param g The graphic output.
      * @param width The width.
      * @param height The height.
-     * @param g The graphic output.
      */
-    public void render(int width, int height, Graphic g)
+    public void render(Graphic g, int width, int height)
     {
         g.clear(0, 0, width, height);
         final int bandHeight = (int) (Math.floor(height - 144) / 2.0);
@@ -346,7 +331,10 @@ public final class Part2
         }
         if (time.isBetween(83300, 88000))
         {
-            valdyn1.setAlpha((int) alpha2);
+            if (Double.compare(alpha2old, alpha2) != 0)
+            {
+                valdyn1.setAlpha((int) alpha2);
+            }
             valdyn1.setLocation(width / 2, height / 2);
             valdyn1.render(g);
             if (flash % 3 == 1 || flash % 3 == 2)

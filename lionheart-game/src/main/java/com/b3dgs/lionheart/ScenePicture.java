@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -50,39 +49,50 @@ public final class ScenePicture extends Sequence
     private static final int TEXT_Y = 186;
     private static final int PUSH_Y = 225;
     private static final int PUSH_BUTTON_TICK = 30;
-    private static final String PUSH_BUTTON_MESSAGE = Util.readLines(Medias.create(Folder.TEXT,
-                                                                                   Settings.getInstance().getLang(),
-                                                                                   "push.txt"))
-                                                          .get(0);
+
+    private final String pushButton = Util.readLines(Medias.create(Folder.TEXT,
+                                                                   Settings.getInstance().getLang(),
+                                                                   "push.txt"))
+                                          .get(0);
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
+                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
+                                                            12,
+                                                            12);
+    private final Image text;
 
     private final Tick tick = new Tick();
     private final Media stage;
     private final InitConfig init;
     private final Sprite picture;
-    private final SpriteFont font;
     private final DeviceController device;
     private final AppInfo info;
 
-    private int fadePic;
-    private int fadeText;
+    private int fadePic = 255;
+    private int fadeText = 255;
     private int speed = 6;
     private boolean showPush;
-    private final Image text;
 
     /**
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The associated stage.
-     * @param init The initial config.
+     * @param stage The stage media.
+     * @param init The init config.
+     * @param pic The associated picture.
+     * @param narrative The associated narrative text.
      * @throws LionEngineException If invalid argument.
      */
-    public ScenePicture(Context context, Media stage, InitConfig init)
+    public ScenePicture(Context context, Media stage, InitConfig init, Media pic, String narrative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.stage = stage;
         this.init = init;
+
+        if (!stage.exists())
+        {
+            speed = 255;
+        }
 
         final Services services = new Services();
         services.add(context);
@@ -90,19 +100,26 @@ public final class ScenePicture extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
-        final StageConfig config = StageConfig.imports(new Configurer(stage));
-        picture = Drawable.loadSprite(config.getPic().get());
-        font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
-                                       Medias.create(Folder.SPRITE, "fontdata.xml"),
-                                       12,
-                                       12);
+        picture = Drawable.loadSprite(pic);
 
         font.load();
         font.prepare();
+        text = Drawable.loadImage(cacheText(narrative));
+        text.setLocation(0, TEXT_Y);
+        text.setOrigin(Origin.TOP_LEFT);
 
-        final String str = Util.toFontText(Medias.create(Folder.TEXT,
-                                                         Settings.getInstance().getLang(),
-                                                         config.getText().get()));
+        setSystemCursorVisible(false);
+    }
+
+    /**
+     * Cache narrative text.
+     * 
+     * @param text The text string.
+     * @return The cached text.
+     */
+    private ImageBuffer cacheText(String text)
+    {
+        final String str = Util.toFontText(Medias.create(Folder.TEXT, Settings.getInstance().getLang(), text));
         final ImageBuffer buffer = Graphics.createImageBuffer(getWidth(), font.getTextHeight(str) + 8);
         buffer.prepare();
 
@@ -110,11 +127,7 @@ public final class ScenePicture extends Sequence
         font.draw(g, getWidth() / 2 - 1, 0, Align.CENTER, str);
         g.dispose();
 
-        text = Drawable.loadImage(buffer);
-        text.setLocation(0, TEXT_Y);
-        text.setOrigin(Origin.TOP_LEFT);
-
-        setSystemCursorVisible(false);
+        return buffer;
     }
 
     /**
@@ -144,7 +157,10 @@ public final class ScenePicture extends Sequence
             {
                 if (!tick.isStarted())
                 {
-                    load(Scene.class, stage, init);
+                    if (stage.exists())
+                    {
+                        load(Scene.class, stage, init);
+                    }
                     tick.start();
                 }
                 else if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
@@ -178,9 +194,6 @@ public final class ScenePicture extends Sequence
         picture.prepare();
         picture.setOrigin(Origin.CENTER_TOP);
         picture.setLocation(getWidth() / 2 - 1, PIC_Y);
-
-        fadePic = 255;
-        fadeText = 255;
     }
 
     @Override
@@ -219,7 +232,7 @@ public final class ScenePicture extends Sequence
         g.setColor(ColorRgba.WHITE);
         if (showPush)
         {
-            font.draw(g, getWidth() / 2, PUSH_Y, Align.CENTER, PUSH_BUTTON_MESSAGE);
+            font.draw(g, getWidth() / 2, PUSH_Y, Align.CENTER, pushButton);
         }
 
         info.render(g);

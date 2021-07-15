@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
@@ -38,18 +39,13 @@ import com.b3dgs.lionheart.menu.Menu;
  */
 public final class Part4 extends Sequence
 {
-    /** Stories. */
     private final Stories stories = new Stories();
-    /** Input device reference. */
     private final DeviceController device;
-    /** Application info. */
     private final AppInfo info;
-    /** Audio. */
-    private final Audio audio;
     private final Time time;
-    /** Back alpha. */
+    private final Audio audio;
+
     private double alphaBack;
-    /** Alpha speed. */
     private double alphaSpeed = 3.0;
 
     /**
@@ -72,8 +68,6 @@ public final class Part4 extends Sequence
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
-        load(Menu.class);
-
         setSystemCursorVisible(false);
     }
 
@@ -81,7 +75,6 @@ public final class Part4 extends Sequence
     public void load()
     {
         stories.load();
-        audio.play();
     }
 
     @Override
@@ -125,7 +118,8 @@ public final class Part4 extends Sequence
         }
         if (alphaBack == 0 && alphaSpeed < 0)
         {
-            end();
+            audio.stop();
+            end(Menu.class);
         }
 
         info.update(extrp);
@@ -151,9 +145,12 @@ public final class Part4 extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
-        super.onTerminated(hasNextSequence);
-
         stories.dispose();
-        audio.stop();
+
+        if (!hasNextSequence)
+        {
+            audio.stop();
+            Engine.terminate();
+        }
     }
 }

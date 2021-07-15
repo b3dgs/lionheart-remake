@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resource;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -32,6 +33,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
@@ -54,9 +56,6 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final String IMG_HEART = "health.png";
     private static final String IMG_HUD = "hud.png";
     private static final String IMG_NUMBERS = "numbers.png";
-    private static final List<String> TEXT = Util.readLines(Medias.create(Folder.TEXT,
-                                                                          Settings.getInstance().getLang(),
-                                                                          "hud.txt"));
 
     private static final int HEALTH_MAX = 8;
     private static final int HEALTH_X = 1;
@@ -74,6 +73,10 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int PAUSE_FLICKER_TICK = 14;
 
+    private final List<String> hud = Util.readLines(Medias.create(Folder.TEXT,
+                                                                  Settings.getInstance().getLang(),
+                                                                  "hud.txt"));
+
     private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITE, IMG_HEART));
     private final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_HUD));
     private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_NUMBERS));
@@ -90,6 +93,10 @@ public final class Hud implements Resource, Updatable, Renderable
     private final Tick tick = new Tick();
     private final Viewer viewer;
 
+    private Updatable updaterHud = UpdatableVoid.getInstance();
+    private Updatable updaterPause = UpdatableVoid.getInstance();
+    private Renderable rendererHud = RenderableVoid.getInstance();
+    private Renderable rendererPause = this::renderHealth;
     private Stats stats;
     private boolean paused;
     private boolean exit;
@@ -129,6 +136,8 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         this.paused = paused;
         exit = false;
+
+        switchRendererPause();
     }
 
     /**
@@ -140,6 +149,8 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         paused = exit;
         this.exit = exit;
+
+        switchRendererPause();
     }
 
     /**
@@ -153,10 +164,16 @@ public final class Hud implements Resource, Updatable, Renderable
         if (Settings.getInstance().getHudVisible() && featurable.hasFeature(Stats.class))
         {
             stats = featurable.getFeature(Stats.class);
+            updaterHud = this::updateHud;
+            updaterPause = this::updatePause;
+            rendererHud = this::renderHud;
         }
         else
         {
             stats = null;
+            updaterHud = UpdatableVoid.getInstance();
+            updaterPause = UpdatableVoid.getInstance();
+            rendererHud = RenderableVoid.getInstance();
         }
     }
 
@@ -213,6 +230,38 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     /**
+     * Switch renderer pause.
+     */
+    private void switchRendererPause()
+    {
+        if (paused)
+        {
+            rendererPause = this::renderPause;
+        }
+        else
+        {
+            rendererPause = this::renderHealth;
+        }
+    }
+
+    /**
+     * Update hud.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateHud(double extrp)
+    {
+        updateHeart();
+
+        numberTalisment.setValue(stats.getTalisment());
+        if (SWORD_VISIBLE)
+        {
+            sword.setTile(SWORD_TILE + stats.getSword());
+        }
+        numberLife.setValue(stats.getLife());
+    }
+
+    /**
      * Update heart count with current health.
      */
     private void updateHeart()
@@ -235,6 +284,60 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     /**
+     * Update pause.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updatePause(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsed(PAUSE_FLICKER_TICK))
+        {
+            flicker = !flicker;
+            text.setColor(flicker ? ColorRgba.BLACK : ColorRgba.WHITE);
+            tick.restart();
+        }
+    }
+
+    /**
+     * Render health.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderHealth(Graphic g)
+    {
+        for (int i = 0; i < hearts.length; i++)
+        {
+            hearts[i].render(g);
+        }
+    }
+
+    /**
+     * Render hud.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderHud(Graphic g)
+    {
+        rendererPause.render(g);
+
+        talisment.render(g);
+        numberTalisment.render(g);
+
+        if (SWORD_VISIBLE)
+        {
+            sword.render(g);
+        }
+        if (Boolean.TRUE.equals(stats.hasAmulet()))
+        {
+            amulet.render(g);
+        }
+
+        life.render(g);
+        numberLife.render(g);
+    }
+
+    /**
      * Render pause exit.
      * 
      * @param g The graphic output.
@@ -243,12 +346,12 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         if (exit)
         {
-            text.draw(g, HEALTH_X, HEALTH_Y, TEXT.get(1));
-            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), TEXT.get(2));
+            text.draw(g, HEALTH_X, HEALTH_Y, hud.get(1));
+            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), hud.get(2));
         }
         else
         {
-            text.draw(g, HEALTH_X, HEALTH_Y, TEXT.get(0));
+            text.draw(g, HEALTH_X, HEALTH_Y, hud.get(0));
         }
     }
 
@@ -288,61 +391,13 @@ public final class Hud implements Resource, Updatable, Renderable
     @Override
     public void update(double extrp)
     {
-        if (stats != null)
-        {
-            updateHeart();
-
-            numberTalisment.setValue(stats.getTalisment());
-            if (SWORD_VISIBLE)
-            {
-                sword.setTile(SWORD_TILE + stats.getSword());
-            }
-            numberLife.setValue(stats.getLife());
-        }
-
-        if (paused)
-        {
-            tick.update(extrp);
-            if (tick.elapsed(PAUSE_FLICKER_TICK))
-            {
-                flicker = !flicker;
-                text.setColor(flicker ? ColorRgba.BLACK : ColorRgba.WHITE);
-                tick.restart();
-            }
-        }
+        updaterHud.update(extrp);
+        updaterPause.update(extrp);
     }
 
     @Override
     public void render(Graphic g)
     {
-        if (stats != null)
-        {
-            if (paused)
-            {
-                renderPause(g);
-            }
-            else
-            {
-                for (int i = 0; i < hearts.length; i++)
-                {
-                    hearts[i].render(g);
-                }
-            }
-
-            talisment.render(g);
-            numberTalisment.render(g);
-
-            if (SWORD_VISIBLE)
-            {
-                sword.render(g);
-            }
-            if (Boolean.TRUE.equals(stats.hasAmulet()))
-            {
-                amulet.render(g);
-            }
-
-            life.render(g);
-            numberLife.render(g);
-        }
+        rendererHud.render(g);
     }
 }

@@ -49,22 +49,14 @@ public final class Intro extends Sequence
     private static final int MARGIN_WIDTH = 80;
 
     private final Time time = new Time(getRate());
-    /** Part 1. */
     private final Part1 part1;
-    /** Part 2. */
     private final Part2 part2 = new Part2(time);
-    /** Music. */
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
-    /** Input device reference. */
     private final DeviceController device;
-    /** App info. */
     private final AppInfo info;
 
-    /** Back alpha. */
     private int alphaBack;
-    /** Alpha speed. */
     private int alphaSpeed = 4;
-    /** Skip intro. */
     private boolean skip;
 
     /**
@@ -103,6 +95,12 @@ public final class Intro extends Sequence
         load(Part3.class, time, audio);
 
         audio.play();
+    }
+
+    @Override
+    protected void onLoaded(double extrp, Graphic g)
+    {
+        part1.render(g, getWidth(), getHeight());
     }
 
     @Override
@@ -156,11 +154,11 @@ public final class Intro extends Sequence
     {
         if (time.isBefore(47200))
         {
-            part1.render(getWidth(), getHeight(), g);
+            part1.render(g, getWidth(), getHeight());
         }
         else if (time.isBetween(47200, 88000))
         {
-            part2.render(getWidth(), getHeight(), g);
+            part2.render(g, getWidth(), getHeight());
         }
 
         if (alphaBack < 255)
