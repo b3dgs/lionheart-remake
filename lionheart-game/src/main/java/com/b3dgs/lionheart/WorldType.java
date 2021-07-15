@@ -16,13 +16,10 @@
  */
 package com.b3dgs.lionheart;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.io.FileReading;
-import com.b3dgs.lionengine.io.FileWriting;
 
 /**
  * List of world types.
@@ -53,18 +50,6 @@ public enum WorldType
     /** Norka world. */
     NORKA;
 
-    /**
-     * Load type from its saved format.
-     * 
-     * @param file The file reading.
-     * @return The loaded type.
-     * @throws IOException If error.
-     */
-    public static WorldType load(FileReading file) throws IOException
-    {
-        return WorldType.valueOf(file.readString());
-    }
-
     /** Associated folder. */
     private final String folder;
     /** To string. */
@@ -77,17 +62,6 @@ public enum WorldType
     {
         folder = name().toLowerCase(Locale.ENGLISH);
         toString = UtilConversion.toTitleCase(name().replace(Constant.UNDERSCORE, Constant.SPACE));
-    }
-
-    /**
-     * Save the world type.
-     * 
-     * @param file The file writing.
-     * @throws IOException If error.
-     */
-    public void save(FileWriting file) throws IOException
-    {
-        file.writeString(name());
     }
 
     /**
