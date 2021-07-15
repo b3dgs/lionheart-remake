@@ -5,12 +5,13 @@
 ### Minimum Requirements
 | Java | RAM | Space |
 | :---: | --- | --- |
-| 8 | 160MB | 60MB |
+| 8 | 128MB | 64MB |
 
 ### Downloads
 | Version | Date |
 | :---: | --- |
 | [1.0.0](https://www.b3dgs.com/v7/projects/lionheart_remake/files/lionheart-java-remake-1.0.0.zip) | 2021-06-30 |
+| [1.1.0](https://github.com/b3dgs/lionheart-remake/milestone/33) | In progress |
 
 ### Install
 | Target | Steps |
