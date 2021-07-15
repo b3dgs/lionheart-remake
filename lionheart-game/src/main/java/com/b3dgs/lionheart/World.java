@@ -614,6 +614,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         services.add(config);
         stage = services.add(StageConfig.imports(new Configurer(config)));
 
+        Util.run(stage.getBackground());
+
         if (stage.getBoss().isPresent() || stage.getBackground() == BackgroundType.NORKA)
         {
             Sfx.cacheStart(Sfx.BOSS1_BOWL,

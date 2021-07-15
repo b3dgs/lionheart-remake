@@ -43,6 +43,8 @@ public final class AppLionheart
 
         final Settings settings = Settings.getInstance();
         AudioFactory.setVolume(settings.getVolumeMaster());
+        Util.init(Tools::generateWorldRaster);
+
         Loader.start(Config.windowed(settings.getResolution(),
                                      Medias.create("icon-16.png"),
                                      Medias.create("icon-32.png"),

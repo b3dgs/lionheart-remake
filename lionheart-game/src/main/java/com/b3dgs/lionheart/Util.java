@@ -21,12 +21,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionheart.landscape.BackgroundType;
 
 /**
  * Static utility functions.
@@ -36,6 +38,31 @@ import com.b3dgs.lionengine.Verbose;
  */
 public final class Util
 {
+    private static volatile Consumer<BackgroundType> init;
+
+    /**
+     * Init task.
+     * 
+     * @param init The init task.
+     */
+    public static void init(Consumer<BackgroundType> init)
+    {
+        Util.init = init;
+    }
+
+    /**
+     * Run init task.
+     * 
+     * @param type The background type.
+     */
+    public static void run(BackgroundType type)
+    {
+        if (init != null)
+        {
+            init.accept(type);
+        }
+    }
+
     /**
      * Get resolution adapted to output from source.
      * 
