@@ -16,9 +16,13 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.File;
+import java.util.Arrays;
+
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
@@ -38,14 +42,33 @@ public final class AppLionheart
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+
+        if (!Medias.create(Constant.INPUT_FILE_CUSTOM).exists())
+        {
+            final File file = UtilStream.getCopy(Medias.create(Constant.INPUT_FILE_DEFAULT));
+            file.renameTo(new File(file.getPath().replace(file.getName(), Constant.INPUT_FILE_CUSTOM)));
+        }
+
+        run(new Gamepad());
+    }
+
+    /**
+     * Run game.
+     * 
+     * @param gamepad The gamepad handler.
+     */
+    static void run(Gamepad gamepad)
+    {
+        Settings.load();
         AudioFactory.addFormat(new WavFormat());
-        AudioFactory.addFormat(new Sc68Format());
+        AudioFactory.addFormat(Sc68Format.getFailsafe());
+
+        Util.init(Tools::generateWorldRaster);
 
         final Settings settings = Settings.getInstance();
         AudioFactory.setVolume(settings.getVolumeMaster());
-        Util.init(Tools::generateWorldRaster);
-
         Loader.start(Config.windowed(settings.getResolution(),
+                                     Arrays.asList(gamepad),
                                      Medias.create("icon-16.png"),
                                      Medias.create("icon-32.png"),
                                      Medias.create("icon-48.png"),
