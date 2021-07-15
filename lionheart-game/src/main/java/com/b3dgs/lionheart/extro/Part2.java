@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -44,6 +43,7 @@ import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.feature.SwordShade;
@@ -65,8 +65,8 @@ public final class Part2 extends Sequence
         handler.add(featurable);
         return featurable;
     });
-    private final Tick tick = new Tick();
     private final AppInfo info;
+    private final Time time;
     private final Audio audio;
 
     private final DragonEnd background;
@@ -76,13 +76,15 @@ public final class Part2 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part2(Context context, Audio audio, Boolean alternative)
+    public Part2(Context context, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.time = time;
         this.audio = audio;
 
         final Camera camera = services.create(Camera.class);
@@ -110,9 +112,7 @@ public final class Part2 extends Sequence
         background = new DragonEnd(source);
         info = new AppInfo(this::getFps, services);
 
-        load(Part3.class, audio, alternative);
-
-        tick.start();
+        load(Part3.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
     }
@@ -128,21 +128,20 @@ public final class Part2 extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-
+        time.update(extrp);
         background.update(extrp, 1.0, 0, 0);
         handler.update(extrp);
 
-        if (tick.elapsed() < 130 && alpha < 255)
+        if (time.isBefore(25000) && alpha < 255)
         {
             alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
         }
-        else if (tick.elapsed() > 580 && alpha > 0)
+        else if (time.isAfter(32500) && alpha > 0)
         {
             alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
         }
 
-        if (tick.elapsed() > 700)
+        if (time.isAfter(34500))
         {
             end();
         }

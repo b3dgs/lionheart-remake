@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -46,6 +45,7 @@ import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -73,7 +73,6 @@ public final class Part5 extends Sequence
                                            verticalFrames);
     }
 
-    private final Tick tick = new Tick();
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
     private final Handler handler = services.create(Handler.class);
@@ -85,6 +84,7 @@ public final class Part5 extends Sequence
         return featurable;
     });
     private final AppInfo info;
+    private final Time time;
     private final Audio audio;
 
     private int alphaBack;
@@ -97,13 +97,15 @@ public final class Part5 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part5(Context context, Audio audio, Boolean alternative)
+    public Part5(Context context, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.time = time;
         this.audio = audio;
 
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
@@ -121,9 +123,7 @@ public final class Part5 extends Sequence
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
 
-        load(Credits.class, audio, alternative);
-
-        tick.start();
+        load(Credits.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
     }
@@ -152,15 +152,14 @@ public final class Part5 extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-
+        time.update(extrp);
         handler.update(extrp);
 
-        if (tick.elapsed() < 150)
+        if (time.isBefore(141200))
         {
             alphaBack += 3;
         }
-        else if (tick.elapsed() > 1180)
+        else if (time.isAfter(158400))
         {
             alphaBack -= 6;
         }
@@ -168,13 +167,13 @@ public final class Part5 extends Sequence
 
         final int x = getWidth() / 2 - 2;
         final int y = getHeight() / 2 - 54;
-        if (tick.elapsed() > 100 && tick.elapsed() < 110 && !spawned)
+        if (time.isBetween(140300, 140500) && !spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y);
             spawned = !spawned;
         }
 
-        if (tick.elapsed() > 120 && tick.elapsed() < 240)
+        if (time.isBetween(140700, 142700))
         {
             alpha0b += 3;
             if (alpha0b < 256)
@@ -183,39 +182,39 @@ public final class Part5 extends Sequence
             }
         }
 
-        if (tick.elapsed() > 240 && tick.elapsed() < 280 && spawned)
+        if (time.isBetween(142700, 143590) && spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform2.xml"), x + 4, y);
             spawned = !spawned;
         }
-        if (tick.elapsed() > 295 && tick.elapsed() < 380 && !spawned)
+        if (time.isBetween(143600, 145190) && !spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform3.xml"), x - 1, y);
             spawned = !spawned;
         }
-        if (tick.elapsed() > 395 && tick.elapsed() < 480 && spawned)
+        if (time.isBetween(145200, 146990) && spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform4.xml"), x - 2, y + 116);
             spawned = !spawned;
         }
 
-        if (tick.elapsed() > 500 && tick.elapsed() < 510 && !spawned)
+        if (time.isBetween(147000, 147990) && !spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x - 40, y + 32);
             spawned = !spawned;
         }
-        if (tick.elapsed() > 560 && tick.elapsed() < 570 && spawned)
+        if (time.isBetween(148000, 148990) && spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y + 32);
             spawned = !spawned;
         }
-        if (tick.elapsed() > 620 && tick.elapsed() < 630 && !spawned)
+        if (time.isBetween(149000, 150000) && !spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x + 40, y + 32);
             spawned = !spawned;
         }
 
-        if (tick.elapsed() > 740 && flicked0c < 6)
+        if (time.isAfter(151000) && flicked0c < 6)
         {
             flick0c++;
             if (flick0c > 16)
@@ -226,13 +225,13 @@ public final class Part5 extends Sequence
             alpha0b = 255;
         }
 
-        if (tick.elapsed() > 830 && tick.elapsed() < 890 && spawned)
+        if (time.isBetween(152500, 153500) && spawned)
         {
             spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y);
             spawned = !spawned;
         }
 
-        if (tick.elapsed() > 890 && tick.elapsed() < 1000)
+        if (time.isBetween(153500, 155400))
         {
             alpha0b -= 3;
             if (alpha0b > -1)
@@ -240,12 +239,12 @@ public final class Part5 extends Sequence
                 transform0b.setAlpha(UtilMath.clamp(alpha0b, 0, 255));
             }
         }
-        if (tick.elapsed() > 1000 && eyes.getAnimState() == AnimState.STOPPED)
+        if (time.isAfter(155400) && eyes.getAnimState() == AnimState.STOPPED)
         {
             eyes.play(OPEN);
         }
 
-        if (tick.elapsed() > 1250)
+        if (time.isAfter(159500))
         {
             end();
         }

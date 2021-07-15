@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -37,6 +36,7 @@ import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -52,7 +52,7 @@ public final class Part4 extends Sequence
                                                                                     "amulet.png"),
                                                                       2,
                                                                       2);
-    private final Tick tick = new Tick();
+    private final Time time;
     private final Audio audio;
     private final boolean alternative;
     private final AppInfo info;
@@ -67,13 +67,15 @@ public final class Part4 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part4(Context context, Audio audio, Boolean alternative)
+    public Part4(Context context, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.time = time;
         this.audio = audio;
         this.alternative = Boolean.TRUE.equals(alternative);
 
@@ -87,14 +89,12 @@ public final class Part4 extends Sequence
         {
             audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE);
             audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());
-            load(Part5.class, audioAlternative, alternative);
+            load(Part5.class, time, audioAlternative, alternative);
         }
         else
         {
-            load(Credits.class, audio, alternative);
+            load(Credits.class, time, audio, alternative);
         }
-
-        tick.start();
 
         setSystemCursorVisible(false);
     }
@@ -126,13 +126,13 @@ public final class Part4 extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
+        time.update(extrp);
 
-        if (tick.elapsed() < 235)
+        if (time.isBefore(89250))
         {
             alphaBack += 6.0;
         }
-        if (alternativeMusic && tick.elapsed() > 3050)
+        if (alternativeMusic && time.isAfter(136170))
         {
             alphaBack -= 6.0;
         }
@@ -143,14 +143,14 @@ public final class Part4 extends Sequence
             amulet.update(extrp);
         }
 
-        if (alternative && tick.elapsed() > 980 && !alternativeMusic)
+        if (alternative && time.isAfter(101670) && !alternativeMusic)
         {
             alternativeMusic = true;
             audio.stop();
             audioAlternative.play();
         }
 
-        if (!alternative && tick.elapsed() > 980 || alternativeMusic && tick.elapsed() > 3200)
+        if (!alternative && time.isAfter(101670) || alternativeMusic && time.isAfter(138670))
         {
             end();
         }
@@ -163,7 +163,7 @@ public final class Part4 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        if (tick.elapsed() < 1330)
+        if (time.isBefore(107500))
         {
             stories.render(g);
         }
@@ -173,7 +173,7 @@ public final class Part4 extends Sequence
             amulet.render(g);
         }
 
-        if (tick.elapsed() > 180 && tick.elapsed() < 1330)
+        if (time.isBetween(88335, 107500))
         {
             stories.setStory(4);
 
@@ -187,12 +187,12 @@ public final class Part4 extends Sequence
                 }
             }
         }
-        else if (alternativeMusic && tick.elapsed() >= 1330 && tick.elapsed() < 2220)
+        else if (alternativeMusic && time.isBetween(107500, 122335))
         {
             stories.setStory(7);
             stories.render(g);
         }
-        else if (alternativeMusic && tick.elapsed() >= 2220 && tick.elapsed() < 3100)
+        else if (alternativeMusic && time.isBetween(12335, 137000))
         {
             stories.setStory(8);
             stories.render(g);

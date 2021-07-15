@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 
 /**
@@ -38,6 +39,7 @@ public final class Extro extends Sequence
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
+    private final Time time = new Time(getRate());
     private final Audio audio;
 
     /**
@@ -58,7 +60,7 @@ public final class Extro extends Sequence
         services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)))
                 .setVisible(false);
 
-        load(Part1.class, audio, alternative);
+        load(Part1.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
     }

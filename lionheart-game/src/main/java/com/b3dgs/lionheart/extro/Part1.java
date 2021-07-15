@@ -45,6 +45,7 @@ import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 
@@ -85,10 +86,10 @@ public final class Part1 extends Sequence
         handler.add(featurable);
         return featurable;
     });
-    private final Tick tick = new Tick();
     private final Tick tickExplode = new Tick();
     private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
     private final AppInfo info;
+    private final Time time;
     private final Audio audio;
 
     private int alpha;
@@ -103,13 +104,15 @@ public final class Part1 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part1(Context context, Audio audio, Boolean alternative)
+    public Part1(Context context, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
 
+        this.time = time;
         this.audio = audio;
 
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
@@ -127,9 +130,7 @@ public final class Part1 extends Sequence
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
 
-        load(Part2.class, audio, alternative);
-
-        tick.start();
+        load(Part2.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
     }
@@ -183,8 +184,7 @@ public final class Part1 extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-
+        time.update(extrp);
         handler.update(extrp);
         tickExplode.update(extrp);
 
@@ -201,26 +201,26 @@ public final class Part1 extends Sequence
             valdynX += 0.01 + z / 350.0;
             valdynY += 0.01;
         }
-        if (tick.elapsed() < 110 && alpha < 255)
+        if (time.isBefore(1840) && alpha < 255)
         {
             alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
         }
-        else if (tick.elapsed() > 1150 && alpha > 0)
+        else if (time.isAfter(19170) && alpha > 0)
         {
             alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
         }
-        if (tick.elapsed() < 900)
+        if (time.isBefore(15000))
         {
             spawnExplode(SPAWN_EXPLODE_DELAY);
             spawnExplode(SPAWN_EXPLODE_DELAY);
             spawnExplode(SPAWN_EXPLODE_DELAY);
             spawnExplode(SPAWN_EXPLODE_DELAY);
         }
-        else if (tick.elapsed() < 950)
+        else if (time.isBefore(15835))
         {
             spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
         }
-        if (tick.elapsed() > 925)
+        if (time.isAfter(15420))
         {
             citadel.setFrame(2);
             citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, 500);
@@ -228,7 +228,7 @@ public final class Part1 extends Sequence
         }
         citadel.setLocation(82, bandHeight + citadelY);
 
-        if (tick.elapsed() > 1370)
+        if (time.isAfter(22835))
         {
             end();
         }

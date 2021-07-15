@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -29,6 +28,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 
 /**
@@ -37,8 +37,8 @@ import com.b3dgs.lionheart.Util;
 public final class Part3 extends Sequence
 {
     private final Stories stories = new Stories(getWidth(), getHeight());
-    private final Tick tick = new Tick();
     private final AppInfo info;
+    private final Time time;
     private final Audio audio;
 
     private double alphaBack = 255;
@@ -47,13 +47,15 @@ public final class Part3 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part3(Context context, Audio audio, Boolean alternative)
+    public Part3(Context context, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.time = time;
         this.audio = audio;
 
         final Services services = new Services();
@@ -62,9 +64,7 @@ public final class Part3 extends Sequence
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
-        load(Part4.class, audio, alternative);
-
-        tick.start();
+        load(Part4.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
     }
@@ -78,28 +78,28 @@ public final class Part3 extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
+        time.update(extrp);
 
-        if (tick.elapsed() > 390)
+        if (time.isAfter(41000))
         {
             stories.setStory(0);
         }
-        if (tick.elapsed() >= 1290)
+        if (time.isAfter(56000))
         {
             stories.setStory(1);
         }
-        if (tick.elapsed() >= 2190)
+        if (time.isAfter(71000))
         {
             stories.setStory(2);
         }
 
-        if (tick.elapsed() > 3000)
+        if (time.isAfter(84500))
         {
             alphaBack -= 6.0;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
-        if (tick.elapsed() > 3050)
+        if (time.isAfter(85335))
         {
             end();
         }
@@ -112,7 +112,7 @@ public final class Part3 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        if (tick.elapsed() > 390)
+        if (time.isAfter(41000))
         {
             stories.render(g);
         }

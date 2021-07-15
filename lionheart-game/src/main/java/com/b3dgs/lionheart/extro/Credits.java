@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -43,6 +42,7 @@ import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.menu.Menu;
@@ -56,8 +56,8 @@ public final class Credits extends Sequence
     private static final double SCROLL_SPEED = 0.2;
 
     private final List<Text> texts = new ArrayList<>();
-    private final Tick tick = new Tick();
     private final Sprite credits;
+    private final Time time;
     private final Audio audio;
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
     private final DeviceController device;
@@ -72,13 +72,15 @@ public final class Credits extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Credits(Context context, Audio audio, Boolean alternative)
+    public Credits(Context context, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        this.time = time;
         this.alternative = Boolean.TRUE.equals(alternative);
 
         if (this.alternative)
@@ -162,8 +164,6 @@ public final class Credits extends Sequence
         this.audio = audio;
 
         audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());
-
-        tick.start();
     }
 
     @Override
@@ -178,13 +178,13 @@ public final class Credits extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
+        time.update(extrp);
 
-        if (tick.elapsed() < 100)
+        if (!alternative && time.isBefore(103400) || alternative && time.isBefore(161200))
         {
             alphaBack += 6.0;
         }
-        if (!started && (!alternative || tick.elapsed() > 900))
+        if (!started && (!alternative || time.isAfter(174500)))
         {
             audio.stop();
             audioAlternative.play();
