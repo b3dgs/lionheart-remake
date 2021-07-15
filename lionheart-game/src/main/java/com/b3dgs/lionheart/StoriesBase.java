@@ -106,5 +106,6 @@ public class StoriesBase implements Resource, Renderable
         {
             stories.get(i).dispose();
         }
+        stories.clear();
     }
 }
