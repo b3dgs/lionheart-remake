@@ -2,7 +2,7 @@
 <stage pic="sprite/pic3.png" text="lava.txt">
     <music file="music/lava.sc68"/>
     <map file="levels/lava/stage9.lvl" linesPerRaster="1" rasterLineOffset="2"/>
-    <raster folder="raster/lava"/>
+    <raster folder="raster/lava/lava/"/>
     <background type="LAVA"/>
     <foreground type="LAVA" waterDepth="2" waterOffset="30" waterSpeed="0.1" waterEffect="false"/>
     <checkpoints>

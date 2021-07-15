@@ -2,7 +2,7 @@
 <stage>
     <music file="music/norka.sc68"/>
     <map file="levels/norka/stage14.lvl"/>
-    <raster folder="raster/norka/"/>
+    <raster folder="raster/norka/norka/"/>
     <background type="NORKA"/>
     <foreground type="LAVA" waterDepth="3" waterOffset="-80" raise="180"/>
     <checkpoints>

@@ -2,7 +2,7 @@
 <stage>
     <music file="music/secret.sc68"/>
     <map file="levels/secret/stage10.lvl"/>
-    <raster folder="raster/secret/"/>
+    <raster folder="raster/secret/secret/"/>
     <background type="SECRET"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>

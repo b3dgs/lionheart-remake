@@ -16,47 +16,116 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.awt.graphic.EngineAwt;
+import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.Xml;
+import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.FramesConfig;
+import com.b3dgs.lionengine.game.feature.Factory;
+import com.b3dgs.lionengine.game.feature.FeaturableConfig;
+import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
+import com.b3dgs.lionengine.graphic.drawable.ImageInfo;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.landscape.LandscapeType;
+import com.b3dgs.lionheart.landscape.BackgroundType;
+import com.b3dgs.lionheart.object.feature.Underwater;
 
 /**
  * Program starts here.
  */
 public final class Tools
 {
+    private static final String BLANK = com.b3dgs.lionengine.Constant.EMPTY_STRING;
     private static final String PNG = ".png";
-    private static final String FOLDER_RASTER = "raster";
+    private static final String XML = Factory.FILE_DATA_DOT_EXTENSION;
     private static final String FILE_SHEETS = "0.png";
-    private static final String FILE_RASTER_TILES = "tiles.png";
     private static final String FILE_RASTER_INSIDE = "tiles_inside.png";
-    private static final String FILE_RASTER_WATER = "water.png";
     private static final int TILE_HEIGHT = 16;
 
-    /**
-     * Main function.
-     * 
-     * @param args The arguments (none).
-     */
-    public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
-    {
-        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, Tools.class);
-        // generateTileRaster(LandscapeType.SWAMP_DUSK);
-        // generateTileRasterInside(LandscapeType.LAVA);
-        // generateObjectRasterInside(LandscapeType.LAVA, "entity/lava/FloaterCube.png");
-        // generateTileWaterRaster(LandscapeType.NORKA);
-        // generateObjectWaterRaster(LandscapeType.LAVA, "valdyn", 6, 3);
-        // generateMoonRaster(LandscapeType.LAVA);
-        // check(Medias.create("levels/spidercave2/level4_hard.png"));
-    }
-
     private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
+
+    /**
+     * Generate raster for whole world.
+     * 
+     * @param type The landscape type.
+     */
+    public static void generateWorldRaster(BackgroundType type)
+    {
+        final ExecutorService executor = Executors.newFixedThreadPool(Math.max(1,
+                                                                               Runtime.getRuntime()
+                                                                                      .availableProcessors()
+                                                                                  / 2));
+        executor.execute(() ->
+        {
+            if (BackgroundType.LAVA.equals(type))
+            {
+                generateTileRasterInside(type);
+            }
+            else
+            {
+                generateTileRaster(type);
+            }
+            generateTileWaterRaster(type);
+
+            generateHeroWaterRaster(type);
+        });
+
+        final List<Media> medias = new ArrayList<>();
+        medias.addAll(Medias.create(Folder.ENTITY, type.getWorld().getFolder()).getMedias());
+        medias.addAll(Medias.create(Folder.PROJECTILE, type.getWorld().getFolder()).getMedias());
+        medias.addAll(Medias.create(Folder.EFFECT, type.getWorld().getFolder()).getMedias());
+
+        for (final Media media : medias)
+        {
+            executor.execute(() ->
+            {
+                if (media.getName().endsWith(XML))
+                {
+                    if (BackgroundType.LAVA.equals(type))
+                    {
+                        generateObjectRasterInside(type, media);
+                    }
+                    else
+                    {
+                        generateObjectRaster(type, media);
+                    }
+
+                    if (new Xml(media).getChild(FeaturableConfig.NODE_FEATURES)
+                                      .getChildren(FeaturableConfig.NODE_FEATURE)
+                                      .stream()
+                                      .map(Xml::getText)
+                                      .collect(Collectors.toList())
+                                      .contains(Underwater.class.getName()))
+                    {
+                        generateObjectWaterRaster(type, media);
+                    }
+                }
+            });
+        }
+
+        executor.shutdown();
+        try
+        {
+            executor.awaitTermination(60L, TimeUnit.SECONDS);
+        }
+        catch (final InterruptedException exception)
+        {
+            Thread.currentThread().interrupt();
+            Verbose.exception(exception);
+        }
+    }
 
     /**
      * Check for void tiles.
@@ -111,18 +180,81 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    static void generateTileRaster(LandscapeType type)
+    static void generateTileRaster(BackgroundType type)
     {
-        int i = 0;
         final String world = type.getWorld().getFolder();
-        final Media sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_TILES);
+        final Media raster = Medias.create(Folder.RASTER, world, type.getTheme(), Constant.RASTER_FILE_TILE);
+        final String folderTile = Constant.RASTER_FILE_TILE.replace(PNG, BLANK) + "_0";
 
-        for (final ImageBuffer b : Graphics.getRasterBuffer(Graphics.getImageBuffer(sheet),
-                                                            Graphics.getImageBuffer(raster)))
+        if (raster.exists() && !Medias.create(raster.getParentPath(), folderTile).exists())
         {
-            Graphics.saveImage(b, Medias.create(i + PNG));
-            i++;
+            final Media sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
+            int i = 0;
+
+            for (final ImageBuffer b : Graphics.getRasterBuffer(Graphics.getImageBuffer(sheet),
+                                                                Graphics.getImageBuffer(raster)))
+            {
+                Graphics.saveImage(b, Medias.create(raster.getParentPath(), folderTile, i + PNG));
+                i++;
+            }
+        }
+    }
+
+    /**
+     * Generate water raster from first tile raster.
+     * 
+     * @param type The landscape type.
+     */
+    static void generateTileWaterRaster(BackgroundType type)
+    {
+        final String world = type.getWorld().getFolder();
+        final String folderWater = Constant.RASTER_FILE_WATER.replace(PNG, BLANK);
+
+        if (!Medias.create(Folder.RASTER, world, folderWater).exists())
+        {
+            int i = 0;
+            final String theme = type.getTheme();
+            final String folderTile = Constant.RASTER_FILE_TILE.replace(PNG, BLANK) + "_0";
+            Media sheet = Medias.create(Folder.RASTER, world, theme, folderTile, FILE_SHEETS);
+            if (Medias.create(Folder.RASTER, world, theme, Constant.RASTER_FILE_TILE).exists())
+            {
+                if (!sheet.exists())
+                {
+                    generateTileRaster(type);
+                }
+            }
+            else
+            {
+                sheet = Medias.create(Folder.LEVEL, world, "0.png");
+            }
+
+            final Media raster = Medias.create(Folder.RASTER, world, theme, Constant.RASTER_FILE_WATER);
+            if (raster.exists())
+            {
+                final ImageBuffer base;
+                if (type == BackgroundType.LAVA)
+                {
+                    final Media sheetT = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
+                    final Media rasterT = Medias.create(Folder.RASTER,
+                                                        world,
+                                                        type.getTheme(),
+                                                        Constant.RASTER_FILE_TILE);
+                    base = Graphics.getRasterBuffer(Graphics.getImageBuffer(sheetT),
+                                                    Graphics.getImageBuffer(rasterT))[0];
+                }
+                else
+                {
+                    base = Graphics.getImageBuffer(sheet);
+                }
+
+                for (final ImageBuffer b : Graphics.getRasterBufferSmooth(base,
+                                                                          Graphics.getImageBuffer(raster),
+                                                                          TILE_HEIGHT))
+                {
+                    Graphics.saveImage(b, Medias.create(raster.getParentPath(), folderWater, i + PNG));
+                    i++;
+                }
+            }
         }
     }
 
@@ -131,19 +263,26 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    static void generateTileRasterInside(LandscapeType type)
+    static void generateTileRasterInside(BackgroundType type)
     {
-        int i = 0;
         final String world = type.getWorld().getFolder();
-        final Media sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_INSIDE);
+        final Media raster = Medias.create(Folder.RASTER, world, type.getTheme(), FILE_RASTER_INSIDE);
+        final String folderTile = Constant.RASTER_FILE_TILE.replace(PNG, BLANK) + "_0";
 
-        for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(sheet),
-                                                                  Graphics.getImageBuffer(raster),
-                                                                  16))
+        if (!Medias.create(raster.getParentPath(), folderTile).exists())
         {
-            Graphics.saveImage(b, Medias.create(i + PNG));
-            i++;
+            final Media sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
+            int i = 0;
+
+            for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(sheet),
+                                                                      Graphics.getImageBuffer(raster),
+                                                                      TILE_HEIGHT))
+            {
+                Graphics.saveImage(b, Medias.create(raster.getParentPath(), folderTile, i + PNG));
+                i++;
+            }
+            Graphics.saveImage(Graphics.getImageBuffer(sheet),
+                               Medias.create(raster.getParentPath(), folderTile, i + PNG));
         }
     }
 
@@ -153,19 +292,65 @@ public final class Tools
      * @param type The landscape type.
      * @param object The object name.
      */
-    static void generateObjectRasterInside(LandscapeType type, String object)
+    static void generateObjectRaster(BackgroundType type, Media object)
     {
-        int i = 0;
-        final String world = type.getWorld().getFolder();
-        final Media sheet = Medias.create(object);
-        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_INSIDE);
-
-        for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(sheet),
-                                                                  Graphics.getImageBuffer(raster),
-                                                                  32))
+        if (new SetupSurfaceRastered(object).isExtern())
         {
-            Graphics.saveImage(b, Medias.create(i + PNG));
-            i++;
+            final String world = type.getWorld().getFolder();
+            final Media raster = Medias.create(Folder.RASTER, world, type.getTheme(), Constant.RASTER_FILE_TILE);
+            final String folder = Constant.RASTER_FILE_TILE.replace(PNG, BLANK)
+                                  + com.b3dgs.lionengine.Constant.UNDERSCORE
+                                  + object.getName().replace(XML, BLANK);
+
+            if (raster.exists() && !Medias.create(raster.getParentPath(), folder).exists())
+            {
+                final Media objectImage = new SetupSurfaceRastered(object).getSurfaceFile();
+                int i = 0;
+
+                for (final ImageBuffer b : Graphics.getRasterBuffer(Graphics.getImageBuffer(objectImage),
+                                                                    Graphics.getImageBuffer(raster)))
+                {
+                    Graphics.saveImage(b, Medias.create(raster.getParentPath(), folder, i + PNG));
+                    i++;
+                }
+                Graphics.saveImage(Graphics.getImageBuffer(objectImage),
+                                   Medias.create(raster.getParentPath(), folder, i + PNG));
+            }
+        }
+    }
+
+    /**
+     * Generate tiles raster from sheet.
+     * 
+     * @param type The landscape type.
+     * @param object The object name.
+     */
+    static void generateObjectRasterInside(BackgroundType type, Media object)
+    {
+        if (new SetupSurfaceRastered(object).isExtern())
+        {
+            final String world = type.getWorld().getFolder();
+            final Media raster = Medias.create(Folder.RASTER, world, type.getTheme(), FILE_RASTER_INSIDE);
+            final String folder = Constant.RASTER_FILE_TILE.replace(PNG, BLANK)
+                                  + com.b3dgs.lionengine.Constant.UNDERSCORE
+                                  + object.getName().replace(XML, BLANK);
+
+            if (!Medias.create(raster.getParentPath(), folder).exists())
+            {
+                final Media objectImage = new SetupSurfaceRastered(object).getSurfaceFile();
+                final int tileHeight = ImageInfo.get(objectImage).getHeight()
+                                       / FramesConfig.imports(new Configurer(object)).getVertical();
+                int i = 0;
+                for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(objectImage),
+                                                                          Graphics.getImageBuffer(raster),
+                                                                          tileHeight))
+                {
+                    Graphics.saveImage(b, Medias.create(raster.getParentPath(), folder, i + PNG));
+                    i++;
+                }
+                Graphics.saveImage(Graphics.getImageBuffer(objectImage),
+                                   Medias.create(raster.getParentPath(), folder, i + PNG));
+            }
         }
     }
 
@@ -173,28 +358,38 @@ public final class Tools
      * Generate water raster from first tile raster.
      * 
      * @param type The landscape type.
-     * @param file The object file.
-     * @param fh The horizontal frames.
-     * @param fv The vertical frames.
+     * @param object The object media.
      */
-    static void generateObjectWaterRaster(LandscapeType type, String file, int fh, int fv)
+    static void generateObjectWaterRaster(BackgroundType type, Media object)
     {
-        int i = 0;
         final String world = type.getWorld().getFolder();
-        final Media sheet = Medias.create(Folder.LEVEL,
-                                          world,
-                                          FOLDER_RASTER,
-                                          type.getTheme(),
-                                          "tiles_" + file,
-                                          FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, type.getTheme(), FILE_RASTER_WATER);
+        final Media raster = Medias.create(Folder.RASTER, world, type.getTheme(), Constant.RASTER_FILE_WATER);
+        final String folder = Constant.RASTER_FILE_WATER.replace(PNG, BLANK)
+                              + com.b3dgs.lionengine.Constant.UNDERSCORE
+                              + object.getName().replace(XML, BLANK);
 
-        for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(sheet),
-                                                                  Graphics.getImageBuffer(raster),
-                                                                  80))
+        if (!Medias.create(raster.getParentPath(), folder).exists())
         {
-            Graphics.saveImage(b, Medias.create(i + PNG));
-            i++;
+            final String folderTile = Constant.RASTER_FILE_TILE.replace(PNG, BLANK)
+                                      + com.b3dgs.lionengine.Constant.UNDERSCORE
+                                      + object.getName().replace(XML, BLANK);
+            Media objectImage = Medias.create(raster.getParentPath(), folderTile, FILE_SHEETS);
+            if (!objectImage.exists())
+            {
+                objectImage = new Setup(object).getSurfaceFile();
+            }
+
+            final int tileHeight = ImageInfo.get(objectImage).getHeight()
+                                   / FramesConfig.imports(new Configurer(object)).getVertical();
+            int i = 0;
+
+            for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(objectImage),
+                                                                      Graphics.getImageBuffer(raster),
+                                                                      tileHeight))
+            {
+                Graphics.saveImage(b, Medias.create(raster.getParentPath(), folder, i + PNG));
+                i++;
+            }
         }
     }
 
@@ -203,20 +398,34 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    static void generateTileWaterRaster(LandscapeType type)
+    static void generateHeroWaterRaster(BackgroundType type)
     {
-        int i = 0;
-        final String world = type.getWorld().getFolder();
-        final String theme = type.getTheme();
-        final Media sheet = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, theme, FILE_SHEETS);
-        final Media raster = Medias.create(Folder.LEVEL, world, FOLDER_RASTER, theme, FILE_RASTER_WATER);
+        final Media raster = Medias.create(Folder.RASTER,
+                                           Folder.HERO,
+                                           "valdyn",
+                                           BackgroundType.LAVA.equals(type) ? Constant.RASTER_FILE_LAVA
+                                                                            : Constant.RASTER_FILE_WATER);
 
-        for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(sheet),
-                                                                  Graphics.getImageBuffer(raster),
-                                                                  TILE_HEIGHT))
+        final String folder = raster.getName().replace(PNG, BLANK)
+                              + com.b3dgs.lionengine.Constant.UNDERSCORE
+                              + "Valdyn";
+
+        if (!Medias.create(raster.getParentPath(), folder).exists())
         {
-            Graphics.saveImage(b, Medias.create(i + PNG));
-            i++;
+            final Media object = Medias.create(raster.getParentPath(), "Valdyn.xml");
+            final Media objectImage = Medias.create(raster.getParentPath(), "Valdyn.png");
+
+            final int tileHeight = ImageInfo.get(objectImage).getHeight()
+                                   / FramesConfig.imports(new Configurer(object)).getVertical();
+            int i = 0;
+
+            for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(objectImage),
+                                                                      Graphics.getImageBuffer(raster),
+                                                                      tileHeight))
+            {
+                Graphics.saveImage(b, Medias.create(raster.getParentPath(), folder, i + PNG));
+                i++;
+            }
         }
     }
 
@@ -225,7 +434,7 @@ public final class Tools
      * 
      * @param type The landscape type.
      */
-    static void generateMoonRaster(LandscapeType type)
+    static void generateMoonRaster(BackgroundType type)
     {
         final String world = type.getWorld().getFolder();
         final String theme = type.getTheme();

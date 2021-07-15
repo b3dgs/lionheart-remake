@@ -53,6 +53,10 @@ public final class Folder
     public static final String SFX = "sfx";
     /** Music folder. */
     public static final String MUSIC = "music";
+    /** Menu folder. */
+    public static final String MENU = "menu";
+    /** Raster folder. */
+    public static final String RASTER = "raster";
 
     /**
      * Private constructor.
