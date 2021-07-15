@@ -153,6 +153,7 @@ public final class Part4 extends Sequence
     {
         super.onTerminated(hasNextSequence);
 
+        stories.dispose();
         audio.stop();
     }
 }

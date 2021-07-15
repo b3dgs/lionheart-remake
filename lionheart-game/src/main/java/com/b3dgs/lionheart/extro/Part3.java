@@ -130,6 +130,8 @@ public final class Part3 extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        stories.dispose();
+
         if (!hasNextSequence)
         {
             audio.stop();
