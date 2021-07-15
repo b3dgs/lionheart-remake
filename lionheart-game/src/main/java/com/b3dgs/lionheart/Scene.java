@@ -72,6 +72,8 @@ public final class Scene extends SequenceGame<World>
         }
 
         services.get(DeviceController.class).setVisible(true);
+
+        Sfx.cacheEnd();
         world.playMusic(music);
     }
 

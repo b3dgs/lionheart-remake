@@ -156,7 +156,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private Landscape landscape;
     private int trackerInitY;
     private double trackerY;
-    private StageConfig stage;
     private StateHandler player;
     private Difficulty difficulty;
     private boolean paused;
@@ -176,7 +175,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
 
         services.add((CheatsProvider) () -> cheats);
-
         services.add(new MusicPlayer()
         {
             @Override
@@ -213,6 +211,36 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
         }, World.class.getSimpleName());
         task.start();
+    }
+
+    /**
+     * Cache specific boss sfx.
+     * 
+     * @param stage The stage reference.
+     */
+    private void cacheBossSfx(StageConfig stage)
+    {
+        if (stage.getBoss().isPresent())
+        {
+            if (stage.getBackground() == BackgroundType.SWAMP_DAY)
+            {
+                Sfx.cacheStart(Sfx.BOSS1_BOWL, Sfx.BOSS1_HURT);
+            }
+            else if (stage.getBackground() == BackgroundType.LAVA)
+            {
+                Sfx.cacheStart(Sfx.BOSS3_HURT, Sfx.BOSS3_JUMP);
+
+            }
+            else if (stage.getBackground() == BackgroundType.NORKA)
+            {
+                Sfx.cacheStart(Sfx.BOSS_DAEMON_FIRE,
+                               Sfx.BOSS_DAEMON_LAND,
+                               Sfx.BOSS_FLYER,
+                               Sfx.BOSS_NORKA_FIRE,
+                               Sfx.BOSS_NORKA_HURT,
+                               Sfx.BOSS_NORKA_PLATFORM);
+            }
+        }
     }
 
     /**
@@ -373,21 +401,45 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * Create player and track with camera.
      * 
      * @param init The initial configuration.
-     * @param foreground The foreground type.
+     * @param stage The stage reference.
      * @return The created player.
      */
-    private Featurable createPlayerAndLoadCheckpoints(InitConfig init, ForegroundType foreground)
+    private Featurable createPlayerAndLoadCheckpoints(InitConfig init, StageConfig stage)
     {
         final Featurable featurable = spawn(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"), 0, 0);
         featurable.getFeature(Stats.class).apply(init);
         if (Settings.getInstance().getRasterHeroWater())
         {
             featurable.getFeature(Underwater.class)
-                      .loadRaster("raster/" + Folder.HERO + "/valdyn/", ForegroundType.LAVA.equals(foreground));
+                      .loadRaster("raster/" + Folder.HERO + "/valdyn/",
+                                  ForegroundType.LAVA.equals(stage.getForeground().getType()));
         }
 
+        final String theme = stage.getBackground().getWorld().getFolder();
         final Optional<Coord> spawn = init.getSpawn();
         checkpoint.load(stage, featurable, spawn);
+        checkpoint.addListener(new CheckpointListener()
+        {
+            @Override
+            public void notifyNextStage(String next, Optional<Coord> spawn)
+            {
+                loadNextStage(next, 0, spawn);
+            }
+
+            @Override
+            public void notifyReachedBoss(double x, double y)
+            {
+                if (WorldType.SWAMP.getFolder().equals(theme))
+                {
+                    camera.setLimitLeft((int) camera.getX());
+                    trackerY = 1.0;
+                }
+                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y).getFeature(EntityModel.class)
+                                                                          .setNext(stage.getBossNext().get(),
+                                                                                   Optional.empty());
+                playMusic(Music.BOSS);
+            }
+        });
 
         final Transformable transformable = featurable.getFeature(Transformable.class);
 
@@ -612,27 +664,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     public void load(Media config, InitConfig init)
     {
         services.add(config);
-        stage = services.add(StageConfig.imports(new Configurer(config)));
+        final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
+
+        cacheBossSfx(stage);
 
         Util.run(stage.getBackground());
-
-        if (stage.getBoss().isPresent() || stage.getBackground() == BackgroundType.NORKA)
-        {
-            Sfx.cacheStart(Sfx.BOSS1_BOWL,
-                           Sfx.BOSS1_HURT,
-                           Sfx.BOSS3_HURT,
-                           Sfx.BOSS3_JUMP,
-                           Sfx.BOSS_DAEMON_FIRE,
-                           Sfx.BOSS_DAEMON_LAND,
-                           Sfx.BOSS_FLYER,
-                           Sfx.BOSS_NORKA_FIRE,
-                           Sfx.BOSS_NORKA_HURT,
-                           Sfx.BOSS_NORKA_PLATFORM);
-        }
-        else
-        {
-            Sfx.cacheStart();
-        }
 
         loadMap(stage);
 
@@ -644,31 +680,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         difficulty = init.getDifficulty();
         cheats = init.isCheats();
-        createPlayerAndLoadCheckpoints(init, stage.getForeground().getType());
+        createPlayerAndLoadCheckpoints(init, stage);
 
-        final String theme = stage.getBackground().getWorld().getFolder();
-        checkpoint.addListener(new CheckpointListener()
-        {
-            @Override
-            public void notifyNextStage(String next, Optional<Coord> spawn)
-            {
-                loadNextStage(next, 0, spawn);
-            }
-
-            @Override
-            public void notifyReachedBoss(double x, double y)
-            {
-                if (WorldType.SWAMP.getFolder().equals(theme))
-                {
-                    camera.setLimitLeft((int) camera.getX());
-                    trackerY = 1.0;
-                }
-                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y).getFeature(EntityModel.class)
-                                                                          .setNext(stage.getBossNext().get(),
-                                                                                   Optional.empty());
-                playMusic(Music.BOSS);
-            }
-        });
         if (settings.getRasterObject())
         {
             stage.getRasterFolder().ifPresent(r ->
@@ -684,6 +697,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
         stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
 
+        final String theme = stage.getBackground().getWorld().getFolder();
         factory.createCache(spawner, Medias.create(Folder.EFFECT, theme), 4);
         factory.createCache(spawner, Medias.create(Folder.PROJECTILE, theme), 6);
 

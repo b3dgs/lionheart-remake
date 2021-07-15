@@ -54,14 +54,13 @@ public final class Loading extends Sequence
     @Override
     public void load()
     {
+        Sfx.cache(Sfx.MENU_SELECT);
         Sfx.cacheStart();
 
         loading.load();
         loading.prepare();
         loading.setOrigin(Origin.MIDDLE);
         loading.setLocation(getWidth() / 2.0, getHeight() / 2.0);
-
-        Sfx.cacheEnd();
     }
 
     @Override
