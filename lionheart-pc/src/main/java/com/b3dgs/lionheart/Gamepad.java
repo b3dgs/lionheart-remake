@@ -347,6 +347,16 @@ public class Gamepad implements DevicePush
     }
 
     @Override
+    public boolean isPushed()
+    {
+        if (controller != null)
+        {
+            return !press.get(controller).isEmpty();
+        }
+        return false;
+    }
+
+    @Override
     public Integer getPushed()
     {
         if (controller != null)
