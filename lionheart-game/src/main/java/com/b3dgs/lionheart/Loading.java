@@ -20,12 +20,15 @@ import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
+import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
+import com.b3dgs.lionheart.landscape.BackgroundType;
 
 /**
  * Loading screen.
@@ -36,7 +39,12 @@ public final class Loading extends Sequence
     private static final int MAX_WIDTH = 320;
     private static final int MARGIN_WIDTH = 0;
 
+    private final Progress progress = new Progress(getWidth(), getHeight());
+    private final BackgroundType[] backgrounds = BackgroundType.values();
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
+    private final int max;
+
+    private int current = -1;
 
     /**
      * Constructor.
@@ -46,7 +54,9 @@ public final class Loading extends Sequence
      */
     public Loading(Context context)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), new LoopUnlocked());
+
+        max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
     }
@@ -66,20 +76,40 @@ public final class Loading extends Sequence
     @Override
     public void update(double extrp)
     {
-        if (Constant.DEBUG)
+        if (current < max)
         {
-            end(Scene.class, StageHard.STAGE1, Constant.INIT_DEBUG);
+            if (current > -1)
+            {
+                Util.run(backgrounds[current]);
+                final int percent = (current + 2) * 100 / max;
+                progress.setPercent(percent);
+            }
+            current = UtilMath.clamp(current + 1, 0, max);
         }
         else
         {
-            end(Intro.class);
+            if (Constant.DEBUG)
+            {
+                end(Scene.class, Stage.STAGE5, Constant.INIT_DEBUG);
+            }
+            else
+            {
+                end(Intro.class);
+            }
         }
     }
 
     @Override
     public void render(Graphic g)
     {
+        g.clear(0, 0, getWidth(), getHeight());
+
         loading.render(g);
+
+        if (current < max)
+        {
+            progress.render(g);
+        }
     }
 
     @Override
