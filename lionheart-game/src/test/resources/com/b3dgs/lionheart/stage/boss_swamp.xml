@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/swamp.sc68"/>
+    <map file="levels/swamp/stage5.lvl"/>
+    <raster folder="raster/swamp/day/"/>
+    <background type="SWAMP_DAY"/>
+    <foreground type="WATER" waterDepth="4" waterOffset="16"/>
+    <checkpoints>
+        <checkpoint tx="594" ty="8.1"/>
+    </checkpoints>
+    <boss tx="594" ty="8.1" tsx="598" tsy="-7"/>
+    <entities>
+    </entities>
+</stage>

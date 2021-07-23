@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/dragonfly.sc68"/>
+    <map file="levels/dragonfly/stage12.lvl"/>
+    <raster folder="raster/dragonfly/dragonfly/"/>
+    <background type="DRAGONFLY"/>
+    <foreground type="NONE"/>
+    <checkpoints>
+        <checkpoint tx="725" ty="12"/>
+    </checkpoints>
+    <boss tx="725" ty="12" tsx="752" tsy="6"/>
+    <entities>
+        <entity file="entity/dragonfly/Dragonflyer.xml" tx="725.0" ty="12.0"/>
+    </entities>
+</stage>

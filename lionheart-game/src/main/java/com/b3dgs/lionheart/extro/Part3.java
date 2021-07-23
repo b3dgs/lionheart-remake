@@ -26,16 +26,23 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 
 /**
  * Extro part 3 implementation.
  */
-public final class Part3 extends Sequence
+public class Part3 extends Sequence
 {
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 6;
+
     private final Stories stories = new Stories(getWidth(), getHeight());
     private final AppInfo info;
     private final Time time;
@@ -60,7 +67,7 @@ public final class Part3 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
@@ -95,13 +102,17 @@ public final class Part3 extends Sequence
 
         if (time.isAfter(84500))
         {
-            alphaBack -= 6.0;
+            alphaBack -= alphaSpeed;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
         if (time.isAfter(85335))
         {
             end();
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

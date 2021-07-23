@@ -72,7 +72,9 @@ public enum DeviceMapping implements DeviceMapper
     /** Stage 10. */
     K4,
     /** Extro. */
-    K5;
+    K5,
+    /** Force exit. */
+    FORCE_EXIT;
 
     @Override
     public Integer getIndex()

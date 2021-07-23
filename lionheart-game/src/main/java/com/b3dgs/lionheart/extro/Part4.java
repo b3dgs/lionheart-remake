@@ -32,8 +32,10 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
@@ -43,8 +45,13 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Extro part 4 implementation.
  */
-public final class Part4 extends Sequence
+public class Part4 extends Sequence
 {
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 6;
+
     private final Stories stories = new Stories(getWidth(), getHeight());
     private final Animation glow = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
     private final SpriteAnimated amulet = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
@@ -81,7 +88,7 @@ public final class Part4 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
@@ -130,11 +137,11 @@ public final class Part4 extends Sequence
 
         if (time.isBefore(89250))
         {
-            alphaBack += 6.0;
+            alphaBack += alphaSpeed;
         }
         if (alternativeMusic && time.isAfter(136170))
         {
-            alphaBack -= 6.0;
+            alphaBack -= alphaSpeed;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
@@ -153,6 +160,10 @@ public final class Part4 extends Sequence
         if (!alternative && time.isAfter(101670) || alternativeMusic && time.isAfter(138670))
         {
             end();
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

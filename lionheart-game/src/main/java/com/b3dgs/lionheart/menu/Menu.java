@@ -72,8 +72,6 @@ public class Menu extends Sequence
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
     /** Title text color. */
     private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
-    /** Alpha step speed. */
-    private static final double ALPHA_STEP = 8.0;
 
     private static List<String> getText(String file)
     {
@@ -91,12 +89,14 @@ public class Menu extends Sequence
     private final List<String> optionsJoystick = getText("joystick.txt");
     private final List<String> optionsMusic = getText("music.txt");
 
+    /** Alpha step speed. */
+    double alphaSpeed = 8.0;
+    /** Device controller reference. */
+    final DeviceController device;
     /** Background menus. */
     private final Sprite[] menus = new Sprite[2];
     /** List of menu data with their content. */
     private final Data[] menusData = new Data[menus.length];
-    /** Device controller reference. */
-    private final DeviceController device;
     /** Application info. */
     private final AppInfo info;
     /** Horizontal factor. */
@@ -281,7 +281,7 @@ public class Menu extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha -= ALPHA_STEP * extrp;
+        alpha -= alphaSpeed * extrp;
         if (alpha < 0.0)
         {
             alpha = 0.0;
@@ -296,7 +296,7 @@ public class Menu extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha += ALPHA_STEP * extrp;
+        alpha += alphaSpeed * extrp;
         if (alpha > 255.0)
         {
             alpha = 255.0;

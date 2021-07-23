@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/lava.sc68"/>
+    <map file="levels/lava/stage9.lvl" linesPerRaster="1" rasterLineOffset="2"/>
+    <raster folder="raster/lava/lava/"/>
+    <background type="LAVA"/>
+    <foreground type="LAVA" waterDepth="2" waterOffset="30" waterSpeed="0.1" waterEffect="false"/>
+    <checkpoints>
+        <checkpoint tx="880" ty="17"/>
+    </checkpoints>
+    <boss tx="880" ty="17" tsx="860" tsy="3"/>
+    <entities>
+    </entities>
+</stage>

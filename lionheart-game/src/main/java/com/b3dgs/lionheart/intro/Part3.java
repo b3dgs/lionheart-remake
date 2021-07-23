@@ -45,7 +45,7 @@ import com.b3dgs.lionheart.menu.Menu;
 /**
  * Intro part 3 implementation.
  */
-public final class Part3 extends Sequence
+public class Part3 extends Sequence
 {
     private static final int MIN_HEIGHT = 208;
     private static final int MAX_WIDTH = 400;
@@ -60,6 +60,11 @@ public final class Part3 extends Sequence
     {
         return new Animation(Animation.DEFAULT_NAME, start, end, 0.2, reverse, repeat);
     }
+
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 5;
 
     private final SpriteAnimated valdyn = loadSpriteAnimated("valdyn.png", 8, 3);
     private final SpriteAnimated dragon1 = loadSpriteAnimated("dragon1.png", 6, 3);
@@ -80,7 +85,6 @@ public final class Part3 extends Sequence
     private final Coord dragonCoord = new Coord(176, -44);
 
     private final Camera camera = new Camera();
-    private final DeviceController device;
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
@@ -239,7 +243,7 @@ public final class Part3 extends Sequence
         // First Fade in
         if (time.isBetween(93660, 96000) && !skip)
         {
-            alphaBack += 5.0;
+            alphaBack += alphaSpeed;
         }
 
         if (!skip)
@@ -250,7 +254,7 @@ public final class Part3 extends Sequence
         // First Fade out
         if (time.isBetween(108500, 110000) || skip)
         {
-            alphaBack -= 5.0;
+            alphaBack -= alphaSpeed;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
 
@@ -265,6 +269,10 @@ public final class Part3 extends Sequence
             {
                 end();
             }
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

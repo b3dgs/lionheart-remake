@@ -42,9 +42,11 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
@@ -52,7 +54,7 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Extro part 5 implementation.
  */
-public final class Part5 extends Sequence
+public class Part5 extends Sequence
 {
     private static final Animation OPEN = new Animation("open", 1, 8, 0.18, false, false);
 
@@ -72,6 +74,11 @@ public final class Part5 extends Sequence
                                            horizontalFrames,
                                            verticalFrames);
     }
+
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 3;
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -116,7 +123,7 @@ public final class Part5 extends Sequence
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
-        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
@@ -157,11 +164,11 @@ public final class Part5 extends Sequence
 
         if (time.isBefore(141200))
         {
-            alphaBack += 3;
+            alphaBack += alphaSpeed;
         }
         else if (time.isAfter(158400))
         {
-            alphaBack -= 6;
+            alphaBack -= alphaSpeed * 2;
         }
         alphaBack = UtilMath.clamp(alphaBack, 0, 255);
 
@@ -247,6 +254,10 @@ public final class Part5 extends Sequence
         if (time.isAfter(159500))
         {
             end();
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         eyes.update(extrp);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/spidercave.sc68"/>
+    <map file="levels/spidercave2/spidercave2.lvl"/>
+    <background type="SPIDERCAVE2"/>
+    <foreground type="NONE"/>
+    <checkpoints>
+        <checkpoint tx="2" ty="7"/>
+    </checkpoints>
+    <entities>
+        <entity file="boss/spidercave2/Boss.xml" tx="20.0" ty="10.5"/>
+        <entity file="entity/spidercave2/PotionLittle.xml" tx="4.0" ty="7.0"/>
+        <entity file="entity/spidercave2/PotionBig.xml" tx="5.0" ty="8.0"/>
+        <entity file="entity/spidercave2/Talisment.xml" tx="6.0" ty="7.0"/>
+        <entity file="entity/spidercave2/Life.xml" tx="7.0" ty="7.0"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="10.0" ty="7.0">
+            <patrol sh="-0.3" amplitude="48" offset="0"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="12.0" ty="12.0">
+            <patrol sh="-0.3" amplitude="48" offset="0"/>
+        </entity>
+    </entities>
+</stage>

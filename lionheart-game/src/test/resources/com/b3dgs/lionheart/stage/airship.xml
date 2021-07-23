@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/airship.sc68"/>
+    <map file="levels/airship/airship.lvl"/>
+    <background type="AIRSHIP"/>
+    <foreground type="AIRSHIP"/>
+    <checkpoints>
+        <checkpoint tx="530" ty="18"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/airship/Road.xml" tx="0.0" ty="0.0"/>
+        <entity file="entity/airship/Animal.xml" tx="12.0" ty="7.0"/>
+        <entity file="entity/airship/Dragon1.xml" tx="540.0" ty="10.0">
+            <dragon1 firedCount="3"/>
+        </entity>
+        <entity file="entity/airship/Dragon2.xml" tx="550.0" ty="7.0">
+            <shooter fireDelay="70" firedDelay="0" svx="1.0" svy="0.2"/>
+            <patrol sh="0.2" sv="0.0"/>
+        </entity>
+        <entity file="entity/airship/Head.xml" tx="565.0" ty="13.0"/>
+        
+        <entity file="entity/airship/Gobelin.xml" tx="580.0" ty="14.5"/>
+        <entity file="entity/airship/Dragon3.xml" tx="591.0" ty="14.0"/>
+        <entity file="entity/airship/Canon1.xml" tx="579.0" ty="10.0"/>
+        <entity file="entity/airship/Canon2.xml" tx="591.0" ty="10.0">
+            <canon2 fireDelay="100" stayDelay="90"/>
+        </entity>
+         <entity file="entity/airship/Rotating.xml" tx="610.0" ty="11.0">
+            <rotating amplitude="90" extremity="entity/airship/SpikeBowl.xml" ring="entity/airship/Ring.xml" length="3" speed="-0.05"/>
+        </entity>
+        <entity file="entity/airship/Talisment.xml" tx="600.0" ty="18.0"/>
+        <entity file="entity/airship/PotionLittle.xml" tx="601.0" ty="18.0"/>
+        <entity file="entity/airship/PotionBig.xml" tx="602.0" ty="19.0"/>
+        <entity file="entity/airship/Life.xml" tx="603.0" ty="18.0"/>
+        <entity file="entity/airship/Sword4.xml" tx="604.0" ty="19.0"/>
+        <entity file="entity/airship/Guard.xml" tx="592.0" ty="23.0"/>
+        <entity file="entity/airship/Catapult.xml" tx="586.0" ty="21.0">
+            <catapult vx="-1.5" vy="6.0"/>
+        </entity>
+        <entity file="entity/airship/Rotating.xml" tx="615.0" ty="11.0">
+            <rotating amplitude="15" controlled="true" extremity="entity/airship/Platform2.xml" ring="entity/airship/Ring.xml" length="3" speed="0.05"/>
+        </entity>
+    </entities>
+</stage>

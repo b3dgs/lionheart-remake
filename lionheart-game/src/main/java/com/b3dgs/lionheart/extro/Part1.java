@@ -42,9 +42,11 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
@@ -52,15 +54,19 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Extro part 1 implementation.
  */
-public final class Part1 extends Sequence
+public class Part1 extends Sequence
 {
     private static final int MIN_HEIGHT = 208;
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
-    private static final int ALPHA_SPEED = 3;
     private static final int SPAWN_EXPLODE_DELAY = 35;
     private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
     private static final double CITADEL_FALL_SPEED = 0.04;
+
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 3;
 
     private final Sprite backcolor = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "backcolor.png"));
     private final Sprite clouds = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "clouds.png"));
@@ -123,7 +129,7 @@ public final class Part1 extends Sequence
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
-        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
@@ -203,11 +209,11 @@ public final class Part1 extends Sequence
         }
         if (time.isBefore(1840) && alpha < 255)
         {
-            alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
+            alpha = UtilMath.clamp(alpha + alphaSpeed, 0, 255);
         }
         else if (time.isAfter(19170) && alpha > 0)
         {
-            alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
+            alpha = UtilMath.clamp(alpha - alphaSpeed, 0, 255);
         }
         if (time.isBefore(15000))
         {
@@ -231,6 +237,10 @@ public final class Part1 extends Sequence
         if (time.isAfter(22835))
         {
             end();
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

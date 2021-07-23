@@ -38,9 +38,11 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.Time;
@@ -51,9 +53,12 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
 /**
  * Extro part 2 implementation.
  */
-public final class Part2 extends Sequence
+public class Part2 extends Sequence
 {
-    private static final int ALPHA_SPEED = 3;
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 3;
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -99,7 +104,7 @@ public final class Part2 extends Sequence
         {
             // Mock
         });
-        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -134,16 +139,20 @@ public final class Part2 extends Sequence
 
         if (time.isBefore(25000) && alpha < 255)
         {
-            alpha = UtilMath.clamp(alpha + ALPHA_SPEED, 0, 255);
+            alpha = UtilMath.clamp(alpha + alphaSpeed, 0, 255);
         }
         else if (time.isAfter(32500) && alpha > 0)
         {
-            alpha = UtilMath.clamp(alpha - ALPHA_SPEED, 0, 255);
+            alpha = UtilMath.clamp(alpha - alphaSpeed, 0, 255);
         }
 
         if (time.isAfter(34500))
         {
             end();
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

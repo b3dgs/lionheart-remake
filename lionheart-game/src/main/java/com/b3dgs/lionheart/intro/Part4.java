@@ -37,16 +37,19 @@ import com.b3dgs.lionheart.menu.Menu;
 /**
  * Intro part 4 implementation.
  */
-public final class Part4 extends Sequence
+public class Part4 extends Sequence
 {
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 3;
+
     private final Stories stories = new Stories();
-    private final DeviceController device;
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
 
     private double alphaBack;
-    private double alphaSpeed = 3.0;
 
     /**
      * Constructor.
@@ -120,6 +123,10 @@ public final class Part4 extends Sequence
         {
             audio.stop();
             end(Menu.class);
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

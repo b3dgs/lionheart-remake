@@ -42,21 +42,24 @@ import com.b3dgs.lionheart.menu.Menu;
 /**
  * Introduction implementation.
  */
-public final class Intro extends Sequence
+public class Intro extends Sequence
 {
     private static final int MIN_HEIGHT = 180;
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 4;
+
     private final Time time = new Time(getRate());
     private final Part1 part1;
     private final Part2 part2 = new Part2(time);
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
-    private final DeviceController device;
     private final AppInfo info;
 
     private int alphaBack;
-    private int alphaSpeed = 4;
     private boolean skip;
 
     /**
@@ -144,6 +147,10 @@ public final class Intro extends Sequence
             {
                 end();
             }
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
 
         info.update(extrp);

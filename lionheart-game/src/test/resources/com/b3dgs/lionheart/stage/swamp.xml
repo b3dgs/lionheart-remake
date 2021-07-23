@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/swamp.sc68"/>
+    <map file="levels/swamp/swamp.lvl"/>
+    <raster folder="raster/swamp/dusk/"/>
+    <background type="SWAMP_DUSK"/>
+    <foreground type="WATER" waterDepth="4" waterOffset="16"/>
+    <checkpoints>
+        <checkpoint tx="3" ty="2.5"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/swamp/Floater.xml" tx="3.0" ty="2.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="6.0" ty="3.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="7.0" ty="3.0"/>
+        <entity file="entity/swamp/PotionBig.xml" tx="8.0" ty="4.0"/>
+        <entity file="entity/swamp/Life.xml" tx="9.0" ty="3.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="12.0" ty="6.0" mirror="true">
+            <patrol proximity="0"/>
+        </entity>
+        <entity file="entity/swamp/Crawling.xml" tx="14.0" ty="4.0" mirror="true"/>
+        <entity file="entity/swamp/Dino.xml" tx="17.0" ty="5.0" mirror="true"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="20.0" ty="10.0"/>
+        <entity file="entity/swamp/Spike1.xml" tx="19.0" ty="4.0"/>
+        <entity file="entity/swamp/Spike2.xml" tx="20.0" ty="4.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/swamp/Sheet.xml" tx="23.0" ty="5.0"/>
+        <entity file="entity/swamp/TurningAuto.xml" tx="23.0" ty="7.0"/>
+        <entity file="entity/swamp/TurningHit.xml" tx="23.0" ty="9.0"/>
+        <entity file="entity/swamp/Dragon.xml" tx="32.0" ty="6.0"/>
+        <entity file="entity/swamp/Flower.xml" tx="36.0" ty="8.0"/>
+        <entity file="entity/swamp/Beetle.xml" tx="39.0" ty="8.0">
+            <patrol sh="0.0" sv="-0.6" amplitude="32" animOffset="12"/>
+            <patrol sh="0.6" sv="0.0" amplitude="32" animOffset="0"/>
+            <patrol sh="0.0" sv="0.6" amplitude="32" animOffset="12"/>
+            <patrol sh="-0.6" sv="0.0" amplitude="32" animOffset="0"/>
+        </entity>
+        <entity file="entity/swamp/Bird.xml" tx="43.0" ty="8.0">
+            <patrol sh="0.0" sv="-0.6" amplitude="32" mirror="false"/>
+            <patrol sh="0.0" sv="0.6" amplitude="32" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="46.0" ty="4.0"/>
+    </entities>
+</stage>

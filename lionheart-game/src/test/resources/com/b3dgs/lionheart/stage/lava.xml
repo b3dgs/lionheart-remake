@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/lava.sc68"/>
+    <map file="levels/lava/lava.lvl" linesPerRaster="1" rasterLineOffset="2"/>
+    <raster folder="raster/lava/lava/"/>
+    <background type="LAVA"/>
+    <foreground type="LAVA" waterDepth="2" waterOffset="30" waterSpeed="0.1" waterEffect="false"/>
+    <checkpoints>
+        <checkpoint tx="3" ty="3"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/lava/Talisment.xml" tx="4.0" ty="3.0"/>
+        <entity file="entity/lava/PotionLittle.xml" tx="5.0" ty="3.0"/>
+        <entity file="entity/lava/PotionBig.xml" tx="6.0" ty="4.0"/>
+        <entity file="entity/lava/Life.xml" tx="7.0" ty="3.0"/>
+        <entity file="entity/lava/Geyzer.xml" tx="10.5" ty="2.5">
+            <geyzer delayFirst="50" delayStart="80" delayDown="80" height="32"/>
+        </entity>
+        <entity file="entity/lava/Platform.xml" tx="10.0" ty="4.0"/>
+        <entity file="entity/lava/HotFireBall.xml" tx="20.0" ty="2.0">
+            <hotfireball delay="60" count="5" level="0" vx="0.0" vy="5.0"/>
+        </entity>
+        <entity file="entity/lava/HotFireBall.xml" tx="21.0" ty="2.0">
+            <hotfireball delay="80" count="5" level="1" vx="-0.5" vy="5.0"/>
+        </entity>
+        <entity file="entity/lava/FloaterCube.xml" tx="21.0" ty="4.0" mirror="false"/>
+        <entity file="entity/lava/MeltingPlatform.xml" tx="22.0" ty="5.0"/>
+        <entity file="entity/lava/FireBallLittle.xml" tx="26.0" ty="20.0"/>
+        <entity file="entity/lava/FireBallMedium.xml" tx="31.0" ty="20.0"/>
+        <entity file="entity/lava/FireBallBig.xml" tx="36.0" ty="20.0"/>
+    </entities>
+</stage>

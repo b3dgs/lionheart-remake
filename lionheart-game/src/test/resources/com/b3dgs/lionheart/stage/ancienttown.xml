@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/ancienttown.sc68"/>
+    <map file="levels/ancienttown/ancienttown.lvl"/>
+    <raster folder="raster/ancienttown/dusk/"/>
+    <background type="ANCIENTTOWN_DUSK"/>
+    <foreground type="WATER" waterDepth="4" waterOffset="16"/>
+    <checkpoints>
+        <checkpoint tx="3" ty="2.5"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/ancienttown/Floater.xml" tx="3.0" ty="1.0"/>
+        <entity file="entity/ancienttown/Sword2.xml" tx="4.0" ty="3.0"/>
+        <entity file="entity/ancienttown/Sword3.xml" tx="5.0" ty="4.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="6.0" ty="3.0"/>
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="7.0" ty="3.0"/>
+        <entity file="entity/ancienttown/PotionBig.xml" tx="8.0" ty="4.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="9.0" ty="3.0"/>
+        <entity file="entity/ancienttown/Bee.xml" tx="12.0" ty="6.0" mirror="true">
+            <patrol proximity="0"/>
+        </entity>
+        <entity file="entity/ancienttown/Crawling.xml" tx="14.0" ty="4.0" mirror="true"/>
+        <entity file="entity/ancienttown/Canon1.xml" tx="18.0" ty="4.0">
+            <shooter fireDelay="80" firedDelay="20" anim="1" svx="0.5" svy="2.0" dvy="0.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon2.xml" tx="24.0" ty="4.0">
+            <shooter fireDelay="120" firedDelay="0" svx="-0.8" svy="1.0" dvy="0.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="28.0" ty="6.0">
+            <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Executioner.xml" tx="34.0" ty="7.0">
+            <patrol sh="-0.3" sv="0.0" amplitude="80"/>
+        </entity>
+        <entity file="entity/ancienttown/TurningCube.xml" tx="35.0" ty="5.0">
+            <patrol sh="0.0" sv="0.5" amplitude="32" mirror="false"/>
+            <patrol sh="0.5" sv="0.0" amplitude="32" mirror="false"/>
+            <patrol sh="0.0" sv="-0.5" amplitude="32" mirror="false"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="32" mirror="false"/>
+        </entity>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="39.0" ty="4.0"/>
+        <entity file="entity/ancienttown/Bird.xml" tx="43.0" ty="8.0">
+            <patrol sh="0.0" sv="-0.6" amplitude="32" mirror="false"/>
+            <patrol sh="0.0" sv="0.6" amplitude="32" mirror="false"/>
+        </entity>
+        <entity file="entity/ancienttown/Rotating2.xml" tx="48.0" ty="8.0">
+            <rotating amplitude="30" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/ancienttown/Rotating2.xml" tx="54.0" ty="8.0">
+            <rotating amplitude="15" controlled="true" extremity="entity/ancienttown/Platform2.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/ancienttown/Rotating2.xml" tx="62.0" ty="8.0">
+            <rotating amplitude="90" extremity="entity/ancienttown/SpikeBowl.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/ancienttown/Rotating1.xml" tx="68.0" ty="3.0">
+            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-1.5"/>
+        </entity>
+    </entities>
+</stage>

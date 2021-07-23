@@ -13,4 +13,14 @@
     <properties>
         <checkstyle.skip>true</checkstyle.skip>
     </properties>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+            </resource>
+        </resources>
+    </build>
 </project>

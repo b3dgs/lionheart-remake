@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/tower.sc68"/>
+    <map file="levels/tower/tower.lvl"/>
+    <raster folder="raster/tower/tower/"/>
+    <background type="TOWER"/>
+    <foreground type="WATER" waterDepth="4" waterOffset="48"/>
+    <checkpoints>
+        <checkpoint tx="13" ty="6"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/tower/Rotating.xml" tx="21.0" ty="14.0">
+            <rotating amplitude="40" extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="4" speed="0.05"/>
+        </entity>
+                <entity file="entity/tower/Rotating.xml" tx="27.0" ty="14.0">
+            <rotating extremity="entity/tower/SpikeBowl.xml" ring="entity/tower/Ring.xml" length="3" speed="2.0"/>
+        </entity>
+        <entity file="entity/tower/PotionLittle.xml" tx="22.0" ty="6.0"/>
+        <entity file="entity/tower/PotionBig.xml" tx="23.0" ty="7.0"/>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="9.0">
+            <shooter fireDelay="100" firedDelay="0" anim="6" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="16.0" ty="7.0">
+            <patrol sh="0.3" amplitude="80"/>
+        </entity>
+        <entity file="entity/tower/Fish.xml" tx="15.0" ty="0.0"/>
+        <entity file="entity/tower/Spike1.xml" tx="30.0" ty="7.0"/>
+    </entities>
+</stage>

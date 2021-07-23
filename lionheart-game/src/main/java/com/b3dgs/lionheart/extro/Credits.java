@@ -50,17 +50,21 @@ import com.b3dgs.lionheart.menu.Menu;
 /**
  * Credits implementation.
  */
-public final class Credits extends Sequence
+public class Credits extends Sequence
 {
     private static final ColorRgba COLOR = new ColorRgba(238, 238, 238);
     private static final double SCROLL_SPEED = 0.2;
+
+    /** Device controller reference. */
+    final DeviceController device;
+    /** Alpha speed. */
+    int alphaSpeed = 6;
 
     private final List<Text> texts = new ArrayList<>();
     private final Sprite credits;
     private final Time time;
     private final Audio audio;
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
-    private final DeviceController device;
     private final boolean alternative;
     private final int count;
 
@@ -182,7 +186,7 @@ public final class Credits extends Sequence
 
         if (!alternative && time.isBefore(103400) || alternative && time.isBefore(161200))
         {
-            alphaBack += 6.0;
+            alphaBack += alphaSpeed;
         }
         if (!started && (!alternative || time.isAfter(174500)))
         {
@@ -206,6 +210,10 @@ public final class Credits extends Sequence
             {
                 end(Menu.class);
             }
+        }
+        if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
+        {
+            end(null);
         }
     }
 
