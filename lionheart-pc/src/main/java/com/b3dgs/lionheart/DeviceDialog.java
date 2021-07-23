@@ -57,6 +57,7 @@ import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceMapper;
 
 /**
  * Device dialog.
@@ -70,13 +71,13 @@ public class DeviceDialog extends JDialog
     private static final String LABEL_SAVE = "Save";
     private static final String LABEL_EXIT = "Exit";
 
-    private static String getName(DeviceMapping mapping)
+    private static String getName(DeviceMapper mapping)
     {
-        return String.format("%" + 10 + "s", mapping.name());
+        return String.format("%" + 10 + "s", mapping);
     }
 
     /** Stored by device, by mapping and their codes. */
-    private final Map<DeviceMapping, Set<Integer>> data = new HashMap<>();
+    private final Map<DeviceMapper, Set<Integer>> data = new HashMap<>();
     /** Text to code mapper. */
     private final Map<String, Integer> textToCode = new HashMap<>();
     /** Custom input. */
@@ -104,7 +105,7 @@ public class DeviceDialog extends JDialog
         load();
 
         final JPanel panel = new JPanel(new GridLayout(0, 1));
-        for (final DeviceMapping mapping : DeviceMapping.values())
+        for (final DeviceMapper mapping : DeviceMapping.values())
         {
             createInput(panel, mapping, controller);
         }
@@ -115,7 +116,7 @@ public class DeviceDialog extends JDialog
         createButtons();
     }
 
-    private JTextField createTextField(Box box, DeviceMapping mapping)
+    private JTextField createTextField(Box box, DeviceMapper mapping)
     {
         final JTextField field = new JTextField();
         field.setFont(FONT);
@@ -158,7 +159,7 @@ public class DeviceDialog extends JDialog
         return field;
     }
 
-    private void createInput(Container parent, DeviceMapping mapping, AssignController controller)
+    private void createInput(Container parent, DeviceMapper mapping, AssignController controller)
     {
         final Box box = Box.createHorizontalBox();
         parent.add(box);
@@ -243,7 +244,7 @@ public class DeviceDialog extends JDialog
 
     private void save()
     {
-        final Map<DeviceMapping, Set<Integer>> written = new HashMap<>();
+        final Map<DeviceMapper, Set<Integer>> written = new HashMap<>();
         final File file = UtilStream.getCopy(inputCustom);
         try
         {
@@ -257,7 +258,7 @@ public class DeviceDialog extends JDialog
                     {
                         if (line.contains(DeviceControllerConfig.NODE_FIRE))
                         {
-                            final DeviceMapping mapping = readMapping(line);
+                            final DeviceMapper mapping = readMapping(line);
                             if (mapping != null)
                             {
                                 final Set<Integer> codes = data.get(mapping);
@@ -314,7 +315,7 @@ public class DeviceDialog extends JDialog
         return DeviceMapping.valueOf(line.substring(start, line.indexOf('\"', start)));
     }
 
-    private static void writeCode(FileWriter output, DeviceMapping mapping, Integer code) throws IOException
+    private static void writeCode(FileWriter output, DeviceMapper mapping, Integer code) throws IOException
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("        <")
@@ -322,7 +323,7 @@ public class DeviceDialog extends JDialog
                .append(com.b3dgs.lionengine.Constant.SPACE)
                .append(DeviceControllerConfig.ATT_INDEX)
                .append("=\"")
-               .append(mapping.name())
+               .append(mapping)
                .append("\"")
                .append(com.b3dgs.lionengine.Constant.SPACE)
                .append(DeviceControllerConfig.ATT_POSITIVE)

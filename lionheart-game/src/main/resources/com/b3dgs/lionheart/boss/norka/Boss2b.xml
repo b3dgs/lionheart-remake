@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
@@ -8,7 +9,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.BossNorka2</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Boss2b.png"/>
-    <lionengine:frames horizontal="5" vertical="3"/>
+    <lionengine:frames horizontal="7" vertical="2"/>
     <lionengine:size width="48" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -33,7 +34,8 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:collidable group="2" accepted="1%2"/>
     <stats health="4"/>
-    <hurtable frame="15" effect="effect/norka/ExplodeBig.xml" boss="true"/>
+    <hurtable frame="1" effect="effect/norka/ExplodeBig.xml" boss="true"/>
     <lionengine:body gravity="2.0" gravityMax="5.0"/>
+    <shade horizontal="1" vertical="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

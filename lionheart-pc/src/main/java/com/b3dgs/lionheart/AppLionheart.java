@@ -22,11 +22,14 @@ import java.util.Arrays;
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
+import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
+import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 
 /**
@@ -66,7 +69,10 @@ public final class AppLionheart
         Util.init(Tools::generateWorldRaster);
 
         final Settings settings = Settings.getInstance();
+        final ImageLoadStrategy[] strategies = ImageLoadStrategy.values();
+        ToolsAwt.setLoadStrategy(strategies[UtilMath.clamp(settings.getFlag(), 0, strategies.length)]);
         AudioFactory.setVolume(settings.getVolumeMaster());
+
         Loader.start(Config.windowed(settings.getResolution(),
                                      Arrays.asList(gamepad),
                                      Medias.create("icon-16.png"),

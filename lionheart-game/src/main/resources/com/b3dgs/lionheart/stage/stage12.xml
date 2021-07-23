@@ -457,7 +457,6 @@
         <entity file="entity/dragonfly/Bomb.xml" tx="205.0" ty="13.0">
             <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
         </entity>
-        >
         <entity file="entity/dragonfly/Bomb.xml" tx="208.0" ty="10.0">
             <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
         </entity>

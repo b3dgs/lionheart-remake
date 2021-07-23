@@ -47,8 +47,8 @@ import com.b3dgs.lionheart.Constant;
 public final class BossSwampNeck extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final int PALLET_OFFSET = 2;
-    private static final int OFFSET_X = -36;
-    private static final int OFFSET_Y = 90;
+    private static final int OFFSET_X = -26;
+    private static final int OFFSET_Y = 87;
     private static final int HIT_TICK_DELAY = 2;
 
     private final Tick tick = new Tick();
@@ -149,7 +149,10 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        listener.notifyCollided(collidable, with, by);
+        if (listener != null)
+        {
+            listener.notifyCollided(collidable, with, by);
+        }
     }
 
     @Override

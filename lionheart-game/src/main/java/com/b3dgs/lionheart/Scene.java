@@ -29,12 +29,13 @@ import com.b3dgs.lionengine.io.DeviceController;
 /**
  * Game scene implementation.
  */
-public final class Scene extends SequenceGame<World>
+public class Scene extends SequenceGame<World>
 {
     private final AppInfo info = new AppInfo(this::getFps, services);
     private final Media stage;
     private final Media music;
     private final InitConfig init;
+    private final Boolean exit;
 
     /**
      * Create the scene.
@@ -44,12 +45,27 @@ public final class Scene extends SequenceGame<World>
      * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    Scene(Context context, Media stage, InitConfig init)
+    public Scene(Context context, Media stage, InitConfig init)
+    {
+        this(context, stage, init, Boolean.FALSE);
+    }
+
+    /**
+     * Create the scene.
+     * 
+     * @param context The context reference (must not be <code>null</code>).
+     * @param stage The stage run.
+     * @param init The initial config.
+     * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
+     * @throws LionEngineException If invalid argument.
+     */
+    Scene(Context context, Media stage, InitConfig init, Boolean exit)
     {
         super(context, Util.getResolution(Constant.RESOLUTION_GAME, context), World::new);
 
         this.stage = stage;
         this.init = init;
+        this.exit = exit;
         music = StageConfig.imports(new Configurer(stage)).getMusic();
         services.add(init.getDifficulty());
 
@@ -59,7 +75,16 @@ public final class Scene extends SequenceGame<World>
     @Override
     public void load()
     {
-        world.load(stage, init);
+        try
+        {
+            world.load(stage, init);
+        }
+        catch (final Exception exception)
+        {
+            Sfx.cacheStop();
+            world.stopMusic();
+            throw exception;
+        }
     }
 
     @Override
@@ -91,6 +116,11 @@ public final class Scene extends SequenceGame<World>
         super.render(g);
 
         info.render(g);
+
+        if (exit.booleanValue())
+        {
+            end();
+        }
     }
 
     @Override

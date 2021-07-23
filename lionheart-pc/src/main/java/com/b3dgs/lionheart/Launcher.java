@@ -60,11 +60,13 @@ import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.awt.Keyboard;
 import com.b3dgs.lionengine.awt.Mouse;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
+import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -93,6 +95,7 @@ public final class Launcher
     private static final AtomicInteger SCALE = new AtomicInteger();
     private static final AtomicInteger RATIO = new AtomicInteger();
     private static final AtomicBoolean FULLSCREEN = new AtomicBoolean();
+    private static final AtomicInteger FLAG = new AtomicInteger();
     private static final AtomicInteger MUSIC = new AtomicInteger();
     private static final AtomicInteger SFX = new AtomicInteger();
     private static final AtomicInteger GAMEPAD = new AtomicInteger();
@@ -105,7 +108,8 @@ public final class Launcher
     private static final String LABEL_SFX = "  Sfx: ";
     private static final String LABEL_SCALE = "Scale: x";
     private static final String LABEL_RATIO = "Ratio: ";
-    private static final String LABEL_FULLSCREEN = "Fullscreen";
+    private static final String LABEL_FULLSCREEN = "Fullscreen:";
+    private static final String LABEL_FLAG = "Flag: ";
     private static final String LABEL_GAMEPAD = "Gamepad: ";
     private static final String LABEL_SETUP_DEVICE = "Setup ";
     private static final String LABEL_PLAY = "Play";
@@ -141,8 +145,9 @@ public final class Launcher
         setThemeSystem();
 
         final Settings settings = Settings.getInstance();
-        MUSIC.set(settings.getVolumeMusic());
-        SFX.set(settings.getVolumeSfx());
+        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        FLAG.set(UtilMath.clamp(settings.getFlag(), 0, ImageLoadStrategy.values().length));
 
         final JFrame frame = createFrame();
 
@@ -240,16 +245,31 @@ public final class Launcher
 
     private static void createFullscreen(Container parent, Container scale, Container ratio)
     {
-        final Box box = Box.createHorizontalBox();
         final JCheckBox check = new JCheckBox(LABEL_FULLSCREEN);
         check.setFont(FONT);
+        check.setHorizontalTextPosition(SwingConstants.LEADING);
+        check.setSelected(FULLSCREEN.get());
         check.addChangeListener(e ->
         {
             FULLSCREEN.set(check.isSelected());
             scale.setEnabled(!check.isSelected());
             ratio.setEnabled(!check.isSelected());
         });
+
+        final JLabel label = new JLabel(LABEL_FLAG);
+        label.setFont(FONT);
+        label.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+
+        final JComboBox<ImageLoadStrategy> combo = new JComboBox<>(ImageLoadStrategy.values());
+        combo.setFont(FONT);
+        combo.setSelectedIndex(FLAG.get());
+        combo.addItemListener(e -> FLAG.set(combo.getSelectedIndex()));
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
         box.add(check);
+        box.add(label);
+        box.add(combo);
         parent.add(box);
     }
 
@@ -506,6 +526,10 @@ public final class Launcher
                     else if (line.contains(Settings.VOLUME_SFX))
                     {
                         writeFormatted(output, data, SFX.get());
+                    }
+                    else if (line.contains(Settings.FLAG))
+                    {
+                        writeFormatted(output, data, FLAG.get());
                     }
                     else
                     {

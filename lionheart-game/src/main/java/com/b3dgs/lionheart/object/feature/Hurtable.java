@@ -26,8 +26,12 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.FramesConfig;
+import com.b3dgs.lionengine.game.OriginConfig;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -44,13 +48,15 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
@@ -58,6 +64,7 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.SetupEntity;
 import com.b3dgs.lionheart.object.state.StateDie;
 import com.b3dgs.lionheart.object.state.StateGripIdle;
 import com.b3dgs.lionheart.object.state.StateGripSoar;
@@ -84,8 +91,10 @@ public final class Hurtable extends FeatureModel
     private final Force hurtForce = new Force();
     private final Tick recover = new Tick();
     private final Tick flicker = new Tick();
+    private final SpriteAnimated shade;
     private final double hurtForceValue;
     private final Spawner spawner = services.get(Spawner.class);
+    private final Viewer viewer = services.get(Viewer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
     private final MapTileWater mapWater = services.get(MapTileWater.class);
     private final Optional<Media> effect;
@@ -101,6 +110,7 @@ public final class Hurtable extends FeatureModel
     private boolean enabled;
     private double oldGravity;
     private double oldGravityMax;
+    private boolean shading;
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
@@ -112,6 +122,7 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private EntityModel model;
     @FeatureGet private Stats stats;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Animatable animatable;
 
     /**
      * Create feature.
@@ -120,23 +131,35 @@ public final class Hurtable extends FeatureModel
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public Hurtable(Services services, SetupSurfaceRastered setup)
+    public Hurtable(Services services, SetupEntity setup)
     {
         super(services, setup);
 
         final HurtableConfig config = HurtableConfig.imports(setup);
+        frame = config.getFrame();
         effect = config.getEffect();
         persist = config.hasPersist();
         fall = config.hasFall();
         sfx = config.getSfx().map(Sfx::valueOf).orElse(Sfx.MONSTER_HURT);
         boss = config.hasBoss();
 
+        if (setup.getShade() == null || frame.isPresent() && frame.getAsInt() < 0)
+        {
+            shade = null;
+        }
+        else
+        {
+            shade = Drawable.loadSpriteAnimated(setup.getShade(),
+                                                setup.getInteger(FramesConfig.ATT_HORIZONTAL, SetupEntity.NODE_SHADE),
+                                                setup.getInteger(FramesConfig.ATT_VERTICAL, SetupEntity.NODE_SHADE));
+            shade.setOrigin(OriginConfig.imports(setup));
+        }
+
         hurtForce.setDestination(0.0, 0.0);
         hurtForce.setSensibility(0.01);
         hurtForce.setVelocity(0.1);
         hurtForceValue = config.getBackward().orElse(0.0);
 
-        frame = config.getFrame();
     }
 
     /**
@@ -174,6 +197,24 @@ public final class Hurtable extends FeatureModel
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
+    }
+
+    /**
+     * Set shade frame.
+     * 
+     * @param frame The shade frame.
+     */
+    public void setShading(int frame)
+    {
+        if (frame > 0)
+        {
+            shade.setFrame(frame);
+            shading = true;
+        }
+        else
+        {
+            shading = false;
+        }
     }
 
     /**
@@ -448,6 +489,17 @@ public final class Hurtable extends FeatureModel
     }
 
     @Override
+    public void render(Graphic g)
+    {
+        if (shading)
+        {
+            shade.setMirror(mirrorable.getMirror());
+            shade.setLocation(viewer, transformable);
+            shade.render(g);
+        }
+    }
+
+    @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
         currentCollide.notifyCollided(collidable, with, by);
@@ -466,6 +518,7 @@ public final class Hurtable extends FeatureModel
         currentTile = this::updateTile;
         flickerCurrent = UpdatableVoid.getInstance();
         enabled = true;
+        shading = false;
         if (fall)
         {
             body.setGravity(oldGravity);

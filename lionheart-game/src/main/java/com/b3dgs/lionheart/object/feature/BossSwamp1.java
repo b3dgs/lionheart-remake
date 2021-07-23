@@ -243,7 +243,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                 final Featurable boss2 = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss2.xml"),
                                                        transformable.getX(),
                                                        transformable.getY());
-                boss2.getFeature(EntityModel.class).setNext(model.getNext().get(), Optional.empty());
+                boss2.getFeature(EntityModel.class).setNext(model.getNext(), Optional.empty());
                 boss2.getFeature(Stats.class).applyDamages(stats.getHealthMax() - stats.getHealth());
             }
         }

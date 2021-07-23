@@ -61,7 +61,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossSpidercave extends FeatureModel implements Routine, Recyclable
 {
-    private static final int HEAD_OFFSET_X = -32;
+    private static final int HEAD_OFFSET_X = -38;
     private static final int PATROL_MARGIN = 80;
     private static final int HEAD_OPENED_TICK = 80;
     private static final int HEAD_ATTACK_OFFSET_Y = 12;
@@ -242,7 +242,8 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 {
                     headOffsetY = 0;
                 }
-                headTransformable.setLocation(transformable.getX() + HEAD_OFFSET_X, transformable.getY() + headOffsetY);
+                headTransformable.setLocation(transformable.getX() + HEAD_OFFSET_X,
+                                              transformable.getY() + headOffsetY + 6);
                 headCollidable.setEnabled(headAnim.getFrame() == 6);
 
                 if (player.getX() > transformable.getX())

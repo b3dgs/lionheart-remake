@@ -67,11 +67,11 @@ public final class StateHurt extends State
                 {
                     if (frameFlicker > 0)
                     {
-                        animatable.setFrame(frameFlicker);
+                        hurtable.setShading(frameFlicker);
                     }
                     else if (frameFlicker == 0)
                     {
-                        rasterable.setAnimOffset(model.getFrames() / 2);
+                        hurtable.setShading(animatable.getFrame() - animation.getFirst() + 1);
                     }
                 }
                 else
@@ -80,7 +80,7 @@ public final class StateHurt extends State
                     {
                         animatable.setFrame(animation.getFirst());
                     }
-                    rasterable.setAnimOffset(0);
+                    hurtable.setShading(0);
                 }
                 if (frameFlicker < 0 || flicker == FLICKER_COUNT / 3 && stats.getHealth() == 0)
                 {
@@ -150,7 +150,7 @@ public final class StateHurt extends State
             jump.setVelocity(velocity);
             jump.setDirectionMaximum(Constant.JUMP_MAX);
         }
-        rasterable.setAnimOffset(0);
+        hurtable.setShading(0);
         hurtable.setEnabled(true);
     }
 }

@@ -77,6 +77,7 @@ public final class Tools
             {
                 generateTileRaster(type);
             }
+
             generateTileWaterRaster(type);
 
             generateHeroWaterRaster(type);
@@ -229,7 +230,7 @@ public final class Tools
             }
 
             final Media raster = Medias.create(Folder.RASTER, world, theme, Constant.RASTER_FILE_WATER);
-            if (raster.exists())
+            if (!Medias.create(raster.getParentPath(), folderWater).exists() && raster.exists())
             {
                 final ImageBuffer base;
                 if (type == BackgroundType.LAVA)

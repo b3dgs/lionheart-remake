@@ -18,10 +18,10 @@ package com.b3dgs.lionheart;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -76,6 +76,8 @@ public enum Sfx
     SCENERY_GEYZER,
     /** Scenery geyzer platform. */
     SCENERY_GEYZERPLATFORM,
+    /** Scenery head. */
+    SCENERY_HEAD,
     /** Monster hurt. */
     MONSTER_HURT,
     /** Monster grasshopper. */
@@ -96,12 +98,24 @@ public enum Sfx
     MONSTER_EXECUTIONER_HURT,
     /** Monster executioner attack. */
     MONSTER_EXECUTIONER_ATTACK,
+    /** Monster canon airship 1. */
+    MONSTER_CANONAIRSHIP1,
+    /** Monster canon airship 2. */
+    MONSTER_CANONAIRSHIP2,
+    /** Monster dragon 1. */
+    MONSTER_DRAGON1,
+    /** Monster dragon 2. */
+    MONSTER_DRAGON2,
     /** Monster dragon ball. */
     MONSTER_DRAGONBALL,
     /** Monster frog. */
     MONSTER_FROG,
     /** Monster wizard. */
     MONSTER_WIZARD,
+    /** Monster face. */
+    MONSTER_FACE,
+    /** Monster fish. */
+    MONSTER_FISH,
     /** Effect explode 1. */
     EFFECT_EXPLODE1,
     /** Effect explode 2. */
@@ -139,87 +153,38 @@ public enum Sfx
 
     private static final int TIMEOUT_SEC = 30;
     private static final int MAX_PARALLEL_CACHE = 3;
-    private static final List<Sfx> AUDIO = new ArrayList<>(Arrays.asList(VALDYN_HURT,
-                                                                         VALDYN_DIE,
-                                                                         VALDYN_SWORD,
-                                                                         ITEM_POTIONLITTLE,
-                                                                         ITEM_POTIONBIG,
-                                                                         ITEM_TAKEN,
-                                                                         SCENERY_DRAGON,
-                                                                         SCENERY_TURNING,
-                                                                         SCENERY_TURNINGCUBE,
-                                                                         SCENERY_ROTATINGPLATFORM,
-                                                                         SCENERY_SPIKE,
-                                                                         SCENERY_MELTINGPLATFORM,
-                                                                         SCENERY_FIREBALL,
-                                                                         SCENERY_GEYZER,
-                                                                         SCENERY_GEYZERPLATFORM,
-                                                                         MONSTER_HURT,
-                                                                         MONSTER_LAND,
-                                                                         MONSTER_GRASSHOPER,
-                                                                         MONSTER_SPIDER,
-                                                                         MONSTER_CANON1,
-                                                                         MONSTER_CANON2,
-                                                                         MONSTER_CANON3,
-                                                                         MONSTER_GOBELIN,
-                                                                         MONSTER_EXECUTIONER_HURT,
-                                                                         MONSTER_EXECUTIONER_ATTACK,
-                                                                         MONSTER_DRAGONBALL,
-                                                                         MONSTER_FROG,
-                                                                         MONSTER_WIZARD,
-                                                                         EFFECT_EXPLODE1,
-                                                                         EFFECT_EXPLODE2,
-                                                                         EFFECT_EXPLODE3,
-                                                                         PROJECTILE_FLOWER,
-                                                                         PROJECTILE_FLY,
-                                                                         PROJECTILE_BULLET2,
-                                                                         BOSS2));
+    private static final List<Sfx> TO_CACHE = new ArrayList<>(Arrays.asList(Sfx.values()));
 
-    private static final CountDownLatch LATCH = new CountDownLatch(1);
-    private static final List<Sfx> TO_CACHE = new ArrayList<>();
+    private static ExecutorService executor = Executors.newFixedThreadPool(MAX_PARALLEL_CACHE);
 
     /**
      * Cache sfx start.
-     * 
-     * @param sfxs The sfx to cache.
      */
-    public static void cacheStart(Sfx... sfxs)
+    public static void cacheStart()
     {
-        if (TO_CACHE.isEmpty())
+        if (TO_CACHE.isEmpty() && Settings.getInstance().getVolumeSfx() > 0)
         {
-            TO_CACHE.addAll(AUDIO);
-            TO_CACHE.addAll(Arrays.asList(sfxs));
-            final Collection<Sfx> list = new ArrayList<>(TO_CACHE);
-            new Thread(() ->
+            final int n = TO_CACHE.size();
+            for (int i = 0; i < n; i++)
             {
-                if (Settings.getInstance().getVolumeSfx() > 0)
+                final Sfx sfx = TO_CACHE.get(i);
+                if (!sfx.cached)
                 {
-                    int i = 0;
-                    for (final Sfx sfx : list)
+                    executor.execute(() ->
                     {
-                        if (!sfx.cached)
+                        sfx.audio.setVolume(0);
+                        try
                         {
-                            sfx.audio.setVolume(0);
-                            try
-                            {
-                                sfx.play();
-                                i++;
-                                if (i > MAX_PARALLEL_CACHE)
-                                {
-                                    i = 0;
-                                    sfx.audio.await();
-                                }
-                            }
-                            catch (@SuppressWarnings("unused") final RejectedExecutionException exception)
-                            {
-                                // Skip
-                            }
+                            sfx.play();
                         }
-                    }
+                        catch (@SuppressWarnings("unused") final RejectedExecutionException exception)
+                        {
+                            // Skip
+                        }
+                        sfx.audio.await();
+                    });
                 }
-                list.clear();
-                LATCH.countDown();
-            }, Sfx.class.getSimpleName()).start();
+            }
         }
     }
 
@@ -228,11 +193,12 @@ public enum Sfx
      */
     public static void cacheEnd()
     {
-        if (!TO_CACHE.isEmpty())
+        if (!TO_CACHE.isEmpty() && Settings.getInstance().getVolumeSfx() > 0)
         {
             try
             {
-                LATCH.await(TIMEOUT_SEC, TimeUnit.SECONDS);
+                executor.shutdown();
+                executor.awaitTermination(TIMEOUT_SEC, TimeUnit.SECONDS);
 
                 final int volume = Settings.getInstance().getVolumeSfx();
                 if (!TO_CACHE.isEmpty() && volume > 0)
@@ -257,6 +223,14 @@ public enum Sfx
                 Verbose.exception(exception);
             }
         }
+    }
+
+    /**
+     * Stop cache.
+     */
+    public static void cacheStop()
+    {
+        executor.shutdownNow();
     }
 
     /**
@@ -295,7 +269,7 @@ public enum Sfx
     /** Audio handler. */
     private final Audio audio;
     /** Cached flag. */
-    private boolean cached;
+    private volatile boolean cached;
 
     /**
      * Create Sfx.

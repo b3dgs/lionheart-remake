@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.intro;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -44,6 +45,7 @@ import com.b3dgs.lionheart.Util;
 /**
  * Test intro stories {@link Stories}.
  */
+@Tag("manual")
 public class StoriesTest
 {
     /**
@@ -57,8 +59,22 @@ public class StoriesTest
     }
 
     /**
-     * Test pictures rendering.
+     * Test each pictures and text with all languages.
+     * 
+     * @param lang The language value.
      */
+    @Tag("manual")
+    @ParameterizedTest
+    @ValueSource(strings =
+    {
+        "en", "fr", "es", "de"
+    })
+    void testStoriesManual(String lang)
+    {
+        Settings.getInstance().setLang(lang);
+        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class, Boolean.FALSE).await();
+    }
+
     /**
      * Test each pictures and text with all languages.
      * 
@@ -72,7 +88,7 @@ public class StoriesTest
     void testStories(String lang)
     {
         Settings.getInstance().setLang(lang);
-        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class).await();
+        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class, Boolean.TRUE).await();
     }
 
     /**
@@ -82,6 +98,7 @@ public class StoriesTest
     {
         private final Stories stories = new Stories();
         private final DeviceController device;
+        private final Boolean auto;
         private int story;
         private boolean fired;
 
@@ -89,10 +106,13 @@ public class StoriesTest
          * Create mock.
          * 
          * @param context The context reference.
+         * @param auto <code>true</code> for auto skip, <code>false</code> for manual.
          */
-        Mock(Context context)
+        Mock(Context context, Boolean auto)
         {
             super(context, Util.getResolution(Constant.RESOLUTION, context));
+
+            this.auto = auto;
 
             final Services services = new Services();
             services.add(context);
@@ -109,9 +129,9 @@ public class StoriesTest
         @Override
         public void update(double extrp)
         {
-            if (device.isFired())
+            if (auto.booleanValue() || device.isFired())
             {
-                if (!fired)
+                if (auto.booleanValue() || !fired)
                 {
                     fired = true;
                     story++;

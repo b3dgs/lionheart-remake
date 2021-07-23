@@ -169,7 +169,7 @@ public final class StageConfig
                                          configurer.getDouble(ATT_BOSS_TY, NODE_BOSS)));
             bossSpawn = Optional.of(new Coord(configurer.getDouble(ATT_BOSS_TSX, NODE_BOSS),
                                               configurer.getDouble(ATT_BOSS_TSY, NODE_BOSS)));
-            bossNext = Optional.of(configurer.getString(ATT_BOSS_NEXT, NODE_BOSS));
+            bossNext = configurer.getStringOptional(ATT_BOSS_NEXT, NODE_BOSS);
         }
         else
         {

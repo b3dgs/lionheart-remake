@@ -12,7 +12,7 @@
     <lionengine:collisions>
         <lionengine:collision name="body" offsetX="0" offsetY="-8" width="6" height="6" mirror="false"/>
     </lionengine:collisions>
-    <lionengine:layerable layerRefresh="1" layerDisplay="1"/>
+    <lionengine:layerable layerRefresh="7" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

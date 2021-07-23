@@ -17,12 +17,13 @@
 package com.b3dgs.lionheart;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -41,6 +42,7 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
@@ -72,7 +74,6 @@ import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
-import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
@@ -149,9 +150,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private final Tick tick = new Tick();
 
-    private final BlockingDeque<Runnable> tasks = new LinkedBlockingDeque<>();
-    private final Thread task;
-    private volatile Audio audio;
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
+    private final Thread musicTask;
+    private Audio music;
 
     private Landscape landscape;
     private int trackerInitY;
@@ -195,13 +197,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
 
-        task = new Thread(() ->
+        musicTask = new Thread(() ->
         {
             while (!Thread.currentThread().isInterrupted())
             {
                 try
                 {
-                    tasks.take().run();
+                    musicToPlay.take().run();
                 }
                 catch (@SuppressWarnings("unused") final InterruptedException exception)
                 {
@@ -209,38 +211,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     break;
                 }
             }
-        }, World.class.getSimpleName());
-        task.start();
-    }
-
-    /**
-     * Cache specific boss sfx.
-     * 
-     * @param stage The stage reference.
-     */
-    private void cacheBossSfx(StageConfig stage)
-    {
-        if (stage.getBoss().isPresent())
-        {
-            if (stage.getBackground() == BackgroundType.SWAMP_DAY)
-            {
-                Sfx.cacheStart(Sfx.BOSS1_BOWL, Sfx.BOSS1_HURT);
-            }
-            else if (stage.getBackground() == BackgroundType.LAVA)
-            {
-                Sfx.cacheStart(Sfx.BOSS3_HURT, Sfx.BOSS3_JUMP);
-
-            }
-            else if (stage.getBackground() == BackgroundType.NORKA)
-            {
-                Sfx.cacheStart(Sfx.BOSS_DAEMON_FIRE,
-                               Sfx.BOSS_DAEMON_LAND,
-                               Sfx.BOSS_FLYER,
-                               Sfx.BOSS_NORKA_FIRE,
-                               Sfx.BOSS_NORKA_HURT,
-                               Sfx.BOSS_NORKA_PLATFORM);
-            }
-        }
+        }, "Musics");
+        musicTask.start();
     }
 
     /**
@@ -269,7 +241,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             @Override
             public void notifyMapLoaded()
             {
-                map.loadAfter(map.getMedia());
+                executor.execute(() -> map.loadAfter(map.getMedia()));
                 camera.setLimits(map);
             }
         });
@@ -410,9 +382,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         featurable.getFeature(Stats.class).apply(init);
         if (Settings.getInstance().getRasterHeroWater())
         {
-            featurable.getFeature(Underwater.class)
-                      .loadRaster("raster/" + Folder.HERO + "/valdyn/",
-                                  ForegroundType.LAVA.equals(stage.getForeground().getType()));
+            executor.execute(() ->
+            {
+                featurable.getFeature(Underwater.class)
+                          .loadRaster("raster/" + Folder.HERO + "/valdyn/",
+                                      ForegroundType.LAVA.equals(stage.getForeground().getType()));
+            });
         }
 
         final String theme = stage.getBackground().getWorld().getFolder();
@@ -435,7 +410,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     trackerY = 1.0;
                 }
                 spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y).getFeature(EntityModel.class)
-                                                                          .setNext(stage.getBossNext().get(),
+                                                                          .setNext(stage.getBossNext(),
                                                                                    Optional.empty());
                 playMusic(Music.BOSS);
             }
@@ -479,18 +454,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * 
      * @param stage The stage configuration.
      * @param entity The entity configuration.
-     * @param entitiesRasters The rasters used.
+     * @param settings The settings reference.
      */
-    private void createEntity(StageConfig stage, EntityConfig entity, HashMap<Media, Set<Integer>> entitiesRasters)
+    private void createEntity(StageConfig stage, EntityConfig entity, Settings settings)
     {
         final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+
         if (Difficulty.LIONHARD.equals(difficulty))
         {
             featurable.ifIs(Stats.class, Stats::initLionhard);
         }
         entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
-        entity.getNext()
-              .ifPresent(next -> featurable.getFeature(EntityModel.class).setNext(next, entity.getNextSpawn()));
+        featurable.ifIs(EntityModel.class, model -> model.setNext(entity.getNext(), entity.getNextSpawn()));
         entity.getMirror().ifPresent(mirror ->
         {
             final Mirrorable mirrorable = featurable.getFeature(Mirrorable.class);
@@ -522,6 +497,21 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             featurable.ifIs(Underwater.class, underwater -> underwater.loadRaster(r));
             featurable.ifIs(BulletBounceOnGround.class, bullet -> bullet.loadRaster(r));
         });
+
+        if (settings.getRasterObject())
+        {
+            stage.getRasterFolder().ifPresent(r ->
+            {
+                final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
+                if (rasterMedia.exists())
+                {
+                    executor.execute(() ->
+                    {
+                        featurable.ifIs(Rasterable.class, r2 -> r2.setRaster(true, rasterMedia, map.getTileHeight()));
+                    });
+                }
+            });
+        }
     }
 
     /**
@@ -663,44 +653,60 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     public void load(Media config, InitConfig init)
     {
-        services.add(config);
-        final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
-
-        cacheBossSfx(stage);
-
-        Util.run(stage.getBackground());
-
-        loadMap(stage);
-
-        final Settings settings = Settings.getInstance();
-        final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
-                                                                       source,
-                                                                       settings.getBackgroundFlicker());
-        landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
-
-        difficulty = init.getDifficulty();
-        cheats = init.isCheats();
-        createPlayerAndLoadCheckpoints(init, stage);
-
-        if (settings.getRasterObject())
+        try
         {
-            stage.getRasterFolder().ifPresent(r ->
+            services.add(config);
+            final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
+
+            if (Settings.getInstance().getRasterCheck())
             {
-                final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
-                if (rasterMedia.exists())
+                Util.run(stage.getBackground());
+            }
+
+            loadMap(stage);
+
+            final Settings settings = Settings.getInstance();
+            final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
+                                                                           source,
+                                                                           settings.getBackgroundFlicker());
+            landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
+
+            difficulty = init.getDifficulty();
+            cheats = init.isCheats();
+            createPlayerAndLoadCheckpoints(init, stage);
+
+            stage.getEntities().forEach(entity -> createEntity(stage, entity, settings));
+
+            final String theme = stage.getBackground().getWorld().getFolder();
+
+            if (settings.getRasterObject())
+            {
+                stage.getRasterFolder().ifPresent(r ->
                 {
-                    spawner.setRaster(rasterMedia);
-                }
-            });
+                    final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
+                    if (rasterMedia.exists())
+                    {
+                        spawner.setRaster(rasterMedia);
+                    }
+                });
+            }
+
+            factory.createCache(spawner, Medias.create(Folder.EFFECT, theme), 4);
+            factory.createCache(spawner, Medias.create(Folder.PROJECTILE, theme), 6);
         }
-
-        final HashMap<Media, Set<Integer>> entitiesRasters = new HashMap<>();
-        stage.getEntities().forEach(entity -> createEntity(stage, entity, entitiesRasters));
-
-        final String theme = stage.getBackground().getWorld().getFolder();
-        factory.createCache(spawner, Medias.create(Folder.EFFECT, theme), 4);
-        factory.createCache(spawner, Medias.create(Folder.PROJECTILE, theme), 6);
-
+        finally
+        {
+            executor.shutdown();
+        }
+        try
+        {
+            executor.awaitTermination(30L, TimeUnit.SECONDS);
+        }
+        catch (final InterruptedException exception)
+        {
+            Thread.currentThread().interrupt();
+            Verbose.exception(exception);
+        }
         hud.load();
         handler.updateRemove();
         handler.updateAdd();
@@ -730,19 +736,22 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void playMusic(Media media)
     {
-        tasks.offer(() ->
+        musicToPlay.offer(() ->
         {
-            if (audio != null)
+            synchronized (musicTask)
             {
-                audio.stop();
-            }
-            audio = AudioFactory.loadAudio(media);
+                if (music != null)
+                {
+                    music.stop();
+                }
+                music = AudioFactory.loadAudio(media);
 
-            final Settings settings = Settings.getInstance();
-            if (settings.getVolumeMaster() > 0)
-            {
-                audio.setVolume(settings.getVolumeMusic());
-                audio.play();
+                final Settings settings = Settings.getInstance();
+                if (settings.getVolumeMaster() > 0)
+                {
+                    music.setVolume(settings.getVolumeMusic());
+                    music.play();
+                }
             }
         });
     }
@@ -750,22 +759,24 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void stopMusic()
     {
-        if (audio != null)
+        synchronized (musicTask)
         {
-            task.interrupt();
-            audio.stop();
-
+            musicTask.interrupt();
             try
             {
-                task.join(com.b3dgs.lionengine.Constant.HUNDRED);
+                musicTask.join(com.b3dgs.lionengine.Constant.THOUSAND);
             }
             catch (final InterruptedException exception)
             {
                 Thread.currentThread().interrupt();
                 Verbose.exception(exception);
             }
-            tasks.clear();
-            audio = null;
+            musicToPlay.clear();
+            if (music != null)
+            {
+                music.stop();
+                music = null;
+            }
         }
     }
 

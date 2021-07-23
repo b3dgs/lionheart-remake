@@ -176,9 +176,9 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
      * @param next The next stage.
      * @param nextSpawn The next spawn.
      */
-    public void setNext(String next, Optional<Coord> nextSpawn)
+    public void setNext(Optional<String> next, Optional<Coord> nextSpawn)
     {
-        this.next = Optional.ofNullable(next);
+        this.next = next;
         this.nextSpawn = nextSpawn;
     }
 

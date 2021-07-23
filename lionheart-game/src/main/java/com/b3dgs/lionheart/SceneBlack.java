@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 
 /**
@@ -41,7 +42,7 @@ public final class SceneBlack extends Sequence
      */
     public SceneBlack(Context context, Media stage, InitConfig init)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), new LoopUnlocked());
 
         this.stage = stage;
         this.init = init;

@@ -66,6 +66,7 @@ public final class ScenePicture extends Sequence
     private final Sprite picture;
     private final DeviceController device;
     private final AppInfo info;
+    private final Boolean auto;
 
     private int fadePic = 255;
     private int fadeText = 255;
@@ -84,10 +85,27 @@ public final class ScenePicture extends Sequence
      */
     public ScenePicture(Context context, Media stage, InitConfig init, Media pic, String narrative)
     {
+        this(context, stage, init, pic, narrative, Boolean.FALSE);
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param context The context reference (must not be <code>null</code>).
+     * @param stage The stage media.
+     * @param init The init config.
+     * @param pic The associated picture.
+     * @param narrative The associated narrative text.
+     * @param auto <code>true</code> for auto skip, <code>false</code> for manual.
+     * @throws LionEngineException If invalid argument.
+     */
+    ScenePicture(Context context, Media stage, InitConfig init, Media pic, String narrative, Boolean auto)
+    {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         this.stage = stage;
         this.init = init;
+        this.auto = auto;
 
         if (!stage.exists())
         {
@@ -163,7 +181,7 @@ public final class ScenePicture extends Sequence
                     }
                     tick.start();
                 }
-                else if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+                else if (auto.booleanValue() || device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
                 {
                     speed = -speed;
                     showPush = false;

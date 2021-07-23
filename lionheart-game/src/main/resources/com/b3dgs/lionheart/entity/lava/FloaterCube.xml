@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Floater</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="FloaterCube.png" icon="FloaterCube_ico.png"/>
-    <lionengine:frames horizontal="2" vertical="1"/>
+    <lionengine:frames horizontal="1" vertical="1"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -34,7 +35,7 @@
     <lionengine:body gravity="2.0" gravityMax="7.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="-1" persist="true"/>
-    <hurtable frame="2"/>
-    <alwaysUpdate>true</alwaysUpdate>
     <floater speedUp="0.4" speedDown="0.2" max="5" hit="true"/>
+    <shade horizontal="1" vertical="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

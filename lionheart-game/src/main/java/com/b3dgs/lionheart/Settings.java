@@ -55,6 +55,8 @@ public class Settings
 
     /** Raster key. */
     public static final String RASTER = "raster";
+    /** Raster check key. */
+    public static final String RASTER_CHECK = RASTER + ".check";
     /** Raster map key. */
     public static final String RASTER_MAP = RASTER + ".map";
     /** Raster map water key. */
@@ -78,6 +80,9 @@ public class Settings
 
     /** Zoom value. */
     public static final String ZOOM = "zoom";
+
+    /** Flag value. */
+    public static final String FLAG = "flag";
 
     /** Temp file. */
     private static final File FILE = new File(new File(System.getProperty("java.io.tmpdir"), Constant.PROGRAM_NAME),
@@ -231,6 +236,16 @@ public class Settings
     }
 
     /**
+     * Get raster check flag.
+     * 
+     * @return The raster check flag.
+     */
+    public boolean getRasterCheck()
+    {
+        return getRaster() && getBoolean(RASTER_CHECK, false);
+    }
+
+    /**
      * Get raster map flag.
      * 
      * @return The raster map flag.
@@ -308,6 +323,16 @@ public class Settings
     public double getZoom()
     {
         return getDouble(ZOOM, 1.0);
+    }
+
+    /**
+     * Get flag value.
+     * 
+     * @return The flag value.
+     */
+    public int getFlag()
+    {
+        return getInt(FLAG, 0);
     }
 
     /**

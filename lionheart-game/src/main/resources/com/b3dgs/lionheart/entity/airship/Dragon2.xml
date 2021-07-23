@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
@@ -9,7 +10,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Dragon2.png" icon="Dragon2_ico.png"/>
-    <lionengine:frames horizontal="7" vertical="4"/>
+    <lionengine:frames horizontal="7" vertical="2"/>
     <lionengine:size width="16" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -31,4 +32,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
     <hurtable effect="effect/airship/ExplodeLittle.xml"/>
+    <shade horizontal="7" vertical="2"/>
 </lionengine:featurable>

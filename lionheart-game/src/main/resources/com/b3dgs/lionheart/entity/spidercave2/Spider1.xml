@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
@@ -46,5 +47,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
-    <hurtable frame="-1" effect="effect/spidercave2/ExplodeLittle.xml"/>
+    <hurtable effect="effect/spidercave2/ExplodeLittle.xml"/>
+    <shade horizontal="5" vertical="2"/>
 </lionengine:featurable>
