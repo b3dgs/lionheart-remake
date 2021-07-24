@@ -17,11 +17,14 @@
 package com.b3dgs.lionheart;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +43,7 @@ import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -150,7 +154,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private final Tick tick = new Tick();
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final ExecutorService executor = Executors.newFixedThreadPool(5);
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
     private final Thread musicTask;
     private Audio music;
@@ -218,9 +222,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Load map from level.
      * 
+     * @param settings The settings reference.
      * @param config The stage config.
      */
-    private void loadMap(StageConfig config)
+    private void loadMap(Settings settings, StageConfig config)
     {
         final Media media = config.getMapFile();
         if (!media.exists())
@@ -241,7 +246,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             @Override
             public void notifyMapLoaded()
             {
-                executor.execute(() -> map.loadAfter(map.getMedia()));
+                if (settings.getLoadParallel())
+                {
+                    executor.execute(() -> map.loadAfter(map.getMedia()));
+                }
+                else
+                {
+                    map.loadAfter(map.getMedia());
+                }
                 camera.setLimits(map);
             }
         });
@@ -372,23 +384,19 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Create player and track with camera.
      * 
+     * @param settings The settings reference.
      * @param init The initial configuration.
      * @param stage The stage reference.
-     * @return The created player.
      */
-    private Featurable createPlayerAndLoadCheckpoints(InitConfig init, StageConfig stage)
+    private void createPlayerAndLoadCheckpoints(Settings settings, InitConfig init, StageConfig stage)
     {
-        final Featurable featurable = spawn(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"), 0, 0);
+        final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
         featurable.getFeature(Stats.class).apply(init);
-        if (Settings.getInstance().getRasterHeroWater())
-        {
-            executor.execute(() ->
-            {
-                featurable.getFeature(Underwater.class)
-                          .loadRaster("raster/" + Folder.HERO + "/valdyn/",
-                                      ForegroundType.LAVA.equals(stage.getForeground().getType()));
-            });
-        }
+        player = featurable.getFeature(StateHandler.class);
+        hud.setFeaturable(featurable);
+        services.add(featurable.getFeature(SwordShade.class));
+        trackPlayer(featurable);
+        handler.add(featurable);
 
         final String theme = stage.getBackground().getWorld().getFolder();
         final Optional<Coord> spawn = init.getSpawn();
@@ -417,7 +425,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         });
 
         final Transformable transformable = featurable.getFeature(Transformable.class);
-
         if (spawn.isPresent())
         {
             transformable.teleport(spawn.get().getX() * map.getTileWidth(), spawn.get().getY() * map.getTileHeight());
@@ -428,11 +435,24 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             transformable.teleport(coord.getX(), coord.getY());
         }
 
-        player = featurable.getFeature(StateHandler.class);
-        hud.setFeaturable(featurable);
-        services.add(featurable.getFeature(SwordShade.class));
-        trackPlayer(featurable);
-        return featurable;
+        if (settings.getLoadParallel())
+        {
+            executor.execute(() -> loadRasterHero(stage, featurable));
+        }
+        else
+        {
+            loadRasterHero(stage, featurable);
+        }
+    }
+
+    private void loadRasterHero(StageConfig stage, Featurable featurable)
+    {
+        if (Settings.getInstance().getRasterHeroWater())
+        {
+            featurable.getFeature(Underwater.class)
+                      .loadRaster("raster/" + Folder.HERO + "/valdyn/",
+                                  ForegroundType.LAVA.equals(stage.getForeground().getType()));
+        }
     }
 
     /**
@@ -455,10 +475,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * @param stage The stage configuration.
      * @param entity The entity configuration.
      * @param settings The settings reference.
+     * @return The created entity.
      */
-    private void createEntity(StageConfig stage, EntityConfig entity, Settings settings)
+    private Featurable createEntity(StageConfig stage, EntityConfig entity, Settings settings)
     {
-        final Featurable featurable = spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        final Featurable featurable = factory.create(entity.getMedia());
+        featurable.getFeature(Transformable.class).teleport(entity.getSpawnX(map), entity.getSpawnY(map));
 
         if (Difficulty.LIONHARD.equals(difficulty))
         {
@@ -472,10 +494,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             mirrorable.mirror(mirror.booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
             mirrorable.update(1.0);
         });
-        entity.getSpike().ifPresent(config -> featurable.ifIs(Spike.class, spike -> spike.load(config)));
-        entity.getRotating().ifPresent(config -> featurable.ifIs(Rotating.class, rotating -> rotating.load(config)));
-        entity.getHotFireBall().ifPresent(config -> featurable.ifIs(HotFireBall.class, hot -> hot.load(config)));
-        entity.getGeyzer().ifPresent(config -> featurable.ifIs(Geyzer.class, geyzer -> geyzer.load(config)));
+        entity.getSpike().ifPresent(c -> featurable.ifIs(Spike.class, spike -> spike.load(c)));
+        entity.getRotating().ifPresent(c -> featurable.ifIs(Rotating.class, rotating -> rotating.load(c)));
+        entity.getHotFireBall().ifPresent(c -> featurable.ifIs(HotFireBall.class, hot -> hot.load(c)));
+        entity.getGeyzer().ifPresent(c -> featurable.ifIs(Geyzer.class, geyzer -> geyzer.load(c)));
         final List<PatrolConfig> patrols = entity.getPatrols();
         if (!patrols.isEmpty())
         {
@@ -486,32 +508,43 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             featurable.ifIs(Spider.class, s -> s.load(entity.getSpider()));
         }
-        entity.getDragon1().ifPresent(config -> featurable.ifIs(Dragon1.class, dragon1 -> dragon1.load(config)));
-        entity.getCanon2().ifPresent(config -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(config)));
-        entity.getShooter().ifPresent(config -> featurable.ifIs(Shooter.class, shooter -> shooter.load(config)));
-        entity.getPillar().ifPresent(config -> featurable.ifIs(Pillar.class, pillar -> pillar.load(config)));
-        entity.getCatapult().ifPresent(config -> featurable.ifIs(Catapult.class, catapult -> catapult.load(config)));
+        entity.getDragon1().ifPresent(c -> featurable.ifIs(Dragon1.class, dragon1 -> dragon1.load(c)));
+        entity.getCanon2().ifPresent(c -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(c)));
+        entity.getShooter().ifPresent(c -> featurable.ifIs(Shooter.class, shooter -> shooter.load(c)));
+        entity.getPillar().ifPresent(c -> featurable.ifIs(Pillar.class, pillar -> pillar.load(c)));
+        entity.getCatapult().ifPresent(c -> featurable.ifIs(Catapult.class, catapult -> catapult.load(c)));
         featurable.ifIs(BulletBounceOnGround.class, bounce -> bounce.load(entity.getVx()));
+
+        return featurable;
+    }
+
+    /**
+     * Create entity from configuration.
+     * 
+     * @param stage The stage configuration.
+     * @param featurable The featurable reference.
+     * @param settings The settings reference.
+     * @return The created entity.
+     */
+    private Featurable loadRasterEntity(StageConfig stage, Featurable featurable, Settings settings)
+    {
         stage.getRasterFolder().ifPresent(r ->
         {
             featurable.ifIs(Underwater.class, underwater -> underwater.loadRaster(r));
             featurable.ifIs(BulletBounceOnGround.class, bullet -> bullet.loadRaster(r));
         });
-
         if (settings.getRasterObject())
         {
-            stage.getRasterFolder().ifPresent(r ->
+            stage.getRasterFolder().ifPresent(raster ->
             {
-                final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
-                if (rasterMedia.exists())
+                final Media media = Medias.create(raster, Constant.RASTER_FILE_TILE);
+                if (media.exists())
                 {
-                    executor.execute(() ->
-                    {
-                        featurable.ifIs(Rasterable.class, r2 -> r2.setRaster(true, rasterMedia, map.getTileHeight()));
-                    });
+                    featurable.ifIs(Rasterable.class, r -> r.setRaster(true, media, map.getTileHeight()));
                 }
             });
         }
+        return featurable;
     }
 
     /**
@@ -645,6 +678,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                               spawn);
     }
 
+    private Featurable[] createEntities(Settings settings, StageConfig stage)
+    {
+        final List<EntityConfig> entities = stage.getEntities();
+        final int n = entities.size();
+        final Featurable[] featurables = new Featurable[n];
+        for (int i = 0; i < n; i++)
+        {
+            featurables[i] = createEntity(stage, entities.get(i), settings);
+        }
+        return featurables;
+    }
+
     /**
      * Load the stage from configuration.
      * 
@@ -655,29 +700,27 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         try
         {
-            services.add(config);
-            final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
+            hud.load();
+            difficulty = init.getDifficulty();
+            cheats = init.isCheats();
 
-            if (Settings.getInstance().getRasterCheck())
+            final Settings settings = Settings.getInstance();
+            services.add(config);
+
+            final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
+            if (settings.getRasterCheck())
             {
                 Util.run(stage.getBackground());
             }
 
-            loadMap(stage);
+            loadMap(settings, stage);
 
-            final Settings settings = Settings.getInstance();
             final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
                                                                            source,
                                                                            settings.getBackgroundFlicker());
             landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
-            difficulty = init.getDifficulty();
-            cheats = init.isCheats();
-            createPlayerAndLoadCheckpoints(init, stage);
-
-            stage.getEntities().forEach(entity -> createEntity(stage, entity, settings));
-
-            final String theme = stage.getBackground().getWorld().getFolder();
+            createPlayerAndLoadCheckpoints(settings, init, stage);
 
             if (settings.getRasterObject())
             {
@@ -691,8 +734,36 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 });
             }
 
-            factory.createCache(spawner, Medias.create(Folder.EFFECT, theme), 4);
-            factory.createCache(spawner, Medias.create(Folder.PROJECTILE, theme), 6);
+            final Featurable[] entities;
+            if (settings.getLoadParallel())
+            {
+                entities = createEntities(settings, stage);
+            }
+            else
+            {
+                entities = null;
+                final List<EntityConfig> entityConfig = stage.getEntities();
+                final int n = entityConfig.size();
+                for (int i = 0; i < n; i++)
+                {
+                    final Featurable featurable = createEntity(stage, entityConfig.get(i), settings);
+                    loadRasterEntity(stage, featurable, settings);
+                }
+            }
+
+            if (settings.getLoadParallel())
+            {
+                executor.execute(() -> createEffectCache(stage));
+            }
+            else
+            {
+                createEffectCache(stage);
+            }
+
+            if (settings.getLoadParallel())
+            {
+                loadRasterEntities(settings, stage, entities);
+            }
         }
         finally
         {
@@ -707,13 +778,111 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             Thread.currentThread().interrupt();
             Verbose.exception(exception);
         }
-        hud.load();
+
         handler.updateRemove();
         handler.updateAdd();
 
         Sfx.cacheEnd();
 
         tick.restart();
+    }
+
+    private void createEffectCache(StageConfig stage)
+    {
+        final Spawner cacheSpawner = new Spawner()
+        {
+            @Override
+            public Featurable spawn(Media media, double x, double y)
+            {
+                final Featurable f = factory.create(media);
+                f.getFeature(Transformable.class).teleport(x, y);
+
+                stage.getRasterFolder().ifPresent(raster ->
+                {
+                    final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
+                    if (rasterMedia.exists())
+                    {
+                        f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
+                    }
+                });
+                return f;
+            }
+        };
+
+        final String theme = stage.getBackground().getWorld().getFolder();
+        factory.createCache(cacheSpawner, Medias.create(Folder.EFFECT, theme), 4);
+        factory.createCache(cacheSpawner, Medias.create(Folder.PROJECTILE, theme), 6);
+    }
+
+    private void loadRasterEntities(Settings settings, StageConfig stage, Featurable[] entities)
+    {
+        final int threads = 4;
+        final int entitiesPerThread = (int) Math.floor(entities.length / (double) threads);
+        int start = 0;
+
+        final List<Future<Featurable[]>> tasks = new ArrayList<>(threads);
+        for (int i = 0; i < threads; i++)
+        {
+            final int end;
+            if (i < threads - 1)
+            {
+                end = start + entitiesPerThread;
+            }
+            else
+            {
+                end = entities.length;
+            }
+            tasks.add(loadRasterEntities(settings, stage, entities, start, end));
+            start += entitiesPerThread;
+        }
+
+        mergeEntitiesToHandler(tasks);
+    }
+
+    private Future<Featurable[]> loadRasterEntities(Settings settings,
+                                                    StageConfig stage,
+                                                    Featurable[] featurables,
+                                                    int start,
+                                                    int end)
+    {
+        return executor.submit(() ->
+        {
+            final int n = end - start;
+            final Featurable[] toAdd = new Featurable[n];
+            int i = 0;
+            for (i = 0; i < n; i++)
+            {
+                final int index = start + i;
+                toAdd[i] = loadRasterEntity(stage, featurables[index], settings);
+            }
+            return toAdd;
+        });
+    }
+
+    private void mergeEntitiesToHandler(List<Future<Featurable[]>> tasks)
+    {
+        final int n = tasks.size();
+        for (int i = 0; i < n; i++)
+        {
+            try
+            {
+                final Featurable[] toAdd = tasks.get(i).get();
+                for (int j = 0; j < toAdd.length; j++)
+                {
+                    handler.add(toAdd[j]);
+                    toAdd[j] = null;
+                }
+            }
+            catch (final InterruptedException exception)
+            {
+                Thread.currentThread().interrupt();
+                throw new LionEngineException(exception);
+            }
+            catch (final ExecutionException exception)
+            {
+                throw new LionEngineException(exception);
+            }
+        }
     }
 
     @Override

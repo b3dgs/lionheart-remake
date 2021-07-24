@@ -17,7 +17,7 @@
 package com.b3dgs.lionheart;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import com.b3dgs.lionengine.Check;
@@ -133,9 +133,9 @@ public final class StageConfig
     /** Boss next stage. */
     private final Optional<String> bossNext;
     /** Checkpoints tiles. */
-    private final Collection<Checkpoint> checkpoints = new ArrayList<>();
+    private final List<Checkpoint> checkpoints = new ArrayList<>();
     /** Entities configuration. */
-    private final Collection<EntityConfig> entities = new ArrayList<>();
+    private final List<EntityConfig> entities = new ArrayList<>();
 
     /**
      * Create config.
@@ -310,7 +310,7 @@ public final class StageConfig
      * 
      * @return The respawn locations.
      */
-    public Collection<Checkpoint> getCheckpoints()
+    public List<Checkpoint> getCheckpoints()
     {
         return checkpoints;
     }
@@ -350,7 +350,7 @@ public final class StageConfig
      * 
      * @return The entities.
      */
-    public Collection<EntityConfig> getEntities()
+    public List<EntityConfig> getEntities()
     {
         return entities;
     }

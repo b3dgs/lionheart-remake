@@ -83,6 +83,8 @@ public class Settings
 
     /** Flag value. */
     public static final String FLAG = "flag";
+    /** Flag value. */
+    public static final String LOAD_PARALLEL = "load.parallel";
 
     /** Temp file. */
     private static final File FILE = new File(new File(System.getProperty("java.io.tmpdir"), Constant.PROGRAM_NAME),
@@ -333,6 +335,16 @@ public class Settings
     public int getFlag()
     {
         return getInt(FLAG, 0);
+    }
+
+    /**
+     * Get load parallel value.
+     * 
+     * @return The load parallel value.
+     */
+    public boolean getLoadParallel()
+    {
+        return getBoolean(LOAD_PARALLEL, true);
     }
 
     /**
