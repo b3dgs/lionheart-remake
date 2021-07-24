@@ -96,8 +96,11 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
 
         spawn.ifPresent(s -> checkpoints.add(new Checkpoint(s.getX(), s.getY(), Optional.empty(), Optional.empty())));
 
-        for (final Checkpoint checkpoint : config.getCheckpoints())
+        final List<Checkpoint> list = config.getCheckpoints();
+        final int n = list.size();
+        for (int i = 0; i < n; i++)
         {
+            final Checkpoint checkpoint = list.get(i);
             if (!isPrevious(spawn, checkpoint)
                 && (!spawn.isPresent()
                     || !checkpoint.getNext().isPresent()
