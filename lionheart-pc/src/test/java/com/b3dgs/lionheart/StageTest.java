@@ -43,6 +43,11 @@ final class StageTest
     static void prepareAll()
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+        for (final WorldType type : WorldType.values())
+        {
+            Tools.generateWorldRaster(type);
+        }
+        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
     }
 
     /**

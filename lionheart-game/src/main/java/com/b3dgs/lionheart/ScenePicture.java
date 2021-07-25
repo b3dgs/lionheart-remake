@@ -115,7 +115,7 @@ public final class ScenePicture extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
         info = new AppInfo(this::getFps, services);
 
         picture = Drawable.loadSprite(pic);

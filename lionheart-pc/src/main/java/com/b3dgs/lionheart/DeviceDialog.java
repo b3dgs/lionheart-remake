@@ -81,7 +81,7 @@ public class DeviceDialog extends JDialog
     /** Text to code mapper. */
     private final Map<String, Integer> textToCode = new HashMap<>();
     /** Custom input. */
-    private final Media inputCustom = Medias.create(Constant.INPUT_FILE_CUSTOM);
+    private final Media inputCustom = Medias.create(Settings.getInstance().getInput());
     /** Controller. */
     private final AssignController controller;
 

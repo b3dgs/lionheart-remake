@@ -21,7 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.Engine;
@@ -35,6 +36,7 @@ import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.DevicePushMock;
+import com.b3dgs.lionheart.Settings;
 
 /**
  * Test correct {@link Menu} loading.
@@ -52,14 +54,23 @@ final class MenuTest
             EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
             AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         }
+        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
     }
 
     /**
      * Test menu.
+     * 
+     * @param lang The language value.
      */
-    @Test
-    void testMenu()
+    @ParameterizedTest
+    @ValueSource(strings =
     {
+        "en", "fr", "es", "de"
+    })
+    void testMenu(String lang)
+    {
+        Settings.getInstance().setLang(lang);
+
         final DevicePushMock push = new DevicePushMock();
         final List<TickAction> actions = new ArrayList<>();
 

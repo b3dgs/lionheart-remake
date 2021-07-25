@@ -178,7 +178,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         super(services);
 
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_CUSTOM)));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
 
         services.add((CheatsProvider) () -> cheats);
         services.add(new MusicPlayer()

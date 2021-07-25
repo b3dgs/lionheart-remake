@@ -59,6 +59,22 @@ public final class Tools
     /**
      * Generate raster for whole world.
      * 
+     * @param type The world type.
+     */
+    public static void generateWorldRaster(WorldType type)
+    {
+        for (final BackgroundType background : BackgroundType.values())
+        {
+            if (type.equals(background.getWorld()))
+            {
+                generateWorldRaster(background);
+            }
+        }
+    }
+
+    /**
+     * Generate raster for whole world.
+     * 
      * @param type The landscape type.
      */
     public static void generateWorldRaster(BackgroundType type)

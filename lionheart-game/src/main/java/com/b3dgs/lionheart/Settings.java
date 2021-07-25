@@ -37,6 +37,9 @@ public class Settings
     /** Language key. */
     public static final String LANG = "lang";
 
+    /** Input key. */
+    public static final String INPUT = "input";
+
     /** Resolution key. */
     public static final String RESOLUTION = "resolution";
     /** Resolution width. */
@@ -173,6 +176,16 @@ public class Settings
     public String getLang()
     {
         return properties.getProperty(LANG, DEFAULT_LANG);
+    }
+
+    /**
+     * Get input.
+     * 
+     * @return The input.
+     */
+    public String getInput()
+    {
+        return properties.getProperty(INPUT, Constant.INPUT_FILE_DEFAULT);
     }
 
     /**
@@ -355,6 +368,26 @@ public class Settings
     public void setLang(String lang)
     {
         properties.setProperty(LANG, lang);
+    }
+
+    /**
+     * Set input.
+     * 
+     * @param input The input value.
+     */
+    public void setInput(String input)
+    {
+        properties.setProperty(INPUT, input);
+    }
+
+    /**
+     * Set raster flag.
+     * 
+     * @param enabled <code>true</code> to enable raster, <code>false</code> else.
+     */
+    public void setRaster(boolean enabled)
+    {
+        properties.setProperty(RASTER, String.valueOf(enabled));
     }
 
     /**

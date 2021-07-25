@@ -46,10 +46,12 @@ public final class AppLionheart
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
 
-        if (!Medias.create(Constant.INPUT_FILE_CUSTOM).exists())
+        Settings.load();
+        final String input = Settings.getInstance().getInput();
+        if (!Medias.create(input).exists())
         {
             final File file = UtilStream.getCopy(Medias.create(Constant.INPUT_FILE_DEFAULT));
-            file.renameTo(new File(file.getPath().replace(file.getName(), Constant.INPUT_FILE_CUSTOM)));
+            file.renameTo(new File(file.getPath().replace(file.getName(), input)));
         }
 
         run(new Gamepad());
@@ -62,7 +64,6 @@ public final class AppLionheart
      */
     static void run(Gamepad gamepad)
     {
-        Settings.load();
         AudioFactory.addFormat(new WavFormat());
         AudioFactory.addFormat(Sc68Format.getFailsafe());
 

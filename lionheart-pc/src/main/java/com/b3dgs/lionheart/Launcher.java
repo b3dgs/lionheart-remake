@@ -134,10 +134,11 @@ public final class Launcher
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
         Settings.load();
 
-        if (!Medias.create(Constant.INPUT_FILE_CUSTOM).exists())
+        final String input = Settings.getInstance().getInput();
+        if (!Medias.create(input).exists())
         {
             final File file = UtilStream.getCopy(Medias.create(Constant.INPUT_FILE_DEFAULT));
-            file.renameTo(new File(file.getPath().replace(file.getName(), Constant.INPUT_FILE_CUSTOM)));
+            file.renameTo(new File(file.getPath().replace(file.getName(), input)));
         }
 
         final Gamepad gamepad = new Gamepad();
@@ -340,7 +341,8 @@ public final class Launcher
         parent.add(panel);
         panel.setBorder(BORDER);
         final Collection<DeviceControllerConfig> configs = DeviceControllerConfig.imports(new Services(),
-                                                                                          Medias.create(Constant.INPUT_FILE_CUSTOM));
+                                                                                          Medias.create(Settings.getInstance()
+                                                                                                                .getInput()));
         for (final DeviceControllerConfig config : configs)
         {
             final JButton setup = new JButton(LABEL_SETUP_DEVICE + config.getDevice().getSimpleName());

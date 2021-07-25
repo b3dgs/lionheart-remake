@@ -37,6 +37,7 @@ import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.DevicePushMock;
+import com.b3dgs.lionheart.Settings;
 
 /**
  * Test correct {@link Extro} loading.
@@ -55,7 +56,7 @@ final class ExtroTest
             EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
             AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         }
-
+        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
     }
 
     /**
