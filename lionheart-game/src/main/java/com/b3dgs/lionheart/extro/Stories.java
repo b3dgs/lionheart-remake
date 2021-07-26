@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.extro;
 
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionheart.Settings;
@@ -29,6 +30,28 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class Stories extends StoriesBase
 {
+    private static final String PART3 = "part3";
+    private static final String PART4 = "part4";
+    private static final String PIC0 = "pic0.png";
+    private static final String PIC1 = "pic1.png";
+    private static final String PIC2 = "pic2.png";
+    private static final String CREDITS = "credits.png";
+
+    private static String[] loadTexts(String lang, int count)
+    {
+        final String[] texts = new String[count];
+        for (int i = 0; i < texts.length; i++)
+        {
+            texts[i] = Util.toFontText(Medias.create(Folder.TEXT, lang, Folder.EXTRO, "story" + (i + 1) + ".txt"));
+        }
+        return texts;
+    }
+
+    private static Media get(String part, String pic)
+    {
+        return Medias.create(Folder.EXTRO, part, pic);
+    }
+
     /**
      * Create stories.
      * 
@@ -39,67 +62,19 @@ public class Stories extends StoriesBase
     {
         super();
 
-        final String[] texts = new String[7];
-        for (int i = 0; i < texts.length; i++)
-        {
-            texts[i] = Util.toFontText(Medias.create(Folder.TEXT,
-                                                     Settings.getInstance().getLang(),
-                                                     Folder.EXTRO,
-                                                     "story" + (i + 1) + ".txt"));
-        }
-
+        final String[] texts = loadTexts(Settings.getInstance().getLang(), 7);
         final int textX = width / 2 - 124;
 
-        add(new StoryRenderer(Medias.create(Folder.EXTRO, "part3", "pic0.png"), 0, 0, texts[0], 1, 128));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO, "part3", "pic1.png"), 160, 14, texts[1], 1, 128));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO, "part3", "pic2.png"), 80, 29, texts[2], 1, 128));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO,
-                                            "part4",
-                                            "credits.png"),
-                              width / 2,
-                              height / 2,
-                              Origin.MIDDLE,
-                              null,
-                              0,
-                              0));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO,
-                                            "part4",
-                                            "credits.png"),
-                              width / 2,
-                              height / 2,
-                              Origin.MIDDLE,
-                              texts[3],
-                              textX,
-                              22));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO,
-                                            "part4",
-                                            "credits.png"),
-                              width / 2,
-                              height / 2,
-                              Origin.MIDDLE,
-                              texts[4],
-                              textX,
-                              22));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO,
-                                            "part4",
-                                            "pic0.png"),
-                              width / 2,
-                              height / 2,
-                              Origin.MIDDLE,
-                              null,
-                              0,
-                              0));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO, "part4", "pic1.png"),
-                              width / 2 - 114,
-                              12,
-                              texts[5],
-                              textX,
-                              172));
-        add(new StoryRenderer(Medias.create(Folder.EXTRO, "part4", "pic2.png"),
-                              width / 2 - 20,
-                              62,
-                              texts[6],
-                              textX,
-                              172));
+        // CHECKSTYLE OFF: MagicNumber
+        add(new StoryRenderer(get(PART3, PIC0), 0, 0, texts[0], 1, 128));
+        add(new StoryRenderer(get(PART3, PIC1), 160, 14, texts[1], 1, 128));
+        add(new StoryRenderer(get(PART3, PIC2), 80, 29, texts[2], 1, 128));
+        add(new StoryRenderer(get(PART4, CREDITS), width / 2, height / 2, Origin.MIDDLE, null, 0, 0));
+        add(new StoryRenderer(get(PART4, CREDITS), width / 2, height / 2, Origin.MIDDLE, texts[3], textX, 22));
+        add(new StoryRenderer(get(PART4, CREDITS), width / 2, height / 2, Origin.MIDDLE, texts[4], textX, 22));
+        add(new StoryRenderer(get(PART4, PIC0), width / 2, height / 2, Origin.MIDDLE, null, 0, 0));
+        add(new StoryRenderer(get(PART4, PIC1), width / 2 - 114, 12, texts[5], textX, 172));
+        add(new StoryRenderer(get(PART4, PIC2), width / 2 - 20, 62, texts[6], textX, 172));
+        // CHECKSTYLE ON: MagicNumber
     }
 }

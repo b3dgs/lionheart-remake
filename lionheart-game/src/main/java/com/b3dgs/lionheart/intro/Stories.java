@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.intro;
 
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.StoriesBase;
@@ -28,6 +29,23 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class Stories extends StoriesBase
 {
+    private static final String PART4 = "part4";
+
+    private static String[] loadTexts(int count, String lang)
+    {
+        final String[] texts = new String[count];
+        for (int i = 0; i < texts.length; i++)
+        {
+            texts[i] = Util.toFontText(Medias.create(Folder.TEXT, lang, Folder.INTRO, "story" + (i + 1) + ".txt"));
+        }
+        return texts;
+    }
+
+    private static Media get(String part, String pic)
+    {
+        return Medias.create(Folder.INTRO, part, pic);
+    }
+
     /**
      * Create stories.
      */
@@ -35,18 +53,13 @@ public class Stories extends StoriesBase
     {
         super();
 
-        final String[] texts = new String[4];
-        for (int i = 0; i < texts.length; i++)
-        {
-            texts[i] = Util.toFontText(Medias.create(Folder.TEXT,
-                                                     Settings.getInstance().getLang(),
-                                                     Folder.INTRO,
-                                                     "story" + (i + 1) + ".txt"));
-        }
+        final String[] texts = loadTexts(4, Settings.getInstance().getLang());
 
-        add(new StoryRenderer(Medias.create(Folder.INTRO, "part4", "pic0.png"), 0, 0, texts[0], 1, 98));
-        add(new StoryRenderer(Medias.create(Folder.INTRO, "part4", "pic1.png"), 45, 20, texts[1], 1, 118));
-        add(new StoryRenderer(Medias.create(Folder.INTRO, "part4", "pic2.png"), 90, 40, texts[2], 1, 138));
-        add(new StoryRenderer(Medias.create(Folder.INTRO, "part4", "pic3.png"), 135, 60, texts[3], 1, 158));
+        // CHECKSTYLE OFF: MagicNumber
+        add(new StoryRenderer(get(PART4, "pic0.png"), 0, 0, texts[0], 1, 98));
+        add(new StoryRenderer(get(PART4, "pic1.png"), 45, 20, texts[1], 1, 118));
+        add(new StoryRenderer(get(PART4, "pic2.png"), 90, 40, texts[2], 1, 138));
+        add(new StoryRenderer(get(PART4, "pic3.png"), 135, 60, texts[3], 1, 158));
+        // CHECKSTYLE ON: MagicNumber
     }
 }
