@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.constant;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 
 /**
@@ -38,18 +39,18 @@ public final class CollisionName
     /** Right collision. */
     public static final String RIGHT = "right";
     /** Vertical left collision. */
-    public static final String LEFT_VERTICAL = LEFT + "_" + VERTICAL;
+    public static final String LEFT_VERTICAL = LEFT + Constant.UNDERSCORE + VERTICAL;
     /** Vertical right collision. */
-    public static final String RIGHT_VERTICAL = RIGHT + "_" + VERTICAL;
+    public static final String RIGHT_VERTICAL = RIGHT + Constant.UNDERSCORE + VERTICAL;
 
     /** Category collision leg prefix. */
     public static final String LEG = Anim.LEG;
     /** Collision leg center. */
-    public static final String LEG_CENTER = Anim.LEG + "_" + CENTER;
+    public static final String LEG_CENTER = Anim.LEG + Constant.UNDERSCORE + CENTER;
     /** Collision leg left. */
-    public static final String LEG_LEFT = Anim.LEG + "_" + LEFT;
+    public static final String LEG_LEFT = Anim.LEG + Constant.UNDERSCORE + LEFT;
     /** Collision leg right. */
-    public static final String LEG_RIGHT = Anim.LEG + "_" + RIGHT;
+    public static final String LEG_RIGHT = Anim.LEG + Constant.UNDERSCORE + RIGHT;
     /** Collision body. */
     public static final String BODY = Anim.BODY;
     /** Collision take. */
@@ -60,7 +61,7 @@ public final class CollisionName
     /** Category collision knee prefix. */
     public static final String KNEE = "knee";
     /** Category collision knee center. */
-    public static final String KNEE_CENTER = KNEE + "_" + CENTER;
+    public static final String KNEE_CENTER = KNEE + Constant.UNDERSCORE + CENTER;
     /** Category collision knee x center. */
     public static final String KNEE_X_CENTER = KNEE + "_x_" + CENTER;
 
@@ -72,32 +73,32 @@ public final class CollisionName
     /** Collision spike prefix. */
     public static final String SPIKE = "spike";
     /** Collision spike left prefix. */
-    public static final String SPIKE_LEFT = SPIKE + "_" + LEFT_VERTICAL;
+    public static final String SPIKE_LEFT = SPIKE + Constant.UNDERSCORE + LEFT_VERTICAL;
     /** Collision spike right prefix. */
-    public static final String SPIKE_RIGHT = SPIKE + "_" + RIGHT_VERTICAL;
+    public static final String SPIKE_RIGHT = SPIKE + Constant.UNDERSCORE + RIGHT_VERTICAL;
 
     /** Collision slope prefix. */
     public static final String SLOPE = "slope";
     /** Collision slope left prefix. */
-    public static final String SLOPE_LEFT = SLOPE + "_" + LEFT;
+    public static final String SLOPE_LEFT = SLOPE + Constant.UNDERSCORE + LEFT;
     /** Collision slope right prefix. */
-    public static final String SLOPE_RIGHT = SLOPE + "_" + RIGHT;
+    public static final String SLOPE_RIGHT = SLOPE + Constant.UNDERSCORE + RIGHT;
 
     /** Collision incline prefix. */
     public static final String INCLINE = "incline";
     /** Collision incline left prefix. */
-    public static final String INCLINE_LEFT = INCLINE + "_" + LEFT;
+    public static final String INCLINE_LEFT = INCLINE + Constant.UNDERSCORE + LEFT;
     /** Collision incline right prefix. */
-    public static final String INCLINE_RIGHT = INCLINE + "_" + RIGHT;
+    public static final String INCLINE_RIGHT = INCLINE + Constant.UNDERSCORE + RIGHT;
 
     /** Collision steep prefix. */
     public static final String STEEP = "steep";
     /** Collision steep left prefix. */
-    public static final String STEEP_LEFT = STEEP + "_" + LEFT;
+    public static final String STEEP_LEFT = STEEP + Constant.UNDERSCORE + LEFT;
     /** Collision steep left ground prefix. */
-    public static final String STEEP_LEFT_GROUND = STEEP + "_" + LEFT + "_" + GROUND;
+    public static final String STEEP_LEFT_GROUND = STEEP + Constant.UNDERSCORE + LEFT + Constant.UNDERSCORE + GROUND;
     /** Collision steep right prefix. */
-    public static final String STEEP_RIGHT = STEEP + "_" + RIGHT;
+    public static final String STEEP_RIGHT = STEEP + Constant.UNDERSCORE + RIGHT;
 
     /** Collision grip prefix. */
     public static final String GRIP = "grip";
@@ -105,13 +106,13 @@ public final class CollisionName
     /** Collision liana prefix. */
     public static final String LIANA = "liana";
     /** Collision liana left prefix. */
-    public static final String LIANA_LEFT = LIANA + "_" + LEFT;
+    public static final String LIANA_LEFT = LIANA + Constant.UNDERSCORE + LEFT;
     /** Collision liana right prefix. */
-    public static final String LIANA_RIGHT = LIANA + "_" + RIGHT;
+    public static final String LIANA_RIGHT = LIANA + Constant.UNDERSCORE + RIGHT;
     /** Collision liana full prefix. */
     public static final String LIANA_FULL = LIANA + "_full";
     /** Collision liana top prefix. */
-    public static final String LIANA_TOP = LIANA + "_" + GROUND + "_top";
+    public static final String LIANA_TOP = LIANA + Constant.UNDERSCORE + GROUND + "_top";
 
     /** Collision block prefix. */
     public static final String BLOCK = "block";
