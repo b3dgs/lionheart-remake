@@ -36,14 +36,19 @@ public enum Difficulty
      */
     public static Difficulty from(int difficulty)
     {
+        final Difficulty value;
         if (difficulty == 0)
         {
-            return NORMAL;
+            value = NORMAL;
         }
         else if (difficulty == 1)
         {
-            return HARD;
+            value = HARD;
         }
-        return LIONHARD;
+        else
+        {
+            value = LIONHARD;
+        }
+        return value;
     }
 }
