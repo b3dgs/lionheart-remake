@@ -32,6 +32,14 @@ public final class GameplaySteep
     private int side = 1;
 
     /**
+     * Create gameplay.
+     */
+    public GameplaySteep()
+    {
+        super();
+    }
+
+    /**
      * Reset steep flags.
      */
     public void reset()

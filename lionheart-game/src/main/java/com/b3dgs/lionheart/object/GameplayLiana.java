@@ -32,6 +32,14 @@ public final class GameplayLiana
     private int side = 1;
 
     /**
+     * Create gameplay.
+     */
+    public GameplayLiana()
+    {
+        super();
+    }
+
+    /**
      * Reset steep flags.
      */
     public void reset()
