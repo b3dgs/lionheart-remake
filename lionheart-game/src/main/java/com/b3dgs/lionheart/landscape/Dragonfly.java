@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -31,6 +32,11 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Dragonfly extends BackgroundAbstract
 {
+    private static final int HEIGHT_MAX = 400;
+    private static final int HEIGHT_TOTAL = 160;
+
+    private static final int OFFSET_Y = 72;
+
     private final Backdrop backdrop;
 
     /**
@@ -44,20 +50,20 @@ final class Dragonfly extends BackgroundAbstract
      */
     Dragonfly(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 400);
+        super(theme, 0, HEIGHT_MAX);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUND, "dragonfly", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUND, WorldType.DRAGONFLY.getFolder(), theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width);
         add(backdrop);
-        totalHeight = 160;
+        totalHeight = HEIGHT_TOTAL;
         setScreenSize(source.getWidth(), source.getHeight());
     }
 
     @Override
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + 72);
+        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + OFFSET_Y);
         backdrop.setScreenWidth(width);
     }
 

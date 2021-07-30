@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -33,6 +34,11 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Norka extends BackgroundAbstract
 {
+    private static final int BACK_COUNT = 7;
+    private static final int BACK_FH = 4;
+    private static final int BACK_FV = 1;
+    private static final double BACK_ANIM_SPEED = 5.0;
+
     private final Backdrop backdrop;
 
     /**
@@ -48,7 +54,7 @@ final class Norka extends BackgroundAbstract
     {
         super(theme, 0, 0);
 
-        final String path = UtilFolder.getPath(Folder.BACKGROUND, "norka", theme);
+        final String path = UtilFolder.getPath(Folder.BACKGROUND, WorldType.NORKA.getFolder(), theme);
         final int width = source.getWidth();
         backdrop = new Backdrop(path, flickering, width, source);
         add(backdrop);
@@ -67,31 +73,10 @@ final class Norka extends BackgroundAbstract
      */
     private final class Backdrop implements BackgroundComponent
     {
-        private final int[][] data =
-        {
-            {
-                0, 144
-            },
-            {
-                64, 112
-            },
-            {
-                128, 96
-            },
-            {
-                160, 96
-            },
-            {
-                256, 96
-            },
-            {
-                304, 112
-            },
-            {
-                368, 144
-            },
-        };
-        private final SpriteAnimated[] back = new SpriteAnimated[7];
+        // @formatter:off
+        private final int[][] data = {{0, 144}, {64, 112}, {128, 96}, {160, 96}, {256, 96}, {304, 112}, {368, 144}};
+        // @formatter:on
+        private final SpriteAnimated[] back = new SpriteAnimated[BACK_COUNT];
         private final SourceResolutionProvider source;
 
         private double frame;
@@ -111,17 +96,17 @@ final class Norka extends BackgroundAbstract
             this.source = source;
             for (int i = 0; i < back.length; i++)
             {
-                back[i] = Drawable.loadSpriteAnimated(Medias.create(path, "back" + (i + 1) + ".png"), 4, 1);
+                back[i] = Drawable.loadSpriteAnimated(Medias.create(path, "back" + (i + 1) + ".png"), BACK_FH, BACK_FV);
                 back[i].load();
                 back[i].prepare();
-                back[i].setFrame(4);
+                back[i].setFrame(BACK_FH * BACK_FV);
             }
         }
 
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
-            frame = UtilMath.wrapAngleDouble(frame + 5.0);
+            frame = UtilMath.wrapAngleDouble(frame + BACK_ANIM_SPEED);
             final int id = 1 + (int) Math.round(UtilMath.sin(frame * 0.5) * 2.75);
 
             for (int i = 0; i < back.length; i++)

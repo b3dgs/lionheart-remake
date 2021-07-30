@@ -121,6 +121,9 @@ public final class Launcher
                                              + com.b3dgs.lionengine.Constant.SPACE
                                              + com.b3dgs.lionengine.Constant.ENGINE_WEBSITE;
 
+    private static final int DIALOG_WIDTH = 400;
+    private static final int DIALOG_HEIGHT = 360;
+    private static final Border BORDER_SPLASH = BorderFactory.createEmptyBorder(10, 10, 10, 10);
     private static final Border BORDER = BorderFactory.createEmptyBorder(3, 10, 3, 10);
 
     /**
@@ -164,7 +167,7 @@ public final class Launcher
 
         final JLabel splash = new JLabel();
         splash.setIcon(new ImageIcon(Launcher.class.getResource(FILENAME_LOGO)));
-        splash.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        splash.setBorder(BORDER_SPLASH);
         box2.add(splash);
 
         final Container scale = createScale(box);
@@ -194,7 +197,7 @@ public final class Launcher
             Verbose.exception(exception);
         }
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(400, 360));
+        frame.setMinimumSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
         frame.addWindowListener(new WindowAdapter()
         {
             @Override
@@ -303,11 +306,11 @@ public final class Launcher
 
     private static String getVolume(int percent)
     {
-        if (percent < 10)
+        if (percent < com.b3dgs.lionengine.Constant.DECADE)
         {
             return "00" + percent;
         }
-        else if (percent < 100)
+        else if (percent < com.b3dgs.lionengine.Constant.HUNDRED)
         {
             return "0" + percent;
         }
@@ -433,7 +436,7 @@ public final class Launcher
                     final URI oURL = new URI(com.b3dgs.lionengine.Constant.ENGINE_WEBSITE);
                     desktop.browse(oURL);
                 }
-                catch (final Exception exception)
+                catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
                 {
                     Verbose.exception(exception);
                 }
@@ -451,7 +454,7 @@ public final class Launcher
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch (ReflectiveOperationException | UnsupportedLookAndFeelException exception)
+        catch (final ReflectiveOperationException | UnsupportedLookAndFeelException exception)
         {
             Verbose.exception(exception);
         }

@@ -25,6 +25,16 @@ import com.b3dgs.lionengine.graphic.Graphic;
 public interface Foreground extends Background
 {
     /**
+     * Update routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    default void update(double extrp)
+    {
+        // Nothing by default
+    }
+
+    /**
      * Render the front part of the water.
      * 
      * @param g The graphic output.

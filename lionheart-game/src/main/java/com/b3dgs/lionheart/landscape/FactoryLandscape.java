@@ -25,6 +25,7 @@ import com.b3dgs.lionheart.WorldType;
 /**
  * Landscape factory.
  */
+// CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
 public final class FactoryLandscape
 {
     /** The services reference. */
@@ -92,6 +93,7 @@ public final class FactoryLandscape
      * @param backgroundType The background type.
      * @return The created background.
      */
+    // CHECKSTYLE IGNORE LINE: CyclomaticComplexity
     private Background createBackground(BackgroundType backgroundType)
     {
         final Background background;
@@ -106,12 +108,14 @@ public final class FactoryLandscape
                 background = new Black(source);
                 break;
             case ANCIENTTOWN:
+                // CHECKSTYLE IGNORE LINE: MagicNumber
                 background = new Gradient(1800, 470, source, backgroundType, flicker);
                 break;
             case LAVA:
                 background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case SECRET:
+                // CHECKSTYLE IGNORE LINE: MagicNumber
                 background = new Gradient(1600, 384, source, backgroundType, flicker);
                 break;
             case AIRSHIP:
@@ -121,6 +125,7 @@ public final class FactoryLandscape
                 background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
                 break;
             case TOWER:
+                // CHECKSTYLE IGNORE LINE: MagicNumber
                 background = new Gradient(2448, 676, source, backgroundType, flicker);
                 break;
             case NORKA:

@@ -29,7 +29,7 @@ import com.b3dgs.lionengine.Verbose;
 /**
  * General settings from properties.
  */
-public class Settings
+public final class Settings
 {
     /** Settings file. */
     public static final String FILENAME = "lionheart.properties";
@@ -156,6 +156,14 @@ public class Settings
 
     /** Properties data. */
     private final Properties properties = new Properties();
+
+    /**
+     * Private.
+     */
+    private Settings()
+    {
+        super();
+    }
 
     /**
      * Load properties.

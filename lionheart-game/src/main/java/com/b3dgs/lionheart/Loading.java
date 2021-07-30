@@ -90,7 +90,7 @@ public final class Loading extends Sequence
         {
             if (Constant.DEBUG)
             {
-                end(Scene.class, Stage.STAGE5, Constant.INIT_DEBUG);
+                end(Scene.class, Stage.STAGE1, Constant.INIT_DEBUG);
             }
             else
             {

@@ -30,6 +30,10 @@ import com.b3dgs.lionengine.graphic.TextStyle;
  */
 public class Progress implements Renderable
 {
+    private static final double TEXT_HEIGHT_FACTOR = 1.25;
+    private static final int BAR_HEIGHT = 12;
+    private static final int BAR_WIDTH_MARGIN = 4;
+
     private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_DIALOG, 9, TextStyle.NORMAL);
     private final Bar bar;
 
@@ -43,11 +47,11 @@ public class Progress implements Renderable
     {
         super();
 
-        bar = new Bar(width - 4, 12);
+        bar = new Bar(width - BAR_WIDTH_MARGIN, BAR_HEIGHT);
 
         text.setAlign(Align.CENTER);
         text.setColor(ColorRgba.YELLOW);
-        text.setLocation(width / 2, height - text.getSize() * 1.25);
+        text.setLocation(width / 2, height - text.getSize() * TEXT_HEIGHT_FACTOR);
         text.setText(com.b3dgs.lionengine.Constant.EMPTY_STRING);
 
         bar.setHorizontalReferential(true);

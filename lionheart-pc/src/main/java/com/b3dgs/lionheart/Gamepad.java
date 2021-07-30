@@ -59,7 +59,7 @@ public class Gamepad implements DevicePush
         {
             return new SDL2ControllerManager();
         }
-        catch (Exception | Error exception)
+        catch (final Exception | Error exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
         {
             Verbose.exception(exception);
             return null;
@@ -78,7 +78,7 @@ public class Gamepad implements DevicePush
                 System.load(UtilStream.getCopy(Medias.create("libusb-1.0.dll")).getAbsolutePath());
             }
         }
-        catch (final Throwable throwable)
+        catch (final Throwable throwable) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
         {
             Verbose.exception(throwable);
         }

@@ -34,6 +34,11 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Airship extends BackgroundAbstract
 {
+    private static final int HEIGHT_MAX = 260;
+    private static final int HEIGHT_TOTAL = 240;
+
+    private static final int TREE_Y = 4;
+
     private static final double FOREST_SPEED = 1.25;
     private static final int FOREST_Y = 180;
 
@@ -52,9 +57,9 @@ final class Airship extends BackgroundAbstract
      */
     Airship(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 260);
+        super(theme, 0, HEIGHT_MAX);
 
-        totalHeight = 240;
+        totalHeight = HEIGHT_TOTAL;
 
         final int width = source.getWidth();
 
@@ -63,7 +68,7 @@ final class Airship extends BackgroundAbstract
                                                         WorldType.AIRSHIP.getFolder(),
                                                         theme);
         backdrop = new Backdrop(path, flickering, width);
-        trees = new Trees(Medias.create(path, "trees.png"), width, 4);
+        trees = new Trees(Medias.create(path, "trees.png"), width, TREE_Y);
         backdropForest = new BackdropForest(path, flickering, width);
 
         add(backdrop);

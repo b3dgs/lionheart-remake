@@ -33,6 +33,7 @@ public class ActionGetter extends JDialog
 {
     private static final Font FONT = new Font("Monospaced", Font.PLAIN, 20);
 
+    private static final int BORDER_SIZE = 10;
     private static final String LABEL_PRESS = " action";
     private static final String LABEL_AWAIT = "Await action...";
 
@@ -48,11 +49,11 @@ public class ActionGetter extends JDialog
     {
         super(owner, name + LABEL_PRESS, Dialog.ModalityType.DOCUMENT_MODAL);
 
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new BorderLayout(BORDER_SIZE, BORDER_SIZE));
 
         final JLabel label = new JLabel(LABEL_AWAIT);
         label.setFont(FONT);
-        label.setBorder(new EmptyBorder(10, 10, 10, 10));
+        label.setBorder(new EmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE));
         add(label);
 
         setResizable(false);

@@ -36,6 +36,16 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Swamp extends BackgroundAbstract
 {
+    private static final int HEIGHT_MAX = 338;
+    private static final int HEIGHT_TOTAL = 82;
+
+    private static final int CLOUD_Y = 4;
+
+    private static final int MOON_OFFSET_X = -56;
+    private static final int MOON_OFFSET_Y = 50;
+
+    private static final int PARALLAX_W = 50;
+    private static final int PARALLAX_H = 100;
     private static final int PARALLAX_Y = 127;
     private static final int PARALLAX_LINES = 96;
 
@@ -55,10 +65,10 @@ final class Swamp extends BackgroundAbstract
      */
     Swamp(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 338);
+        super(theme, 0, HEIGHT_MAX);
 
         this.scaleH = scaleH;
-        totalHeight = 82;
+        totalHeight = HEIGHT_TOTAL;
 
         final int width = source.getWidth();
         final int halfScreen = source.getWidth() / 3;
@@ -68,14 +78,14 @@ final class Swamp extends BackgroundAbstract
                                                         WorldType.SWAMP.getFolder(),
                                                         theme);
         backdrop = new Backdrop(path, flickering, width);
-        clouds = new Clouds(Medias.create(path, "cloud.png"), width, 4);
+        clouds = new Clouds(Medias.create(path, "cloud.png"), width, CLOUD_Y);
         parallax = new Parallax(source,
                                 Medias.create(path, "parallax.png"),
                                 PARALLAX_LINES,
                                 halfScreen,
                                 PARALLAX_Y,
-                                50,
-                                100);
+                                PARALLAX_W,
+                                PARALLAX_H);
         add(backdrop);
         add(clouds);
         add(parallax);
@@ -129,8 +139,8 @@ final class Swamp extends BackgroundAbstract
                 backcolorB = null;
             }
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y);
+            moonOffset = MOON_OFFSET_Y;
             final int x = (int) (224 * scaleH);
-            moonOffset = 50;
             moon = new BackgroundElementRastered(x,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
@@ -186,7 +196,7 @@ final class Swamp extends BackgroundAbstract
         {
             final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY()));
             moon.setRaster(id);
-            moon.setLocation(moon.getMainX() - 56, moon.getOffsetY() + moon.getMainY());
+            moon.setLocation(moon.getMainX() - MOON_OFFSET_X, moon.getOffsetY() + moon.getMainY());
             moon.render(g);
         }
 

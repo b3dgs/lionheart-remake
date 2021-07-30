@@ -56,28 +56,34 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Continue implementation.
  */
+// CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
 public class Continue extends Sequence
 {
     private static final int MIN_HEIGHT = 360;
     private static final int MAX_WIDTH = 640;
     private static final int MARGIN_WIDTH = 0;
 
-    /** Max time. */
+    private static final int INDEX_CONTINUE = 0;
+    private static final int INDEX_YES = 1;
+    private static final int INDEX_NO = 2;
+    private static final int INDEX_CREDITS = 3;
+
+    private static final int TEXT_TIME_Y = 96;
+    private static final int TEXT_VALUE_Y = 96;
+    private static final int TEXT_CREDITS_Y = 244;
+
     private static final int TIME_MAX_MILLI = 20_000;
-    /** Center X. */
-    private static final int CENTER_X = 320;
-    /** Fade out tick. */
     private static final int FADE_OUT_TICK = 70;
-    /** Text color in menu option. */
+    private static final int FADE_SPEED = 8;
+
+    private static final int CENTER_X = 320;
+    private static final int MAIN_Y_OFFSET = -336;
+
+    private static final int VALDYN_FRAME_OFFSET_X = -8;
+    private static final int VALDYN_OFFSET_Y = 242;
+
     private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
-    /** Title text color. */
     private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
-    /** Yes animation. */
-    private static final Animation ANIM_YES = new Animation("yes", 2, 3, 0.1, false, false);
-    /** No animation. */
-    private static final Animation ANIM_NO = new Animation("no", 4, 7, 0.12, false, false);
-    /** Alpha step speed. */
-    private static final double ALPHA_STEP = 8.0;
 
     private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
     private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
@@ -91,6 +97,9 @@ public class Continue extends Sequence
                                                                                     "Continue.png"),
                                                                       7,
                                                                       1);
+    private final Animation animYes = new Animation("yes", 2, 3, 0.1, false, false);
+    private final Animation animNo = new Animation("no", 4, 7, 0.12, false, false);
+
     /** List of menu data with their content. */
     private final Data data;
 
@@ -111,8 +120,8 @@ public class Continue extends Sequence
     private double alpha = 255.0;
     /** Current menu transition. */
     private TransitionType transition = TransitionType.IN;
-    /** Line choice on */
-    private int choice = 0;
+    /** Line choice on. */
+    private int choice;
 
     /**
      * Constructor.
@@ -131,18 +140,19 @@ public class Continue extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
-        mainY = (getHeight() - 336) / 2;
+        mainY = (getHeight() + MAIN_Y_OFFSET) / 2;
 
         back.setOrigin(Origin.CENTER_TOP);
         back.setLocation(CENTER_X * factorH, mainY);
 
         valdyn.setOrigin(Origin.CENTER_BOTTOM);
-        valdyn.setFrameOffsets(-8, 0);
-        valdyn.setLocation(CENTER_X * factorH, mainY + 242);
+        valdyn.setFrameOffsets(VALDYN_FRAME_OFFSET_X, 0);
+        valdyn.setLocation(CENTER_X * factorH, mainY + VALDYN_OFFSET_Y);
 
         data = create();
 
@@ -159,8 +169,8 @@ public class Continue extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(text, continues.get(1), x - 100, mainY + 188, Align.CENTER, null),
-            new Choice(text, continues.get(2), x + 100, mainY + 188, Align.CENTER, null),
+            new Choice(text, continues.get(INDEX_YES), x - 100, mainY + 188, Align.CENTER, null),
+            new Choice(text, continues.get(INDEX_NO), x + 100, mainY + 188, Align.CENTER, null),
         };
         return new Data(text, choices);
     }
@@ -195,10 +205,11 @@ public class Continue extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha -= ALPHA_STEP * extrp;
-        if (alpha < 0.0)
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
         {
-            alpha = 0.0;
+            alpha = 0;
             transition = TransitionType.NONE;
         }
     }
@@ -212,11 +223,11 @@ public class Continue extends Sequence
     {
         if (tick.elapsed(FADE_OUT_TICK))
         {
-            alpha += ALPHA_STEP * extrp;
+            alpha += FADE_SPEED * extrp;
         }
-        if (alpha > 255.0)
+        if (alpha > 255)
         {
-            alpha = 255.0;
+            alpha = 255;
 
             if (choice == 0)
             {
@@ -265,7 +276,7 @@ public class Continue extends Sequence
             {
                 choice = 1;
             }
-            valdyn.play(choice == 0 ? ANIM_YES : ANIM_NO);
+            valdyn.play(choice == 0 ? animYes : animNo);
             transition = TransitionType.OUT;
             tick.start();
         }
@@ -283,18 +294,18 @@ public class Continue extends Sequence
         valdyn.render(g);
 
         textTitle.setColor(COLOR_TITLE);
-        textTitle.draw(g, (int) (CENTER_X * factorH), mainY + 96, Align.CENTER, continues.get(0));
+        textTitle.draw(g, (int) (CENTER_X * factorH), mainY + TEXT_TIME_Y, Align.CENTER, continues.get(INDEX_CONTINUE));
         if (!tick.isStarted() && timeLeft.elapsed() < TIME_MAX_MILLI)
         {
-            textTitle.draw(g, (int) (CENTER_X * factorH), mainY + 118, Align.CENTER, formatTime());
+            textTitle.draw(g, (int) (CENTER_X * factorH), mainY + TEXT_VALUE_Y, Align.CENTER, "(" + formatTime() + ")");
         }
 
         text.setColor(COLOR_OPTION);
         text.draw(g,
                   (int) (CENTER_X * factorH),
-                  mainY + 244,
+                  mainY + TEXT_CREDITS_Y,
                   Align.CENTER,
-                  continues.get(3) + String.valueOf(init.getCredits()));
+                  continues.get(INDEX_CREDITS) + String.valueOf(init.getCredits()));
     }
 
     /**
@@ -306,11 +317,11 @@ public class Continue extends Sequence
     {
         final long time = (1_000 + TIME_MAX_MILLI - timeLeft.elapsed())
                           / com.b3dgs.lionengine.Constant.ONE_SECOND_IN_MILLI;
-        if (time < 10)
+        if (time < com.b3dgs.lionengine.Constant.DECADE)
         {
-            return "(0" + time + ")";
+            return "0" + time;
         }
-        return "(" + time + ")";
+        return String.valueOf(time);
     }
 
     /**

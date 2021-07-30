@@ -31,6 +31,8 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Gradient extends BackgroundAbstract
 {
+    private static final int OFFSET_Y = 72;
+
     private final Backdrop backdrop;
 
     /**
@@ -57,7 +59,7 @@ final class Gradient extends BackgroundAbstract
     @Override
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + 72);
+        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight() + OFFSET_Y);
         backdrop.setScreenWidth(width);
     }
 

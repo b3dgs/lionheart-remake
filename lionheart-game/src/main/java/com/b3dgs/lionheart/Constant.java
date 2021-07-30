@@ -101,7 +101,7 @@ public final class Constant
     public static final InitConfig INIT_DEBUG = new InitConfig(8,
                                                                99,
                                                                99,
-                                                               3,
+                                                               1,
                                                                Boolean.TRUE,
                                                                9,
                                                                Difficulty.LIONHARD,
@@ -120,6 +120,11 @@ public final class Constant
     /** Input custom. */
     public static final String INPUT_FILE_CUSTOM = "input_custom.xml";
 
+    /** Minimum zoom. */
+    public static final double ZOOM_MIN = 0.8;
+    /** Maximum zoom. */
+    public static final double ZOOM_MAX = 1.3;
+
     /** Alpha black values. */
     public static final ColorRgba[] ALPHAS_BLACK;
     /** Alpha white values. */
@@ -136,8 +141,8 @@ public final class Constant
             ALPHAS_BLACK[i] = new ColorRgba(0, 0, 0, i);
         }
 
-        ALPHAS_WHITE = new ColorRgba[256];
-        for (int i = 0; i < 256; i++)
+        ALPHAS_WHITE = new ColorRgba[com.b3dgs.lionengine.Constant.UNSIGNED_BYTE];
+        for (int i = 0; i < ALPHAS_WHITE.length; i++)
         {
             ALPHAS_WHITE[i] = new ColorRgba(255, 255, 255, i);
         }

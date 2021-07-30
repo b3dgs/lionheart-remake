@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 
@@ -24,6 +25,9 @@ import com.b3dgs.lionengine.Updatable;
  */
 public class Time implements Updatable
 {
+    // Time difference with original playback which is slower
+    private static final double FACTOR = 198416.0 / 200466.0;
+
     private final Tick tick = new Tick();
     private final int rate;
 
@@ -41,6 +45,16 @@ public class Time implements Updatable
     }
 
     /**
+     * Set time.
+     * 
+     * @param timeMs The time millisecond.
+     */
+    public void set(int timeMs)
+    {
+        tick.set((int) Math.floor(timeMs / (Constant.ONE_SECOND_IN_MILLI / (double) rate)));
+    }
+
+    /**
      * Check if time is before.
      * 
      * @param time The time to check.
@@ -48,7 +62,7 @@ public class Time implements Updatable
      */
     public boolean isBefore(long time)
     {
-        return !tick.elapsedTime(rate, time);
+        return !tick.elapsedTime(rate, (int) Math.floor(time * FACTOR));
     }
 
     /**
@@ -59,7 +73,7 @@ public class Time implements Updatable
      */
     public boolean isAfter(long time)
     {
-        return tick.elapsedTime(rate, time);
+        return tick.elapsedTime(rate, (int) Math.floor(time * FACTOR));
     }
 
     /**
@@ -71,7 +85,7 @@ public class Time implements Updatable
      */
     public boolean isBetween(long start, long end)
     {
-        return isAfter(start) && isBefore(end);
+        return isAfter((int) Math.floor(start * FACTOR)) && isBefore((int) Math.floor(end * FACTOR));
     }
 
     @Override

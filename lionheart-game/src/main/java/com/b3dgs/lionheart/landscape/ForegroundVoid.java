@@ -21,6 +21,14 @@ package com.b3dgs.lionheart.landscape;
  */
 public class ForegroundVoid implements Foreground
 {
+    /**
+     * Create foreground.
+     */
+    public ForegroundVoid()
+    {
+        super();
+    }
+
     @Override
     public void setEnabled(boolean enabled)
     {

@@ -34,6 +34,12 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class ForegroundAirship extends BackgroundAbstract implements Foreground
 {
+    private static final double FOREGROUND1_OFFSET_X = -2.8;
+    private static final int FOREGROUND1_OFFSET_Y = -49;
+
+    private static final double FOREGROUND2_OFFSET_X = -3.75;
+    private static final int FOREGROUND2_OFFSET_Y = -59;
+
     /** Primary. */
     private final Secondary secondary;
     /** Screen width. */
@@ -112,13 +118,13 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
-            foreground1.setOffsetY(y - 49);
-            foreground2.setOffsetY(y - 59);
+            foreground1.setOffsetY(y + FOREGROUND1_OFFSET_Y);
+            foreground2.setOffsetY(y + FOREGROUND2_OFFSET_Y);
 
-            foreground1.setOffsetX(UtilMath.wrapDouble(foreground1.getOffsetX() - 2.8,
+            foreground1.setOffsetX(UtilMath.wrapDouble(foreground1.getOffsetX() + FOREGROUND1_OFFSET_X,
                                                        0.0,
                                                        foreground1.getRenderable().getWidth()));
-            foreground2.setOffsetX(UtilMath.wrapDouble(foreground2.getOffsetX() - 3.75,
+            foreground2.setOffsetX(UtilMath.wrapDouble(foreground2.getOffsetX() + FOREGROUND2_OFFSET_X,
                                                        0.0,
                                                        foreground2.getRenderable().getWidth()));
         }

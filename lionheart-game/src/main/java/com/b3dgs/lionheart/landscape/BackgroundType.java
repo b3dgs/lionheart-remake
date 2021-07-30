@@ -24,33 +24,35 @@ import com.b3dgs.lionheart.WorldType;
 public enum BackgroundType
 {
     /** Swamp dusk. */
-    SWAMP_DUSK(WorldType.SWAMP, "dusk"),
+    SWAMP_DUSK(WorldType.SWAMP, ThemeType.DUSK),
     /** Swamp dawn. */
-    SWAMP_DAWN(WorldType.SWAMP, "dawn"),
+    SWAMP_DAWN(WorldType.SWAMP, ThemeType.DAWN),
     /** Swamp day. */
-    SWAMP_DAY(WorldType.SWAMP, "day"),
+    SWAMP_DAY(WorldType.SWAMP, ThemeType.DAY),
+    /** Swamp cold. */
+    SWAMP_COLD(WorldType.SWAMP, ThemeType.COLD),
     /** Spider cave 1. */
     SPIDERCAVE1(WorldType.SPIDERCAVE1, null),
     /** Spider cave 2. */
     SPIDERCAVE2(WorldType.SPIDERCAVE2, null),
     /** Ancient Town dusk. */
-    ANCIENTTOWN_DUSK(WorldType.ANCIENTTOWN, "dusk"),
+    ANCIENTTOWN_DUSK(WorldType.ANCIENTTOWN, ThemeType.DUSK),
     /** Ancient Town dawn. */
-    ANCIENTTOWN_DAWN(WorldType.ANCIENTTOWN, "dawn"),
+    ANCIENTTOWN_DAWN(WorldType.ANCIENTTOWN, ThemeType.DAWN),
     /** Ancient Town day. */
-    ANCIENTTOWN_DAY(WorldType.ANCIENTTOWN, "day"),
+    ANCIENTTOWN_DAY(WorldType.ANCIENTTOWN, ThemeType.DAY),
     /** Lava. */
-    LAVA(WorldType.LAVA, "lava"),
+    LAVA(WorldType.LAVA, ThemeType.LAVA),
     /** Secret. */
-    SECRET(WorldType.SECRET, "secret"),
+    SECRET(WorldType.SECRET, ThemeType.SECRET),
     /** Airship. */
-    AIRSHIP(WorldType.AIRSHIP, "airship"),
+    AIRSHIP(WorldType.AIRSHIP, ThemeType.AIRSHIP),
     /** Dragonfly. */
-    DRAGONFLY(WorldType.DRAGONFLY, "dragonfly"),
+    DRAGONFLY(WorldType.DRAGONFLY, ThemeType.DRAGONFLY),
     /** Tower. */
-    TOWER(WorldType.TOWER, "tower"),
+    TOWER(WorldType.TOWER, ThemeType.TOWER),
     /** Norka. */
-    NORKA(WorldType.NORKA, "norka"),
+    NORKA(WorldType.NORKA, ThemeType.NORKA),
     /** None. */
     NONE(null, null);
 
@@ -65,10 +67,10 @@ public enum BackgroundType
      * @param world The world type.
      * @param theme The theme name.
      */
-    BackgroundType(WorldType world, String theme)
+    BackgroundType(WorldType world, ThemeType theme)
     {
         this.world = world;
-        this.theme = theme;
+        this.theme = theme != null ? theme.getName() : null;
     }
 
     /**

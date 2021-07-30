@@ -790,24 +790,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private void createEffectCache(StageConfig stage)
     {
-        final Spawner cacheSpawner = new Spawner()
+        final Spawner cacheSpawner = (media, x, y) ->
         {
-            @Override
-            public Featurable spawn(Media media, double x, double y)
-            {
-                final Featurable f = factory.create(media);
-                f.getFeature(Transformable.class).teleport(x, y);
+            final Featurable f = factory.create(media);
+            f.getFeature(Transformable.class).teleport(x, y);
 
-                stage.getRasterFolder().ifPresent(raster ->
+            stage.getRasterFolder().ifPresent(raster ->
+            {
+                final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
+                if (rasterMedia.exists())
                 {
-                    final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
-                    if (rasterMedia.exists())
-                    {
-                        f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
-                    }
-                });
-                return f;
-            }
+                    f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
+                }
+            });
+            return f;
         };
 
         final String theme = stage.getBackground().getWorld().getFolder();

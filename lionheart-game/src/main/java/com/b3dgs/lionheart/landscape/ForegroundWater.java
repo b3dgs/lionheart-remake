@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.landscape;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilFolder;
@@ -38,13 +39,24 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public final class ForegroundWater extends BackgroundAbstract implements Foreground
 {
+    private static final double DEFAULT_ANIM_SPEED = 0.25;
+
     private static final int WATER_LINES = 4;
+    private static final int WATER_LINES_FACTOR = 3;
+    private static final int WATER_LINES_OFFSET = 32;
     private static final int WATER_SIDE_COUNT_MAX = 4;
+    private static final int WATER_SIDE_DELAY_TICK = 3;
+
+    private static final int RAISE_MIN = -32;
     private static final double RAISE_SPEED = 0.4;
+    private static final int RAISE_SPEED_FACTOR = 5;
+
+    private static final int ANIM_OFFSET_Y = -8;
+    private static final int ANIM_FLICKER_TICK = 3;
 
     /** Water line offset. */
     private final int[] offset = new int[WATER_LINES];
-    /** Water line delay */
+    /** Water line delay. */
     private final Tick tick = new Tick();
     /** Services reference. */
     private final MapTileWater mapWater;
@@ -77,7 +89,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     /** Water line offset side. */
     private int offsetSide = 1;
     /** Water line offset side counter. */
-    private int offsetSideCount = 0;
+    private int offsetSideCount;
     /** Enabled flag. */
     private boolean enabled = true;
 
@@ -95,7 +107,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
 
         depth = config.getWaterDepth().orElse(0);
         depthOffset = config.getWaterOffset().orElse(0);
-        animSpeed = config.getWaterSpeed().orElse(0.25);
+        animSpeed = config.getWaterSpeed().orElse(DEFAULT_ANIM_SPEED);
         effect = config.getWaterEffect();
         raiseMax = config.getWaterRaise();
         raise = 0;
@@ -124,26 +136,31 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     }
 
     @Override
+    public void update(double extrp)
+    {
+        if (raise < raiseMax)
+        {
+            raise += RAISE_SPEED * extrp;
+        }
+        else if (raiseMax < 0)
+        {
+            raise -= RAISE_SPEED * RAISE_SPEED_FACTOR * extrp;
+            if (raise < RAISE_MIN)
+            {
+                raise = RAISE_MIN;
+            }
+        }
+        else
+        {
+            raise = raiseMax;
+        }
+    }
+
+    @Override
     public void renderBack(Graphic g)
     {
         if (enabled)
         {
-            if (raise < raiseMax)
-            {
-                raise += RAISE_SPEED;
-            }
-            else if (raiseMax < 0)
-            {
-                raise -= RAISE_SPEED * 5;
-                if (raise < -32)
-                {
-                    raise = -32;
-                }
-            }
-            else
-            {
-                raise = raiseMax;
-            }
             renderComponent(0, g);
         }
     }
@@ -325,36 +342,44 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
             for (int l = 0; l < WATER_LINES + max; l++)
             {
                 g.copyArea(0,
-                           y - (l - max) * WATER_LINES * 3 + 32,
+                           y - (l - max) * WATER_LINES * WATER_LINES_FACTOR + WATER_LINES_OFFSET,
                            screenWidth,
-                           WATER_LINES * 3,
+                           WATER_LINES * WATER_LINES_FACTOR,
                            offset[(WATER_LINES + max - 1 - l) % WATER_LINES],
                            0);
             }
 
             if (offsetSideCount < WATER_SIDE_COUNT_MAX)
             {
-                if (tick.elapsed(3))
-                {
-                    offset[WATER_LINES - 1 - offsetLine] += offsetSide;
-                    offsetLine++;
-
-                    if (Math.abs(offset[0]) % (WATER_LINES / 2) == 0)
-                    {
-                        tick.restart();
-                    }
-                }
-
-                if (offsetLine >= WATER_LINES)
-                {
-                    offsetLine = 0;
-                    offsetSideCount++;
-                }
+                updateSideLine();
             }
             else
             {
                 offsetSideCount = 0;
                 offsetSide = -offsetSide;
+            }
+        }
+
+        /**
+         * Update side line effect.
+         */
+        private void updateSideLine()
+        {
+            if (tick.elapsed(WATER_SIDE_DELAY_TICK))
+            {
+                offset[WATER_LINES - 1 - offsetLine] += offsetSide;
+                offsetLine++;
+
+                if (Math.abs(offset[0]) % (WATER_LINES / 2) == 0)
+                {
+                    tick.restart();
+                }
+            }
+
+            if (offsetLine >= WATER_LINES)
+            {
+                offsetLine = 0;
+                offsetSideCount++;
             }
         }
 
@@ -367,7 +392,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
             offsetX = UtilMath.wrapDouble(offsetX + speed, 0.0, anim.getTileWidth());
             offsetY = y;
 
-            height = UtilMath.wrapDouble(height + water.getSpeed() * extrp, 0.0, 360.0);
+            height = UtilMath.wrapDouble(height + water.getSpeed() * extrp, 0, Constant.ANGLE_MAX);
             water.setHeight(Math.cos(height) * water.getDepth());
             if (enabled)
             {
@@ -394,7 +419,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
                 w = (int) Math.ceil(screenWidth / (double) anim.getTileWidth()) + 1;
                 final int x = (int) (-offsetX + mainX);
 
-                y -= anim.getTileHeight() - 8;
+                y -= anim.getTileHeight() + ANIM_OFFSET_Y;
                 if (y >= 0 && y <= screenHeight)
                 {
                     for (int j = 0; j < w; j++)
@@ -405,7 +430,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
                 }
             }
             animFlick++;
-            if (animFlick > 3)
+            if (animFlick > ANIM_FLICKER_TICK)
             {
                 animFlick = 0;
             }

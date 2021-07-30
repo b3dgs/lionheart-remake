@@ -36,6 +36,19 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Lava extends BackgroundAbstract
 {
+    private static final int HEIGHT_MAX = 338;
+    private static final int HEIGHT_TOTAL = 85;
+
+    private static final int MOON_OFFSET_X = -30;
+    private static final int MOON_OFFSET_Y = 52;
+    private static final int MOUNTAIN_OFFSET_Y = -10;
+    private static final int MOUNTAIN2_OFFSET_Y = 48;
+
+    private static final double MOUNTAIN_SPEED_FACTOR = 0.15;
+    private static final double MOUNTAIN2_SPEED_FACTOR = 0.26;
+
+    private static final int PARALLAX_W = 60;
+    private static final int PARALLAX_H = 100;
     private static final int PARALLAX_Y = 128;
     private static final int PARALLAX_LINES = 96;
 
@@ -54,10 +67,10 @@ final class Lava extends BackgroundAbstract
      */
     Lava(SourceResolutionProvider source, double scaleH, double scaleV, String theme, boolean flickering)
     {
-        super(theme, 0, 338);
+        super(theme, 0, HEIGHT_MAX);
 
         this.scaleH = scaleH;
-        totalHeight = 85;
+        totalHeight = HEIGHT_TOTAL;
 
         final int width = source.getWidth();
         final int halfScreen = source.getWidth() / 3;
@@ -72,8 +85,8 @@ final class Lava extends BackgroundAbstract
                                 PARALLAX_LINES,
                                 halfScreen,
                                 PARALLAX_Y,
-                                60,
-                                100);
+                                PARALLAX_W,
+                                PARALLAX_H);
         add(backdrop);
         add(parallax);
     }
@@ -128,10 +141,10 @@ final class Lava extends BackgroundAbstract
             {
                 backcolorB = null;
             }
-            mountain = createElement(path, "mountain.png", 0, PARALLAX_Y - 10);
-            mountain2 = createElement(path, "mountain2.png", 0, PARALLAX_Y + 48);
+            mountain = createElement(path, "mountain.png", 0, PARALLAX_Y + MOUNTAIN_OFFSET_Y);
+            mountain2 = createElement(path, "mountain2.png", 0, PARALLAX_Y + MOUNTAIN2_OFFSET_Y);
+            moonOffset = MOON_OFFSET_Y;
             final int x = (int) (196 * scaleH);
-            moonOffset = 52;
             moon = new BackgroundElementRastered(x,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
@@ -205,7 +218,7 @@ final class Lava extends BackgroundAbstract
         {
             final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY()));
             moon.setRaster(id);
-            moon.setLocation(moon.getMainX() - 30, moon.getOffsetY() + moon.getMainY());
+            moon.setLocation(moon.getMainX() + MOON_OFFSET_X, moon.getOffsetY() + moon.getMainY());
             moon.render(g);
         }
 
@@ -250,12 +263,12 @@ final class Lava extends BackgroundAbstract
             backcolorA.setOffsetY(y);
             moon.setOffsetY(moonOffset - totalHeight + getOffsetY());
 
-            mountain.setOffsetX(UtilMath.wrapDouble(mountain.getOffsetX() + speed * 0.15,
+            mountain.setOffsetX(UtilMath.wrapDouble(mountain.getOffsetX() + speed * MOUNTAIN_SPEED_FACTOR,
                                                     0.0,
                                                     mountainSprite.getWidth()));
             mountain.setOffsetY(y);
 
-            mountain2.setOffsetX(UtilMath.wrapDouble(mountain2.getOffsetX() + speed * 0.26,
+            mountain2.setOffsetX(UtilMath.wrapDouble(mountain2.getOffsetX() + speed * MOUNTAIN2_SPEED_FACTOR,
                                                      0.0,
                                                      mountain2Sprite.getWidth()));
             mountain2.setOffsetY(y);

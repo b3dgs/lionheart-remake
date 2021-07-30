@@ -40,16 +40,14 @@ public final class StageConfig
     private static final String ATT_STAGE_PIC = "pic";
     /** Stage text attribute name. */
     private static final String ATT_STAGE_TEXT = "text";
+    /** File attribute name. */
+    private static final String ATT_FILE = "file";
 
     /** Music node name. */
     private static final String NODE_MUSIC = "music";
-    /** Music file attribute name. */
-    private static final String ATT_MUSIC_FILE = "file";
 
     /** Map node name. */
     private static final String NODE_MAP = "map";
-    /** Map file attribute name. */
-    private static final String ATT_MAP_FILE = "file";
     /** Lines per raster attribute name. */
     private static final String ATT_MAP_LINES_PER_RASTER = "linesPerRaster";
     /** Raster line offset attribute name. */
@@ -82,16 +80,10 @@ public final class StageConfig
 
     /** Boss node name. */
     private static final String NODE_BOSS = "boss";
-    /** Boss tile x attribute name. */
-    private static final String ATT_BOSS_TX = "tx";
-    /** Boss tile y attribute name. */
-    private static final String ATT_BOSS_TY = "ty";
     /** Boss spawn tile x attribute name. */
     private static final String ATT_BOSS_TSX = "tsx";
     /** Boss spawn tile y attribute name. */
     private static final String ATT_BOSS_TSY = "tsy";
-    /** Boss next stage attribute name. */
-    private static final String ATT_BOSS_NEXT = "next";
 
     /** Entities node name. */
     private static final String NODE_ENTITIES = "entities";
@@ -152,9 +144,9 @@ public final class StageConfig
         pic = configurer.getMediaOptional(ATT_STAGE_PIC);
         text = configurer.getStringOptional(ATT_STAGE_TEXT);
 
-        music = configurer.getMedia(ATT_MUSIC_FILE, NODE_MUSIC);
+        music = configurer.getMedia(ATT_FILE, NODE_MUSIC);
 
-        mapFile = configurer.getMedia(ATT_MAP_FILE, NODE_MAP);
+        mapFile = configurer.getMedia(ATT_FILE, NODE_MAP);
         linesPerRaster = configurer.getIntegerDefault(2, ATT_MAP_LINES_PER_RASTER, NODE_MAP);
         rasterLineOffset = configurer.getIntegerDefault(1, ATT_MAP_RASTER_LINE_OFFSET, NODE_MAP);
 
@@ -163,13 +155,14 @@ public final class StageConfig
         background = configurer.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
         foreground = ForegroundConfig.imports(configurer);
 
-        if (configurer.hasAttribute(ATT_BOSS_TX, NODE_BOSS) && configurer.hasAttribute(ATT_BOSS_TY, NODE_BOSS))
+        if (configurer.hasAttribute(ATT_CHECKPOINT_TX, NODE_BOSS)
+            && configurer.hasAttribute(ATT_CHECKPOINT_TY, NODE_BOSS))
         {
-            boss = Optional.of(new Coord(configurer.getDouble(ATT_BOSS_TX, NODE_BOSS),
-                                         configurer.getDouble(ATT_BOSS_TY, NODE_BOSS)));
+            boss = Optional.of(new Coord(configurer.getDouble(ATT_CHECKPOINT_TX, NODE_BOSS),
+                                         configurer.getDouble(ATT_CHECKPOINT_TY, NODE_BOSS)));
             bossSpawn = Optional.of(new Coord(configurer.getDouble(ATT_BOSS_TSX, NODE_BOSS),
                                               configurer.getDouble(ATT_BOSS_TSY, NODE_BOSS)));
-            bossNext = configurer.getStringOptional(ATT_BOSS_NEXT, NODE_BOSS);
+            bossNext = configurer.getStringOptional(ATT_CHECKPOINT_NEXT, NODE_BOSS);
         }
         else
         {

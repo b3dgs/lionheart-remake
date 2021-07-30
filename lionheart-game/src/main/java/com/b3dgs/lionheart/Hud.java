@@ -57,19 +57,26 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final String IMG_HUD = "hud.png";
     private static final String IMG_NUMBERS = "numbers.png";
 
+    private static final int HEALTH_TILE_WIDTH = 8;
+    private static final int HEALTH_TILE_HEIGHT = 8;
     private static final int HEALTH_MAX = 8;
     private static final int HEALTH_X = 1;
     private static final int HEALTH_Y = 1;
 
+    private static final double TALISMENT_X_RATIO = 0.205;
     private static final int TALISMENT_Y = 1;
 
+    private static final double AMULET_X_RATIO = 0.72;
     private static final int AMULET_Y = 1;
 
     private static final boolean SWORD_VISIBLE = false;
+    private static final double SWORD_X_RATIO = 0.5;
     private static final int SWORD_Y = 1;
     private static final int SWORD_TILE = 1;
 
+    private static final int LIFE_TILE = 6;
     private static final int LIFE_Y = 1;
+    private static final int LIFE_X_BORDER = 4;
 
     private static final int PAUSE_FLICKER_TICK = 14;
 
@@ -123,7 +130,7 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     public void setScreenSize(int width, int height)
     {
-        life.setLocation(width - life.getTileWidth() - numberLife.getWidth() - 4, LIFE_Y);
+        life.setLocation(width - life.getTileWidth() - numberLife.getWidth() - LIFE_X_BORDER, LIFE_Y);
         numberLife.setLocation(life.getX() + life.getTileWidth() + 2, LIFE_Y + 1);
     }
 
@@ -184,7 +191,7 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         for (int i = 0; i < HEALTH_MAX; i++)
         {
-            hearts[i] = Drawable.loadSpriteTiled(heartSurface.getSurface(), 8, 8);
+            hearts[i] = Drawable.loadSpriteTiled(heartSurface.getSurface(), HEALTH_TILE_WIDTH, HEALTH_TILE_HEIGHT);
             hearts[i].setTile(2);
             hearts[i].setLocation(HEALTH_X + i % (HEALTH_MAX / 2) * HEALTH_MAX,
                                   HEALTH_Y + Math.floor(i / (HEALTH_MAX / 2.0)) * HEALTH_MAX);
@@ -197,7 +204,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private void loadTalisment()
     {
         talisment.setTile(0);
-        talisment.setLocation(viewer.getWidth() * 0.205, TALISMENT_Y + 2);
+        talisment.setLocation(viewer.getWidth() * TALISMENT_X_RATIO, TALISMENT_Y + 2);
         numberTalisment.setLocation(talisment.getX() + talisment.getTileWidth(), TALISMENT_Y + 1);
     }
 
@@ -207,7 +214,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private void loadSword()
     {
         sword.setTile(SWORD_TILE);
-        sword.setLocation(viewer.getWidth() * 0.5, SWORD_Y);
+        sword.setLocation(viewer.getWidth() * SWORD_X_RATIO, SWORD_Y);
     }
 
     /**
@@ -216,7 +223,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private void loadAmulet()
     {
         amulet.setTile(1);
-        amulet.setLocation(viewer.getWidth() * 0.72, AMULET_Y);
+        amulet.setLocation(viewer.getWidth() * AMULET_X_RATIO, AMULET_Y);
     }
 
     /**
@@ -224,8 +231,8 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     private void loadLife()
     {
-        life.setTile(6);
-        life.setLocation(viewer.getWidth() - life.getTileWidth() - numberLife.getWidth() - 4, LIFE_Y);
+        life.setTile(LIFE_TILE);
+        life.setLocation(viewer.getWidth() - life.getTileWidth() - numberLife.getWidth() - LIFE_X_BORDER, LIFE_Y);
         numberLife.setLocation(life.getX() + life.getTileWidth() + 2, LIFE_Y + 1);
     }
 
@@ -268,16 +275,19 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         for (int i = 0; i < HEALTH_MAX; i++)
         {
-            if (i < stats.getHealth()) // Remaining hearts
+            if (i < stats.getHealth())
             {
+                // Remaining hearts
                 hearts[i].setTile(0);
             }
-            else if (i < stats.getHealthMax()) // Lost hearts
+            else if (i < stats.getHealthMax())
             {
+                // Lost hearts
                 hearts[i].setTile(1);
             }
-            else // Max hearts
+            else
             {
+                // Max hearts
                 hearts[i].setTile(2);
             }
         }
@@ -381,14 +391,6 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     @Override
-    public void dispose()
-    {
-        heartSurface.dispose();
-        hudSurface.dispose();
-        number.dispose();
-    }
-
-    @Override
     public void update(double extrp)
     {
         updaterHud.update(extrp);
@@ -399,5 +401,13 @@ public final class Hud implements Resource, Updatable, Renderable
     public void render(Graphic g)
     {
         rendererHud.render(g);
+    }
+
+    @Override
+    public void dispose()
+    {
+        heartSurface.dispose();
+        hudSurface.dispose();
+        number.dispose();
     }
 }

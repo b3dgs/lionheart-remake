@@ -57,6 +57,21 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         return false;
     }
 
+    /**
+     * Check if coord is not next stage checkpoint.
+     * 
+     * @param coord The coord to check.
+     * @param checkpoint The checkpoint to compare.
+     * @return <code>true</code> if not next, <code>false</code> else.
+     */
+    private static boolean isNotNext(Optional<Coord> coord, Checkpoint checkpoint)
+    {
+        return !coord.isPresent()
+               || !checkpoint.getNext().isPresent()
+               || Double.compare(checkpoint.getTx(), coord.get().getX()) != 0
+               || Double.compare(checkpoint.getTy(), coord.get().getY()) != 0;
+    }
+
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     private final List<Checkpoint> nexts = new ArrayList<>();
     private final ListenableModel<CheckpointListener> listenable = new ListenableModel<>();
@@ -101,11 +116,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         for (int i = 0; i < n; i++)
         {
             final Checkpoint checkpoint = list.get(i);
-            if (!isPrevious(spawn, checkpoint)
-                && (!spawn.isPresent()
-                    || !checkpoint.getNext().isPresent()
-                    || Double.compare(checkpoint.getTx(), spawn.get().getX()) != 0
-                    || Double.compare(checkpoint.getTy(), spawn.get().getY()) != 0))
+            if (!isPrevious(spawn, checkpoint) && isNotNext(spawn, checkpoint))
             {
                 checkpoints.add(checkpoint);
             }

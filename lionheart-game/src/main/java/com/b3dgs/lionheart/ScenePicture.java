@@ -49,6 +49,8 @@ public final class ScenePicture extends Sequence
     private static final int TEXT_Y = 186;
     private static final int PUSH_Y = 225;
     private static final int PUSH_BUTTON_TICK = 30;
+    private static final int FADE_SPEED = 6;
+    private static final int TEXT_HEIGHT_MAX = 40;
 
     private final String pushButton = Util.readLines(Medias.create(Folder.TEXT,
                                                                    Settings.getInstance().getLang(),
@@ -58,9 +60,8 @@ public final class ScenePicture extends Sequence
                                                             Medias.create(Folder.SPRITE, "fontdata.xml"),
                                                             12,
                                                             12);
-    private final Image text;
-
     private final Tick tick = new Tick();
+    private final Image text;
     private final Media stage;
     private final InitConfig init;
     private final Sprite picture;
@@ -70,7 +71,7 @@ public final class ScenePicture extends Sequence
 
     private int fadePic = 255;
     private int fadeText = 255;
-    private int speed = 6;
+    private int speed = FADE_SPEED;
     private boolean showPush;
 
     /**
@@ -115,7 +116,8 @@ public final class ScenePicture extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         info = new AppInfo(this::getFps, services);
 
         picture = Drawable.loadSprite(pic);
@@ -173,20 +175,28 @@ public final class ScenePicture extends Sequence
             fadeText = UtilMath.clamp(fadeText - speed, 0, 255);
             if (fadeText == 0)
             {
-                if (!tick.isStarted())
-                {
-                    if (stage.exists())
-                    {
-                        load(Scene.class, stage, init);
-                    }
-                    tick.start();
-                }
-                else if (auto.booleanValue() || device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
-                {
-                    speed = -speed;
-                    showPush = false;
-                }
+                updateFadedIn();
             }
+        }
+    }
+
+    /**
+     * Update on faded in.
+     */
+    private void updateFadedIn()
+    {
+        if (!tick.isStarted())
+        {
+            if (stage.exists())
+            {
+                load(Scene.class, stage, init);
+            }
+            tick.start();
+        }
+        else if (auto.booleanValue() || device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+        {
+            speed = -speed;
+            showPush = false;
         }
     }
 
@@ -244,7 +254,7 @@ public final class ScenePicture extends Sequence
         if (fadeText > 0)
         {
             g.setColor(Constant.ALPHAS_BLACK[fadeText]);
-            g.drawRect(0, (int) text.getY(), getWidth(), 40, true);
+            g.drawRect(0, (int) text.getY(), getWidth(), TEXT_HEIGHT_MAX, true);
         }
 
         g.setColor(ColorRgba.WHITE);

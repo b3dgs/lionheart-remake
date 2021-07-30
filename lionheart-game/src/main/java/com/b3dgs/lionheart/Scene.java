@@ -79,7 +79,7 @@ public class Scene extends SequenceGame<World>
         {
             world.load(stage, init);
         }
-        catch (final Exception exception)
+        catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
         {
             Sfx.cacheStop();
             world.stopMusic();
@@ -93,7 +93,7 @@ public class Scene extends SequenceGame<World>
         final double zoom = Settings.getInstance().getZoom();
         if (Double.compare(zoom, 1.0) != 0)
         {
-            services.get(Zooming.class).setZoom(UtilMath.clamp(zoom, 0.8, 1.3));
+            services.get(Zooming.class).setZoom(UtilMath.clamp(zoom, Constant.ZOOM_MIN, Constant.ZOOM_MAX));
         }
 
         services.get(DeviceController.class).setVisible(true);

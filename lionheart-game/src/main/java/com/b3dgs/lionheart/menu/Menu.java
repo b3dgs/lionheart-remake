@@ -61,23 +61,25 @@ import com.b3dgs.lionheart.intro.Intro;
 /**
  * Menu implementation.
  */
+// CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
 public class Menu extends Sequence
 {
     private static final int MIN_HEIGHT = 360;
     private static final int MAX_WIDTH = 640;
     private static final int MARGIN_WIDTH = 0;
-
+    private static final int FADE_SPEED = 8;
     private static final int CENTER_X = 320;
-    /** Text color in menu option. */
-    private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
-    /** Title text color. */
-    private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
+    private static final int MENU_MAIN_IMAGE_OFFSET_Y = 32;
+    private static final int OPTIONS_TITLE_OFFSET_Y = 96;
+    private static final int OPTIONS_TEXT_OFFSET_X = 20;
 
     private static List<String> getText(String file)
     {
         return Util.readLines(Medias.create(Folder.TEXT, Settings.getInstance().getLang(), Folder.MENU, file));
     }
 
+    private final ColorRgba colorOption = new ColorRgba(170, 204, 238);
+    private final ColorRgba colorTitle = new ColorRgba(255, 255, 255);
     private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF,
                                                        25,
                                                        TextStyle.BOLD);
@@ -90,9 +92,10 @@ public class Menu extends Sequence
     private final List<String> optionsMusic = getText("music.txt");
 
     /** Alpha step speed. */
-    double alphaSpeed = 8.0;
+    int alphaSpeed = FADE_SPEED;
     /** Device controller reference. */
     final DeviceController device;
+
     /** Background menus. */
     private final Sprite[] menus = new Sprite[2];
     /** List of menu data with their content. */
@@ -108,7 +111,7 @@ public class Menu extends Sequence
     private double alpha = 255.0;
     /** Current menu transition. */
     private TransitionType transition = TransitionType.IN;
-    /** Line choice on */
+    /** Line choice on. */
     private int choice = 1;
     /** Current difficulty index. */
     private int difficulty;
@@ -116,9 +119,9 @@ public class Menu extends Sequence
     private int joystick;
     /** Current music test. */
     private int music = 1;
-    /** Current */
+    /** Current. */
     private MenuType menu = MenuType.MAIN;
-    /** Next */
+    /** Next. */
     private MenuType menuNext;
     /** Music player. */
     private Audio audio;
@@ -135,11 +138,12 @@ public class Menu extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         device.setVisible(false);
         info = new AppInfo(this::getFps, services);
 
-        mainY = (getHeight() - 360) / 2;
+        mainY = (getHeight() - MIN_HEIGHT) / 2;
 
         menusData[0] = createMain();
         menusData[1] = createOptions();
@@ -330,7 +334,7 @@ public class Menu extends Sequence
     }
 
     /**
-     * Update the navigation against the
+     * Update the navigation.
      * 
      * @param menuId The menu id.
      */
@@ -392,24 +396,29 @@ public class Menu extends Sequence
     }
 
     /**
-     * Get init config.
+     * Get init config based on difficulty.
      * 
      * @return The init config.
      */
     private InitConfig getInitConfig()
     {
+        final InitConfig init;
         final Difficulty value = Difficulty.from(difficulty);
         switch (value)
         {
             case NORMAL:
-                return Constant.INIT_STANDARD;
+                init = Constant.INIT_STANDARD;
+                break;
             case HARD:
-                return Constant.INIT_HARD;
+                init = Constant.INIT_HARD;
+                break;
             case LIONHARD:
-                return Constant.INIT_LIONHARD;
+                init = Constant.INIT_LIONHARD;
+                break;
             default:
                 throw new LionEngineException(value);
         }
+        return init;
     }
 
     /**
@@ -447,14 +456,14 @@ public class Menu extends Sequence
         menus[1].render(g);
         menusData[1].render(g, choice);
 
-        textTitle.setColor(COLOR_TITLE);
+        textTitle.setColor(colorTitle);
         textTitle.draw(g,
                        (int) (Menu.CENTER_X * factorH),
-                       mainY + 96,
+                       mainY + OPTIONS_TITLE_OFFSET_Y,
                        Align.CENTER,
                        main.get(1).toUpperCase(Locale.ENGLISH));
 
-        text.setColor(COLOR_OPTION);
+        text.setColor(colorOption);
         drawOptionText(g, 0, optionsDifficulty.get(difficulty));
         drawOptionText(g, 1, optionsJoystick.get(joystick));
         drawOptionText(g, 2, optionsMusic.get(music));
@@ -469,7 +478,11 @@ public class Menu extends Sequence
      */
     private void drawOptionText(Graphic g, int index, String data)
     {
-        text.draw(g, (int) (CENTER_X * factorH) + 20, menusData[1].choices[index].getY(), Align.LEFT, data);
+        text.draw(g,
+                  (int) (CENTER_X * factorH) + OPTIONS_TEXT_OFFSET_X,
+                  menusData[1].choices[index].getY(),
+                  Align.LEFT,
+                  data);
     }
 
     /**
@@ -484,8 +497,8 @@ public class Menu extends Sequence
             final int a = UtilMath.clamp((int) Math.floor(alpha), 0, 255);
             g.setColor(Constant.ALPHAS_BLACK[a]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
         }
-        g.setColor(ColorRgba.BLACK);
     }
 
     /**
@@ -511,7 +524,7 @@ public class Menu extends Sequence
             menus[i].prepare();
         }
         final int x = (int) (CENTER_X * factorH);
-        menus[0].setLocation(x, mainY + 32);
+        menus[0].setLocation(x, mainY + MENU_MAIN_IMAGE_OFFSET_Y);
         menus[1].setLocation(x, mainY);
     }
 

@@ -66,6 +66,11 @@ public class DeviceDialog extends JDialog
 {
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
 
+    private static final int DIALOG_WIDTH = 640;
+    private static final int DIALOG_HEIGHT = 480;
+    private static final int DEVICE_NAME_SPACE_MAX = 10;
+    private static final String STR_EQUAL_QUOTE = "=\"";
+
     private static final String LABEL_ADD = "Add";
     private static final String LABEL_ASSIGN = "assign...";
     private static final String LABEL_SAVE = "Save";
@@ -73,7 +78,7 @@ public class DeviceDialog extends JDialog
 
     private static String getName(DeviceMapper mapping)
     {
-        return String.format("%" + 10 + "s", mapping);
+        return String.format("%" + DEVICE_NAME_SPACE_MAX + "s", mapping);
     }
 
     /** Stored by device, by mapping and their codes. */
@@ -100,7 +105,7 @@ public class DeviceDialog extends JDialog
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(640, 480));
+        setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
 
         load();
 
@@ -130,33 +135,43 @@ public class DeviceDialog extends JDialog
                 final Set<Integer> codes = data.computeIfAbsent(mapping, m -> new HashSet<>());
                 if (e.getButton() == MouseEvent.BUTTON1)
                 {
-                    final ActionGetter dialog = new ActionGetter(DeviceDialog.this, controller.getName());
-                    controller.awaitAssign(dialog);
-                    dialog.pack();
-                    dialog.setLocationRelativeTo(null);
-                    dialog.setVisible(true);
-
-                    final int code = dialog.getKey();
-                    field.setText(controller.getText(code));
-
-                    textToCode.put(field.getText(), Integer.valueOf(code));
-                    codes.add(Integer.valueOf(code));
+                    codeAssign(field, codes);
                 }
                 else
                 {
-                    codes.remove(textToCode.get(field.getText()));
-                    if (codes.isEmpty())
-                    {
-                        data.remove(mapping);
-                    }
-                    box.remove(field);
-                    box.revalidate();
-                    box.repaint();
+                    codeRemove(box, mapping, field, codes);
                 }
             }
         });
         box.add(field);
         return field;
+    }
+
+    private void codeAssign(JTextField field, Set<Integer> codes)
+    {
+        final ActionGetter dialog = new ActionGetter(DeviceDialog.this, controller.getName());
+        controller.awaitAssign(dialog);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        final int code = dialog.getKey();
+        field.setText(controller.getText(code));
+
+        textToCode.put(field.getText(), Integer.valueOf(code));
+        codes.add(Integer.valueOf(code));
+    }
+
+    private void codeRemove(Box box, DeviceMapper mapping, JTextField field, Set<Integer> codes)
+    {
+        codes.remove(textToCode.get(field.getText()));
+        if (codes.isEmpty())
+        {
+            data.remove(mapping);
+        }
+        box.remove(field);
+        box.revalidate();
+        box.repaint();
     }
 
     private void createInput(Container parent, DeviceMapper mapping, AssignController controller)
@@ -322,12 +337,12 @@ public class DeviceDialog extends JDialog
                .append(DeviceControllerConfig.NODE_FIRE)
                .append(com.b3dgs.lionengine.Constant.SPACE)
                .append(DeviceControllerConfig.ATT_INDEX)
-               .append("=\"")
+               .append(STR_EQUAL_QUOTE)
                .append(mapping)
                .append("\"")
                .append(com.b3dgs.lionengine.Constant.SPACE)
                .append(DeviceControllerConfig.ATT_POSITIVE)
-               .append("=\"")
+               .append(STR_EQUAL_QUOTE)
                .append(code)
                .append("\"/>");
         output.write(builder.toString());

@@ -38,6 +38,8 @@ import com.b3dgs.lionengine.graphic.drawable.SpriteTiled;
  */
 public class MapTileWater extends FeaturableAbstract implements Renderable
 {
+    private static final int MAX_HEIGHT = 81;
+
     /** Top. */
     private final MapTileWater top;
     /** Camera reference. */
@@ -154,7 +156,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
     {
         if (top != null)
         {
-            waterHeight = UtilMath.clamp(top.getCurrent(), 0, 81);
+            waterHeight = UtilMath.clamp(top.getCurrent(), 0, MAX_HEIGHT);
         }
         if (waterHeight > 1)
         {

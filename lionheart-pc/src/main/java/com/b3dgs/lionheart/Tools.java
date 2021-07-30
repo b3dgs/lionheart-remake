@@ -242,7 +242,7 @@ public final class Tools
             }
             else
             {
-                sheet = Medias.create(Folder.LEVEL, world, "0.png");
+                sheet = Medias.create(Folder.LEVEL, world, FILE_SHEETS);
             }
 
             final Media raster = Medias.create(Folder.RASTER, world, theme, Constant.RASTER_FILE_WATER);
