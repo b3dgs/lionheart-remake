@@ -19,8 +19,11 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.audio.Audio;
@@ -35,6 +38,8 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
@@ -55,33 +60,68 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Extro part 1 implementation.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public class Part1 extends Sequence
 {
     private static final int MIN_HEIGHT = 208;
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
     private static final int SPAWN_EXPLODE_DELAY = 35;
+    private static final int SPAWN_EXPLODE_MEDIUM_DELAY = 5;
     private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
-    private static final double CITADEL_FALL_SPEED = 0.04;
+    private static final int FADE_SPEED = 3;
+
+    private static final String PART1_FOLDER = "part1";
+    private static final String EXPLODE_LITTLE = "ExplodeLittle.xml";
+    private static final String EXPLODE_BIG = "ExplodeBig.xml";
+
+    private static final int VALDYN_X = 98;
+    private static final int VALDYN_Y = 66;
+    private static final int VALDYN_Z = 100;
+    private static final int VALDYN_X_MAX = 140;
+    private static final double VALDYN_Z_SPEED = 0.0011;
+    private static final double VALDYN_Z_ACC = -0.3;
+    private static final double VALDYN_Z_ACC_MIN = -0.3;
+    private static final double VALDYN_Z_ACC_MAX = -0.09;
+    private static final int VALDYN_SCALE_MIN = 10;
+    private static final int VALDYN_SCALE_MAX = 400;
+    private static final double VALDYN_MOVE_X = -0.04;
+    private static final double VALDYN_MOVE_Y = 0.008;
+    private static final int VALDYN_MOVE_X_SCALE_DIVISOR = -500;
+
+    private static final int CITADEL_X = 82;
+    private static final int CITADEL_Y = 4;
+    private static final double CITADEL_FALL_SPEED = 0.05;
+    private static final double CITADEL_ACC_MAX = 3.0;
+
+    private static final double EXPLODE_Y_SCALE = 0.6;
+
+    private static final int TIME_EXPLODE_LOT_MS = 15300;
+    private static final int TIME_CITADEL_DESTROYED_MS = 16000;
+    private static final int TIME_CITADEL_FALL_MS = 16600;
+    private static final int TIME_EXPLODE_END_MS = 18000;
+    private static final int TIME_FADE_OUT_MS = 19300;
+
+    /**
+     * Get media from filename.
+     * 
+     * @param filename The filename.
+     * @return The media.
+     */
+    private static Media get(String filename)
+    {
+        return Medias.create(Folder.EXTRO, PART1_FOLDER, filename + ".png");
+    }
 
     /** Device controller reference. */
     final DeviceController device;
     /** Alpha speed. */
-    int alphaSpeed = 3;
+    double alpha;
 
-    private final Sprite backcolor = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "backcolor.png"));
-    private final Sprite clouds = Drawable.loadSprite(Medias.create(Folder.EXTRO, "part1", "clouds.png"));
-    private final SpriteAnimated citadel = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
-                                                                                     "part1",
-                                                                                     "citadel.png"),
-                                                                       2,
-                                                                       1);
-
-    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
-                                                                                    "part1",
-                                                                                    "valdyn.png"),
-                                                                      4,
-                                                                      3);
+    private final Sprite backcolor = Drawable.loadSprite(get("backcolor"));
+    private final Sprite clouds = Drawable.loadSprite(get("clouds"));
+    private final SpriteAnimated citadel = Drawable.loadSpriteAnimated(get("citadel"), 2, 1);
+    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(get("valdyn"), 4, 3);
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -94,18 +134,26 @@ public class Part1 extends Sequence
         return featurable;
     });
     private final Tick tickExplode = new Tick();
+    private final Animation valdynAnim = new Animation(Animation.DEFAULT_NAME, 1, 12, 0.2, false, true);
     private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
 
-    private int alpha;
-    private double citadelY = 4;
+    private Updatable updaterFade = this::updateFadeIn;
+    private Updatable updaterCitadel = this::updateCitadelInit;
+    private Updatable updaterValdyn = this::updateValdyn;
+    private Updatable updaterExplode = this::updateExplodeFew;
+
+    private Renderable rendererFade = this::renderFade;
+    private Renderable rendererValdyn = valdyn;
+
+    private double citadelY = CITADEL_Y;
     private double citadelYacc;
-    private double valdynX;
-    private double valdynY;
-    private double valdynZ;
-    private double valdynZacc;
+    private double valdynX = VALDYN_X;
+    private double valdynY = VALDYN_Y;
+    private double valdynZ = VALDYN_Z;
+    private double valdynZacc = VALDYN_Z_ACC;
 
     /**
      * Constructor.
@@ -130,7 +178,8 @@ public class Part1 extends Sequence
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add(new CheckpointHandler(services));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
@@ -152,13 +201,16 @@ public class Part1 extends Sequence
         if (tickExplode.elapsed(delay))
         {
             tickExplode.restart();
+
             final int width = citadel.getTileWidth();
             final int height = citadel.getTileHeight();
-            spawner.spawn(Medias.create(Folder.EXTRO,
-                                        "part1",
-                                        UtilRandom.getRandomBoolean() ? "ExplodeLittle.xml" : "ExplodeBig.xml"),
-                          citadel.getX() + UtilRandom.getRandomInteger(width),
-                          citadel.getY() + UtilRandom.getRandomInteger((int) (height * 0.6)) + height + bandHeight);
+            final Media media = Medias.create(Folder.EXTRO,
+                                              PART1_FOLDER,
+                                              UtilRandom.getRandomBoolean() ? EXPLODE_LITTLE : EXPLODE_BIG);
+            final double x = UtilRandom.getRandomInteger(width);
+            final double y = UtilRandom.getRandomInteger((int) (height * EXPLODE_Y_SCALE)) + height + bandHeight;
+            final int citadelOffsetY = citadel.getHeight() / 3;
+            spawner.spawn(media, citadel.getX() + x, y - citadel.getY() + citadelOffsetY);
         }
     }
 
@@ -176,16 +228,208 @@ public class Part1 extends Sequence
         citadel.load();
         citadel.prepare();
         citadel.setFrame(1);
+        citadel.setLocation(CITADEL_X, bandHeight + citadelY);
 
         valdyn.load();
         valdyn.prepare();
-        valdyn.play(new Animation(Animation.DEFAULT_NAME, 1, 12, 0.2, false, true));
-        valdynX = 100.0;
-        valdynY = 66.0;
-        valdynZ = 100.0;
-        valdynZacc = -0.3;
+        valdyn.play(valdynAnim);
 
         tickExplode.start();
+    }
+
+    /**
+     * Update fade in effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeIn(double extrp)
+    {
+        alpha += FADE_SPEED * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateFadeOutInit;
+            rendererFade = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade out time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOut;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            end();
+        }
+    }
+
+    /**
+     * Update citadel fall time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCitadelInit(double extrp)
+    {
+        if (time.isAfter(TIME_CITADEL_DESTROYED_MS))
+        {
+            updaterCitadel = this::updateCitadelDestroyed;
+        }
+    }
+
+    /**
+     * Update citadel destroyed routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCitadelDestroyed(double extrp)
+    {
+        citadel.setFrame(2);
+
+        if (time.isAfter(TIME_CITADEL_FALL_MS))
+        {
+            updaterCitadel = this::updateCitadelFall;
+        }
+    }
+
+    /**
+     * Update citadel fall routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCitadelFall(double extrp)
+    {
+        citadel.setFrame(2);
+        citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, getHeight() + citadel.getHeight());
+        citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED, 0.0, CITADEL_ACC_MAX);
+        citadel.setLocation(CITADEL_X, bandHeight + citadelY);
+    }
+
+    /**
+     * Update valdyn fly and scale.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdyn(double extrp)
+    {
+        valdyn.update(extrp);
+        valdyn.setLocation(valdynX, valdynY);
+
+        valdynZ += valdynZacc;
+        valdynZacc = UtilMath.clamp(valdynZacc + VALDYN_Z_SPEED, VALDYN_Z_ACC_MIN, VALDYN_Z_ACC_MAX);
+
+        final double scale = UtilMath.clamp(1000 / valdynZ, VALDYN_SCALE_MIN, VALDYN_SCALE_MAX);
+        valdyn.stretch(scale, scale);
+
+        valdynX += VALDYN_MOVE_X - scale / VALDYN_MOVE_X_SCALE_DIVISOR;
+        valdynY += VALDYN_MOVE_Y;
+
+        if (valdynX > VALDYN_X_MAX)
+        {
+            updaterValdyn = UpdatableVoid.getInstance();
+            rendererValdyn = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update explode few routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateExplodeFew(double extrp)
+    {
+        tickExplode.update(extrp);
+
+        spawnExplode(SPAWN_EXPLODE_DELAY);
+        spawnExplode(SPAWN_EXPLODE_DELAY);
+        spawnExplode(SPAWN_EXPLODE_DELAY);
+        spawnExplode(SPAWN_EXPLODE_DELAY);
+
+        if (time.isAfter(TIME_EXPLODE_LOT_MS))
+        {
+            updaterExplode = this::updateExplodeLot;
+        }
+    }
+
+    /**
+     * Update explode lot routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateExplodeLot(double extrp)
+    {
+        tickExplode.update(extrp);
+
+        spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
+
+        if (time.isAfter(TIME_CITADEL_FALL_MS))
+        {
+            updaterExplode = this::updateExplodeMedium;
+        }
+    }
+
+    /**
+     * Update explode medium routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateExplodeMedium(double extrp)
+    {
+        tickExplode.update(extrp);
+
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+
+        if (time.isAfter(TIME_EXPLODE_END_MS))
+        {
+            updaterExplode = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Draw fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, getWidth(), getHeight(), true);
+    }
+
+    /**
+     * Draw band effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void drawBand(Graphic g)
+    {
+        g.clear(0, 0, getWidth(), bandHeight);
+        g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
     }
 
     @Override
@@ -193,58 +437,18 @@ public class Part1 extends Sequence
     {
         time.update(extrp);
         handler.update(extrp);
-        tickExplode.update(extrp);
 
-        if (valdynX < 220)
-        {
-            valdyn.update(extrp);
-            valdyn.setLocation(valdynX, valdynY);
+        updaterFade.update(extrp);
+        updaterCitadel.update(extrp);
+        updaterValdyn.update(extrp);
+        updaterExplode.update(extrp);
 
-            valdynZ += valdynZacc;
-            valdynZacc = UtilMath.clamp(valdynZacc + 0.0011, -0.3, -0.09);
-            final double z = UtilMath.clamp(1000 / valdynZ, 10, 400);
-            valdyn.stretch(z, z);
+        info.update(extrp);
 
-            valdynX += 0.01 + z / 350.0;
-            valdynY += 0.01;
-        }
-        if (time.isBefore(1840) && alpha < 255)
-        {
-            alpha = UtilMath.clamp(alpha + alphaSpeed, 0, 255);
-        }
-        else if (time.isAfter(19170) && alpha > 0)
-        {
-            alpha = UtilMath.clamp(alpha - alphaSpeed, 0, 255);
-        }
-        if (time.isBefore(15000))
-        {
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-            spawnExplode(SPAWN_EXPLODE_DELAY);
-        }
-        else if (time.isBefore(15835))
-        {
-            spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
-        }
-        if (time.isAfter(15420))
-        {
-            citadel.setFrame(2);
-            citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, 500);
-            citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED, 0.0, 3.0);
-        }
-        citadel.setLocation(82, bandHeight + citadelY);
-
-        if (time.isAfter(22835))
-        {
-            end();
-        }
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
             end(null);
         }
-
-        info.update(extrp);
     }
 
     @Override
@@ -254,19 +458,10 @@ public class Part1 extends Sequence
         clouds.render(g);
         citadel.render(g);
         handler.render(g);
-        if (valdynX < 210)
-        {
-            valdyn.render(g);
-        }
+        rendererValdyn.render(g);
+        rendererFade.render(g);
 
-        if (alpha < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - alpha]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
-
-        g.clear(0, 0, getWidth(), bandHeight);
-        g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
+        drawBand(g);
 
         info.render(g);
     }

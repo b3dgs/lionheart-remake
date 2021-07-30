@@ -19,10 +19,12 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -39,17 +41,27 @@ import com.b3dgs.lionheart.Util;
  */
 public class Part3 extends Sequence
 {
+    private static final int FADE_SPEED = 3;
+
+    private static final int TIME_STORY0_MS = 41400;
+    private static final int TIME_STORY1_MS = 56500;
+    private static final int TIME_STORY2_MS = 71700;
+    private static final int TIME_FADE_OUT_MS = 85200;
+
     /** Device controller reference. */
     final DeviceController device;
     /** Alpha speed. */
-    int alphaSpeed = 6;
+    double alpha = 255;
 
     private final Stories stories = new Stories(getWidth(), getHeight());
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
 
-    private double alphaBack = 255;
+    private Updatable updater = this::updateStory0;
+
+    private Renderable renderer = RenderableVoid.getInstance();
+    private Renderable rendererFade = RenderableVoid.getInstance();
 
     /**
      * Constructor.
@@ -68,13 +80,98 @@ public class Part3 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
         load(Part4.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
+    }
+
+    /**
+     * Update fist story time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateStory0(double extrp)
+    {
+        if (time.isAfter(TIME_STORY0_MS))
+        {
+            stories.setStory(0);
+            updater = this::updateStory1;
+            renderer = stories;
+        }
+    }
+
+    /**
+     * Update second story time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateStory1(double extrp)
+    {
+        if (time.isAfter(TIME_STORY1_MS))
+        {
+            stories.setStory(1);
+            updater = this::updateStory2;
+        }
+    }
+
+    /**
+     * Update third story time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateStory2(double extrp)
+    {
+        if (time.isAfter(TIME_STORY2_MS))
+        {
+            stories.setStory(2);
+            updater = this::updateFadeOutInit;
+        }
+    }
+
+    /**
+     * Update fade out time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_OUT_MS))
+        {
+            updater = this::updateFadeOut;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            end();
+        }
+    }
+
+    /**
+     * Render fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, getWidth(), getHeight(), true);
     }
 
     @Override
@@ -87,36 +184,13 @@ public class Part3 extends Sequence
     public void update(double extrp)
     {
         time.update(extrp);
+        updater.update(extrp);
+        info.update(extrp);
 
-        if (time.isAfter(41000))
-        {
-            stories.setStory(0);
-        }
-        if (time.isAfter(56000))
-        {
-            stories.setStory(1);
-        }
-        if (time.isAfter(71000))
-        {
-            stories.setStory(2);
-        }
-
-        if (time.isAfter(84500))
-        {
-            alphaBack -= alphaSpeed;
-        }
-        alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
-
-        if (time.isAfter(85335))
-        {
-            end();
-        }
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
             end(null);
         }
-
-        info.update(extrp);
     }
 
     @Override
@@ -124,18 +198,8 @@ public class Part3 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        if (time.isAfter(41000))
-        {
-            stories.render(g);
-        }
-
-        // Render fade in
-        if (alphaBack < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
-
+        renderer.render(g);
+        rendererFade.render(g);
         info.render(g);
     }
 

@@ -19,12 +19,15 @@ package com.b3dgs.lionheart.intro;
 import java.util.List;
 
 import com.b3dgs.lionengine.Align;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
@@ -38,26 +41,76 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Intro part 1 implementation.
  */
-public final class Part1 implements Updatable
+public final class Part1 implements Updatable, Renderable
 {
-    private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF, 20, TextStyle.NORMAL);
+    private static final String PART1_FOLDER = "part1";
+    private static final String PART1_TEXT = "part1.txt";
+
+    private static final int BAND_HEIGHT = 144;
+
+    private static final int TEXT_SIZE = 24;
+    private static final String TEXT_FONT = com.b3dgs.lionengine.Constant.FONT_SERIF;
+    private static final int TEXT_ALPHA_SPEED = 4;
+    private static final int TEXT_LINE_HEIGHT = 22;
+
+    private static final int SPRITE_BACKS_COUNT = 4;
+    private static final int SPRITE_SCENERIES_COUNT = 6;
+
+    private static final double SPEED_CAMERA_BACK = 0.45;
+    private static final double SPEED_CAMERA_SCENERY = 0.77;
+
+    private static final int BACKGROUND_X_MAX = 900;
+
+    private static final int TIME_START_CAMERA_MOVE_MS = 10100;
+
+    /**
+     * Get media from filename.
+     * 
+     * @param filename The filename.
+     * @return The media.
+     */
+    private static Media get(String filename)
+    {
+        return Medias.create(Folder.INTRO, PART1_FOLDER, filename + ".png");
+    }
+
+    private final Text text = Graphics.createText(TEXT_FONT, TEXT_SIZE, TextStyle.BOLD);
     private final List<String> titles = Util.readLines(Medias.create(Folder.TEXT,
                                                                      Settings.getInstance().getLang(),
                                                                      Folder.INTRO,
-                                                                     "part1.txt"));
-
-    private final Sprite[] backs = new Sprite[4];
-    private final Sprite[] sceneries = new Sprite[6];
-    private final Sprite title = Drawable.loadSprite(Medias.create(Folder.INTRO, "part1", "title.png"));
-
+                                                                     PART1_TEXT));
+    // @formatter:off
+    private final TextData[] texts = new TextData[]
+    {
+        new TextData(2350, 5200, 0, -40, 0, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS"),
+        new TextData(7000, 12000, 0, 56, 0, Align.CENTER),
+        new TextData(15100, 17800, -112, -64, -154, Align.LEFT, titles.get(0), "              Erwin Kloibhofer",
+                     "              Michael Bittner", "(remake) Pierre-Alexandre"),
+        new TextData(20100, 22800, -112, -42, -34, Align.LEFT, titles.get(1), "Henk Nieborg"),
+        new TextData(25300, 27800, -112, -42, -16, Align.LEFT, titles.get(2), "Erik Simon"),
+        new TextData(30400, 32800, -112, -42, -112, Align.LEFT, titles.get(3), "Matthias Steinwachs")
+    };
+    // @formatter:on
+    private final SceneryData[] sceneriesData = new SceneryData[]
+    {
+        new SceneryData(0, 32), new SceneryData(1, 420), new SceneryData(0, 570), new SceneryData(1, 670),
+        new SceneryData(2, 730), new SceneryData(0, 790), new SceneryData(3, 910), new SceneryData(0, 980),
+        new SceneryData(4, 1370), new SceneryData(5, 1690),
+    };
+    private final Sprite[] backs = new Sprite[SPRITE_BACKS_COUNT];
+    private final Sprite[] sceneries = new Sprite[SPRITE_SCENERIES_COUNT];
+    private final Sprite title = Drawable.loadSprite(get("title"));
+    private final Sprite titleShade = Drawable.loadSprite(get("title_shade"));
     private final Camera cameraBack = new Camera();
     private final Camera cameraScenery = new Camera();
-
+    private final int width;
+    private final int height;
     private final Time time;
-    private final double wide;
+    private final double cameraMax;
 
-    private double alphaText;
-    private double alphaTextOld;
+    private Updatable updaterCamera = this::updateCameraIdle;
+    private double alphaTitleOld;
+    private double alphaShade;
 
     /** Used to cache text rendering on first pass. */
     private boolean force = true;
@@ -66,14 +119,19 @@ public final class Part1 implements Updatable
      * Constructor.
      * 
      * @param time The time reference.
+     * @param width The screen width.
+     * @param height The screen height.
      * @param wide The wide factor.
      */
-    public Part1(Time time, double wide)
+    public Part1(Time time, int width, int height, double wide)
     {
         super();
 
         this.time = time;
-        this.wide = wide;
+        this.width = width;
+        this.height = height;
+        // CHECKSTYLE IGNORE LINE: MagicNumber
+        cameraMax = 1801 - Math.ceil(158.4 * wide);
     }
 
     /**
@@ -83,116 +141,64 @@ public final class Part1 implements Updatable
     {
         title.load();
         title.prepare();
-        title.setAlpha(0);
+
+        titleShade.load();
+        titleShade.prepare();
+        titleShade.setAlpha(0);
 
         for (int i = 0; i < backs.length; i++)
         {
-            backs[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part1", "back" + i + ".png"));
+            backs[i] = Drawable.loadSprite(get("back" + i));
             backs[i].load();
             backs[i].prepare();
         }
         for (int i = 0; i < sceneries.length; i++)
         {
-            sceneries[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part1", "scenery" + i + ".png"));
+            sceneries[i] = Drawable.loadSprite(get("scenery" + i));
             sceneries[i].load();
             sceneries[i].prepare();
         }
     }
 
-    @Override
-    public void update(double extrp)
+    /**
+     * Update camera idle phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCameraIdle(double extrp)
     {
-        alphaTextOld = alphaText;
-
-        // Text fades
-        updateAlphaText(extrp, 2700, 5350, 5350, 7050);
-        updateAlphaText(extrp, 7050, 10000, 12000, 15200);
-        updateAlphaText(extrp, 15200, 18100, 18100, 20200);
-        updateAlphaText(extrp, 20200, 23100, 23100, 25200);
-        updateAlphaText(extrp, 25200, 28100, 28100, 30200);
-        updateAlphaText(extrp, 30200, 33100, 33100, 35200);
-
-        // Start moving camera until door
-        if (time.isAfter(10500))
+        if (time.isAfter(TIME_START_CAMERA_MOVE_MS))
         {
-            cameraBack.moveLocation(extrp, 0.45, 0.0);
-            cameraScenery.moveLocation(extrp, 0.77, 0.0);
-            final double x = cameraScenery.getX();
-            if (x > 1760 - Math.ceil(158.4 * wide))
-            {
-                cameraScenery.setLocation(1760 - Math.floor(158.4 * wide), cameraScenery.getY());
-            }
+            updaterCamera = this::updateCameraMove;
         }
     }
 
     /**
-     * Render text.
+     * Update camera move right until door.
      * 
-     * @param start The starting time.
-     * @param end The ending time.
-     * @param x1 The text1 x.
-     * @param y1 The text1 y.
-     * @param x2 The text2 x.
-     * @param y2 The text2 y.
-     * @param align The text align.
-     * @param text1 The text 1.
-     * @param text2 The text 2.
-     * @param text3 The text 3.
-     * @param text4 The text 4.
-     * @param width The width.
-     * @param height The height.
-     * @param g The graphic output.
+     * @param extrp The extrapolation value.
      */
-    private void renderText(int start,
-                            int end,
-                            int x1,
-                            int y1,
-                            int x2,
-                            int y2,
-                            Align align,
-                            String text1,
-                            String text2,
-                            String text3,
-                            String text4,
-                            int width,
-                            int height,
-                            Graphic g)
+    private void updateCameraMove(double extrp)
     {
-        if (force || time.isBetween(start, end))
+        cameraBack.moveLocation(extrp, SPEED_CAMERA_BACK, 0.0);
+        cameraScenery.moveLocation(extrp, SPEED_CAMERA_SCENERY, 0.0);
+
+        final double x = cameraScenery.getX();
+        if (x > cameraMax)
         {
-            if (force || alphaText > 0)
-            {
-                if (Double.compare(alphaTextOld, alphaText) != 0)
-                {
-                    text.setColor(Constant.ALPHAS_WHITE[(int) alphaText]);
-                }
-                text.draw(g, width / 2 + x1, height / 2 + y1, align, text1);
-                text.draw(g, width / 2 + x2, height / 2 + y2, align, text2);
-                if (text3 != null)
-                {
-                    text.draw(g, width / 2 + x2, height / 2 + y2 + 24, align, text3);
-                }
-                if (text4 != null)
-                {
-                    text.draw(g, width / 2 + x2, height / 2 + y2 + 48, align, text4);
-                }
-            }
+            cameraScenery.setLocation(cameraMax, cameraScenery.getY());
+            updaterCamera = UpdatableVoid.getInstance();
         }
     }
 
     /**
-     * Render part.
+     * Render scrolling background.
      * 
      * @param g The graphic output.
-     * @param width The width.
-     * @param height The height.
      */
-    public void render(Graphic g, int width, int height)
+    private void renderBackground(Graphic g)
     {
-        g.clear(0, 0, width, height);
-
-        // Render backs
-        if (time.isBefore(42000))
+        if (cameraBack.getX() < BACKGROUND_X_MAX)
         {
             for (int i = 0; i < backs.length; i++)
             {
@@ -204,147 +210,253 @@ public final class Part1 implements Updatable
                 }
             }
         }
-
-        // Render sceneries
-        renderScenery(g, width, height, 0, 32);
-        renderScenery(g, width, height, 1, 420);
-        renderScenery(g, width, height, 0, 570);
-        renderScenery(g, width, height, 1, 670);
-        renderScenery(g, width, height, 2, 730);
-        renderScenery(g, width, height, 0, 790);
-        renderScenery(g, width, height, 3, 910);
-        renderScenery(g, width, height, 0, 980);
-        renderScenery(g, width, height, 4, 1350);
-        renderScenery(g, width, height, 5, 1650);
-
-        // Render texts
-        renderText(2300,
-                   6450,
-                   0,
-                   -38,
-                   0,
-                   -16,
-                   Align.CENTER,
-                   "BYRON 3D GAMES STUDIO",
-                   "PRESENTS",
-                   null,
-                   null,
-                   width,
-                   height,
-                   g);
-        if (time.isBetween(6450, 13100))
-        {
-            if (alphaText > 0)
-            {
-                if (Double.compare(alphaTextOld, alphaText) != 0)
-                {
-                    title.setAlpha((int) alphaText);
-                }
-                title.setLocation(width / 2 - title.getWidth() / 2, height / 2 - title.getHeight() / 2 - 16);
-                title.render(g);
-            }
-        }
-        renderText(15200,
-                   19200,
-                   -120,
-                   -60,
-                   -110,
-                   -35,
-                   Align.LEFT,
-                   titles.get(0),
-                   "Erwin Kloibhofer",
-                   "Michael Bittner",
-                   "Pierre-Alexandre (remake)",
-                   width,
-                   height,
-                   g);
-
-        renderText(20200,
-                   24200,
-                   -120,
-                   -38,
-                   -58,
-                   -12,
-                   Align.LEFT,
-                   titles.get(1),
-                   "Henk Nieborg",
-                   null,
-                   null,
-                   width,
-                   height,
-                   g);
-
-        renderText(25200,
-                   29200,
-                   -120,
-                   -38,
-                   -42,
-                   -12,
-                   Align.LEFT,
-                   titles.get(2),
-                   "Erik Simon",
-                   null,
-                   null,
-                   width,
-                   height,
-                   g);
-
-        renderText(30200,
-                   34200,
-                   -110,
-                   -38,
-                   -110,
-                   -12,
-                   Align.LEFT,
-                   titles.get(3),
-                   "Matthias Steinwachs",
-                   null,
-                   null,
-                   width,
-                   height,
-                   g);
-
-        force = false;
     }
 
     /**
-     * Update alpha text.
+     * Render title.
      * 
-     * @param extrp The extrapolation value.
-     * @param start1 The entering start.
-     * @param end1 The entering end.
-     * @param start2 The ending start.
-     * @param end2 The ending end.
+     * @param g The graphic output.
      */
-    private void updateAlphaText(double extrp, int start1, int end1, int start2, int end2)
+    private void renderTitle(Graphic g)
     {
-        if (time.isBetween(start1, end1))
+        final int alpha = (int) Math.floor(texts[1].getAlpha());
+        if (alpha > 0)
         {
-            alphaText += 4.0 * extrp;
+            updateTitleShade(alpha);
+            if (alpha == 255 || alpha < 255 && alphaShade == 255)
+            {
+                updateTitleAlpha(alpha);
+                title.setLocation(width / 2 - title.getWidth() / 2, height / 2 - texts[1].getY());
+                title.render(g);
+            }
+
+            if (alphaShade < 255)
+            {
+                titleShade.setLocation(width / 2 - title.getWidth() / 2, height / 2 - texts[1].getY());
+                titleShade.render(g);
+            }
         }
-        else if (time.isBetween(start2, end2))
+    }
+
+    /**
+     * Update title shade effect.
+     * 
+     * @param alpha The alpha value.
+     */
+    private void updateTitleShade(int alpha)
+    {
+        if (alphaShade < 255 && Double.compare(alphaTitleOld, alpha) != 0)
         {
-            alphaText -= 4.0 * extrp;
+            titleShade.setAlpha(alpha);
+            alphaTitleOld = alpha;
         }
-        alphaText = UtilMath.clamp(alphaText, 0.0, 255.0);
+        if (alpha == 255 && alphaShade < 255)
+        {
+            alphaShade += TEXT_ALPHA_SPEED;
+            if (alphaShade > 255)
+            {
+                alphaShade = 255;
+            }
+            titleShade.setFade((int) Math.floor(alpha - alphaShade), (int) Math.floor(alpha - alphaShade));
+        }
+    }
+
+    /**
+     * Update title alpha.
+     * 
+     * @param alpha The alpha value.
+     */
+    private void updateTitleAlpha(int alpha)
+    {
+        if (Double.compare(alphaTitleOld, alpha) != 0)
+        {
+            title.setAlpha(alpha);
+            alphaTitleOld = alpha;
+        }
     }
 
     /**
      * Render a scenery.
      * 
      * @param g The graphic output.
-     * @param width The width.
-     * @param height The height.
      * @param id The scenery id.
      * @param x The horizontal location.
      */
-    private void renderScenery(Graphic g, int width, int height, int id, int x)
+    private void renderScenery(Graphic g, int id, int x)
     {
         sceneries[id].setLocation(Math.floor(cameraScenery.getViewpointX(x)),
-                                  height - sceneries[id].getHeight() + (144 - height) / 2.0);
+                                  height - sceneries[id].getHeight() + (BAND_HEIGHT - height) / 2.0);
         if (UtilMath.isBetween(sceneries[id].getX(), -sceneries[id].getWidth(), width))
         {
             sceneries[id].render(g);
+        }
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        for (int i = 0; i < texts.length; i++)
+        {
+            texts[i].update(extrp);
+        }
+        updaterCamera.update(extrp);
+    }
+
+    @Override
+    public void render(Graphic g)
+    {
+        g.clear(0, 0, width, height);
+
+        renderBackground(g);
+
+        for (int i = 0; i < sceneriesData.length; i++)
+        {
+            renderScenery(g, sceneriesData[i].getId(), sceneriesData[i].getX());
+        }
+        for (int i = 0; i < texts.length; i++)
+        {
+            texts[i].render(g);
+        }
+
+        renderTitle(g);
+
+        force = false;
+    }
+
+    /**
+     * Scenery data.
+     */
+    private static final class SceneryData
+    {
+        private final int id;
+        private final int x;
+
+        /**
+         * Create scenery.
+         * 
+         * @param id The id.
+         * @param x The horizontal location.
+         */
+        private SceneryData(int id, int x)
+        {
+            super();
+
+            this.id = id;
+            this.x = x;
+        }
+
+        /**
+         * Get the id.
+         * 
+         * @return The id.
+         */
+        public int getId()
+        {
+            return id;
+        }
+
+        /**
+         * Get the horizontal location.
+         * 
+         * @return The horizontal location.
+         */
+        public int getX()
+        {
+            return x;
+        }
+    }
+
+    /**
+     * Text data.
+     */
+    private final class TextData implements Updatable, Renderable
+    {
+        private final int timeStartMs;
+        private final int timeEndMs;
+        private final int x1;
+        private final int y1;
+        private final int x2;
+        private final String[] texts;
+        private final Align align;
+
+        private double alpha;
+        private double alphaOld;
+
+        /**
+         * Create data.
+         * 
+         * @param timeStartMs The starting time in milliseconds.
+         * @param timeEndMs The ending time in milliseconds.
+         * @param x1 The first text horizontal location.
+         * @param y1 The first text vertical location.
+         * @param x2 The other texts horizontal location.
+         * @param align The text align.
+         * @param texts The text lines.
+         */
+        private TextData(int timeStartMs, int timeEndMs, int x1, int y1, int x2, Align align, String... texts)
+        {
+            super();
+
+            this.timeStartMs = timeStartMs;
+            this.timeEndMs = timeEndMs;
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.align = align;
+            this.texts = texts;
+        }
+
+        /**
+         * Get vertical location.
+         * 
+         * @return The vertical location.
+         */
+        public int getY()
+        {
+            return y1;
+        }
+
+        /**
+         * Get current alpha.
+         * 
+         * @return The alpha value.
+         */
+        public double getAlpha()
+        {
+            return alpha;
+        }
+
+        @Override
+        public void update(double extrp)
+        {
+            alphaOld = alpha;
+            if (time.isBetween(timeStartMs, timeEndMs))
+            {
+                alpha += TEXT_ALPHA_SPEED * extrp;
+            }
+            else if (time.isAfter(timeEndMs))
+            {
+                alpha -= TEXT_ALPHA_SPEED * extrp;
+            }
+            alpha = UtilMath.clamp(alpha, 0.0, 255.0);
+        }
+
+        @Override
+        public void render(Graphic g)
+        {
+            if (texts.length > 0 && (force || alpha > 0))
+            {
+                if (Double.compare(alphaOld, alpha) != 0)
+                {
+                    text.setColor(Constant.ALPHAS_WHITE[(int) alpha]);
+                }
+                text.draw(g, width / 2 + x1, height / 2 + y1, align, texts[0]);
+
+                for (int i = 1; i < texts.length; i++)
+                {
+                    text.draw(g, width / 2 + x2, height / 2 + y1 + i * TEXT_LINE_HEIGHT, align, texts[i]);
+                }
+            }
         }
     }
 }

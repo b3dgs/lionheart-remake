@@ -4,13 +4,8 @@ C26 (version remake)
 
 
 
-
-
-
-
 C26 L'équipe :
 C14 ------------------
-
 
 L24 Erwin Kloibhofer
 L11 programmation générale, Schnitzel-cooking

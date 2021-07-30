@@ -18,15 +18,17 @@ package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
-import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
@@ -47,28 +49,53 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class Part4 extends Sequence
 {
+    private static final int FADE_SPEED = 6;
+
+    private static final int STORY_1 = 3;
+    private static final int STORY_2 = 4;
+    private static final int STORY_3 = 5;
+    private static final int STORY_4 = 7;
+    private static final int STORY_5 = 8;
+
+    private static final int AMULET_X_OFFSET = -48;
+    private static final int AMULET_Y = 152;
+    private static final int AMULET_GLOW_COUNT = 5;
+
+    private static final String PART4_FOLDER = "part4";
+
+    private static final String FILE_AMULET = "amulet.png";
+
+    private static final int TIME_STORY2_MS = 89100;
+    private static final int TIME_END_MS = 103000;
+    private static final int TIME_STORY4_MS = 108200;
+    private static final int TIME_STORY5_MS = 123400;
+    private static final int TIME_FADE_OUT_MS = 138600;
+
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha speed. */
-    int alphaSpeed = 6;
+    /** Alpha. */
+    double alpha;
 
     private final Stories stories = new Stories(getWidth(), getHeight());
-    private final Animation glow = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, true);
+    private final Animation glow = new Animation(Animation.DEFAULT_NAME, 1, 4, 0.15, true, false);
     private final SpriteAnimated amulet = Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO,
-                                                                                    "part4",
-                                                                                    "amulet.png"),
+                                                                                    PART4_FOLDER,
+                                                                                    FILE_AMULET),
                                                                       2,
                                                                       2);
     private final Time time;
     private final Audio audio;
+    private final Audio audioAlternative;
     private final boolean alternative;
     private final AppInfo info;
 
-    private Audio audioAlternative;
-    private double alphaBack;
-    private boolean alternativeMusic;
+    private Updatable updaterAmulet = UpdatableVoid.getInstance();
+    private Updatable updaterFade = this::updateFadeIn;
+    private Updatable updaterStories = this::updateStory2;
+
+    private Renderable rendererFade = this::renderFade;
+
     private int glowed;
-    private boolean played;
 
     /**
      * Constructor.
@@ -88,7 +115,8 @@ public class Part4 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 
@@ -100,73 +128,192 @@ public class Part4 extends Sequence
         }
         else
         {
+            audioAlternative = null;
             load(Credits.class, time, audio, alternative);
         }
 
         setSystemCursorVisible(false);
     }
 
+    /**
+     * Update fade in effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeIn(double extrp)
+    {
+        alpha += FADE_SPEED * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateEnd;
+            rendererFade = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade out time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOut;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            end();
+            updaterFade = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update end.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateEnd(double extrp)
+    {
+        if (time.isAfter(TIME_END_MS))
+        {
+            if (alternative)
+            {
+                audio.stop();
+                audioAlternative.play();
+                stories.setStory(STORY_3);
+                amulet.play(glow);
+                updaterAmulet = this::updateAmulet;
+                updaterFade = this::updateFadeOutInit;
+            }
+            else
+            {
+                end();
+            }
+        }
+    }
+
+    /**
+     * Update story 2 or jump to alternative story.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateStory2(double extrp)
+    {
+        if (time.isAfter(TIME_STORY2_MS))
+        {
+            stories.setStory(STORY_2);
+
+            if (alternative)
+            {
+                updaterStories = this::updateStory4;
+            }
+            else
+            {
+                updaterStories = UpdatableVoid.getInstance();
+            }
+        }
+    }
+
+    /**
+     * Update story 4.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateStory4(double extrp)
+    {
+        if (time.isAfter(TIME_STORY4_MS))
+        {
+            stories.setStory(STORY_4);
+            updaterStories = this::updateStory5;
+        }
+    }
+
+    /**
+     * Update story 5.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateStory5(double extrp)
+    {
+        if (time.isAfter(TIME_STORY5_MS))
+        {
+            stories.setStory(STORY_5);
+            updaterStories = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update amulet routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateAmulet(double extrp)
+    {
+        amulet.update(extrp);
+
+        if (amulet.getAnimState() == AnimState.FINISHED)
+        {
+            glowed++;
+
+            if (glowed < AMULET_GLOW_COUNT)
+            {
+                amulet.play(glow);
+            }
+        }
+    }
+
+    /**
+     * Render fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, getWidth(), getHeight(), true);
+    }
+
     @Override
     public void load()
     {
         stories.load();
-        stories.setStory(3);
+        stories.setStory(STORY_1);
 
         amulet.load();
         amulet.prepare();
-        amulet.setLocation(getWidth() / 2 - 48, 152);
-        amulet.addListener((AnimatorFrameListener) f ->
-        {
-            if (f == 1 && amulet.getAnimState() != AnimState.STOPPED)
-            {
-                glowed++;
-                if (glowed > 5)
-                {
-                    amulet.stop();
-                    amulet.setFrame(1);
-                    glowed = 0;
-                }
-            }
-        });
+        amulet.setLocation(getWidth() / 2 + AMULET_X_OFFSET, AMULET_Y);
     }
 
     @Override
     public void update(double extrp)
     {
         time.update(extrp);
+        updaterFade.update(extrp);
+        updaterAmulet.update(extrp);
+        updaterStories.update(extrp);
 
-        if (time.isBefore(89250))
-        {
-            alphaBack += alphaSpeed;
-        }
-        if (alternativeMusic && time.isAfter(136170))
-        {
-            alphaBack -= alphaSpeed;
-        }
-        alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
+        info.update(extrp);
 
-        if (alternative)
-        {
-            amulet.update(extrp);
-        }
-
-        if (alternative && time.isAfter(101670) && !alternativeMusic)
-        {
-            alternativeMusic = true;
-            audio.stop();
-            audioAlternative.play();
-        }
-
-        if (!alternative && time.isAfter(101670) || alternativeMusic && time.isAfter(138670))
-        {
-            end();
-        }
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
             end(null);
         }
-
-        info.update(extrp);
     }
 
     @Override
@@ -174,47 +321,20 @@ public class Part4 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        if (time.isBefore(107500))
+        if (time.isBefore(TIME_STORY4_MS))
         {
             stories.render(g);
         }
-
         if (alternative)
         {
             amulet.render(g);
-        }
-
-        if (time.isBetween(88335, 107500))
-        {
-            stories.setStory(4);
-
-            if (alternativeMusic)
+            if (time.isAfter(TIME_STORY4_MS))
             {
-                stories.setStory(5);
-                if (!played)
-                {
-                    played = true;
-                    amulet.play(glow);
-                }
+                stories.render(g);
             }
         }
-        else if (alternativeMusic && time.isBetween(107500, 122335))
-        {
-            stories.setStory(7);
-            stories.render(g);
-        }
-        else if (alternativeMusic && time.isBetween(12335, 137000))
-        {
-            stories.setStory(8);
-            stories.render(g);
-        }
 
-        // Render fade in
-        if (alphaBack < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
+        rendererFade.render(g);
 
         info.render(g);
     }

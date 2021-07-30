@@ -18,46 +18,84 @@ package com.b3dgs.lionheart.extro;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AnimatorStateListener;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.audio.Audio;
+import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.ComponentDisplayable;
 import com.b3dgs.lionengine.game.feature.ComponentRefreshable;
+import com.b3dgs.lionengine.game.feature.DisplayableModel;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Handler;
+import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.RefreshableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
-import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
-import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Extro part 5 implementation.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public class Part5 extends Sequence
 {
     private static final Animation OPEN = new Animation("open", 1, 8, 0.18, false, false);
+    private static final int FADE_SPEED = 6;
+
+    private static final String PART5_FOLDER = "part5";
+    private static final String FILE_TRANSFORM1 = "Transform1.xml";
+    private static final String FILE_TRANSFORM2 = "Transform2.xml";
+    private static final String FILE_TRANSFORM3 = "Transform3.xml";
+    private static final String FILE_TRANSFORM4 = "Transform4.xml";
+
+    private static final int TRANSFORM_Y = 24;
+    private static final int TRANSFORM_FLICK_COUNT = 5;
+    private static final int TRANSFORM_FLICK_DELAY_TICK = 16;
+    private static final int EYE_Y = 57;
+
+    private static final int TIME_TRANSFORM1_MS = 141600;
+    private static final int TIME_TRANSFORM_ALPHA_IN_MS = 142500;
+    private static final int TIME_TRANSFORM2_MS = 142700;
+    private static final int TIME_TRANSFORM3_MS = 143600;
+    private static final int TIME_TRANSFORM4_MS = 145200;
+    private static final int TIME_TRANSFORM5_MS = 147900;
+    private static final int TIME_TRANSFORM6_MS = 148900;
+    private static final int TIME_TRANSFORM7_MS = 149900;
+    private static final int TIME_TRANSFORM_FLICKER_MS = 151900;
+    private static final int TIME_TRANSFORM8_MS = 153600;
+    private static final int TIME_TRANSFORM_ALPHA_OUT_MS = 154500;
+    private static final int TIME_TRANSFORM_EYES_MS = 155600;
+
+    private static final int TIME_FADE_OUT_MS = 160300;
 
     private final Sprite transform0a = get("transform0a.png");
     private final Sprite transform0b = get("transform0b.png");
@@ -66,40 +104,73 @@ public class Part5 extends Sequence
 
     private static Sprite get(String file)
     {
-        return Drawable.loadSprite(Medias.create(Folder.EXTRO, "part5", file));
+        return Drawable.loadSprite(Medias.create(Folder.EXTRO, PART5_FOLDER, file));
     }
 
     private static SpriteAnimated get(String file, int horizontalFrames, int verticalFrames)
     {
-        return Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO, "part5", file),
+        return Drawable.loadSpriteAnimated(Medias.create(Folder.EXTRO, PART5_FOLDER, file),
                                            horizontalFrames,
                                            verticalFrames);
     }
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha speed. */
-    int alphaSpeed = 3;
+    /** Alpha. */
+    double alpha;
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
     private final Handler handler = services.create(Handler.class);
+    private final Camera camera = services.create(Camera.class);
     private final Spawner spawner = services.add((Spawner) (media, x, y) ->
     {
         final Featurable featurable = factory.create(media);
         featurable.getFeature(Transformable.class).teleport(x, y);
-        handler.add(featurable);
+        final Animatable animatable = featurable.getFeature(Animatable.class);
+        animatable.play(AnimationConfig.imports(new Configurer(featurable.getMedia())).getAnimation(Anim.IDLE));
+        animatable.addListener((AnimatorStateListener) state ->
+        {
+            if (AnimState.FINISHED == state)
+            {
+                featurable.getFeature(Identifiable.class).destroy();
+            }
+        });
+        final Rasterable rasterable = featurable.getFeature(RasterableModel.class);
+        featurable.addFeature(new RefreshableModel(extrp ->
+        {
+            rasterable.update(extrp);
+            animatable.update(extrp);
+        }));
+        featurable.addFeature(new DisplayableModel(rasterable));
         return featurable;
     });
+    private final int x = getWidth() / 2 - 2;
+    private final int y = getHeight() / 2 - 54;
+    private final Featurable[] effects = new Featurable[]
+    {
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x, y),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM2), x + 4, y),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM3), x - 1, y),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM4), x - 2, y + 116),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x - 40, y + 32),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x, y + 32),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x + 40, y + 32),
+        spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x, y),
+    };
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
 
-    private int alphaBack;
-    private int alpha0b;
+    private Updatable updaterFade = this::updateFadeIn;
+    private Updatable updaterTransform = this::updateTransform1;
+
+    private Renderable rendererFade = this::renderFade;
+
+    private double alpha0b;
     private int flick0c;
     private int flicked0c;
-    private boolean spawned;
+    private int effect;
 
     /**
      * Constructor.
@@ -117,14 +188,11 @@ public class Part5 extends Sequence
         this.audio = audio;
 
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, getWidth(), getHeight(), getHeight());
 
         services.add(context);
-        services.add(new CameraTracker(services));
-        services.add(new MapTileHelper(services));
-        services.add(new CheckpointHandler(services));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());
@@ -134,6 +202,293 @@ public class Part5 extends Sequence
         load(Credits.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
+    }
+
+    /**
+     * Update fade in effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeIn(double extrp)
+    {
+        alpha += FADE_SPEED * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateFadeOutInit;
+            rendererFade = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade out time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOut;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            end();
+            updaterFade = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update transform 1.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform1(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM1_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransformAlphaInInit;
+        }
+    }
+
+    /**
+     * Update transform alpha in time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformAlphaInInit(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM_ALPHA_IN_MS))
+        {
+            updaterTransform = this::updateTransformAlphaIn;
+        }
+    }
+
+    /**
+     * Update transform alpha in effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformAlphaIn(double extrp)
+    {
+        alpha0b += FADE_SPEED * extrp;
+
+        if (alpha0b > 255)
+        {
+            alpha0b = 255;
+            updaterTransform = this::updateTransform2;
+        }
+        transform0b.setAlpha((int) Math.floor(alpha0b));
+    }
+
+    /**
+     * Update transform 2.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform2(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM2_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransform3;
+        }
+    }
+
+    /**
+     * Update transform 3.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform3(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM3_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransform4;
+        }
+    }
+
+    /**
+     * Update transform 4.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform4(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM4_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransform5;
+        }
+    }
+
+    /**
+     * Update transform 5.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform5(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM5_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransform6;
+        }
+    }
+
+    /**
+     * Update transform 6.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform6(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM6_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransform7;
+        }
+    }
+
+    /**
+     * Update transform 7.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform7(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM7_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransformFlickerInit;
+        }
+    }
+
+    /**
+     * Update transform flicker time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformFlickerInit(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM_FLICKER_MS))
+        {
+            updaterTransform = this::updateTransformFlicker;
+        }
+    }
+
+    /**
+     * Update transform flicker effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformFlicker(double extrp)
+    {
+        flick0c++;
+        if (flick0c > TRANSFORM_FLICK_DELAY_TICK)
+        {
+            flick0c -= TRANSFORM_FLICK_DELAY_TICK;
+            flicked0c++;
+        }
+        if (flicked0c > TRANSFORM_FLICK_COUNT)
+        {
+            updaterTransform = this::updateTransform8;
+        }
+    }
+
+    /**
+     * Update transform 8.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransform8(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM8_MS))
+        {
+            handler.add(effects[effect++]);
+            updaterTransform = this::updateTransformAlphaOutInit;
+        }
+    }
+
+    /**
+     * Update transform alpha out time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformAlphaOutInit(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM_ALPHA_OUT_MS))
+        {
+            updaterTransform = this::updateTransformAlphaOut;
+        }
+    }
+
+    /**
+     * Update transform alpha out effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformAlphaOut(double extrp)
+    {
+        alpha0b -= FADE_SPEED * extrp;
+
+        if (alpha0b < 0)
+        {
+            alpha0b = 0;
+            updaterTransform = this::updateTransformOpenEyesInit;
+        }
+        transform0b.setAlpha((int) Math.floor(alpha0b));
+    }
+
+    /**
+     * Update transform open eyes.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformOpenEyesInit(double extrp)
+    {
+        if (time.isAfter(TIME_TRANSFORM_EYES_MS))
+        {
+            updaterTransform = this::updateTransformOpenEyes;
+        }
+    }
+
+    /**
+     * Update transform open eyes.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateTransformOpenEyes(double extrp)
+    {
+        eyes.play(OPEN);
+        updaterTransform = UpdatableVoid.getInstance();
+    }
+
+    /**
+     * Render fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, getWidth(), getHeight(), true);
     }
 
     @Override
@@ -146,7 +501,7 @@ public class Part5 extends Sequence
         transform0b.load();
         transform0b.prepare();
         transform0b.setOrigin(Origin.CENTER_TOP);
-        transform0b.setAlpha(alpha0b);
+        transform0b.setAlpha(0);
 
         transform0c.load();
         transform0c.prepare();
@@ -162,108 +517,15 @@ public class Part5 extends Sequence
     {
         time.update(extrp);
         handler.update(extrp);
+        eyes.update(extrp);
+        updaterTransform.update(extrp);
+        updaterFade.update(extrp);
+        info.update(extrp);
 
-        if (time.isBefore(141200))
-        {
-            alphaBack += alphaSpeed;
-        }
-        else if (time.isAfter(158400))
-        {
-            alphaBack -= alphaSpeed * 2;
-        }
-        alphaBack = UtilMath.clamp(alphaBack, 0, 255);
-
-        final int x = getWidth() / 2 - 2;
-        final int y = getHeight() / 2 - 54;
-        if (time.isBetween(140300, 140500) && !spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y);
-            spawned = !spawned;
-        }
-
-        if (time.isBetween(140700, 142700))
-        {
-            alpha0b += 3;
-            if (alpha0b < 256)
-            {
-                transform0b.setAlpha(UtilMath.clamp(alpha0b, 0, 255));
-            }
-        }
-
-        if (time.isBetween(142700, 143590) && spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform2.xml"), x + 4, y);
-            spawned = !spawned;
-        }
-        if (time.isBetween(143600, 145190) && !spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform3.xml"), x - 1, y);
-            spawned = !spawned;
-        }
-        if (time.isBetween(145200, 146990) && spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform4.xml"), x - 2, y + 116);
-            spawned = !spawned;
-        }
-
-        if (time.isBetween(147000, 147990) && !spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x - 40, y + 32);
-            spawned = !spawned;
-        }
-        if (time.isBetween(148000, 148990) && spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y + 32);
-            spawned = !spawned;
-        }
-        if (time.isBetween(149000, 150000) && !spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x + 40, y + 32);
-            spawned = !spawned;
-        }
-
-        if (time.isAfter(151000) && flicked0c < 6)
-        {
-            flick0c++;
-            if (flick0c > 16)
-            {
-                flick0c -= 16;
-                flicked0c++;
-            }
-            alpha0b = 255;
-        }
-
-        if (time.isBetween(152500, 153500) && spawned)
-        {
-            spawner.spawn(Medias.create(Folder.EXTRO, "part5", "Transform1.xml"), x, y);
-            spawned = !spawned;
-        }
-
-        if (time.isBetween(153500, 155400))
-        {
-            alpha0b -= 3;
-            if (alpha0b > -1)
-            {
-                transform0b.setAlpha(UtilMath.clamp(alpha0b, 0, 255));
-            }
-        }
-        if (time.isAfter(155400) && eyes.getAnimState() == AnimState.STOPPED)
-        {
-            eyes.play(OPEN);
-        }
-
-        if (time.isAfter(159500))
-        {
-            end();
-        }
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
             end(null);
         }
-
-        eyes.update(extrp);
-
-        info.update(extrp);
     }
 
     @Override
@@ -271,29 +533,24 @@ public class Part5 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        transform0a.setLocation(getWidth() / 2, 24);
+        transform0a.setLocation(getWidth() / 2, TRANSFORM_Y);
         transform0a.render(g);
 
-        if (flick0c > 8 || flicked0c > 5)
+        if (flick0c > TRANSFORM_FLICK_DELAY_TICK / 2 || flicked0c > TRANSFORM_FLICK_COUNT)
         {
-            transform0c.setLocation(getWidth() / 2, 24);
+            transform0c.setLocation(getWidth() / 2, TRANSFORM_Y);
             transform0c.render(g);
 
-            eyes.setLocation(getWidth() / 2, 57);
+            eyes.setLocation(getWidth() / 2, EYE_Y);
             eyes.render(g);
         }
 
-        transform0b.setLocation(getWidth() / 2, 24);
+        transform0b.setLocation(getWidth() / 2, TRANSFORM_Y);
         transform0b.render(g);
 
         handler.render(g);
 
-        // Render fade in
-        if (alphaBack < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - alphaBack]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
+        rendererFade.render(g);
 
         info.render(g);
     }

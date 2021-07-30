@@ -54,9 +54,10 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     private static final String NODE = "dragonfly";
     private static final String ATT_FREE = "free";
 
+    private static final int DEFAULT_Y = 110;
     private static final int OFFSET_X = -24;
     private static final int OFFSET_Y = -50;
-    private static final double SPEED = 13.0 / 31.0; // 0.4195;
+    private static final double SPEED = 13.0 / 31.0;
 
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
     private final Stats playerStats = player.getFeature(Stats.class);
@@ -125,7 +126,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         if (oldHealth == 0 && playerStats.getHealth() > 0)
         {
             transformable.teleportY(player.getY() + OFFSET_Y);
-            start(player, 128);
+            start(player, DEFAULT_Y);
         }
         oldHealth = playerStats.getHealth();
     }
@@ -164,7 +165,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         {
             offsetY = -6;
         }
-        playerSprite.setFrameOffsets(0, offsetY);
+        playerSprite.setFrameOffsets(-4, offsetY);
     }
 
     /**
@@ -207,7 +208,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
             }
         });
 
-        start(collidable, 128);
+        start(collidable, DEFAULT_Y);
         oldHealth = playerStats.getHealth();
     }
 

@@ -16,13 +16,18 @@
  */
 package com.b3dgs.lionheart.intro;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
@@ -33,32 +38,113 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Intro part 2 implementation.
  */
-public final class Part2 implements Updatable
+public final class Part2 implements Updatable, Renderable
 {
-    private static SpriteAnimated loadSpriteAnimated(String name, int fh, int fv)
+    private static final String PART2_FOLDER = "part2";
+
+    private static final int BAND_HEIGHT = 144;
+    private static final int PILLAR_COUNT = 6;
+
+    private static final int Z_DOOR_INIT = 10;
+    private static final int Z_PILLAR_INIT = 25;
+    private static final int Z_PILLAR_INDEX_MULT = 13;
+
+    private static final double Z_DOOR_SPEED = 0.07;
+    private static final double Z_PILLAR_SPEED = 0.16;
+
+    private static final int PILLAR_AMPLITUDE = 10;
+    private static final int PILLAR_AMPLITUDE_INDEX_MULT = 1;
+    private static final int PILLAR_SCALE_BASE = 10;
+    private static final int PILLAR_SCALE_MIN = -20;
+    private static final int PILLAR_SCALE_MAX = 500;
+
+    private static final double VALDYN_SPEED_X = -1.05;
+    private static final double VALDYN_SPEED_Y = -1.92;
+    private static final int VALDYN_MAX_X = 185;
+    private static final int VALDYN_MAX_Y = 16;
+
+    private static final int EQUIP_SWORD_X = 20;
+    private static final int EQUIP_SWORD_Y = 4;
+    private static final int EQUIP_FOOT_X = 70;
+    private static final int EQUIP_FOOT_Y = 11;
+    private static final int EQUIP_HAND_X = 120;
+    private static final int EQUIP_HAND_Y = 19;
+
+    private static final int RAGE_FLASH_COUNT = 11;
+    private static final int RAGE_FLASH_MOD = 3;
+
+    private static final double SPEED_CAVE_FADE_IN = 4;
+    private static final double SPEED_CAVE_FADE_OUT = 12;
+    private static final double SPEED_EQUIP_FADE_IN = 12;
+    private static final double SPEED_EQUIP_FADE_OUT = 12;
+    private static final double SPEED_RAGE_FADE_IN = 8;
+    private static final double SPEED_RAGE_FADE_OUT = 6;
+    private static final double SPEED_RAGE_START = 8;
+    private static final double SPEED_RAGE_END = 4;
+
+    private static final int TIME_DOOR_OPEN_MS = 47500;
+    private static final int TIME_DOOR_ENTER_MS = 49000;
+    private static final int TIME_CAVE_FADE_IN_MS = 50800;
+    private static final int TIME_VALDYN_MOVE_MS = 66900;
+    private static final int TIME_CAVE_FADE_OUT_MS = 71500;
+    private static final int TIME_EQUIP_FADE_IN_MS = 72100;
+    private static final int TIME_SHOW_SWORD_MS = 74700;
+    private static final int TIME_EQUIP_SWORD_MS = 75300;
+    private static final int TIME_SHOW_FOOT_MS = 76400;
+    private static final int TIME_EQUIP_FOOT_MS = 77000;
+    private static final int TIME_SHOW_HAND_MS = 78200;
+    private static final int TIME_EQUIP_HAND_MS = 78700;
+    private static final int TIME_EQUIP_FADE_OUT_MS = 81000;
+    private static final int TIME_RAGE_FADE_IN_MS = 81500;
+    private static final int TIME_RAGE_START_MS = 83600;
+    private static final int TIME_RAGE_FLASH_MS = 84800;
+    private static final int TIME_RAGE_END_MS = 85200;
+    private static final int TIME_RAGE_FADE_OUT_MS = 86600;
+
+    /**
+     * Get media from filename.
+     * 
+     * @param filename The filename.
+     * @return The media.
+     */
+    private static Media get(String filename)
     {
-        return Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO, "part2", name), fh, fv);
+        return Medias.create(Folder.INTRO, PART2_FOLDER, filename + ".png");
     }
 
-    private final SpriteAnimated door = loadSpriteAnimated("door.png", 3, 2);
-    private final Sprite[] pillar = new Sprite[6];
+    private final Sprite[] pillar = new Sprite[PILLAR_COUNT];
+    private final SpriteAnimated door = Drawable.loadSpriteAnimated(get("door"), 3, 2);
 
-    private final Sprite cave1 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "cave1.png"));
-    private final Sprite cave2 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "cave2.png"));
-    private final Sprite valdyn = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn.png"));
+    private final Sprite cave1 = Drawable.loadSprite(get("cave1"));
+    private final Sprite cave2 = Drawable.loadSprite(get("cave2"));
+    private final Sprite valdyn = Drawable.loadSprite(get("valdyn"));
 
-    private final SpriteAnimated equipSword = loadSpriteAnimated("sword.png", 3, 1);
-    private final SpriteAnimated equipFoot = loadSpriteAnimated("foot.png", 3, 1);
-    private final SpriteAnimated equipHand = loadSpriteAnimated("hand.png", 3, 1);
+    private final SpriteAnimated equipSword = Drawable.loadSpriteAnimated(get("sword"), 3, 1);
+    private final SpriteAnimated equipFoot = Drawable.loadSpriteAnimated(get("foot"), 3, 1);
+    private final SpriteAnimated equipHand = Drawable.loadSpriteAnimated(get("hand"), 3, 1);
 
-    private final Sprite valdyn0 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn0.png"));
-    private final Sprite valdyn1 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn1.png"));
-    private final Sprite valdyn2 = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "valdyn2.png"));
+    private final Sprite valdyn0 = Drawable.loadSprite(get("valdyn0"));
+    private final Sprite valdyn1 = Drawable.loadSprite(get("valdyn1"));
+    private final Sprite valdyn2 = Drawable.loadSprite(get("valdyn2"));
 
-    private final Coord valdynCoord = new Coord(320, 240);
+    private final Coord valdynCoord = new Coord(310, 240);
     private final double[] z = new double[2 + pillar.length];
-
+    private final int lastPillarIndex = pillar.length + 1;
     private final Time time;
+    private final int width;
+    private final int height;
+    private final int bandHeight;
+
+    private Updatable updaterCave = this::updateDoorInit;
+    private Updatable updaterFade = this::updateFadeInitCave;
+    private Updatable updaterRage = this::updateRageInit;
+    private Updatable updaterValdyn = this::updateValdynInit;
+    private Updatable updaterEquip = this::updateEquipInit;
+    private Renderable rendererCave = this::renderDoor;
+    private Renderable rendererValdyn = RenderableVoid.getInstance();
+    private Renderable rendererEquip = RenderableVoid.getInstance();
+    private Renderable rendererRage = RenderableVoid.getInstance();
+    private Renderable rendererFade = RenderableVoid.getInstance();
 
     private double alpha;
     private double alpha2;
@@ -69,12 +155,17 @@ public final class Part2 implements Updatable
      * Constructor.
      * 
      * @param time The time reference.
+     * @param width The screen width.
+     * @param height The screen height.
      */
-    public Part2(Time time)
+    public Part2(Time time, int width, int height)
     {
         super();
 
         this.time = time;
+        this.width = width;
+        this.height = height;
+        bandHeight = (int) (Math.floor(height - BAND_HEIGHT) / 2.0);
     }
 
     /**
@@ -86,7 +177,7 @@ public final class Part2 implements Updatable
 
         for (int i = 0; i < pillar.length; i++)
         {
-            pillar[i] = Drawable.loadSprite(Medias.create(Folder.INTRO, "part2", "pillar.png"));
+            pillar[i] = Drawable.loadSprite(get("pillar"));
             pillar[i].load();
         }
         valdyn.load();
@@ -103,255 +194,667 @@ public final class Part2 implements Updatable
         valdyn0.setOrigin(Origin.MIDDLE);
         valdyn1.load();
         valdyn1.setOrigin(Origin.MIDDLE);
+        valdyn1.setAlpha(0);
         valdyn2.load();
         valdyn2.setOrigin(Origin.MIDDLE);
 
-        door.play(new Animation(Animation.DEFAULT_NAME, 1, 6, 0.15, false, false));
+        final Animation animDoor = new Animation(Animation.DEFAULT_NAME, 1, 6, 0.15, false, false);
+        door.play(animDoor);
 
-        final Animation equip = new Animation(Animation.DEFAULT_NAME, 1, 3, 0.15, false, false);
-        equipFoot.play(equip);
-        equipSword.play(equip);
-        equipHand.play(equip);
+        final Animation animEquip = new Animation(Animation.DEFAULT_NAME, 1, 3, 0.15, false, false);
+        equipFoot.play(animEquip);
+        equipSword.play(animEquip);
+        equipHand.play(animEquip);
 
-        z[0] = 10;
+        z[0] = Z_DOOR_INIT;
+        for (int i = 1; i < z.length; i++)
+        {
+            z[i] = i * Z_PILLAR_INDEX_MULT + Z_PILLAR_INIT;
+        }
+    }
+
+    /**
+     * Update door init time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDoorInit(double extrp)
+    {
+        if (time.isAfter(TIME_DOOR_OPEN_MS))
+        {
+            updaterCave = this::updateDoorOpen;
+            rendererCave = this::renderDoor;
+        }
+    }
+
+    /**
+     * Update door open animation until enter phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDoorOpen(double extrp)
+    {
+        door.update(extrp);
+
+        if (time.isAfter(TIME_DOOR_ENTER_MS))
+        {
+            updaterCave = this::updateDoorEnter;
+        }
+    }
+
+    /**
+     * Update entering door phase until cave enter.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDoorEnter(double extrp)
+    {
+        z[0] -= Z_DOOR_SPEED;
+
+        final double doorZ = UtilMath.clamp(1000 / z[0], 100, 800);
+        door.stretch(doorZ, doorZ);
+
+        if (z[0] < 2)
+        {
+            updaterCave = this::updateCaveEnter;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update enter cave phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCaveEnter(double extrp)
+    {
+        for (int i = 1; i < z.length; i++)
+        {
+            z[i] -= Z_PILLAR_SPEED;
+        }
+    }
+
+    /**
+     * Update valdyn approach init time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynInit(double extrp)
+    {
+        if (time.isAfter(TIME_VALDYN_MOVE_MS))
+        {
+            updaterValdyn = this::updateValdynMove;
+            rendererValdyn = this::renderValdyn;
+        }
+    }
+
+    /**
+     * Update valdyn approach movement.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynMove(double extrp)
+    {
+        valdynCoord.translate(VALDYN_SPEED_X * extrp, VALDYN_SPEED_Y * extrp);
+
+        if (valdynCoord.getX() < VALDYN_MAX_X)
+        {
+            valdynCoord.setX(VALDYN_MAX_X);
+            updaterValdyn = UpdatableVoid.getInstance();
+        }
+        if (valdynCoord.getY() < VALDYN_MAX_Y)
+        {
+            valdynCoord.setY(VALDYN_MAX_Y);
+            updaterValdyn = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade in cave time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInitCave(double extrp)
+    {
+        if (time.isAfter(TIME_CAVE_FADE_IN_MS))
+        {
+            alpha = 0;
+            updaterFade = this::updateFadeInCave;
+            rendererFade = this::renderFade;
+            rendererCave = this::renderCave;
+        }
+    }
+
+    /**
+     * Update fade in cave routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInCave(double extrp)
+    {
+        alpha += SPEED_CAVE_FADE_IN * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateFadeOutInitCave;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out cave time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutInitCave(double extrp)
+    {
+        if (time.isAfter(TIME_CAVE_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOutCave;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out cave routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutCave(double extrp)
+    {
+        alpha -= SPEED_CAVE_FADE_OUT * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            updaterFade = this::updateFadeInEquipInit;
+            rendererValdyn = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade in equipment time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInEquipInit(double extrp)
+    {
+        if (time.isAfter(TIME_EQUIP_FADE_IN_MS))
+        {
+            alpha = 0;
+            updaterFade = this::updateFadeInEquip;
+            rendererValdyn = RenderableVoid.getInstance();
+            rendererEquip = this::renderEquip;
+        }
+    }
+
+    /**
+     * Update fade in equipment routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInEquip(double extrp)
+    {
+        alpha += SPEED_EQUIP_FADE_IN * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateFadeOutEquipInit;
+            rendererCave = RenderableVoid.getInstance();
+            rendererValdyn = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade out equipment time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutEquipInit(double extrp)
+    {
+        if (time.isAfter(TIME_EQUIP_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOutEquip;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out equipment routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutEquip(double extrp)
+    {
+        alpha -= SPEED_EQUIP_FADE_OUT * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            updaterFade = this::updateFadeInRageInit;
+            rendererEquip = RenderableVoid.getInstance();
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade in rage time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInRageInit(double extrp)
+    {
+        if (time.isAfter(TIME_RAGE_FADE_IN_MS))
+        {
+            alpha = 0;
+            updaterFade = this::updateFadeInRage;
+            rendererCave = RenderableVoid.getInstance();
+            rendererEquip = RenderableVoid.getInstance();
+            rendererRage = this::renderRage;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade in rage routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInRage(double extrp)
+    {
+        alpha += SPEED_RAGE_FADE_IN * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateFadeOutRageInit;
+        }
+    }
+
+    /**
+     * Update fade out rage time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutRageInit(double extrp)
+    {
+        if (time.isAfter(TIME_RAGE_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOutRage;
+        }
+    }
+
+    /**
+     * Update fade out rage routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutRage(double extrp)
+    {
+        alpha -= SPEED_RAGE_FADE_OUT * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            updaterFade = UpdatableVoid.getInstance();
+            rendererRage = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update rage time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRageInit(double extrp)
+    {
+        if (time.isAfter(TIME_RAGE_START_MS))
+        {
+            updaterRage = this::updateRageStart;
+            rendererRage = this::renderRageFlash;
+        }
+    }
+
+    /**
+     * Update rage start fade before flash.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRageStart(double extrp)
+    {
+        alpha2old = alpha2;
+        alpha2 += SPEED_RAGE_START * extrp;
+
+        if (alpha2 > 255)
+        {
+            alpha2 = 255;
+            updaterRage = this::updateRageFlashInit;
+        }
+    }
+
+    /**
+     * Update rage flash time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRageFlashInit(double extrp)
+    {
+        if (time.isAfter(TIME_RAGE_FLASH_MS))
+        {
+            updaterRage = this::updateRageFlashStart;
+        }
+    }
+
+    /**
+     * Update rage flash counter.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRageFlashStart(double extrp)
+    {
+        flash++;
+
+        if (flash > RAGE_FLASH_COUNT)
+        {
+            flash = 0;
+            updaterRage = this::updateRageEndInit;
+        }
+    }
+
+    /**
+     * Update rage end time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRageEndInit(double extrp)
+    {
+        if (time.isAfter(TIME_RAGE_END_MS))
+        {
+            updaterRage = this::updateRageEnd;
+        }
+    }
+
+    /**
+     * Update rage end fade after flash.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRageEnd(double extrp)
+    {
+        alpha2old = alpha2;
+        alpha2 -= SPEED_RAGE_END * extrp;
+
+        if (alpha2 < 0)
+        {
+            alpha2 = 0;
+            updaterRage = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update equipment time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateEquipInit(double extrp)
+    {
+        if (time.isAfter(TIME_SHOW_SWORD_MS))
+        {
+            rendererEquip = this::renderEquipSword;
+        }
+        if (time.isAfter(TIME_EQUIP_SWORD_MS))
+        {
+            updaterEquip = this::updateEquipSword;
+        }
+    }
+
+    /**
+     * Update equipment sword routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateEquipSword(double extrp)
+    {
+        equipSword.update(extrp);
+
+        if (time.isAfter(TIME_SHOW_FOOT_MS))
+        {
+            rendererEquip = this::renderEquipFoot;
+        }
+        if (time.isAfter(TIME_EQUIP_FOOT_MS))
+        {
+            updaterEquip = this::updateEquipFoot;
+        }
+    }
+
+    /**
+     * Update equipment foot routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateEquipFoot(double extrp)
+    {
+        equipFoot.update(extrp);
+
+        if (time.isAfter(TIME_SHOW_HAND_MS))
+        {
+            rendererEquip = this::renderEquipHand;
+        }
+        if (time.isAfter(TIME_EQUIP_HAND_MS))
+        {
+            updaterEquip = this::updateEquipHand;
+        }
+    }
+
+    /**
+     * Update equipment hand routine.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateEquipHand(double extrp)
+    {
+        equipHand.update(extrp);
+
+        if (equipHand.getAnimState() == AnimState.FINISHED)
+        {
+            updaterEquip = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Render door and its opening.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderDoor(Graphic g)
+    {
+        door.setLocation(Math.floor(width / 2.0) - door.getTileWidth() / 2, height / 2 - door.getTileHeight() / 2);
+        door.render(g);
+    }
+
+    /**
+     * Render cave.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderCave(Graphic g)
+    {
+        if (z[lastPillarIndex] > 0)
+        {
+            final double caveZ = UtilMath.clamp(1000 / z[lastPillarIndex], 5, 100);
+            if (caveZ < 100)
+            {
+                cave1.stretch(caveZ, caveZ);
+            }
+        }
+        cave1.setLocation(width / 2 - cave1.getWidth() / 2, height / 2 - cave1.getHeight() / 2);
+        cave1.render(g);
+
+        // Render pillars
+        for (int i = pillar.length - 1; i >= 0; i--)
+        {
+            final double newPillarZ = z[1 + i];
+            if (newPillarZ > 0)
+            {
+                final double pillarZ = 1000.0 / newPillarZ;
+                final double offset;
+                if (i % 2 == 1)
+                {
+                    offset = -PILLAR_AMPLITUDE + i * PILLAR_AMPLITUDE_INDEX_MULT - pillarZ;
+                }
+                else
+                {
+                    offset = PILLAR_AMPLITUDE - i * PILLAR_AMPLITUDE_INDEX_MULT + pillarZ;
+                }
+                final double scale = UtilMath.clamp(pillarZ, PILLAR_SCALE_MIN, PILLAR_SCALE_MAX);
+                pillar[i].stretch(PILLAR_SCALE_BASE + scale, PILLAR_SCALE_BASE + scale);
+                pillar[i].setLocation(width / 2 - pillar[i].getWidth() / 2 + offset,
+                                      height / 2 - pillar[i].getHeight() / 2);
+                pillar[i].render(g);
+            }
+        }
+    }
+
+    /**
+     * Render valdyn in cave.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderValdyn(Graphic g)
+    {
+        valdyn.setLocation((int) valdynCoord.getX(), (int) valdynCoord.getY() + bandHeight);
+        valdyn.render(g);
+    }
+
+    /**
+     * Render equipment background.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderEquip(Graphic g)
+    {
+        cave2.setLocation(width / 2, height / 2);
+        cave2.render(g);
+    }
+
+    /**
+     * Render equipment sword picture.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderEquipSword(Graphic g)
+    {
+        renderEquip(g);
+
+        equipSword.setLocation(EQUIP_SWORD_X, bandHeight + EQUIP_SWORD_Y);
+        equipSword.render(g);
+    }
+
+    /**
+     * Render equipment foot picture.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderEquipFoot(Graphic g)
+    {
+        renderEquipSword(g);
+
+        equipFoot.setLocation(EQUIP_FOOT_X, bandHeight + EQUIP_FOOT_Y);
+        equipFoot.render(g);
+    }
+
+    /**
+     * Render equipment hand picture.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderEquipHand(Graphic g)
+    {
+        renderEquipFoot(g);
+
+        equipHand.setLocation(EQUIP_HAND_X, bandHeight + EQUIP_HAND_Y);
+        equipHand.render(g);
+    }
+
+    /**
+     * Render rage valdyn.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderRage(Graphic g)
+    {
+        valdyn0.setLocation(width / 2, height / 2);
+        valdyn0.render(g);
+    }
+
+    /**
+     * Render rage flash and flicker effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderRageFlash(Graphic g)
+    {
+        renderRage(g);
+
+        if (Double.compare(alpha2old, alpha2) != 0)
+        {
+            valdyn1.setAlpha((int) alpha2);
+        }
+        valdyn1.setLocation(width / 2, height / 2);
+        valdyn1.render(g);
+
+        if (flash % RAGE_FLASH_MOD > 0)
+        {
+            valdyn2.setLocation(width / 2, height / 2);
+            valdyn2.render(g);
+        }
+    }
+
+    /**
+     * Render fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, width, height, true);
+    }
+
+    /**
+     * Render horizontal top and bottom band.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderBand(Graphic g)
+    {
+        g.clear(0, 0, width, bandHeight);
+        g.clear(0, height - bandHeight, width, bandHeight);
     }
 
     @Override
     public void update(double extrp)
     {
-        // Open the door
-        if (time.isBefore(48700))
-        {
-            door.update(extrp);
-        }
-
-        // Enter in the door
-        if (time.isAfter(49000) && z[0] > 2)
-        {
-            z[0] -= 0.08;
-            final double doorZ = UtilMath.clamp(1000 / z[0], 100, 800);
-            door.stretch(doorZ, doorZ);
-            if (z[0] < 2)
-            {
-                for (int i = 1; i < z.length; i++)
-                {
-                    z[i] = i * 15 + 25;
-                }
-            }
-        }
-
-        // Alpha inside cave
-        if (time.isBetween(50500, 55000))
-        {
-            alpha += 1.5;
-        }
-
-        // Move along the cave when entered
-        if (z[0] < 2)
-        {
-            for (int i = 1; i < z.length; i++)
-            {
-                z[i] -= 0.16;
-            }
-        }
-
-        // Valdyn approaching
-        if (time.isBetween(66500, 71000))
-        {
-            valdynCoord.translate(-1.05 * extrp, -1.5 * 1.28 * extrp);
-            if (valdynCoord.getX() < 195)
-            {
-                valdynCoord.setX(195);
-            }
-            if (valdynCoord.getY() < 16)
-            {
-                valdynCoord.setY(16);
-            }
-        }
-
-        // Fade out from cave
-        if (time.isBetween(71260, 71900))
-        {
-            alpha -= 15.0;
-        }
-
-        // Fade in to equipment
-        if (time.isBetween(71900, 72400))
-        {
-            alpha += 15.0;
-        }
-
-        // Equipment
-        if (time.isBetween(75100, 76100))
-        {
-            equipSword.update(extrp);
-        }
-        if (time.isBetween(76900, 77900))
-        {
-            equipFoot.update(extrp);
-        }
-        if (time.isBetween(78670, 79670))
-        {
-            equipHand.update(extrp);
-        }
-
-        // Fade out from equipment
-        if (time.isBetween(80800, 81370))
-        {
-            alpha -= 15.0;
-        }
-
-        // Fade in to valdyn rage
-        if (time.isBetween(81370, 81900))
-        {
-            alpha += 15.0;
-        }
-
-        // Fade out from valdyn rage
-        if (time.isBetween(86430, 88000))
-        {
-            alpha -= 10.0;
-        }
-
-        // Fade in valdyn rage
-        alpha2old = alpha2;
-        if (time.isBetween(83300, 84560))
-        {
-            alpha2 += 10.0;
-        }
-        if (time.isBetween(84340, 84900) && flash < 12)
-        {
-            flash++;
-        }
-
-        // Fade out valdyn rage
-        if (time.isBetween(84900, 85800))
-        {
-            alpha2 -= 10.0;
-        }
-
-        alpha = UtilMath.clamp(alpha, 0.0, 255.0);
-        alpha2 = UtilMath.clamp(alpha2, 0.0, 255.0);
+        updaterCave.update(extrp);
+        updaterFade.update(extrp);
+        updaterValdyn.update(extrp);
+        updaterEquip.update(extrp);
+        updaterRage.update(extrp);
     }
 
-    /**
-     * Render part.
-     * 
-     * @param g The graphic output.
-     * @param width The width.
-     * @param height The height.
-     */
-    public void render(Graphic g, int width, int height)
+    @Override
+    public void render(Graphic g)
     {
         g.clear(0, 0, width, height);
-        final int bandHeight = (int) (Math.floor(height - 144) / 2.0);
 
-        // Render door
-        if (z[0] > 2)
-        {
-            door.setLocation(Math.floor(width / 2.0) - door.getTileWidth() / 2, height / 2 - door.getTileHeight() / 2);
-            door.render(g);
-        }
+        rendererCave.render(g);
+        rendererValdyn.render(g);
+        rendererEquip.render(g);
+        rendererRage.render(g);
+        rendererFade.render(g);
 
-        // Render cave
-        if (z[0] < 2 && time.isBefore(71900))
-        {
-            if (z[7] > 0)
-            {
-                final double caveZ = UtilMath.clamp(1000 / z[7], 5, 100);
-                if (caveZ < 100)
-                {
-                    cave1.stretch(caveZ, caveZ);
-                }
-            }
-            cave1.setLocation(width / 2 - cave1.getWidth() / 2, height / 2 - cave1.getHeight() / 2);
-            cave1.render(g);
-
-            // Render pillars
-            for (int i = pillar.length - 1; i >= 0; i--)
-            {
-                final double newPillarZ = z[1 + i];
-                if (newPillarZ > 0)
-                {
-                    final double pillarZ = 1000.0 / newPillarZ;
-                    final double offset;
-                    if (i % 2 == 1)
-                    {
-                        offset = -24 + i * 4 - pillarZ;
-                    }
-                    else
-                    {
-                        offset = 24 - i * 4 + pillarZ;
-                    }
-                    final double scale = UtilMath.clamp(pillarZ, -19, 500);
-                    pillar[i].stretch(10 + scale, 10 + scale);
-                    pillar[i].setLocation(width / 2 - pillar[i].getWidth() / 2 + offset,
-                                          height / 2 - pillar[i].getHeight() / 2);
-                    pillar[i].render(g);
-                }
-            }
-        }
-
-        // Render valdyn
-        if (time.isBetween(66500, 72200))
-        {
-            valdyn.setLocation((int) valdynCoord.getX(), (int) valdynCoord.getY() + bandHeight);
-            valdyn.render(g);
-        }
-
-        // Render cave 2
-        if (time.isBetween(71900, 81370))
-        {
-            cave2.setLocation(width / 2, height / 2);
-            cave2.render(g);
-        }
-
-        // Render equipment
-        if (time.isBetween(74500, 81370))
-        {
-            equipSword.setLocation(20, bandHeight + 4);
-            equipSword.render(g);
-        }
-        if (time.isBetween(76300, 81370))
-        {
-            equipFoot.setLocation(70, bandHeight + 11);
-            equipFoot.render(g);
-        }
-        if (time.isBetween(78060, 81370))
-        {
-            equipHand.setLocation(120, bandHeight + 19);
-            equipHand.render(g);
-        }
-
-        // Render valdyn rage
-        if (time.isBetween(81370, 88000))
-        {
-            valdyn0.setLocation(width / 2, height / 2);
-            valdyn0.render(g);
-        }
-        if (time.isBetween(83300, 88000))
-        {
-            if (Double.compare(alpha2old, alpha2) != 0)
-            {
-                valdyn1.setAlpha((int) alpha2);
-            }
-            valdyn1.setLocation(width / 2, height / 2);
-            valdyn1.render(g);
-            if (flash % 3 == 1 || flash % 3 == 2)
-            {
-                valdyn2.setLocation(width / 2, height / 2);
-                valdyn2.render(g);
-            }
-        }
-
-        // Render fade
-        if (time.isAfter(50500) && alpha < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-            g.drawRect(0, 0, width, height, true);
-        }
-
-        g.clear(0, 0, width, bandHeight);
-        g.clear(0, height - bandHeight, width, bandHeight);
+        renderBand(g);
     }
 }

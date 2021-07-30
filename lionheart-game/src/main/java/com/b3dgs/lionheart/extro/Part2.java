@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
@@ -33,6 +33,8 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
@@ -54,12 +56,26 @@ import com.b3dgs.lionheart.object.feature.SwordShade;
 /**
  * Extro part 2 implementation.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public class Part2 extends Sequence
 {
+    private static final int FADE_SPEED = 3;
+    private static final int X = 24;
+    private static final int Y = 110;
+    private static final double BACKGROUND_SPEED = 1.0;
+
+    private static final String PART2_FOLDER = "part2";
+    private static final String FOLDER_DRAGONFLY = "dragonfly";
+    private static final String DRAGON_EXTRO = "DragonExtro.xml";
+    private static final String VALDYN = "Valdyn.xml";
+
+    private static final int TIME_FADE_IN_MS = 23200;
+    private static final int TIME_FADE_OUT_MS = 33100;
+
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha speed. */
-    int alphaSpeed = 3;
+    /** Alpha. */
+    double alpha;
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -74,9 +90,11 @@ public class Part2 extends Sequence
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
-
     private final DragonEnd background;
-    private int alpha;
+
+    private Updatable updaterFade = this::updateFadeInInit;
+
+    private Renderable rendererFade = this::renderFade;
 
     /**
      * Constructor.
@@ -105,7 +123,8 @@ public class Part2 extends Sequence
         {
             // Mock
         });
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
@@ -123,40 +142,100 @@ public class Part2 extends Sequence
         setSystemCursorVisible(false);
     }
 
+    /**
+     * Update fade in time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_IN_MS))
+        {
+            updaterFade = this::updateFadeIn;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade in effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeIn(double extrp)
+    {
+        alpha += FADE_SPEED * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateFadeOutInit;
+            rendererFade = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update fade out time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOutInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_OUT_MS))
+        {
+            updaterFade = this::updateFadeOut;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            end();
+        }
+    }
+
+    /**
+     * Render fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, getWidth(), getHeight(), true);
+    }
+
     @Override
     public void load()
     {
-        services.add(spawner.spawn(Medias.create(Folder.EXTRO, "part2", "Valdyn.xml"), getWidth() / 2 + 16, 100)
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, PART2_FOLDER, VALDYN), getWidth() / 2 + X, Y)
                             .getFeature(SwordShade.class));
-        spawner.spawn(Medias.create(Folder.ENTITY, "dragonfly", "DragonExtro.xml"), getWidth() / 2 + 16, 100);
+        spawner.spawn(Medias.create(Folder.ENTITY, FOLDER_DRAGONFLY, DRAGON_EXTRO), getWidth() / 2 + X, Y);
     }
 
     @Override
     public void update(double extrp)
     {
         time.update(extrp);
-        background.update(extrp, 1.0, 0, 0);
+        background.update(extrp, BACKGROUND_SPEED, 0, 0);
         handler.update(extrp);
+        updaterFade.update(extrp);
 
-        if (time.isBefore(25000) && alpha < 255)
-        {
-            alpha = UtilMath.clamp(alpha + alphaSpeed, 0, 255);
-        }
-        else if (time.isAfter(32500) && alpha > 0)
-        {
-            alpha = UtilMath.clamp(alpha - alphaSpeed, 0, 255);
-        }
+        info.update(extrp);
 
-        if (time.isAfter(34500))
-        {
-            end();
-        }
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
             end(null);
         }
-
-        info.update(extrp);
     }
 
     @Override
@@ -164,13 +243,7 @@ public class Part2 extends Sequence
     {
         background.render(g);
         handler.render(g);
-
-        if (alpha < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - alpha]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
-
+        rendererFade.render(g);
         info.render(g);
     }
 

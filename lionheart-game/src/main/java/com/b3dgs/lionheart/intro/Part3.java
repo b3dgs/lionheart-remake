@@ -20,13 +20,17 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
@@ -48,29 +52,66 @@ import com.b3dgs.lionheart.menu.Menu;
  */
 public class Part3 extends Sequence
 {
+    private static final String PART3_FOLDER = "part3";
+
     private static final int MIN_HEIGHT = 208;
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
-    private static SpriteAnimated loadSpriteAnimated(String name, int fh, int fv)
+    private static final int FADE_SPEED = 5;
+    private static final double ANIM_SPEED = 0.18;
+
+    private static final int VALDYN_X_MAX = 228;
+    private static final double VALDYN_X_SPEED = 1.0;
+    private static final double CAMERA_X_SPEED = 1.0;
+
+    private static final int DRAGON_OFFSET_X = 3;
+    private static final int DRAGON_OFFSET_Y = -33;
+    private static final int DRAGON_MOVE_DOWN_FRAME = 10;
+    private static final int DRAGON_FLY_FRAME = 18;
+    private static final double DRAGON_MOVE_DOWN_SPEED = 0.03;
+    private static final double DRAGON_MOVE_DOWN_MAX = -1.6;
+    private static final double DRAGON_MOVE_X = 1.3;
+    private static final double DRAGON_MOVE_Y = 1.4;
+
+    private static final int TIME_FADE_IN_MS = 93800;
+    private static final int TIME_VALDYN_MOVE_MS = 95500;
+    private static final int TIME_VALDYN_RENDER_AFTER_MS = 95800;
+    private static final int TIME_DRAGON_HEAD_MS = 96500;
+    private static final int TIME_CAMERA_MOVE_MS = 96700;
+    private static final int TIME_VALDYN_HAND_MS = 99500;
+    private static final int TIME_VALDYN_DRAGON_MS = 100000;
+    private static final int TIME_DRAGON_EAT_MS = 98500;
+    private static final int TIME_DRAGON_BACK_MS = 100000;
+    private static final int TIME_DRAGON_FLY_MS = 101900;
+    private static final int TIME_DRAGON_RENDER_AFTER_MS = 101200;
+    private static final int TIME_FADE_OUT_MS = 108700;
+
+    /**
+     * Get media from filename.
+     * 
+     * @param filename The filename.
+     * @return The media.
+     */
+    private static Media get(String filename)
     {
-        return Drawable.loadSpriteAnimated(Medias.create(Folder.INTRO, "part3", name), fh, fv);
+        return Medias.create(Folder.INTRO, PART3_FOLDER, filename + ".png");
     }
 
     private static Animation createAnimation(int start, int end, boolean reverse, boolean repeat)
     {
-        return new Animation(Animation.DEFAULT_NAME, start, end, 0.2, reverse, repeat);
+        return new Animation(Animation.DEFAULT_NAME, start, end, ANIM_SPEED, reverse, repeat);
     }
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha speed. */
-    int alphaSpeed = 5;
+    /** Alpha. */
+    double alpha;
 
-    private final SpriteAnimated valdyn = loadSpriteAnimated("valdyn.png", 8, 3);
-    private final SpriteAnimated dragon1 = loadSpriteAnimated("dragon1.png", 6, 3);
-    private final SpriteAnimated dragon2 = loadSpriteAnimated("dragon2.png", 5, 4);
-    private final Sprite scene = Drawable.loadSprite(Medias.create(Folder.INTRO, "part3", "scene.png"));
+    private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(get("valdyn"), 8, 3);
+    private final SpriteAnimated dragon1 = Drawable.loadSpriteAnimated(get("dragon1"), 6, 3);
+    private final SpriteAnimated dragon2 = Drawable.loadSpriteAnimated(get("dragon2"), 5, 4);
+    private final Sprite scene = Drawable.loadSprite(get("scene"));
 
     private final Animation valdynWalk = createAnimation(1, 10, false, true);
     private final Animation valdynPrepare = createAnimation(11, 12, false, false);
@@ -82,7 +123,7 @@ public class Part3 extends Sequence
     private final Animation dragonBack = createAnimation(1, 15, true, false);
     private final Animation dragonFly = createAnimation(1, 20, true, true);
 
-    private final Coord valdynCoord = new Coord(28, -76);
+    private final Coord valdynCoord = new Coord(28, -78);
     private final Coord dragonCoord = new Coord(176, -44);
 
     private final Camera camera = new Camera();
@@ -90,9 +131,13 @@ public class Part3 extends Sequence
     private final Time time;
     private final Audio audio;
 
-    private double alphaBack;
-    private int valdynState;
-    private int dragonState;
+    private Updatable updaterValdyn = this::updateValdynInit;
+    private Updatable updaterCamera = this::updateCameraInit;
+    private Updatable updaterDragon = this::updateDragonInit;
+    private Updatable updaterFade = this::updateFadeInit;
+
+    private Renderable rendererFade = this::renderFade;
+
     private double dragonGoDown;
     private boolean skip;
 
@@ -113,16 +158,342 @@ public class Part3 extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services,
+                                                            Medias.create(Settings.getInstance().getInput())));
         info = new AppInfo(this::getFps, services);
 
         load(Part4.class, time, audio);
 
-        dragon2.setFrameOffsets(3, -33);
-
         camera.setView(0, (getHeight() - scene.getHeight()) / 2, getWidth(), getHeight(), getHeight());
 
         setSystemCursorVisible(false);
+    }
+
+    /**
+     * Update valdyn init time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynInit(double extrp)
+    {
+        if (time.isAfter(TIME_VALDYN_MOVE_MS))
+        {
+            updaterValdyn = this::updateValdynMove;
+        }
+    }
+
+    /**
+     * Update valdyn move right until dragon.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynMove(double extrp)
+    {
+        valdynCoord.translate(VALDYN_X_SPEED, 0.0);
+
+        if (valdynCoord.getX() > VALDYN_X_MAX)
+        {
+            valdynCoord.setX(VALDYN_X_MAX);
+            valdyn.play(valdynPrepare);
+            updaterValdyn = this::updateValdynHandPrepare;
+        }
+    }
+
+    /**
+     * Update valdyn hand prepare animation.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynHandPrepare(double extrp)
+    {
+        if (valdyn.getAnimState() == AnimState.FINISHED)
+        {
+            valdyn.play(valdynPrepareLoop);
+            updaterValdyn = this::updateValdynHandLoop;
+        }
+    }
+
+    /**
+     * Update valdyn hand loop animation.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynHandLoop(double extrp)
+    {
+        if (time.isAfter(TIME_VALDYN_HAND_MS))
+        {
+            valdyn.stop();
+            updaterValdyn = this::updateValdynDragon;
+        }
+    }
+
+    /**
+     * Update valdyn dragon animation.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateValdynDragon(double extrp)
+    {
+        if (time.isAfter(TIME_VALDYN_DRAGON_MS))
+        {
+            valdyn.play(valdynDragon);
+            updaterValdyn = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update camera init time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCameraInit(double extrp)
+    {
+        if (time.isAfter(TIME_CAMERA_MOVE_MS))
+        {
+            updaterCamera = this::updateCameraMove;
+        }
+    }
+
+    /**
+     * Update camera move right until limit.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateCameraMove(double extrp)
+    {
+        camera.moveLocation(extrp, CAMERA_X_SPEED, 0.0);
+
+        final int maxX = MAX_WIDTH - getWidth();
+        if (camera.getX() > maxX)
+        {
+            camera.setLocation(maxX, camera.getY() - camera.getViewY());
+            updaterCamera = UpdatableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update dragon init time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDragonInit(double extrp)
+    {
+        if (time.isAfter(TIME_DRAGON_HEAD_MS))
+        {
+            dragon1.play(dragonIdle);
+            updaterDragon = this::updateDragonHead;
+        }
+    }
+
+    /**
+     * Update dragon head animation.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDragonHead(double extrp)
+    {
+        if (dragon1.getAnimState() == AnimState.FINISHED)
+        {
+            dragon1.play(dragonEat);
+            updaterDragon = this::updateDragonEat;
+        }
+    }
+
+    /**
+     * Update dragon eat animation.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDragonEat(double extrp)
+    {
+        if (time.isAfter(TIME_DRAGON_EAT_MS))
+        {
+            dragon1.stop();
+            dragon1.setFrame(dragonBack.getLast() + 1);
+            updaterDragon = this::updateDragonEatDone;
+        }
+    }
+
+    /**
+     * Update dragon eat animation.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDragonEatDone(double extrp)
+    {
+        if (time.isAfter(TIME_DRAGON_BACK_MS))
+        {
+            dragon1.stop();
+            dragon1.play(dragonBack);
+            dragon1.setFrame(dragonBack.getLast() + 1);
+            updaterDragon = this::updateDragonBack;
+        }
+    }
+
+    /**
+     * Update dragon animation back.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDragonBack(double extrp)
+    {
+        if (time.isAfter(TIME_DRAGON_FLY_MS))
+        {
+            dragon2.play(dragonFly);
+            updaterDragon = this::updateDragonMoveDown;
+        }
+    }
+
+    /**
+     * Update dragon movement.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDragonMoveDown(double extrp)
+    {
+        if (dragon2.getFrame() > DRAGON_MOVE_DOWN_FRAME)
+        {
+            dragonGoDown -= DRAGON_MOVE_DOWN_SPEED;
+            if (dragonGoDown < DRAGON_MOVE_DOWN_MAX)
+            {
+                dragonGoDown = DRAGON_MOVE_DOWN_MAX;
+            }
+            dragonCoord.translate(DRAGON_MOVE_X, DRAGON_MOVE_Y + dragonGoDown);
+
+            if (dragon2.getAnimState() == AnimState.REVERSING && dragon2.getFrameAnim() <= DRAGON_FLY_FRAME)
+            {
+                dragon2.stop();
+                dragon2.setFrame(DRAGON_FLY_FRAME);
+            }
+        }
+    }
+
+    /**
+     * Update fade in start time.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeInit(double extrp)
+    {
+        if (time.isAfter(TIME_FADE_IN_MS))
+        {
+            updaterFade = this::updateFadeIn;
+        }
+    }
+
+    /**
+     * Update fade in effect.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeIn(double extrp)
+    {
+        alpha += FADE_SPEED * extrp;
+
+        if (alpha > 255)
+        {
+            alpha = 255;
+            updaterFade = this::updateSkip;
+            rendererFade = RenderableVoid.getInstance();
+        }
+    }
+
+    /**
+     * Update skip check.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateSkip(double extrp)
+    {
+        skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT);
+        if (time.isAfter(TIME_FADE_OUT_MS) || skip)
+        {
+            updaterFade = this::updateFadeOut;
+            rendererFade = this::renderFade;
+        }
+    }
+
+    /**
+     * Update fade out effect and exit.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateFadeOut(double extrp)
+    {
+        alpha -= FADE_SPEED * extrp;
+
+        if (alpha < 0)
+        {
+            alpha = 0;
+            if (skip)
+            {
+                audio.stop();
+                end(Menu.class);
+            }
+            else
+            {
+                end();
+            }
+        }
+    }
+
+    /**
+     * Render fade effect.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
+        g.drawRect(0, 0, getWidth(), getHeight(), true);
+    }
+
+    /**
+     * Render valdyn.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderValdyn(Graphic g)
+    {
+        valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
+                           camera.getViewpointY(valdynCoord.getY()) - getHeight());
+        valdyn.render(g);
+    }
+
+    /**
+     * Render dragon 1.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderDragon1(Graphic g)
+    {
+        dragon1.setLocation(camera.getViewpointX(dragonCoord.getX()),
+                            camera.getViewpointY(dragonCoord.getY()) - getHeight());
+        dragon1.render(g);
+    }
+
+    /**
+     * Render dragon 2.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderDragon2(Graphic g)
+    {
+        dragon2.setLocation(camera.getViewpointX(dragonCoord.getX()),
+                            camera.getViewpointY(dragonCoord.getY()) - getHeight());
+        dragon2.render(g);
+    }
+
+    /**
+     * Draw horizontal top and bottom black band.
+     * 
+     * @param g The graphic output.
+     */
+    private void drawBand(Graphic g)
+    {
+        final int bandHeight = (int) (Math.floor(getHeight() - MIN_HEIGHT) / 2.0);
+        g.clear(0, 0, getWidth(), bandHeight);
+        g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
     }
 
     @Override
@@ -136,6 +507,7 @@ public class Part3 extends Sequence
 
         dragon2.load();
         dragon2.prepare();
+        dragon2.setFrameOffsets(DRAGON_OFFSET_X, DRAGON_OFFSET_Y);
 
         valdyn.load();
         valdyn.prepare();
@@ -146,137 +518,21 @@ public class Part3 extends Sequence
     public void update(double extrp)
     {
         time.update(extrp);
-
         valdyn.update(extrp);
         dragon1.update(extrp);
         dragon2.update(extrp);
 
-        // Move valdyn
-        if (time.isAfter(95500) && valdynState == 0)
-        {
-            valdynCoord.translate(1.0, 0.0);
-            if (valdynCoord.getX() > 224)
-            {
-                valdynCoord.setX(224);
-                if (valdyn.getAnimState() == AnimState.PLAYING)
-                {
-                    valdyn.stop();
-                    valdyn.play(valdynPrepare);
-                    valdynState = 1;
-                }
-            }
-        }
-        if (valdynState == 1)
-        {
-            if (valdyn.getAnimState() == AnimState.FINISHED)
-            {
-                valdyn.stop();
-                valdyn.play(valdynPrepareLoop);
-                valdynState = 2;
-            }
-        }
-        if (valdynState == 2 && time.isAfter(99260))
-        {
-            valdyn.stop();
-            valdynState = 3;
-        }
-        if (valdynState == 3 && time.isAfter(99860))
-        {
-            valdyn.play(valdynDragon);
-            valdynState = 4;
-        }
+        updaterValdyn.update(extrp);
+        updaterDragon.update(extrp);
+        updaterCamera.update(extrp);
+        updaterFade.update(extrp);
 
-        // Move camera
-        if (time.isBetween(96360, 98300))
-        {
-            camera.moveLocation(extrp, 1.0, 0.0);
-            if (dragonState == 0)
-            {
-                dragonState = 1;
-                dragon1.play(dragonIdle);
-            }
-            final int maxX = MAX_WIDTH - getWidth();
-            if (camera.getX() > maxX)
-            {
-                camera.setLocation(maxX, camera.getY() - camera.getViewY());
-            }
-        }
-        if (dragonState == 1 && dragon1.getAnimState() == AnimState.FINISHED)
-        {
-            dragon1.play(dragonEat);
-            dragonState = 2;
-        }
-        if (dragonState == 2 && time.isAfter(98230))
-        {
-            dragonState = 3;
-            dragon1.stop();
-            dragon1.setFrame(dragonBack.getLast() + 1);
-        }
-        if (dragonState == 3 && time.isAfter(99830))
-        {
-            dragon1.play(dragonBack);
-            dragon1.setFrame(dragonBack.getLast() + 1);
-            dragonState = 4;
-        }
-        if (dragonState == 4 && time.isAfter(101200))
-        {
-            dragon2.play(dragonFly);
-            dragonState = 5;
-        }
-        if (dragonState == 5)
-        {
-            if (dragon2.getFrame() > 10)
-            {
-                dragonGoDown -= 0.03;
-                if (dragonGoDown < -1.6)
-                {
-                    dragonGoDown = -1.6;
-                }
-                dragonCoord.translate(1.3, 1.4 + dragonGoDown);
-            }
-            if (dragon2.getAnimState() == AnimState.REVERSING && dragon2.getFrameAnim() == 18)
-            {
-                dragon2.stop();
-                dragon2.setFrame(18);
-            }
-        }
+        info.update(extrp);
 
-        // First Fade in
-        if (time.isBetween(93660, 96000) && !skip)
-        {
-            alphaBack += alphaSpeed;
-        }
-
-        if (!skip)
-        {
-            skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT);
-        }
-
-        // First Fade out
-        if (time.isBetween(108500, 110000) || skip)
-        {
-            alphaBack -= alphaSpeed;
-        }
-        alphaBack = UtilMath.clamp(alphaBack, 0.0, 255.0);
-
-        if (time.isAfter(110000) || skip)
-        {
-            if (skip)
-            {
-                audio.stop();
-                end(Menu.class);
-            }
-            else
-            {
-                end();
-            }
-        }
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
             end(null);
         }
-
-        info.update(extrp);
     }
 
     @Override
@@ -284,48 +540,30 @@ public class Part3 extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        if (time.isBetween(93660, 95730))
+        if (time.isBefore(TIME_VALDYN_RENDER_AFTER_MS))
         {
-            valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
-                               camera.getViewpointY(valdynCoord.getY()) - getHeight());
-            valdyn.render(g);
+            renderValdyn(g);
         }
 
         scene.setLocation(camera.getViewpointX(0), camera.getViewpointY(0) - getHeight());
         scene.render(g);
 
-        // Render dragon
-        if (time.isBetween(93660, 101200))
+        if (time.isBefore(TIME_DRAGON_RENDER_AFTER_MS))
         {
-            dragon1.setLocation(camera.getViewpointX(dragonCoord.getX()),
-                                camera.getViewpointY(dragonCoord.getY()) - getHeight());
-            dragon1.render(g);
+            renderDragon1(g);
+
+            if (time.isAfter(TIME_VALDYN_RENDER_AFTER_MS))
+            {
+                renderValdyn(g);
+            }
         }
-        else if (time.isBetween(101200, 107000))
+        else
         {
-            dragon2.setLocation(camera.getViewpointX(dragonCoord.getX()),
-                                camera.getViewpointY(dragonCoord.getY()) - getHeight());
-            dragon2.render(g);
+            renderDragon2(g);
         }
 
-        // Render valdyn
-        if (time.isBetween(95730, 101200))
-        {
-            valdyn.setLocation(camera.getViewpointX(valdynCoord.getX()),
-                               camera.getViewpointY(valdynCoord.getY()) - getHeight());
-            valdyn.render(g);
-        }
-
-        // Render fade in
-        if (alphaBack < 255)
-        {
-            g.setColor(Constant.ALPHAS_BLACK[255 - (int) alphaBack]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-        }
-
-        final int bandHeight = (int) (Math.floor(getHeight() - MIN_HEIGHT) / 2.0);
-        g.clear(0, 0, getWidth(), bandHeight);
-        g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
+        rendererFade.render(g);
+        drawBand(g);
 
         info.render(g);
     }
