@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
@@ -39,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.Configurable;
 
 /**
  * Shooter feature implementation.
@@ -47,7 +49,7 @@ import com.b3dgs.lionheart.constant.Anim;
  * </ol>
  */
 @FeatureInterface
-public final class Shooter extends FeatureModel implements Routine, Recyclable
+public final class Shooter extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private final Tick tick = new Tick();
     private final Animation idle;
@@ -203,6 +205,12 @@ public final class Shooter extends FeatureModel implements Routine, Recyclable
             updater = this::updatePrepare;
             tick.restart();
         }
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(ShooterConfig.NODE_SHOOTER).map(ShooterConfig::imports).ifPresent(this::load);
     }
 
     @Override

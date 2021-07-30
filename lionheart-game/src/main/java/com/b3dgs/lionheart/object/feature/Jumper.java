@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -37,7 +38,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -50,7 +53,7 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  * </ol>
  */
 @FeatureInterface
-public final class Jumper extends FeatureModel implements Routine
+public final class Jumper extends FeatureModel implements Configurable, Routine
 {
     private static final String NODE = "jumper";
     private static final String ATT_OFFSET = "offset";
@@ -123,6 +126,12 @@ public final class Jumper extends FeatureModel implements Routine
                                                            map.getTileWidth() * side,
                                                            (int) body.getGravity() - 5 + offset));
         return MapTileGroupModel.NO_GROUP_NAME.equals(group) || CollisionName.SPIKE.equals(group) || group == null;
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        setJump(root.readInteger(0, EntityConfig.ATT_JUMP));
     }
 
     @Override

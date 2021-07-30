@@ -26,8 +26,16 @@ import java.util.function.Consumer;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
+import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 
 /**
@@ -163,6 +171,44 @@ public final class Util
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * Load map tiles data.
+     * 
+     * @param map The map reference.
+     * @param media The map tiles data.
+     */
+    public static void loadMapTiles(MapTile map, Media media)
+    {
+        try (FileReading reading = new FileReading(media))
+        {
+            final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
+            mapPersister.load(reading);
+            map.getFeature(MapTileCollision.class)
+               .loadCollisions(Medias.create(Folder.LEVEL, CollisionFormulaConfig.FILENAME),
+                               Medias.create(Folder.LEVEL, CollisionGroupConfig.FILENAME));
+        }
+        catch (final IOException exception)
+        {
+            throw new LionEngineException(exception);
+        }
+    }
+
+    /**
+     * Get stage by difficulty.
+     * 
+     * @param difficulty The difficulty.
+     * @param index The stage index.
+     * @return The stage media.
+     */
+    public static Media getStage(Difficulty difficulty, int index)
+    {
+        if (Difficulty.NORMAL.equals(difficulty) || index > 9 && index < 13)
+        {
+            return Stage.values()[index];
+        }
+        return StageHard.values()[index];
     }
 
     /**

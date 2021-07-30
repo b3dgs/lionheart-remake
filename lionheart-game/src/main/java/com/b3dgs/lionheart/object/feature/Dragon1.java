@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -34,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -44,7 +46,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </ol>
  */
 @FeatureInterface
-public final class Dragon1 extends FeatureModel implements Routine, Recyclable
+public final class Dragon1 extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private static final double SPEED_X = 1.2;
     private static final double SPEED_Y = 0.7;
@@ -141,6 +143,12 @@ public final class Dragon1 extends FeatureModel implements Routine, Recyclable
         {
             identifiable.destroy();
         }
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(Dragon1Config.NODE_DRAGON1).map(Dragon1Config::imports).ifPresent(this::load);
     }
 
     @Override

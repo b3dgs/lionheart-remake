@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -38,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
@@ -47,7 +49,7 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
  * </ol>
  */
 @FeatureInterface
-public final class Rotating extends FeatureModel implements Routine, Recyclable
+public final class Rotating extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
@@ -125,6 +127,12 @@ public final class Rotating extends FeatureModel implements Routine, Recyclable
     private void onCollide()
     {
         collide = true;
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports).ifPresent(this::load);
     }
 
     @Override

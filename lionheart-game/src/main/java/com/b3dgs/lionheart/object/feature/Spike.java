@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -34,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Configurable;
 
 /**
  * Spike feature implementation.
@@ -42,7 +44,7 @@ import com.b3dgs.lionheart.Sfx;
  * </p>
  */
 @FeatureInterface
-public final class Spike extends FeatureModel implements Routine, Recyclable
+public final class Spike extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private static final int PHASE1_DELAY_TICK = 28;
     private static final int PHASE2_DELAY_TICK = 28;
@@ -139,6 +141,12 @@ public final class Spike extends FeatureModel implements Routine, Recyclable
                 }
             };
         });
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports).ifPresent(this::load);
     }
 
     @Override

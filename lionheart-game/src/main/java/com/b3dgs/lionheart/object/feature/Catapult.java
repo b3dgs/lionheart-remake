@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.DirectionNone;
@@ -38,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.Configurable;
 
 /**
  * Catapult feature implementation.
@@ -46,7 +48,7 @@ import com.b3dgs.lionheart.constant.Anim;
  * </p>
  */
 @FeatureInterface
-public final class Catapult extends FeatureModel implements Routine, Recyclable, CollidableListener
+public final class Catapult extends FeatureModel implements Configurable, Routine, Recyclable, CollidableListener
 {
     private final Viewer viewer = services.get(Viewer.class);
 
@@ -84,6 +86,12 @@ public final class Catapult extends FeatureModel implements Routine, Recyclable,
     public void load(CatapultConfig config)
     {
         vector = new Force(config.getVx(), config.getVy());
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(CatapultConfig.NODE_CATAPULT).map(CatapultConfig::imports).ifPresent(this::load);
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -48,6 +49,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -63,7 +65,7 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  */
 @FeatureInterface
 public final class Patrol extends FeatureModel
-                          implements Routine, TileCollidableListener, CollidableListener, Recyclable
+                          implements Configurable, Routine, TileCollidableListener, CollidableListener, Recyclable
 {
     private final List<PatrolConfig> patrols = new ArrayList<>();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -287,6 +289,12 @@ public final class Patrol extends FeatureModel
         {
             applyMirror();
         }
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        load(PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL)));
     }
 
     @Override

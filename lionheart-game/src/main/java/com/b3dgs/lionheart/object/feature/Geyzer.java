@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -40,6 +41,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.Configurable;
 
 /**
  * Geyzer feature implementation.
@@ -48,7 +50,7 @@ import com.b3dgs.lionheart.constant.Folder;
  * </ol>
  */
 @FeatureInterface
-public final class Geyzer extends FeatureModel implements Routine, Recyclable
+public final class Geyzer extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private static final double SPEED = 3.0;
 
@@ -100,6 +102,12 @@ public final class Geyzer extends FeatureModel implements Routine, Recyclable
             y = transformable.getY();
             bottom.get(0).teleportY(y - 28);
         }
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(GeyzerConfig.NODE_GEYZER).map(GeyzerConfig::imports).ifPresent(this::load);
     }
 
     @Override

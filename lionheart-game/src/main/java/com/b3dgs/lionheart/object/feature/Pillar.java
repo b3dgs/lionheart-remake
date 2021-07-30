@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -31,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.object.Configurable;
 
 /**
  * Pillar feature implementation.
@@ -39,7 +41,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
  * </ol>
  */
 @FeatureInterface
-public final class Pillar extends FeatureModel implements Routine, Recyclable
+public final class Pillar extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private static final double SPEED_MOVE = 0.5;
     private static final double SPEED_CLOSE = -2.0;
@@ -140,6 +142,12 @@ public final class Pillar extends FeatureModel implements Routine, Recyclable
             identifiable.destroy();
             updater = UpdatableVoid.getInstance();
         }
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(PillarConfig.NODE_PILLARD).map(PillarConfig::imports).ifPresent(this::load);
     }
 
     @Override

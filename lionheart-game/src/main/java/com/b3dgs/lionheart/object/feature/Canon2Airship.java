@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -35,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.Configurable;
 
 /**
  * Canon2 Airship feature implementation.
@@ -43,7 +45,7 @@ import com.b3dgs.lionheart.constant.Folder;
  * </ol>
  */
 @FeatureInterface
-public final class Canon2Airship extends FeatureModel implements Routine, Recyclable
+public final class Canon2Airship extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private static final int PREPARE_DELAY_TICK = 40;
     private static final double DOT_SPEED = 5.0;
@@ -151,6 +153,12 @@ public final class Canon2Airship extends FeatureModel implements Routine, Recycl
         }
         dotStart.teleport(transformable.getX(), transformable.getY());
         dotEnd.teleport(transformable.getX(), transformable.getY() + dotEndY);
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports).ifPresent(this::load);
     }
 
     @Override

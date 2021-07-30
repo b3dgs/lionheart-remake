@@ -16,7 +16,6 @@
  */
 package com.b3dgs.lionheart;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,17 +30,16 @@ import java.util.concurrent.TimeUnit;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -53,9 +51,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.game.feature.tile.map.TileSheetsConfig;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRendererModel;
@@ -73,7 +68,6 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.DeviceController;
-import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
@@ -82,21 +76,9 @@ import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.menu.Menu;
+import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
-import com.b3dgs.lionheart.object.feature.Canon2Airship;
-import com.b3dgs.lionheart.object.feature.Catapult;
-import com.b3dgs.lionheart.object.feature.Dragon1;
-import com.b3dgs.lionheart.object.feature.Geyzer;
-import com.b3dgs.lionheart.object.feature.HotFireBall;
-import com.b3dgs.lionheart.object.feature.Jumper;
-import com.b3dgs.lionheart.object.feature.Patrol;
-import com.b3dgs.lionheart.object.feature.PatrolConfig;
-import com.b3dgs.lionheart.object.feature.Pillar;
-import com.b3dgs.lionheart.object.feature.Rotating;
-import com.b3dgs.lionheart.object.feature.Shooter;
-import com.b3dgs.lionheart.object.feature.Spider;
-import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.SwordShade;
 import com.b3dgs.lionheart.object.feature.Underwater;
@@ -108,44 +90,6 @@ import com.b3dgs.lionheart.object.state.StateWin;
  */
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
-    /**
-     * Load map tiles data.
-     * 
-     * @param map The map reference.
-     * @param media The map tiles data.
-     */
-    private static void loadMapTiles(MapTile map, Media media)
-    {
-        try (FileReading reading = new FileReading(media))
-        {
-            final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
-            mapPersister.load(reading);
-            map.getFeature(MapTileCollision.class)
-               .loadCollisions(Medias.create(Folder.LEVEL, CollisionFormulaConfig.FILENAME),
-                               Medias.create(Folder.LEVEL, CollisionGroupConfig.FILENAME));
-        }
-        catch (final IOException exception)
-        {
-            throw new LionEngineException(exception);
-        }
-    }
-
-    /**
-     * Get stage by difficulty.
-     * 
-     * @param difficulty The difficulty.
-     * @param index The stage index.
-     * @return The stage media.
-     */
-    private static Media getStage(Difficulty difficulty, int index)
-    {
-        if (Difficulty.NORMAL.equals(difficulty) || index > 9 && index < 13)
-        {
-            return Stage.values()[index];
-        }
-        return StageHard.values()[index];
-    }
-
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
     private final Hud hud = services.create(Hud.class);
@@ -280,7 +224,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                 config.getRasterLineOffset()));
         }
         map.loadSheets(Medias.create(media.getParentPath(), TileSheetsConfig.FILENAME));
-        loadMapTiles(map, media);
+        Util.loadMapTiles(map, media);
         loadMapBottom(config, media, raster);
 
         createMapCollisionDebug();
@@ -310,7 +254,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             mapBottom.addFeature(new LayerableModel(4, 5));
             final MapTileViewer mapViewer = mapBottom.addFeatureAndGet(new MapTileViewerModel(services));
             mapBottom.loadSheets(Medias.create(media.getParentPath(), TileSheetsConfig.FILENAME));
-            loadMapTiles(mapBottom, bottom);
+            Util.loadMapTiles(mapBottom, bottom);
 
             raster.ifPresent(r ->
             {
@@ -471,50 +415,35 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     /**
+     * Load feature data.
+     * 
+     * @param feature The feature to load.
+     * @param entity The entity data.
+     */
+    private void loadFeature(Feature feature, EntityConfig entity)
+    {
+        if (feature instanceof Configurable)
+        {
+            ((Configurable) feature).load(entity.getRoot());
+        }
+    }
+
+    /**
      * Create entity from configuration.
      * 
-     * @param stage The stage configuration.
      * @param entity The entity configuration.
      * @param settings The settings reference.
      * @return The created entity.
      */
-    private Featurable createEntity(StageConfig stage, EntityConfig entity, Settings settings)
+    private Featurable createEntity(EntityConfig entity, Settings settings)
     {
         final Featurable featurable = factory.create(entity.getMedia());
         featurable.getFeature(Transformable.class).teleport(entity.getSpawnX(map), entity.getSpawnY(map));
-
         if (Difficulty.LIONHARD.equals(difficulty))
         {
             featurable.ifIs(Stats.class, Stats::initLionhard);
         }
-        entity.getSecret().ifPresent(secret -> featurable.getFeature(EntityModel.class).setSecret(true));
-        featurable.ifIs(EntityModel.class, model -> model.setNext(entity.getNext(), entity.getNextSpawn()));
-        entity.getMirror().ifPresent(mirror ->
-        {
-            final Mirrorable mirrorable = featurable.getFeature(Mirrorable.class);
-            mirrorable.mirror(mirror.booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
-            mirrorable.update(1.0);
-        });
-        entity.getSpike().ifPresent(c -> featurable.ifIs(Spike.class, spike -> spike.load(c)));
-        entity.getRotating().ifPresent(c -> featurable.ifIs(Rotating.class, rotating -> rotating.load(c)));
-        entity.getHotFireBall().ifPresent(c -> featurable.ifIs(HotFireBall.class, hot -> hot.load(c)));
-        entity.getGeyzer().ifPresent(c -> featurable.ifIs(Geyzer.class, geyzer -> geyzer.load(c)));
-        final List<PatrolConfig> patrols = entity.getPatrols();
-        if (!patrols.isEmpty())
-        {
-            featurable.ifIs(Patrol.class, patrol -> patrol.load(patrols));
-            featurable.ifIs(Jumper.class, jumper -> jumper.setJump(entity.getJump()));
-        }
-        else
-        {
-            featurable.ifIs(Spider.class, s -> s.load(entity.getSpider()));
-        }
-        entity.getDragon1().ifPresent(c -> featurable.ifIs(Dragon1.class, dragon1 -> dragon1.load(c)));
-        entity.getCanon2().ifPresent(c -> featurable.ifIs(Canon2Airship.class, canon2 -> canon2.load(c)));
-        entity.getShooter().ifPresent(c -> featurable.ifIs(Shooter.class, shooter -> shooter.load(c)));
-        entity.getPillar().ifPresent(c -> featurable.ifIs(Pillar.class, pillar -> pillar.load(c)));
-        entity.getCatapult().ifPresent(c -> featurable.ifIs(Catapult.class, catapult -> catapult.load(c)));
-        featurable.ifIs(BulletBounceOnGround.class, bounce -> bounce.load(entity.getVx()));
+        featurable.getFeatures().forEach(feature -> loadFeature(feature, entity));
 
         return featurable;
     }
@@ -645,7 +574,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
-                sequencer.end(SceneBlack.class, getStage(difficulty, i), getInitConfig(Optional.empty()));
+                sequencer.end(SceneBlack.class, Util.getStage(difficulty, i), getInitConfig(Optional.empty()));
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
@@ -686,7 +615,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final Featurable[] featurables = new Featurable[n];
         for (int i = 0; i < n; i++)
         {
-            featurables[i] = createEntity(stage, entities.get(i), settings);
+            featurables[i] = createEntity(entities.get(i), settings);
         }
         return featurables;
     }
@@ -747,7 +676,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 final int n = entityConfig.size();
                 for (int i = 0; i < n; i++)
                 {
-                    final Featurable featurable = createEntity(stage, entityConfig.get(i), settings);
+                    final Featurable featurable = createEntity(entityConfig.get(i), settings);
                     loadRasterEntity(stage, featurable, settings);
                 }
             }

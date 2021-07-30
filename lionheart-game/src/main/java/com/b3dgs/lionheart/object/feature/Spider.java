@@ -21,6 +21,7 @@ import java.util.Optional;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -35,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateIdle;
@@ -50,7 +52,7 @@ import com.b3dgs.lionheart.object.state.StatePatrolCeil;
  * </ol>
  */
 @FeatureInterface
-public final class Spider extends FeatureModel implements Routine, Recyclable
+public final class Spider extends FeatureModel implements Configurable, Routine, Recyclable
 {
     private static final int TRACKED_DISTANCE = 80;
     private static final int FALL_DISTANCE = 16;
@@ -124,6 +126,12 @@ public final class Spider extends FeatureModel implements Routine, Recyclable
             }
         });
         stateHandler.changeState(StateIdle.class);
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        load(root.getChildOptional(SpiderConfig.NODE_SPIDER).map(SpiderConfig::imports));
     }
 
     @Override

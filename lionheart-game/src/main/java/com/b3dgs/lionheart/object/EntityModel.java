@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
@@ -49,6 +50,7 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Guard;
@@ -66,7 +68,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
  * Entity model implementation.
  */
 @FeatureInterface
-public final class EntityModel extends EntityModelHelper implements Routine, Recyclable
+public final class EntityModel extends EntityModelHelper implements Configurable, Routine, Recyclable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int SECRET_RANGE = 48;
@@ -383,6 +385,27 @@ public final class EntityModel extends EntityModelHelper implements Routine, Rec
     public boolean getJumpOnHurt()
     {
         return jumpOnHurt;
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        secret = root.readBoolean(false, EntityConfig.ATT_SECRET);
+
+        mirrorable.mirror(root.readBoolean(false, EntityConfig.ATT_MIRROR) ? Mirror.HORIZONTAL : Mirror.NONE);
+        mirrorable.update(1.0);
+
+        final Optional<Coord> nextSpawn;
+        if (root.hasAttribute(EntityConfig.ATT_SPAWN_TX) && root.hasAttribute(EntityConfig.ATT_SPAWN_TY))
+        {
+            nextSpawn = Optional.of(new Coord(root.readDouble(EntityConfig.ATT_SPAWN_TX),
+                                              root.readDouble(EntityConfig.ATT_SPAWN_TY)));
+        }
+        else
+        {
+            nextSpawn = Optional.empty();
+        }
+        setNext(root.readStringOptional(EntityConfig.ATT_NEXT), nextSpawn);
     }
 
     @Override
