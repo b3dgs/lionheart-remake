@@ -116,8 +116,8 @@ public class Part5 extends Sequence
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha. */
-    double alpha;
+    /** Alpha speed. */
+    int alphaSpeed = FADE_SPEED;
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -167,6 +167,7 @@ public class Part5 extends Sequence
 
     private Renderable rendererFade = this::renderFade;
 
+    private double alpha;
     private double alpha0b;
     private int flick0c;
     private int flicked0c;
@@ -211,7 +212,7 @@ public class Part5 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += FADE_SPEED * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -242,7 +243,7 @@ public class Part5 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {
@@ -286,7 +287,7 @@ public class Part5 extends Sequence
      */
     private void updateTransformAlphaIn(double extrp)
     {
-        alpha0b += FADE_SPEED * extrp;
+        alpha0b += alphaSpeed * extrp;
 
         if (alpha0b > 255)
         {
@@ -446,7 +447,7 @@ public class Part5 extends Sequence
      */
     private void updateTransformAlphaOut(double extrp)
     {
-        alpha0b -= FADE_SPEED * extrp;
+        alpha0b -= alphaSpeed * extrp;
 
         if (alpha0b < 0)
         {

@@ -77,8 +77,8 @@ public class Credits extends Sequence
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha. */
-    double alpha;
+    /** Alpha speed. */
+    int alphaSpeed = FADE_SPEED;
 
     private final List<Text> texts = new ArrayList<>();
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
@@ -87,12 +87,14 @@ public class Credits extends Sequence
     private final Audio audio;
     private final boolean alternative;
     private final int count;
+    private final Text lastText;
 
     private Updatable updater = this::updateFadeIn;
     private Renderable rendererText = RenderableVoid.getInstance();
     private Renderable rendererFade = this::renderFade;
     private int textFirstToRender;
-    private final Text lastText;
+
+    private double alpha;
 
     /**
      * Constructor.
@@ -219,7 +221,7 @@ public class Credits extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += FADE_SPEED * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -274,7 +276,7 @@ public class Credits extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha > 0)
         {

@@ -58,7 +58,7 @@ public class Intro extends Sequence
     /** Device controller reference. */
     final DeviceController device;
     /** Alpha speed. */
-    double alpha;
+    int alphaSpeed = SPEED_FADE_IN;
 
     private final Time time = new Time(getRate());
     private final Part1 part1;
@@ -71,6 +71,8 @@ public class Intro extends Sequence
 
     private Renderable rendererPart = this::renderPart1;
     private Renderable rendererFade = this::renderFade;
+
+    private double alpha;
 
     /**
      * Constructor.
@@ -116,7 +118,7 @@ public class Intro extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += SPEED_FADE_IN * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -135,6 +137,7 @@ public class Intro extends Sequence
     {
         if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
         {
+            alphaSpeed = SPEED_FADE_OUT;
             updaterFade = this::updateFadeOut;
             rendererFade = this::renderFade;
         }
@@ -147,7 +150,7 @@ public class Intro extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= SPEED_FADE_OUT * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {

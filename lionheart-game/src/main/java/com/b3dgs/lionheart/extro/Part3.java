@@ -51,7 +51,7 @@ public class Part3 extends Sequence
     /** Device controller reference. */
     final DeviceController device;
     /** Alpha speed. */
-    double alpha = 255;
+    int alphaSpeed = FADE_SPEED;
 
     private final Stories stories = new Stories(getWidth(), getHeight());
     private final AppInfo info;
@@ -62,6 +62,8 @@ public class Part3 extends Sequence
 
     private Renderable renderer = RenderableVoid.getInstance();
     private Renderable rendererFade = RenderableVoid.getInstance();
+
+    private double alpha = 255;
 
     /**
      * Constructor.
@@ -154,7 +156,7 @@ public class Part3 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {

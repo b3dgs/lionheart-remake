@@ -74,8 +74,8 @@ public class Part2 extends Sequence
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha. */
-    double alpha;
+    /** Alpha speed. */
+    int alphaSpeed = FADE_SPEED;
 
     private final Services services = new Services();
     private final Factory factory = services.create(Factory.class);
@@ -95,6 +95,8 @@ public class Part2 extends Sequence
     private Updatable updaterFade = this::updateFadeInInit;
 
     private Renderable rendererFade = this::renderFade;
+
+    private double alpha;
 
     /**
      * Constructor.
@@ -163,7 +165,7 @@ public class Part2 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += FADE_SPEED * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -194,7 +196,7 @@ public class Part2 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {

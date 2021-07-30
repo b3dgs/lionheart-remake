@@ -105,8 +105,8 @@ public class Part3 extends Sequence
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha. */
-    double alpha;
+    /** Alpha speed. */
+    int alphaSpeed = FADE_SPEED;
 
     private final SpriteAnimated valdyn = Drawable.loadSpriteAnimated(get("valdyn"), 8, 3);
     private final SpriteAnimated dragon1 = Drawable.loadSpriteAnimated(get("dragon1"), 6, 3);
@@ -138,6 +138,7 @@ public class Part3 extends Sequence
 
     private Renderable rendererFade = this::renderFade;
 
+    private double alpha;
     private double dragonGoDown;
     private boolean skip;
 
@@ -388,7 +389,7 @@ public class Part3 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += FADE_SPEED * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -420,7 +421,7 @@ public class Part3 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {

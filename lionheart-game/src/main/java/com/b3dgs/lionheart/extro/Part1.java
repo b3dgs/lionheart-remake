@@ -116,7 +116,7 @@ public class Part1 extends Sequence
     /** Device controller reference. */
     final DeviceController device;
     /** Alpha speed. */
-    double alpha;
+    int alphaSpeed = FADE_SPEED;
 
     private final Sprite backcolor = Drawable.loadSprite(get("backcolor"));
     private final Sprite clouds = Drawable.loadSprite(get("clouds"));
@@ -154,6 +154,7 @@ public class Part1 extends Sequence
     private double valdynY = VALDYN_Y;
     private double valdynZ = VALDYN_Z;
     private double valdynZacc = VALDYN_Z_ACC;
+    private double alpha;
 
     /**
      * Constructor.
@@ -244,7 +245,7 @@ public class Part1 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += FADE_SPEED * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -275,7 +276,7 @@ public class Part1 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {

@@ -58,8 +58,8 @@ public class Part4 extends Sequence
 
     /** Device controller reference. */
     final DeviceController device;
-    /** Alpha. */
-    double alpha;
+    /** Alpha speed. */
+    int alphaSpeed = FADE_SPEED;
 
     private final Stories stories = new Stories();
     private final AppInfo info;
@@ -68,6 +68,8 @@ public class Part4 extends Sequence
 
     private Updatable updater = this::updateInit;
     private Renderable rendererFade = this::renderFade;
+
+    private double alpha;
 
     /**
      * Constructor.
@@ -115,7 +117,7 @@ public class Part4 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += FADE_SPEED * extrp;
+        alpha += alphaSpeed * extrp;
 
         if (alpha > 255)
         {
@@ -188,7 +190,7 @@ public class Part4 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= FADE_SPEED * extrp;
+        alpha -= alphaSpeed * extrp;
 
         if (alpha < 0)
         {
