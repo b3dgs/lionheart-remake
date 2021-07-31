@@ -29,7 +29,7 @@
     </ciManagement>
     <properties>
         <radial.base-package>com.b3dgs.lionheart.editor</radial.base-package>
-        <sonar-branch>lionheart-editor-1.0.0</sonar-branch>
+        <sonar-branch>lionheart-editor-1.1.0</sonar-branch>
     </properties>
     <dependencies>
         <dependency>
@@ -47,7 +47,7 @@
         <repository>
             <id>swtbot</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/technology/swtbot/releases/3.0.0/</url>
+            <url>http://download.eclipse.org/technology/swtbot/releases/3.1.0/</url>
         </repository>
         <repository>
             <id>snapshots</id>
