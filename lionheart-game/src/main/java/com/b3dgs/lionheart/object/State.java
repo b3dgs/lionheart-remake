@@ -217,21 +217,9 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected void onCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (collidable.hasFeature(Glue.class))
-        {
-            if (with.getName().startsWith(Anim.LEG) && by.getName().startsWith(CollisionName.GROUND))
-            {
-                collideY.set(true);
-            }
-            else if (with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
-            {
-                grip.set(true);
-            }
-        }
+        updateCollidedGlue(collidable, with, by);
 
-        if (with.getName().contains(CollisionName.BODY)
-            && (movement.getDirectionHorizontal() < 0 && by.getName().contains(CollisionName.RIGHT_VERTICAL)
-                || movement.getDirectionHorizontal() > 0 && by.getName().contains(CollisionName.LEFT_VERTICAL)))
+        if (with.getName().contains(CollisionName.BODY) && isCollidedVertical(by))
         {
             final Transformable other = collidable.getFeature(Transformable.class);
             collideX.set(true);
@@ -247,6 +235,40 @@ public abstract class State extends StateHelper<EntityModel>
             }
             movement.zero();
         }
+    }
+
+    /**
+     * Update collided with glue.
+     * 
+     * @param collidable The collidable reference.
+     * @param with The collision collided with (source).
+     * @param by The collision collided by (other).
+     */
+    private void updateCollidedGlue(Collidable collidable, Collision with, Collision by)
+    {
+        if (collidable.hasFeature(Glue.class))
+        {
+            if (with.getName().startsWith(Anim.LEG) && by.getName().startsWith(CollisionName.GROUND))
+            {
+                collideY.set(true);
+            }
+            else if (with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
+            {
+                grip.set(true);
+            }
+        }
+    }
+
+    /**
+     * Check if collided on vertical.
+     * 
+     * @param by The collision collided by (other).
+     * @return <code>true</code> if vertical collided, <code>false</code> else.
+     */
+    private boolean isCollidedVertical(Collision by)
+    {
+        return movement.getDirectionHorizontal() < 0 && by.getName().contains(CollisionName.RIGHT_VERTICAL)
+               || movement.getDirectionHorizontal() > 0 && by.getName().contains(CollisionName.LEFT_VERTICAL);
     }
 
     /**

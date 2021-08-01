@@ -120,7 +120,7 @@ public final class Stats extends FeatureModel implements Recyclable
         if (talisment.isFull())
         {
             talisment.reset();
-            health.setMax(UtilMath.clamp(health.getMax() + 1, 1, 8));
+            health.setMax(UtilMath.clamp(health.getMax() + 1, 1, Constant.STATS_MAX_HEART));
         }
         else
         {

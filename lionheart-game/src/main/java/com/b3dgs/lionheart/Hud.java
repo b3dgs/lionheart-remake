@@ -59,7 +59,7 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int HEALTH_TILE_WIDTH = 8;
     private static final int HEALTH_TILE_HEIGHT = 8;
-    private static final int HEALTH_MAX = 8;
+    private static final int HEALTH_MAX = com.b3dgs.lionheart.Constant.STATS_MAX_HEART;
     private static final int HEALTH_X = 1;
     private static final int HEALTH_Y = 1;
 

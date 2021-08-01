@@ -59,6 +59,8 @@ public final class Constant
     /** Collision group projectiles. */
     public static final Integer COLL_GROUP_PROJECTILES = Integer.valueOf(4);
 
+    /** Stats maximum heart. */
+    public static final int STATS_MAX_HEART = 8;
     /** Stats maximum health. */
     public static final int STATS_MAX_HEALTH = 99;
     /** Stats maximum talisment. */
