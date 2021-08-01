@@ -71,7 +71,7 @@ public class Menu extends Sequence
     private static final int CENTER_X = 320;
     private static final int MENU_MAIN_IMAGE_OFFSET_Y = 32;
     private static final int OPTIONS_TITLE_OFFSET_Y = 96;
-    private static final int OPTIONS_TEXT_OFFSET_X = 20;
+    private static final int OPTIONS_TEXT_OFFSET_X = 12;
 
     private static List<String> getText(String file)
     {
@@ -80,10 +80,8 @@ public class Menu extends Sequence
 
     private final ColorRgba colorOption = new ColorRgba(170, 204, 238);
     private final ColorRgba colorTitle = new ColorRgba(255, 255, 255);
-    private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF,
-                                                       25,
-                                                       TextStyle.BOLD);
-    private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SANS_SERIF, 22, TextStyle.BOLD);
+    private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
 
     private final List<String> main = getText("main.txt");
     private final List<String> options = getText("options.txt");
@@ -163,8 +161,8 @@ public class Menu extends Sequence
         {
             new Choice(text, main.get(0), x, mainY + 120, Align.CENTER, MenuType.NEW),
             new Choice(text, main.get(1), x, mainY + 154, Align.CENTER, MenuType.OPTIONS),
-            new Choice(text, main.get(2), x, mainY + 190, Align.CENTER, MenuType.INTRO),
-            new Choice(text, main.get(3), x, mainY + 240, Align.CENTER, MenuType.EXIT)
+            new Choice(text, main.get(2), x, mainY + 188, Align.CENTER, MenuType.INTRO),
+            new Choice(text, main.get(3), x, mainY + 238, Align.CENTER, MenuType.EXIT)
         };
         return new Data(text, choices);
     }
@@ -179,9 +177,9 @@ public class Menu extends Sequence
         final int x = (int) (CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(text, options.get(0), x - 120, mainY + 128, Align.LEFT),
-            new Choice(text, options.get(1), x - 120, mainY + 164, Align.LEFT),
-            new Choice(text, options.get(2), x - 120, mainY + 200, Align.LEFT),
+            new Choice(text, options.get(0), x - 118, mainY + 128, Align.LEFT),
+            new Choice(text, options.get(1), x - 118, mainY + 164, Align.LEFT),
+            new Choice(text, options.get(2), x - 118, mainY + 200, Align.LEFT),
             new Choice(text, options.get(3), x, mainY + 244, Align.CENTER, MenuType.MAIN)
         };
         return new Data(text, choices);
