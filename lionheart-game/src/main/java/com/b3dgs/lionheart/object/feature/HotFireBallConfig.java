@@ -16,15 +16,14 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * HotFireBall configuration.
  */
-public final class HotFireBallConfig
+public final class HotFireBallConfig implements XmlSaver
 {
     /** Hurtable node name. */
     public static final String NODE_HOTFIREBALL = "hotfireball";
@@ -38,34 +37,6 @@ public final class HotFireBallConfig
     private static final String ATT_VX = "vx";
     /** Vertical force attribute name. */
     private static final String ATT_VY = "vy";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static HotFireBallConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_HOTFIREBALL));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static HotFireBallConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new HotFireBallConfig(root);
-    }
 
     /** Fire delay. */
     private final int delay;
@@ -83,15 +54,16 @@ public final class HotFireBallConfig
      * 
      * @param root The root configuration (must not be null).
      */
-    private HotFireBallConfig(XmlReader root)
+    public HotFireBallConfig(XmlReader root)
     {
         super();
 
-        delay = root.readInteger(ATT_DELAY);
-        count = root.readInteger(ATT_COUNT);
-        level = root.readInteger(ATT_LEVEL);
-        vx = root.readDouble(ATT_VX);
-        vy = root.readDouble(ATT_VY);
+        final XmlReader node = root.getChild(NODE_HOTFIREBALL);
+        delay = node.readInteger(ATT_DELAY);
+        count = node.readInteger(ATT_COUNT);
+        level = node.readInteger(ATT_LEVEL);
+        vx = node.readDouble(ATT_VX);
+        vy = node.readDouble(ATT_VY);
     }
 
     /**
@@ -142,5 +114,16 @@ public final class HotFireBallConfig
     public double getVy()
     {
         return vy;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_HOTFIREBALL);
+        node.writeInteger(ATT_DELAY, delay);
+        node.writeInteger(ATT_COUNT, count);
+        node.writeInteger(ATT_LEVEL, level);
+        node.writeDouble(ATT_VX, vx);
+        node.writeDouble(ATT_VY, vy);
     }
 }

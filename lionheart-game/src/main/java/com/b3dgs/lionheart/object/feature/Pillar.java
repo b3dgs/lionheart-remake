@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -32,7 +33,8 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Pillar feature implementation.
@@ -41,7 +43,7 @@ import com.b3dgs.lionheart.object.Configurable;
  * </ol>
  */
 @FeatureInterface
-public final class Pillar extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final double SPEED_MOVE = 0.5;
     private static final double SPEED_CLOSE = -2.0;
@@ -70,19 +72,6 @@ public final class Pillar extends FeatureModel implements Configurable, Routine,
     public Pillar(Services services, Setup setup)
     {
         super(services, setup);
-    }
-
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration to load.
-     */
-    public void load(PillarConfig config)
-    {
-        this.config = config;
-        updater = this::updateDelay;
-        y = transformable.getY();
-        tick.restart();
     }
 
     /**
@@ -144,10 +133,29 @@ public final class Pillar extends FeatureModel implements Configurable, Routine,
         }
     }
 
+    /**
+     * Load configuration.
+     * 
+     * @param config The configuration to load.
+     */
+    public void load(PillarConfig config)
+    {
+        this.config = config;
+        updater = this::updateDelay;
+        y = transformable.getY();
+        tick.restart();
+    }
+
     @Override
     public void load(XmlReader root)
     {
-        root.getChildOptional(PillarConfig.NODE_PILLARD).map(PillarConfig::imports).ifPresent(this::load);
+        load(new PillarConfig(root));
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        config.save(root);
     }
 
     @Override

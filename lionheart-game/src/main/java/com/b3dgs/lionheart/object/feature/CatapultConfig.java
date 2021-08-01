@@ -16,15 +16,15 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Catapult configuration.
  */
-public final class CatapultConfig
+public final class CatapultConfig implements XmlSaver
 {
     /** Pillar node name. */
     public static final String NODE_CATAPULT = "catapult";
@@ -32,34 +32,6 @@ public final class CatapultConfig
     public static final String ATT_VX = "vx";
     /** Vertical speed attribute name. */
     public static final String ATT_VY = "vy";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static CatapultConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_CATAPULT));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static CatapultConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new CatapultConfig(root.readDouble(ATT_VX), root.readDouble(ATT_VY));
-    }
 
     /** Horizontal speed. */
     private final double vx;
@@ -69,15 +41,16 @@ public final class CatapultConfig
     /**
      * Create config.
      * 
-     * @param vx The horizontal speed value.
-     * @param vy The vertical speed value.
+     * @param root The root configuration (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
-    public CatapultConfig(double vx, double vy)
+    public CatapultConfig(XmlReader root)
     {
         super();
 
-        this.vx = vx;
-        this.vy = vy;
+        final XmlReader node = root.getChild(NODE_CATAPULT);
+        vx = node.readDouble(ATT_VX);
+        vy = node.readDouble(ATT_VY);
     }
 
     /**
@@ -98,5 +71,13 @@ public final class CatapultConfig
     public double getVy()
     {
         return vy;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_CATAPULT);
+        node.writeDouble(ATT_VX, vx);
+        node.writeDouble(ATT_VY, vy);
     }
 }

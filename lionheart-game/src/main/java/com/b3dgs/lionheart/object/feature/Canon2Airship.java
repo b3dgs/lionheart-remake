@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -36,7 +37,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Canon2 Airship feature implementation.
@@ -45,7 +47,7 @@ import com.b3dgs.lionheart.object.Configurable;
  * </ol>
  */
 @FeatureInterface
-public final class Canon2Airship extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Canon2Airship extends FeatureModel implements XmlSaver, XmlLoader, Routine, Recyclable
 {
     private static final int PREPARE_DELAY_TICK = 40;
     private static final double DOT_SPEED = 5.0;
@@ -80,16 +82,6 @@ public final class Canon2Airship extends FeatureModel implements Configurable, R
     public Canon2Airship(Services services, Setup setup)
     {
         super(services, setup);
-    }
-
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration to load.
-     */
-    public void load(Canon2AirshipConfig config)
-    {
-        this.config = config;
     }
 
     /**
@@ -158,7 +150,13 @@ public final class Canon2Airship extends FeatureModel implements Configurable, R
     @Override
     public void load(XmlReader root)
     {
-        root.getChildOptional(Canon2AirshipConfig.NODE_CANON2).map(Canon2AirshipConfig::imports).ifPresent(this::load);
+        config = new Canon2AirshipConfig(root);
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        config.save(root);
     }
 
     @Override

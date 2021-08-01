@@ -17,47 +17,19 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Spider configuration.
  */
-public final class SpiderConfig
+public final class SpiderConfig implements XmlSaver
 {
     /** Spider node name. */
     public static final String NODE_SPIDER = "spider";
     /** Follow attribute name. */
     public static final String ATT_FOLLOW = "follow";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static SpiderConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_SPIDER));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static SpiderConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new SpiderConfig(root);
-    }
 
     /** Follow flag. */
     private final boolean follow;
@@ -67,13 +39,14 @@ public final class SpiderConfig
      * 
      * @param root The root configuration (must not be null).
      */
-    private SpiderConfig(XmlReader root)
+    public SpiderConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        follow = root.readBoolean(true, ATT_FOLLOW);
+        final XmlReader node = root.getChild(NODE_SPIDER);
+        follow = node.readBoolean(true, ATT_FOLLOW);
     }
 
     /**
@@ -84,5 +57,12 @@ public final class SpiderConfig
     public boolean getFollow()
     {
         return follow;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_SPIDER);
+        node.writeBoolean(ATT_FOLLOW, follow);
     }
 }

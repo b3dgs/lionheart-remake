@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
@@ -37,6 +38,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
+import com.b3dgs.lionheart.object.XmlLoader;
 
 /**
  * Static utility functions.
@@ -193,6 +195,30 @@ public final class Util
         {
             throw new LionEngineException(exception);
         }
+    }
+
+    /**
+     * Load entity data.
+     * 
+     * @param entity The entity to load.
+     * @param config The config data.
+     */
+    public static void loadEntityFeature(Featurable entity, EntityConfig config)
+    {
+        entity.getFeatures().forEach(feature ->
+        {
+            if (feature instanceof XmlLoader)
+            {
+                try
+                {
+                    ((XmlLoader) feature).load(config.getRoot());
+                }
+                catch (final LionEngineException exception)
+                {
+                    throw new LionEngineException(exception, config.getMedia());
+                }
+            }
+        });
     }
 
     /**

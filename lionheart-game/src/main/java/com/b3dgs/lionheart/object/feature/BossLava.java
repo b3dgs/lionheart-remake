@@ -67,8 +67,14 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private static final int TICK_IDLE = 100;
     private static final int TICK_JUMP = 14;
 
+    private static final String[] LIMBS =
+    {
+        "BossHead", "BossBowl", "BossHandLeft", "BossBowl", "BossBowl", "BossBowl", "BossLegLeft", "BossBowl",
+        "BossHandRight", "BossBowl", "BossBowl", "BossBowl", "BossLegRight"
+    };
+
     // @formatter:off
-    private static final int[][] DATA =
+    private final int[][] data =
     {
         // Rise
         {0, -8, -8, -8, -8, -8, -8, 9, 9, 9, 9, 9, 9},
@@ -482,12 +488,6 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
         {4, -31, -21, 5, 14, 32, 54, -35, -29, 3, 17, 33, 54}
     };
     // @formatter:on
-
-    private static final String[] LIMBS =
-    {
-        "BossHead", "BossBowl", "BossHandLeft", "BossBowl", "BossBowl", "BossBowl", "BossLegLeft", "BossBowl",
-        "BossHandRight", "BossBowl", "BossBowl", "BossBowl", "BossLegRight"
-    };
     private final Transformable[] limbs = new Transformable[LIMBS.length];
     private final Animatable[] limbsAnim = new Animatable[LIMBS.length];
     private final Animator animator = new AnimatorModel();
@@ -774,7 +774,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
 
         for (int i = 0; i < LIMBS.length; i++)
         {
-            limbs[i].setLocation(transformable.getX() + DATA[id * 2][i], transformable.getY() - DATA[id * 2 + 1][i]);
+            limbs[i].setLocation(transformable.getX() + data[id * 2][i], transformable.getY() - data[id * 2 + 1][i]);
             if (i > 0)
             {
                 limbsAnim[i].setFrame(hurting ? frame + 5 : frame);

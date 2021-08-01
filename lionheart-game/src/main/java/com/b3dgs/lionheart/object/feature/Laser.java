@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
 
@@ -46,6 +47,8 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
     private static final double VX = -5.0;
     private static final double VY = 2.5;
     private static final int EFFECT_DELAY = 6;
+    private static final int SMOKE_OFFSET_Y = -4;
+    private static final String SMOKE_FILE = "Smoke.xml";
 
     private final Tick tickAlive = new Tick();
     private final Tick tickEffect = new Tick();
@@ -100,9 +103,9 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
         }
         else if (tickEffect.elapsed(EFFECT_DELAY))
         {
-            spawner.spawn(Medias.create(Folder.EFFECT, "airship", "Smoke.xml"),
+            spawner.spawn(Medias.create(Folder.EFFECT, WorldType.AIRSHIP.getFolder(), SMOKE_FILE),
                           transformable.getX(),
-                          transformable.getY() - 4)
+                          transformable.getY() + SMOKE_OFFSET_Y)
                    .getFeature(EntityModel.class)
                    .getMovement()
                    .setDirection(VX, VY);

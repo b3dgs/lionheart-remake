@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -39,7 +40,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 
 /**
@@ -49,7 +51,7 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
  * </ol>
  */
 @FeatureInterface
-public final class Rotating extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Rotating extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
@@ -83,16 +85,20 @@ public final class Rotating extends FeatureModel implements Configurable, Routin
     }
 
     /**
-     * Load configuration.
-     * 
-     * @param config The configuration to load.
+     * Called on collide.
      */
-    public void load(RotatingConfig config)
+    private void onCollide()
     {
+        collide = true;
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        config = new RotatingConfig(root);
         rings.stream().map(r -> r.getFeature(Identifiable.class)).forEach(Identifiable::destroy);
         rings.clear();
 
-        this.config = config;
         if (config.getSpeed() < 0)
         {
             angleStart = Constant.ANGLE_MAX / 2 + config.getAmplitude();
@@ -121,18 +127,10 @@ public final class Rotating extends FeatureModel implements Configurable, Routin
         count = rings.size();
     }
 
-    /**
-     * Called on collide.
-     */
-    private void onCollide()
-    {
-        collide = true;
-    }
-
     @Override
-    public void load(XmlReader root)
+    public void save(Xml root)
     {
-        root.getChildOptional(RotatingConfig.NODE_ROTATING).map(RotatingConfig::imports).ifPresent(this::load);
+        config.save(root);
     }
 
     @Override

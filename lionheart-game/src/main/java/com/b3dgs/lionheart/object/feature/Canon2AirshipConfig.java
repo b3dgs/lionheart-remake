@@ -18,13 +18,14 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Canon2 Airship configuration.
  */
-public final class Canon2AirshipConfig
+public final class Canon2AirshipConfig implements XmlSaver
 {
     /** Config node name. */
     public static final String NODE_CANON2 = "canon2";
@@ -32,34 +33,6 @@ public final class Canon2AirshipConfig
     public static final String ATT_FIRE_DELAY = "fireDelay";
     /** Stay delay attribute name. */
     public static final String ATT_STAY_DELAY = "stayDelay";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static Canon2AirshipConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_CANON2));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static Canon2AirshipConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new Canon2AirshipConfig(root);
-    }
 
     /** Fire delay. */
     private final int fireDelay;
@@ -69,16 +42,18 @@ public final class Canon2AirshipConfig
     /**
      * Create config.
      * 
-     * @param root The root configuration (must not be null).
+     * @param root The root configuration (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
      */
-    private Canon2AirshipConfig(XmlReader root)
+    public Canon2AirshipConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        fireDelay = root.readInteger(ATT_FIRE_DELAY);
-        stayDelay = root.readInteger(ATT_STAY_DELAY);
+        final XmlReader node = root.getChild(NODE_CANON2);
+        fireDelay = node.readInteger(ATT_FIRE_DELAY);
+        stayDelay = node.readInteger(ATT_STAY_DELAY);
     }
 
     /**
@@ -99,5 +74,15 @@ public final class Canon2AirshipConfig
     public int getStayDelay()
     {
         return stayDelay;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        Check.notNull(root);
+
+        final Xml node = root.createChild(NODE_CANON2);
+        node.writeInteger(ATT_FIRE_DELAY, fireDelay);
+        node.writeInteger(ATT_STAY_DELAY, stayDelay);
     }
 }

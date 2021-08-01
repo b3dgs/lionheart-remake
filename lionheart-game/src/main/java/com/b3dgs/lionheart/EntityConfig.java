@@ -50,11 +50,11 @@ public final class EntityConfig
     /** Vx attribute name. */
     public static final String ATT_VX = "vx";
     /** Configuration file attribute name. */
-    private static final String ATT_FILE = "file";
+    public static final String ATT_FILE = "file";
     /** Spawn tile x attribute name. */
-    private static final String ATT_RESPAWN_TX = "tx";
+    public static final String ATT_RESPAWN_TX = "tx";
     /** Spawn tile y attribute name. */
-    private static final String ATT_RESPAWN_TY = "ty";
+    public static final String ATT_RESPAWN_TY = "ty";
 
     /**
      * Imports the config from configurer.

@@ -61,9 +61,9 @@ public final class MapLimit extends FeatureModel implements Routine
             transformable.teleportX(2);
             model.getMovement().zero();
         }
-        else if (transformable.getX() > map.getWidth() - 16)
+        else if (transformable.getX() > map.getWidth() - map.getTileWidth())
         {
-            transformable.teleportX(map.getWidth() - 16);
+            transformable.teleportX(map.getWidth() - map.getTileWidth());
             model.getMovement().zero();
         }
     }

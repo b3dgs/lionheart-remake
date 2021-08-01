@@ -75,7 +75,7 @@ public final class WorldLoadHandler
             UtilDialog.error(shell, Messages.ErrorLoadTitle, Messages.ErrorLoadMessage);
         }
 
-        stage.getEntities().forEach(entity -> createEntity(stage, entity));
+        stage.getEntities().forEach(config -> createEntity(stage, config));
 
         final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
         worldPart.update();
@@ -85,14 +85,16 @@ public final class WorldLoadHandler
      * Create entity from configuration.
      * 
      * @param stage The stage configuration.
-     * @param entity The entity configuration.
+     * @param config The entity configuration.
      */
-    private static void createEntity(StageConfig stage, EntityConfig entity)
+    private static void createEntity(StageConfig stage, EntityConfig config)
     {
         final MapTile map = WorldModel.INSTANCE.getMap();
         final Spawner spawner = WorldModel.INSTANCE.getServices().get(Spawner.class);
-
-        spawner.spawn(entity.getMedia(), entity.getSpawnX(map), entity.getSpawnY(map));
+        com.b3dgs.lionheart.Util.loadEntityFeature(spawner.spawn(config.getMedia(),
+                                                                 config.getSpawnX(map),
+                                                                 config.getSpawnY(map)),
+                                                   config);
     }
 
     /**

@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -51,15 +52,16 @@ import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
-import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Bounce bullet on hit ground.
  */
 @FeatureInterface
 public final class BulletBounceOnGround extends FeatureModel
-                                        implements Configurable, Routine, Recyclable, TileCollidableListener
+                                        implements XmlLoader, XmlSaver, Routine, Recyclable, TileCollidableListener
 {
     private static final String NODE = "bulletBounceOnGround";
     private static final String ATT_SFX = "sfx";
@@ -155,6 +157,16 @@ public final class BulletBounceOnGround extends FeatureModel
     public void load(XmlReader root)
     {
         load(root.readDouble(0.0, EntityConfig.ATT_VX));
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final double vx = model.getMovement().getDirectionVertical();
+        if (Double.compare(vx, 0.0) != 0)
+        {
+            root.writeDouble(EntityConfig.ATT_VX, model.getMovement().getDirectionVertical());
+        }
     }
 
     @Override

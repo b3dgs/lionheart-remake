@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -25,13 +24,14 @@ import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Patrol configuration.
  */
-public final class PatrolConfig
+public final class PatrolConfig implements XmlSaver
 {
     /** Config node name. */
     public static final String NODE_PATROL = "patrol";
@@ -57,34 +57,20 @@ public final class PatrolConfig
     public static final String ATT_CURVE = "curve";
 
     /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static List<PatrolConfig> imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChildren(NODE_PATROL));
-    }
-
-    /**
      * Imports the config from root.
      * 
      * @param root The patrol node reference (must not be <code>null</code>).
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static List<PatrolConfig> imports(Collection<? extends XmlReader> root)
+    public static List<PatrolConfig> imports(XmlReader root)
     {
         Check.notNull(root);
 
         final List<PatrolConfig> patrols = new ArrayList<>();
-        for (final XmlReader patrol : root)
+        for (final XmlReader node : root.getChildren(NODE_PATROL))
         {
-            patrols.add(new PatrolConfig(patrol));
+            patrols.add(new PatrolConfig(node));
         }
         return patrols;
     }
@@ -231,5 +217,21 @@ public final class PatrolConfig
     public Optional<Boolean> getCurve()
     {
         return curve;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_PATROL);
+        sh.ifPresent(v -> node.writeDouble(ATT_VX, v));
+        sv.ifPresent(v -> node.writeDouble(ATT_VY, v));
+        amplitude.ifPresent(v -> node.writeInteger(ATT_AMPLITUDE, v));
+        offset.ifPresent(v -> node.writeInteger(ATT_OFFSET, v));
+        mirror.ifPresent(v -> node.writeBoolean(ATT_MIRROR, v.booleanValue()));
+        coll.ifPresent(v -> node.writeBoolean(ATT_COLL, v.booleanValue()));
+        proximity.ifPresent(v -> node.writeInteger(ATT_PROXIMITY, v));
+        animOffset.ifPresent(v -> node.writeInteger(ATT_ANIMOFFSET, v));
+        delay.ifPresent(v -> node.writeInteger(ATT_DELAY, v));
+        curve.ifPresent(v -> node.writeBoolean(ATT_CURVE, v.booleanValue()));
     }
 }

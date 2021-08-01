@@ -17,14 +17,14 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Geyzer configuration.
  */
-public final class GeyzerConfig
+public final class GeyzerConfig implements XmlSaver
 {
     /** Config node name. */
     public static final String NODE_GEYZER = "geyzer";
@@ -36,34 +36,6 @@ public final class GeyzerConfig
     public static final String ATT_DELAY_DOWN = "delayDown";
     /** Height attribute name. */
     public static final String ATT_HEIGHT = "height";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static GeyzerConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_GEYZER));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static GeyzerConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new GeyzerConfig(root);
-    }
 
     /** First delay. */
     private final int delayFirst;
@@ -79,16 +51,17 @@ public final class GeyzerConfig
      * 
      * @param root The root configuration (must not be null).
      */
-    private GeyzerConfig(XmlReader root)
+    public GeyzerConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        delayFirst = root.readInteger(0, ATT_DELAY_FIRST);
-        delayStart = root.readInteger(ATT_DELAY_START);
-        delayDown = root.readInteger(ATT_DELAY_DOWN);
-        height = root.readInteger(ATT_HEIGHT);
+        final XmlReader node = root.getChild(NODE_GEYZER);
+        delayFirst = node.readInteger(0, ATT_DELAY_FIRST);
+        delayStart = node.readInteger(ATT_DELAY_START);
+        delayDown = node.readInteger(ATT_DELAY_DOWN);
+        height = node.readInteger(ATT_HEIGHT);
     }
 
     /**
@@ -129,5 +102,15 @@ public final class GeyzerConfig
     public int getHeight()
     {
         return height;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_GEYZER);
+        node.writeInteger(ATT_DELAY_FIRST, delayFirst);
+        node.writeInteger(ATT_DELAY_START, delayStart);
+        node.writeInteger(ATT_DELAY_DOWN, delayDown);
+        node.writeInteger(ATT_HEIGHT, height);
     }
 }

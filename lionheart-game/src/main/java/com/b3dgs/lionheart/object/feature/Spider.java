@@ -16,11 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import java.util.Optional;
-
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -36,8 +35,9 @@ import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StateJumpSpider;
@@ -52,7 +52,7 @@ import com.b3dgs.lionheart.object.state.StatePatrolCeil;
  * </ol>
  */
 @FeatureInterface
-public final class Spider extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final int TRACKED_DISTANCE = 80;
     private static final int FALL_DISTANCE = 16;
@@ -60,6 +60,7 @@ public final class Spider extends FeatureModel implements Configurable, Routine,
 
     private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
 
+    private SpiderConfig config;
     private int distance;
     private double move;
     private boolean tracked;
@@ -81,23 +82,6 @@ public final class Spider extends FeatureModel implements Configurable, Routine,
     public Spider(Services services, SetupSurfaceRastered setup)
     {
         super(services, setup);
-    }
-
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration reference.
-     */
-    public void load(Optional<SpiderConfig> config)
-    {
-        if (!config.isPresent() || config.get().getFollow())
-        {
-            track();
-        }
-        else
-        {
-            track(0);
-        }
     }
 
     /**
@@ -131,7 +115,28 @@ public final class Spider extends FeatureModel implements Configurable, Routine,
     @Override
     public void load(XmlReader root)
     {
-        load(root.getChildOptional(SpiderConfig.NODE_SPIDER).map(SpiderConfig::imports));
+        final boolean hasConfig = root.hasChild(SpiderConfig.NODE_SPIDER);
+        if (hasConfig)
+        {
+            config = new SpiderConfig(root);
+        }
+        if (hasConfig && config.getFollow())
+        {
+            track();
+        }
+        else
+        {
+            track(0);
+        }
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

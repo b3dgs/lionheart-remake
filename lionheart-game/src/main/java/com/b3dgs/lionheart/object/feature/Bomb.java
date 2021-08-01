@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 public final class Bomb extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final int TRIGGER_DELAY_TICK = 10;
+    private static final int FLICKER_COUNT = 4;
     private static final String COLLISION_NAME = "trigger";
     private static final String COLLISION_NAME_DRAGON = "dragonfly";
 
@@ -68,7 +69,7 @@ public final class Bomb extends FeatureModel implements Routine, Recyclable, Col
         {
             hurtable.hurt();
             count++;
-            if (count > 4)
+            if (count > FLICKER_COUNT)
             {
                 hurtable.kill(true);
             }

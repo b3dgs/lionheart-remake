@@ -33,4 +33,45 @@
             class="com.b3dgs.lionheart.editor.ApplicationConfiguration">
       </processor>
    </extension>
+      <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="com.b3dgs.lionheart.editor.object.properties.enablePatrol">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionengine.editor.object.propertiesTesterPatrol.enablePatrol">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.object.properties.editPatrol">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionengine.editor.object.propertiesTesterPatrol.editPatrol">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.object.properties.disablePatrol">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionengine.editor.object.propertiesTesterPatrol.disablePatrol">
+         </test>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.PropertiesPatrolTester"
+            id="com.b3dgs.lionheart.editor.object.propertiesTesterPatrol"
+            namespace="com.b3dgs.lionheart.editor.object.propertiesTesterPatrol"
+            properties="enablePatrol,editPatrol,disablePatrol"
+            type="java.lang.Object">
+      </propertyTester>
+   </extension>
+   <extension
+         point="com.b3dgs.lionengine.editor.propertiesObject">
+      <implementation
+            class="com.b3dgs.lionheart.editor.object.properties.PropertiesPatrol"
+            priority="10">
+      </implementation>
+   </extension>
 </plugin>

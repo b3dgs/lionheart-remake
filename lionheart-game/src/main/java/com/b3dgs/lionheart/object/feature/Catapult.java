@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Direction;
@@ -39,7 +40,8 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Catapult feature implementation.
@@ -48,13 +50,14 @@ import com.b3dgs.lionheart.object.Configurable;
  * </p>
  */
 @FeatureInterface
-public final class Catapult extends FeatureModel implements Configurable, Routine, Recyclable, CollidableListener
+public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable, CollidableListener
 {
     private final Viewer viewer = services.get(Viewer.class);
 
     private final Animation idle;
     private final Animation fire;
 
+    private CatapultConfig config;
     private Direction vector = DirectionNone.INSTANCE;
     private boolean fired;
 
@@ -78,20 +81,17 @@ public final class Catapult extends FeatureModel implements Configurable, Routin
         fire = config.getAnimation(Anim.ATTACK);
     }
 
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration reference.
-     */
-    public void load(CatapultConfig config)
+    @Override
+    public void load(XmlReader root)
     {
+        config = new CatapultConfig(root);
         vector = new Force(config.getVx(), config.getVy());
     }
 
     @Override
-    public void load(XmlReader root)
+    public void save(Xml root)
     {
-        root.getChildOptional(CatapultConfig.NODE_CATAPULT).map(CatapultConfig::imports).ifPresent(this::load);
+        config.save(root);
     }
 
     @Override

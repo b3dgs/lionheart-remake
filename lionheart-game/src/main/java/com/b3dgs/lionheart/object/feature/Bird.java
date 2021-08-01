@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -54,7 +53,6 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
 @FeatureInterface
 public final class Bird extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final double CURVE_FORCE = 0.0;
     private static final long TICK_GLUE = 200L;
 
     private final Tick tick = new Tick();
@@ -121,7 +119,6 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
             hit = true;
             device = model.getInput();
             model.setInput(DeviceControllerVoid.getInstance());
-            glue.setTransformY(() -> UtilMath.cos(animatable.getFrameAnim() * 36) * CURVE_FORCE);
             glue.start();
         }
     }

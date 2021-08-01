@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
@@ -68,11 +69,16 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
  * Entity model implementation.
  */
 @FeatureInterface
-public final class EntityModel extends EntityModelHelper implements Configurable, Routine, Recyclable
+public final class EntityModel extends EntityModelHelper implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int SECRET_RANGE = 48;
     private static final int PREFIX = State.class.getSimpleName().length();
+
+    private static final double DEFAULT_MOVEMENT_VELOCITY = 0.1;
+    private static final double DEFAULT_MOVEMENT_SENSIBILITY = 0.001;
+    private static final double DEFAULT_JUMP_VELOCITY = 0.18;
+    private static final double DEFAULT_JUMP_SENSIBILITY = 0.1;
 
     /**
      * Get animation name from state class.
@@ -150,14 +156,14 @@ public final class EntityModel extends EntityModelHelper implements Configurable
             player = null;
         }
 
-        movement.setVelocity(0.1);
-        movement.setSensibility(0.001);
+        movement.setVelocity(DEFAULT_MOVEMENT_VELOCITY);
+        movement.setSensibility(DEFAULT_MOVEMENT_SENSIBILITY);
+
+        jump.setVelocity(DEFAULT_JUMP_VELOCITY);
+        jump.setSensibility(DEFAULT_JUMP_SENSIBILITY);
+        jump.setDestination(0.0, 0.0);
 
         body.setDesiredFps(source.getRate());
-
-        jump.setSensibility(0.1);
-        jump.setVelocity(0.18);
-        jump.setDestination(0.0, 0.0);
 
         collidable.setCollisionVisibility(Constant.DEBUG);
     }
@@ -406,6 +412,33 @@ public final class EntityModel extends EntityModelHelper implements Configurable
             nextSpawn = Optional.empty();
         }
         setNext(root.readStringOptional(EntityConfig.ATT_NEXT), nextSpawn);
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        root.writeString(EntityConfig.ATT_FILE, setup.getMedia().getPath());
+
+        root.writeDouble(EntityConfig.ATT_SPAWN_TX, transformable.getX() / map.getTileWidth());
+        root.writeDouble(EntityConfig.ATT_SPAWN_TY,
+                         transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
+
+        if (secret)
+        {
+            root.writeBoolean(EntityConfig.ATT_SECRET, secret);
+        }
+
+        final Mirror mirror = mirrorable.getMirror();
+        if (mirror != Mirror.NONE)
+        {
+            root.writeString(EntityConfig.ATT_MIRROR, mirror.name());
+        }
+
+        nextSpawn.ifPresent(s ->
+        {
+            root.writeDouble(EntityConfig.ATT_SPAWN_TX, s.getX());
+            root.writeDouble(EntityConfig.ATT_SPAWN_TY, s.getY());
+        });
     }
 
     @Override

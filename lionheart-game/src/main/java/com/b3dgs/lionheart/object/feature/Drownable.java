@@ -41,8 +41,10 @@ import com.b3dgs.lionheart.object.state.StateDrowned;
 @FeatureInterface
 public final class Drownable extends FeatureModel implements Routine, Recyclable
 {
+    private static final int DROWN_OFFSET_Y = 8;
+
     private final MapTileWater water = services.get(MapTileWater.class);
-    /** Current drown check. */
+
     private Updatable check;
 
     @FeatureGet private Transformable transformable;
@@ -67,7 +69,7 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
      */
     private void checkStart(double extrp)
     {
-        if (transformable.getY() < water.getCurrent() - transformable.getHeight() + 8)
+        if (transformable.getY() < water.getCurrent() - transformable.getHeight() + DROWN_OFFSET_Y)
         {
             stateHandler.changeState(StateDrowned.class);
             check = UpdatableVoid.getInstance();

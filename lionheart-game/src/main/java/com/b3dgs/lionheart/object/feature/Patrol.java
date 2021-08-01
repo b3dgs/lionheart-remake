@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -49,8 +50,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
-import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StatePatrol;
@@ -64,8 +66,8 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </p>
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel
-                          implements Configurable, Routine, TileCollidableListener, CollidableListener, Recyclable
+public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, Routine, TileCollidableListener,
+                          CollidableListener, Recyclable
 {
     private final List<PatrolConfig> patrols = new ArrayList<>();
     private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
@@ -112,23 +114,7 @@ public final class Patrol extends FeatureModel
     {
         super(services, setup);
 
-        patrols.addAll(PatrolConfig.imports(setup));
-
         anim = AnimationConfig.imports(setup);
-    }
-
-    /**
-     * Load patrol configuration.
-     * 
-     * @param patrols The configuration patrols.
-     */
-    public void load(List<PatrolConfig> patrols)
-    {
-        if (!patrols.isEmpty())
-        {
-            this.patrols.addAll(patrols);
-            loadNextPatrol();
-        }
     }
 
     /**
@@ -294,7 +280,20 @@ public final class Patrol extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
-        load(PatrolConfig.imports(root.getChildren(PatrolConfig.NODE_PATROL)));
+        patrols.addAll(PatrolConfig.imports(root));
+        if (!patrols.isEmpty())
+        {
+            loadNextPatrol();
+        }
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        for (final PatrolConfig config : patrols)
+        {
+            config.save(root);
+        }
     }
 
     @Override

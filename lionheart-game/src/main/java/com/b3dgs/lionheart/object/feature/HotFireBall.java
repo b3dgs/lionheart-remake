@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -32,7 +33,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * HotFireBall feature implementation.
@@ -41,7 +43,7 @@ import com.b3dgs.lionheart.object.Configurable;
  * </ol>
  */
 @FeatureInterface
-public final class HotFireBall extends FeatureModel implements Configurable, Routine, Recyclable
+public final class HotFireBall extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final int BALL_DELAY_TICK = 8;
 
@@ -68,22 +70,18 @@ public final class HotFireBall extends FeatureModel implements Configurable, Rou
         super(services, setup);
     }
 
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration.
-     */
-    public void load(HotFireBallConfig config)
+    @Override
+    public void load(XmlReader root)
     {
-        this.config = config;
+        config = new HotFireBallConfig(root);
         launcher.setLevel(config.getLevel());
         tick.set(config.getDelay() / 2);
     }
 
     @Override
-    public void load(XmlReader root)
+    public void save(Xml root)
     {
-        root.getChildOptional(HotFireBallConfig.NODE_HOTFIREBALL).map(HotFireBallConfig::imports).ifPresent(this::load);
+        config.save(root);
     }
 
     @Override

@@ -343,9 +343,9 @@ public final class Launcher
         final JPanel panel = new JPanel(new GridBagLayout());
         parent.add(panel);
         panel.setBorder(BORDER);
-        final Collection<DeviceControllerConfig> configs = DeviceControllerConfig.imports(new Services(),
-                                                                                          Medias.create(Settings.getInstance()
-                                                                                                                .getInput()));
+        final Collection<DeviceControllerConfig> configs;
+        configs = DeviceControllerConfig.imports(new Services(), Medias.create(Settings.getInstance().getInput()));
+
         for (final DeviceControllerConfig config : configs)
         {
             final JButton setup = new JButton(LABEL_SETUP_DEVICE + config.getDevice().getSimpleName());

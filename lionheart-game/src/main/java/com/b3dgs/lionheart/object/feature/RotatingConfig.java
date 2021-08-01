@@ -17,14 +17,14 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Rotating Platform configuration.
  */
-public final class RotatingConfig
+public final class RotatingConfig implements XmlSaver
 {
     /** Rotating node name. */
     public static final String NODE_ROTATING = "rotating";
@@ -44,34 +44,6 @@ public final class RotatingConfig
     public static final String ATT_CONTROLLED = "controlled";
     /** Back attribute name. */
     public static final String ATT_BACK = "back";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static RotatingConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_ROTATING));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static RotatingConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new RotatingConfig(root);
-    }
 
     /** Extremity reference. */
     private final String extremity;
@@ -95,20 +67,21 @@ public final class RotatingConfig
      * 
      * @param root The root configuration (must not be null).
      */
-    private RotatingConfig(XmlReader root)
+    public RotatingConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        extremity = root.readString(ATT_EXTREMITY);
-        ring = root.readString(ATT_RING);
-        length = root.readInteger(4, ATT_LENGTH);
-        speed = root.readDouble(1.0, ATT_SPEED);
-        offset = root.readInteger(0, ATT_OFFSET);
-        amplitude = root.readInteger(0, ATT_AMPLITUDE);
-        controlled = root.readBoolean(false, ATT_CONTROLLED);
-        back = root.readInteger(-1, ATT_BACK);
+        final XmlReader node = root.getChild(NODE_ROTATING);
+        extremity = node.readString(ATT_EXTREMITY);
+        ring = node.readString(ATT_RING);
+        length = node.readInteger(4, ATT_LENGTH);
+        speed = node.readDouble(1.0, ATT_SPEED);
+        offset = node.readInteger(0, ATT_OFFSET);
+        amplitude = node.readInteger(0, ATT_AMPLITUDE);
+        controlled = node.readBoolean(false, ATT_CONTROLLED);
+        back = node.readInteger(-1, ATT_BACK);
     }
 
     /**
@@ -189,5 +162,19 @@ public final class RotatingConfig
     public int getBack()
     {
         return back;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_ROTATING);
+        node.writeString(ATT_EXTREMITY, extremity);
+        node.writeString(ATT_RING, ring);
+        node.writeInteger(ATT_LENGTH, length);
+        node.writeDouble(ATT_SPEED, speed);
+        node.writeInteger(ATT_OFFSET, offset);
+        node.writeInteger(ATT_AMPLITUDE, amplitude);
+        node.writeBoolean(ATT_CONTROLLED, controlled);
+        node.writeInteger(ATT_BACK, back);
     }
 }

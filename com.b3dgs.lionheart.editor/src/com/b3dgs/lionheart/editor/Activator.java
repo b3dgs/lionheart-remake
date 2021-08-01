@@ -28,13 +28,14 @@ import com.b3dgs.lionheart.Constant;
 public class Activator implements BundleActivator
 {
     /** Plugin name. */
-    public static final String PLUGIN_NAME = "Lionheart Remake Editor";
+    public static final String PLUGIN_NAME = Constant.PROGRAM_NAME + " Editor";
     /** Plugin version. */
     public static final Version PLUGIN_VERSION = Constant.PROGRAM_VERSION;
     /** Plugin website. */
-    public static final String PLUGIN_WEBSITE = "www.b3dgs.com";
+    public static final String PLUGIN_WEBSITE = "https://www.b3dgs.com";
     /** Plugin ID. */
-    public static final String PLUGIN_ID = "com.b3dgs.lionheart.editor";
+    public static final String PLUGIN_ID = Activator.class.getPackageName();
+
     /** Context reference. */
     private static BundleContext context;
 
@@ -55,10 +56,6 @@ public class Activator implements BundleActivator
     {
         super();
     }
-
-    /*
-     * BundleActivator
-     */
 
     @Override
     public void start(BundleContext bundleContext) throws Exception

@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.Xml;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Factory;
@@ -119,12 +119,12 @@ public final class Tools
                         generateObjectRaster(type, media);
                     }
 
-                    if (new Xml(media).getChild(FeaturableConfig.NODE_FEATURES)
-                                      .getChildren(FeaturableConfig.NODE_FEATURE)
-                                      .stream()
-                                      .map(Xml::getText)
-                                      .collect(Collectors.toList())
-                                      .contains(Underwater.class.getName()))
+                    if (new XmlReader(media).getChild(FeaturableConfig.NODE_FEATURES)
+                                            .getChildren(FeaturableConfig.NODE_FEATURE)
+                                            .stream()
+                                            .map(XmlReader::getText)
+                                            .collect(Collectors.toList())
+                                            .contains(Underwater.class.getName()))
                     {
                         generateObjectWaterRaster(type, media);
                     }

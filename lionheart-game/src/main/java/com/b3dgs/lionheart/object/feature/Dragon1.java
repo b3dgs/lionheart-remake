@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -35,8 +36,9 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Dragon1 feature implementation.
@@ -46,7 +48,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </ol>
  */
 @FeatureInterface
-public final class Dragon1 extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Dragon1 extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final double SPEED_X = 1.2;
     private static final double SPEED_Y = 0.7;
@@ -79,18 +81,6 @@ public final class Dragon1 extends FeatureModel implements Configurable, Routine
         super(services, setup);
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
-    }
-
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration to load.
-     */
-    public void load(Dragon1Config config)
-    {
-        this.config = config;
-        current = this::updateStart;
-        tick.restart();
     }
 
     /**
@@ -148,7 +138,15 @@ public final class Dragon1 extends FeatureModel implements Configurable, Routine
     @Override
     public void load(XmlReader root)
     {
-        root.getChildOptional(Dragon1Config.NODE_DRAGON1).map(Dragon1Config::imports).ifPresent(this::load);
+        config = new Dragon1Config(root);
+        current = this::updateStart;
+        tick.restart();
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        config.save(root);
     }
 
     @Override

@@ -18,49 +18,37 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Pillar configuration.
  */
-public final class PillarConfig
+public final class PillarConfig implements XmlSaver
 {
     /** Pillar node name. */
     public static final String NODE_PILLARD = "pillar";
     /** Delay attribute name. */
     public static final String ATT_DELAY = "delay";
 
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static PillarConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_PILLARD));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static PillarConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new PillarConfig(root.readInteger(ATT_DELAY));
-    }
-
     /** Delay. */
     private final int delay;
+
+    /**
+     * Create config.
+     * 
+     * @param root The root configuration (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
+     */
+    public PillarConfig(XmlReader root)
+    {
+        super();
+
+        Check.notNull(root);
+
+        delay = root.readInteger(ATT_DELAY);
+    }
 
     /**
      * Create config.
@@ -82,5 +70,11 @@ public final class PillarConfig
     public int getDelay()
     {
         return delay;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        root.writeInteger(ATT_DELAY, delay);
     }
 }

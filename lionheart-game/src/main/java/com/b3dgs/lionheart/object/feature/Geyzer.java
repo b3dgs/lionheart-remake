@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
@@ -41,7 +42,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Geyzer feature implementation.
@@ -50,7 +52,7 @@ import com.b3dgs.lionheart.object.Configurable;
  * </ol>
  */
 @FeatureInterface
-public final class Geyzer extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Geyzer extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final double SPEED = 3.0;
 
@@ -79,14 +81,10 @@ public final class Geyzer extends FeatureModel implements Configurable, Routine,
         super(services, setup);
     }
 
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration to load.
-     */
-    public void load(GeyzerConfig config)
+    @Override
+    public void load(XmlReader root)
     {
-        this.config = config;
+        config = new GeyzerConfig(root);
 
         bottom.add(spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerCalc.xml"), transformable)
                           .getFeature(Transformable.class));
@@ -105,9 +103,9 @@ public final class Geyzer extends FeatureModel implements Configurable, Routine,
     }
 
     @Override
-    public void load(XmlReader root)
+    public void save(Xml root)
     {
-        root.getChildOptional(GeyzerConfig.NODE_GEYZER).map(GeyzerConfig::imports).ifPresent(this::load);
+        config.save(root);
     }
 
     @Override

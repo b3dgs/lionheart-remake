@@ -19,47 +19,19 @@ package com.b3dgs.lionheart.object.feature;
 import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Spike configuration.
  */
-public final class SpikeConfig
+public final class SpikeConfig implements XmlSaver
 {
     /** Config node name. */
     public static final String NODE_SPIKE = "spike";
     /** Delay attribute name. */
     public static final String ATT_DELAY = "delay";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static SpikeConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_SPIKE));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static SpikeConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new SpikeConfig(root);
-    }
 
     /** Delay start. */
     private final OptionalInt delay;
@@ -69,13 +41,14 @@ public final class SpikeConfig
      * 
      * @param root The root configuration (must not be null).
      */
-    private SpikeConfig(XmlReader root)
+    public SpikeConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        delay = root.readIntegerOptional(ATT_DELAY);
+        final XmlReader node = root.getChild(NODE_SPIKE);
+        delay = node.readIntegerOptional(ATT_DELAY);
     }
 
     /**
@@ -86,5 +59,15 @@ public final class SpikeConfig
     public OptionalInt getDelay()
     {
         return delay;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        delay.ifPresent(d ->
+        {
+            final Xml node = root.createChild(NODE_SPIKE);
+            node.writeInteger(ATT_DELAY, d);
+        });
     }
 }

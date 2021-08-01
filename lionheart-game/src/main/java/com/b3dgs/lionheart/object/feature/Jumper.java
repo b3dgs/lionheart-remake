@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -40,8 +41,9 @@ import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.constant.CollisionName;
-import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StatePatrol;
@@ -53,7 +55,7 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  * </ol>
  */
 @FeatureInterface
-public final class Jumper extends FeatureModel implements Configurable, Routine
+public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, Routine
 {
     private static final String NODE = "jumper";
     private static final String ATT_OFFSET = "offset";
@@ -132,6 +134,15 @@ public final class Jumper extends FeatureModel implements Configurable, Routine
     public void load(XmlReader root)
     {
         setJump(root.readInteger(0, EntityConfig.ATT_JUMP));
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        if (jumpTick > 0)
+        {
+            root.writeInteger(EntityConfig.ATT_JUMP, jumpTick);
+        }
     }
 
     @Override

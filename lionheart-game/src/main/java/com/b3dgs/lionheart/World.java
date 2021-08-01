@@ -36,7 +36,6 @@ import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
-import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
@@ -76,7 +75,6 @@ import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.menu.Menu;
-import com.b3dgs.lionheart.object.Configurable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -415,20 +413,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     /**
-     * Load feature data.
-     * 
-     * @param feature The feature to load.
-     * @param entity The entity data.
-     */
-    private void loadFeature(Feature feature, EntityConfig entity)
-    {
-        if (feature instanceof Configurable)
-        {
-            ((Configurable) feature).load(entity.getRoot());
-        }
-    }
-
-    /**
      * Create entity from configuration.
      * 
      * @param entity The entity configuration.
@@ -443,7 +427,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             featurable.ifIs(Stats.class, Stats::initLionhard);
         }
-        featurable.getFeatures().forEach(feature -> loadFeature(feature, entity));
+        Util.loadEntityFeature(featurable, entity);
 
         return featurable;
     }

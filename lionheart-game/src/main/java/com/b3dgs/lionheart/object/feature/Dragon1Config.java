@@ -17,47 +17,19 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Dragon1 configuration.
  */
-public final class Dragon1Config
+public final class Dragon1Config implements XmlSaver
 {
     /** Config node name. */
     public static final String NODE_DRAGON1 = "dragon1";
     /** Fired count attribute name. */
     public static final String ATT_FIRED_COUNT = "firedCount";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static Dragon1Config imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_DRAGON1));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static Dragon1Config imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new Dragon1Config(root);
-    }
 
     /** Fire delay. */
     private final int firedCount;
@@ -67,13 +39,14 @@ public final class Dragon1Config
      * 
      * @param root The root configuration (must not be null).
      */
-    private Dragon1Config(XmlReader root)
+    public Dragon1Config(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        firedCount = root.readInteger(ATT_FIRED_COUNT);
+        final XmlReader node = root.getChild(NODE_DRAGON1);
+        firedCount = node.readInteger(ATT_FIRED_COUNT);
     }
 
     /**
@@ -84,5 +57,12 @@ public final class Dragon1Config
     public int getFiredCount()
     {
         return firedCount;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_DRAGON1);
+        node.writeInteger(ATT_FIRED_COUNT, firedCount);
     }
 }

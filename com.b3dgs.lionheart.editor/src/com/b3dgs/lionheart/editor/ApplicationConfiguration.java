@@ -19,6 +19,8 @@ package com.b3dgs.lionheart.editor;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -31,20 +33,34 @@ import org.eclipse.e4.ui.workbench.UIEvents;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.editor.dialog.project.ProjectImportHandler;
+import com.b3dgs.lionengine.editor.object.world.updater.ObjectSelectionListener;
+import com.b3dgs.lionengine.editor.object.world.updater.WorldInteractionObject;
 import com.b3dgs.lionengine.editor.project.Project;
 import com.b3dgs.lionengine.editor.project.ProjectFactory;
+import com.b3dgs.lionengine.editor.properties.PropertiesPart;
+import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
+import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
+import com.b3dgs.lionengine.game.feature.Featurable;
+import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Spawner;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterListener;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
+import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTilePersisterOptimized;
+import com.b3dgs.lionheart.MusicPlayer;
 
 /**
  * Configure the editor with the right name.
@@ -84,12 +100,34 @@ public class ApplicationConfiguration
      */
     private class AppStartupCompleteEventHandler implements EventHandler
     {
+        private final Services services = WorldModel.INSTANCE.getServices();
+
         /**
          * Constructor.
          */
         AppStartupCompleteEventHandler()
         {
             super();
+        }
+
+        private void handleExtensions()
+        {
+            services.get(WorldInteractionObject.class).addListener(new ObjectSelectionListener()
+            {
+                @Override
+                public void notifyObjectSelected(Transformable object)
+                {
+                    final PropertiesPart part = UtilPart.getPart(PropertiesPart.ID, PropertiesPart.class);
+                    part.setInput(part.getTree(), (Configurer) null);
+                    // TODO handle configurer with stage
+                }
+
+                @Override
+                public void notifyObjectsSelected(Collection<Transformable> objects)
+                {
+                    // Nothing to do
+                }
+            });
         }
 
         /**
@@ -107,8 +145,8 @@ public class ApplicationConfiguration
                     {
                         importProject(args[i]);
 
-                        WorldModel.INSTANCE.getServices().create(CameraTracker.class);
-                        WorldModel.INSTANCE.getServices().add(new SourceResolutionProvider()
+                        services.create(CameraTracker.class);
+                        services.add(new SourceResolutionProvider()
                         {
                             @Override
                             public int getWidth()
@@ -163,6 +201,34 @@ public class ApplicationConfiguration
             {
                 final Project project = ProjectFactory.create(path.getCanonicalFile());
                 ProjectImportHandler.importProject(project);
+
+                WorldModel.INSTANCE.getServices().create(CheckpointHandler.class);
+                WorldModel.INSTANCE.getServices().add(new MusicPlayer()
+                {
+                    @Override
+                    public void stopMusic()
+                    {
+                    }
+
+                    @Override
+                    public void playMusic(Media media)
+                    {
+                    }
+                });
+                WorldModel.INSTANCE.getServices().add(new LoadNextStage()
+                {
+                    @Override
+                    public void loadNextStage(String next, int tickDelay, Optional<Coord> spawn)
+                    {
+                    }
+                });
+                WorldModel.INSTANCE.getServices().add((Spawner) (media, x, y) ->
+                {
+                    final Featurable featurable = WorldModel.INSTANCE.getFactory().create(media);
+                    featurable.getFeature(Transformable.class).teleport(x, y);
+                    WorldModel.INSTANCE.getHandler().add(featurable);
+                    return featurable;
+                });
             }
             catch (final IOException exception)
             {
@@ -173,6 +239,7 @@ public class ApplicationConfiguration
         @Override
         public void handleEvent(Event event)
         {
+            handleExtensions();
             checkProjectImport();
         }
     }

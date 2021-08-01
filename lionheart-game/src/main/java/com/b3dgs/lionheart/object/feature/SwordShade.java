@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
-import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Viewer;
@@ -50,12 +49,14 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class SwordShade extends FeatureModel implements Routine
 {
+    private static final int SHADE_FH = 10;
+    private static final int SHADE_FV = 5;
+
     private final SpriteAnimated[] shades = new SpriteAnimated[Constant.STATS_MAX_SWORD];
     private final AnimationConfig config;
     private final Viewer viewer;
 
     private SpriteAnimated shade;
-    private Animation anim;
 
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
@@ -80,8 +81,8 @@ public final class SwordShade extends FeatureModel implements Routine
         {
             shades[i] = Drawable.loadSpriteAnimated(Medias.create(setup.getMedia().getParentPath(),
                                                                   "shade" + i + ".png"),
-                                                    10,
-                                                    5);
+                                                    SHADE_FH,
+                                                    SHADE_FV);
             shades[i].load();
             shades[i].prepare();
             shades[i].setFrameOffsets(shades[i].getTileWidth() / 2, -shades[i].getTileHeight());
@@ -98,11 +99,15 @@ public final class SwordShade extends FeatureModel implements Routine
 
         stateHandler.addListener((from, to) ->
         {
-            shade.stop();
             final String name = Anim.SHADE + EntityModel.getAnimationName(to);
             if (config.hasAnimation(name))
             {
-                anim = config.getAnimation(name);
+                shade.play(config.getAnimation(name));
+                Sfx.VALDYN_SWORD.play();
+            }
+            else
+            {
+                shade.stop();
             }
         });
 
@@ -113,12 +118,6 @@ public final class SwordShade extends FeatureModel implements Routine
     public void update(double extrp)
     {
         shade.update(extrp);
-        if (anim != null)
-        {
-            shade.play(anim);
-            Sfx.VALDYN_SWORD.play();
-            anim = null;
-        }
     }
 
     @Override

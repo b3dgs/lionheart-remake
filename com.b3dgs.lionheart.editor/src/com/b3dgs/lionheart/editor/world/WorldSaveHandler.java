@@ -28,7 +28,9 @@ import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Handler;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.editor.Util;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Save world handler.
@@ -66,12 +68,21 @@ public final class WorldSaveHandler
      */
     private static Xml saveFeaturable(Featurable featurable, MapTile map)
     {
-        final Xml root = new Xml("entity");
-        root.writeString("file", featurable.getMedia().getPath());
+        final Xml root = new Xml(EntityConfig.NODE_ENTITY);
+        root.writeString(EntityConfig.ATT_FILE, featurable.getMedia().getPath());
 
         final Transformable transformable = featurable.getFeature(Transformable.class);
-        root.writeDouble("tx", transformable.getX() / map.getTileWidth());
-        root.writeDouble("ty", transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
+        root.writeDouble(EntityConfig.ATT_RESPAWN_TX, transformable.getX() / map.getTileWidth());
+        root.writeDouble(EntityConfig.ATT_RESPAWN_TY,
+                         transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
+
+        featurable.getFeatures().forEach(feature ->
+        {
+            if (feature instanceof XmlSaver)
+            {
+                ((XmlSaver) feature).save(root);
+            }
+        });
 
         return root;
     }

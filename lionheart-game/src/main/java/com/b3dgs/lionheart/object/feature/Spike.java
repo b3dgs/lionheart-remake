@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -35,7 +36,8 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.object.Configurable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Spike feature implementation.
@@ -44,7 +46,7 @@ import com.b3dgs.lionheart.object.Configurable;
  * </p>
  */
 @FeatureInterface
-public final class Spike extends FeatureModel implements Configurable, Routine, Recyclable
+public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final int PHASE1_DELAY_TICK = 28;
     private static final int PHASE2_DELAY_TICK = 28;
@@ -57,6 +59,8 @@ public final class Spike extends FeatureModel implements Configurable, Routine, 
     private final Animation phase1;
     private final Animation phase2;
     private final Animation phase3;
+
+    private SpikeConfig config;
     private int phase;
     private Updatable checker;
 
@@ -123,30 +127,33 @@ public final class Spike extends FeatureModel implements Configurable, Routine, 
         checker = phaseUpdater;
     }
 
-    /**
-     * Load spike configuration.
-     * 
-     * @param config The configuration reference.
-     */
-    public void load(SpikeConfig config)
-    {
-        config.getDelay().ifPresent(delayTick ->
-        {
-            checker = extrp ->
-            {
-                delay.update(extrp);
-                if (delay.elapsed(delayTick))
-                {
-                    checker = phaseUpdater;
-                }
-            };
-        });
-    }
-
     @Override
     public void load(XmlReader root)
     {
-        root.getChildOptional(SpikeConfig.NODE_SPIKE).map(SpikeConfig::imports).ifPresent(this::load);
+        if (root.hasChild(SpikeConfig.NODE_SPIKE))
+        {
+            config = new SpikeConfig(root);
+            config.getDelay().ifPresent(delayTick ->
+            {
+                checker = extrp ->
+                {
+                    delay.update(extrp);
+                    if (delay.elapsed(delayTick))
+                    {
+                        checker = phaseUpdater;
+                    }
+                };
+            });
+        }
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

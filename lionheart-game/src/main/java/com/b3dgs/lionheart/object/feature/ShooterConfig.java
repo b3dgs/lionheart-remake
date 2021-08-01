@@ -17,14 +17,14 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
-import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Shooter configuration.
  */
-public final class ShooterConfig
+public final class ShooterConfig implements XmlSaver
 {
     /** Shooter node name. */
     public static final String NODE_SHOOTER = "shooter";
@@ -44,34 +44,6 @@ public final class ShooterConfig
     public static final String ATT_DVY = "dvy";
     /** Fire track attribute name. */
     public static final String ATT_TRACK = "track";
-
-    /**
-     * Imports the config from configurer.
-     * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static ShooterConfig imports(Configurer configurer)
-    {
-        Check.notNull(configurer);
-
-        return imports(configurer.getChild(NODE_SHOOTER));
-    }
-
-    /**
-     * Imports the config from root.
-     * 
-     * @param root The patrol node reference (must not be <code>null</code>).
-     * @return The config data.
-     * @throws LionEngineException If unable to read node.
-     */
-    public static ShooterConfig imports(XmlReader root)
-    {
-        Check.notNull(root);
-
-        return new ShooterConfig(root);
-    }
 
     /** Fire delay. */
     private final int fireDelay;
@@ -95,20 +67,21 @@ public final class ShooterConfig
      * 
      * @param root The root configuration (must not be null).
      */
-    private ShooterConfig(XmlReader root)
+    public ShooterConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        fireDelay = root.readInteger(ATT_FIRE_DELAY);
-        firedDelay = root.readInteger(ATT_FIRED_DELAY);
-        anim = root.readInteger(0, ATT_ANIM);
-        svx = root.readDouble(ATT_SVX);
-        svy = root.readDouble(ATT_SVY);
-        dvx = root.readDouble(svx, ATT_DVX);
-        dvy = root.readDouble(svy, ATT_DVY);
-        track = root.readBoolean(false, ATT_TRACK);
+        final XmlReader node = root.getChild(NODE_SHOOTER);
+        fireDelay = node.readInteger(ATT_FIRE_DELAY);
+        firedDelay = node.readInteger(ATT_FIRED_DELAY);
+        anim = node.readInteger(0, ATT_ANIM);
+        svx = node.readDouble(ATT_SVX);
+        svy = node.readDouble(ATT_SVY);
+        dvx = node.readDouble(svx, ATT_DVX);
+        dvy = node.readDouble(svy, ATT_DVY);
+        track = node.readBoolean(false, ATT_TRACK);
     }
 
     /**
@@ -189,5 +162,19 @@ public final class ShooterConfig
     public boolean getTrack()
     {
         return track;
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        final Xml node = root.createChild(NODE_SHOOTER);
+        node.writeInteger(ATT_FIRE_DELAY, fireDelay);
+        node.writeInteger(ATT_FIRED_DELAY, firedDelay);
+        node.writeInteger(ATT_ANIM, anim);
+        node.writeDouble(ATT_SVX, svx);
+        node.writeDouble(ATT_SVY, svy);
+        node.writeDouble(ATT_DVX, dvx);
+        node.writeDouble(ATT_DVY, dvy);
+        node.writeBoolean(ATT_TRACK, track);
     }
 }
