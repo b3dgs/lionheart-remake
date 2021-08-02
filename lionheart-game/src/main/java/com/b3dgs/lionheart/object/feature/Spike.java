@@ -130,7 +130,7 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ro
     @Override
     public void load(XmlReader root)
     {
-        if (root.hasChild(SpikeConfig.NODE_SPIKE))
+        if (root.hasNode(SpikeConfig.NODE_SPIKE))
         {
             config = new SpikeConfig(root);
             config.getDelay().ifPresent(delayTick ->

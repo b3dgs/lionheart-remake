@@ -49,8 +49,8 @@ public final class CatapultConfig implements XmlSaver
         super();
 
         final XmlReader node = root.getChild(NODE_CATAPULT);
-        vx = node.readDouble(ATT_VX);
-        vy = node.readDouble(ATT_VY);
+        vx = node.getDouble(ATT_VX);
+        vy = node.getDouble(ATT_VY);
     }
 
     /**

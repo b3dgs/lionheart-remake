@@ -48,7 +48,7 @@ public final class SpikeConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_SPIKE);
-        delay = node.readIntegerOptional(ATT_DELAY);
+        delay = node.getIntegerOptional(ATT_DELAY);
     }
 
     /**

@@ -74,14 +74,14 @@ public final class ShooterConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_SHOOTER);
-        fireDelay = node.readInteger(ATT_FIRE_DELAY);
-        firedDelay = node.readInteger(ATT_FIRED_DELAY);
-        anim = node.readInteger(0, ATT_ANIM);
-        svx = node.readDouble(ATT_SVX);
-        svy = node.readDouble(ATT_SVY);
-        dvx = node.readDouble(svx, ATT_DVX);
-        dvy = node.readDouble(svy, ATT_DVY);
-        track = node.readBoolean(false, ATT_TRACK);
+        fireDelay = node.getInteger(ATT_FIRE_DELAY);
+        firedDelay = node.getInteger(ATT_FIRED_DELAY);
+        anim = node.getInteger(0, ATT_ANIM);
+        svx = node.getDouble(ATT_SVX);
+        svy = node.getDouble(ATT_SVY);
+        dvx = node.getDouble(svx, ATT_DVX);
+        dvy = node.getDouble(svy, ATT_DVY);
+        track = node.getBoolean(false, ATT_TRACK);
     }
 
     /**

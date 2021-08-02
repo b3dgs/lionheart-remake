@@ -95,13 +95,13 @@ public final class EntityConfig
 
         this.root = root;
 
-        media = Medias.create(root.readString(ATT_FILE));
+        media = Medias.create(root.getString(ATT_FILE));
 
         final Configurer configurer = new Configurer(media);
         size = SizeConfig.imports(configurer);
         origin = OriginConfig.imports(configurer);
 
-        spawn = new Coord(root.readDouble(ATT_RESPAWN_TX), root.readDouble(ATT_RESPAWN_TY));
+        spawn = new Coord(root.getDouble(ATT_RESPAWN_TX), root.getDouble(ATT_RESPAWN_TY));
     }
 
     /**

@@ -63,10 +63,10 @@ public final class HurtableConfig
             final OptionalInt frame = configurer.getIntegerOptional(ATT_FRAME, NODE_HURTABLE);
             final Optional<Media> effect = configurer.getMediaOptional(ATT_EFFECT, NODE_HURTABLE);
             final OptionalDouble backward = configurer.getDoubleOptional(ATT_BACKWARD, NODE_HURTABLE);
-            final boolean persist = configurer.getBooleanDefault(false, ATT_PERSIST, NODE_HURTABLE);
-            final boolean fall = configurer.getBooleanDefault(false, ATT_FALL, NODE_HURTABLE);
+            final boolean persist = configurer.getBoolean(false, ATT_PERSIST, NODE_HURTABLE);
+            final boolean fall = configurer.getBoolean(false, ATT_FALL, NODE_HURTABLE);
             final Optional<String> sfx = configurer.getStringOptional(ATT_SFX, NODE_HURTABLE);
-            final boolean boss = configurer.getBooleanDefault(false, ATT_BOSS, NODE_HURTABLE);
+            final boolean boss = configurer.getBoolean(false, ATT_BOSS, NODE_HURTABLE);
 
             return new HurtableConfig(frame, effect, backward, persist, fall, sfx, boss);
         }

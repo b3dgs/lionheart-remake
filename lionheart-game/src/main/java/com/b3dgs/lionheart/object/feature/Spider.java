@@ -115,7 +115,7 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
     @Override
     public void load(XmlReader root)
     {
-        final boolean hasConfig = root.hasChild(SpiderConfig.NODE_SPIDER);
+        final boolean hasConfig = root.hasNode(SpiderConfig.NODE_SPIDER);
         if (hasConfig)
         {
             config = new SpiderConfig(root);

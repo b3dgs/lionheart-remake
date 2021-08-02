@@ -126,7 +126,7 @@ public final class BulletBounceOnGround extends FeatureModel
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
         sfx = Sfx.valueOf(setup.getString(ATT_SFX, NODE));
-        count = setup.getIntegerDefault(0, ATT_COUNT, NODE);
+        count = setup.getInteger(0, ATT_COUNT, NODE);
     }
 
     /**
@@ -156,7 +156,7 @@ public final class BulletBounceOnGround extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
-        load(root.readDouble(0.0, EntityConfig.ATT_VX));
+        load(root.getDouble(0.0, EntityConfig.ATT_VX));
     }
 
     @Override

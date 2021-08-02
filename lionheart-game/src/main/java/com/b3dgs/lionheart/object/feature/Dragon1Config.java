@@ -46,7 +46,7 @@ public final class Dragon1Config implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_DRAGON1);
-        firedCount = node.readInteger(ATT_FIRED_COUNT);
+        firedCount = node.getInteger(ATT_FIRED_COUNT);
     }
 
     /**

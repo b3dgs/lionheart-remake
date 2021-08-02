@@ -46,9 +46,9 @@ public final class StatsConfig
     {
         Check.notNull(configurer);
 
-        final int health = configurer.getIntegerDefault(0, ATT_HEALTH, NODE_STATS);
-        final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_STATS);
-        final int damages = configurer.getIntegerDefault(1, ATT_DAMAGES, NODE_STATS);
+        final int health = configurer.getInteger(0, ATT_HEALTH, NODE_STATS);
+        final int life = configurer.getInteger(0, ATT_LIFE, NODE_STATS);
+        final int damages = configurer.getInteger(1, ATT_DAMAGES, NODE_STATS);
 
         return new StatsConfig(health, life, damages);
     }

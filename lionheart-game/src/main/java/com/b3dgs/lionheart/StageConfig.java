@@ -147,8 +147,8 @@ public final class StageConfig
         music = configurer.getMedia(ATT_FILE, NODE_MUSIC);
 
         mapFile = configurer.getMedia(ATT_FILE, NODE_MAP);
-        linesPerRaster = configurer.getIntegerDefault(2, ATT_MAP_LINES_PER_RASTER, NODE_MAP);
-        rasterLineOffset = configurer.getIntegerDefault(1, ATT_MAP_RASTER_LINE_OFFSET, NODE_MAP);
+        linesPerRaster = configurer.getInteger(2, ATT_MAP_LINES_PER_RASTER, NODE_MAP);
+        rasterLineOffset = configurer.getInteger(1, ATT_MAP_RASTER_LINE_OFFSET, NODE_MAP);
 
         rasterFolder = configurer.getStringOptional(ATT_RASTER_FOLDER, NODE_RASTER);
 
@@ -186,15 +186,15 @@ public final class StageConfig
         final Optional<Coord> spawn;
         if (checkpoint.hasAttribute(ATT_SPAWN_TX) && checkpoint.hasAttribute(ATT_SPAWN_TY))
         {
-            spawn = Optional.of(new Coord(checkpoint.readDouble(ATT_SPAWN_TX), checkpoint.readDouble(ATT_SPAWN_TY)));
+            spawn = Optional.of(new Coord(checkpoint.getDouble(ATT_SPAWN_TX), checkpoint.getDouble(ATT_SPAWN_TY)));
         }
         else
         {
             spawn = Optional.empty();
         }
-        checkpoints.add(new Checkpoint(checkpoint.readDouble(ATT_CHECKPOINT_TX),
-                                       checkpoint.readDouble(ATT_CHECKPOINT_TY),
-                                       checkpoint.readStringOptional(ATT_CHECKPOINT_NEXT),
+        checkpoints.add(new Checkpoint(checkpoint.getDouble(ATT_CHECKPOINT_TX),
+                                       checkpoint.getDouble(ATT_CHECKPOINT_TY),
+                                       checkpoint.getStringOptional(ATT_CHECKPOINT_NEXT),
                                        spawn));
     }
 

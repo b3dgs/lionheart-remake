@@ -85,7 +85,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     {
         super(services, setup);
 
-        free = setup.getBooleanDefault(false, ATT_FREE, NODE);
+        free = setup.getBoolean(false, ATT_FREE, NODE);
     }
 
     /**

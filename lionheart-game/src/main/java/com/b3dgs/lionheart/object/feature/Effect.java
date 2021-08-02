@@ -72,7 +72,7 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
     {
         super(services, setup);
 
-        count = setup.getIntegerDefault(0, ATT_COUNT, NODE_SFX_EXPLODE);
+        count = setup.getInteger(0, ATT_COUNT, NODE_SFX_EXPLODE);
     }
 
     @Override

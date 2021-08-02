@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -53,7 +52,6 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterListener;
-import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
@@ -215,12 +213,8 @@ public class ApplicationConfiguration
                     {
                     }
                 });
-                WorldModel.INSTANCE.getServices().add(new LoadNextStage()
+                WorldModel.INSTANCE.getServices().add((LoadNextStage) (next, tickDelay, spawn) ->
                 {
-                    @Override
-                    public void loadNextStage(String next, int tickDelay, Optional<Coord> spawn)
-                    {
-                    }
                 });
                 WorldModel.INSTANCE.getServices().add((Spawner) (media, x, y) ->
                 {

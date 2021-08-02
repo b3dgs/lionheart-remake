@@ -77,7 +77,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, R
             return jumpPress ? 1.0 : 0.0;
         }
     };
-    private final int offset = setup.getIntegerDefault(0, ATT_OFFSET, NODE);
+    private final int offset = setup.getInteger(0, ATT_OFFSET, NODE);
 
     private DeviceController oldControl;
     private int jumpTick;
@@ -133,7 +133,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, R
     @Override
     public void load(XmlReader root)
     {
-        setJump(root.readInteger(0, EntityConfig.ATT_JUMP));
+        setJump(root.getInteger(0, EntityConfig.ATT_JUMP));
     }
 
     @Override

@@ -48,7 +48,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     private static final String ATT_FORCE = "force";
 
     private final Collection<GlueListener> listeners = new ArrayList<>();
-    private final boolean force = setup.getBooleanDefault(false, ATT_FORCE, NODE);
+    private final boolean force = setup.getBoolean(false, ATT_FORCE, NODE);
 
     private TransformY transformY;
     private double referenceY;

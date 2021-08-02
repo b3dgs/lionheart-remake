@@ -47,7 +47,7 @@ public final class PillarConfig implements XmlSaver
 
         Check.notNull(root);
 
-        delay = root.readInteger(ATT_DELAY);
+        delay = root.getInteger(ATT_DELAY);
     }
 
     /**

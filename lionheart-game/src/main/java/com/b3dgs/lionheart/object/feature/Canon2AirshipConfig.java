@@ -52,8 +52,8 @@ public final class Canon2AirshipConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_CANON2);
-        fireDelay = node.readInteger(ATT_FIRE_DELAY);
-        stayDelay = node.readInteger(ATT_STAY_DELAY);
+        fireDelay = node.getInteger(ATT_FIRE_DELAY);
+        stayDelay = node.getInteger(ATT_STAY_DELAY);
     }
 
     /**

@@ -212,7 +212,7 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
     @Override
     public void load(XmlReader root)
     {
-        if (root.hasChild(ShooterConfig.NODE_SHOOTER))
+        if (root.hasNode(ShooterConfig.NODE_SHOOTER))
         {
             load(new ShooterConfig(root));
         }

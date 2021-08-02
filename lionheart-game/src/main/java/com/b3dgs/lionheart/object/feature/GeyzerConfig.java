@@ -58,10 +58,10 @@ public final class GeyzerConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_GEYZER);
-        delayFirst = node.readInteger(0, ATT_DELAY_FIRST);
-        delayStart = node.readInteger(ATT_DELAY_START);
-        delayDown = node.readInteger(ATT_DELAY_DOWN);
-        height = node.readInteger(ATT_HEIGHT);
+        delayFirst = node.getInteger(0, ATT_DELAY_FIRST);
+        delayStart = node.getInteger(ATT_DELAY_START);
+        delayDown = node.getInteger(ATT_DELAY_DOWN);
+        height = node.getInteger(ATT_HEIGHT);
     }
 
     /**

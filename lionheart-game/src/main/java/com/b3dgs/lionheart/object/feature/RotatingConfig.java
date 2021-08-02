@@ -74,14 +74,14 @@ public final class RotatingConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_ROTATING);
-        extremity = node.readString(ATT_EXTREMITY);
-        ring = node.readString(ATT_RING);
-        length = node.readInteger(4, ATT_LENGTH);
-        speed = node.readDouble(1.0, ATT_SPEED);
-        offset = node.readInteger(0, ATT_OFFSET);
-        amplitude = node.readInteger(0, ATT_AMPLITUDE);
-        controlled = node.readBoolean(false, ATT_CONTROLLED);
-        back = node.readInteger(-1, ATT_BACK);
+        extremity = node.getString(ATT_EXTREMITY);
+        ring = node.getString(ATT_RING);
+        length = node.getInteger(4, ATT_LENGTH);
+        speed = node.getDouble(1.0, ATT_SPEED);
+        offset = node.getInteger(0, ATT_OFFSET);
+        amplitude = node.getInteger(0, ATT_AMPLITUDE);
+        controlled = node.getBoolean(false, ATT_CONTROLLED);
+        back = node.getInteger(-1, ATT_BACK);
     }
 
     /**

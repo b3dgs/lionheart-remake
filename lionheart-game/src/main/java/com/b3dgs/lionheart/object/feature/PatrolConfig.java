@@ -107,16 +107,16 @@ public final class PatrolConfig implements XmlSaver
 
         Check.notNull(root);
 
-        sh = root.readDoubleOptional(ATT_VX);
-        sv = root.readDoubleOptional(ATT_VY);
-        amplitude = root.readIntegerOptional(ATT_AMPLITUDE);
-        offset = root.readIntegerOptional(ATT_OFFSET);
-        mirror = root.readBooleanOptional(ATT_MIRROR);
-        coll = root.readBooleanOptional(ATT_COLL);
-        proximity = root.readIntegerOptional(ATT_PROXIMITY);
-        animOffset = root.readIntegerOptional(ATT_ANIMOFFSET);
-        delay = root.readIntegerOptional(ATT_DELAY);
-        curve = root.readBooleanOptional(ATT_CURVE);
+        sh = root.getDoubleOptional(ATT_VX);
+        sv = root.getDoubleOptional(ATT_VY);
+        amplitude = root.getIntegerOptional(ATT_AMPLITUDE);
+        offset = root.getIntegerOptional(ATT_OFFSET);
+        mirror = root.getBooleanOptional(ATT_MIRROR);
+        coll = root.getBooleanOptional(ATT_COLL);
+        proximity = root.getIntegerOptional(ATT_PROXIMITY);
+        animOffset = root.getIntegerOptional(ATT_ANIMOFFSET);
+        delay = root.getIntegerOptional(ATT_DELAY);
+        curve = root.getBooleanOptional(ATT_CURVE);
     }
 
     /**

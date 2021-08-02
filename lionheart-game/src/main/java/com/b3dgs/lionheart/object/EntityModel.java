@@ -396,22 +396,22 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     @Override
     public void load(XmlReader root)
     {
-        secret = root.readBoolean(false, EntityConfig.ATT_SECRET);
+        secret = root.getBoolean(false, EntityConfig.ATT_SECRET);
 
-        mirrorable.mirror(root.readBoolean(false, EntityConfig.ATT_MIRROR) ? Mirror.HORIZONTAL : Mirror.NONE);
+        mirrorable.mirror(root.getBoolean(false, EntityConfig.ATT_MIRROR) ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
 
         final Optional<Coord> nextSpawn;
         if (root.hasAttribute(EntityConfig.ATT_SPAWN_TX) && root.hasAttribute(EntityConfig.ATT_SPAWN_TY))
         {
-            nextSpawn = Optional.of(new Coord(root.readDouble(EntityConfig.ATT_SPAWN_TX),
-                                              root.readDouble(EntityConfig.ATT_SPAWN_TY)));
+            nextSpawn = Optional.of(new Coord(root.getDouble(EntityConfig.ATT_SPAWN_TX),
+                                              root.getDouble(EntityConfig.ATT_SPAWN_TY)));
         }
         else
         {
             nextSpawn = Optional.empty();
         }
-        setNext(root.readStringOptional(EntityConfig.ATT_NEXT), nextSpawn);
+        setNext(root.getStringOptional(EntityConfig.ATT_NEXT), nextSpawn);
     }
 
     @Override

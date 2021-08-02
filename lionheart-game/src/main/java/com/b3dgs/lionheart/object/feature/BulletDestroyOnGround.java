@@ -43,7 +43,7 @@ public final class BulletDestroyOnGround extends FeatureModel implements Recycla
     private static final String NODE = "bulletDestroyOnGround";
     private static final String ATT_COLLFROMBOTTOM = "collFromBottom";
 
-    private final boolean collFromBottom = setup.getBooleanDefault(true, ATT_COLLFROMBOTTOM, NODE);
+    private final boolean collFromBottom = setup.getBoolean(true, ATT_COLLFROMBOTTOM, NODE);
     private final Animation idle;
 
     @FeatureGet private Transformable transformable;

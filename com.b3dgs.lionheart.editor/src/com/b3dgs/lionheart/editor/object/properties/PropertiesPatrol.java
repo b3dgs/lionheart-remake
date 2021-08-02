@@ -64,7 +64,7 @@ public class PropertiesPatrol implements PropertiesProviderObject
     public void setInput(Tree properties, Configurer configurer)
     {
         final Xml root = configurer.getRoot();
-        if (root.hasChild(PatrolConfig.NODE_PATROL))
+        if (root.hasNode(PatrolConfig.NODE_PATROL))
         {
             createAttributeAnimations(properties);
         }

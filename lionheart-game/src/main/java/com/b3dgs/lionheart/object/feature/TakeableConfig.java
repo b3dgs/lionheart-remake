@@ -61,11 +61,11 @@ public final class TakeableConfig
 
         final Media effect = Medias.create(configurer.getString(ATT_EFFECT, NODE_TAKEABLE));
         final String sfx = configurer.getStringDefault(null, ATT_SFX, NODE_TAKEABLE);
-        final int health = configurer.getIntegerDefault(0, ATT_HEALTH, NODE_TAKEABLE);
-        final int talisment = configurer.getIntegerDefault(0, ATT_TALISMENT, NODE_TAKEABLE);
-        final int life = configurer.getIntegerDefault(0, ATT_LIFE, NODE_TAKEABLE);
-        final int sword = configurer.getIntegerDefault(0, ATT_SWORD, NODE_TAKEABLE);
-        final boolean amulet = configurer.getBooleanDefault(false, ATT_AMULET, NODE_TAKEABLE);
+        final int health = configurer.getInteger(0, ATT_HEALTH, NODE_TAKEABLE);
+        final int talisment = configurer.getInteger(0, ATT_TALISMENT, NODE_TAKEABLE);
+        final int life = configurer.getInteger(0, ATT_LIFE, NODE_TAKEABLE);
+        final int sword = configurer.getInteger(0, ATT_SWORD, NODE_TAKEABLE);
+        final boolean amulet = configurer.getBoolean(false, ATT_AMULET, NODE_TAKEABLE);
 
         return new TakeableConfig(effect, sfx, health, talisment, life, sword, amulet);
     }

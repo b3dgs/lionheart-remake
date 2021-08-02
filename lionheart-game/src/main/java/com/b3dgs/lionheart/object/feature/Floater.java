@@ -85,9 +85,9 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
 
         speedUp = setup.getDouble(ATT_SPEEDUP, NODE);
         speedDown = setup.getDouble(ATT_SPEEDDOWN, NODE);
-        max = setup.getIntegerDefault(0, ATT_MAX, NODE);
-        waterLevel = setup.getBooleanDefault(true, ATT_WATER_LEVEL, NODE);
-        hit = setup.getBooleanDefault(false, ATT_HIT, NODE);
+        max = setup.getInteger(0, ATT_MAX, NODE);
+        waterLevel = setup.getBoolean(true, ATT_WATER_LEVEL, NODE);
+        hit = setup.getBoolean(false, ATT_HIT, NODE);
     }
 
     @Override

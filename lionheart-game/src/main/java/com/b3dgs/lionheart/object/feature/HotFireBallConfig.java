@@ -59,11 +59,11 @@ public final class HotFireBallConfig implements XmlSaver
         super();
 
         final XmlReader node = root.getChild(NODE_HOTFIREBALL);
-        delay = node.readInteger(ATT_DELAY);
-        count = node.readInteger(ATT_COUNT);
-        level = node.readInteger(ATT_LEVEL);
-        vx = node.readDouble(ATT_VX);
-        vy = node.readDouble(ATT_VY);
+        delay = node.getInteger(ATT_DELAY);
+        count = node.getInteger(ATT_COUNT);
+        level = node.getInteger(ATT_LEVEL);
+        vx = node.getDouble(ATT_VX);
+        vy = node.getDouble(ATT_VY);
     }
 
     /**

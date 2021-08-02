@@ -46,7 +46,7 @@ public final class SpiderConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_SPIDER);
-        follow = node.readBoolean(true, ATT_FOLLOW);
+        follow = node.getBoolean(true, ATT_FOLLOW);
     }
 
     /**
