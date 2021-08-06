@@ -329,14 +329,14 @@ public final class Hurtable extends FeatureModel
 
         if (stats.applyDamages(collidable.getFeature(Stats.class).getDamages()))
         {
-            if (hasFeature(SwordShade.class))
+            if (hasFeature(Trackable.class))
             {
                 stateHandler.changeState(StateDie.class);
             }
         }
         else
         {
-            if (hasFeature(SwordShade.class))
+            if (hasFeature(Trackable.class))
             {
                 Sfx.VALDYN_HURT.play();
                 if (!stateHandler.isState(StateGripIdle.class)
@@ -368,7 +368,7 @@ public final class Hurtable extends FeatureModel
         {
             if (stats.applyDamages(SPIKE_DAMAGES))
             {
-                if (hasFeature(SwordShade.class))
+                if (hasFeature(Trackable.class))
                 {
                     Sfx.VALDYN_DIE.play();
                     stateHandler.changeState(StateDie.class);
@@ -381,7 +381,7 @@ public final class Hurtable extends FeatureModel
             else
             {
                 stateHandler.changeState(StateHurt.class);
-                if (hasFeature(SwordShade.class))
+                if (hasFeature(Trackable.class))
                 {
                     Sfx.VALDYN_HURT.play();
                     hurtJump();
@@ -420,12 +420,12 @@ public final class Hurtable extends FeatureModel
         flicker.update(extrp);
         if (!stateHandler.isState(StateHurt.class))
         {
-            model.setVisible(flicker.elapsed() % HURT_FLICKER_TICK_SWITCH < HURT_FLICKER_TICK_SWITCH / 2);
+            rasterable.setVisibility(flicker.elapsed() % HURT_FLICKER_TICK_SWITCH < HURT_FLICKER_TICK_SWITCH / 2);
         }
         if (flicker.elapsed(HURT_FLICKER_TICK_DURATION))
         {
             flickerCurrent = UpdatableVoid.getInstance();
-            model.setVisible(true);
+            rasterable.setVisibility(true);
         }
     }
 

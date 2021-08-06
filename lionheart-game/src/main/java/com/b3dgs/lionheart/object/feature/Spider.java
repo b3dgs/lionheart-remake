@@ -29,9 +29,9 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
@@ -58,7 +58,7 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
     private static final int FALL_DISTANCE = 16;
     private static final double TRACK_SPEED = 0.5;
 
-    private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private SpiderConfig config;
     private int distance;
@@ -79,7 +79,7 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public Spider(Services services, SetupSurfaceRastered setup)
+    public Spider(Services services, Setup setup)
     {
         super(services, setup);
     }
@@ -152,9 +152,9 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
     public void update(double extrp)
     {
         if (distance < 0
-            || UtilMath.getDistance(track, transformable) < distance
+            || UtilMath.getDistance(target, transformable) < distance
             || stateHandler.isState(StatePatrolCeil.class)
-               && Math.abs(track.getX() - transformable.getX()) < FALL_DISTANCE)
+               && Math.abs(target.getX() - transformable.getX()) < FALL_DISTANCE)
         {
             if (stateHandler.isState(StatePatrolCeil.class))
             {
@@ -178,12 +178,12 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
 
         if (tracked && stateHandler.isState(StatePatrol.class))
         {
-            if (track.getX() > transformable.getX())
+            if (target.getX() > transformable.getX())
             {
                 move = TRACK_SPEED;
                 mirrorable.mirror(Mirror.NONE);
             }
-            else if (track.getX() < transformable.getX())
+            else if (target.getX() < transformable.getX())
             {
                 move = -TRACK_SPEED;
                 mirrorable.mirror(Mirror.HORIZONTAL);

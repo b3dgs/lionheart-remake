@@ -36,6 +36,10 @@ public final class StageConfig
 {
     /** Stage node name. */
     public static final String NODE_STAGE = "stage";
+
+    /** Entities node name. */
+    public static final String NODE_ENTITIES = "entities";
+
     /** Stage picture attribute name. */
     private static final String ATT_STAGE_PIC = "pic";
     /** Stage text attribute name. */
@@ -84,9 +88,6 @@ public final class StageConfig
     private static final String ATT_BOSS_TSX = "tsx";
     /** Boss spawn tile y attribute name. */
     private static final String ATT_BOSS_TSY = "tsy";
-
-    /** Entities node name. */
-    private static final String NODE_ENTITIES = "entities";
 
     /**
      * Imports the config from configurer.

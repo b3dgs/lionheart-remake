@@ -19,11 +19,10 @@ package com.b3dgs.lionheart.object.state.guard;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Guard;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.state.StateTurn;
 
 /**
@@ -33,7 +32,7 @@ public final class StateGuardAttackPrepare extends State
 {
     private static final int PREPARE_TICK = 20;
 
-    private final Transformable player = model.getServices().get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = model.getServices().get(Trackable.class);
     private final Tick tick = new Tick();
 
     /**
@@ -48,22 +47,22 @@ public final class StateGuardAttackPrepare extends State
 
         addTransition(StateGuardAttack.class,
                       () -> tick.elapsed(PREPARE_TICK)
-                            && (mirrorable.is(Mirror.NONE) && player.getX() < transformable.getX()
-                                || mirrorable.is(Mirror.HORIZONTAL) && player.getX() > transformable.getX())
-                            && Double.compare(Math.abs(player.getX() - transformable.getX() - 12),
+                            && (mirrorable.is(Mirror.NONE) && target.getX() < transformable.getX()
+                                || mirrorable.is(Mirror.HORIZONTAL) && target.getX() > transformable.getX())
+                            && Double.compare(Math.abs(target.getX() - transformable.getX() - 12),
                                               Guard.ATTACK_DISTANCE_MAX) < 0);
 
         addTransition(StateGuardSalto.class,
                       () -> tick.elapsed(PREPARE_TICK)
-                            && (mirrorable.is(Mirror.NONE) && player.getX() < transformable.getX()
-                                || mirrorable.is(Mirror.HORIZONTAL) && player.getX() > transformable.getX())
-                            && Double.compare(Math.abs(player.getX() - transformable.getX() - 12),
+                            && (mirrorable.is(Mirror.NONE) && target.getX() < transformable.getX()
+                                || mirrorable.is(Mirror.HORIZONTAL) && target.getX() > transformable.getX())
+                            && Double.compare(Math.abs(target.getX() - transformable.getX() - 12),
                                               Guard.ATTACK_DISTANCE_MAX) >= 0);
 
         addTransition(StateTurn.class,
                       () -> tick.elapsed(PREPARE_TICK)
-                            && (mirrorable.is(Mirror.NONE) && player.getX() > transformable.getX()
-                                || mirrorable.is(Mirror.HORIZONTAL) && player.getX() < transformable.getX()));
+                            && (mirrorable.is(Mirror.NONE) && target.getX() > transformable.getX()
+                                || mirrorable.is(Mirror.HORIZONTAL) && target.getX() < transformable.getX()));
     }
 
     @Override

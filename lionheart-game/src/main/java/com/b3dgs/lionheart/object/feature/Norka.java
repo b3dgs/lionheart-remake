@@ -36,7 +36,6 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.ForegroundWater;
@@ -58,8 +57,8 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
     private final Animation idle;
 
     private final Spawner spawner = services.get(Spawner.class);
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Hurtable playerHurtable = player.getFeature(Hurtable.class);
+    private final Trackable target = services.get(Trackable.class);
+    private final Hurtable playerHurtable = target.getFeature(Hurtable.class);
 
     private final ForegroundWater water = services.get(ForegroundWater.class);
 
@@ -187,7 +186,7 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
     {
         phase.update(extrp);
 
-        if (player.getY() < water.getHeight() - 4 && !playerHurtable.isHurtingBody())
+        if (target.getY() < water.getHeight() - 4 && !playerHurtable.isHurtingBody())
         {
             playerHurtable.hurtDamages();
         }

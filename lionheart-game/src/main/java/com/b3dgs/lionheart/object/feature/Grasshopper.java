@@ -25,10 +25,10 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
@@ -48,7 +48,7 @@ import com.b3dgs.lionheart.object.state.StateJump;
 public final class Grasshopper extends FeatureModel implements Routine
 {
     private final MapTile map = services.get(MapTile.class);
-    private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private double move;
 
@@ -66,7 +66,7 @@ public final class Grasshopper extends FeatureModel implements Routine
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public Grasshopper(Services services, SetupSurfaceRastered setup)
+    public Grasshopper(Services services, Setup setup)
     {
         super(services, setup);
     }
@@ -94,11 +94,11 @@ public final class Grasshopper extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (track.getX() - transformable.getX() > 100)
+        if (target.getX() - transformable.getX() > 100)
         {
             move = 1.0;
         }
-        else if (track.getX() - transformable.getX() < -112)
+        else if (target.getX() - transformable.getX() < -112)
         {
             move = -1.0;
         }
@@ -106,7 +106,7 @@ public final class Grasshopper extends FeatureModel implements Routine
         {
             move = 0.0;
 
-            if (transformable.getX() > track.getX())
+            if (transformable.getX() > target.getX())
             {
                 mirrorable.mirror(Mirror.HORIZONTAL);
             }

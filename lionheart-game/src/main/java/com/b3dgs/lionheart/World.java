@@ -78,7 +78,7 @@ import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.feature.Underwater;
 import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateWin;
@@ -337,7 +337,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         featurable.getFeature(Stats.class).apply(init);
         player = featurable.getFeature(StateHandler.class);
         hud.setFeaturable(featurable);
-        services.add(featurable.getFeature(SwordShade.class));
+        services.add(featurable.getFeature(Trackable.class));
         trackPlayer(featurable);
         handler.add(featurable);
 

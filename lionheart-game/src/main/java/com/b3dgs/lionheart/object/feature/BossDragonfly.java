@@ -58,7 +58,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
 
     private final Tick tick = new Tick();
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
@@ -143,7 +143,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
             tick.restart();
         }
         camera.moveLocation(extrp, SPEED_LEAVE, 0.0);
-        player.moveLocationX(extrp, SPEED_LEAVE);
+        target.moveLocationX(extrp, SPEED_LEAVE);
     }
 
     /**
@@ -156,7 +156,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
         if (camera.getX() < 741 * 16)
         {
             camera.moveLocation(extrp, SPEED, 0.0);
-            player.moveLocationX(extrp, SPEED);
+            target.moveLocationX(extrp, SPEED);
         }
 
         if (oldHealth != stats.getHealth())

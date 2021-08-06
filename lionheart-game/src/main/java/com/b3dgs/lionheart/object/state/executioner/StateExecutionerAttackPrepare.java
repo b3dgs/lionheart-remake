@@ -19,11 +19,10 @@ package com.b3dgs.lionheart.object.state.executioner;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Executioner;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
  * Prepare attack state implementation.
@@ -32,7 +31,7 @@ public final class StateExecutionerAttackPrepare extends State
 {
     private static final int PREPARE_TICK = 20;
 
-    private final Transformable player = model.getServices().get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = model.getServices().get(Trackable.class);
     private final Tick tick = new Tick();
 
     /**
@@ -48,12 +47,12 @@ public final class StateExecutionerAttackPrepare extends State
         addTransition(StateExecutionerAttack1.class,
                       () -> tick.elapsed(PREPARE_TICK)
                             && is(AnimState.FINISHED)
-                            && Math.abs(player.getX() - transformable.getX()) > Executioner.ATTACK2_DISTANCE_MAX);
+                            && Math.abs(target.getX() - transformable.getX()) > Executioner.ATTACK2_DISTANCE_MAX);
 
         addTransition(StateExecutionerAttack2.class,
                       () -> tick.elapsed(PREPARE_TICK)
                             && is(AnimState.FINISHED)
-                            && Double.compare(Math.abs(player.getX() - transformable.getX()),
+                            && Double.compare(Math.abs(target.getX() - transformable.getX()),
                                               Executioner.ATTACK2_DISTANCE_MAX) <= 0);
     }
 

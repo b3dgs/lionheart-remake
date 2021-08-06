@@ -77,7 +77,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private final Animation attackprepare;
     private final Animation attack;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private Updatable current;
     private double angle;
@@ -212,7 +212,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         if (animatable.is(AnimState.FINISHED))
         {
             animatable.play(approached);
-            mirrorable.mirror(transformable.getX() < player.getX() ? Mirror.HORIZONTAL : Mirror.NONE);
+            mirrorable.mirror(transformable.getX() < target.getX() ? Mirror.HORIZONTAL : Mirror.NONE);
             current = this::updateApproached;
             tick.restart();
         }
@@ -247,8 +247,8 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         updateCurve();
         if (tick.elapsed(ATTACK_PREPARE_DELAY_TICK))
         {
-            final double dh = player.getX() - transformable.getOldX();
-            final double dv = player.getY() - transformable.getOldY();
+            final double dh = target.getX() - transformable.getOldX();
+            final double dv = target.getY() - transformable.getOldY();
 
             final double nh = Math.abs(dh);
             final double nv = Math.abs(dv);
@@ -271,7 +271,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
             movement.setDestination(sx * MOVE_SPEED, sy * MOVE_SPEED);
             movement.setDirection(sx * MOVE_SPEED, sy * MOVE_SPEED);
             animatable.play(attack);
-            mirrorable.mirror(transformable.getX() < player.getX() ? Mirror.HORIZONTAL : Mirror.NONE);
+            mirrorable.mirror(transformable.getX() < target.getX() ? Mirror.HORIZONTAL : Mirror.NONE);
             current = this::updateAttack;
             tick.restart();
         }

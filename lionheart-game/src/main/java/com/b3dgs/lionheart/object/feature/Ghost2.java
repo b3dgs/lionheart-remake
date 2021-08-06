@@ -47,7 +47,7 @@ public final class Ghost2 extends FeatureModel implements Routine, Recyclable
     private static final double SPEED = 1.2;
 
     private final Tick tick = new Tick();
-    private final Transformable target = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private final Force current = new Force();
 

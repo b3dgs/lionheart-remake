@@ -34,7 +34,7 @@ public class Activator implements BundleActivator
     /** Plugin website. */
     public static final String PLUGIN_WEBSITE = "https://www.b3dgs.com";
     /** Plugin ID. */
-    public static final String PLUGIN_ID = Activator.class.getPackageName();
+    public static final String PLUGIN_ID = "com.b3dgs.lionheart.editor";
 
     /** Context reference. */
     private static BundleContext context;

@@ -41,7 +41,6 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.body.BodyConfig;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -56,7 +55,7 @@ import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Guard;
 import com.b3dgs.lionheart.object.feature.Patrol;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.state.StateHurt;
 import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.StateIdleDragon;
@@ -113,7 +112,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     @FeatureGet private Collidable collidable;
     @FeatureGet private StateHandler state;
     @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -135,7 +133,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     {
         super.prepare(provider);
 
-        final Optional<SwordShade> shade = services.getOptional(SwordShade.class);
+        final Optional<Trackable> shade = services.getOptional(Trackable.class);
         if (shade.isPresent())
         {
             player = shade.get().getFeature(Transformable.class);
@@ -241,16 +239,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         {
             secret = false;
         }
-    }
-
-    /**
-     * Set the visible flag.
-     * 
-     * @param visible <code>true</code> if visible, <code>false</code> else.
-     */
-    public void setVisible(boolean visible)
-    {
-        rasterable.setVisibility(visible);
     }
 
     /**

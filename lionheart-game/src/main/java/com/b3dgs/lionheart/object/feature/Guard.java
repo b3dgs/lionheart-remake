@@ -47,7 +47,7 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
     /** Min move. */
     private static final int MOVE_MIN = 32;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     @FeatureGet private EntityModel model;
     @FeatureGet private Mirrorable mirrorable;
@@ -74,12 +74,12 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
      */
     public void applyMirror()
     {
-        if (mirrorable.is(Mirror.NONE) && player.getX() > transformable.getX())
+        if (mirrorable.is(Mirror.NONE) && target.getX() > transformable.getX())
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
             rasterable.setFrameOffsets(-22, 0);
         }
-        else if (mirrorable.is(Mirror.HORIZONTAL) && player.getX() < transformable.getX())
+        else if (mirrorable.is(Mirror.HORIZONTAL) && target.getX() < transformable.getX())
         {
             mirrorable.mirror(Mirror.NONE);
             rasterable.setFrameOffsets(0, 0);

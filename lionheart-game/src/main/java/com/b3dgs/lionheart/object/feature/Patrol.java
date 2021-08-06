@@ -36,12 +36,12 @@ import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -70,7 +70,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
                           CollidableListener, Recyclable
 {
     private final List<PatrolConfig> patrols = new ArrayList<>();
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Tick tick = new Tick();
     private final AnimationConfig anim;
 
@@ -110,7 +110,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public Patrol(Services services, SetupSurfaceRastered setup)
+    public Patrol(Services services, Setup setup)
     {
         super(services, setup);
 
@@ -164,10 +164,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
         startX = 0;
         startY = 0;
 
-        if (rasterable != null)
-        {
-            rasterable.setAnimOffset(animOffset);
-        }
+        rasterable.setAnimOffset(animOffset);
     }
 
     /**
@@ -353,7 +350,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
         }
         if (!enabled)
         {
-            if (Math.abs(transformable.getX() - player.getX()) < proximity)
+            if (Math.abs(transformable.getX() - target.getX()) < proximity)
             {
                 enabled = true;
             }

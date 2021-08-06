@@ -56,7 +56,7 @@ public final class Rotating extends FeatureModel implements XmlLoader, XmlSaver,
     private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
     private final Viewer viewer = services.get(Viewer.class);
-    private final StateHandler player = services.get(SwordShade.class).getFeature(StateHandler.class);
+    private final StateHandler target = services.get(Trackable.class).getFeature(StateHandler.class);
     private final Tick tick = new Tick();
 
     private RotatingConfig config;
@@ -151,7 +151,7 @@ public final class Rotating extends FeatureModel implements XmlLoader, XmlSaver,
             {
                 if (config.isControlled())
                 {
-                    if (collide && player.isState(StateCrouch.class))
+                    if (collide && target.isState(StateCrouch.class))
                     {
                         if (platform.getOldY() > platform.getY())
                         {

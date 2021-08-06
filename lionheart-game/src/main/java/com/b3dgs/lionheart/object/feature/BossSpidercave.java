@@ -66,7 +66,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     private static final int HEAD_OPENED_TICK = 80;
     private static final int HEAD_ATTACK_OFFSET_Y = 12;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Tick tick = new Tick();
     private final Animation walk;
@@ -246,9 +246,9 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                                               transformable.getY() + headOffsetY + 6);
                 headCollidable.setEnabled(headAnim.getFrame() == 6);
 
-                if (player.getX() > transformable.getX())
+                if (target.getX() > transformable.getX())
                 {
-                    player.teleportX(transformable.getX());
+                    target.teleportX(transformable.getX());
                 }
             }
         };

@@ -19,11 +19,10 @@ package com.b3dgs.lionheart.object.state.executioner;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Executioner;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.state.StatePatrol;
 
 /**
@@ -34,7 +33,7 @@ public final class StateExecutionerAttack1 extends State
     private static final double ATTACK_SPEED = 1.8;
     private static final double ATTACK1_DISTANCE_MIN = 16.0;
 
-    private final Transformable player = model.getServices().get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = model.getServices().get(Trackable.class);
 
     private final Tick tick = new Tick();
 
@@ -52,8 +51,8 @@ public final class StateExecutionerAttack1 extends State
         super(model, animation);
 
         addTransition(StatePatrol.class,
-                      () -> Math.abs(player.getX() - transformable.getX()) < ATTACK1_DISTANCE_MIN
-                            || Math.abs(player.getX() - transformable.getX()) > Executioner.ATTACK1_DISTANCE_MAX
+                      () -> Math.abs(target.getX() - transformable.getX()) < ATTACK1_DISTANCE_MIN
+                            || Math.abs(target.getX() - transformable.getX()) > Executioner.ATTACK1_DISTANCE_MAX
                             || movement.isZero());
     }
 

@@ -11,6 +11,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.MapLimit</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Trackable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Valdyn.png"/>
     <lionengine:frames horizontal="13" vertical="12"/>

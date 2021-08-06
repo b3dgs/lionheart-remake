@@ -35,7 +35,6 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -57,7 +56,7 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
     private final Animation idle;
     private final Animation attack;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private ShooterConfig def;
     private ShooterConfig config;
@@ -146,7 +145,7 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
         {
             if (config.getTrack())
             {
-                launcher.fire(new Force(0.25, 0.0), player);
+                launcher.fire(new Force(0.25, 0.0), target);
             }
             else
             {

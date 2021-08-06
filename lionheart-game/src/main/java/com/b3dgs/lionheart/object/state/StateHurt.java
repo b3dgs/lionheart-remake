@@ -27,7 +27,7 @@ import com.b3dgs.lionheart.object.feature.Executioner;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Stats;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
  * Hurt state implementation.
@@ -99,7 +99,7 @@ public final class StateHurt extends State
 
         super.enter();
 
-        if (model.hasFeature(SwordShade.class))
+        if (model.hasFeature(Trackable.class))
         {
             updater = UpdatableVoid.getInstance();
         }
@@ -119,7 +119,7 @@ public final class StateHurt extends State
             updater = updateFlicker;
         }
 
-        if (model.getJumpOnHurt() && (model.hasFeature(SwordShade.class) || model.hasFeature(Executioner.class)))
+        if (model.getJumpOnHurt() && (model.hasFeature(Trackable.class) || model.hasFeature(Executioner.class)))
         {
             velocity = jump.getVelocity();
             jump.setVelocity(0.1);

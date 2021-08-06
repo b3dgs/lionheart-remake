@@ -46,7 +46,7 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
 {
     private static final double SPEED_X = 1.0;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Animation walk;
 
     private double vx;
@@ -84,7 +84,7 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
     {
         if (init)
         {
-            vx = transformable.getX() > player.getX() ? -SPEED_X : SPEED_X;
+            vx = transformable.getX() > target.getX() ? -SPEED_X : SPEED_X;
             if (vx > 0)
             {
                 mirrorable.mirror(Mirror.HORIZONTAL);

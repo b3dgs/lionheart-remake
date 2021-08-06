@@ -33,9 +33,11 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
+import com.b3dgs.lionengine.editor.ObjectRepresentation;
 import com.b3dgs.lionengine.editor.dialog.project.ProjectImportHandler;
 import com.b3dgs.lionengine.editor.object.world.updater.ObjectSelectionListener;
 import com.b3dgs.lionengine.editor.object.world.updater.WorldInteractionObject;
@@ -47,18 +49,29 @@ import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Featurable;
+import com.b3dgs.lionengine.game.feature.FeaturableConfig;
+import com.b3dgs.lionengine.game.feature.MirrorableModel;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.BodyModel;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
+import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterListener;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
+import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTilePersisterOptimized;
+import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.MusicPlayer;
+import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.XmlSaver;
+import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
  * Configure the editor with the right name.
@@ -142,46 +155,6 @@ public class ApplicationConfiguration
                     if (i < args.length)
                     {
                         importProject(args[i]);
-
-                        services.create(CameraTracker.class);
-                        services.add(new SourceResolutionProvider()
-                        {
-                            @Override
-                            public int getWidth()
-                            {
-                                return Constant.RESOLUTION.getWidth();
-                            }
-
-                            @Override
-                            public int getHeight()
-                            {
-                                return Constant.RESOLUTION.getHeight();
-                            }
-
-                            @Override
-                            public int getRate()
-                            {
-                                return 60;
-                            }
-                        });
-                        AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
-
-                        final MapTileHelper map = WorldModel.INSTANCE.getMap();
-                        map.addFeature(new MapTilePersisterOptimized(), true);
-                        map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
-                        {
-                            @Override
-                            public void notifyMapLoadStart()
-                            {
-                                map.loadBefore(map.getMedia());
-                            }
-
-                            @Override
-                            public void notifyMapLoaded()
-                            {
-                                map.loadAfter(map.getMedia());
-                            }
-                        });
                     }
                 }
             }
@@ -200,8 +173,9 @@ public class ApplicationConfiguration
                 final Project project = ProjectFactory.create(path.getCanonicalFile());
                 ProjectImportHandler.importProject(project);
 
-                WorldModel.INSTANCE.getServices().create(CheckpointHandler.class);
-                WorldModel.INSTANCE.getServices().add(new MusicPlayer()
+                AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
+                services.create(CheckpointHandler.class);
+                services.add(new MusicPlayer()
                 {
                     @Override
                     public void stopMusic()
@@ -213,15 +187,51 @@ public class ApplicationConfiguration
                     {
                     }
                 });
-                WorldModel.INSTANCE.getServices().add((LoadNextStage) (next, tickDelay, spawn) ->
+                services.add((LoadNextStage) (next, tickDelay, spawn) ->
                 {
                 });
-                WorldModel.INSTANCE.getServices().add((Spawner) (media, x, y) ->
+                services.add(new SourceResolutionDelegate(Constant.RESOLUTION));
+                services.remove(services.get(Spawner.class));
+                services.add((Spawner) (media, x, y) ->
                 {
-                    final Featurable featurable = WorldModel.INSTANCE.getFactory().create(media);
+                    final Featurable featurable = WorldModel.INSTANCE.getFactory()
+                                                                     .create(media, ObjectRepresentation.class);
+                    final Setup setup = WorldModel.INSTANCE.getFactory().getSetup(media);
+                    featurable.addFeature(new MirrorableModel(services, setup));
+                    featurable.addFeature(new BodyModel(services, setup));
+                    featurable.addFeature(new CollidableModel(services, setup));
+                    featurable.addFeature(new StateHandler(services, setup));
+                    featurable.addFeature(new EntityChecker());
+                    FeaturableConfig.getFeatures(project.getLoader().getClassLoader(), services, setup)
+                                    .stream()
+                                    .filter(f -> f instanceof XmlSaver)
+                                    .forEach(featurable::addFeature);
                     featurable.getFeature(Transformable.class).teleport(x, y);
                     WorldModel.INSTANCE.getHandler().add(featurable);
                     return featurable;
+                });
+
+                services.create(CameraTracker.class);
+                services.create(MapTileWater.class);
+                services.add(WorldModel.INSTANCE.getFactory()
+                                                .create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"))
+                                                .getFeature(Trackable.class));
+
+                final MapTileHelper map = WorldModel.INSTANCE.getMap();
+                map.addFeature(new MapTilePersisterOptimized(), true);
+                map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
+                {
+                    @Override
+                    public void notifyMapLoadStart()
+                    {
+                        map.loadBefore(map.getMedia());
+                    }
+
+                    @Override
+                    public void notifyMapLoaded()
+                    {
+                        map.loadAfter(map.getMedia());
+                    }
                 });
             }
             catch (final IOException exception)

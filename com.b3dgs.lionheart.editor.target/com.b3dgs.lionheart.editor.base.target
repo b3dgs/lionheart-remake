@@ -19,6 +19,8 @@
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <repository location="file:/C:/Eclipse/projects/lionengine-editor/com.b3dgs.lionengine.editor.repository/target/repository/"/>
         <unit id="com.b3dgs.lionengine.editor" version="10.0.0.202101212126"/>
+        <unit id="com.b3dgs.lionengine.editor.map" version="10.0.0.202101212126"/>
+        <unit id="com.b3dgs.lionengine.editor.object" version="10.0.0.202101212126"/>
     </location>
 </locations>
 </target>

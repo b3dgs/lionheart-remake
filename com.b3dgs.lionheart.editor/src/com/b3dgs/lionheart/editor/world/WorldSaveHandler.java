@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.Handler;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.EntityConfig;
+import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.editor.Util;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -50,7 +51,7 @@ public final class WorldSaveHandler
     {
         final Handler handler = WorldModel.INSTANCE.getHandler();
         final MapTile map = WorldModel.INSTANCE.getMap();
-        final Xml root = new Xml("entities");
+        final Xml root = new Xml(StageConfig.NODE_ENTITIES);
         handler.values().forEach(featurable -> root.add(saveFeaturable(featurable, map)));
 
         root.save(media);

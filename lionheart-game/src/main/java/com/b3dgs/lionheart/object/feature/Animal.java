@@ -54,9 +54,9 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     private static final double SPEED_GROUND = 2.5;
     private static final double SPEED_BOAT = 0.5;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Rasterable playerSprite = player.getFeature(Rasterable.class);
-    private final StateHandler playerState = player.getFeature(StateHandler.class);
+    private final Trackable target = services.get(Trackable.class);
+    private final Rasterable playerSprite = target.getFeature(Rasterable.class);
+    private final StateHandler playerState = target.getFeature(StateHandler.class);
     private final Camera camera = services.get(Camera.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
 
@@ -85,9 +85,9 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     {
         super.prepare(provider);
 
-        player.getFeature(TileCollidable.class).addListener((result, category) -> off());
+        target.getFeature(TileCollidable.class).addListener((result, category) -> off());
 
-        final Collidable collidable = player.getFeature(Collidable.class);
+        final Collidable collidable = target.getFeature(Collidable.class);
         collidable.addListener((c, with, by) ->
         {
             if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND))
@@ -111,8 +111,8 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         collidable.getFeature(Body.class).resetGravity();
         camera.setIntervals(0, 0);
         tracker.stop();
-        player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
-        player.getFeature(EntityModel.class).setJumpOnHurt(false);
+        target.getFeature(Mirrorable.class).mirror(Mirror.NONE);
+        target.getFeature(EntityModel.class).setJumpOnHurt(false);
         on = true;
     }
 
@@ -125,8 +125,8 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         {
             on = false;
             camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-            tracker.track(player, true);
-            player.getFeature(EntityModel.class).setJumpOnHurt(true);
+            tracker.track(target, true);
+            target.getFeature(EntityModel.class).setJumpOnHurt(true);
         }
     }
 
@@ -159,16 +159,16 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             }
             camera.setLimitBottom((int) Math.floor(cameraHeight));
             camera.moveLocation(extrp, speed, 0.0);
-            camera.setLocationY(player.getY() - 80);
-            player.moveLocationX(extrp, speed);
+            camera.setLocationY(target.getY() - 80);
+            target.moveLocationX(extrp, speed);
 
-            if (player.getX() < camera.getX() + transformable.getWidth() / 2)
+            if (target.getX() < camera.getX() + transformable.getWidth() / 2)
             {
-                player.teleportX(camera.getX() + transformable.getWidth() / 2);
+                target.teleportX(camera.getX() + transformable.getWidth() / 2);
             }
-            else if (player.getX() > camera.getX() + camera.getWidth() - transformable.getWidth())
+            else if (target.getX() > camera.getX() + camera.getWidth() - transformable.getWidth())
             {
-                player.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth());
+                target.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth());
             }
 
             if (playerState.isState(StateIdleAnimal.class) || playerState.isState(StateAttackAnimal.class))
@@ -204,7 +204,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
             camera.setShake2(0, (int) Math.round(UtilMath.sin(boatEffectY) * 2));
         }
 
-        transformable.setLocationX(player.getX());
+        transformable.setLocationX(target.getX());
     }
 
     @Override

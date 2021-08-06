@@ -64,7 +64,7 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     private static final int ATTACK1_DISTANCE_MIN = 80;
     private static final int DEFENSE_DISTANCE = 64;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
 
     private boolean first;
@@ -99,8 +99,8 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
      */
     private boolean isOnSight()
     {
-        return player.getX() < transformable.getX() && mirrorable.is(Mirror.HORIZONTAL)
-               || player.getX() > transformable.getX() && mirrorable.is(Mirror.NONE);
+        return target.getX() < transformable.getX() && mirrorable.is(Mirror.HORIZONTAL)
+               || target.getX() > transformable.getX() && mirrorable.is(Mirror.NONE);
     }
 
     /**
@@ -121,7 +121,7 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
      */
     private double getPlayerDistance()
     {
-        return Math.abs(player.getX() - transformable.getX());
+        return Math.abs(target.getX() - transformable.getX());
     }
 
     @Override
@@ -145,8 +145,8 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
                     }
                     else
                     {
-                        if (player.getFeature(Animatable.class).getAnim().getName().startsWith(Anim.ATTACK)
-                            && player.getFeature(Mirrorable.class).getMirror() != mirrorable.getMirror()
+                        if (target.getFeature(Animatable.class).getAnim().getName().startsWith(Anim.ATTACK)
+                            && target.getFeature(Mirrorable.class).getMirror() != mirrorable.getMirror()
                             && getPlayerDistance() < DEFENSE_DISTANCE)
                         {
                             collidable.setEnabled(false);

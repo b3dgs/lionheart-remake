@@ -52,7 +52,7 @@ public final class CanonAirship extends FeatureModel implements Routine, Recycla
 
     private final Tick tick = new Tick();
     private final Force direction = new Force();
-    private final Transformable track;
+    private final Trackable target = services.get(Trackable.class);
     private final int halfFrames;
     private Updatable current;
 
@@ -73,8 +73,6 @@ public final class CanonAirship extends FeatureModel implements Routine, Recycla
     public CanonAirship(Services services, Setup setup)
     {
         super(services, setup);
-
-        track = services.get(SwordShade.class).getFeature(Transformable.class);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         halfFrames = config.getAnimation(Anim.IDLE).getFrames() / 2;
@@ -105,7 +103,7 @@ public final class CanonAirship extends FeatureModel implements Routine, Recycla
      */
     private void updateFrame()
     {
-        final int margin = (int) Math.round(track.getX() - track.getWidth() / 4 - transformable.getX()) / 16;
+        final int margin = (int) Math.round(target.getX() - target.getWidth() / 4 - transformable.getX()) / 16;
         final int frame = UtilMath.clamp(margin, -halfFrames, halfFrames - 1) + halfFrames + 1;
         animatable.setFrame(frame);
         launcher.setOffset(frame * halfFrames - 17, launcher.getOffsetY());

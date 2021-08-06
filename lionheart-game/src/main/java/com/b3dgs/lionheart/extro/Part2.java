@@ -51,7 +51,7 @@ import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
  * Extro part 2 implementation.
@@ -220,7 +220,7 @@ public class Part2 extends Sequence
     public void load()
     {
         services.add(spawner.spawn(Medias.create(Folder.EXTRO, PART2_FOLDER, VALDYN), getWidth() / 2 + X, Y)
-                            .getFeature(SwordShade.class));
+                            .getFeature(Trackable.class));
         spawner.spawn(Medias.create(Folder.ENTITY, FOLDER_DRAGONFLY, DRAGON_EXTRO), getWidth() / 2 + X, Y);
     }
 

@@ -67,7 +67,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private static final int PALLET_OFFSET = 2;
 
     private final List<Launchable> bowls = new ArrayList<>();
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Animation idle;
 
@@ -105,12 +105,12 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
      */
     private void followHorizontal()
     {
-        if (transformable.getX() < player.getX() - BossSwampEffect.EFFECT_MARGIN)
+        if (transformable.getX() < target.getX() - BossSwampEffect.EFFECT_MARGIN)
         {
             moveX = MOVE_X;
             effect.setEffectX(BossSwampEffect.EFFECT_SPEED);
         }
-        else if (transformable.getX() > player.getX() + BossSwampEffect.EFFECT_MARGIN)
+        else if (transformable.getX() > target.getX() + BossSwampEffect.EFFECT_MARGIN)
         {
             moveX = -MOVE_X;
             effect.setEffectX(-BossSwampEffect.EFFECT_SPEED);
@@ -197,7 +197,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             }
         }
         if (!fired
-            && UtilMath.isBetween(transformable.getX() - player.getX(), -BOWL_MARGIN, BOWL_MARGIN)
+            && UtilMath.isBetween(transformable.getX() - target.getX(), -BOWL_MARGIN, BOWL_MARGIN)
             && UtilMath.isBetween(transformable.getY(),
                                   MAX_Y - BossSwampEffect.EFFECT_MARGIN,
                                   MAX_Y + BossSwampEffect.EFFECT_MARGIN))

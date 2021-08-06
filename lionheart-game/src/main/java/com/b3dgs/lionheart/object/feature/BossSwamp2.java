@@ -96,7 +96,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private static final Animation FLY_ANIMATION = new Animation(Animation.DEFAULT_NAME, 1, 2, 0.4, false, true);
 
     private final Tick tick = new Tick();
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
@@ -189,7 +189,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
      */
     private void followHorizontal()
     {
-        if (transformable.getX() < player.getX() + transformable.getWidth() / 2 - MOVE_BACK_X_MARGIN)
+        if (transformable.getX() < target.getX() + transformable.getWidth() / 2 - MOVE_BACK_X_MARGIN)
         {
             if (!movedX)
             {
@@ -197,7 +197,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             }
             effect.setEffectX(BossSwampEffect.EFFECT_SPEED);
         }
-        else if (transformable.getX() > player.getX() + transformable.getWidth() / 2 + MOVE_BACK_X_MARGIN)
+        else if (transformable.getX() > target.getX() + transformable.getWidth() / 2 + MOVE_BACK_X_MARGIN)
         {
             if (!movedX)
             {
@@ -262,7 +262,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             step = 3;
             movedX = false;
             movedY = false;
-            transformable.teleport(player.getX(), MAX_Y);
+            transformable.teleport(target.getX(), MAX_Y);
         }
     }
 
@@ -299,7 +299,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             tick.restart();
             Sfx.MONSTER_LAND.play();
             launcher.setLevel(1);
-            launcher.fire(player);
+            launcher.fire(target);
             shaker.start();
             step = 5;
         }
@@ -402,7 +402,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             identifiable.destroy();
             neck.destroy();
             final Featurable boss = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss.xml"),
-                                                  player.getX(),
+                                                  target.getX(),
                                                   MAX_Y);
             boss.getFeature(EntityModel.class).setNext(model.getNext(), Optional.empty());
             boss.getFeature(Stats.class).applyDamages(stats.getHealthMax() - stats.getHealth());

@@ -18,11 +18,10 @@ package com.b3dgs.lionheart.object.state.fish;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
-import com.b3dgs.lionheart.object.feature.SwordShade;
+import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
  * Fish attack state implementation.
@@ -31,8 +30,7 @@ public final class StateFishAttack extends State
 {
     private final Tick tick = new Tick();
     private final Launcher launcher = model.getFeature(Launcher.class);
-
-    private final Transformable player = model.getServices().get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = model.getServices().get(Trackable.class);
 
     /**
      * Create the state.
@@ -52,7 +50,7 @@ public final class StateFishAttack extends State
     {
         super.enter();
 
-        launcher.fire(player);
+        launcher.fire(target);
         tick.restart();
     }
 

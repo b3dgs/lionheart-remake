@@ -70,7 +70,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     private final Tick tick = new Tick();
     private final MapTile map = services.get(MapTile.class);
     private final Viewer viewer = services.get(Viewer.class);
-    private final Transformable track;
+    private final Trackable target = services.get(Trackable.class);
     private final Animation idle;
     private final Animation raise;
     private final Animation open;
@@ -99,8 +99,6 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     {
         super(services, setup);
 
-        track = services.get(SwordShade.class).getFeature(Transformable.class);
-
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation("idle");
         raise = config.getAnimation("raise");
@@ -118,12 +116,12 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     {
         if (hurt)
         {
-            hurt = UtilMath.getDistance(track, transformable) < THROW_DISTANCE * 2;
+            hurt = UtilMath.getDistance(target, transformable) < THROW_DISTANCE * 2;
         }
-        else if (animatable.is(AnimState.FINISHED) && UtilMath.getDistance(track, transformable) < THROW_DISTANCE)
+        else if (animatable.is(AnimState.FINISHED) && UtilMath.getDistance(target, transformable) < THROW_DISTANCE)
         {
             animatable.play(raise);
-            if (transformable.getX() > track.getX())
+            if (transformable.getX() > target.getX())
             {
                 mirrorable.mirror(Mirror.HORIZONTAL);
             }
@@ -173,9 +171,9 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
                     triggerRetractTongue(true);
                     tick.start();
                 }
-                if (UtilMath.getDistance(track, transformable) > THROW_DISTANCE
-                    || mirrorable.is(Mirror.NONE) && transformable.getX() > track.getX()
-                    || mirrorable.is(Mirror.HORIZONTAL) && transformable.getX() < track.getX())
+                if (UtilMath.getDistance(target, transformable) > THROW_DISTANCE
+                    || mirrorable.is(Mirror.NONE) && transformable.getX() > target.getX()
+                    || mirrorable.is(Mirror.HORIZONTAL) && transformable.getX() < target.getX())
                 {
                     triggerRetractTongue(false);
                     tick.start();

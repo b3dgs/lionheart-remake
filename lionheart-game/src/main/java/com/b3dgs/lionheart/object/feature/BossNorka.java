@@ -494,7 +494,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final Sequencer sequencer = services.get(Sequencer.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
-    private final StateHandler player = services.get(SwordShade.class).getFeature(StateHandler.class);
+    private final StateHandler target = services.get(Trackable.class).getFeature(StateHandler.class);
 
     private final Animation idle;
     private final Animation rise;
@@ -798,7 +798,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         {
             identifiable.destroy();
             music.stopMusic();
-            sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
+            sequencer.end(Extro.class, target.getFeature(Stats.class).hasAmulet());
         }
     }
 
@@ -884,7 +884,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
                     limbs[i].getFeature(Hurtable.class).kill(true);
                 }
                 music.playMusic(Music.NORKA_WIN);
-                player.getFeature(Stats.class).win();
+                target.getFeature(Stats.class).win();
                 phase = this::updateEnd;
                 stats = null;
                 tick.restart();

@@ -67,7 +67,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private final Animation attack;
     private final Animation turn;
 
-    private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
 
     private Updatable updater;
@@ -118,7 +118,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
         tick.update(extrp);
         if (animatable.getFrame() == 1
             && tick.elapsed(FIRE_DELAY_TICK)
-            && Math.abs(track.getY() - transformable.getY() + transformable.getHeight() / 4) < 8)
+            && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4) < 8)
         {
             launcher.fire();
             animatable.play(attack);
@@ -132,14 +132,14 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
             transformable.moveLocation(extrp, force);
             fixLimit();
 
-            if (mirror && transformable.getX() > track.getX())
+            if (mirror && transformable.getX() > target.getX())
             {
                 animatable.play(turn);
                 animatable.setAnimSpeed(-animatable.getAnimSpeed());
                 animatable.setFrame(turn.getLast());
                 mirror = false;
             }
-            else if (!mirror && transformable.getX() < track.getX())
+            else if (!mirror && transformable.getX() < target.getX())
             {
                 animatable.play(turn);
                 mirror = true;
@@ -152,8 +152,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
      */
     private void computeForce()
     {
-        final double dh = track.getX() - transformable.getOldX();
-        final double dv = track.getY() - transformable.getOldY() + transformable.getHeight() / 3;
+        final double dh = target.getX() - transformable.getOldX();
+        final double dv = target.getY() - transformable.getOldY() + transformable.getHeight() / 3;
 
         final double nh = Math.abs(dh);
         final double nv = Math.abs(dv);

@@ -40,7 +40,7 @@ public final class Fly extends FeatureModel implements Routine, Recyclable
     private static final double SPEED = 1.1;
 
     private final Force direction = new Force();
-    private final Transformable track = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
 
     @FeatureGet private Transformable transformable;
 
@@ -62,8 +62,8 @@ public final class Fly extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        final double dh = track.getX() - transformable.getOldX();
-        final double dv = track.getY() - transformable.getOldY();
+        final double dh = target.getX() - transformable.getOldX();
+        final double dv = target.getY() - transformable.getOldY();
 
         final double nh = Math.abs(dh);
         final double nv = Math.abs(dv);

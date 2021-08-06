@@ -67,7 +67,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private final Animation turn;
     private final Animation attack;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
+    private final Trackable target = services.get(Trackable.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
 
     private Updatable current;
@@ -153,7 +153,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private void updateTrack(double extrp)
     {
         transformable.teleportY(MOVE_DOWN_Y);
-        if (side > -1 && player.getX() < transformable.getX())
+        if (side > -1 && target.getX() < transformable.getX())
         {
             animatable.play(turn);
             if (side == 0)
@@ -163,7 +163,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
             }
             side = -1;
         }
-        else if (side < 1 && transformable.getX() < player.getX())
+        else if (side < 1 && transformable.getX() < target.getX())
         {
             animatable.play(turn);
             if (side == 0)
@@ -188,9 +188,9 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
         {
             mirrorable.mirror(side > 0 ? Mirror.HORIZONTAL : Mirror.NONE);
             if (!forceJump
-                && Math.abs(transformable.getX() - player.getX()) < ATTACK_DISTANCE_MAX
-                && (side < 1 && transformable.getX() > player.getX()
-                    || side > -1 && transformable.getX() < player.getX()))
+                && Math.abs(transformable.getX() - target.getX()) < ATTACK_DISTANCE_MAX
+                && (side < 1 && transformable.getX() > target.getX()
+                    || side > -1 && transformable.getX() < target.getX()))
             {
                 animatable.play(attack);
                 forceJump = true;
@@ -243,7 +243,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
         tick.update(extrp);
         if (tick.elapsed(START_ATTACK_DELAY_TICK) && animatable.is(AnimState.FINISHED))
         {
-            launcher.fire(player);
+            launcher.fire(target);
             current = this::updateEndAttackDelay;
             tick.restart();
         }

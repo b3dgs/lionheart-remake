@@ -59,10 +59,10 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     private static final int OFFSET_Y = -50;
     private static final double SPEED = 13.0 / 31.0;
 
-    private final Transformable player = services.get(SwordShade.class).getFeature(Transformable.class);
-    private final Stats playerStats = player.getFeature(Stats.class);
-    private final Rasterable playerSprite = player.getFeature(Rasterable.class);
-    private final StateHandler playerState = player.getFeature(StateHandler.class);
+    private final Trackable target = services.get(Trackable.class);
+    private final Stats playerStats = target.getFeature(Stats.class);
+    private final Rasterable playerSprite = target.getFeature(Rasterable.class);
+    private final StateHandler playerState = target.getFeature(StateHandler.class);
     private final Camera camera = services.get(Camera.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
     private int offsetY;
@@ -101,7 +101,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         feature.getFeature(Body.class).resetGravity();
         camera.setIntervals(0, 0);
         tracker.stop();
-        player.getFeature(Mirrorable.class).mirror(Mirror.NONE);
+        target.getFeature(Mirrorable.class).mirror(Mirror.NONE);
         on = true;
     }
 
@@ -114,7 +114,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         {
             on = false;
             camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
-            tracker.track(player, true);
+            tracker.track(target, true);
         }
     }
 
@@ -125,8 +125,8 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     {
         if (oldHealth == 0 && playerStats.getHealth() > 0)
         {
-            transformable.teleportY(player.getY() + OFFSET_Y);
-            start(player, DEFAULT_Y);
+            transformable.teleportY(target.getY() + OFFSET_Y);
+            start(target, DEFAULT_Y);
         }
         oldHealth = playerStats.getHealth();
     }
@@ -196,9 +196,9 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     {
         super.prepare(provider);
 
-        player.getFeature(TileCollidable.class).addListener((result, category) -> off());
+        target.getFeature(TileCollidable.class).addListener((result, category) -> off());
 
-        final Collidable collidable = player.getFeature(Collidable.class);
+        final Collidable collidable = target.getFeature(Collidable.class);
         collidable.addListener((c, with, by) ->
         {
             if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND)
@@ -224,41 +224,41 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
                 if (camera.getX() < 718 * 16)
                 {
                     camera.moveLocation(extrp, SPEED, 0.0);
-                    player.moveLocationX(extrp, SPEED);
+                    target.moveLocationX(extrp, SPEED);
                 }
                 if (camera.getX() < 705 * 16)
                 {
                     launcher.fire();
                 }
-                camera.setLocation(camera.getX(), player.getY() - 64);
+                camera.setLocation(camera.getX(), target.getY() - 64);
             }
 
-            if (player.getX() < camera.getX() + transformable.getWidth() / 10)
+            if (target.getX() < camera.getX() + transformable.getWidth() / 10)
             {
-                player.teleportX(camera.getX() + transformable.getWidth() / 10);
+                target.teleportX(camera.getX() + transformable.getWidth() / 10);
             }
-            else if (player.getX() > camera.getX() + camera.getWidth() - transformable.getWidth() / 3)
+            else if (target.getX() > camera.getX() + camera.getWidth() - transformable.getWidth() / 3)
             {
-                player.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth() / 3);
+                target.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth() / 3);
             }
 
             if (playerState.isState(StateIdleDragon.class) || playerState.isState(StateAttackDragon.class))
             {
-                if (player.getY() > 256)
+                if (target.getY() > 256)
                 {
-                    player.teleportY(256);
+                    target.teleportY(256);
                 }
-                else if (player.getY() < 0)
+                else if (target.getY() < 0)
                 {
-                    player.teleportY(0);
+                    target.teleportY(0);
                 }
 
                 updateFrameOffset();
 
-                transformable.setLocationY(player.getY() + OFFSET_Y);
+                transformable.setLocationY(target.getY() + OFFSET_Y);
             }
         }
-        transformable.setLocationX(player.getX() + OFFSET_X);
+        transformable.setLocationX(target.getX() + OFFSET_X);
 
         updateFireOrientation();
     }
