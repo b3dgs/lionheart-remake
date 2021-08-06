@@ -21,11 +21,13 @@ import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
+import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
@@ -99,6 +101,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
+    private final Origin origin = OriginConfig.imports(setup);
     private final int frames;
     private Transformable player;
     private boolean secret;
@@ -407,8 +410,9 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     {
         root.writeString(EntityConfig.ATT_FILE, setup.getMedia().getPath());
 
-        root.writeDouble(EntityConfig.ATT_SPAWN_TX, transformable.getX() / map.getTileWidth());
-        root.writeDouble(EntityConfig.ATT_SPAWN_TY,
+        root.writeDouble(EntityConfig.ATT_TX,
+                         (transformable.getX() - origin.getX(0.0, transformable.getWidth())) / map.getTileWidth() - 1);
+        root.writeDouble(EntityConfig.ATT_TY,
                          transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
 
         if (secret)
@@ -419,7 +423,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         final Mirror mirror = mirrorable.getMirror();
         if (mirror != Mirror.NONE)
         {
-            root.writeString(EntityConfig.ATT_MIRROR, mirror.name());
+            root.writeBoolean(EntityConfig.ATT_MIRROR, true);
         }
 
         nextSpawn.ifPresent(s ->

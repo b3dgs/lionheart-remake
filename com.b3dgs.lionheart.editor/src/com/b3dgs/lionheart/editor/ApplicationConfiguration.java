@@ -202,9 +202,7 @@ public class ApplicationConfiguration
                     featurable.addFeature(new CollidableModel(services, setup));
                     featurable.addFeature(new StateHandler(services, setup));
                     featurable.addFeature(new EntityChecker());
-                    FeaturableConfig.getFeatures(project.getLoader().getClassLoader(), services, setup)
-                                    .stream()
-                                    .filter(f -> f instanceof XmlSaver)
+                    FeaturableConfig.getFeatures(project.getLoader().getClassLoader(), services, setup, XmlSaver.class)
                                     .forEach(featurable::addFeature);
                     featurable.getFeature(Transformable.class).teleport(x, y);
                     WorldModel.INSTANCE.getHandler().add(featurable);

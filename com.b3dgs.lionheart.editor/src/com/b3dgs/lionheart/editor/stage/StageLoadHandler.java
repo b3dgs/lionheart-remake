@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.world;
+package com.b3dgs.lionheart.editor.stage;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ import com.b3dgs.lionheart.editor.Util;
 /**
  * Load world handler.
  */
-public final class WorldLoadHandler
+public final class StageLoadHandler
 {
     /** Element ID. */
     public static final String ID = "menu.file.load";
@@ -57,11 +57,11 @@ public final class WorldLoadHandler
      */
     private static void load(Shell shell, Media media)
     {
-        final MapTilePersister mapPersister = WorldModel.INSTANCE.getMap().getFeature(MapTilePersister.class);
+        final MapTile map = WorldModel.INSTANCE.getMap();
+        final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
 
         final StageConfig stage = StageConfig.imports(new Configurer(media));
-        WorldModel.INSTANCE.getMap()
-                           .loadSheets(Medias.create(stage.getMapFile().getParentPath(), TileSheetsConfig.FILENAME));
+        map.loadSheets(Medias.create(stage.getMapFile().getParentPath(), TileSheetsConfig.FILENAME));
         try (FileReading reading = new FileReading(stage.getMapFile()))
         {
             mapPersister.load(reading);
@@ -100,7 +100,7 @@ public final class WorldLoadHandler
     /**
      * Create handler.
      */
-    public WorldLoadHandler()
+    public StageLoadHandler()
     {
         super();
     }

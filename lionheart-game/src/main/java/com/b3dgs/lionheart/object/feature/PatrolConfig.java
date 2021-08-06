@@ -101,7 +101,7 @@ public final class PatrolConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    private PatrolConfig(XmlReader root)
+    public PatrolConfig(XmlReader root)
     {
         super();
 

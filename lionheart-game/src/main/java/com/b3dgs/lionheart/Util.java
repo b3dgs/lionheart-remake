@@ -209,14 +209,7 @@ public final class Util
         {
             if (feature instanceof XmlLoader)
             {
-                try
-                {
-                    ((XmlLoader) feature).load(config.getRoot());
-                }
-                catch (final LionEngineException exception)
-                {
-                    throw new LionEngineException(exception, config.getMedia());
-                }
+                ((XmlLoader) feature).load(config.getRoot());
             }
         });
     }

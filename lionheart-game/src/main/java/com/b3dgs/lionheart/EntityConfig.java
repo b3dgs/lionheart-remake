@@ -35,6 +35,12 @@ public final class EntityConfig
 {
     /** Entity node name. */
     public static final String NODE_ENTITY = "entity";
+    /** Configuration file attribute name. */
+    public static final String ATT_FILE = "file";
+    /** Tile x attribute name. */
+    public static final String ATT_TX = "tx";
+    /** Tile y attribute name. */
+    public static final String ATT_TY = "ty";
     /** Jump attribute name. */
     public static final String ATT_JUMP = "jump";
     /** Mirror attribute name. */
@@ -49,12 +55,6 @@ public final class EntityConfig
     public static final String ATT_SPAWN_TY = "sty";
     /** Vx attribute name. */
     public static final String ATT_VX = "vx";
-    /** Configuration file attribute name. */
-    public static final String ATT_FILE = "file";
-    /** Spawn tile x attribute name. */
-    public static final String ATT_RESPAWN_TX = "tx";
-    /** Spawn tile y attribute name. */
-    public static final String ATT_RESPAWN_TY = "ty";
 
     /**
      * Imports the config from configurer.
@@ -101,7 +101,7 @@ public final class EntityConfig
         size = SizeConfig.imports(configurer);
         origin = OriginConfig.imports(configurer);
 
-        spawn = new Coord(root.getDouble(ATT_RESPAWN_TX), root.getDouble(ATT_RESPAWN_TY));
+        spawn = new Coord(root.getDouble(ATT_TX), root.getDouble(ATT_TY));
     }
 
     /**
@@ -144,27 +144,5 @@ public final class EntityConfig
     public double getSpawnY(MapTile map)
     {
         return origin.getY(spawn.getY() * map.getTileHeight(), size.getHeight()) + map.getTileHeight();
-    }
-
-    /**
-     * Get the spawn raw location.
-     * 
-     * @param map The map reference.
-     * @return The spawn location.
-     */
-    public double getSpawnRawX(MapTile map)
-    {
-        return spawn.getX() * map.getTileWidth();
-    }
-
-    /**
-     * Get the spawn raw location.
-     * 
-     * @param map The map reference.
-     * @return The spawn location.
-     */
-    public double getSpawnRawY(MapTile map)
-    {
-        return spawn.getY() * map.getTileHeight();
     }
 }

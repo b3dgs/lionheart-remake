@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.world;
+package com.b3dgs.lionheart.editor.stage;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
@@ -26,7 +26,6 @@ import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Handler;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.StageConfig;
@@ -36,7 +35,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
 /**
  * Save world handler.
  */
-public final class WorldSaveHandler
+public final class StageSaveHandler
 {
     /** Element ID. */
     public static final String ID = "menu.file.save";
@@ -51,8 +50,10 @@ public final class WorldSaveHandler
     {
         final Handler handler = WorldModel.INSTANCE.getHandler();
         final MapTile map = WorldModel.INSTANCE.getMap();
-        final Xml root = new Xml(StageConfig.NODE_ENTITIES);
-        handler.values().forEach(featurable -> root.add(saveFeaturable(featurable, map)));
+        final Xml root = new Xml(StageConfig.NODE_STAGE);
+
+        final Xml entities = root.createChild(StageConfig.NODE_ENTITIES);
+        handler.values().forEach(featurable -> entities.add(saveFeaturable(featurable, map)));
 
         root.save(media);
 
@@ -70,13 +71,6 @@ public final class WorldSaveHandler
     private static Xml saveFeaturable(Featurable featurable, MapTile map)
     {
         final Xml root = new Xml(EntityConfig.NODE_ENTITY);
-        root.writeString(EntityConfig.ATT_FILE, featurable.getMedia().getPath());
-
-        final Transformable transformable = featurable.getFeature(Transformable.class);
-        root.writeDouble(EntityConfig.ATT_RESPAWN_TX, transformable.getX() / map.getTileWidth());
-        root.writeDouble(EntityConfig.ATT_RESPAWN_TY,
-                         transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
-
         featurable.getFeatures().forEach(feature ->
         {
             if (feature instanceof XmlSaver)
@@ -84,14 +78,13 @@ public final class WorldSaveHandler
                 ((XmlSaver) feature).save(root);
             }
         });
-
         return root;
     }
 
     /**
      * Create handler.
      */
-    public WorldSaveHandler()
+    public StageSaveHandler()
     {
         super();
     }

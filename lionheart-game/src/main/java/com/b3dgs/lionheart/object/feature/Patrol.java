@@ -16,16 +16,12 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -52,7 +48,6 @@ import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlLoader;
-import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StatePatrol;
@@ -66,10 +61,9 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </p>
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, Routine, TileCollidableListener,
-                          CollidableListener, Recyclable
+public final class Patrol extends FeatureModel
+                          implements XmlLoader, Routine, TileCollidableListener, CollidableListener, Recyclable
 {
-    private final List<PatrolConfig> patrols = new ArrayList<>();
     private final Trackable target = services.get(Trackable.class);
     private final Tick tick = new Tick();
     private final AnimationConfig anim;
@@ -102,6 +96,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Stats stats;
+    @FeatureGet private Patrols patrols;
 
     /**
      * Create feature.
@@ -174,7 +169,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
     {
         if (mirrorable != null
             && enabled
-            && (patrols.isEmpty()
+            && (patrols.size() == 0
                 || currentIndex > -1 && patrols.get(currentIndex).getMirror().orElse(Boolean.TRUE).booleanValue()))
         {
             if (mirrorable.is(Mirror.NONE))
@@ -277,19 +272,9 @@ public final class Patrol extends FeatureModel implements XmlLoader, XmlSaver, R
     @Override
     public void load(XmlReader root)
     {
-        patrols.addAll(PatrolConfig.imports(root));
-        if (!patrols.isEmpty())
+        if (patrols.size() > 0)
         {
             loadNextPatrol();
-        }
-    }
-
-    @Override
-    public void save(Xml root)
-    {
-        for (final PatrolConfig config : patrols)
-        {
-            config.save(root);
         }
     }
 
