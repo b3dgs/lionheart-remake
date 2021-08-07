@@ -19,7 +19,9 @@ package com.b3dgs.lionheart.editor;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -39,14 +41,12 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.editor.ObjectRepresentation;
 import com.b3dgs.lionengine.editor.dialog.project.ProjectImportHandler;
-import com.b3dgs.lionengine.editor.object.world.updater.ObjectSelectionListener;
 import com.b3dgs.lionengine.editor.object.world.updater.WorldInteractionObject;
 import com.b3dgs.lionengine.editor.project.Project;
 import com.b3dgs.lionengine.editor.project.ProjectFactory;
-import com.b3dgs.lionengine.editor.properties.PropertiesPart;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
-import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeaturableConfig;
@@ -70,7 +70,10 @@ import com.b3dgs.lionheart.MapTilePersisterOptimized;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
+import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
 import com.b3dgs.lionheart.object.XmlSaver;
+import com.b3dgs.lionheart.object.feature.Patrols;
 import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
@@ -112,6 +115,7 @@ public class ApplicationConfiguration
     private class AppStartupCompleteEventHandler implements EventHandler
     {
         private final Services services = WorldModel.INSTANCE.getServices();
+        private final Map<Class<? extends Feature>, PropertiesFeature> properties = new HashMap<>();
 
         /**
          * Constructor.
@@ -123,22 +127,23 @@ public class ApplicationConfiguration
 
         private void handleExtensions()
         {
-            services.get(WorldInteractionObject.class).addListener(new ObjectSelectionListener()
-            {
-                @Override
-                public void notifyObjectSelected(Transformable object)
-                {
-                    final PropertiesPart part = UtilPart.getPart(PropertiesPart.ID, PropertiesPart.class);
-                    part.setInput(part.getTree(), (Configurer) null);
-                    // TODO handle configurer with stage
-                }
+            properties.put(Patrols.class, UtilPart.getPart(PatrolPart.ID, PatrolPart.class));
 
-                @Override
-                public void notifyObjectsSelected(Collection<Transformable> objects)
-                {
-                    // Nothing to do
-                }
-            });
+            services.get(WorldInteractionObject.class).addListener(this::loadProperties);
+        }
+
+        private void loadProperties(Transformable featurable)
+        {
+            UtilPart.getMPart(PatrolPart.ID).setVisible(false);
+            featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
+        }
+
+        private void loadProperty(Feature feature)
+        {
+            if (feature instanceof XmlSaver)
+            {
+                Optional.ofNullable(properties.get(feature.getClass())).ifPresent(p -> p.load(feature));
+            }
         }
 
         /**
@@ -180,15 +185,18 @@ public class ApplicationConfiguration
                     @Override
                     public void stopMusic()
                     {
+                        // Mock
                     }
 
                     @Override
                     public void playMusic(Media media)
                     {
+                        // Mock
                     }
                 });
                 services.add((LoadNextStage) (next, tickDelay, spawn) ->
                 {
+                    // Mock
                 });
                 services.add(new SourceResolutionDelegate(Constant.RESOLUTION));
                 services.remove(services.get(Spawner.class));

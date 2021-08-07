@@ -23,6 +23,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
@@ -97,6 +98,25 @@ public final class PatrolConfig implements XmlSaver
     private final Optional<Boolean> curve;
 
     /**
+     * Create blank config.
+     */
+    public PatrolConfig()
+    {
+        super();
+
+        sh = OptionalDouble.empty();
+        sv = OptionalDouble.empty();
+        amplitude = OptionalInt.empty();
+        offset = OptionalInt.empty();
+        mirror = Optional.empty();
+        coll = Optional.empty();
+        proximity = OptionalInt.empty();
+        animOffset = OptionalInt.empty();
+        delay = OptionalInt.empty();
+        curve = Optional.empty();
+    }
+
+    /**
      * Create config.
      * 
      * @param root The root configuration (must not be null).
@@ -117,6 +137,45 @@ public final class PatrolConfig implements XmlSaver
         animOffset = root.getIntegerOptional(ATT_ANIMOFFSET);
         delay = root.getIntegerOptional(ATT_DELAY);
         curve = root.getBooleanOptional(ATT_CURVE);
+    }
+
+    /**
+     * Create config.
+     * 
+     * @param sh The horizontal speed.
+     * @param sv The vertical speed.
+     * @param amplitude The amplitude value.
+     * @param offset The start offset.
+     * @param mirror The mirror flag.
+     * @param coll The collide turn flag.
+     * @param proximity The proximity value.
+     * @param animOffset The animation offset value.
+     * @param delay The delay value.
+     * @param curve The curve value.
+     */
+    public PatrolConfig(OptionalDouble sh,
+                        OptionalDouble sv,
+                        OptionalInt amplitude,
+                        OptionalInt offset,
+                        Optional<Boolean> mirror,
+                        Optional<Boolean> coll,
+                        OptionalInt proximity,
+                        OptionalInt animOffset,
+                        OptionalInt delay,
+                        Optional<Boolean> curve)
+    {
+        super();
+
+        this.sh = sh;
+        this.sv = sv;
+        this.amplitude = amplitude;
+        this.offset = offset;
+        this.mirror = mirror;
+        this.coll = coll;
+        this.proximity = proximity;
+        this.animOffset = animOffset;
+        this.delay = delay;
+        this.curve = curve;
     }
 
     /**
@@ -233,5 +292,39 @@ public final class PatrolConfig implements XmlSaver
         animOffset.ifPresent(v -> node.writeInteger(ATT_ANIMOFFSET, v));
         delay.ifPresent(v -> node.writeInteger(ATT_DELAY, v));
         curve.ifPresent(v -> node.writeBoolean(ATT_CURVE, v.booleanValue()));
+    }
+
+    private static void add(StringBuilder builder, String name, OptionalInt value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    private static void add(StringBuilder builder, String name, OptionalDouble value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    private static void add(StringBuilder builder, String name, Optional<Boolean> value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Patrol [");
+        add(builder, ATT_VX, sh);
+        add(builder, ATT_VY, sv);
+        add(builder, ATT_AMPLITUDE, amplitude);
+        add(builder, ATT_OFFSET, offset);
+        add(builder, ATT_MIRROR, mirror);
+        add(builder, ATT_COLL, coll);
+        add(builder, ATT_PROXIMITY, proximity);
+        add(builder, ATT_ANIMOFFSET, animOffset);
+        add(builder, ATT_DELAY, delay);
+        add(builder, ATT_CURVE, curve);
+        builder.append("]");
+        return builder.toString();
     }
 }

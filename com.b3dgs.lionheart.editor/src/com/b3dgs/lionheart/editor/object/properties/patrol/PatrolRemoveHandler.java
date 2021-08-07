@@ -14,22 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.object.properties;
+package com.b3dgs.lionheart.editor.object.properties.patrol;
 
-import java.util.Locale;
+import org.eclipse.e4.core.di.annotations.Execute;
 
-import org.eclipse.osgi.util.NLS;
+import com.b3dgs.lionengine.editor.utility.UtilPart;
 
 /**
- * Messages internationalization.
+ * Remove patrol handler.
  */
-public final class Messages extends NLS
+public final class PatrolRemoveHandler
 {
     /**
-     * Initialize.
+     * Create handler.
      */
-    static
+    public PatrolRemoveHandler()
     {
-        NLS.initializeMessages(Messages.class.getName().toLowerCase(Locale.ENGLISH), Messages.class);
+        super();
+    }
+
+    /**
+     * Execute the handler.
+     */
+    @Execute
+    public void execute()
+    {
+        UtilPart.getPart(PatrolPart.ID, PatrolPart.class).remove();
     }
 }

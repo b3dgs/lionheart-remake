@@ -16,20 +16,17 @@
  */
 package com.b3dgs.lionheart.editor.object.properties;
 
-import java.util.Locale;
-
-import org.eclipse.osgi.util.NLS;
+import com.b3dgs.lionengine.game.Feature;
 
 /**
- * Messages internationalization.
+ * Represents feature properties.
  */
-public final class Messages extends NLS
+public interface PropertiesFeature
 {
     /**
-     * Initialize.
+     * Load feature properties.
+     * 
+     * @param feature The feature to load.
      */
-    static
-    {
-        NLS.initializeMessages(Messages.class.getName().toLowerCase(Locale.ENGLISH), Messages.class);
-    }
+    void load(Feature feature);
 }

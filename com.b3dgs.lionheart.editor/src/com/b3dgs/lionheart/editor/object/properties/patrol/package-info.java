@@ -14,22 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.object.properties;
-
-import java.util.Locale;
-
-import org.eclipse.osgi.util.NLS;
 
 /**
- * Messages internationalization.
+ * Patrol properties package.
  */
-public final class Messages extends NLS
-{
-    /**
-     * Initialize.
-     */
-    static
-    {
-        NLS.initializeMessages(Messages.class.getName().toLowerCase(Locale.ENGLISH), Messages.class);
-    }
-}
+package com.b3dgs.lionheart.editor.object.properties.patrol;
