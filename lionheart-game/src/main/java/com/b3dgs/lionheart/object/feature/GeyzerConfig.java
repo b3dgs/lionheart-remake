@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -45,6 +46,37 @@ public final class GeyzerConfig implements XmlSaver
     private final int delayDown;
     /** Max height. */
     private final int height;
+
+    /**
+     * Create blank config.
+     */
+    public GeyzerConfig()
+    {
+        super();
+
+        delayFirst = 0;
+        delayStart = 0;
+        delayDown = 0;
+        height = 0;
+    }
+
+    /**
+     * Create config.
+     * 
+     * @param delayFirst The delay first.
+     * @param delayStart The delay start.
+     * @param delayDown The delay down.
+     * @param height The maximum height.
+     */
+    public GeyzerConfig(int delayFirst, int delayStart, int delayDown, int height)
+    {
+        super();
+
+        this.delayFirst = delayFirst;
+        this.delayStart = delayStart;
+        this.delayDown = delayDown;
+        this.height = height;
+    }
 
     /**
      * Create config.
@@ -112,5 +144,23 @@ public final class GeyzerConfig implements XmlSaver
         node.writeInteger(ATT_DELAY_START, delayStart);
         node.writeInteger(ATT_DELAY_DOWN, delayDown);
         node.writeInteger(ATT_HEIGHT, height);
+    }
+
+    private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Geyzer [");
+        add(builder, ATT_DELAY_FIRST, delayFirst);
+        add(builder, ATT_DELAY_START, delayStart);
+        add(builder, ATT_DELAY_DOWN, delayDown);
+        add(builder, ATT_HEIGHT, height);
+        builder.append("]");
+        return builder.toString();
     }
 }

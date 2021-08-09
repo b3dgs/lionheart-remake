@@ -81,6 +81,26 @@ public final class Geyzer extends FeatureModel implements XmlLoader, XmlSaver, R
         super(services, setup);
     }
 
+    /**
+     * Get current config.
+     * 
+     * @return The current config.
+     */
+    public GeyzerConfig getConfig()
+    {
+        return config;
+    }
+
+    /**
+     * Set the current config.
+     * 
+     * @param config The current config.
+     */
+    public void setConfig(GeyzerConfig config)
+    {
+        this.config = config;
+    }
+
     @Override
     public void load(XmlReader root)
     {
@@ -95,7 +115,7 @@ public final class Geyzer extends FeatureModel implements XmlLoader, XmlSaver, R
                                                         transformable);
             final Animation idle = AnimationConfig.imports(new Configurer(featurable.getMedia()))
                                                   .getAnimation(Anim.IDLE);
-            featurable.getFeature(Animatable.class).play(idle);
+            featurable.ifIs(Animatable.class, a -> a.play(idle));
             bottom.add(featurable.getFeature(Transformable.class));
             y = transformable.getY();
             bottom.get(0).teleportY(y - 28);

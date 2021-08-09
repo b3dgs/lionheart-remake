@@ -33,4 +33,31 @@
             class="com.b3dgs.lionheart.editor.ApplicationConfiguration">
       </processor>
    </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerDefinedTester"
+            id="com.b3dgs.lionheart.editor.geyzerDefinedTester"
+            namespace="com.b3dgs.lionheart.editor.geyzerDefinedTester"
+            properties="enableGeyzer,disableGeyzer"
+            type="java.lang.Object">
+      </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.enableGeyzer">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.geyzerDefinedTester.enableGeyzer">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.disableGeyzer">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.geyzerDefinedTester.disableGeyzer">
+         </test>
+      </definition>
+   </extension>
 </plugin>

@@ -71,8 +71,10 @@ import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
+import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
 import com.b3dgs.lionheart.object.XmlSaver;
+import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.Patrols;
 import com.b3dgs.lionheart.object.feature.Trackable;
 
@@ -128,6 +130,7 @@ public class ApplicationConfiguration
         private void handleExtensions()
         {
             properties.put(Patrols.class, UtilPart.getPart(PatrolPart.ID, PatrolPart.class));
+            properties.put(Geyzer.class, UtilPart.getPart(GeyzerPart.ID, GeyzerPart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
@@ -135,6 +138,7 @@ public class ApplicationConfiguration
         private void loadProperties(Transformable featurable)
         {
             UtilPart.getMPart(PatrolPart.ID).setVisible(false);
+            UtilPart.getMPart(GeyzerPart.ID).setVisible(false);
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
         }
 
