@@ -55,7 +55,6 @@ public final class HotFireBall extends FeatureModel implements XmlLoader, XmlSav
     private int current;
 
     @FeatureGet private Launcher launcher;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Transformable transformable;
 
     /**
@@ -68,6 +67,26 @@ public final class HotFireBall extends FeatureModel implements XmlLoader, XmlSav
     public HotFireBall(Services services, Setup setup)
     {
         super(services, setup);
+    }
+
+    /**
+     * Get current config.
+     * 
+     * @return The current config.
+     */
+    public HotFireBallConfig getConfig()
+    {
+        return config;
+    }
+
+    /**
+     * Set the current config.
+     * 
+     * @param config The current config.
+     */
+    public void setConfig(HotFireBallConfig config)
+    {
+        this.config = config;
     }
 
     @Override
@@ -89,7 +108,7 @@ public final class HotFireBall extends FeatureModel implements XmlLoader, XmlSav
     {
         super.prepare(provider);
 
-        rasterable.setVisibility(false);
+        ifIs(Rasterable.class, r -> r.setVisibility(false));
         launcher.addListener(l -> l.getDirection().setDestination(config.getVx(), config.getVy()));
     }
 

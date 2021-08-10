@@ -42,6 +42,13 @@
             properties="enableGeyzer,disableGeyzer"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallDefinedTester"
+            id="com.b3dgs.lionheart.editor.hotFireBallDefinedTester"
+            namespace="com.b3dgs.lionheart.editor.hotFireBallDefinedTester"
+            properties="enableHotFireBall,disableHotFireBall"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -57,6 +64,20 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.geyzerDefinedTester.disableGeyzer">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.disableHotFireBall">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.hotFireBallDefinedTester.disableHotFireBall">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.enableHotFireBall">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.hotFireBallDefinedTester.enableHotFireBall">
          </test>
       </definition>
    </extension>

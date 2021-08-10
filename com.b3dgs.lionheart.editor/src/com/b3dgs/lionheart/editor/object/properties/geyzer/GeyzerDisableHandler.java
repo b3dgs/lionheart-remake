@@ -21,7 +21,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 
 /**
- * Disable geyzer handler.
+ * Disable handler.
  */
 public final class GeyzerDisableHandler
 {

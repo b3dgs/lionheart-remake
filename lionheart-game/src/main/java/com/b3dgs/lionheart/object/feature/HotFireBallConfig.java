@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -28,15 +30,15 @@ public final class HotFireBallConfig implements XmlSaver
     /** Hurtable node name. */
     public static final String NODE_HOTFIREBALL = "hotfireball";
     /** Delay attribute name. */
-    private static final String ATT_DELAY = "delay";
+    public static final String ATT_DELAY = "delay";
     /** Count attribute name. */
-    private static final String ATT_COUNT = "count";
+    public static final String ATT_COUNT = "count";
     /** Level attribute name. */
-    private static final String ATT_LEVEL = "level";
+    public static final String ATT_LEVEL = "level";
     /** Horizontal force attribute name. */
-    private static final String ATT_VX = "vx";
+    public static final String ATT_VX = "vx";
     /** Vertical force attribute name. */
-    private static final String ATT_VY = "vy";
+    public static final String ATT_VY = "vy";
 
     /** Fire delay. */
     private final int delay;
@@ -50,13 +52,49 @@ public final class HotFireBallConfig implements XmlSaver
     private final double vy;
 
     /**
+     * Create blank configuration.
+     */
+    public HotFireBallConfig()
+    {
+        super();
+
+        delay = 0;
+        count = 0;
+        level = 0;
+        vx = 0;
+        vy = 0;
+    }
+
+    /**
+     * Create configuration.
+     * 
+     * @param delay The delay value.
+     * @param count The count number.
+     * @param level The fire type.
+     * @param vx The horizontal force.
+     * @param vy The vertical force.
+     */
+    public HotFireBallConfig(int delay, int count, int level, double vx, double vy)
+    {
+        super();
+
+        this.delay = delay;
+        this.count = count;
+        this.level = level;
+        this.vx = vx;
+        this.vy = vy;
+    }
+
+    /**
      * Create config.
      * 
-     * @param root The root configuration (must not be null).
+     * @param root The root configuration (must not be <code>null</code>).
      */
     public HotFireBallConfig(XmlReader root)
     {
         super();
+
+        Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_HOTFIREBALL);
         delay = node.getInteger(ATT_DELAY);
@@ -125,5 +163,29 @@ public final class HotFireBallConfig implements XmlSaver
         node.writeInteger(ATT_LEVEL, level);
         node.writeDouble(ATT_VX, vx);
         node.writeDouble(ATT_VY, vy);
+    }
+
+    private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("HotFireBall [");
+        add(builder, ATT_DELAY, delay);
+        add(builder, ATT_COUNT, count);
+        add(builder, ATT_LEVEL, level);
+        add(builder, ATT_VX, vx);
+        add(builder, ATT_VY, vy);
+        builder.append("]");
+        return builder.toString();
     }
 }

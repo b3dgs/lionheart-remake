@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.object.properties.geyzer;
+package com.b3dgs.lionheart.editor.object.properties.hotfireball;
 
 import java.util.Optional;
 
@@ -29,25 +29,26 @@ import com.b3dgs.lionengine.editor.dialog.EditorAbstract;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.validator.InputValidator;
 import com.b3dgs.lionengine.editor.widget.TextWidget;
-import com.b3dgs.lionheart.object.feature.GeyzerConfig;
+import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 
 /**
  * Editor dialog.
  */
-public class GeyzerEditor extends EditorAbstract
+public class HotFireBallEditor extends EditorAbstract
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
-    private final GeyzerConfig config;
+    private final HotFireBallConfig config;
 
-    private TextWidget first;
-    private TextWidget start;
-    private TextWidget down;
-    private TextWidget height;
+    private TextWidget delay;
+    private TextWidget count;
+    private TextWidget level;
+    private TextWidget vx;
+    private TextWidget vy;
 
-    private Optional<GeyzerConfig> output = Optional.empty();
+    private Optional<HotFireBallConfig> output = Optional.empty();
 
     /**
      * Create editor.
@@ -55,7 +56,7 @@ public class GeyzerEditor extends EditorAbstract
      * @param parent The parent reference.
      * @param config The configuration reference.
      */
-    public GeyzerEditor(Composite parent, GeyzerConfig config)
+    public HotFireBallEditor(Composite parent, HotFireBallConfig config)
     {
         super(parent, Messages.Title, ICON);
 
@@ -69,24 +70,27 @@ public class GeyzerEditor extends EditorAbstract
         content.setLayout(new GridLayout(1, false));
         content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-        first = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_FIRST), VALIDATOR, true);
-        start = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_START), VALIDATOR, true);
-        down = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_DOWN), VALIDATOR, true);
-        height = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_HEIGHT), VALIDATOR, true);
+        delay = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY), VALIDATOR, true);
+        count = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_COUNT), VALIDATOR, true);
+        level = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_LEVEL), VALIDATOR, true);
+        vx = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VX), VALIDATOR, true);
+        vy = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VY), VALIDATOR, true);
 
-        first.set(config.getDelayFirst());
-        start.set(config.getDelayStart());
-        down.set(config.getDelayDown());
-        height.set(config.getHeight());
+        delay.set(config.getDelay());
+        count.set(config.getCount());
+        level.set(config.getLevel());
+        vx.set(config.getVx());
+        vy.set(config.getVy());
     }
 
     @Override
     protected void onExit()
     {
-        output = Optional.of(new GeyzerConfig(first.getValue().orElse(0),
-                                              start.getValue().orElse(0),
-                                              down.getValue().orElse(0),
-                                              height.getValue().orElse(0)));
+        output = Optional.of(new HotFireBallConfig(delay.getValue().orElse(0),
+                                                   count.getValue().orElse(0),
+                                                   level.getValue().orElse(0),
+                                                   vx.getValue().orElse(0),
+                                                   vy.getValue().orElse(0)));
     }
 
     /**
@@ -94,7 +98,7 @@ public class GeyzerEditor extends EditorAbstract
      * 
      * @return The output.
      */
-    public Optional<GeyzerConfig> getOutput()
+    public Optional<HotFireBallConfig> getOutput()
     {
         return output;
     }

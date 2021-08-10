@@ -14,21 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.object.properties.geyzer;
+package com.b3dgs.lionheart.editor.object.properties.hotfireball;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 
 /**
- * Enable handler.
+ * Disable handler.
  */
-public final class GeyzerEnableHandler
+public final class HotFireBallDisableHandler
 {
     /**
      * Create handler.
      */
-    public GeyzerEnableHandler()
+    public HotFireBallDisableHandler()
     {
         super();
     }
@@ -39,6 +39,6 @@ public final class GeyzerEnableHandler
     @Execute
     public void execute()
     {
-        UtilPart.getPart(GeyzerPart.ID, GeyzerPart.class).enable();
+        UtilPart.getPart(HotFireBallPart.ID, HotFireBallPart.class).disable();
     }
 }
