@@ -49,6 +49,13 @@
             properties="enableHotFireBall,disableHotFireBall"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.spike.SpikeDefinedTester"
+            id="com.b3dgs.lionheart.editor.spikeDefinedTester"
+            namespace="com.b3dgs.lionheart.editor.spikeDefinedTester"
+            properties="enableSpike,disableSpike"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -78,6 +85,20 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.hotFireBallDefinedTester.enableHotFireBall">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.enableSpike">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.spikeDefinedTester.enableSpike">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.disableSpike">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.spikeDefinedTester.disableSpike">
          </test>
       </definition>
    </extension>

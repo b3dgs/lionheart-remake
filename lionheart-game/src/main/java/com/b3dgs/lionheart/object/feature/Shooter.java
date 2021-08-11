@@ -64,7 +64,6 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
     private boolean enabled;
 
     @FeatureGet private Launcher launcher;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Stats stats;
 
@@ -245,9 +244,8 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
         {
             if (Settings.getInstance().getRasterObject())
             {
-                rasterable.getMedia()
-                          .ifPresent(media -> l.ifIs(Rasterable.class,
-                                                     r -> r.setRaster(true, media, map.getTileHeight())));
+                l.ifIs(Rasterable.class,
+                       r -> r.getMedia().ifPresent(media -> r.setRaster(true, media, map.getTileHeight())));
             }
 
             if (config != null && !config.getTrack())

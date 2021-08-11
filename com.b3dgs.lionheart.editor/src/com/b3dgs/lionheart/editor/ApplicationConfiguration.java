@@ -47,6 +47,7 @@ import com.b3dgs.lionengine.editor.project.ProjectFactory;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.feature.AnimatableModel;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeaturableConfig;
@@ -75,10 +76,13 @@ import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
+import com.b3dgs.lionheart.editor.object.properties.spike.SpikePart;
 import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Patrols;
+import com.b3dgs.lionheart.object.feature.Spike;
+import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
@@ -135,6 +139,7 @@ public class ApplicationConfiguration
             properties.put(Patrols.class, UtilPart.getPart(PatrolPart.ID, PatrolPart.class));
             properties.put(Geyzer.class, UtilPart.getPart(GeyzerPart.ID, GeyzerPart.class));
             properties.put(HotFireBall.class, UtilPart.getPart(HotFireBallPart.ID, HotFireBallPart.class));
+            properties.put(Spike.class, UtilPart.getPart(SpikePart.ID, SpikePart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
@@ -144,6 +149,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(PatrolPart.ID).setVisible(false);
             UtilPart.getMPart(GeyzerPart.ID).setVisible(false);
             UtilPart.getMPart(HotFireBallPart.ID).setVisible(false);
+            UtilPart.getMPart(SpikePart.ID).setVisible(false);
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
         }
 
@@ -219,6 +225,8 @@ public class ApplicationConfiguration
                     featurable.addFeature(new CollidableModel(services, setup));
                     featurable.addFeature(new LauncherModel(services, setup));
                     featurable.addFeature(new StateHandler(services, setup));
+                    featurable.addFeature(new AnimatableModel(services, setup));
+                    featurable.addFeature(new Stats(services, setup));
                     featurable.addFeature(new EntityChecker());
                     FeaturableConfig.getFeatures(project.getLoader().getClassLoader(), services, setup, XmlSaver.class)
                                     .forEach(featurable::addFeature);

@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -35,6 +36,26 @@ public final class SpikeConfig implements XmlSaver
 
     /** Delay start. */
     private final OptionalInt delay;
+
+    /**
+     * Create blank configuration.
+     */
+    public SpikeConfig()
+    {
+        this(OptionalInt.empty());
+    }
+
+    /**
+     * Create configuration.
+     * 
+     * @param delay The delay reference.
+     */
+    public SpikeConfig(OptionalInt delay)
+    {
+        super();
+
+        this.delay = delay;
+    }
 
     /**
      * Create config.
@@ -69,5 +90,20 @@ public final class SpikeConfig implements XmlSaver
             final Xml node = root.createChild(NODE_SPIKE);
             node.writeInteger(ATT_DELAY, d);
         });
+    }
+
+    private static void add(StringBuilder builder, String name, OptionalInt value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Spike [");
+        add(builder, ATT_DELAY, delay);
+        builder.append("]");
+        return builder.toString();
     }
 }

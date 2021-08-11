@@ -127,6 +127,26 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ro
         checker = phaseUpdater;
     }
 
+    /**
+     * Get current config.
+     * 
+     * @return The current config.
+     */
+    public SpikeConfig getConfig()
+    {
+        return config;
+    }
+
+    /**
+     * Set the current config.
+     * 
+     * @param config The current config.
+     */
+    public void setConfig(SpikeConfig config)
+    {
+        this.config = config;
+    }
+
     @Override
     public void load(XmlReader root)
     {
