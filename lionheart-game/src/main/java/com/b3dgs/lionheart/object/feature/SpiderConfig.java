@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -33,6 +34,26 @@ public final class SpiderConfig implements XmlSaver
 
     /** Follow flag. */
     private final boolean follow;
+
+    /**
+     * Create blank configuration.
+     */
+    public SpiderConfig()
+    {
+        this(false);
+    }
+
+    /**
+     * Create configuration.
+     * 
+     * @param follow The follow flag.
+     */
+    public SpiderConfig(boolean follow)
+    {
+        super();
+
+        this.follow = follow;
+    }
 
     /**
      * Create config.
@@ -64,5 +85,20 @@ public final class SpiderConfig implements XmlSaver
     {
         final Xml node = root.createChild(NODE_SPIDER);
         node.writeBoolean(ATT_FOLLOW, follow);
+    }
+
+    private static void add(StringBuilder builder, String name, boolean value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Spider [");
+        add(builder, ATT_FOLLOW, follow);
+        builder.append("]");
+        return builder.toString();
     }
 }

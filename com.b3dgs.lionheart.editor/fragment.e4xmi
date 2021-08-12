@@ -46,5 +46,15 @@
         </children>
       </menus>
     </elements>
+    <elements xsi:type="basic:Part" xmi:id="_b4bEkPrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart" label="%part.spider" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+      <menus xsi:type="menu:PopupMenu" xmi:id="_b4bEkfrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider.menu">
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_b4bEkvrlEeuvi6FYCgtzBw" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderEnableHandler">
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bEk_rlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.properties.enableSpider"/>
+        </children>
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_b4bElPrlEeuvi6FYCgtzBw" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderDisableHandler">
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bElfrlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.properties.disableSpider"/>
+        </children>
+      </menus>
+    </elements>
   </fragments>
 </fragment:ModelFragments>

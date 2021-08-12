@@ -56,6 +56,13 @@
             properties="enableSpike,disableSpike"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.spider.SpiderDefinedTester"
+            id="com.b3dgs.lionheart.editor.spiderDefinedTester"
+            namespace="com.b3dgs.lionheart.editor.spiderDefinedTester"
+            properties="enableSpider,disableSpider"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -99,6 +106,20 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.spikeDefinedTester.disableSpike">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.disableSpider">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.spiderDefinedTester.disableSpider">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.properties.enableSpider">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.spiderDefinedTester.enableSpider">
          </test>
       </definition>
    </extension>

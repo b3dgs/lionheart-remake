@@ -85,6 +85,26 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
     }
 
     /**
+     * Get current config.
+     * 
+     * @return The current config.
+     */
+    public SpiderConfig getConfig()
+    {
+        return config;
+    }
+
+    /**
+     * Set the current config.
+     * 
+     * @param config The current config.
+     */
+    public void setConfig(SpiderConfig config)
+    {
+        this.config = config;
+    }
+
+    /**
      * Enable player tracking.
      */
     public void track()
