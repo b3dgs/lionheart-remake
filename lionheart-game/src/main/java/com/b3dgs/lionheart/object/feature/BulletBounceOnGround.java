@@ -105,7 +105,6 @@ public final class BulletBounceOnGround extends FeatureModel
     private double bounceX;
     private int bounced;
 
-    @FeatureGet private Hurtable hurtable;
     @FeatureGet private Body body;
     @FeatureGet private Launchable launchable;
     @FeatureGet private TileCollidable tileCollidable;

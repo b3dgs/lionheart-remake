@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.object.properties.spider;
+package com.b3dgs.lionheart.editor.object.properties.spike;
 
 import org.eclipse.core.expressions.PropertyTester;
 
@@ -23,17 +23,17 @@ import com.b3dgs.lionengine.editor.utility.UtilPart;
 /**
  * Test if configuration is defined.
  */
-public final class SpiderDefinedTester extends PropertyTester
+public final class SpikePropertyTester extends PropertyTester
 {
     /** Can enable property. */
-    private static final String PROPERTY_ENABLE = "enableSpider";
+    private static final String PROPERTY_ENABLE = "enable";
     /** Can disable property. */
-    private static final String PROPERTY_DISABLE = "disableSpider";
+    private static final String PROPERTY_DISABLE = "disable";
 
     /**
      * Create tester.
      */
-    public SpiderDefinedTester()
+    public SpikePropertyTester()
     {
         super();
     }
@@ -41,7 +41,7 @@ public final class SpiderDefinedTester extends PropertyTester
     @Override
     public boolean test(Object receiver, String property, Object[] args, Object expectedValue)
     {
-        final SpiderPart part = UtilPart.getPart(SpiderPart.ID, SpiderPart.class);
+        final SpikePart part = UtilPart.getPart(SpikePart.ID, SpikePart.class);
         final boolean result;
         if (PROPERTY_DISABLE.equals(property))
         {

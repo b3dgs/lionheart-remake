@@ -69,7 +69,6 @@ public final class Canon2Airship extends FeatureModel implements XmlSaver, XmlLo
     @FeatureGet private Stats stats;
     @FeatureGet private Launcher launcher;
     @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Hurtable hurtable;
     @FeatureGet private Identifiable identifiable;
 
     /**

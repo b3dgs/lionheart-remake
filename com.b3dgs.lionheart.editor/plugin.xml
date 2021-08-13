@@ -36,90 +36,111 @@
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
       <propertyTester
-            class="com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerDefinedTester"
-            id="com.b3dgs.lionheart.editor.geyzerDefinedTester"
-            namespace="com.b3dgs.lionheart.editor.geyzerDefinedTester"
-            properties="enableGeyzer,disableGeyzer"
+            class="com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.geyzer.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.geyzer.tester"
+            properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
       <propertyTester
-            class="com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallDefinedTester"
-            id="com.b3dgs.lionheart.editor.hotFireBallDefinedTester"
-            namespace="com.b3dgs.lionheart.editor.hotFireBallDefinedTester"
-            properties="enableHotFireBall,disableHotFireBall"
+            class="com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.hotfireball.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.hotfireball.tester"
+            properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
       <propertyTester
-            class="com.b3dgs.lionheart.editor.object.properties.spike.SpikeDefinedTester"
-            id="com.b3dgs.lionheart.editor.spikeDefinedTester"
-            namespace="com.b3dgs.lionheart.editor.spikeDefinedTester"
-            properties="enableSpike,disableSpike"
+            class="com.b3dgs.lionheart.editor.object.properties.spike.SpikePropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.spike.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.spike.tester"
+            properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
       <propertyTester
-            class="com.b3dgs.lionheart.editor.object.properties.spider.SpiderDefinedTester"
-            id="com.b3dgs.lionheart.editor.spiderDefinedTester"
-            namespace="com.b3dgs.lionheart.editor.spiderDefinedTester"
-            properties="enableSpider,disableSpider"
+            class="com.b3dgs.lionheart.editor.object.properties.spider.SpiderPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.spider.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.spider.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.shooter.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.shooter.tester"
+            properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
-            id="com.b3dgs.lionheart.editor.properties.enableGeyzer">
+            id="com.b3dgs.lionheart.editor.part.properties.geyzer.enable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.geyzerDefinedTester.enableGeyzer">
+               property="com.b3dgs.lionheart.editor.part.properties.geyzer.tester.enable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.disableGeyzer">
+            id="com.b3dgs.lionheart.editor.part.properties.geyzer.disable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.geyzerDefinedTester.disableGeyzer">
+               property="com.b3dgs.lionheart.editor.part.properties.geyzer.tester.disable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.disableHotFireBall">
+            id="com.b3dgs.lionheart.editor.part.properties.hotfireball.disable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.hotFireBallDefinedTester.disableHotFireBall">
+               property="com.b3dgs.lionheart.editor.part.properties.hotfireball.tester.disable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.enableHotFireBall">
+            id="com.b3dgs.lionheart.editor.part.properties.hotfireball.enable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.hotFireBallDefinedTester.enableHotFireBall">
+               property="com.b3dgs.lionheart.editor.part.properties.hotfireball.tester.enable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.enableSpike">
+            id="com.b3dgs.lionheart.editor.part.properties.spike.enable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.spikeDefinedTester.enableSpike">
+               property="com.b3dgs.lionheart.editor.part.properties.spike.tester.enable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.disableSpike">
+            id="com.b3dgs.lionheart.editor.part.properties.spike.disable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.spikeDefinedTester.disableSpike">
+               property="com.b3dgs.lionheart.editor.part.properties.spike.tester.disable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.disableSpider">
+            id="com.b3dgs.lionheart.editor.part.properties.spider.disable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.spiderDefinedTester.disableSpider">
+               property="com.b3dgs.lionheart.editor.part.properties.spider.tester.disable">
          </test>
       </definition>
       <definition
-            id="com.b3dgs.lionheart.editor.properties.enableSpider">
+            id="com.b3dgs.lionheart.editor.part.properties.spider.enable">
          <test
                forcePluginActivation="true"
-               property="com.b3dgs.lionheart.editor.spiderDefinedTester.enableSpider">
+               property="com.b3dgs.lionheart.editor.part.properties.spider.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.shooter.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.shooter.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.shooter.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.shooter.tester.disable">
          </test>
       </definition>
    </extension>

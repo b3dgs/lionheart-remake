@@ -89,6 +89,26 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
     }
 
     /**
+     * Get current config.
+     * 
+     * @return The current config.
+     */
+    public ShooterConfig getConfig()
+    {
+        return config;
+    }
+
+    /**
+     * Set the current config.
+     * 
+     * @param config The current config.
+     */
+    public void setConfig(ShooterConfig config)
+    {
+        this.config = config;
+    }
+
+    /**
      * Load configuration.
      * 
      * @param config The configuration to load.

@@ -58,8 +58,10 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.BodyModel;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
+import com.b3dgs.lionengine.game.feature.launchable.LaunchableModel;
 import com.b3dgs.lionengine.game.feature.launchable.LauncherModel;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterListener;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
@@ -76,12 +78,14 @@ import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
+import com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart;
 import com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart;
 import com.b3dgs.lionheart.editor.object.properties.spike.SpikePart;
 import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Patrols;
+import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -143,6 +147,7 @@ public class ApplicationConfiguration
             properties.put(HotFireBall.class, UtilPart.getPart(HotFireBallPart.ID, HotFireBallPart.class));
             properties.put(Spike.class, UtilPart.getPart(SpikePart.ID, SpikePart.class));
             properties.put(Spider.class, UtilPart.getPart(SpiderPart.ID, SpiderPart.class));
+            properties.put(Shooter.class, UtilPart.getPart(ShooterPart.ID, ShooterPart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
@@ -154,6 +159,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(HotFireBallPart.ID).setVisible(false);
             UtilPart.getMPart(SpikePart.ID).setVisible(false);
             UtilPart.getMPart(SpiderPart.ID).setVisible(false);
+            UtilPart.getMPart(ShooterPart.ID).setVisible(false);
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
         }
 
@@ -228,6 +234,8 @@ public class ApplicationConfiguration
                     featurable.addFeature(new BodyModel(services, setup));
                     featurable.addFeature(new CollidableModel(services, setup));
                     featurable.addFeature(new LauncherModel(services, setup));
+                    featurable.addFeature(new LaunchableModel(services, setup));
+                    featurable.addFeature(new TileCollidableModel(services, setup));
                     featurable.addFeature(new StateHandler(services, setup));
                     featurable.addFeature(new AnimatableModel(services, setup));
                     featurable.addFeature(new Stats(services, setup));

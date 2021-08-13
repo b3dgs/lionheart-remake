@@ -16,7 +16,9 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -61,6 +63,47 @@ public final class ShooterConfig implements XmlSaver
     private final double dvy;
     /** Fire track flag. */
     private final boolean track;
+
+    /**
+     * Create blank configuration.
+     */
+    public ShooterConfig()
+    {
+        this(0, 0, Animation.MINIMUM_FRAME, 0.0, 0.0, 0.0, 0.0, false);
+    }
+
+    /**
+     * Create configuration.
+     * 
+     * @param fireDelay The fire delay.
+     * @param firedDelay The fired delay.
+     * @param anim The animation frame.
+     * @param svx The starting horizontal.
+     * @param svy The starting vertical.
+     * @param dvx The ending horizontal.
+     * @param dvy The ending vertical.
+     * @param track The track flag.
+     */
+    public ShooterConfig(int fireDelay,
+                         int firedDelay,
+                         int anim,
+                         double svx,
+                         double svy,
+                         double dvx,
+                         double dvy,
+                         boolean track)
+    {
+        super();
+
+        this.fireDelay = fireDelay;
+        this.firedDelay = firedDelay;
+        this.anim = anim;
+        this.svx = svx;
+        this.svy = svy;
+        this.dvx = dvx;
+        this.dvy = dvy;
+        this.track = track;
+    }
 
     /**
      * Create config.
@@ -176,5 +219,37 @@ public final class ShooterConfig implements XmlSaver
         node.writeDouble(ATT_DVX, dvx);
         node.writeDouble(ATT_DVY, dvy);
         node.writeBoolean(ATT_TRACK, track);
+    }
+
+    private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, boolean value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Shooter [");
+        add(builder, ATT_FIRE_DELAY, fireDelay);
+        add(builder, ATT_FIRED_DELAY, firedDelay);
+        add(builder, ATT_ANIM, anim);
+        add(builder, ATT_SVX, svx);
+        add(builder, ATT_SVY, svy);
+        add(builder, ATT_DVX, dvx);
+        add(builder, ATT_DVY, dvy);
+        add(builder, ATT_TRACK, track);
+        builder.append("]");
+        return builder.toString();
     }
 }

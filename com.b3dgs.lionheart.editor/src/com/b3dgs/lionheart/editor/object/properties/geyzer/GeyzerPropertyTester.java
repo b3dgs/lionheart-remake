@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.object.properties.hotfireball;
+package com.b3dgs.lionheart.editor.object.properties.geyzer;
 
 import org.eclipse.core.expressions.PropertyTester;
 
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 
 /**
- * Test if hot fire ball configuration is defined.
+ * Test if configuration is defined.
  */
-public final class HotFireBallDefinedTester extends PropertyTester
+public final class GeyzerPropertyTester extends PropertyTester
 {
     /** Can enable property. */
-    private static final String PROPERTY_ENABLE = "enableHotFireBall";
+    private static final String PROPERTY_ENABLE = "enable";
     /** Can disable property. */
-    private static final String PROPERTY_DISABLE = "disableHotFireBall";
+    private static final String PROPERTY_DISABLE = "disable";
 
     /**
      * Create tester.
      */
-    public HotFireBallDefinedTester()
+    public GeyzerPropertyTester()
     {
         super();
     }
@@ -41,7 +41,7 @@ public final class HotFireBallDefinedTester extends PropertyTester
     @Override
     public boolean test(Object receiver, String property, Object[] args, Object expectedValue)
     {
-        final HotFireBallPart part = UtilPart.getPart(HotFireBallPart.ID, HotFireBallPart.class);
+        final GeyzerPart part = UtilPart.getPart(GeyzerPart.ID, GeyzerPart.class);
         final boolean result;
         if (PROPERTY_DISABLE.equals(property))
         {

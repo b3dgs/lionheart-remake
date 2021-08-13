@@ -19,40 +19,50 @@
     <elements xsi:type="basic:Part" xmi:id="_jtVMEPkIEeuRG6L0yfYNLQ" elementId="com.b3dgs.lionheart.editor.part.properties.hotfireball" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart" label="%part.hotfireball" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_jtVzIPkIEeuRG6L0yfYNLQ" elementId="com.b3dgs.lionheart.editor.part.properties.hotfireball.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_jtVzIfkIEeuRG6L0yfYNLQ" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallEnableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_uH1moPkJEeuRG6L0yfYNLQ" coreExpressionId="com.b3dgs.lionheart.editor.properties.enableHotFireBall"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_uH1moPkJEeuRG6L0yfYNLQ" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.hotfireball.enable"/>
         </children>
         <children xsi:type="menu:DirectMenuItem" xmi:id="_jtVzIvkIEeuRG6L0yfYNLQ" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallDisableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oYawQPkKEeuRG6L0yfYNLQ" coreExpressionId="com.b3dgs.lionheart.editor.properties.disableHotFireBall"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oYawQPkKEeuRG6L0yfYNLQ" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.hotfireball.disable"/>
         </children>
       </menus>
     </elements>
     <elements xsi:type="basic:Part" xmi:id="_oa4G8PnREeuERO8bBgDVoA" elementId="com.b3dgs.lionheart.editor.part.properties.geyzer" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart" label="%part.geyzer" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_oa4G8fnREeuERO8bBgDVoA" elementId="com.b3dgs.lionheart.editor.part.properties.geyzer.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_oa4G8vnREeuERO8bBgDVoA" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerEnableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oa4G8_nREeuERO8bBgDVoA" coreExpressionId="com.b3dgs.lionheart.editor.properties.enableGeyzer"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oa4G8_nREeuERO8bBgDVoA" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.geyzer.enable"/>
         </children>
         <children xsi:type="menu:DirectMenuItem" xmi:id="_oa4G9PnREeuERO8bBgDVoA" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerDisableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oa4G9fnREeuERO8bBgDVoA" coreExpressionId="com.b3dgs.lionheart.editor.properties.disableGeyzer"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oa4G9fnREeuERO8bBgDVoA" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.geyzer.disable"/>
         </children>
       </menus>
     </elements>
     <elements xsi:type="basic:Part" xmi:id="_a9M_oPp7EeuwwK4ZD8q-og" elementId="com.b3dgs.lionheart.editor.part.properties.spike" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spike.SpikePart" label="%part.spike" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_a9M_ofp7EeuwwK4ZD8q-og" elementId="com.b3dgs.lionheart.editor.part.properties.spike.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_a9M_ovp7EeuwwK4ZD8q-og" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spike.SpikeEnableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_a9M_o_p7EeuwwK4ZD8q-og" coreExpressionId="com.b3dgs.lionheart.editor.properties.enableSpike"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_a9M_o_p7EeuwwK4ZD8q-og" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.spike.enable"/>
         </children>
         <children xsi:type="menu:DirectMenuItem" xmi:id="_a9M_pPp7EeuwwK4ZD8q-og" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spike.SpikeDisableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_a9M_pfp7EeuwwK4ZD8q-og" coreExpressionId="com.b3dgs.lionheart.editor.properties.disableSpike"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_a9M_pfp7EeuwwK4ZD8q-og" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.spike.disable"/>
         </children>
       </menus>
     </elements>
     <elements xsi:type="basic:Part" xmi:id="_b4bEkPrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart" label="%part.spider" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_b4bEkfrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_b4bEkvrlEeuvi6FYCgtzBw" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderEnableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bEk_rlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.properties.enableSpider"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bEk_rlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.spider.enable"/>
         </children>
         <children xsi:type="menu:DirectMenuItem" xmi:id="_b4bElPrlEeuvi6FYCgtzBw" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderDisableHandler">
-          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bElfrlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.properties.disableSpider"/>
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bElfrlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.spider.disable"/>
+        </children>
+      </menus>
+    </elements>
+    <elements xsi:type="basic:Part" xmi:id="_oyrrYPtwEeuB8_5ZaZ39yw" elementId="com.b3dgs.lionheart.editor.part.properties.shooter" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart" label="%part.shooter" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+      <menus xsi:type="menu:PopupMenu" xmi:id="_oyrrYftwEeuB8_5ZaZ39yw" elementId="com.b3dgs.lionheart.editor.part.properties.shooter.menu">
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_oyrrYvtwEeuB8_5ZaZ39yw" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.shooter.ShooterEnableHandler">
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oyrrY_twEeuB8_5ZaZ39yw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.shooter.enable"/>
+        </children>
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_oyrrZPtwEeuB8_5ZaZ39yw" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.shooter.ShooterDisableHandler">
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oyrrZftwEeuB8_5ZaZ39yw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.shooter.disable"/>
         </children>
       </menus>
     </elements>
