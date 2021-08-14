@@ -14,8 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
+package com.b3dgs.lionheart.editor.object.properties.rotating;
+
+import java.util.Locale;
+
+import org.eclipse.osgi.util.NLS;
 
 /**
- * Shooter properties package.
+ * Messages internationalization.
  */
-package com.b3dgs.lionheart.editor.object.properties.shooter;
+public final class Messages extends NLS
+{
+    /** Editor title. */
+    public static String Title;
+
+    /**
+     * Initialize.
+     */
+    static
+    {
+        NLS.initializeMessages(Messages.class.getName().toLowerCase(Locale.ENGLISH), Messages.class);
+    }
+}

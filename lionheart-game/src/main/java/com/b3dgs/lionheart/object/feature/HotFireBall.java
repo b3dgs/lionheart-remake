@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -43,7 +44,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </ol>
  */
 @FeatureInterface
-public final class HotFireBall extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class HotFireBall extends FeatureModel
+                               implements XmlLoader, XmlSaver, Editable<HotFireBallConfig>, Routine, Recyclable
 {
     private static final int BALL_DELAY_TICK = 8;
 
@@ -69,21 +71,13 @@ public final class HotFireBall extends FeatureModel implements XmlLoader, XmlSav
         super(services, setup);
     }
 
-    /**
-     * Get current config.
-     * 
-     * @return The current config.
-     */
+    @Override
     public HotFireBallConfig getConfig()
     {
         return config;
     }
 
-    /**
-     * Set the current config.
-     * 
-     * @param config The current config.
-     */
+    @Override
     public void setConfig(HotFireBallConfig config)
     {
         this.config = config;

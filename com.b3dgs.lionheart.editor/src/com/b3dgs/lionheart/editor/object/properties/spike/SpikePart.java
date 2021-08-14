@@ -16,168 +16,23 @@
  */
 package com.b3dgs.lionheart.editor.object.properties.spike;
 
-import javax.annotation.PostConstruct;
-
-import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.e4.ui.services.EMenuService;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-
-import com.b3dgs.lionengine.editor.utility.Focusable;
-import com.b3dgs.lionengine.editor.utility.UtilPart;
-import com.b3dgs.lionengine.editor.utility.UtilTree;
-import com.b3dgs.lionengine.editor.utility.control.UtilSwt;
-import com.b3dgs.lionengine.game.Feature;
-import com.b3dgs.lionheart.editor.Activator;
-import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
+import com.b3dgs.lionheart.editor.object.properties.PartAbstract;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.SpikeConfig;
 
 /**
  * Element properties part.
  */
-public class SpikePart implements Focusable, PropertiesFeature
+public class SpikePart extends PartAbstract<SpikeConfig, Spike>
 {
     /** Id. */
-    public static final String ID = Activator.PLUGIN_ID + ".part.properties.spike";
-    /** Menu. */
-    public static final String MENU = ID + ".menu";
-
-    private Tree tree;
-    private Spike spike;
+    public static final String ID = ID_PREFIX + "spike";
 
     /**
      * Create part.
      */
     public SpikePart()
     {
-        super();
-    }
-
-    /**
-     * Check if config exists.
-     * 
-     * @return <code>true</code> if exists, <code>false</code> else.
-     */
-    public boolean exists()
-    {
-        return spike.getConfig() != null;
-    }
-
-    /**
-     * Enable configuration.
-     */
-    public void enable()
-    {
-        if (spike.getConfig() == null)
-        {
-            final TreeItem item = new TreeItem(tree, SWT.NONE);
-            spike.setConfig(new SpikeConfig());
-            item.setText(spike.getConfig().toString());
-        }
-    }
-
-    /**
-     * Disable configuration.
-     */
-    public void disable()
-    {
-        if (tree.getSelectionCount() > 0)
-        {
-            final TreeItem item = tree.getSelection()[0];
-            spike.setConfig(null);
-            item.dispose();
-        }
-    }
-
-    @Override
-    public void load(Feature feature)
-    {
-        UtilPart.getMPart(SpikePart.ID).setVisible(true);
-        for (final TreeItem item : tree.getItems())
-        {
-            item.setData(null);
-            item.dispose();
-        }
-
-        spike = (Spike) feature;
-        if (spike.getConfig() == null)
-        {
-            enable();
-        }
-        else
-        {
-            final TreeItem item = new TreeItem(tree, SWT.NONE);
-            item.setText(spike.getConfig().toString());
-        }
-    }
-
-    /**
-     * Create the composite.
-     * 
-     * @param parent The parent reference.
-     * @param menuService The menu service reference.
-     */
-    @PostConstruct
-    public void createComposite(Composite parent, EMenuService menuService)
-    {
-        tree = new Tree(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-        tree.setLayout(new FillLayout());
-        tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        tree.setHeaderVisible(false);
-        tree.addMouseTrackListener(UtilSwt.createFocusListener(this));
-
-        final Listener listener = UtilTree.createAutosizeListener();
-        tree.addListener(SWT.Collapse, listener);
-        tree.addListener(SWT.Expand, listener);
-
-        menuService.registerContextMenu(tree, MENU);
-        addListeners(menuService);
-    }
-
-    /**
-     * Set the focus.
-     */
-    @Override
-    @Focus
-    public void focus()
-    {
-        tree.setFocus();
-    }
-
-    /**
-     * Add mouse tree listener.
-     * 
-     * @param menuService The menu service reference.
-     */
-    private void addListeners(EMenuService menuService)
-    {
-        tree.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseDoubleClick(MouseEvent event)
-            {
-                final TreeItem[] items = tree.getSelection();
-                if (items.length > 0)
-                {
-                    final TreeItem item = items[0];
-                    final SpikeEditor editor = new SpikeEditor(tree, spike.getConfig());
-                    editor.create();
-                    editor.openAndWait();
-                    editor.getOutput().ifPresent(c ->
-                    {
-                        spike.setConfig(c);
-                        item.setText(c.toString());
-                    });
-                }
-            }
-        });
+        super(SpikeConfig.class, Spike.class, SpikeEditor.class);
     }
 }

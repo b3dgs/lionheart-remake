@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -50,7 +51,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </ol>
  */
 @FeatureInterface
-public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class Shooter extends FeatureModel
+                           implements XmlLoader, XmlSaver, Editable<ShooterConfig>, Routine, Recyclable
 {
     private final Tick tick = new Tick();
     private final Animation idle;
@@ -88,21 +90,13 @@ public final class Shooter extends FeatureModel implements XmlLoader, XmlSaver, 
         attack = config.getAnimation(Anim.ATTACK);
     }
 
-    /**
-     * Get current config.
-     * 
-     * @return The current config.
-     */
+    @Override
     public ShooterConfig getConfig()
     {
         return config;
     }
 
-    /**
-     * Set the current config.
-     * 
-     * @param config The current config.
-     */
+    @Override
     public void setConfig(ShooterConfig config)
     {
         this.config = config;

@@ -72,15 +72,15 @@ public final class StageConfig
     /** Checkpoint node name. */
     private static final String NODE_CHECKPOINT = "checkpoint";
     /** Checkpoint tile x attribute name. */
-    private static final String ATT_CHECKPOINT_TX = "tx";
+    public static final String ATT_CHECKPOINT_TX = "tx";
     /** Checkpoint tile y attribute name. */
-    private static final String ATT_CHECKPOINT_TY = "ty";
+    public static final String ATT_CHECKPOINT_TY = "ty";
     /** Checkpoint next stage attribute name. */
-    private static final String ATT_CHECKPOINT_NEXT = "next";
+    public static final String ATT_CHECKPOINT_NEXT = "next";
     /** Spawn tile x attribute name. */
-    private static final String ATT_SPAWN_TX = "stx";
+    public static final String ATT_SPAWN_TX = "stx";
     /** Spawn tile y attribute name. */
-    private static final String ATT_SPAWN_TY = "sty";
+    public static final String ATT_SPAWN_TY = "sty";
 
     /** Boss node name. */
     private static final String NODE_BOSS = "boss";

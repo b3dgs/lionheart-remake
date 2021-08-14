@@ -70,6 +70,13 @@
             properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.rotating.RotatingPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.rotating.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.rotating.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -141,6 +148,20 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.part.properties.shooter.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.rotating.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.rotating.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.rotating.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.rotating.tester.enable">
          </test>
       </definition>
    </extension>

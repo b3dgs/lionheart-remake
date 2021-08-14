@@ -18,23 +18,20 @@ package com.b3dgs.lionheart.editor.object.properties.geyzer;
 
 import java.util.Optional;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.editor.dialog.EditorAbstract;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.validator.InputValidator;
 import com.b3dgs.lionengine.editor.widget.TextWidget;
+import com.b3dgs.lionheart.editor.object.properties.EditorAbstract;
 import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 
 /**
  * Editor dialog.
  */
-public class GeyzerEditor extends EditorAbstract
+public class GeyzerEditor extends EditorAbstract<GeyzerConfig>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
@@ -46,8 +43,6 @@ public class GeyzerEditor extends EditorAbstract
     private TextWidget start;
     private TextWidget down;
     private TextWidget height;
-
-    private Optional<GeyzerConfig> output = Optional.empty();
 
     /**
      * Create editor.
@@ -63,16 +58,12 @@ public class GeyzerEditor extends EditorAbstract
     }
 
     @Override
-    protected void createContent(Composite parent)
+    protected void createFields(Composite parent)
     {
-        final Composite content = new Composite(parent, SWT.NONE);
-        content.setLayout(new GridLayout(1, false));
-        content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-        first = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_FIRST), VALIDATOR, true);
-        start = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_START), VALIDATOR, true);
-        down = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_DOWN), VALIDATOR, true);
-        height = new TextWidget(content, UtilConversion.toTitleCase(GeyzerConfig.ATT_HEIGHT), VALIDATOR, true);
+        first = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_FIRST), VALIDATOR, true);
+        start = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_START), VALIDATOR, true);
+        down = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_DOWN), VALIDATOR, true);
+        height = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_HEIGHT), VALIDATOR, true);
 
         first.set(config.getDelayFirst());
         start.set(config.getDelayStart());
@@ -87,15 +78,5 @@ public class GeyzerEditor extends EditorAbstract
                                               start.getValue().orElse(0),
                                               down.getValue().orElse(0),
                                               height.getValue().orElse(0)));
-    }
-
-    /**
-     * Get output.
-     * 
-     * @return The output.
-     */
-    public Optional<GeyzerConfig> getOutput()
-    {
-        return output;
     }
 }

@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
@@ -40,6 +41,7 @@ import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.editor.Util;
+import com.b3dgs.lionheart.editor.checkpoint.CheckpointPart;
 
 /**
  * Load world handler.
@@ -57,10 +59,16 @@ public final class StageLoadHandler
      */
     private static void load(Shell shell, Media media)
     {
+        WorldModel.INSTANCE.getCamera().setLocation(0, 0);
+
         final MapTile map = WorldModel.INSTANCE.getMap();
+        map.clear();
+
         final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
 
         final StageConfig stage = StageConfig.imports(new Configurer(media));
+        UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class).load(stage);
+
         map.loadSheets(Medias.create(stage.getMapFile().getParentPath(), TileSheetsConfig.FILENAME));
         try (FileReading reading = new FileReading(stage.getMapFile()))
         {
@@ -75,6 +83,7 @@ public final class StageLoadHandler
             UtilDialog.error(shell, Messages.ErrorLoadTitle, Messages.ErrorLoadMessage);
         }
 
+        WorldModel.INSTANCE.getHandler().removeAll();
         stage.getEntities().forEach(config -> createEntity(stage, config));
 
         final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);

@@ -35,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -52,7 +53,8 @@ import com.b3dgs.lionheart.object.state.StatePatrolCeil;
  * </ol>
  */
 @FeatureInterface
-public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class Spider extends FeatureModel
+                          implements XmlLoader, XmlSaver, Editable<SpiderConfig>, Routine, Recyclable
 {
     private static final int TRACKED_DISTANCE = 80;
     private static final int FALL_DISTANCE = 16;
@@ -84,21 +86,13 @@ public final class Spider extends FeatureModel implements XmlLoader, XmlSaver, R
         super(services, setup);
     }
 
-    /**
-     * Get current config.
-     * 
-     * @return The current config.
-     */
+    @Override
     public SpiderConfig getConfig()
     {
         return config;
     }
 
-    /**
-     * Set the current config.
-     * 
-     * @param config The current config.
-     */
+    @Override
     public void setConfig(SpiderConfig config)
     {
         this.config = config;

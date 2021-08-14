@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Optional;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.geom.Coord;
 
 /**
@@ -90,5 +91,39 @@ public final class Checkpoint
     public Optional<Coord> getSpawn()
     {
         return spawn;
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, Optional<String> value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    private static void addCoord(StringBuilder builder, Optional<Coord> value)
+    {
+        value.ifPresent(v -> builder.append(StageConfig.ATT_SPAWN_TX)
+                                    .append(Constant.DOUBLE_DOT)
+                                    .append(v.getX())
+                                    .append(StageConfig.ATT_SPAWN_TY)
+                                    .append(Constant.DOUBLE_DOT)
+                                    .append(v.getY())
+                                    .append(Constant.SPACE));
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Checkpoint [");
+        add(builder, StageConfig.ATT_CHECKPOINT_TX, tx);
+        add(builder, StageConfig.ATT_CHECKPOINT_TY, ty);
+        add(builder, StageConfig.ATT_CHECKPOINT_NEXT, next);
+        addCoord(builder, spawn);
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -52,7 +53,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </ol>
  */
 @FeatureInterface
-public final class Geyzer extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class Geyzer extends FeatureModel
+                          implements XmlLoader, XmlSaver, Editable<GeyzerConfig>, Routine, Recyclable
 {
     private static final double SPEED = 3.0;
 
@@ -81,21 +83,13 @@ public final class Geyzer extends FeatureModel implements XmlLoader, XmlSaver, R
         super(services, setup);
     }
 
-    /**
-     * Get current config.
-     * 
-     * @return The current config.
-     */
+    @Override
     public GeyzerConfig getConfig()
     {
         return config;
     }
 
-    /**
-     * Set the current config.
-     * 
-     * @param config The current config.
-     */
+    @Override
     public void setConfig(GeyzerConfig config)
     {
         this.config = config;

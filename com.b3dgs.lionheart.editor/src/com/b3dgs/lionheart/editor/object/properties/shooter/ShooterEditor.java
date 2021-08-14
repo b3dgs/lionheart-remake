@@ -18,25 +18,22 @@ package com.b3dgs.lionheart.editor.object.properties.shooter;
 
 import java.util.Optional;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.editor.dialog.EditorAbstract;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.utility.control.UtilButton;
 import com.b3dgs.lionengine.editor.validator.InputValidator;
 import com.b3dgs.lionengine.editor.widget.TextWidget;
+import com.b3dgs.lionheart.editor.object.properties.EditorAbstract;
 import com.b3dgs.lionheart.object.feature.ShooterConfig;
 
 /**
  * Editor dialog.
  */
-public class ShooterEditor extends EditorAbstract
+public class ShooterEditor extends EditorAbstract<ShooterConfig>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
@@ -54,8 +51,6 @@ public class ShooterEditor extends EditorAbstract
     private TextWidget dvy;
     private Button track;
 
-    private Optional<ShooterConfig> output = Optional.empty();
-
     /**
      * Create editor.
      * 
@@ -70,23 +65,16 @@ public class ShooterEditor extends EditorAbstract
     }
 
     @Override
-    protected void createContent(Composite parent)
+    protected void createFields(Composite parent)
     {
-        final Composite content = new Composite(parent, SWT.NONE);
-        content.setLayout(new GridLayout(1, false));
-        content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-        fireDelay = new TextWidget(content, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRE_DELAY), VALIDATOR, true);
-        firedDelay = new TextWidget(content,
-                                    UtilConversion.toTitleCase(ShooterConfig.ATT_FIRED_DELAY),
-                                    VALIDATOR,
-                                    true);
-        anim = new TextWidget(content, UtilConversion.toTitleCase(ShooterConfig.ATT_ANIM), VALIDATOR, true);
-        svx = new TextWidget(content, UtilConversion.toTitleCase(ShooterConfig.ATT_SVX), VALIDATOR_DOUBLE, true);
-        svy = new TextWidget(content, UtilConversion.toTitleCase(ShooterConfig.ATT_SVY), VALIDATOR_DOUBLE, true);
-        dvx = new TextWidget(content, UtilConversion.toTitleCase(ShooterConfig.ATT_DVX), VALIDATOR_DOUBLE, true);
-        dvy = new TextWidget(content, UtilConversion.toTitleCase(ShooterConfig.ATT_DVY), VALIDATOR_DOUBLE, true);
-        track = UtilButton.createCheck(UtilConversion.toTitleCase(ShooterConfig.ATT_TRACK), content);
+        fireDelay = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRE_DELAY), VALIDATOR, true);
+        firedDelay = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRED_DELAY), VALIDATOR, true);
+        anim = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_ANIM), VALIDATOR, true);
+        svx = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_SVX), VALIDATOR_DOUBLE, true);
+        svy = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_SVY), VALIDATOR_DOUBLE, true);
+        dvx = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_DVX), VALIDATOR_DOUBLE, true);
+        dvy = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_DVY), VALIDATOR_DOUBLE, true);
+        track = UtilButton.createCheck(UtilConversion.toTitleCase(ShooterConfig.ATT_TRACK), parent);
 
         fireDelay.set(config.getFireDelay());
         firedDelay.set(config.getFiredDelay());
@@ -109,15 +97,5 @@ public class ShooterEditor extends EditorAbstract
                                                dvx.getValueDouble().orElse(0.0),
                                                dvy.getValueDouble().orElse(0.0),
                                                track.getSelection()));
-    }
-
-    /**
-     * Get output.
-     * 
-     * @return The output.
-     */
-    public Optional<ShooterConfig> getOutput()
-    {
-        return output;
     }
 }

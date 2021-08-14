@@ -16,6 +16,6 @@
  */
 
 /**
- * Shooter properties package.
+ * Rotating properties package.
  */
-package com.b3dgs.lionheart.editor.object.properties.shooter;
+package com.b3dgs.lionheart.editor.object.properties.rotating;

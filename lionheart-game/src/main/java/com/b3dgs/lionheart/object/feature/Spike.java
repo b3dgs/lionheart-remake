@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -46,7 +47,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </p>
  */
 @FeatureInterface
-public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Editable<SpikeConfig>, Routine, Recyclable
 {
     private static final int PHASE1_DELAY_TICK = 28;
     private static final int PHASE2_DELAY_TICK = 28;
@@ -127,21 +128,13 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ro
         checker = phaseUpdater;
     }
 
-    /**
-     * Get current config.
-     * 
-     * @return The current config.
-     */
+    @Override
     public SpikeConfig getConfig()
     {
         return config;
     }
 
-    /**
-     * Set the current config.
-     * 
-     * @param config The current config.
-     */
+    @Override
     public void setConfig(SpikeConfig config)
     {
         this.config = config;

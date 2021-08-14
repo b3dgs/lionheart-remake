@@ -18,23 +18,20 @@ package com.b3dgs.lionheart.editor.object.properties.hotfireball;
 
 import java.util.Optional;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.editor.dialog.EditorAbstract;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.validator.InputValidator;
 import com.b3dgs.lionengine.editor.widget.TextWidget;
+import com.b3dgs.lionheart.editor.object.properties.EditorAbstract;
 import com.b3dgs.lionheart.object.feature.HotFireBallConfig;
 
 /**
  * Editor dialog.
  */
-public class HotFireBallEditor extends EditorAbstract
+public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
@@ -47,8 +44,6 @@ public class HotFireBallEditor extends EditorAbstract
     private TextWidget level;
     private TextWidget vx;
     private TextWidget vy;
-
-    private Optional<HotFireBallConfig> output = Optional.empty();
 
     /**
      * Create editor.
@@ -64,17 +59,13 @@ public class HotFireBallEditor extends EditorAbstract
     }
 
     @Override
-    protected void createContent(Composite parent)
+    protected void createFields(Composite parent)
     {
-        final Composite content = new Composite(parent, SWT.NONE);
-        content.setLayout(new GridLayout(1, false));
-        content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-        delay = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY), VALIDATOR, true);
-        count = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_COUNT), VALIDATOR, true);
-        level = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_LEVEL), VALIDATOR, true);
-        vx = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VX), VALIDATOR, true);
-        vy = new TextWidget(content, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VY), VALIDATOR, true);
+        delay = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY), VALIDATOR, true);
+        count = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_COUNT), VALIDATOR, true);
+        level = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_LEVEL), VALIDATOR, true);
+        vx = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VX), VALIDATOR, true);
+        vy = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VY), VALIDATOR, true);
 
         delay.set(config.getDelay());
         count.set(config.getCount());
@@ -91,15 +82,5 @@ public class HotFireBallEditor extends EditorAbstract
                                                    level.getValue().orElse(0),
                                                    vx.getValue().orElse(0),
                                                    vy.getValue().orElse(0)));
-    }
-
-    /**
-     * Get output.
-     * 
-     * @return The output.
-     */
-    public Optional<HotFireBallConfig> getOutput()
-    {
-        return output;
     }
 }

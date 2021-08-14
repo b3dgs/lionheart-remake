@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -61,6 +62,55 @@ public final class RotatingConfig implements XmlSaver
     private final boolean controlled;
     /** Controlled flag. */
     private final int back;
+
+    /**
+     * Create blank configuration.
+     */
+    public RotatingConfig()
+    {
+        super();
+
+        extremity = "";
+        ring = "";
+        length = 4;
+        speed = 1.0;
+        offset = 0;
+        amplitude = 0;
+        controlled = false;
+        back = -1;
+    }
+
+    /**
+     * Create configuration.
+     * 
+     * @param extremity The extremity object.
+     * @param ring The ring object.
+     * @param length The ring length.
+     * @param speed The speed value.
+     * @param offset The angle offset value.
+     * @param amplitude The rotating amplitude value.
+     * @param controlled The controlled flag.
+     * @param back The back value.
+     */
+    public RotatingConfig(String extremity,
+                          String ring,
+                          int length,
+                          double speed,
+                          int offset,
+                          int amplitude,
+                          boolean controlled,
+                          int back)
+    {
+        super();
+        this.extremity = extremity;
+        this.ring = ring;
+        this.length = length;
+        this.speed = speed;
+        this.offset = offset;
+        this.amplitude = amplitude;
+        this.controlled = controlled;
+        this.back = back;
+    }
 
     /**
      * Create config.
@@ -176,5 +226,35 @@ public final class RotatingConfig implements XmlSaver
         node.writeInteger(ATT_AMPLITUDE, amplitude);
         node.writeBoolean(ATT_CONTROLLED, controlled);
         node.writeInteger(ATT_BACK, back);
+    }
+
+    private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, boolean value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Rotating [");
+        add(builder, ATT_LENGTH, length);
+        add(builder, ATT_SPEED, speed);
+        add(builder, ATT_OFFSET, offset);
+        add(builder, ATT_AMPLITUDE, amplitude);
+        add(builder, ATT_CONTROLLED, controlled);
+        add(builder, ATT_BACK, back);
+        builder.append("]");
+        return builder.toString();
     }
 }

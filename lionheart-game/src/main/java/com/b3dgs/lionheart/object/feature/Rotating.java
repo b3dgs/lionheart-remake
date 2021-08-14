@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateCrouch;
@@ -51,7 +52,8 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
  * </ol>
  */
 @FeatureInterface
-public final class Rotating extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class Rotating extends FeatureModel
+                            implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
 {
     private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
@@ -90,6 +92,18 @@ public final class Rotating extends FeatureModel implements XmlLoader, XmlSaver,
     private void onCollide()
     {
         collide = true;
+    }
+
+    @Override
+    public void setConfig(RotatingConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
+    public RotatingConfig getConfig()
+    {
+        return config;
     }
 
     @Override

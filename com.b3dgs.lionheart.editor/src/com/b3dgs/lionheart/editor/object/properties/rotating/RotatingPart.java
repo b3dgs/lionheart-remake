@@ -14,8 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
+package com.b3dgs.lionheart.editor.object.properties.rotating;
+
+import com.b3dgs.lionheart.editor.object.properties.PartAbstract;
+import com.b3dgs.lionheart.object.feature.Rotating;
+import com.b3dgs.lionheart.object.feature.RotatingConfig;
 
 /**
- * Shooter properties package.
+ * Element properties part.
  */
-package com.b3dgs.lionheart.editor.object.properties.shooter;
+public class RotatingPart extends PartAbstract<RotatingConfig, Rotating>
+{
+    /** Id. */
+    public static final String ID = ID_PREFIX + "rotating";
+
+    /**
+     * Create part.
+     */
+    public RotatingPart()
+    {
+        super(RotatingConfig.class, Rotating.class, RotatingEditor.class);
+    }
+}
