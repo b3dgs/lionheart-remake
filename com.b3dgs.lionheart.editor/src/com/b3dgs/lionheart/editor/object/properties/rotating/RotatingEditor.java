@@ -40,8 +40,6 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
-    private final RotatingConfig config;
-
     private TextWidget length;
     private TextWidget speed;
     private TextWidget offset;
@@ -57,13 +55,11 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
      */
     public RotatingEditor(Composite parent, RotatingConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, RotatingConfig config)
     {
         length = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_LENGTH), VALIDATOR, true);
         speed = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_SPEED), VALIDATOR, true);

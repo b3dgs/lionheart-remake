@@ -40,8 +40,6 @@ public class ShooterEditor extends EditorAbstract<ShooterConfig>
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
-    private final ShooterConfig config;
-
     private TextWidget fireDelay;
     private TextWidget firedDelay;
     private TextWidget anim;
@@ -59,13 +57,11 @@ public class ShooterEditor extends EditorAbstract<ShooterConfig>
      */
     public ShooterEditor(Composite parent, ShooterConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, ShooterConfig config)
     {
         fireDelay = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRE_DELAY), VALIDATOR, true);
         firedDelay = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRED_DELAY), VALIDATOR, true);

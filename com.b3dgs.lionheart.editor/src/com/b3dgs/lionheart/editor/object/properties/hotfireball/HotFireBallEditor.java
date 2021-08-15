@@ -37,8 +37,6 @@ public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
-    private final HotFireBallConfig config;
-
     private TextWidget delay;
     private TextWidget count;
     private TextWidget level;
@@ -53,13 +51,11 @@ public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
      */
     public HotFireBallEditor(Composite parent, HotFireBallConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, HotFireBallConfig config)
     {
         delay = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY), VALIDATOR, true);
         count = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_COUNT), VALIDATOR, true);

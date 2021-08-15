@@ -34,16 +34,21 @@ public abstract class EditorAbstract<C> extends com.b3dgs.lionengine.editor.dial
     /** Filled configuration. */
     protected Optional<C> output = Optional.empty();
 
+    private final C config;
+
     /**
      * Create editor.
      * 
      * @param parent The parent reference.
      * @param title The editor title.
      * @param icon The editor icon.
+     * @param config The configuration base.
      */
-    public EditorAbstract(Composite parent, String title, Image icon)
+    public EditorAbstract(Composite parent, String title, Image icon, C config)
     {
         super(parent, title, icon);
+
+        this.config = config;
     }
 
     @Override
@@ -53,15 +58,16 @@ public abstract class EditorAbstract<C> extends com.b3dgs.lionengine.editor.dial
         content.setLayout(new GridLayout(1, false));
         content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-        createFields(parent);
+        createFields(parent, config);
     }
 
     /**
      * Create editable fields.
      * 
      * @param parent The parent reference.
+     * @param config The configuration base.
      */
-    protected abstract void createFields(Composite parent);
+    protected abstract void createFields(Composite parent, C config);
 
     /**
      * Get output.

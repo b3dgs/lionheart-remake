@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.validator.InputValidator;
 import com.b3dgs.lionengine.editor.widget.TextWidget;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.editor.object.properties.EditorAbstract;
@@ -36,34 +37,53 @@ public class CheckpointEditor extends EditorAbstract<Checkpoint>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
+    /** Must match a path. */
+    public static final String PATH_MATCH = "[a-zA-z0-9-/]+";
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
-
-    private final Checkpoint config;
 
     private TextWidget tx;
     private TextWidget ty;
+    private TextWidget next;
+    private TextWidget stx;
+    private TextWidget sty;
 
     /**
      * Create a patrol editor.
      * 
      * @param parent The parent reference.
-     * @param config The patrol configuration reference.
+     * @param config The configuration reference.
      */
     public CheckpointEditor(Composite parent, Checkpoint config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, Checkpoint config)
     {
         tx = new TextWidget(parent, UtilConversion.toTitleCase(StageConfig.ATT_CHECKPOINT_TX), VALIDATOR_DOUBLE, true);
         ty = new TextWidget(parent, UtilConversion.toTitleCase(StageConfig.ATT_CHECKPOINT_TY), VALIDATOR_DOUBLE, true);
+        next = new TextWidget(parent, UtilConversion.toTitleCase(StageConfig.ATT_CHECKPOINT_NEXT), PATH_MATCH, true);
+        stx = new TextWidget(parent, UtilConversion.toTitleCase(StageConfig.ATT_SPAWN_TX), VALIDATOR_DOUBLE, true);
+        sty = new TextWidget(parent, UtilConversion.toTitleCase(StageConfig.ATT_SPAWN_TY), VALIDATOR_DOUBLE, true);
 
         tx.set(config.getTx());
         ty.set(config.getTy());
+        config.getNext().ifPresent(next::set);
+        config.getSpawn().ifPresent(c ->
+        {
+            stx.set(c.getX());
+            sty.set(c.getY());
+        });
+    }
+
+    private Optional<Coord> getCoord()
+    {
+        if (stx.getValueDouble().isPresent() && sty.getValueDouble().isPresent())
+        {
+            return Optional.of(new Coord(stx.getValueDouble().getAsDouble(), sty.getValueDouble().getAsDouble()));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -71,7 +91,7 @@ public class CheckpointEditor extends EditorAbstract<Checkpoint>
     {
         output = Optional.of(new Checkpoint(tx.getValueDouble().orElse(0.0),
                                             ty.getValueDouble().orElse(0.0),
-                                            Optional.empty(),
-                                            Optional.empty()));
+                                            next.getValueText(),
+                                            getCoord()));
     }
 }

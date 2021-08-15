@@ -37,8 +37,6 @@ public class SpikeEditor extends EditorAbstract<SpikeConfig>
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
-    private final SpikeConfig config;
-
     private TextWidget delay;
 
     /**
@@ -49,13 +47,11 @@ public class SpikeEditor extends EditorAbstract<SpikeConfig>
      */
     public SpikeEditor(Composite parent, SpikeConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, SpikeConfig config)
     {
         delay = new TextWidget(parent, UtilConversion.toTitleCase(SpikeConfig.ATT_DELAY), VALIDATOR, true);
 

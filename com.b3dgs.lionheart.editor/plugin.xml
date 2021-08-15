@@ -165,4 +165,16 @@
          </test>
       </definition>
    </extension>
+   <extension
+         point="com.b3dgs.lionengine.editor.worldRenderListener">
+      <implementation
+            class="com.b3dgs.lionheart.editor.world.renderer.CheckpointRenderer">
+      </implementation>
+   </extension>
+   <extension
+         point="com.b3dgs.lionengine.editor.worldMouseClickListener">
+      <implementation
+            class="com.b3dgs.lionheart.editor.world.updater.CheckpointUpdater">
+      </implementation>
+   </extension>
 </plugin>

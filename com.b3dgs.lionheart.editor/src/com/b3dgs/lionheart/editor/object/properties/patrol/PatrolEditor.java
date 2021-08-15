@@ -41,8 +41,6 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
-    private final PatrolConfig config;
-
     private TextWidget sh;
     private TextWidget sv;
     private TextWidget amplitude;
@@ -62,13 +60,11 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
      */
     public PatrolEditor(Composite parent, PatrolConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, PatrolConfig config)
     {
         sh = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_VX), VALIDATOR_DOUBLE, true);
         sv = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_VY), VALIDATOR_DOUBLE, true);

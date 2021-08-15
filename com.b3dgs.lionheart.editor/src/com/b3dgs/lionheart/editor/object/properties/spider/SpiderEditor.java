@@ -36,8 +36,6 @@ public class SpiderEditor extends EditorAbstract<SpiderConfig>
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
 
-    private final SpiderConfig config;
-
     private Button follow;
 
     /**
@@ -48,13 +46,11 @@ public class SpiderEditor extends EditorAbstract<SpiderConfig>
      */
     public SpiderEditor(Composite parent, SpiderConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, SpiderConfig config)
     {
         follow = UtilButton.createCheck(UtilConversion.toTitleCase(SpiderConfig.ATT_FOLLOW), parent);
 

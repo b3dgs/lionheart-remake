@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.editor.checkpoint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import javax.annotation.PostConstruct;
 
@@ -39,6 +40,7 @@ import com.b3dgs.lionengine.editor.utility.Focusable;
 import com.b3dgs.lionengine.editor.utility.UtilTree;
 import com.b3dgs.lionengine.editor.utility.control.UtilSwt;
 import com.b3dgs.lionengine.editor.world.WorldModel;
+import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.Checkpoint;
@@ -67,6 +69,54 @@ public class CheckpointPart implements Focusable
     }
 
     /**
+     * Select index.
+     * 
+     * @param index The index number.
+     */
+    public void select(int index)
+    {
+        tree.select(tree.getItem(index));
+    }
+
+    /**
+     * Set checkpoint.
+     * 
+     * @param index The index number.
+     * @param checkpoint The checkpoint reference.
+     */
+    public void set(int index, Checkpoint checkpoint)
+    {
+        checkpoints.set(index, checkpoint);
+        tree.getItem(index).setText(checkpoint.toString());
+    }
+
+    /**
+     * Check checkpoints.
+     * 
+     * @return The checkpoints.
+     */
+    public List<Checkpoint> get()
+    {
+        return checkpoints;
+    }
+
+    /**
+     * Get current selection.
+     * 
+     * @return The current selection.
+     */
+    public OptionalInt getSelection()
+    {
+        final TreeItem[] items = tree.getSelection();
+        if (items.length > 0)
+        {
+            final TreeItem item = items[0];
+            return OptionalInt.of(((Integer) item.getData()).intValue());
+        }
+        return OptionalInt.empty();
+    }
+
+    /**
      * Add new item.
      */
     public void add()
@@ -83,6 +133,8 @@ public class CheckpointPart implements Focusable
                                                  Optional.empty(),
                                                  Optional.empty());
         item.setText(patrol.toString());
+
+        updateIndexes();
     }
 
     /**
@@ -93,9 +145,11 @@ public class CheckpointPart implements Focusable
         if (tree.getSelectionCount() > 0)
         {
             final TreeItem item = tree.getSelection()[0];
+            checkpoints.remove(((Integer) item.getData()).intValue());
             item.setData(null);
             item.dispose();
         }
+        updateIndexes();
     }
 
     /**
@@ -117,6 +171,20 @@ public class CheckpointPart implements Focusable
             checkpoints.add(checkpoint);
 
             final TreeItem item = new TreeItem(tree, SWT.NONE);
+            item.setData(Integer.valueOf(i++));
+            item.setText(checkpoint.toString());
+        }
+    }
+
+    /**
+     * Update items.
+     */
+    private void updateIndexes()
+    {
+        int i = 0;
+        for (final Checkpoint checkpoint : checkpoints)
+        {
+            final TreeItem item = tree.getItem(i);
             item.setData(Integer.valueOf(i++));
             item.setText(checkpoint.toString());
         }
@@ -164,6 +232,26 @@ public class CheckpointPart implements Focusable
     {
         tree.addMouseListener(new MouseAdapter()
         {
+            @Override
+            public void mouseDown(MouseEvent e)
+            {
+                final TreeItem[] items = tree.getSelection();
+                if (items.length > 0)
+                {
+                    final TreeItem item = items[0];
+                    final Checkpoint checkpoint = checkpoints.get(((Integer) item.getData()).intValue());
+                    final MapTile map = WorldModel.INSTANCE.getMap();
+                    final Camera camera = WorldModel.INSTANCE.getCamera();
+                    camera.teleport(UtilMath.getRounded(checkpoint.getTx() * map.getTileWidth() - camera.getWidth() / 2,
+                                                        map.getTileWidth()),
+                                    UtilMath.getRounded(checkpoint.getTy() * map.getTileHeight()
+                                                        - camera.getHeight() / 2,
+                                                        map.getTileHeight()));
+                    final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
+                    worldPart.update();
+                }
+            }
+
             @Override
             public void mouseDoubleClick(MouseEvent event)
             {

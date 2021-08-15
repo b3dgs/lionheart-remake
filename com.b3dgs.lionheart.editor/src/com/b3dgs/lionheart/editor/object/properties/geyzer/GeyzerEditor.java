@@ -37,8 +37,6 @@ public class GeyzerEditor extends EditorAbstract<GeyzerConfig>
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
-    private final GeyzerConfig config;
-
     private TextWidget first;
     private TextWidget start;
     private TextWidget down;
@@ -52,13 +50,11 @@ public class GeyzerEditor extends EditorAbstract<GeyzerConfig>
      */
     public GeyzerEditor(Composite parent, GeyzerConfig config)
     {
-        super(parent, Messages.Title, ICON);
-
-        this.config = config;
+        super(parent, Messages.Title, ICON, config);
     }
 
     @Override
-    protected void createFields(Composite parent)
+    protected void createFields(Composite parent, GeyzerConfig config)
     {
         first = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_FIRST), VALIDATOR, true);
         start = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_START), VALIDATOR, true);
