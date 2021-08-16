@@ -159,6 +159,7 @@ public class CheckpointPart implements Focusable
      */
     public void load(StageConfig stage)
     {
+        checkpoints.clear();
         for (final TreeItem item : tree.getItems())
         {
             item.setData(null);
