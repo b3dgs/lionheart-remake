@@ -22,7 +22,7 @@
         <children xsi:type="menu:DirectMenuItem" xmi:id="__bCmcPbdEeuPgNh2_LLL8A" elementId="" label="%part.menu.remove" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.patrol.PatrolRemoveHandler"/>
       </menus>
     </elements>
-    <elements xsi:type="basic:Part" xmi:id="__reWEPw2EeustbZnRPmqmw" elementId="com.b3dgs.lionheart.editor.part.properties.rotating" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.rotating.RotatingPart" label="%part.rotating" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="__reWEPw2EeustbZnRPmqmw" elementId="com.b3dgs.lionheart.editor.part.properties.rotating" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.rotating.RotatingPart" label="%part.rotating" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/dialog/rotating-edit.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="__reWEfw2EeustbZnRPmqmw" elementId="com.b3dgs.lionheart.editor.part.properties.rotating.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="__reWEvw2EeustbZnRPmqmw" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.rotating.RotatingEnableHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="__reWE_w2EeustbZnRPmqmw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.rotating.enable"/>
@@ -42,7 +42,7 @@
         </children>
       </menus>
     </elements>
-    <elements xsi:type="basic:Part" xmi:id="_b4bEkPrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart" label="%part.spider" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="_b4bEkPrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart" label="%part.spider" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/dialog/spider-edit.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_b4bEkfrlEeuvi6FYCgtzBw" elementId="com.b3dgs.lionheart.editor.part.properties.spider.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_b4bEkvrlEeuvi6FYCgtzBw" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spider.SpiderEnableHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_b4bEk_rlEeuvi6FYCgtzBw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.spider.enable"/>
@@ -52,7 +52,7 @@
         </children>
       </menus>
     </elements>
-    <elements xsi:type="basic:Part" xmi:id="_a9M_oPp7EeuwwK4ZD8q-og" elementId="com.b3dgs.lionheart.editor.part.properties.spike" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spike.SpikePart" label="%part.spike" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="_a9M_oPp7EeuwwK4ZD8q-og" elementId="com.b3dgs.lionheart.editor.part.properties.spike" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spike.SpikePart" label="%part.spike" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/dialog/spike-edit.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_a9M_ofp7EeuwwK4ZD8q-og" elementId="com.b3dgs.lionheart.editor.part.properties.spike.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_a9M_ovp7EeuwwK4ZD8q-og" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.spike.SpikeEnableHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_a9M_o_p7EeuwwK4ZD8q-og" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.spike.enable"/>
@@ -62,7 +62,7 @@
         </children>
       </menus>
     </elements>
-    <elements xsi:type="basic:Part" xmi:id="_oa4G8PnREeuERO8bBgDVoA" elementId="com.b3dgs.lionheart.editor.part.properties.geyzer" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart" label="%part.geyzer" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="_oa4G8PnREeuERO8bBgDVoA" elementId="com.b3dgs.lionheart.editor.part.properties.geyzer" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart" label="%part.geyzer" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/dialog/geyzer-edit.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_oa4G8fnREeuERO8bBgDVoA" elementId="com.b3dgs.lionheart.editor.part.properties.geyzer.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_oa4G8vnREeuERO8bBgDVoA" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerEnableHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oa4G8_nREeuERO8bBgDVoA" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.geyzer.enable"/>
@@ -72,7 +72,7 @@
         </children>
       </menus>
     </elements>
-    <elements xsi:type="basic:Part" xmi:id="_jtVMEPkIEeuRG6L0yfYNLQ" elementId="com.b3dgs.lionheart.editor.part.properties.hotfireball" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart" label="%part.hotfireball" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="_jtVMEPkIEeuRG6L0yfYNLQ" elementId="com.b3dgs.lionheart.editor.part.properties.hotfireball" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart" label="%part.hotfireball" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/dialog/hotfireball-edit.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_jtVzIPkIEeuRG6L0yfYNLQ" elementId="com.b3dgs.lionheart.editor.part.properties.hotfireball.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_jtVzIfkIEeuRG6L0yfYNLQ" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallEnableHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_uH1moPkJEeuRG6L0yfYNLQ" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.hotfireball.enable"/>

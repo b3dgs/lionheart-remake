@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.SpiderConfig;
 public class SpiderEditor extends EditorAbstract<SpiderConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
+    public static final Image ICON = UtilIcon.get("dialog", "spider-edit.png");
 
     private Button follow;
 

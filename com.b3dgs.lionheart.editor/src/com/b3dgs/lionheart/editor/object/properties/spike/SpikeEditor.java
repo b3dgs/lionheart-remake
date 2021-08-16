@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.SpikeConfig;
 public class SpikeEditor extends EditorAbstract<SpikeConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
+    public static final Image ICON = UtilIcon.get("dialog", "spike-edit.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
     private TextWidget delay;
