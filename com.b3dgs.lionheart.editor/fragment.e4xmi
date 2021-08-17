@@ -83,4 +83,7 @@
       </menus>
     </elements>
   </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_aWZcMP6KEeuN_o9J9-FNJA" featurename="children" parentElementId="com.b3dgs.lionengine.editor.part.world.toolbar" positionInList="after:com.b3dgs.lionengine.editor.part.world.toolbar.palette.pointer-object">
+    <elements xsi:type="menu:DirectToolItem" xmi:id="_aWZcMv6KEeuN_o9J9-FNJA" elementId="com.b3dgs.lionengine.editor.part.world.toolbar.palette.pointer-checkpoint" label="%toolbar.world.pointer-checkpoint" iconURI="platform:/plugin/com.b3dgs.lionengine.editor.object/icons/toolbar/pointer-object.png" tooltip="%toolbar.world.pointer-checkpoint-tip" type="Check" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.toolbar.SetPointerCheckpointHandler"/>
+  </fragments>
 </fragment:ModelFragments>

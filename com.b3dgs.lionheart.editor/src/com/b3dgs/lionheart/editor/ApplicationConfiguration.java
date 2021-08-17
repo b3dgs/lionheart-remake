@@ -46,6 +46,7 @@ import com.b3dgs.lionengine.editor.project.Project;
 import com.b3dgs.lionengine.editor.project.ProjectFactory;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
+import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.AnimatableModel;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
@@ -74,6 +75,7 @@ import com.b3dgs.lionheart.MapTilePersisterOptimized;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
 import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart;
@@ -138,6 +140,8 @@ public class ApplicationConfiguration
         AppStartupCompleteEventHandler()
         {
             super();
+
+            services.add(new Checkpoints());
         }
 
         private void handleExtensions()
@@ -161,6 +165,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(SpiderPart.ID).setVisible(false);
             UtilPart.getMPart(ShooterPart.ID).setVisible(false);
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
+            UtilPart.getPart(WorldPart.ID, WorldPart.class).focus();
         }
 
         private void loadProperty(Feature feature)

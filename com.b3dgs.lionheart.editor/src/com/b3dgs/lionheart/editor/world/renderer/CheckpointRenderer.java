@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.editor.world.renderer;
 
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.renderer.WorldRenderListener;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -25,7 +24,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionheart.Checkpoint;
-import com.b3dgs.lionheart.editor.checkpoint.CheckpointPart;
+import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
 
 /**
  * Handle the checkpoint rendering.
@@ -36,6 +35,7 @@ public class CheckpointRenderer implements WorldRenderListener
 
     private final MapTile map;
     private final Camera camera;
+    private final Checkpoints checkpoints;
 
     /**
      * Create checkpoints renderer.
@@ -48,15 +48,16 @@ public class CheckpointRenderer implements WorldRenderListener
 
         map = services.get(MapTile.class);
         camera = services.get(Camera.class);
+        checkpoints = services.get(Checkpoints.class);
     }
 
     @Override
     public void onRender(Graphic g, int width, int height, double scale, int ctw, int cth)
     {
-        final CheckpointPart part = UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class);
         final ColorRgba old = g.getColor();
         g.setColor(COLOR_CHECKPOINT);
-        for (final Checkpoint checkpoint : part.get())
+
+        for (final Checkpoint checkpoint : checkpoints)
         {
             g.drawRect(camera,
                        Origin.BOTTOM_LEFT,

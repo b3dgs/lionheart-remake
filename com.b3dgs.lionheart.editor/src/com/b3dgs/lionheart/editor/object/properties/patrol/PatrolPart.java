@@ -104,6 +104,7 @@ public class PatrolPart implements Focusable, PropertiesFeature
             item.setText(patrol.toString());
             item.setData(Integer.valueOf(patrols.get().size() - 1));
         }
+        UtilPart.bringToTop(ID);
     }
 
     /**

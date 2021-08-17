@@ -16,8 +16,6 @@
  */
 package com.b3dgs.lionheart.editor.checkpoint;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -57,7 +55,7 @@ public class CheckpointPart implements Focusable
     /** Menu. */
     public static final String MENU = ID + ".menu";
 
-    private final List<Checkpoint> checkpoints = new ArrayList<>();
+    private final Checkpoints checkpoints = WorldModel.INSTANCE.getServices().get(Checkpoints.class);
     private Tree tree;
 
     /**
@@ -88,16 +86,6 @@ public class CheckpointPart implements Focusable
     {
         checkpoints.set(index, checkpoint);
         tree.getItem(index).setText(checkpoint.toString());
-    }
-
-    /**
-     * Check checkpoints.
-     * 
-     * @return The checkpoints.
-     */
-    public List<Checkpoint> get()
-    {
-        return checkpoints;
     }
 
     /**
@@ -159,7 +147,7 @@ public class CheckpointPart implements Focusable
      */
     public void load(StageConfig stage)
     {
-        checkpoints.clear();
+        checkpoints.removeAll();
         for (final TreeItem item : tree.getItems())
         {
             item.setData(null);
@@ -260,8 +248,8 @@ public class CheckpointPart implements Focusable
                 if (items.length > 0)
                 {
                     final TreeItem item = items[0];
-                    final CheckpointEditor editor = new CheckpointEditor(tree,
-                                                                         checkpoints.get(((Integer) item.getData()).intValue()));
+                    final int index = ((Integer) item.getData()).intValue();
+                    final CheckpointEditor editor = new CheckpointEditor(tree, checkpoints.get(index));
                     editor.create();
                     editor.openAndWait();
                     editor.getOutput().ifPresent(c ->

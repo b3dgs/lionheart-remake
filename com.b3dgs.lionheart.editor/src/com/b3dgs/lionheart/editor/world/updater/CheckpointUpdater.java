@@ -16,11 +16,10 @@
  */
 package com.b3dgs.lionheart.editor.world.updater;
 
-import java.util.List;
-
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.UtilWorld;
+import com.b3dgs.lionengine.editor.world.PaletteModel;
 import com.b3dgs.lionengine.editor.world.updater.WorldMouseClickListener;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -28,6 +27,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Point;
 import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.editor.checkpoint.CheckpointPart;
+import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
+import com.b3dgs.lionheart.editor.world.PaletteType;
 
 /**
  * Handle the checkpoint updating.
@@ -36,6 +37,8 @@ public class CheckpointUpdater implements WorldMouseClickListener
 {
     private final MapTile map;
     private final Camera camera;
+    private final PaletteModel palette;
+    private final Checkpoints checkpoints;
 
     /**
      * Create checkpoints renderer.
@@ -48,26 +51,32 @@ public class CheckpointUpdater implements WorldMouseClickListener
 
         map = services.get(MapTile.class);
         camera = services.get(Camera.class);
+        palette = services.get(PaletteModel.class);
+        checkpoints = services.get(Checkpoints.class);
     }
 
     @Override
     public void onMousePressed(int click, int mx, int my)
     {
-        final CheckpointPart part = UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class);
-        final Point point = UtilWorld.getPoint(camera, mx, my);
-        final int x = UtilMath.getRounded(point.getX(), map.isCreated() ? map.getTileWidth() : 1) / map.getTileWidth();
-        final int y = UtilMath.getRounded(point.getY(), map.isCreated() ? map.getTileHeight() : 1)
-                      / map.getTileHeight();
-        final List<Checkpoint> list = part.get();
-
-        for (int i = 0; i < list.size(); i++)
+        if (palette.isPalette(PaletteType.POINTER_CHECKPOINT))
         {
-            final Checkpoint checkpoint = list.get(i);
-            if (Double.compare(Math.round(checkpoint.getTx()), x) == 0
-                && Double.compare(Math.round(checkpoint.getTy()), y) == 0)
+            final Point point = UtilWorld.getPoint(camera, mx, my);
+            final int x = UtilMath.getRounded(point.getX(), map.isCreated() ? map.getTileWidth() : 1)
+                          / map.getTileWidth();
+            final int y = UtilMath.getRounded(point.getY(), map.isCreated() ? map.getTileHeight() : 1)
+                          / map.getTileHeight();
+
+            int i = 0;
+            for (final Checkpoint checkpoint : checkpoints)
             {
-                part.select(i);
-                break;
+                if (Double.compare(Math.round(checkpoint.getTx()), x) == 0
+                    && Double.compare(Math.round(checkpoint.getTy()), y) == 0)
+                {
+                    checkpoints.select(i);
+                    UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class).select(i);
+                    break;
+                }
+                i++;
             }
         }
     }
@@ -75,17 +84,19 @@ public class CheckpointUpdater implements WorldMouseClickListener
     @Override
     public void onMouseReleased(int click, int mx, int my)
     {
-        final CheckpointPart part = UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class);
-        part.getSelection().ifPresent(i ->
+        if (palette.isPalette(PaletteType.POINTER_CHECKPOINT))
         {
-            final List<Checkpoint> list = part.get();
-            final Point point = UtilWorld.getPoint(camera, mx, my);
-            final int x = UtilMath.getRounded(point.getX(), map.isCreated() ? map.getTileWidth() : 1)
-                          / map.getTileWidth();
-            final int y = UtilMath.getRounded(point.getY(), map.isCreated() ? map.getTileHeight() : 1)
-                          / map.getTileHeight();
+            checkpoints.getSelection().ifPresent(i ->
+            {
+                final Point point = UtilWorld.getPoint(camera, mx, my);
+                final int x = UtilMath.getRounded(point.getX(), map.isCreated() ? map.getTileWidth() : 1)
+                              / map.getTileWidth();
+                final int y = UtilMath.getRounded(point.getY(), map.isCreated() ? map.getTileHeight() : 1)
+                              / map.getTileHeight();
 
-            part.set(i, new Checkpoint(x, y, list.get(i).getNext(), list.get(i).getSpawn()));
-        });
+                final Checkpoint checkpoint = checkpoints.get(i);
+                checkpoints.set(i, new Checkpoint(x, y, checkpoint.getNext(), checkpoint.getSpawn()));
+            });
+        }
     }
 }

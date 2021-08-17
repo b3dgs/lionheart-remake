@@ -118,7 +118,7 @@ public final class Checkpoint
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Checkpoint [");
+        builder.append("Checkpoint [ ");
         add(builder, StageConfig.ATT_CHECKPOINT_TX, tx);
         add(builder, StageConfig.ATT_CHECKPOINT_TY, ty);
         add(builder, StageConfig.ATT_CHECKPOINT_NEXT, next);

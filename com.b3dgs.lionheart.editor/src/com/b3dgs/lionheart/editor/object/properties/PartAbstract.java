@@ -141,6 +141,7 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
             final TreeItem item = new TreeItem(tree, SWT.NONE);
             item.setText(editable.getConfig().toString());
         }
+        UtilPart.bringToTop(id);
     }
 
     /**
