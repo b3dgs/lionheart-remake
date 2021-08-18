@@ -18,14 +18,13 @@
             <patrol sh="0.2" sv="0.0"/>
         </entity>
         <entity file="entity/airship/Head.xml" tx="565.0" ty="13.0"/>
-        
         <entity file="entity/airship/Gobelin.xml" tx="580.0" ty="14.5"/>
         <entity file="entity/airship/Dragon3.xml" tx="591.0" ty="14.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="579.0" ty="10.0"/>
-        <entity file="entity/airship/Canon2.xml" tx="591.0" ty="10.0">
-            <canon2 fireDelay="100" stayDelay="90"/>
+        <entity file="entity/airship/Canon.xml" tx="579.0" ty="10.0"/>
+        <entity file="entity/airship/Laser.xml" tx="591.0" ty="10.0">
+            <laser fireDelay="100" stayDelay="90"/>
         </entity>
-         <entity file="entity/airship/Rotating.xml" tx="610.0" ty="11.0">
+        <entity file="entity/airship/Rotating.xml" tx="610.0" ty="11.0">
             <rotating amplitude="90" extremity="entity/airship/SpikeBowl.xml" ring="entity/airship/Ring.xml" length="3" speed="-0.05"/>
         </entity>
         <entity file="entity/airship/Talisment.xml" tx="600.0" ty="18.0"/>

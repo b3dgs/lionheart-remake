@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
@@ -25,10 +26,10 @@ import com.b3dgs.lionheart.object.XmlSaver;
 /**
  * Canon2 Airship configuration.
  */
-public final class Canon2AirshipConfig implements XmlSaver
+public final class LaserAirshipConfig implements XmlSaver
 {
     /** Config node name. */
-    public static final String NODE_CANON2 = "canon2";
+    public static final String NODE_LASER = "laser";
     /** Fire delay attribute name. */
     public static final String ATT_FIRE_DELAY = "fireDelay";
     /** Stay delay attribute name. */
@@ -40,18 +41,43 @@ public final class Canon2AirshipConfig implements XmlSaver
     private final int stayDelay;
 
     /**
+     * Create blank configuration.
+     */
+    public LaserAirshipConfig()
+    {
+        super();
+
+        fireDelay = 0;
+        stayDelay = 0;
+    }
+
+    /**
+     * Create config.
+     * 
+     * @param fireDelay The fire delay.
+     * @param stayDelay The stay delay.
+     */
+    public LaserAirshipConfig(int fireDelay, int stayDelay)
+    {
+        super();
+
+        this.fireDelay = fireDelay;
+        this.stayDelay = stayDelay;
+    }
+
+    /**
      * Create config.
      * 
      * @param root The root configuration (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    public Canon2AirshipConfig(XmlReader root)
+    public LaserAirshipConfig(XmlReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_CANON2);
+        final XmlReader node = root.getChild(NODE_LASER);
         fireDelay = node.getInteger(ATT_FIRE_DELAY);
         stayDelay = node.getInteger(ATT_STAY_DELAY);
     }
@@ -81,8 +107,24 @@ public final class Canon2AirshipConfig implements XmlSaver
     {
         Check.notNull(root);
 
-        final Xml node = root.createChild(NODE_CANON2);
+        final Xml node = root.createChild(NODE_LASER);
         node.writeInteger(ATT_FIRE_DELAY, fireDelay);
         node.writeInteger(ATT_STAY_DELAY, stayDelay);
+    }
+
+    private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Laser [ ");
+        add(builder, ATT_FIRE_DELAY, fireDelay);
+        add(builder, ATT_STAY_DELAY, stayDelay);
+        builder.append("]");
+        return builder.toString();
     }
 }

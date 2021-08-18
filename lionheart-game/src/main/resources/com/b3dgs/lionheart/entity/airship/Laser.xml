@@ -6,29 +6,28 @@
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionheart.object.feature.CanonAirship</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.LaserAirship</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Canon1.png" icon="Canon1_ico.png"/>
+    <lionengine:surface image="Laser.png" icon="Laser_ico.png"/>
     <lionengine:frames horizontal="5" vertical="2"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="9" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="decay" start="10" end="10" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="body" offsetX="0" offsetY="10" width="28" height="16" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="10" width="20" height="20" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
-        <lionengine:launchable media="projectile/airship/Bullet2.xml" sfx="sfx/monster_canonairship1.wav" ox="0" oy="4">
+        <lionengine:launchable media="projectile/airship/Laser.xml" sfx="sfx/monster_laserairship.wav" ox="0" oy="-80">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="3"/>
-    <hurtable effect="effect/airship/ExplodeBig.xml" persist="true"/>
+    <hurtable effect="effect/airship/ExplodeBig.xml"/>
     <shade horizontal="5" vertical="2"/>
 </lionengine:featurable>

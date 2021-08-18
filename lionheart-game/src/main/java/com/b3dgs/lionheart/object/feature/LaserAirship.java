@@ -37,17 +37,19 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
- * Canon2 Airship feature implementation.
+ * Laser Airship feature implementation.
  * <ol>
  * <li>Fire on delay.</li>
  * </ol>
  */
 @FeatureInterface
-public final class Canon2Airship extends FeatureModel implements XmlSaver, XmlLoader, Routine, Recyclable
+public final class LaserAirship extends FeatureModel
+                                implements XmlSaver, XmlLoader, Editable<LaserAirshipConfig>, Routine, Recyclable
 {
     private static final int PREPARE_DELAY_TICK = 40;
     private static final double DOT_SPEED = 5.0;
@@ -57,7 +59,7 @@ public final class Canon2Airship extends FeatureModel implements XmlSaver, XmlLo
     private final Tick tick = new Tick();
     private final Spawner spawner = services.get(Spawner.class);
 
-    private Canon2AirshipConfig config;
+    private LaserAirshipConfig config;
     private Updatable current;
     private Transformable dotStart;
     private Transformable dotEnd;
@@ -78,7 +80,7 @@ public final class Canon2Airship extends FeatureModel implements XmlSaver, XmlLo
      * @param setup The setup reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid arguments.
      */
-    public Canon2Airship(Services services, Setup setup)
+    public LaserAirship(Services services, Setup setup)
     {
         super(services, setup);
     }
@@ -147,9 +149,21 @@ public final class Canon2Airship extends FeatureModel implements XmlSaver, XmlLo
     }
 
     @Override
+    public LaserAirshipConfig getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    public void setConfig(LaserAirshipConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
     public void load(XmlReader root)
     {
-        config = new Canon2AirshipConfig(root);
+        config = new LaserAirshipConfig(root);
     }
 
     @Override

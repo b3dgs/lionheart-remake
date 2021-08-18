@@ -79,6 +79,7 @@ import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
 import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart;
+import com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
 import com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart;
 import com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart;
@@ -86,6 +87,7 @@ import com.b3dgs.lionheart.editor.object.properties.spike.SpikePart;
 import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
+import com.b3dgs.lionheart.object.feature.LaserAirship;
 import com.b3dgs.lionheart.object.feature.Patrols;
 import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
@@ -152,6 +154,7 @@ public class ApplicationConfiguration
             properties.put(Spike.class, UtilPart.getPart(SpikePart.ID, SpikePart.class));
             properties.put(Spider.class, UtilPart.getPart(SpiderPart.ID, SpiderPart.class));
             properties.put(Shooter.class, UtilPart.getPart(ShooterPart.ID, ShooterPart.class));
+            properties.put(LaserAirship.class, UtilPart.getPart(LaserAirshipPart.ID, LaserAirshipPart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
@@ -164,6 +167,8 @@ public class ApplicationConfiguration
             UtilPart.getMPart(SpikePart.ID).setVisible(false);
             UtilPart.getMPart(SpiderPart.ID).setVisible(false);
             UtilPart.getMPart(ShooterPart.ID).setVisible(false);
+            UtilPart.getMPart(LaserAirshipPart.ID).setVisible(false);
+
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
             UtilPart.getPart(WorldPart.ID, WorldPart.class).focus();
         }

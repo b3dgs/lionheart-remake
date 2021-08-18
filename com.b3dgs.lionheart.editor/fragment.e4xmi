@@ -82,6 +82,16 @@
         </children>
       </menus>
     </elements>
+    <elements xsi:type="basic:Part" xmi:id="_m4omUP-eEeu4Yo7lWa2JKQ" elementId="com.b3dgs.lionheart.editor.part.properties.laserairship" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipPart" label="%part.laserairship" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/dialog/laserairship-edit.png">
+      <menus xsi:type="menu:PopupMenu" xmi:id="_m4omUf-eEeu4Yo7lWa2JKQ" elementId="com.b3dgs.lionheart.editor.part.properties.hotfireball.menu">
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_m4omUv-eEeu4Yo7lWa2JKQ" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipEnableHandler">
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_m4omU_-eEeu4Yo7lWa2JKQ" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.laserairship.enable"/>
+        </children>
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_m4omVP-eEeu4Yo7lWa2JKQ" elementId="" label="%part.menu.disable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/delete.png" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipDisableHandler">
+          <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_m4omVf-eEeu4Yo7lWa2JKQ" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.laserairship.disable"/>
+        </children>
+      </menus>
+    </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_aWZcMP6KEeuN_o9J9-FNJA" featurename="children" parentElementId="com.b3dgs.lionengine.editor.part.world.toolbar" positionInList="after:com.b3dgs.lionengine.editor.part.world.toolbar.palette.pointer-object">
     <elements xsi:type="menu:DirectToolItem" xmi:id="_aWZcMv6KEeuN_o9J9-FNJA" elementId="com.b3dgs.lionengine.editor.part.world.toolbar.palette.pointer-checkpoint" label="%toolbar.world.pointer-checkpoint" iconURI="platform:/plugin/com.b3dgs.lionengine.editor.object/icons/toolbar/pointer-object.png" tooltip="%toolbar.world.pointer-checkpoint-tip" type="Check" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.toolbar.SetPointerCheckpointHandler"/>

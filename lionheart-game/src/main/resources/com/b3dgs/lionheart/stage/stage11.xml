@@ -171,38 +171,38 @@
         <entity file="entity/airship/Gobelin.xml" tx="584.0" ty="14.5"/>
         <entity file="entity/airship/Gobelin.xml" tx="598.0" ty="14.5"/>
         <entity file="entity/airship/Gobelin.xml" tx="605.0" ty="14.5"/>
-        <entity file="entity/airship/Canon1.xml" tx="624.0" ty="10.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="656.0" ty="10.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="689.0" ty="10.0"/>
-        <entity file="entity/airship/Canon2.xml" tx="699.5" ty="10.0">
-            <canon2 fireDelay="120" stayDelay="80"/>
+        <entity file="entity/airship/Canon.xml" tx="624.0" ty="10.0"/>
+        <entity file="entity/airship/Canon.xml" tx="656.0" ty="10.0"/>
+        <entity file="entity/airship/Canon.xml" tx="689.0" ty="10.0"/>
+        <entity file="entity/airship/Laser.xml" tx="699.5" ty="10.0">
+            <laser fireDelay="120" stayDelay="80"/>
         </entity>
-        <entity file="entity/airship/Canon2.xml" tx="722.5" ty="10.0">
-            <canon2 fireDelay="120" stayDelay="80"/>
+        <entity file="entity/airship/Laser.xml" tx="722.5" ty="10.0">
+            <laser fireDelay="120" stayDelay="80"/>
         </entity>
-        <entity file="entity/airship/Canon2.xml" tx="729.5" ty="10.0">
-            <canon2 fireDelay="100" stayDelay="-1"/>
+        <entity file="entity/airship/Laser.xml" tx="729.5" ty="10.0">
+            <laser fireDelay="100" stayDelay="-1"/>
         </entity>
-        <entity file="entity/airship/Canon1.xml" tx="744.0" ty="9.5"/>
-        <entity file="entity/airship/Canon1.xml" tx="740.5" ty="26.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="716.0" ty="35.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="705.0" ty="42.0"/>
-        <entity file="entity/airship/Canon2.xml" tx="707.5" ty="42.0">
-            <canon2 fireDelay="240" stayDelay="160"/>
+        <entity file="entity/airship/Canon.xml" tx="744.0" ty="9.5"/>
+        <entity file="entity/airship/Canon.xml" tx="740.5" ty="26.0"/>
+        <entity file="entity/airship/Canon.xml" tx="716.0" ty="35.0"/>
+        <entity file="entity/airship/Canon.xml" tx="705.0" ty="42.0"/>
+        <entity file="entity/airship/Laser.xml" tx="707.5" ty="42.0">
+            <laser fireDelay="240" stayDelay="160"/>
         </entity>
-        <entity file="entity/airship/Canon1.xml" tx="702.0" ty="35.0"/>
+        <entity file="entity/airship/Canon.xml" tx="702.0" ty="35.0"/>
         <entity file="entity/airship/Guard.xml" tx="683.0" ty="22.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="674.0" ty="35.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="635.0" ty="33.0"/>
+        <entity file="entity/airship/Canon.xml" tx="674.0" ty="35.0"/>
+        <entity file="entity/airship/Canon.xml" tx="635.0" ty="33.0"/>
         <entity file="entity/airship/Guard.xml" tx="585.0" ty="36.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="588.0" ty="78.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="613.0" ty="64.0"/>
-        <entity file="entity/airship/Canon1.xml" tx="637.0" ty="78.0"/>
+        <entity file="entity/airship/Canon.xml" tx="588.0" ty="78.0"/>
+        <entity file="entity/airship/Canon.xml" tx="613.0" ty="64.0"/>
+        <entity file="entity/airship/Canon.xml" tx="637.0" ty="78.0"/>
         <entity file="entity/airship/PotionLittle.xml" tx="632.0" ty="80.0"/>
-        <entity file="entity/airship/Canon2.xml" tx="650.5" ty="78.0">
-            <canon2 fireDelay="100" stayDelay="90"/>
+        <entity file="entity/airship/Laser.xml" tx="650.5" ty="78.0">
+            <laser fireDelay="100" stayDelay="90"/>
         </entity>
-        <entity file="entity/airship/Canon1.xml" tx="704.0" ty="58.0"/>
+        <entity file="entity/airship/Canon.xml" tx="704.0" ty="58.0"/>
         <entity file="entity/airship/Dragon3.xml" tx="710.0" ty="54.0"/>
         <entity file="entity/airship/Guard.xml" tx="721.0" ty="56.0" next="stage/stage12.xml"/>
         <entity file="entity/airship/Catapult.xml" tx="736.0" ty="21.0">

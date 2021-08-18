@@ -77,6 +77,13 @@
             properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.laserairship.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.laserairship.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -162,6 +169,20 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.part.properties.rotating.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.laserairship.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.laserairship.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.laserairship.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.laserairship.tester.disable">
          </test>
       </definition>
    </extension>

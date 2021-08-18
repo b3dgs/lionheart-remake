@@ -98,10 +98,10 @@ public enum Sfx
     MONSTER_EXECUTIONER_HURT,
     /** Monster executioner attack. */
     MONSTER_EXECUTIONER_ATTACK,
-    /** Monster canon airship 1. */
-    MONSTER_CANONAIRSHIP1,
-    /** Monster canon airship 2. */
-    MONSTER_CANONAIRSHIP2,
+    /** Monster canon airship. */
+    MONSTER_CANONAIRSHIP,
+    /** Monster laser airship. */
+    MONSTER_LASERAIRSHIP2,
     /** Monster dragon 1. */
     MONSTER_DRAGON1,
     /** Monster dragon 2. */
