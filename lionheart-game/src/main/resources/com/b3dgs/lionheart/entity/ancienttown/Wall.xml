@@ -4,7 +4,7 @@
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Wall.png" icon="Wall_ico.png"/>
+    <lionengine:surface image="surface/Wall.png"/>
     <lionengine:frames horizontal="20" vertical="4"/>
     <lionengine:size width="16" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

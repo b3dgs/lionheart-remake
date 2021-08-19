@@ -11,7 +11,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon4</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Dragon.png"/>
+    <lionengine:surface image="surface/Dragon.png"/>
     <lionengine:frames horizontal="4" vertical="2"/>
     <lionengine:size width="64" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

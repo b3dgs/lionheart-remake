@@ -10,7 +10,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.TurningHit</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="TurningHit.png" icon="TurningHit_ico.png"/>
+    <lionengine:surface image="surface/TurningHit.png"/>
     <lionengine:frames horizontal="3" vertical="3"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

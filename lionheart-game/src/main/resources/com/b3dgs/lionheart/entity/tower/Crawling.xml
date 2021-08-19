@@ -10,7 +10,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Jumper</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Crawling.png" icon="Crawling_ico.png"/>
+    <lionengine:surface image="surface/Crawling.png"/>
     <lionengine:frames horizontal="4" vertical="4" offsetY="0"/>
     <lionengine:size width="48" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

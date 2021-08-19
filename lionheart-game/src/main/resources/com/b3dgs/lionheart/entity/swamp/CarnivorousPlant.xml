@@ -6,7 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.CarnivorousPlant</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="CarnivorousPlant.png" icon="CarnivorousPlant_ico.png"/>
+    <lionengine:surface image="surface/CarnivorousPlant.png"/>
     <lionengine:frames horizontal="2" vertical="2"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

@@ -6,7 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Floater</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Floater.png" icon="Floater_ico.png"/>
+    <lionengine:surface image="surface/Floater.png"/>
     <lionengine:frames horizontal="1" vertical="1" offsetY="2"/>
     <lionengine:size width="32" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

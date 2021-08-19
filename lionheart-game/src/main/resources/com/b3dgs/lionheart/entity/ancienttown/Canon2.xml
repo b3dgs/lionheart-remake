@@ -9,7 +9,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Canon2.png" icon="Canon2_ico.png"/>
+    <lionengine:surface image="surface/Canon2.png"/>
     <lionengine:frames horizontal="1" vertical="1"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
