@@ -73,7 +73,6 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 public final class EntityModel extends EntityModelHelper implements XmlLoader, XmlSaver, Routine, Recyclable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
-    private static final int SECRET_RANGE = 48;
     private static final int PREFIX = State.class.getSimpleName().length();
 
     private static final double DEFAULT_MOVEMENT_VELOCITY = 0.1;
@@ -103,8 +102,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
     private final int frames;
-    private Transformable player;
-    private boolean secret;
     private Optional<String> next = Optional.empty();
     private Optional<Coord> nextSpawn = Optional.empty();
     private boolean jumpOnHurt = true;
@@ -136,11 +133,8 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     {
         super.prepare(provider);
 
-        final Optional<Trackable> shade = services.getOptional(Trackable.class);
-        if (shade.isPresent())
+        if (services.getOptional(Trackable.class).isPresent())
         {
-            player = shade.get().getFeature(Transformable.class);
-
             final EntityChecker checker = provider.getFeature(EntityChecker.class);
             final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
                                                 .booleanValue();
@@ -149,12 +143,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
                                            || camera.isViewable(transformable,
                                                                 transformable.getWidth(),
                                                                 transformable.getHeight()));
-            checker.setCheckerRender(() -> !secret
-                                           && camera.isViewable(transformable, 0, transformable.getHeight() * 2));
-        }
-        else
-        {
-            player = null;
+            checker.setCheckerRender(() -> camera.isViewable(transformable, 0, transformable.getHeight() * 2));
         }
 
         movement.setVelocity(DEFAULT_MOVEMENT_VELOCITY);
@@ -167,16 +156,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         body.setDesiredFps(source.getRate());
 
         collidable.setCollisionVisibility(Constant.DEBUG);
-    }
-
-    /**
-     * Set the secret flag.
-     * 
-     * @param secret The secret flag.
-     */
-    public void setSecret(boolean secret)
-    {
-        this.secret = secret;
     }
 
     /**
@@ -236,11 +215,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
             || transformable.getY() > map.getHeight() + source.getHeight())
         {
             identifiable.destroy();
-        }
-
-        if (secret && player != null && Math.abs(transformable.getX() - player.getX()) < SECRET_RANGE)
-        {
-            secret = false;
         }
     }
 
@@ -387,8 +361,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     @Override
     public void load(XmlReader root)
     {
-        secret = root.getBoolean(false, EntityConfig.ATT_SECRET);
-
         mirrorable.mirror(root.getBoolean(false, EntityConfig.ATT_MIRROR) ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
 
@@ -414,11 +386,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
                          (transformable.getX() - origin.getX(0.0, transformable.getWidth())) / map.getTileWidth() - 1);
         root.writeDouble(EntityConfig.ATT_TY,
                          transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
-
-        if (secret)
-        {
-            root.writeBoolean(EntityConfig.ATT_SECRET, secret);
-        }
 
         final Mirror mirror = mirrorable.getMirror();
         if (mirror != Mirror.NONE)

@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Xml;
+import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
@@ -30,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.editor.Util;
+import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -51,6 +53,22 @@ public final class StageSaveHandler
         final Handler handler = WorldModel.INSTANCE.getHandler();
         final MapTile map = WorldModel.INSTANCE.getMap();
         final Xml root = new Xml(StageConfig.NODE_STAGE);
+
+        UtilPart.getPart(StagePart.ID, StagePart.class).save(root);
+
+        final Xml checkpoints = root.createChild(StageConfig.NODE_CHECKPOINTS);
+        WorldModel.INSTANCE.getServices().get(Checkpoints.class).forEach(c ->
+        {
+            final Xml checkpoint = checkpoints.createChild(StageConfig.NODE_CHECKPOINT);
+            checkpoint.writeDouble(StageConfig.ATT_CHECKPOINT_TX, c.getTx());
+            checkpoint.writeDouble(StageConfig.ATT_CHECKPOINT_TY, c.getTy());
+            c.getNext().ifPresent(n -> checkpoint.writeString(StageConfig.ATT_CHECKPOINT_NEXT, n));
+            c.getSpawn().ifPresent(s ->
+            {
+                checkpoint.writeDouble(StageConfig.ATT_SPAWN_TX, s.getX());
+                checkpoint.writeDouble(StageConfig.ATT_SPAWN_TY, s.getY());
+            });
+        });
 
         final Xml entities = root.createChild(StageConfig.NODE_ENTITIES);
         handler.values().forEach(featurable -> entities.add(saveFeaturable(featurable, map)));

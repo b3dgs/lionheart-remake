@@ -84,6 +84,20 @@
             properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.sheet.SheetPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.sheet.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.sheet.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.dragon1.Dragon1PropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.dragon1.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.dragon1.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -183,6 +197,34 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.part.properties.laserairship.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.sheet.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.sheet.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.sheet.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.sheet.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.dragon1.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.dragon1.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.dragon1.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.dragon1.tester.enable">
          </test>
       </definition>
    </extension>

@@ -18,6 +18,8 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Xml;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -27,6 +29,10 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionheart.object.Editable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
 
 /**
@@ -36,18 +42,21 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
  * </p>
  */
 @FeatureInterface
-public final class Sheet extends FeatureModel implements Routine, Recyclable
+public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Editable<SheetConfig>, Routine, Recyclable
 {
     private static final double CURVE_FORCE = 6.0;
     private static final double CURVE_SPEED = 7.0;
+    private static final int HIDE_RANGE = 48;
 
+    private Trackable target;
+
+    private SheetConfig config;
     private boolean start;
     private boolean done;
     private double curve;
     private boolean abord;
 
     @FeatureGet private Transformable transformable;
-    @FeatureGet private Glue glue;
 
     /**
      * Create feature.
@@ -62,11 +71,23 @@ public final class Sheet extends FeatureModel implements Routine, Recyclable
     }
 
     @Override
+    public void setConfig(SheetConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
+    public SheetConfig getConfig()
+    {
+        return config;
+    }
+
+    @Override
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
 
-        glue.addListener(new GlueListener()
+        ifIs(Glue.class, glue -> glue.addListener(new GlueListener()
         {
             @Override
             public void notifyStart(Transformable transformable)
@@ -84,7 +105,7 @@ public final class Sheet extends FeatureModel implements Routine, Recyclable
                 glue.setGlue(false);
                 abord = true;
             }
-        });
+        }));
     }
 
     @Override
@@ -109,6 +130,29 @@ public final class Sheet extends FeatureModel implements Routine, Recyclable
                 done = true;
             }
         }
+
+        if (target != null && config.getHide() && Math.abs(transformable.getX() - target.getX()) < HIDE_RANGE)
+        {
+            ifIs(Rasterable.class, r -> r.setVisibility(true));
+            target = null;
+        }
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        config = new SheetConfig(root);
+        if (config.getHide())
+        {
+            ifIs(Rasterable.class, r -> r.setVisibility(false));
+            target = services.getOptional(Trackable.class).orElse(null);
+        }
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        config.save(root);
     }
 
     @Override

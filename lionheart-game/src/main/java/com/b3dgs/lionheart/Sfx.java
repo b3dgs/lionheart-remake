@@ -101,7 +101,7 @@ public enum Sfx
     /** Monster canon airship. */
     MONSTER_CANONAIRSHIP,
     /** Monster laser airship. */
-    MONSTER_LASERAIRSHIP2,
+    MONSTER_LASERAIRSHIP,
     /** Monster dragon 1. */
     MONSTER_DRAGON1,
     /** Monster dragon 2. */

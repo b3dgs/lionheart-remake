@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -48,7 +49,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </ol>
  */
 @FeatureInterface
-public final class Dragon1 extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class Dragon1 extends FeatureModel
+                           implements XmlLoader, XmlSaver, Editable<Dragon1Config>, Routine, Recyclable
 {
     private static final double SPEED_X = 1.2;
     private static final double SPEED_Y = 0.7;
@@ -133,6 +135,18 @@ public final class Dragon1 extends FeatureModel implements XmlLoader, XmlSaver, 
         {
             identifiable.destroy();
         }
+    }
+
+    @Override
+    public Dragon1Config getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    public void setConfig(Dragon1Config config)
+    {
+        this.config = config;
     }
 
     @Override

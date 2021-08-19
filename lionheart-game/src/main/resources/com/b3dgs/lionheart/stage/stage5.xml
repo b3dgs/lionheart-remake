@@ -21,8 +21,12 @@
         <entity file="entity/swamp/Crawling.xml" tx="59.0" ty="5.0">
             <patrol sh="-0.3" amplitude="208"/>
         </entity>
-        <entity file="entity/swamp/Sheet.xml" tx="21.0" ty="6.0" mirror="true" secret="true"/>
-        <entity file="entity/swamp/Sheet.xml" tx="25.0" ty="5.0" secret="true"/>
+        <entity file="entity/swamp/Sheet.xml" tx="21.0" ty="6.0" mirror="true">
+            <sheet hide="true"/>
+        </entity>
+        <entity file="entity/swamp/Sheet.xml" tx="25.0" ty="5.0">
+            <sheet hide="true"/>
+        </entity>
         <entity file="entity/swamp/Life.xml" tx="6.0" ty="12.0"/>
         <entity file="entity/swamp/Sword2.xml" tx="10.0" ty="15.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="27.0" ty="18.0"/>

@@ -68,6 +68,7 @@ public final class StageLoadHandler
 
         final StageConfig stage = StageConfig.imports(new Configurer(media));
         UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class).load(stage);
+        UtilPart.getPart(StagePart.ID, StagePart.class).load(stage);
 
         map.loadSheets(Medias.create(stage.getMapFile().getParentPath(), TileSheetsConfig.FILENAME));
         try (FileReading reading = new FileReading(stage.getMapFile()))

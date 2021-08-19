@@ -41,36 +41,36 @@ public final class StageConfig
     public static final String NODE_ENTITIES = "entities";
 
     /** Stage picture attribute name. */
-    private static final String ATT_STAGE_PIC = "pic";
+    public static final String ATT_STAGE_PIC = "pic";
     /** Stage text attribute name. */
-    private static final String ATT_STAGE_TEXT = "text";
+    public static final String ATT_STAGE_TEXT = "text";
     /** File attribute name. */
-    private static final String ATT_FILE = "file";
+    public static final String ATT_FILE = "file";
 
     /** Music node name. */
-    private static final String NODE_MUSIC = "music";
+    public static final String NODE_MUSIC = "music";
 
     /** Map node name. */
-    private static final String NODE_MAP = "map";
+    public static final String NODE_MAP = "map";
     /** Lines per raster attribute name. */
     private static final String ATT_MAP_LINES_PER_RASTER = "linesPerRaster";
     /** Raster line offset attribute name. */
     private static final String ATT_MAP_RASTER_LINE_OFFSET = "rasterLineOffset";
 
     /** Raster folder node name. */
-    private static final String NODE_RASTER = "raster";
+    public static final String NODE_RASTER = "raster";
     /** Raster folder attribute name. */
-    private static final String ATT_RASTER_FOLDER = "folder";
+    public static final String ATT_RASTER_FOLDER = "folder";
 
     /** Background node name. */
-    private static final String NODE_BACKGROUND = "background";
+    public static final String NODE_BACKGROUND = "background";
     /** Background type attribute name. */
-    private static final String ATT_BACKGROUND_TYPE = "type";
+    public static final String ATT_BACKGROUND_TYPE = "type";
 
     /** Checkpoints node name. */
-    private static final String NODE_CHECKPOINTS = "checkpoints";
+    public static final String NODE_CHECKPOINTS = "checkpoints";
     /** Checkpoint node name. */
-    private static final String NODE_CHECKPOINT = "checkpoint";
+    public static final String NODE_CHECKPOINT = "checkpoint";
     /** Checkpoint tile x attribute name. */
     public static final String ATT_CHECKPOINT_TX = "tx";
     /** Checkpoint tile y attribute name. */

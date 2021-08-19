@@ -12,7 +12,7 @@
         <entity file="entity/tower/Rotating.xml" tx="21.0" ty="14.0">
             <rotating amplitude="40" extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="4" speed="0.05"/>
         </entity>
-                <entity file="entity/tower/Rotating.xml" tx="27.0" ty="14.0">
+        <entity file="entity/tower/Rotating.xml" tx="27.0" ty="14.0">
             <rotating extremity="entity/tower/SpikeBowl.xml" ring="entity/tower/Ring.xml" length="3" speed="2.0"/>
         </entity>
         <entity file="entity/tower/PotionLittle.xml" tx="22.0" ty="6.0"/>

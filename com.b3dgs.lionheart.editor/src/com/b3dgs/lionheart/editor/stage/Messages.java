@@ -33,6 +33,30 @@ public final class Messages extends NLS
     public static String ErrorLoadTitle;
     /** Error load message. */
     public static String ErrorLoadMessage;
+    /** Picture message. */
+    public static String Picture;
+    /** Text message. */
+    public static String Text;
+    /** Music message. */
+    public static String Music;
+    /** Map message. */
+    public static String Map;
+    /** Raster message. */
+    public static String Raster;
+    /** Background message. */
+    public static String Background;
+    /** Foreground message. */
+    public static String Foreground;
+    /** Depth message. */
+    public static String Depth;
+    /** Offset message. */
+    public static String Offset;
+    /** Speed message. */
+    public static String Speed;
+    /** Effect message. */
+    public static String Effect;
+    /** Raise message. */
+    public static String Raise;
 
     /**
      * Initialize.

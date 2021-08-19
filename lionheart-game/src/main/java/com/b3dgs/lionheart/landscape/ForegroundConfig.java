@@ -31,17 +31,17 @@ public final class ForegroundConfig
     /** Entity node name. */
     public static final String NODE_FOREGROUND = "foreground";
     /** Foreground type attribute name. */
-    private static final String ATT_FOREGROUND_TYPE = "type";
+    public static final String ATT_FOREGROUND_TYPE = "type";
     /** Water depth attribute name. */
-    private static final String ATT_WATER_DEPTH = "waterDepth";
+    public static final String ATT_WATER_DEPTH = "waterDepth";
     /** Water offset attribute name. */
-    private static final String ATT_WATER_OFFSET = "waterOffset";
+    public static final String ATT_WATER_OFFSET = "waterOffset";
     /** Water speed attribute name. */
-    private static final String ATT_WATER_SPEED = "waterSpeed";
+    public static final String ATT_WATER_SPEED = "waterSpeed";
     /** Water effect attribute name. */
-    private static final String ATT_WATER_EFFECT = "waterEffect";
+    public static final String ATT_WATER_EFFECT = "waterEffect";
     /** Water raise attribute name. */
-    private static final String ATT_WATER_RAISE = "raise";
+    public static final String ATT_WATER_RAISE = "raise";
 
     /**
      * Imports the config from configurer.

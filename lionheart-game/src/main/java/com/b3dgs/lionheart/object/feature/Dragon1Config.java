@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -33,6 +34,28 @@ public final class Dragon1Config implements XmlSaver
 
     /** Fire delay. */
     private final int firedCount;
+
+    /**
+     * Create blank configuration.
+     */
+    public Dragon1Config()
+    {
+        super();
+
+        firedCount = 0;
+    }
+
+    /**
+     * Create configuration.
+     * 
+     * @param firedCount The fired count value.
+     */
+    public Dragon1Config(int firedCount)
+    {
+        super();
+
+        this.firedCount = firedCount;
+    }
 
     /**
      * Create config.
@@ -64,5 +87,20 @@ public final class Dragon1Config implements XmlSaver
     {
         final Xml node = root.createChild(NODE_DRAGON1);
         node.writeInteger(ATT_FIRED_COUNT, firedCount);
+    }
+
+    private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Dragon1 [ ");
+        add(builder, ATT_FIRED_COUNT, firedCount);
+        builder.append("]");
+        return builder.toString();
     }
 }
