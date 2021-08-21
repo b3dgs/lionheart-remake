@@ -58,7 +58,7 @@ public final class Shooter extends FeatureModel
     private final Animation idle;
     private final Animation attack;
 
-    private final Trackable target = services.get(Trackable.class);
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
 
     private ShooterConfig def;
     private ShooterConfig config;

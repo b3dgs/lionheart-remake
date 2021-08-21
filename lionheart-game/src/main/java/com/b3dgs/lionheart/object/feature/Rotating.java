@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
@@ -39,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -56,10 +58,10 @@ public final class Rotating extends FeatureModel
                             implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
 {
     private final List<Transformable> rings = new ArrayList<>();
+    private final Tick tick = new Tick();
     private final Spawner spawner = services.get(Spawner.class);
     private final Viewer viewer = services.get(Viewer.class);
-    private final StateHandler target = services.get(Trackable.class).getFeature(StateHandler.class);
-    private final Tick tick = new Tick();
+    private final StateHandler target;
 
     private RotatingConfig config;
     private int count;
@@ -84,6 +86,16 @@ public final class Rotating extends FeatureModel
     public Rotating(Services services, Setup setup)
     {
         super(services, setup);
+
+        final Optional<Trackable> trackable = services.getOptional(Trackable.class);
+        if (trackable.isPresent())
+        {
+            target = trackable.get().getFeature(StateHandler.class);
+        }
+        else
+        {
+            target = null;
+        }
     }
 
     /**
@@ -125,26 +137,34 @@ public final class Rotating extends FeatureModel
         angleBack = config.getBack();
         side = config.getSpeed();
 
-        for (int i = 0; i < config.getLength(); i++)
+        if (!Settings.isEditor())
         {
-            rings.add(spawner.spawn(Medias.create(config.getRing()), transformable).getFeature(Transformable.class));
-        }
-        platform = spawner.spawn(Medias.create(config.getExtremity()), transformable).getFeature(Transformable.class);
+            for (int i = 0; i < config.getLength(); i++)
+            {
+                rings.add(spawner.spawn(Medias.create(config.getRing()), transformable)
+                                 .getFeature(Transformable.class));
+            }
+            platform = spawner.spawn(Medias.create(config.getExtremity()), transformable)
+                              .getFeature(Transformable.class);
 
-        if (config.isControlled())
-        {
-            final Collidable platformCollidable = platform.getFeature(Collidable.class);
-            platformCollidable.addListener((c, w, b) -> onCollide());
-        }
+            if (config.isControlled())
+            {
+                final Collidable platformCollidable = platform.getFeature(Collidable.class);
+                platformCollidable.addListener((c, w, b) -> onCollide());
+            }
 
-        rings.add(platform);
-        count = rings.size();
+            rings.add(platform);
+            count = rings.size();
+        }
     }
 
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

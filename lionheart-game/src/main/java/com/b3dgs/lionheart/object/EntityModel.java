@@ -95,13 +95,14 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     private final Force jump = new Force();
     private final Camera camera = services.get(Camera.class);
     private final MapTile map = services.get(MapTile.class);
-    private final CheckpointHandler checkpoint = services.get(CheckpointHandler.class);
-    private final CameraTracker tracker = services.get(CameraTracker.class);
+    private final CheckpointHandler checkpoint = services.getOptional(CheckpointHandler.class).orElse(null);
+    private final CameraTracker tracker = services.getOptional(CameraTracker.class).orElse(null);
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
     private final int frames;
+
     private Optional<String> next = Optional.empty();
     private Optional<Coord> nextSpawn = Optional.empty();
     private boolean jumpOnHurt = true;

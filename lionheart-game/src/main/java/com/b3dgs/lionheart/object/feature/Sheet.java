@@ -152,7 +152,10 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

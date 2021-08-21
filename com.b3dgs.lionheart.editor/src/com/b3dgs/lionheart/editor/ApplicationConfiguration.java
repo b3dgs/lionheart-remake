@@ -34,8 +34,6 @@ import org.eclipse.e4.ui.workbench.UIEvents;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
@@ -49,7 +47,6 @@ import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.AnimatableModel;
-import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeaturableConfig;
 import com.b3dgs.lionengine.game.feature.MirrorableModel;
@@ -68,13 +65,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersisterList
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
-import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTilePersisterOptimized;
-import com.b3dgs.lionheart.MapTileWater;
-import com.b3dgs.lionheart.MusicPlayer;
-import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
 import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.editor.object.properties.dragon1.Dragon1Part;
@@ -97,7 +90,6 @@ import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
 import com.b3dgs.lionheart.object.feature.Spike;
 import com.b3dgs.lionheart.object.feature.Stats;
-import com.b3dgs.lionheart.object.feature.Trackable;
 
 /**
  * Configure the editor with the right name.
@@ -147,7 +139,28 @@ public class ApplicationConfiguration
         {
             super();
 
+            Settings.setEditor(true);
+
+            AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
             services.add(new Checkpoints());
+            services.add(new SourceResolutionDelegate(Constant.RESOLUTION));
+
+            final MapTileHelper map = WorldModel.INSTANCE.getMap();
+            map.addFeature(new MapTilePersisterOptimized(), true);
+            map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
+            {
+                @Override
+                public void notifyMapLoadStart()
+                {
+                    map.loadBefore(map.getMedia());
+                }
+
+                @Override
+                public void notifyMapLoaded()
+                {
+                    map.loadAfter(map.getMedia());
+                }
+            });
         }
 
         private void handleExtensions()
@@ -221,27 +234,6 @@ public class ApplicationConfiguration
                 final Project project = ProjectFactory.create(path.getCanonicalFile());
                 ProjectImportHandler.importProject(project);
 
-                AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
-                services.create(CheckpointHandler.class);
-                services.add(new MusicPlayer()
-                {
-                    @Override
-                    public void stopMusic()
-                    {
-                        // Mock
-                    }
-
-                    @Override
-                    public void playMusic(Media media)
-                    {
-                        // Mock
-                    }
-                });
-                services.add((LoadNextStage) (next, tickDelay, spawn) ->
-                {
-                    // Mock
-                });
-                services.add(new SourceResolutionDelegate(Constant.RESOLUTION));
                 services.remove(services.get(Spawner.class));
                 services.add((Spawner) (media, x, y) ->
                 {
@@ -263,29 +255,6 @@ public class ApplicationConfiguration
                     featurable.getFeature(Transformable.class).teleport(x, y);
                     WorldModel.INSTANCE.getHandler().add(featurable);
                     return featurable;
-                });
-
-                services.create(CameraTracker.class);
-                services.create(MapTileWater.class);
-                services.add(WorldModel.INSTANCE.getFactory()
-                                                .create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"))
-                                                .getFeature(Trackable.class));
-
-                final MapTileHelper map = WorldModel.INSTANCE.getMap();
-                map.addFeature(new MapTilePersisterOptimized(), true);
-                map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
-                {
-                    @Override
-                    public void notifyMapLoadStart()
-                    {
-                        map.loadBefore(map.getMedia());
-                    }
-
-                    @Override
-                    public void notifyMapLoaded()
-                    {
-                        map.loadAfter(map.getMedia());
-                    }
                 });
             }
             catch (final IOException exception)

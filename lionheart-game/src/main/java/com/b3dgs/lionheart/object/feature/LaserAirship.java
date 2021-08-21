@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -169,7 +170,10 @@ public final class LaserAirship extends FeatureModel
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override
@@ -211,19 +215,21 @@ public final class LaserAirship extends FeatureModel
             laser.destroy();
             laser = null;
         }
-        dotStart = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
-                                 transformable.getX(),
-                                 transformable.getY())
-                          .getFeature(Transformable.class);
+        if (!Settings.isEditor())
+        {
+            dotStart = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
+                                     transformable.getX(),
+                                     transformable.getY())
+                              .getFeature(Transformable.class);
 
-        dotEnd = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
-                               transformable.getX(),
-                               transformable.getY())
-                        .getFeature(Transformable.class);
+            dotEnd = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
+                                   transformable.getX(),
+                                   transformable.getY())
+                            .getFeature(Transformable.class);
 
-        dotStart.teleport(transformable.getX(), DOT_HIDE);
-        dotEnd.teleport(transformable.getX(), DOT_HIDE);
-
+            dotStart.teleport(transformable.getX(), DOT_HIDE);
+            dotEnd.teleport(transformable.getX(), DOT_HIDE);
+        }
         current = this::updatePrepare;
         dotEndY = 0.0;
         tick.restart();

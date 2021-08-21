@@ -10,8 +10,8 @@
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_VZMXQPbHEeuPgNh2_LLL8A" featurename="children" parentElementId="com.b3dgs.lionengine.editor.stack.right.bottom" positionInList="">
-    <elements xsi:type="basic:Part" xmi:id="_0EHJEABiEeyTYJYvTlrT5Q" elementId="com.b3dgs.lionheart.editor.part.stage" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.stage.StagePart" label="%part.stage" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png"/>
-    <elements xsi:type="basic:Part" xmi:id="_4F8-QPx6EeucAq-UN3GkmA" elementId="com.b3dgs.lionheart.editor.part.checkpoint" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.checkpoint.CheckpointPart" label="%part.checkpoint" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="_0EHJEABiEeyTYJYvTlrT5Q" elementId="com.b3dgs.lionheart.editor.part.stage" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.stage.StagePart" label="%part.stage" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/stage.png"/>
+    <elements xsi:type="basic:Part" xmi:id="_4F8-QPx6EeucAq-UN3GkmA" elementId="com.b3dgs.lionheart.editor.part.checkpoint" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.checkpoint.CheckpointPart" label="%part.checkpoint" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/checkpoint.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_4F8-Qfx6EeucAq-UN3GkmA" elementId="com.b3dgs.lionheart.editor.part.checkpoint.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_4F8-Qvx6EeucAq-UN3GkmA" elementId="" label="%part.menu.add" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.checkpoint.CheckpointAddHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_yW1Z0ABgEeyTYJYvTlrT5Q" coreExpressionId="com.b3dgs.lionengine.editor.map.test"/>
@@ -37,7 +37,7 @@
         </children>
       </menus>
     </elements>
-    <elements xsi:type="basic:Part" xmi:id="_oyrrYPtwEeuB8_5ZaZ39yw" elementId="com.b3dgs.lionheart.editor.part.properties.shooter" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart" label="%part.shooter" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/patrol.png">
+    <elements xsi:type="basic:Part" xmi:id="_oyrrYPtwEeuB8_5ZaZ39yw" elementId="com.b3dgs.lionheart.editor.part.properties.shooter" visible="false" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart" label="%part.shooter" iconURI="platform:/plugin/com.b3dgs.lionheart.editor/icons/properties/shooter.png">
       <menus xsi:type="menu:PopupMenu" xmi:id="_oyrrYftwEeuB8_5ZaZ39yw" elementId="com.b3dgs.lionheart.editor.part.properties.shooter.menu">
         <children xsi:type="menu:DirectMenuItem" xmi:id="_oyrrYvtwEeuB8_5ZaZ39yw" elementId="" label="%part.menu.enable" iconURI="platform:/plugin/com.b3dgs.lionengine.editor/icons/add.png" tooltip="" mnemonics="" contributionURI="bundleclass://com.b3dgs.lionheart.editor/com.b3dgs.lionheart.editor.object.properties.shooter.ShooterEnableHandler">
           <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_oyrrY_twEeuB8_5ZaZ39yw" coreExpressionId="com.b3dgs.lionheart.editor.part.properties.shooter.enable"/>

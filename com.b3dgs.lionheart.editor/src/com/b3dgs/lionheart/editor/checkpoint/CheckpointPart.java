@@ -112,17 +112,21 @@ public class CheckpointPart implements Focusable
         final TreeItem item = new TreeItem(tree, SWT.NONE);
         final Camera camera = WorldModel.INSTANCE.getCamera();
         final MapTile map = WorldModel.INSTANCE.getMap();
-        final Checkpoint patrol = new Checkpoint(UtilMath.getRounded((camera.getX() + camera.getWidth() / 2)
-                                                                     / map.getTileWidth(),
-                                                                     map.getTileWidth()),
-                                                 UtilMath.getRounded((camera.getY() + camera.getHeight() / 2)
-                                                                     / map.getTileHeight(),
-                                                                     map.getTileHeight()),
-                                                 Optional.empty(),
-                                                 Optional.empty());
-        item.setText(patrol.toString());
+        final Checkpoint checkpoint = new Checkpoint(UtilMath.getRounded((camera.getX() + camera.getWidth() / 2)
+                                                                         / map.getTileWidth(),
+                                                                         map.getTileWidth()),
+                                                     UtilMath.getRounded((camera.getY() + camera.getHeight())
+                                                                         / map.getTileHeight(),
+                                                                         map.getTileHeight()),
+                                                     Optional.empty(),
+                                                     Optional.empty());
+        item.setText(checkpoint.toString());
+        checkpoints.add(checkpoint);
 
         updateIndexes();
+
+        final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
+        worldPart.update();
     }
 
     /**
@@ -138,6 +142,9 @@ public class CheckpointPart implements Focusable
             item.dispose();
         }
         updateIndexes();
+
+        final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
+        worldPart.update();
     }
 
     /**
@@ -168,7 +175,7 @@ public class CheckpointPart implements Focusable
     /**
      * Update items.
      */
-    private void updateIndexes()
+    public void updateIndexes()
     {
         int i = 0;
         for (final Checkpoint checkpoint : checkpoints)
@@ -222,22 +229,29 @@ public class CheckpointPart implements Focusable
         tree.addMouseListener(new MouseAdapter()
         {
             @Override
-            public void mouseDown(MouseEvent e)
+            public void mouseDown(MouseEvent event)
             {
-                final TreeItem[] items = tree.getSelection();
-                if (items.length > 0)
+                if (event.button == 1)
                 {
-                    final TreeItem item = items[0];
-                    final Checkpoint checkpoint = checkpoints.get(((Integer) item.getData()).intValue());
-                    final MapTile map = WorldModel.INSTANCE.getMap();
-                    final Camera camera = WorldModel.INSTANCE.getCamera();
-                    camera.teleport(UtilMath.getRounded(checkpoint.getTx() * map.getTileWidth() - camera.getWidth() / 2,
-                                                        map.getTileWidth()),
-                                    UtilMath.getRounded(checkpoint.getTy() * map.getTileHeight()
-                                                        - camera.getHeight() / 2,
-                                                        map.getTileHeight()));
-                    final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
-                    worldPart.update();
+                    final TreeItem[] items = tree.getSelection();
+                    if (items.length > 0)
+                    {
+                        final TreeItem item = items[0];
+                        final int index = ((Integer) item.getData()).intValue();
+                        final Checkpoint checkpoint = checkpoints.get(index);
+                        checkpoints.select(index);
+
+                        final MapTile map = WorldModel.INSTANCE.getMap();
+                        final Camera camera = WorldModel.INSTANCE.getCamera();
+                        camera.teleport(UtilMath.getRounded(checkpoint.getTx() * map.getTileWidth()
+                                                            - camera.getWidth() / 2,
+                                                            map.getTileWidth()),
+                                        UtilMath.getRounded(checkpoint.getTy() * map.getTileHeight()
+                                                            - camera.getHeight() / 2,
+                                                            map.getTileHeight()));
+                        final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
+                        worldPart.update();
+                    }
                 }
             }
 
@@ -255,7 +269,7 @@ public class CheckpointPart implements Focusable
                     editor.getOutput().ifPresent(c ->
                     {
                         item.setText(c.toString());
-                        checkpoints.set(((Integer) item.getData()).intValue(), c);
+                        checkpoints.set(index, c);
                     });
                 }
             }

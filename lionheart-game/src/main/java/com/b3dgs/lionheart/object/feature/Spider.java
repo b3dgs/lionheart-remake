@@ -60,7 +60,7 @@ public final class Spider extends FeatureModel
     private static final int FALL_DISTANCE = 16;
     private static final double TRACK_SPEED = 0.5;
 
-    private final Trackable target = services.get(Trackable.class);
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
 
     private SpiderConfig config;
     private int distance;

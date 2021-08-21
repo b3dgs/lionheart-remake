@@ -91,7 +91,10 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

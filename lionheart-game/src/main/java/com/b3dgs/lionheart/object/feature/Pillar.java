@@ -155,7 +155,10 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

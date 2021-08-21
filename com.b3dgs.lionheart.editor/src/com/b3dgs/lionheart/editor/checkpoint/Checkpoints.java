@@ -91,6 +91,10 @@ public class Checkpoints implements Iterable<Checkpoint>
      */
     public void remove(int index)
     {
+        if (selection.isPresent() && selection.getAsInt() == index)
+        {
+            selection = OptionalInt.empty();
+        }
         checkpoints.remove(index);
     }
 

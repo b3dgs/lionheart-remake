@@ -41,6 +41,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.state.StatePatrol;
@@ -170,20 +171,23 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     @Override
     public void recycle()
     {
-        final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "ancienttown", "Wall.xml"),
-                                                    -100.0,
-                                                    -100.0);
-        wall = featurable.getFeature(Animatable.class);
-        wall.addListener((AnimatorFrameListener) s ->
+        if (!Settings.isEditor())
         {
-            if (s == fall.getLast())
+            final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "ancienttown", "Wall.xml"),
+                                                        -100.0,
+                                                        -100.0);
+            wall = featurable.getFeature(Animatable.class);
+            wall.addListener((AnimatorFrameListener) s ->
             {
-                wall.getFeature(Identifiable.class).destroy();
-            }
-        });
+                if (s == fall.getLast())
+                {
+                    wall.getFeature(Identifiable.class).destroy();
+                }
+            });
 
-        final AnimationConfig config = AnimationConfig.imports(new Configurer(featurable.getMedia()));
-        fall = config.getAnimation(Anim.FALL);
+            final AnimationConfig config = AnimationConfig.imports(new Configurer(featurable.getMedia()));
+            fall = config.getAnimation(Anim.FALL);
+        }
         first = true;
     }
 }

@@ -96,6 +96,8 @@ public class CheckpointUpdater implements WorldMouseClickListener
 
                 final Checkpoint checkpoint = checkpoints.get(i);
                 checkpoints.set(i, new Checkpoint(x, y, checkpoint.getNext(), checkpoint.getSpawn()));
+
+                UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class).updateIndexes();
             });
         }
     }

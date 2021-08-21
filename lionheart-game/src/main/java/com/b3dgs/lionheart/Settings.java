@@ -96,6 +96,8 @@ public final class Settings
     private static final Settings INSTANCE = new Settings();
     /** Default language. */
     private static final String DEFAULT_LANG = "en";
+    /** Editor flag. */
+    private static boolean editor;
 
     /**
      * Load settings.
@@ -142,6 +144,26 @@ public final class Settings
     public static Settings getInstance()
     {
         return INSTANCE;
+    }
+
+    /**
+     * Check if is in editor mode.
+     * 
+     * @return <code>true</code> if editor, <code>false</code> else.
+     */
+    public static boolean isEditor()
+    {
+        return editor;
+    }
+
+    /**
+     * Set the editor flag.
+     * 
+     * @param editor The editor flag.
+     */
+    public static void setEditor(boolean editor)
+    {
+        Settings.editor = editor;
     }
 
     /**

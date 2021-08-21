@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
@@ -100,26 +101,32 @@ public final class Geyzer extends FeatureModel
     {
         config = new GeyzerConfig(root);
 
-        bottom.add(spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerCalc.xml"), transformable)
-                          .getFeature(Transformable.class));
-
-        for (int i = 0; i < Math.ceil(config.getHeight() / (double) transformable.getHeight()); i++)
+        if (!Settings.isEditor())
         {
-            final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerBottom.xml"),
-                                                        transformable);
-            final Animation idle = AnimationConfig.imports(new Configurer(featurable.getMedia()))
-                                                  .getAnimation(Anim.IDLE);
-            featurable.ifIs(Animatable.class, a -> a.play(idle));
-            bottom.add(featurable.getFeature(Transformable.class));
-            y = transformable.getY();
-            bottom.get(0).teleportY(y - 28);
+            bottom.add(spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerCalc.xml"), transformable)
+                              .getFeature(Transformable.class));
+
+            for (int i = 0; i < Math.ceil(config.getHeight() / (double) transformable.getHeight()); i++)
+            {
+                final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "lava", "GeyzerBottom.xml"),
+                                                            transformable);
+                final Animation idle = AnimationConfig.imports(new Configurer(featurable.getMedia()))
+                                                      .getAnimation(Anim.IDLE);
+                featurable.ifIs(Animatable.class, a -> a.play(idle));
+                bottom.add(featurable.getFeature(Transformable.class));
+                y = transformable.getY();
+                bottom.get(0).teleportY(y - 28);
+            }
         }
     }
 
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override

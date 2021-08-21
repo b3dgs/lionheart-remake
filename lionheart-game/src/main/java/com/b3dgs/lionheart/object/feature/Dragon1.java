@@ -160,7 +160,10 @@ public final class Dragon1 extends FeatureModel
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override
