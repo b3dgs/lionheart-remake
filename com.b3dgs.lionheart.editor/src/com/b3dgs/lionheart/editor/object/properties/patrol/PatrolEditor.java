@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.utility.control.UtilButton;
@@ -38,7 +39,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
-    private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
+    private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
     private TextWidget sh;
@@ -80,6 +81,17 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         mirror.setOrientation(SWT.RIGHT_TO_LEFT);
         coll.setOrientation(SWT.RIGHT_TO_LEFT);
         curve.setOrientation(SWT.RIGHT_TO_LEFT);
+
+        sh.set(Constant.EMPTY_STRING);
+        sv.set(Constant.EMPTY_STRING);
+        amplitude.set(Constant.EMPTY_STRING);
+        offset.set(Constant.EMPTY_STRING);
+        mirror.setSelection(false);
+        coll.setSelection(false);
+        proximity.set(Constant.EMPTY_STRING);
+        animOffset.set(Constant.EMPTY_STRING);
+        delay.set(Constant.EMPTY_STRING);
+        curve.setSelection(false);
 
         config.getSh().ifPresent(sh::set);
         config.getSv().ifPresent(sv::set);

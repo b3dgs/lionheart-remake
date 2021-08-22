@@ -81,9 +81,17 @@ public class PatrolPart implements Focusable, PropertiesFeature
         if (tree.getSelectionCount() > 0)
         {
             final TreeItem item = tree.getSelection()[0];
-            patrols.get().remove(item.getData());
+            patrols.get().remove(((Integer) item.getData()).intValue());
             item.setData(null);
             item.dispose();
+
+            int i = 0;
+            for (final PatrolConfig patrol : patrols.get())
+            {
+                item.setText(patrol.toString());
+                item.setData(Integer.valueOf(i));
+                i++;
+            }
         }
     }
 
@@ -98,11 +106,13 @@ public class PatrolPart implements Focusable, PropertiesFeature
         }
 
         patrols = (Patrols) feature;
+        int i = 0;
         for (final PatrolConfig patrol : patrols.get())
         {
             final TreeItem item = new TreeItem(tree, SWT.NONE);
             item.setText(patrol.toString());
-            item.setData(Integer.valueOf(patrols.get().size() - 1));
+            item.setData(Integer.valueOf(i));
+            i++;
         }
         UtilPart.bringToTop(ID);
     }
