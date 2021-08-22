@@ -70,7 +70,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
  * Entity model implementation.
  */
 @FeatureInterface
-public final class EntityModel extends EntityModelHelper implements XmlLoader, XmlSaver, Routine, Recyclable
+public final class EntityModel extends EntityModelHelper
+                               implements XmlLoader, XmlSaver, Editable<ModelConfig>, Routine, Recyclable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int PREFIX = State.class.getSimpleName().length();
@@ -103,6 +104,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     private final Origin origin = OriginConfig.imports(setup);
     private final int frames;
 
+    private ModelConfig config;
     private Optional<String> next = Optional.empty();
     private Optional<Coord> nextSpawn = Optional.empty();
     private boolean jumpOnHurt = true;
@@ -360,9 +362,22 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     }
 
     @Override
+    public ModelConfig getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    public void setConfig(ModelConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
     public void load(XmlReader root)
     {
-        mirrorable.mirror(root.getBoolean(false, EntityConfig.ATT_MIRROR) ? Mirror.HORIZONTAL : Mirror.NONE);
+        config = new ModelConfig(root);
+        mirrorable.mirror(config.getMirror() ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
 
         final Optional<Coord> nextSpawn;
@@ -388,10 +403,9 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         root.writeDouble(EntityConfig.ATT_TY,
                          transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
 
-        final Mirror mirror = mirrorable.getMirror();
-        if (mirror != Mirror.NONE)
+        if (config != null)
         {
-            root.writeBoolean(EntityConfig.ATT_MIRROR, true);
+            config.save(root);
         }
 
         nextSpawn.ifPresent(s ->

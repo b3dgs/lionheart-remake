@@ -26,7 +26,8 @@
         <entity file="entity/tower/Rotating.xml" tx="23.0" ty="44.0">
             <rotating amplitude="8" controlled="true" extremity="entity/tower/Platform2.xml" ring="entity/tower/Ring.xml" length="6" speed="0.05"/>
         </entity>
-        <entity file="entity/tower/Face.xml" tx="11.0" ty="47.0" mirror="true">
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="47.0">
+            <model mirror="true"/>
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="47.0">
@@ -42,7 +43,8 @@
         <entity file="entity/tower/Rotating.xml" tx="21.0" ty="69.0">
             <rotating extremity="entity/tower/Platform1.xml" ring="entity/tower/Ring.xml" length="6" speed="-0.2"/>
         </entity>
-        <entity file="entity/tower/Face.xml" tx="11.0" ty="82.0" mirror="true">
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="82.0">
+            <model mirror="true"/>
             <shooter fireDelay="100" firedDelay="0" anim="6" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="82.0">

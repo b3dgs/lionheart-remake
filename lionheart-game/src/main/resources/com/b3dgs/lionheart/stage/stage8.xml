@@ -164,10 +164,12 @@
         <entity file="entity/ancienttown/Rotating2.xml" tx="398.0" ty="35.0">
             <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="2.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="388.0" ty="42.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="388.0" ty="42.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="398.0" ty="42.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="398.0" ty="42.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="408.0" ty="35.0">
@@ -188,7 +190,8 @@
         <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="464.0" ty="16.0"/>
         <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="466.0" ty="16.0"/>
         <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="468.0" ty="16.0"/>
-        <entity file="entity/ancienttown/Bee.xml" tx="510.0" ty="13.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="510.0" ty="13.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="0.0" proximity="80"/>
         </entity>
         <entity file="entity/ancienttown/Life.xml" tx="526.0" ty="3.0"/>

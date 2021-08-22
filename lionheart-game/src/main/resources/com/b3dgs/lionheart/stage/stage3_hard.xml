@@ -18,7 +18,9 @@
     </checkpoints>
     <entities>
         <entity file="entity/swamp/Sheet.xml" tx="38.0" ty="50.0"/>
-        <entity file="entity/swamp/Sheet.xml" tx="42.0" ty="52.0" mirror="true"/>
+        <entity file="entity/swamp/Sheet.xml" tx="42.0" ty="52.0">
+            <model mirror="true"/>
+        </entity>
         <entity file="entity/swamp/Sheet.xml" tx="46.0" ty="54.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="50.0" ty="54.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="48.0" ty="52.0"/>
@@ -68,7 +70,7 @@
         <entity file="entity/swamp/Talisment.xml" tx="159.0" ty="85.0"/>
         <entity file="entity/swamp/Life.xml" tx="156.5" ty="87.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="45.5" ty="23.0">
-            <patrol sh="0.3" amplitude="160" jump="0"/>
+            <patrol sh="0.3" amplitude="160"/>
         </entity>
         <entity file="entity/swamp/TurningAuto.xml" tx="52.0" ty="23.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="46.0" ty="19.0"/>
@@ -125,7 +127,9 @@
         <entity file="entity/swamp/Beetle.xml" tx="230.0" ty="12.0">
             <patrol sv="1.0" amplitude="80" animOffset="12"/>
         </entity>
-        <entity file="entity/swamp/Sheet.xml" tx="233.0" ty="17.0" mirror="true"/>
+        <entity file="entity/swamp/Sheet.xml" tx="233.0" ty="17.0">
+            <model mirror="true"/>
+        </entity>
         <entity file="entity/swamp/Beetle.xml" tx="243.0" ty="4.0">
             <patrol sv="0.6" amplitude="36" animOffset="12"/>
         </entity>
@@ -140,7 +144,9 @@
         </entity>
         <entity file="entity/swamp/TurningHit.xml" tx="248.0" ty="21.0"/>
         <entity file="entity/swamp/TurningAuto.xml" tx="281.0" ty="17.0"/>
-        <entity file="entity/swamp/Sheet.xml" tx="276.0" ty="17.0" mirror="true"/>
+        <entity file="entity/swamp/Sheet.xml" tx="276.0" ty="17.0">
+            <model mirror="true"/>
+        </entity>
         <entity file="entity/swamp/Beetle.xml" tx="276.0" ty="5.0">
             <patrol sv="0.5" amplitude="160" animOffset="12"/>
         </entity>
@@ -343,7 +349,8 @@
         <entity file="entity/swamp/Bee.xml" tx="193.0" ty="12.0">
             <patrol sh="-1.0" sv="-0.5" amplitude="64"/>
         </entity>
-        <entity file="entity/swamp/Bee.xml" tx="218.0" ty="14.0" mirror="true">
+        <entity file="entity/swamp/Bee.xml" tx="218.0" ty="14.0">
+            <model mirror="true"/>
             <patrol proximity="0"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="243.0" ty="12.0">
@@ -352,13 +359,16 @@
         <entity file="entity/swamp/Dino.xml" tx="258.0" ty="25.0">
             <patrol sh="-0.5"/>
         </entity>
-        <entity file="entity/swamp/Bee.xml" tx="298.0" ty="17.0" mirror="true">
+        <entity file="entity/swamp/Bee.xml" tx="298.0" ty="17.0">
+            <model mirror="true"/>
             <patrol sh="-1.0" sv="0.5" proximity="96"/>
         </entity>
-        <entity file="entity/swamp/Bee.xml" tx="304.0" ty="14.0" mirror="true">
+        <entity file="entity/swamp/Bee.xml" tx="304.0" ty="14.0">
+            <model mirror="true"/>
             <patrol sh="-1.0" sv="0.5" proximity="96"/>
         </entity>
-        <entity file="entity/swamp/Bee.xml" tx="310.0" ty="11.0" mirror="true">
+        <entity file="entity/swamp/Bee.xml" tx="310.0" ty="11.0">
+            <model mirror="true"/>
             <patrol sh="-1.0" sv="0.5" proximity="96"/>
         </entity>
         <entity file="entity/swamp/Flower.xml" tx="423.5" ty="48.0"/>
@@ -385,7 +395,8 @@
         <entity file="entity/swamp/Crawling.xml" tx="345.0" ty="71.0">
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
-        <entity file="entity/swamp/Bee.xml" tx="396.0" ty="68.0" mirror="true">
+        <entity file="entity/swamp/Bee.xml" tx="396.0" ty="68.0">
+            <model mirror="true"/>
             <patrol proximity="0"/>
         </entity>
     </entities>

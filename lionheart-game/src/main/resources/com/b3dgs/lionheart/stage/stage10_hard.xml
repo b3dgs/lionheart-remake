@@ -143,19 +143,24 @@
         <entity file="entity/secret/Talisment.xml" tx="295.0" ty="65.0"/>
         <entity file="entity/secret/Talisment.xml" tx="294.0" ty="65.0"/>
         <entity file="entity/secret/Talisment.xml" tx="293.0" ty="65.0"/>
-        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="51.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="51.0">
+            <model mirror="true"/>
             <patrol sh="-1.0" sv="-0.8" proximity="96"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="44.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="44.0">
+            <model mirror="true"/>
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="40.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="40.0">
+            <model mirror="true"/>
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="36.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="25.0" ty="36.0">
+            <model mirror="true"/>
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="32.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="31.0" ty="32.0">
+            <model mirror="true"/>
             <patrol sh="0.0" sv="0.0" proximity="0"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="27.0" ty="25.0">
@@ -185,10 +190,12 @@
         <entity file="entity/secret/Rotating2.xml" tx="76.0" ty="13.0">
             <rotating extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="5" speed="-2.0"/>
         </entity>
-        <entity file="entity/secret/Crawling.xml" tx="89.0" ty="10.0" jump="5">
+        <entity file="entity/secret/Crawling.xml" tx="89.0" ty="10.0">
+            <jumper tick="5"/>
             <patrol sh="0.4" amplitude="240"/>
         </entity>
-        <entity file="entity/secret/Crawling.xml" tx="104.0" ty="8.0" jump="5">
+        <entity file="entity/secret/Crawling.xml" tx="104.0" ty="8.0">
+            <jumper tick="5"/>
             <patrol sh="-0.4" amplitude="160"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="112.0" ty="16.0">
@@ -248,10 +255,12 @@
         <entity file="entity/secret/Spike2.xml" tx="226.0" ty="35.0">
             <spike delay="10"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="217.0" ty="48.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="217.0" ty="48.0">
+            <model mirror="true"/>
             <patrol sh="0.8" amplitude="176"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="230.0" ty="48.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="230.0" ty="48.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" amplitude="176"/>
         </entity>
         <entity file="entity/secret/Bird.xml" tx="218.0" ty="56.0">
@@ -275,16 +284,20 @@
         <entity file="entity/secret/Crawling.xml" tx="255.0" ty="66.0">
             <patrol sh="-0.4" amplitude="80"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="261.0" ty="60.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="261.0" ty="60.0">
+            <model mirror="true"/>
             <patrol sv="0.7" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="263.0" ty="57.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="263.0" ty="57.0">
+            <model mirror="true"/>
             <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="265.0" ty="54.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="265.0" ty="54.0">
+            <model mirror="true"/>
             <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="267.0" ty="51.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="267.0" ty="51.0">
+            <model mirror="true"/>
             <patrol sv="0.6" amplitude="48" mirror="false"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="281.0" ty="42.0">
@@ -309,10 +322,12 @@
         <entity file="entity/secret/Rotating1.xml" tx="277.0" ty="70.0">
             <rotating extremity="entity/secret/SpikeBowl.xml" ring="entity/secret/Ring.xml" length="3" speed="2.0"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="23.0" ty="51.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="23.0" ty="51.0">
+            <model mirror="true"/>
             <patrol sh="-1.0" sv="-0.8" proximity="96"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="21.0" ty="51.0" mirror="true">
+        <entity file="entity/secret/Ghost1.xml" tx="21.0" ty="51.0">
+            <model mirror="true"/>
             <patrol sh="-1.0" sv="-0.8" proximity="96"/>
         </entity>
         <entity file="entity/secret/Canon.xml" tx="104.0" ty="8.0">

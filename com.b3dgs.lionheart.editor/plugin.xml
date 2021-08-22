@@ -98,6 +98,20 @@
             properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.jumper.JumperPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.jumper.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.jumper.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.model.ModelPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.model.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.model.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -225,6 +239,34 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.part.properties.dragon1.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.jumper.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.jumper.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.jumper.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.jumper.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.model.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.model.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.model.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.model.tester.disable">
          </test>
       </definition>
    </extension>

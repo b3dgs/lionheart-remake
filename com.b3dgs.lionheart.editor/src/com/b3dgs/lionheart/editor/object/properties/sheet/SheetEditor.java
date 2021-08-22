@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.SheetConfig;
 public class SheetEditor extends EditorAbstract<SheetConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "sheet-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "sheet.png");
 
     private Button hide;
 

@@ -121,14 +121,18 @@
         <entity file="entity/lava/Platform.xml" tx="384.0" ty="4.0"/>
         <entity file="entity/lava/Talisment.xml" tx="386.0" ty="3.0"/>
         <entity file="entity/lava/Talisment.xml" tx="387.0" ty="3.0"/>
-        <entity file="entity/lava/FloaterCube.xml" tx="414.0" ty="4.0" mirror="false"/>
+        <entity file="entity/lava/FloaterCube.xml" tx="414.0" ty="4.0">
+            <model mirror="false"/>
+        </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="435.0" ty="2.0">
             <hotfireball delay="60" count="5" level="0" vx="0.0" vy="3.0"/>
         </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="437.0" ty="2.0">
             <hotfireball delay="70" count="5" level="0" vx="0.0" vy="5.0"/>
         </entity>
-        <entity file="entity/lava/FloaterCube.xml" tx="442.0" ty="10.0" mirror="false"/>
+        <entity file="entity/lava/FloaterCube.xml" tx="442.0" ty="10.0">
+            <model mirror="false"/>
+        </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="448.0" ty="2.0">
             <hotfireball delay="50" count="5" level="0" vx="0.0" vy="3.0"/>
         </entity>
@@ -145,7 +149,9 @@
         <entity file="entity/lava/MeltingPlatform.xml" tx="480.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="481.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="479.0" ty="9.0"/>
-        <entity file="entity/lava/FloaterCube.xml" tx="482.0" ty="9.0" mirror="false"/>
+        <entity file="entity/lava/FloaterCube.xml" tx="482.0" ty="9.0">
+            <model mirror="false"/>
+        </entity>
         <entity file="entity/lava/MeltingPlatform.xml" tx="484.0" ty="13.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="487.0" ty="13.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="488.0" ty="2.0"/>
@@ -163,7 +169,9 @@
         <entity file="entity/lava/HotFireBall.xml" tx="540.0" ty="3.0">
             <hotfireball delay="60" count="5" level="0" vx="0.0" vy="4.0"/>
         </entity>
-        <entity file="entity/lava/FloaterCube.xml" tx="546.0" ty="5.0" mirror="false"/>
+        <entity file="entity/lava/FloaterCube.xml" tx="546.0" ty="5.0">
+            <model mirror="false"/>
+        </entity>
         <entity file="entity/lava/HotFireBall.xml" tx="556.0" ty="14.0">
             <hotfireball delay="4" count="5" level="0" vx="0.0" vy="1.0"/>
         </entity>
@@ -178,9 +186,13 @@
         <entity file="entity/lava/FireBallMedium.xml" tx="592.0" ty="20.0"/>
         <entity file="entity/lava/FireBallMedium.xml" tx="599.0" ty="18.0"/>
         <entity file="entity/lava/FireBallBig.xml" tx="619.0" ty="8.0"/>
-        <entity file="entity/lava/FloaterCube.xml" tx="596.0" ty="4.0" mirror="false"/>
+        <entity file="entity/lava/FloaterCube.xml" tx="596.0" ty="4.0">
+            <model mirror="false"/>
+        </entity>
         <entity file="entity/lava/MeltingPlatform.xml" tx="628.0" ty="4.0"/>
-        <entity file="entity/lava/FloaterCube.xml" tx="634.0" ty="5.0" mirror="false"/>
+        <entity file="entity/lava/FloaterCube.xml" tx="634.0" ty="5.0">
+            <model mirror="false"/>
+        </entity>
         <entity file="entity/lava/MeltingPlatform.xml" tx="647.0" ty="19.0"/>
         <entity file="entity/lava/FireBallBig.xml" tx="651.0" ty="19.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="652.0" ty="19.0"/>

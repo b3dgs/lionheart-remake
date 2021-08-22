@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.LaserAirshipConfig;
 public class LaserAirshipEditor extends EditorAbstract<LaserAirshipConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "laserairship-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "laserairship.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
     private TextWidget fire;

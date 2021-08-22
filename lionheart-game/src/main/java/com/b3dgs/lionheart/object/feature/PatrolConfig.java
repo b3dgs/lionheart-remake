@@ -286,7 +286,12 @@ public final class PatrolConfig implements XmlSaver
         sv.ifPresent(v -> node.writeDouble(ATT_VY, v));
         amplitude.ifPresent(v -> node.writeInteger(ATT_AMPLITUDE, v));
         offset.ifPresent(v -> node.writeInteger(ATT_OFFSET, v));
-        mirror.ifPresent(v -> node.writeBoolean(ATT_MIRROR, v.booleanValue()));
+
+        final boolean m = mirror.orElse(Boolean.TRUE).booleanValue();
+        if (!m)
+        {
+            node.writeBoolean(ATT_MIRROR, m);
+        }
         coll.ifPresent(v -> node.writeBoolean(ATT_COLL, v.booleanValue()));
         proximity.ifPresent(v -> node.writeInteger(ATT_PROXIMITY, v));
         animOffset.ifPresent(v -> node.writeInteger(ATT_ANIMOFFSET, v));

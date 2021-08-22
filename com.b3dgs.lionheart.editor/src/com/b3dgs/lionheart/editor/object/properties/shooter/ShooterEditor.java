@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.object.feature.ShooterConfig;
 public class ShooterEditor extends EditorAbstract<ShooterConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "shooter-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "shooter.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 

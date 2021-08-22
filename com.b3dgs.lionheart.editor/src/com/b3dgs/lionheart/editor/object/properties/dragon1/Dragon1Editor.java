@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.Dragon1Config;
 public class Dragon1Editor extends EditorAbstract<Dragon1Config>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "dragon1-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "dragon1.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
     private TextWidget firedCount;

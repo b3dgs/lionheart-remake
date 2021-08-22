@@ -60,7 +60,7 @@ public final class Dragon1Config implements XmlSaver
     /**
      * Create config.
      * 
-     * @param root The root configuration (must not be null).
+     * @param root The root configuration (must not be <code>null</code>).
      */
     public Dragon1Config(XmlReader root)
     {

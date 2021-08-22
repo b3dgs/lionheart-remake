@@ -38,7 +38,7 @@ import com.b3dgs.lionheart.object.feature.PatrolConfig;
 public class PatrolEditor extends EditorAbstract<PatrolConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "patrol.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
@@ -86,7 +86,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         sv.set(Constant.EMPTY_STRING);
         amplitude.set(Constant.EMPTY_STRING);
         offset.set(Constant.EMPTY_STRING);
-        mirror.setSelection(false);
+        mirror.setSelection(true);
         coll.setSelection(false);
         proximity.set(Constant.EMPTY_STRING);
         animOffset.set(Constant.EMPTY_STRING);
@@ -97,7 +97,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         config.getSv().ifPresent(sv::set);
         config.getAmplitude().ifPresent(amplitude::set);
         config.getOffset().ifPresent(offset::set);
-        config.getMirror().ifPresent(b -> mirror.setSelection(b.booleanValue()));
+        mirror.setSelection(config.getMirror().orElse(Boolean.TRUE).booleanValue());
         config.getColl().ifPresent(b -> coll.setSelection(b.booleanValue()));
         config.getProximity().ifPresent(proximity::set);
         config.getAnimOffset().ifPresent(animOffset::set);
@@ -121,7 +121,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
                                               sv.getValueDouble(),
                                               amplitude.getValue(),
                                               offset.getValue(),
-                                              get(mirror),
+                                              mirror.getSelection() ? Optional.empty() : Optional.of(Boolean.FALSE),
                                               get(coll),
                                               proximity.getValue(),
                                               animOffset.getValue(),

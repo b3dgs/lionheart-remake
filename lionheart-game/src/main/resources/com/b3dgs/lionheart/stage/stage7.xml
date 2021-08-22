@@ -146,7 +146,8 @@
         <entity file="entity/ancienttown/Rotating2.xml" tx="238.0" ty="25.0">
             <rotating amplitude="70" back="200" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="239.0" ty="32.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="239.0" ty="32.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="0.0" proximity="48"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="237.0" ty="39.0">
@@ -173,13 +174,16 @@
         <entity file="entity/ancienttown/Canon2.xml" tx="278.0" ty="52.0">
             <shooter fireDelay="200" firedDelay="0" svx="0.8" svy="1.5" dvy="0.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="287.0" ty="46.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="287.0" ty="46.0">
+            <model mirror="true"/>
             <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="291.0" ty="44.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="291.0" ty="44.0">
+            <model mirror="true"/>
             <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="295.0" ty="42.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="295.0" ty="42.0">
+            <model mirror="true"/>
             <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="302.0" ty="35.0">
@@ -188,19 +192,22 @@
         <entity file="entity/ancienttown/Rotating1.xml" tx="317.0" ty="33.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="318.0" ty="39.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="318.0" ty="39.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="327.0" ty="28.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="328.0" ty="34.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="328.0" ty="34.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="337.0" ty="23.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="338.0" ty="29.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="338.0" ty="29.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="378.0" ty="10.0">

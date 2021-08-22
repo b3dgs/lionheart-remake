@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.object.feature.RotatingConfig;
 public class RotatingEditor extends EditorAbstract<RotatingConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "rotating-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "rotating.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 

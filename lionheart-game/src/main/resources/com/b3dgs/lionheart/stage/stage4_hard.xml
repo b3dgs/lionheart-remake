@@ -152,7 +152,9 @@
         <entity file="entity/spidercave2/Spider1.xml" tx="101.0" ty="61.0">
             <patrol sh="-0.35" amplitude="32"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="108.0" ty="60.0" mirror="true"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="108.0" ty="60.0">
+            <model mirror="true"/>
+        </entity>
         <entity file="entity/spidercave2/Spider1.xml" tx="110.0" ty="67.0">
             <patrol sh="-0.35" amplitude="24"/>
         </entity>
@@ -168,9 +170,15 @@
         <entity file="entity/spidercave2/Spider1.xml" tx="126.0" ty="65.0">
             <patrol sh="-0.7" amplitude="48" offset="48"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="128.5" ty="59.0" mirror="true"/>
-        <entity file="entity/spidercave2/Spider1.xml" tx="131.5" ty="56.0" mirror="true"/>
-        <entity file="entity/spidercave2/Spider1.xml" tx="134.5" ty="53.0" mirror="true"/>
+        <entity file="entity/spidercave2/Spider1.xml" tx="128.5" ty="59.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="131.5" ty="56.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/spidercave2/Spider1.xml" tx="134.5" ty="53.0">
+            <model mirror="true"/>
+        </entity>
         <entity file="entity/spidercave2/Spider1.xml" tx="146.0" ty="48.0"/>
         <entity file="entity/spidercave2/Spider1.xml" tx="146.0" ty="48.0"/>
         <entity file="entity/spidercave2/Spider1.xml" tx="146.0" ty="48.0"/>
@@ -182,13 +190,16 @@
         <entity file="entity/spidercave2/Spider1.xml" tx="161.4" ty="31.0"/>
         <entity file="entity/spidercave2/Spider1.xml" tx="162.0" ty="29.0"/>
         <entity file="boss/spidercave2/Boss.xml" tx="264.0" ty="29.5"/>
-        <entity file="entity/spidercave2/Spider1.xml" tx="58.0" ty="54.0" mirror="true">
+        <entity file="entity/spidercave2/Spider1.xml" tx="58.0" ty="54.0">
+            <model mirror="true"/>
             <spider follow="false"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="59.0" ty="52.0" mirror="true">
+        <entity file="entity/spidercave2/Spider1.xml" tx="59.0" ty="52.0">
+            <model mirror="true"/>
             <spider follow="false"/>
         </entity>
-        <entity file="entity/spidercave2/Spider1.xml" tx="60.0" ty="51.0" mirror="true">
+        <entity file="entity/spidercave2/Spider1.xml" tx="60.0" ty="51.0">
+            <model mirror="true"/>
             <spider follow="false"/>
         </entity>
         <entity file="entity/spidercave2/Spider1.xml" tx="58.0" ty="42.0">

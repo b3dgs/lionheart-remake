@@ -21,7 +21,8 @@
         <checkpoint tx="194" ty="86" next="stage/stage7_hard.xml"/>
     </checkpoints>
     <entities>
-        <entity file="entity/ancienttown/Bee.xml" tx="45.0" ty="14.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="45.0" ty="14.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="0.0" proximity="192"/>
         </entity>
         <entity file="entity/ancienttown/TurningCube.xml" tx="51.0" ty="14.0">
@@ -48,21 +49,31 @@
             <patrol sh="0.0" sv="-1.0" amplitude="80" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="71.0" ty="27.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="71.0" ty="27.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="72.0" ty="27.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="72.0" ty="27.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="70.0" ty="28.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="70.0" ty="28.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="71.0" ty="28.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="71.0" ty="28.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="-0.8" proximity="64"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="75.0" ty="24.0" mirror="true"/>
-        <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="23.0" mirror="true"/>
-        <entity file="entity/ancienttown/Bee.xml" tx="85.0" ty="22.0" mirror="true"/>
+        <entity file="entity/ancienttown/Bee.xml" tx="75.0" ty="24.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="23.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="85.0" ty="22.0">
+            <model mirror="true"/>
+        </entity>
         <entity file="entity/ancienttown/TurningCube.xml" tx="73.0" ty="21.0">
             <patrol sh="1.2" sv="0.0" amplitude="256" mirror="false"/>
             <patrol sh="0.0" sv="0.0" amplitude="-1" mirror="false"/>
@@ -223,10 +234,12 @@
         <entity file="entity/ancienttown/Canon1.xml" tx="72.0" ty="94.0">
             <shooter fireDelay="110" firedDelay="20" anim="1" svx="1.0" svy="4.0" dvy="0.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="94.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="94.0">
+            <model mirror="true"/>
             <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="85.0" ty="96.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="85.0" ty="96.0">
+            <model mirror="true"/>
             <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="101.0" ty="102.0">
@@ -244,7 +257,8 @@
         <entity file="entity/ancienttown/Canon3.xml" tx="173.0" ty="58.0">
             <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="173.0" ty="61.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="173.0" ty="61.0">
+            <model mirror="true"/>
             <patrol sv="-0.8" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="176.0" ty="59.0">

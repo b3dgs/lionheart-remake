@@ -39,8 +39,8 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -55,9 +55,8 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  * </ol>
  */
 @FeatureInterface
-public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, Routine
+public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, Editable<JumperConfig>, Routine
 {
-    private static final String NODE = "jumper";
     private static final String ATT_OFFSET = "offset";
 
     private final Tick jumpStopTick = new Tick();
@@ -77,10 +76,10 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, R
             return jumpPress ? 1.0 : 0.0;
         }
     };
-    private final int offset = setup.getInteger(0, ATT_OFFSET, NODE);
+    private final int offset = setup.getInteger(0, ATT_OFFSET, JumperConfig.NODE_JUMPER);
 
+    private JumperConfig config;
     private DeviceController oldControl;
-    private int jumpTick;
     private double move;
     private boolean jump;
     private boolean jumpPress;
@@ -107,16 +106,6 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, R
     }
 
     /**
-     * Set the jump value.
-     * 
-     * @param jumpTick The jump value.
-     */
-    public void setJump(int jumpTick)
-    {
-        this.jumpTick = jumpTick;
-    }
-
-    /**
      * Check if tile is no ground.
      * 
      * @param side The side to check.
@@ -131,17 +120,29 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, R
     }
 
     @Override
+    public JumperConfig getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    public void setConfig(JumperConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
     public void load(XmlReader root)
     {
-        setJump(root.getInteger(0, EntityConfig.ATT_JUMP));
+        config = new JumperConfig(root);
     }
 
     @Override
     public void save(Xml root)
     {
-        if (jumpTick > 0)
+        if (config != null)
         {
-            root.writeInteger(EntityConfig.ATT_JUMP, jumpTick);
+            config.save(root);
         }
     }
 
@@ -200,7 +201,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, R
         else
         {
             jumpStopTick.update(extrp);
-            if (jumpStopTick.elapsed(jumpTick))
+            if (jumpStopTick.elapsed(config.getTick()))
             {
                 jumpPress = false;
             }

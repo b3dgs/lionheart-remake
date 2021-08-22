@@ -161,10 +161,12 @@
         <entity file="entity/ancienttown/Rotating2.xml" tx="398.0" ty="35.0">
             <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="2.0"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="388.0" ty="42.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="388.0" ty="42.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="398.0" ty="42.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="398.0" ty="42.0">
+            <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="408.0" ty="35.0">
@@ -185,7 +187,8 @@
         <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="464.0" ty="16.0"/>
         <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="466.0" ty="16.0"/>
         <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="468.0" ty="16.0"/>
-        <entity file="entity/ancienttown/Bee.xml" tx="510.0" ty="13.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="510.0" ty="13.0">
+            <model mirror="true"/>
             <patrol sh="-0.8" sv="0.0" proximity="80"/>
         </entity>
         <entity file="entity/ancienttown/Life.xml" tx="526.0" ty="3.0"/>
@@ -212,22 +215,28 @@
         <entity file="entity/ancienttown/Canon3.xml" tx="142.0" ty="49.0">
             <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="165.0" ty="27.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="165.0" ty="27.0">
+            <model mirror="true"/>
             <patrol sv="1.0" amplitude="32" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="210.0" ty="16.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="210.0" ty="16.0">
+            <model mirror="true"/>
             <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="226.0" ty="13.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="226.0" ty="13.0">
+            <model mirror="true"/>
             <patrol proximity="0" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="237.0" ty="13.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="237.0" ty="13.0">
+            <model mirror="true"/>
             <patrol proximity="0" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="253.0" ty="20.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="253.0" ty="20.0">
+            <model mirror="true"/>
             <patrol proximity="0" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="256.0" ty="17.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="256.0" ty="17.0">
+            <model mirror="true"/>
             <patrol proximity="0" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="300.0" ty="51.0">
@@ -248,10 +257,12 @@
         <entity file="entity/ancienttown/Canon3.xml" tx="457.0" ty="15.0">
             <shooter fireDelay="200" firedDelay="0" anim="1" svx="1.2" svy="1.2" track="true"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="491.0" ty="10.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="491.0" ty="10.0">
+            <model mirror="true"/>
             <patrol sv="1.0" amplitude="64" mirror="false"/>
         </entity>
-        <entity file="entity/ancienttown/Bee.xml" tx="501.0" ty="12.0" mirror="true">
+        <entity file="entity/ancienttown/Bee.xml" tx="501.0" ty="12.0">
+            <model mirror="true"/>
             <patrol proximity="0" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="528.0" ty="8.0">

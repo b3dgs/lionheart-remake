@@ -73,16 +73,20 @@ import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.editor.object.properties.dragon1.Dragon1Part;
 import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart;
+import com.b3dgs.lionheart.editor.object.properties.jumper.JumperPart;
 import com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipPart;
+import com.b3dgs.lionheart.editor.object.properties.model.ModelPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
 import com.b3dgs.lionheart.editor.object.properties.sheet.SheetPart;
 import com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart;
 import com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart;
 import com.b3dgs.lionheart.editor.object.properties.spike.SpikePart;
+import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.feature.Dragon1;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
+import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.LaserAirship;
 import com.b3dgs.lionheart.object.feature.Patrols;
 import com.b3dgs.lionheart.object.feature.Sheet;
@@ -165,6 +169,7 @@ public class ApplicationConfiguration
 
         private void handleExtensions()
         {
+            properties.put(EntityModel.class, UtilPart.getPart(ModelPart.ID, ModelPart.class));
             properties.put(Patrols.class, UtilPart.getPart(PatrolPart.ID, PatrolPart.class));
             properties.put(Geyzer.class, UtilPart.getPart(GeyzerPart.ID, GeyzerPart.class));
             properties.put(HotFireBall.class, UtilPart.getPart(HotFireBallPart.ID, HotFireBallPart.class));
@@ -174,12 +179,14 @@ public class ApplicationConfiguration
             properties.put(LaserAirship.class, UtilPart.getPart(LaserAirshipPart.ID, LaserAirshipPart.class));
             properties.put(Sheet.class, UtilPart.getPart(SheetPart.ID, SheetPart.class));
             properties.put(Dragon1.class, UtilPart.getPart(Dragon1Part.ID, Dragon1Part.class));
+            properties.put(Jumper.class, UtilPart.getPart(JumperPart.ID, JumperPart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
 
         private void loadProperties(Transformable featurable)
         {
+            UtilPart.getMPart(ModelPart.ID).setVisible(false);
             UtilPart.getMPart(PatrolPart.ID).setVisible(false);
             UtilPart.getMPart(GeyzerPart.ID).setVisible(false);
             UtilPart.getMPart(HotFireBallPart.ID).setVisible(false);
@@ -189,6 +196,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(LaserAirshipPart.ID).setVisible(false);
             UtilPart.getMPart(SheetPart.ID).setVisible(false);
             UtilPart.getMPart(Dragon1Part.ID).setVisible(false);
+            UtilPart.getMPart(JumperPart.ID).setVisible(false);
 
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
             UtilPart.getPart(WorldPart.ID, WorldPart.class).focus();

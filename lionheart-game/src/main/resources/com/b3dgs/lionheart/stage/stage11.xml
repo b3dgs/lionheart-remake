@@ -208,10 +208,12 @@
         <entity file="entity/airship/Catapult.xml" tx="736.0" ty="21.0">
             <catapult vx="-1.5" vy="6.0"/>
         </entity>
-        <entity file="entity/airship/Catapult.xml" tx="583.0" ty="35.0" mirror="true">
+        <entity file="entity/airship/Catapult.xml" tx="583.0" ty="35.0">
+            <model mirror="true"/>
             <catapult vx="1.5" vy="8.0"/>
         </entity>
-        <entity file="entity/airship/Catapult.xml" tx="660.0" ty="55.0" mirror="true">
+        <entity file="entity/airship/Catapult.xml" tx="660.0" ty="55.0">
+            <model mirror="true"/>
             <catapult vx="1.7" vy="7.5"/>
         </entity>
     </entities>

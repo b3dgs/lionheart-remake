@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.object.feature.GeyzerConfig;
 public class GeyzerEditor extends EditorAbstract<GeyzerConfig>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "geyzer-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "geyzer.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
     private TextWidget first;

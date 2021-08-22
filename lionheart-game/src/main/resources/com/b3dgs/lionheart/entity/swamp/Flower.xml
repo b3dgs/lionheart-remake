@@ -28,7 +28,7 @@
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="3"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/swamp/Bullet.xml" ox="10" oy="0">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
