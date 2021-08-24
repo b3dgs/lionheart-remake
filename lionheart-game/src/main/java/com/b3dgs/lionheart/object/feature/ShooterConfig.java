@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.util.OptionalDouble;
+
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
@@ -58,9 +60,9 @@ public final class ShooterConfig implements XmlSaver
     /** Fire vertical force start. */
     private final double svy;
     /** Fire horizontal force destination. */
-    private final double dvx;
+    private final OptionalDouble dvx;
     /** Fire vertical force destination. */
-    private final double dvy;
+    private final OptionalDouble dvy;
     /** Fire track flag. */
     private final boolean track;
 
@@ -69,7 +71,7 @@ public final class ShooterConfig implements XmlSaver
      */
     public ShooterConfig()
     {
-        this(0, 0, Animation.MINIMUM_FRAME, 0.0, 0.0, 0.0, 0.0, false);
+        this(0, 0, Animation.MINIMUM_FRAME, 0.0, 0.0, OptionalDouble.empty(), OptionalDouble.empty(), false);
     }
 
     /**
@@ -89,8 +91,8 @@ public final class ShooterConfig implements XmlSaver
                          int anim,
                          double svx,
                          double svy,
-                         double dvx,
-                         double dvy,
+                         OptionalDouble dvx,
+                         OptionalDouble dvy,
                          boolean track)
     {
         super();
@@ -122,8 +124,8 @@ public final class ShooterConfig implements XmlSaver
         anim = node.getInteger(0, ATT_ANIM);
         svx = node.getDouble(ATT_SVX);
         svy = node.getDouble(ATT_SVY);
-        dvx = node.getDouble(svx, ATT_DVX);
-        dvy = node.getDouble(svy, ATT_DVY);
+        dvx = node.getDoubleOptional(ATT_DVX);
+        dvy = node.getDoubleOptional(ATT_DVY);
         track = node.getBoolean(false, ATT_TRACK);
     }
 
@@ -182,7 +184,7 @@ public final class ShooterConfig implements XmlSaver
      * 
      * @return The fire horizontal speed destination.
      */
-    public double getDvx()
+    public OptionalDouble getDvx()
     {
         return dvx;
     }
@@ -192,7 +194,7 @@ public final class ShooterConfig implements XmlSaver
      * 
      * @return The fire vertical speed destination.
      */
-    public double getDvy()
+    public OptionalDouble getDvy()
     {
         return dvy;
     }
@@ -216,9 +218,12 @@ public final class ShooterConfig implements XmlSaver
         node.writeInteger(ATT_ANIM, anim);
         node.writeDouble(ATT_SVX, svx);
         node.writeDouble(ATT_SVY, svy);
-        node.writeDouble(ATT_DVX, dvx);
-        node.writeDouble(ATT_DVY, dvy);
-        node.writeBoolean(ATT_TRACK, track);
+        dvx.ifPresent(v -> node.writeDouble(ATT_DVX, v));
+        dvy.ifPresent(v -> node.writeDouble(ATT_DVY, v));
+        if (track)
+        {
+            node.writeBoolean(ATT_TRACK, track);
+        }
     }
 
     private static void add(StringBuilder builder, String name, int value)
@@ -234,6 +239,11 @@ public final class ShooterConfig implements XmlSaver
     private static void add(StringBuilder builder, String name, boolean value)
     {
         builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, OptionalDouble value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
     }
 
     @Override

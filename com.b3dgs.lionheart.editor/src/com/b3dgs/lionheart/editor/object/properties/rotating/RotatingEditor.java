@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.utility.control.UtilButton;
@@ -39,7 +40,9 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     public static final Image ICON = UtilIcon.get("properties", "rotating.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
+    private static final String PATH = InputValidator.PATH_MATCH;
 
+    private TextWidget extremity;
     private TextWidget length;
     private TextWidget speed;
     private TextWidget offset;
@@ -61,16 +64,15 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     @Override
     protected void createFields(Composite parent, RotatingConfig config)
     {
+        extremity = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_EXTREMITY), PATH, true, true);
         length = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_LENGTH), VALIDATOR, true);
-        speed = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_SPEED), VALIDATOR, true);
-        offset = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_OFFSET), VALIDATOR_DOUBLE, true);
-        amplitude = new TextWidget(parent,
-                                   UtilConversion.toTitleCase(RotatingConfig.ATT_AMPLITUDE),
-                                   VALIDATOR_DOUBLE,
-                                   true);
+        speed = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_SPEED), VALIDATOR_DOUBLE, true);
+        offset = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_OFFSET), VALIDATOR, true);
+        amplitude = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_AMPLITUDE), VALIDATOR, true);
         controlled = UtilButton.createCheck(UtilConversion.toTitleCase(RotatingConfig.ATT_CONTROLLED), parent);
-        back = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_BACK), VALIDATOR_DOUBLE, true);
+        back = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_BACK), VALIDATOR, true);
 
+        extremity.set(config.getExtremity());
         length.set(config.getLength());
         speed.set(config.getSpeed());
         offset.set(config.getOffset());
@@ -82,8 +84,7 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     @Override
     protected void onExit()
     {
-        output = Optional.of(new RotatingConfig("",
-                                                "",
+        output = Optional.of(new RotatingConfig(extremity.getValueText().orElse(Constant.EMPTY_STRING),
                                                 length.getValue().orElse(0),
                                                 speed.getValueDouble().orElse(0.0),
                                                 offset.getValue().orElse(0),

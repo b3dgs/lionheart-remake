@@ -6,13 +6,14 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="surface/SpikeBowl.png"/>
+    <lionengine:surface image="SpikeBowl.png"/>
     <lionengine:frames horizontal="1" vertical="1" offsetY="8"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="-1" width="18" height="18" mirror="false"/>
     </lionengine:collisions>
+    <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="3" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>

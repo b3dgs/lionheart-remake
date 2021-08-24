@@ -270,7 +270,8 @@ public final class Shooter extends FeatureModel
                     final double dx = direction.getDirectionHorizontal();
                     final double dy = direction.getDirectionVertical();
                     direction.setDirection(dx * config.getSvx(), dy * config.getSvy());
-                    direction.setDestination(dx * config.getDvx(), dy * config.getDvy());
+                    direction.setDestination(dx * config.getDvx().orElse(config.getSvx()),
+                                             dy * config.getDvy().orElse(config.getSvy()));
                 }
             }
         });

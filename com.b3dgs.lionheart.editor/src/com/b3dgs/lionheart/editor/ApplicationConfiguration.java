@@ -77,6 +77,7 @@ import com.b3dgs.lionheart.editor.object.properties.jumper.JumperPart;
 import com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipPart;
 import com.b3dgs.lionheart.editor.object.properties.model.ModelPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
+import com.b3dgs.lionheart.editor.object.properties.rotating.RotatingPart;
 import com.b3dgs.lionheart.editor.object.properties.sheet.SheetPart;
 import com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart;
 import com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart;
@@ -89,6 +90,7 @@ import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.LaserAirship;
 import com.b3dgs.lionheart.object.feature.Patrols;
+import com.b3dgs.lionheart.object.feature.Rotating;
 import com.b3dgs.lionheart.object.feature.Sheet;
 import com.b3dgs.lionheart.object.feature.Shooter;
 import com.b3dgs.lionheart.object.feature.Spider;
@@ -178,6 +180,7 @@ public class ApplicationConfiguration
             properties.put(Shooter.class, UtilPart.getPart(ShooterPart.ID, ShooterPart.class));
             properties.put(LaserAirship.class, UtilPart.getPart(LaserAirshipPart.ID, LaserAirshipPart.class));
             properties.put(Sheet.class, UtilPart.getPart(SheetPart.ID, SheetPart.class));
+            properties.put(Rotating.class, UtilPart.getPart(RotatingPart.ID, RotatingPart.class));
             properties.put(Dragon1.class, UtilPart.getPart(Dragon1Part.ID, Dragon1Part.class));
             properties.put(Jumper.class, UtilPart.getPart(JumperPart.ID, JumperPart.class));
 
@@ -195,6 +198,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(ShooterPart.ID).setVisible(false);
             UtilPart.getMPart(LaserAirshipPart.ID).setVisible(false);
             UtilPart.getMPart(SheetPart.ID).setVisible(false);
+            UtilPart.getMPart(RotatingPart.ID).setVisible(false);
             UtilPart.getMPart(Dragon1Part.ID).setVisible(false);
             UtilPart.getMPart(JumperPart.ID).setVisible(false);
 

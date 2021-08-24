@@ -37,6 +37,8 @@ public final class Folder
     public static final String HERO = "hero";
     /** Entity folder. */
     public static final String ENTITY = "entity";
+    /** Limb folder. */
+    public static final String LIMB = "limb";
     /** Boss folder. */
     public static final String BOSS = "boss";
     /** Effect folder. */

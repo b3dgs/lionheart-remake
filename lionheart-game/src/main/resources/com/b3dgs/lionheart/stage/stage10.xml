@@ -187,10 +187,10 @@
             <shooter fireDelay="120" firedDelay="0" svx="-1.5" svy="1.5" dvy="0.0"/>
         </entity>
         <entity file="entity/secret/Rotating2.xml" tx="62.0" ty="15.0">
-            <rotating amplitude="90" extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="90" extremity="Platform1.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/secret/Rotating2.xml" tx="76.0" ty="13.0">
-            <rotating extremity="entity/secret/Platform1.xml" ring="entity/secret/Ring.xml" length="5" speed="-2.0"/>
+            <rotating extremity="Platform1.xml" length="5" speed="-2.0"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="89.0" ty="10.0">
             <jumper tick="5"/>
@@ -209,7 +209,7 @@
         <entity file="entity/secret/Ghost2.xml" tx="126.0" ty="29.0"/>
         <entity file="entity/secret/Ghost2.xml" tx="151.0" ty="35.0"/>
         <entity file="entity/secret/Rotating1.xml" tx="151.0" ty="24.0">
-            <rotating amplitude="30" extremity="entity/secret/SpikeBowl.xml" ring="entity/secret/Ring.xml" length="3" speed="0.05"/>
+            <rotating amplitude="30" extremity="SpikeBowl.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/secret/Ghost2.xml" tx="171.0" ty="25.0"/>
         <entity file="entity/secret/Spike1.xml" tx="161.0" ty="15.0">
@@ -322,7 +322,7 @@
         </entity>
         <entity file="entity/secret/Ghost2.xml" tx="282.0" ty="79.0"/>
         <entity file="entity/secret/Rotating1.xml" tx="277.0" ty="70.0">
-            <rotating extremity="entity/secret/SpikeBowl.xml" ring="entity/secret/Ring.xml" length="3" speed="2.0"/>
+            <rotating extremity="SpikeBowl.xml" length="3" speed="2.0"/>
         </entity>
     </entities>
 </stage>

@@ -3,14 +3,19 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="surface/Ring.png"/>
+    <lionengine:surface image="Platform2.png"/>
     <lionengine:frames horizontal="1" vertical="1"/>
-    <lionengine:size width="16" height="16"/>
+    <lionengine:size width="32" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
-    <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
+    <lionengine:collisions>
+        <lionengine:collision name="ground" offsetX="0" offsetY="15" width="30" height="1" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:layerable layerRefresh="2" layerDisplay="7"/>
+    <lionengine:collidable group="3" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

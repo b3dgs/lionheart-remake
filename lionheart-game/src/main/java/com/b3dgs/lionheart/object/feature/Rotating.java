@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -57,6 +58,8 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
 public final class Rotating extends FeatureModel
                             implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
 {
+    private static final String RING = "ring.xml";
+
     private final List<Transformable> rings = new ArrayList<>();
     private final Tick tick = new Tick();
     private final Spawner spawner = services.get(Spawner.class);
@@ -139,12 +142,12 @@ public final class Rotating extends FeatureModel
 
         if (!Settings.isEditor())
         {
+            final String folder = setup.getMedia().getParentPath().replace(Folder.ENTITY, Folder.LIMB);
             for (int i = 0; i < config.getLength(); i++)
             {
-                rings.add(spawner.spawn(Medias.create(config.getRing()), transformable)
-                                 .getFeature(Transformable.class));
+                rings.add(spawner.spawn(Medias.create(folder, RING), transformable).getFeature(Transformable.class));
             }
-            platform = spawner.spawn(Medias.create(config.getExtremity()), transformable)
+            platform = spawner.spawn(Medias.create(folder, config.getExtremity()), transformable)
                               .getFeature(Transformable.class);
 
             if (config.isControlled())

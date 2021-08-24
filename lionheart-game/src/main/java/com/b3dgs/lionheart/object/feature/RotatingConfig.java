@@ -31,8 +31,6 @@ public final class RotatingConfig implements XmlSaver
     public static final String NODE_ROTATING = "rotating";
     /** Extremity attribute name. */
     public static final String ATT_EXTREMITY = "extremity";
-    /** Ring attribute name. */
-    public static final String ATT_RING = "ring";
     /** Length attribute name. */
     public static final String ATT_LENGTH = "length";
     /** Speed attribute name. */
@@ -48,8 +46,6 @@ public final class RotatingConfig implements XmlSaver
 
     /** Extremity reference. */
     private final String extremity;
-    /** Ring reference. */
-    private final String ring;
     /** Length value. */
     private final int length;
     /** Speed value. */
@@ -70,12 +66,11 @@ public final class RotatingConfig implements XmlSaver
     {
         super();
 
-        extremity = "";
-        ring = "";
+        extremity = Constant.EMPTY_STRING;
         length = 4;
-        speed = 1.0;
+        speed = 0.5;
         offset = 0;
-        amplitude = 0;
+        amplitude = 90;
         controlled = false;
         back = -1;
     }
@@ -84,7 +79,6 @@ public final class RotatingConfig implements XmlSaver
      * Create configuration.
      * 
      * @param extremity The extremity object.
-     * @param ring The ring object.
      * @param length The ring length.
      * @param speed The speed value.
      * @param offset The angle offset value.
@@ -93,7 +87,6 @@ public final class RotatingConfig implements XmlSaver
      * @param back The back value.
      */
     public RotatingConfig(String extremity,
-                          String ring,
                           int length,
                           double speed,
                           int offset,
@@ -102,8 +95,8 @@ public final class RotatingConfig implements XmlSaver
                           int back)
     {
         super();
+
         this.extremity = extremity;
-        this.ring = ring;
         this.length = length;
         this.speed = speed;
         this.offset = offset;
@@ -125,7 +118,6 @@ public final class RotatingConfig implements XmlSaver
 
         final XmlReader node = root.getChild(NODE_ROTATING);
         extremity = node.getString(ATT_EXTREMITY);
-        ring = node.getString(ATT_RING);
         length = node.getInteger(4, ATT_LENGTH);
         speed = node.getDouble(1.0, ATT_SPEED);
         offset = node.getInteger(0, ATT_OFFSET);
@@ -142,16 +134,6 @@ public final class RotatingConfig implements XmlSaver
     public String getExtremity()
     {
         return extremity;
-    }
-
-    /**
-     * Get the ring.
-     * 
-     * @return The ring.
-     */
-    public String getRing()
-    {
-        return ring;
     }
 
     /**
@@ -219,13 +201,29 @@ public final class RotatingConfig implements XmlSaver
     {
         final Xml node = root.createChild(NODE_ROTATING);
         node.writeString(ATT_EXTREMITY, extremity);
-        node.writeString(ATT_RING, ring);
         node.writeInteger(ATT_LENGTH, length);
         node.writeDouble(ATT_SPEED, speed);
-        node.writeInteger(ATT_OFFSET, offset);
-        node.writeInteger(ATT_AMPLITUDE, amplitude);
-        node.writeBoolean(ATT_CONTROLLED, controlled);
-        node.writeInteger(ATT_BACK, back);
+        if (offset > 0)
+        {
+            node.writeInteger(ATT_OFFSET, offset);
+        }
+        if (amplitude > 0)
+        {
+            node.writeInteger(ATT_AMPLITUDE, amplitude);
+        }
+        if (controlled)
+        {
+            node.writeBoolean(ATT_CONTROLLED, controlled);
+        }
+        if (back > 0)
+        {
+            node.writeInteger(ATT_BACK, back);
+        }
+    }
+
+    private static void add(StringBuilder builder, String name, String value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
     }
 
     private static void add(StringBuilder builder, String name, int value)
@@ -247,7 +245,8 @@ public final class RotatingConfig implements XmlSaver
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Rotating [");
+        builder.append("Rotating [ ");
+        add(builder, ATT_EXTREMITY, extremity);
         add(builder, ATT_LENGTH, length);
         add(builder, ATT_SPEED, speed);
         add(builder, ATT_OFFSET, offset);

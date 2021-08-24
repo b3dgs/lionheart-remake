@@ -77,8 +77,8 @@ public class ShooterEditor extends EditorAbstract<ShooterConfig>
         anim.set(config.getAnim());
         svx.set(config.getSvx());
         svy.set(config.getSvy());
-        dvx.set(config.getDvx());
-        dvy.set(config.getDvy());
+        config.getDvx().ifPresent(v -> dvx.set(v));
+        config.getDvy().ifPresent(v -> dvy.set(v));
         track.setSelection(config.getTrack());
     }
 
@@ -90,8 +90,8 @@ public class ShooterEditor extends EditorAbstract<ShooterConfig>
                                                anim.getValue().orElse(0),
                                                svx.getValueDouble().orElse(0.0),
                                                svy.getValueDouble().orElse(0.0),
-                                               dvx.getValueDouble().orElse(0.0),
-                                               dvy.getValueDouble().orElse(0.0),
+                                               dvx.getValueDouble(),
+                                               dvy.getValueDouble(),
                                                track.getSelection()));
     }
 }

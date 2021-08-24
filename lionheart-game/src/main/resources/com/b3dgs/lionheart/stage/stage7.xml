@@ -80,20 +80,20 @@
         <entity file="entity/ancienttown/Talisment.xml" tx="99.0" ty="10.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="99.0" ty="11.0"/>
         <entity file="entity/ancienttown/Rotating2.xml" tx="108.0" ty="15.0">
-            <rotating amplitude="30" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="30" extremity="Platform.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="123.0" ty="15.0">
-            <rotating amplitude="30" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="30" extremity="Platform.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Life.xml" tx="123.0" ty="17.0"/>
         <entity file="entity/ancienttown/Rotating2.xml" tx="140.0" ty="14.0">
-            <rotating amplitude="90" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="0.05"/>
+            <rotating amplitude="90" extremity="Platform.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="149.0" ty="14.0">
-            <rotating amplitude="90" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="-0.05"/>
+            <rotating amplitude="90" extremity="Platform.xml" length="3" speed="-0.05"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="162.0" ty="20.0">
-            <rotating amplitude="15" controlled="true" extremity="entity/ancienttown/Platform2.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="146.0" ty="32.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="147.0" ty="32.0"/>
@@ -112,22 +112,22 @@
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="175.0" ty="14.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-2.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-2.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="187.0" ty="14.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-4.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-4.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="205.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="1.5"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="1.5"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="210.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="215.0" ty="19.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="2.5"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="2.5"/>
         </entity>
         <entity file="entity/ancienttown/PotionLittle.xml" tx="213.0" ty="20.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="227.0" ty="19.0"/>
         <entity file="entity/ancienttown/Floater.xml" tx="256.0" ty="3.0"/>
@@ -141,20 +141,20 @@
         <entity file="entity/ancienttown/Life.xml" tx="268.0" ty="12.0"/>
         <entity file="entity/ancienttown/PotionBig.xml" tx="269.0" ty="13.0"/>
         <entity file="entity/ancienttown/Rotating1.xml" tx="248.0" ty="18.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-2.5"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-2.5"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="238.0" ty="25.0">
-            <rotating amplitude="70" back="200" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="70" back="200" extremity="Platform.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="239.0" ty="32.0">
             <model mirror="true"/>
             <patrol sh="-0.8" sv="0.0" proximity="48"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="237.0" ty="39.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="1" speed="-3.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="1" speed="-3.0"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="237.0" ty="39.0">
-            <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="-1.5"/>
+            <rotating extremity="Platform.xml" length="4" speed="-1.5"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="244.0" ty="53.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="243.0" ty="53.0"/>
@@ -187,40 +187,40 @@
             <patrol sh="-0.7" sv="-0.7" amplitude="64"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="302.0" ty="35.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-1.5"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-1.5"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="317.0" ty="33.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="318.0" ty="39.0">
             <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="327.0" ty="28.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="328.0" ty="34.0">
             <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="337.0" ty="23.0">
-            <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
+            <rotating extremity="FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="3" speed="-3.0"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="338.0" ty="29.0">
             <model mirror="true"/>
             <patrol proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="378.0" ty="10.0">
-            <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="-2.3"/>
+            <rotating extremity="Platform.xml" length="3" speed="-2.3"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="387.0" ty="10.0">
-            <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="2.3"/>
+            <rotating extremity="Platform.xml" length="3" speed="2.3"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="396.0" ty="10.0">
-            <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="-2.3"/>
+            <rotating extremity="Platform.xml" length="3" speed="-2.3"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="405.0" ty="10.0">
-            <rotating extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="3" speed="2.3"/>
+            <rotating extremity="Platform.xml" length="3" speed="2.3"/>
         </entity>
         <entity file="entity/ancienttown/PotionLittle.xml" tx="412.0" ty="9.0"/>
         <entity file="entity/ancienttown/Executioner.xml" tx="427.0" ty="15.0">
