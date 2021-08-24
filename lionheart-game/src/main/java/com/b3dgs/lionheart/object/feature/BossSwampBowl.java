@@ -114,7 +114,7 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(com.b3dgs.lionheart.Constant.DEBUG);
+        collidable.setCollisionVisibility(com.b3dgs.lionheart.Constant.DEBUG_COLLISIONS);
     }
 
     @Override

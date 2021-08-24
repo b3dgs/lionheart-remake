@@ -122,7 +122,7 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         body.setGravityMax(Constant.GRAVITY / 2);
         body.setDesiredFps(source.getRate());
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

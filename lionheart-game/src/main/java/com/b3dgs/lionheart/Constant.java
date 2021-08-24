@@ -42,8 +42,10 @@ public final class Constant
     /** Resolution. */
     public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, 60);
 
-    /** Debug flag (shows collisions). */
+    /** Debug flag. */
     public static final boolean DEBUG = false;
+    /** Debug collisions flag. */
+    public static final boolean DEBUG_COLLISIONS = false;
 
     /** Keyboard device. */
     public static final String DEVICE_KEYBOARD = "Keyboard";

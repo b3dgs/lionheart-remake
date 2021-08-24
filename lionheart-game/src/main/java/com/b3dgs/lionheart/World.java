@@ -314,7 +314,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void createMapCollisionDebug()
     {
-        if (Constant.DEBUG)
+        if (Constant.DEBUG_COLLISIONS)
         {
             final MapTileCollisionRenderer renderer = map.addFeatureAndGet(new MapTileCollisionRendererModel());
             renderer.createCollisionDraw();

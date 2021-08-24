@@ -99,7 +99,7 @@ public final class Block extends FeatureModel implements CollidableListener, Rec
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

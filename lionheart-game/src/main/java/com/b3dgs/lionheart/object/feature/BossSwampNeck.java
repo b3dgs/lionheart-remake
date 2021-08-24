@@ -119,7 +119,7 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

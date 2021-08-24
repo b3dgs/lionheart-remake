@@ -158,7 +158,7 @@ public final class EntityModel extends EntityModelHelper
 
         body.setDesiredFps(source.getRate());
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     /**

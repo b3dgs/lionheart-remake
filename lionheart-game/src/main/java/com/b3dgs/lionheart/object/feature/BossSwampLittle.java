@@ -76,7 +76,7 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

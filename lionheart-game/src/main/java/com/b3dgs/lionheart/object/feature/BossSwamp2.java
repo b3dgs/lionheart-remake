@@ -475,7 +475,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
         launcher.addListener(l ->
         {
             final int offset = UtilMath.clamp(getFrameOffset(), 0, 2);

@@ -328,7 +328,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

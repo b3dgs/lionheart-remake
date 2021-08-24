@@ -89,7 +89,7 @@ public final class BossSpidercaveBowl extends FeatureModel implements Routine, R
     {
         super.prepare(provider);
 
-        collidable.setCollisionVisibility(Constant.DEBUG);
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override
