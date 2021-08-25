@@ -47,7 +47,7 @@ public final class ActivityLionheart extends ActivityGame
     {
         ScreenAndroid.setVirtualKeyboard(VirtualKeyboard.class);
         EngineAndroid.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, this);
-        AudioFactory.addFormat(new Sc68Format());
+        AudioFactory.addFormat(Sc68Format.getFailsafe());
 
         final Settings settings = Settings.getInstance();
         AudioFactory.setVolume(settings.getVolumeMaster());
