@@ -173,7 +173,7 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     {
         if (!Settings.isEditor())
         {
-            final Featurable featurable = spawner.spawn(Medias.create(Folder.ENTITY, "ancienttown", "Wall.xml"),
+            final Featurable featurable = spawner.spawn(Medias.create(Folder.LIMB, "ancienttown", "Wall.xml"),
                                                         -100.0,
                                                         -100.0);
             wall = featurable.getFeature(Animatable.class);
