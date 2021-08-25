@@ -126,6 +126,31 @@ public final class Launcher
     private static final Border BORDER_SPLASH = BorderFactory.createEmptyBorder(10, 10, 10, 10);
     private static final Border BORDER = BorderFactory.createEmptyBorder(3, 10, 3, 10);
 
+    private static void load()
+    {
+        final Settings settings = Settings.getInstance();
+
+        final java.awt.DisplayMode display = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                                .getDefaultScreenDevice()
+                                                                .getDisplayMode();
+        final int width = settings.getResolution().getWidth();
+        final int height = settings.getResolution().getHeight();
+        final double ratio = width / (double) height;
+        SCALE.set(UtilMath.clamp(height / Constant.RESOLUTION.getHeight(), 0, AVAILABLE_SCALE.length - 1));
+        for (int i = 0; i < RATIO_VALUE.length; i++)
+        {
+            if (Math.abs(RATIO_VALUE[i] - ratio) < 0.01)
+            {
+                RATIO.set(i);
+                break;
+            }
+        }
+        FULLSCREEN.set(display.getWidth() == width && display.getHeight() == height);
+        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        FLAG.set(UtilMath.clamp(settings.getFlag(), 0, ImageLoadStrategy.values().length));
+    }
+
     /**
      * Main function.
      * 
@@ -147,11 +172,7 @@ public final class Launcher
         final Gamepad gamepad = new Gamepad();
 
         setThemeSystem();
-
-        final Settings settings = Settings.getInstance();
-        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
-        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
-        FLAG.set(UtilMath.clamp(settings.getFlag(), 0, ImageLoadStrategy.values().length));
+        load();
 
         final JFrame frame = createFrame();
 
@@ -218,6 +239,8 @@ public final class Launcher
         final JComboBox<Integer> combo = new JComboBox<>(AVAILABLE_SCALE);
         combo.setFont(FONT);
         combo.addItemListener(e -> SCALE.set(combo.getSelectedIndex()));
+        combo.setEnabled(!FULLSCREEN.get());
+        combo.setSelectedIndex(SCALE.get());
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -237,6 +260,8 @@ public final class Launcher
         final JComboBox<String> combo = new JComboBox<>(AVAILABLE_RATIO);
         combo.setFont(FONT);
         combo.addItemListener(e -> RATIO.set(combo.getSelectedIndex()));
+        combo.setEnabled(!FULLSCREEN.get());
+        combo.setSelectedIndex(RATIO.get());
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -553,6 +578,7 @@ public final class Launcher
         {
             Verbose.exception(exception);
         }
+        Settings.load();
     }
 
     private static void writeFormatted(FileWriter output, String[] data, int value) throws IOException
