@@ -96,7 +96,7 @@ public final class TakeableConfig
      * @param sword The sword level (between 0 and {@link Constant#STATS_MAX_SWORD} excluded).
      * @param amulet The amulet flag.
      */
-    private TakeableConfig(Media effect, String sfx, int health, int talisment, int life, int sword, boolean amulet)
+    public TakeableConfig(Media effect, String sfx, int health, int talisment, int life, int sword, boolean amulet)
     {
         super();
 

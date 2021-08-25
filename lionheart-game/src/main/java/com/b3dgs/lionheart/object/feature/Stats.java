@@ -110,6 +110,15 @@ public final class Stats extends FeatureModel implements Recyclable
     }
 
     /**
+     * Set max heart.
+     */
+    public void maxHeart()
+    {
+        health.setMax(Constant.STATS_MAX_HEART);
+        fillHealth();
+    }
+
+    /**
      * Apply config.
      * 
      * @param config The config to apply.

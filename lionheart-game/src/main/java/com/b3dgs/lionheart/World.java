@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.Cursor;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
@@ -67,6 +68,7 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DevicePointer;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
@@ -78,6 +80,7 @@ import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
+import com.b3dgs.lionheart.object.feature.TakeableConfig;
 import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.feature.Underwater;
 import com.b3dgs.lionheart.object.state.StateCrouch;
@@ -93,8 +96,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Hud hud = services.create(Hud.class);
     private final ScreenShaker shaker = services.create(ScreenShaker.class);
     private final DeviceController device;
+    private final DeviceController deviceCursor;
+    private final Cursor cursor;
 
     private final Tick tick = new Tick();
+    private final List<CheatMenu> menus = new ArrayList<>();
 
     private final ExecutorService executor = Executors.newFixedThreadPool(5);
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
@@ -108,6 +114,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private Difficulty difficulty;
     private boolean paused;
     private boolean cheats;
+    private boolean cheatsMenu;
     private boolean fly;
 
     /**
@@ -122,6 +129,56 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
+
+        final Media mediaCursor = Medias.create("input_cursor.xml");
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
+        cursor = services.create(Cursor.class);
+        cursor.setArea(0, 0, camera.getWidth(), camera.getHeight());
+        cursor.setViewer(camera);
+        cursor.setVisible(false);
+        cursor.setSync((DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
+                                                                            .iterator()
+                                                                            .next()
+                                                                            .getDevice()));
+        cursor.setInputDevice(deviceCursor);
+        cursor.addImage(0, Medias.create(Folder.SPRITE, "cursor.png"));
+        cursor.load();
+
+        final CheatMenu maxHeart = new CheatMenu(services,
+                                                 60,
+                                                 "Max Heart",
+                                                 () -> player.getFeature(Stats.class).maxHeart());
+        final CheatMenu maxLife = new CheatMenu(services,
+                                                60,
+                                                "Max Life",
+                                                () -> player.getFeature(Stats.class)
+                                                            .apply(new TakeableConfig(null, null, 0, 0, 99, 0, false)));
+        final CheatMenu freeFly = new CheatMenu(services, 60, "Fly", () ->
+        {
+            cheats = true;
+            fly = !fly;
+            unlockPlayer(fly);
+            cursor.setVisible(false);
+        });
+
+        final CheatMenu[] stages = new CheatMenu[14];
+        for (int i = 0; i < stages.length; i++)
+        {
+            final int index = i;
+            stages[i] = new CheatMenu(services,
+                                      16,
+                                      String.valueOf(i + 1),
+                                      () -> sequencer.end(SceneBlack.class,
+                                                          Util.getStage(difficulty, index),
+                                                          getInitConfig(Optional.empty())));
+        }
+
+        final CheatMenu stage = new CheatMenu(services, 60, "Stage", null, stages);
+        menus.add(maxHeart);
+        menus.add(maxLife);
+        menus.add(freeFly);
+        menus.add(stage);
 
         services.add((CheatsProvider) () -> cheats);
         services.add(new MusicPlayer()
@@ -492,7 +549,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Update cheats activation.
      */
-    private void updateCheats()
+    private void updateCheatsOriginal()
     {
         if (paused && device.isFired(DeviceMapping.CTRL_LEFT))
         {
@@ -518,6 +575,34 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     /**
+     * Update cheats activation with menu.
+     */
+    private void updateCheatsMenu()
+    {
+        if (cheatsMenu)
+        {
+            if (cursor.isPushedOnce(DeviceMapping.LEFT.getIndex()))
+            {
+                cheatsMenu = false;
+                for (int i = 0; i < menus.size(); i++)
+                {
+                    menus.get(i).hide();
+                }
+            }
+        }
+        else if (cursor.isPushedOnce(DeviceMapping.RIGHT.getIndex()))
+        {
+            cheatsMenu = true;
+            cursor.setLocation(4, 16);
+            cursor.setVisible(true);
+            for (int i = 0; i < menus.size(); i++)
+            {
+                menus.get(i).spawn(cursor.getScreenX(), cursor.getScreenY() + i * (menus.get(i).getHeight() + 1));
+            }
+        }
+    }
+
+    /**
      * Update fly mode cheat.
      */
     private void updateCheatsFly()
@@ -530,10 +615,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
             unlockPlayer(fly);
         }
-        if (fly)
+        if (fly && !cheatsMenu)
         {
             player.getFeature(Transformable.class)
-                  .moveLocation(1.0, device.getHorizontalDirection(), device.getVerticalDirection());
+                  .moveLocation(1.0, deviceCursor.getHorizontalDirection(), deviceCursor.getVerticalDirection());
         }
     }
 
@@ -863,9 +948,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     public void update(double extrp)
     {
         device.update(extrp);
+        deviceCursor.update(extrp);
+        cursor.update(extrp);
         updatePause();
         updateQuit();
-        updateCheats();
+        updateCheatsOriginal();
+        updateCheatsMenu();
 
         if (!paused)
         {
@@ -881,6 +969,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
         }
         hud.update(extrp);
+
+        for (int i = 0; i < menus.size(); i++)
+        {
+            menus.get(i).update(extrp);
+        }
     }
 
     @Override
@@ -890,6 +983,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         super.render(g);
         landscape.renderForeground(g);
         hud.render(g);
+
+        for (int i = 0; i < menus.size(); i++)
+        {
+            menus.get(i).render(g);
+        }
+        cursor.render(g);
     }
 
     @Override
