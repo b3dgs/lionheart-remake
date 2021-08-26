@@ -56,15 +56,19 @@ public class CheckpointRenderer implements WorldRenderListener
     {
         final ColorRgba old = g.getColor();
         g.setColor(COLOR_CHECKPOINT);
+        final Origin origin = Origin.BOTTOM_LEFT;
 
         for (final Checkpoint checkpoint : checkpoints)
         {
-            g.drawRect(camera,
-                       Origin.BOTTOM_LEFT,
-                       checkpoint.getTx() * map.getTileWidth(),
-                       checkpoint.getTy() * map.getTileHeight(),
-                       map.getTileWidth(),
-                       map.getTileHeight(),
+            final double x = camera.getViewpointX(origin.getX(checkpoint.getTx() * map.getTileWidth(),
+                                                              map.getTileWidth()));
+            final double y = camera.getViewpointY(origin.getY(checkpoint.getTy() * map.getTileHeight(),
+                                                              -map.getTileHeight()));
+
+            g.drawRect((int) (x * scale),
+                       (int) (y * scale),
+                       (int) (map.getTileWidth() * scale),
+                       (int) (map.getTileHeight() * scale),
                        true);
         }
         g.setColor(old);
