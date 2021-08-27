@@ -57,4 +57,5 @@
     <stats health="2"/>
     <hurtable frame="1" effect="effect/swamp/ExplodeBig.xml" backward="0.7"/>
     <shade horizontal="1" vertical="1"/>
+    <patrol sh="-0.6"/>
 </lionengine:featurable>

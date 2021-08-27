@@ -46,4 +46,6 @@
     <stats health="1"/>
     <hurtable fall="true" effect="effect/swamp/ExplodeBig.xml"/>
     <shade horizontal="2" vertical="1"/>
+    <patrol amplitude="64" mirror="false" sv="0.7"/>
+    <patrol amplitude="64" mirror="false" sv="-0.7"/>
 </lionengine:featurable>

@@ -6,7 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="surface/SpikeBowl.png"/>
+    <lionengine:surface image="SpikeBowl.png"/>
     <lionengine:frames horizontal="1" vertical="1" offsetY="8"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
