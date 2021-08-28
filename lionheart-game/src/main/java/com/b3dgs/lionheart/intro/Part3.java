@@ -130,6 +130,7 @@ public class Part3 extends Sequence
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
+    private final DeviceController deviceCursor;
 
     private Updatable updaterValdyn = this::updateValdynInit;
     private Updatable updaterCamera = this::updateCameraInit;
@@ -161,6 +162,10 @@ public class Part3 extends Sequence
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
+
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
         info = new AppInfo(this::getFps, services);
 
         load(Part4.class, time, audio);
@@ -406,7 +411,7 @@ public class Part3 extends Sequence
      */
     private void updateSkip(double extrp)
     {
-        skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT);
+        skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT);
         if (time.isAfter(TIME_FADE_OUT_MS) || skip)
         {
             updaterFade = this::updateFadeOut;
@@ -518,6 +523,8 @@ public class Part3 extends Sequence
     @Override
     public void update(double extrp)
     {
+        device.update(extrp);
+        deviceCursor.update(extrp);
         time.update(extrp);
         valdyn.update(extrp);
         dragon1.update(extrp);

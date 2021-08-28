@@ -68,8 +68,7 @@ public class Scene extends SequenceGame<World>
         this.exit = exit;
         music = StageConfig.imports(new Configurer(stage)).getMusic();
         services.add(init.getDifficulty());
-
-        setSystemCursorVisible(false);
+        setSystemCursorVisible(true);
     }
 
     @Override

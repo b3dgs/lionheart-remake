@@ -123,6 +123,8 @@ public final class Constant
     public static final String INPUT_FILE_DEFAULT = "input.xml";
     /** Input custom. */
     public static final String INPUT_FILE_CUSTOM = "input_custom.xml";
+    /** Input cursor. */
+    public static final String INPUT_FILE_CUSTOR = "input_cursor.xml";
 
     /** Minimum zoom. */
     public static final double ZOOM_MIN = 0.8;

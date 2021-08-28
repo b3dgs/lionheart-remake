@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
@@ -65,6 +66,7 @@ public class Part4 extends Sequence
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
+    private final DeviceController deviceCursor;
 
     private Updatable updater = this::updateInit;
     private Renderable rendererFade = this::renderFade;
@@ -90,6 +92,10 @@ public class Part4 extends Sequence
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
+
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
         info = new AppInfo(this::getFps, services);
 
         setSystemCursorVisible(false);
@@ -206,7 +212,7 @@ public class Part4 extends Sequence
      */
     private void checkSkip()
     {
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
         {
             updater = this::updateFadeOut;
             rendererFade = this::renderFade;
@@ -233,6 +239,8 @@ public class Part4 extends Sequence
     @Override
     public void update(double extrp)
     {
+        device.update(extrp);
+        deviceCursor.update(extrp);
         time.update(extrp);
         updater.update(extrp);
         info.update(extrp);

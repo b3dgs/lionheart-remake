@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.intro;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Updatable;
@@ -65,6 +66,7 @@ public class Intro extends Sequence
     private final Part2 part2 = new Part2(time, getWidth(), getHeight());
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
     private final AppInfo info;
+    private final DeviceController deviceCursor;
 
     private Updatable updaterFade = this::updateFadeIn;
     private Updatable updaterPart = this::updatePart1;
@@ -91,6 +93,10 @@ public class Intro extends Sequence
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
         device.setVisible(false);
+
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
         info = new AppInfo(this::getFps, services);
 
         audio.setVolume(Settings.getInstance().getVolumeMusic());
@@ -135,7 +141,7 @@ public class Intro extends Sequence
      */
     private void updateSkip(double extrp)
     {
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
         {
             alphaSpeed = SPEED_FADE_OUT;
             updaterFade = this::updateFadeOut;
@@ -246,6 +252,7 @@ public class Intro extends Sequence
     {
         time.update(extrp);
         device.update(extrp);
+        deviceCursor.update(extrp);
         updaterFade.update(extrp);
         updaterPart.update(extrp);
         info.update(extrp);

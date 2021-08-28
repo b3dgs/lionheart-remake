@@ -30,6 +30,8 @@ import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.Cursor;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -43,6 +45,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DevicePointer;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -69,7 +72,7 @@ public class Continue extends Sequence
     private static final int INDEX_CREDITS = 3;
 
     private static final int TEXT_TIME_Y = 96;
-    private static final int TEXT_VALUE_Y = 96;
+    private static final int TEXT_VALUE_Y = 120;
     private static final int TEXT_CREDITS_Y = 244;
 
     private static final int TIME_MAX_MILLI = 20_000;
@@ -115,6 +118,8 @@ public class Continue extends Sequence
     private final Timing timeLeft = new Timing();
     private final Media stage;
     private final InitConfig init;
+    private final DeviceController deviceCursor;
+    private final Cursor cursor;
 
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
@@ -143,6 +148,27 @@ public class Continue extends Sequence
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
         device.setVisible(false);
+
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
+        final Camera camera = services.create(Camera.class);
+        camera.setView(0, 0, getWidth(), getHeight(), getHeight());
+
+        cursor = services.create(Cursor.class);
+        cursor.setViewer(camera);
+        cursor.setSensibility(getWidth() / (double) Constant.RESOLUTION.getWidth(),
+                              getHeight() / (double) Constant.RESOLUTION.getHeight());
+        cursor.setArea(0, 0, getWidth(), getHeight());
+        cursor.setSync((DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
+                                                                            .iterator()
+                                                                            .next()
+                                                                            .getDevice()));
+        cursor.setInputDevice(deviceCursor);
+        cursor.addImage(0, Medias.create(Folder.SPRITE, "cursor.png"));
+        cursor.setRenderingOffset(-2, -2);
+        cursor.load();
+
         info = new AppInfo(this::getFps, services);
 
         mainY = (getHeight() + MAIN_Y_OFFSET) / 2;
@@ -155,6 +181,8 @@ public class Continue extends Sequence
         valdyn.setLocation(CENTER_X * factorH, mainY + VALDYN_OFFSET_Y);
 
         data = create();
+
+        setSystemCursorVisible(false);
 
         timeLeft.start();
     }
@@ -250,6 +278,18 @@ public class Continue extends Sequence
         }
     }
 
+    private int getCursorChoice()
+    {
+        for (int i = 0; i < data.choices.length; i++)
+        {
+            if (data.choices[i].isOver(cursor))
+            {
+                return i;
+            }
+        }
+        return choice;
+    }
+
     /**
      * Update the navigation.
      */
@@ -259,18 +299,29 @@ public class Continue extends Sequence
         if (device.isFiredOnce(DeviceMapping.LEFT))
         {
             choice--;
+            cursor.setVisible(false);
+            cursor.setLocation(0, 0);
         }
         if (device.isFiredOnce(DeviceMapping.RIGHT))
         {
             choice++;
+            cursor.setVisible(false);
+            cursor.setLocation(0, 0);
         }
+        if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
+        {
+            cursor.setVisible(true);
+        }
+        choice = getCursorChoice();
         choice = UtilMath.clamp(choice, 0, data.choiceMax);
         if (choiceOld != choice)
         {
             Sfx.MENU_SELECT.play();
         }
         // Accept choice
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || timeLeft.elapsed() > TIME_MAX_MILLI)
+        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
+            || deviceCursor.isFiredOnce(DeviceMapping.LEFT)
+            || timeLeft.elapsed() > TIME_MAX_MILLI)
         {
             if (timeLeft.elapsed() > TIME_MAX_MILLI)
             {
@@ -354,6 +405,8 @@ public class Continue extends Sequence
     {
         tick.update(extrp);
         device.update(extrp);
+        deviceCursor.update(extrp);
+        cursor.update(extrp);
         valdyn.update(extrp);
 
         updateTransition(extrp);
@@ -370,6 +423,7 @@ public class Continue extends Sequence
         renderTransition(g);
 
         info.render(g);
+        cursor.render(g);
     }
 
     @Override

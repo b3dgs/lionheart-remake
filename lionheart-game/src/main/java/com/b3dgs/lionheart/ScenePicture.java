@@ -66,6 +66,7 @@ public final class ScenePicture extends Sequence
     private final InitConfig init;
     private final Sprite picture;
     private final DeviceController device;
+    private final DeviceController deviceCursor;
     private final AppInfo info;
     private final Boolean auto;
 
@@ -118,6 +119,10 @@ public final class ScenePicture extends Sequence
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
+
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
         info = new AppInfo(this::getFps, services);
 
         picture = Drawable.loadSprite(pic);
@@ -193,7 +198,9 @@ public final class ScenePicture extends Sequence
             }
             tick.start();
         }
-        else if (auto.booleanValue() || device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+        else if (auto.booleanValue()
+                 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
+                 || deviceCursor.isFiredOnce(DeviceMapping.LEFT.getIndex()))
         {
             speed = -speed;
             showPush = false;
@@ -227,6 +234,9 @@ public final class ScenePicture extends Sequence
     @Override
     public void update(double extrp)
     {
+        device.update(extrp);
+        deviceCursor.update(extrp);
+
         updatePicture();
         updateText();
         updatePushButton(extrp);

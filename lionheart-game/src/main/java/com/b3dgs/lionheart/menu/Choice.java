@@ -17,6 +17,8 @@
 package com.b3dgs.lionheart.menu;
 
 import com.b3dgs.lionengine.Align;
+import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.game.Cursor;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.Text;
@@ -93,6 +95,36 @@ final class Choice implements Renderable
     public int getY()
     {
         return y;
+    }
+
+    /**
+     * Check if over.
+     * 
+     * @param cursor The cursor reference.
+     * @return <code>true</code> if over, <code>false</code> else.
+     */
+    public boolean isOver(Cursor cursor)
+    {
+        final int x1;
+        final int x2;
+
+        if (Align.LEFT == align)
+        {
+            x1 = x;
+            x2 = x + 200;
+        }
+        else if (Align.RIGHT == align)
+        {
+            x1 = x - 200;
+            x2 = x;
+        }
+        else
+        {
+            x1 = x - 100;
+            x2 = x + 100;
+        }
+
+        return UtilMath.isBetween(cursor.getScreenX(), x1, x2) && UtilMath.isBetween(cursor.getScreenY(), y, y + 20);
     }
 
     @Override

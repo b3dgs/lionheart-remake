@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Updatable;
@@ -88,6 +89,7 @@ public class Credits extends Sequence
     private final boolean alternative;
     private final int count;
     private final Text lastText;
+    private final DeviceController deviceCursor;
 
     private Updatable updater = this::updateFadeIn;
     private Renderable rendererText = RenderableVoid.getInstance();
@@ -129,6 +131,9 @@ public class Credits extends Sequence
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
         device.setVisible(false);
+
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
 
         loadTextLines();
         count = texts.size();
@@ -262,7 +267,7 @@ public class Credits extends Sequence
                 text.setLocation(text.getLocationX(), text.getLocationY() - SCROLL_SPEED);
             }
         }
-        else if (device.isFired(DeviceMapping.CTRL_RIGHT))
+        else if (device.isFired(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
         {
             updater = this::updateFadeOut;
             rendererFade = this::renderFade;
@@ -326,6 +331,8 @@ public class Credits extends Sequence
     @Override
     public void update(double extrp)
     {
+        device.update(extrp);
+        deviceCursor.update(extrp);
         time.update(extrp);
         updater.update(extrp);
 

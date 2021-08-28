@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.function.BooleanSupplier;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Surface;
@@ -43,6 +45,7 @@ public class CheatMenu implements Routine, Surface
     private final Text text;
     private final Action action;
     private final CheatMenu[] sub;
+    private final BooleanSupplier isPressed;
 
     private boolean spawned;
     private boolean hover;
@@ -52,15 +55,22 @@ public class CheatMenu implements Routine, Surface
      * Create menu.
      * 
      * @param services The services reference.
+     * @param isPressed The pressed checker.
      * @param width The button width.
      * @param text The text value.
      * @param action The action to run.
      * @param sub The sub menus.
      */
-    public CheatMenu(Services services, int width, String text, Action action, CheatMenu... sub)
+    public CheatMenu(Services services,
+                     BooleanSupplier isPressed,
+                     int width,
+                     String text,
+                     Action action,
+                     CheatMenu... sub)
     {
         super();
 
+        this.isPressed = isPressed;
         this.action = action;
         this.sub = sub;
 
@@ -83,6 +93,10 @@ public class CheatMenu implements Routine, Surface
         text.setAlign(Align.CENTER);
         text.setLocation(x + area.getWidth() / 2 + 1, y + 4);
         spawned = true;
+        for (int i = 0; i < sub.length; i++)
+        {
+            sub[i].hide();
+        }
     }
 
     /**
@@ -116,7 +130,7 @@ public class CheatMenu implements Routine, Surface
             {
                 hover = true;
             }
-            if (cursor.isPushed(DeviceMapping.LEFT.getIndex()))
+            if (isPressed.getAsBoolean())
             {
                 if (inside)
                 {
