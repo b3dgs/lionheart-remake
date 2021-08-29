@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.android;
 
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.android.Mouse;
 import com.b3dgs.lionengine.android.VirtualDeviceButton;
 import com.b3dgs.lionengine.geom.Rectangle;
@@ -74,6 +75,10 @@ public final class VirtualKeyboard extends VirtualDeviceButton
     /** K5 key. */
     private static final Integer K5 = Integer.valueOf(23);
 
+    private static final int X = 310;
+    private static final int Y = 130;
+    private static final int SIZE = 30;
+
     /**
      * Create updater.
      *
@@ -83,47 +88,27 @@ public final class VirtualKeyboard extends VirtualDeviceButton
     {
         super(pointer);
 
-        addButton(new Rectangle(310, 120, 28, 28), LEFT, "<");
-        addButton(new Rectangle(340, 120, 28, 28), RIGHT, ">");
-        addButton(new Rectangle(310, 150, 58, 28), DOWN, "\\/");
+        addButton(X - SIZE, Y - SIZE, LEFT, Medias.create("button", "up_left.png"));
+        addButton(X - SIZE, Y - SIZE, UP, Medias.create("button", "up_left.png"));
 
-        addButton(new Rectangle(1, 124, 28, 28), UP, "J");
-        addButton(new Rectangle(1, 154, 28, 28), CONTROL, "F");
+        addButton(X, Y - SIZE, UP, Medias.create("button", "up.png"));
 
-        addButton(new Rectangle(1, 193, 17, 14), PAUSE, "P");
-        addButton(new Rectangle(20, 193, 17, 14), CTRL_LEFT, "C");
-        addButton(new Rectangle(39, 193, 17, 14), TAB, "T");
-        addButton(new Rectangle(58, 193, 17, 14), PAGE_DOWN, "D");
-        addButton(new Rectangle(77, 193, 17, 14), F1, "1");
-        addButton(new Rectangle(96, 193, 17, 14), F2, "2");
-        addButton(new Rectangle(115, 193, 17, 14), F3, "3");
-        addButton(new Rectangle(134, 193, 17, 14), F4, "4");
-        addButton(new Rectangle(153, 193, 17, 14), F5, "5");
-        addButton(new Rectangle(172, 193, 17, 14), F6, "6");
-        addButton(new Rectangle(191, 193, 17, 14), F7, "7");
-        addButton(new Rectangle(210, 193, 17, 14), F8, "8");
-        addButton(new Rectangle(229, 193, 17, 14), F9, "9");
-        addButton(new Rectangle(248, 193, 17, 14), F10, "10");
-        addButton(new Rectangle(267, 193, 17, 14), K1, "11");
-        addButton(new Rectangle(286, 193, 17, 14), K2, "12");
-        addButton(new Rectangle(305, 193, 17, 14), K3, "13");
-        addButton(new Rectangle(324, 193, 17, 14), K4, "14");
-        addButton(new Rectangle(343, 193, 17, 14), K5, "15");
-    }
+        addButton(X + SIZE, Y - SIZE, RIGHT, Medias.create("button", "up_right.png"));
+        addButton(X + SIZE, Y - SIZE, UP, Medias.create("button", "up_right.png"));
 
-    @Override
-    public boolean isPushed(Integer key)
-    {
-        final boolean result = super.isPushed(key);
-        if (!result && !isVisible())
-        {
-            if (pointer.getPushed() == 1
-                    && (UP.equals(key) && pointer.getY() <= 100 || DOWN.equals(key) && pointer.getY() > 260)
-                    || pointer.getPushed() == 2 && CONTROL.equals(key))
-            {
-                return true;
-            }
-        }
-        return result;
+        addButton(X - SIZE, Y, LEFT, Medias.create("button", "left.png"));
+
+        addButton(X + SIZE, Y, RIGHT, Medias.create("button", "right.png"));
+
+        addButton(X - SIZE, Y + SIZE, LEFT, Medias.create("button", "down_left.png"));
+        addButton(X - SIZE, Y + SIZE, DOWN, Medias.create("button", "down_left.png"));
+
+        addButton(X, Y + SIZE, DOWN, Medias.create("button", "down.png"));
+
+        addButton(X + SIZE, Y + SIZE, RIGHT, Medias.create("button", "down_right.png"));
+        addButton(X + SIZE, Y + SIZE, DOWN, Medias.create("button", "down_right.png"));
+
+        addButton(1, Y - SIZE / 2, UP, Medias.create("button", "1.png"));
+        addButton(1, Y + SIZE / 2, CONTROL, Medias.create("button", "2.png"));
     }
 }
