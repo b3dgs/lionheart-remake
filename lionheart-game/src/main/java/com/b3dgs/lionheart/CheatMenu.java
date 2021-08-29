@@ -74,10 +74,10 @@ public class CheatMenu implements Routine, Surface
         this.action = action;
         this.sub = sub;
 
-        this.text = Graphics.createText(Constant.FONT_DIALOG, 11, TextStyle.NORMAL);
+        this.text = Graphics.createText(Constant.FONT_DIALOG, 13, TextStyle.NORMAL);
         this.text.setText(text);
 
-        area = new Rectangle(0, 0, width, 14);
+        area = new Rectangle(0, 0, width, 16);
         cursor = services.get(Cursor.class);
     }
 
@@ -138,9 +138,18 @@ public class CheatMenu implements Routine, Surface
                     {
                         action.execute();
                     }
+                    int x = 0;
+                    int y = 0;
                     for (int i = 0; i < sub.length; i++)
                     {
-                        sub[i].spawn(area.getX() + area.getWidth() + sub[i].getWidth() * i + 1, area.getY() + 1);
+                        sub[i].spawn(area.getX() + area.getWidth() + sub[i].getWidth() * x + 1,
+                                     area.getY() + area.getHeight() * y + 1);
+                        x++;
+                        if (x > 6)
+                        {
+                            x = 0;
+                            y++;
+                        }
                     }
                     hide();
                 }

@@ -68,7 +68,8 @@ public class Scene extends SequenceGame<World>
         this.exit = exit;
         music = StageConfig.imports(new Configurer(stage)).getMusic();
         services.add(init.getDifficulty());
-        setSystemCursorVisible(true);
+
+        setSystemCursorVisible(false);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class Scene extends SequenceGame<World>
 
         Sfx.cacheEnd();
         world.playMusic(music);
+        setSystemCursorVisible(true);
     }
 
     @Override
