@@ -45,4 +45,6 @@
     <stats health="1"/>
     <hurtable fall="true" effect="effect/ancienttown/ExplodeBig.xml"/>
     <shade horizontal="2" vertical="1"/>
+    <model mirror="true"/>
+    <patrol amplitude="48" mirror="false" sv="0.7"/>
 </lionengine:featurable>

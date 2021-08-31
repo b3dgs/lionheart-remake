@@ -48,6 +48,11 @@ public final class Patrols extends FeatureModel implements XmlLoader, XmlSaver
     public Patrols(Services services, Setup setup)
     {
         super(services, setup);
+
+        if (setup.hasNode(PatrolConfig.NODE_PATROL))
+        {
+            load(setup.getRoot());
+        }
     }
 
     /**
@@ -86,10 +91,13 @@ public final class Patrols extends FeatureModel implements XmlLoader, XmlSaver
     {
         Check.notNull(root);
 
-        patrols.clear();
-        for (final XmlReader node : root.getChildren(PatrolConfig.NODE_PATROL))
+        if (root.hasNode(PatrolConfig.NODE_PATROL))
         {
-            patrols.add(new PatrolConfig(node));
+            patrols.clear();
+            for (final XmlReader node : root.getChildren(PatrolConfig.NODE_PATROL))
+            {
+                patrols.add(new PatrolConfig(node));
+            }
         }
     }
 

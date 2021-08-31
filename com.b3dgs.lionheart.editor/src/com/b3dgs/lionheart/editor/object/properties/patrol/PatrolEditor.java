@@ -39,7 +39,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("properties", "patrol.png");
-    private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_MATCH;
+    private static final String VALIDATOR = InputValidator.INTEGER_MATCH;
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
     private TextWidget sh;

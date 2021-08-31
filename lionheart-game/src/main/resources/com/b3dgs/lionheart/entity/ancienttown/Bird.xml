@@ -31,5 +31,6 @@
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="-1" persist="true"/>
     <shade horizontal="5" vertical="4"/>
+    <patrol amplitude="48" mirror="false" sv="0.7"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

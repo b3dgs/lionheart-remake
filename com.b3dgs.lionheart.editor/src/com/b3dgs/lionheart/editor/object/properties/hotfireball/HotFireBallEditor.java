@@ -36,6 +36,7 @@ public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("properties", "hotfireball.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
+    private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
     private TextWidget delay;
     private TextWidget count;
@@ -60,8 +61,8 @@ public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
         delay = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY), VALIDATOR, true);
         count = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_COUNT), VALIDATOR, true);
         level = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_LEVEL), VALIDATOR, true);
-        vx = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VX), VALIDATOR, true);
-        vy = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VY), VALIDATOR, true);
+        vx = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VX), VALIDATOR_DOUBLE, true);
+        vy = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VY), VALIDATOR_DOUBLE, true);
 
         delay.set(config.getDelay());
         count.set(config.getCount());
@@ -76,7 +77,7 @@ public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
         output = Optional.of(new HotFireBallConfig(delay.getValue().orElse(0),
                                                    count.getValue().orElse(0),
                                                    level.getValue().orElse(0),
-                                                   vx.getValue().orElse(0),
-                                                   vy.getValue().orElse(0)));
+                                                   vx.getValueDouble().orElse(0),
+                                                   vy.getValueDouble().orElse(0)));
     }
 }

@@ -102,6 +102,7 @@ public final class EntityModel extends EntityModelHelper
     private final Spawner spawner = services.get(Spawner.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
+    private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
     private final int frames;
 
     private ModelConfig config;
@@ -377,7 +378,7 @@ public final class EntityModel extends EntityModelHelper
     public void load(XmlReader root)
     {
         config = new ModelConfig(root);
-        mirrorable.mirror(config.getMirror() ? Mirror.HORIZONTAL : Mirror.NONE);
+        mirrorable.mirror(config.getMirror().orElse(mirror).booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
 
         final Optional<Coord> nextSpawn;

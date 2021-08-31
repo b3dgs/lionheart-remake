@@ -36,4 +36,5 @@
     <stats health="3"/>
     <hurtable frame="1" effect="effect/ancienttown/ExplodeBig.xml"/>
     <shade horizontal="1" vertical="1"/>
+    <shooter fireDelay="150" firedDelay="20" anim="1" svx="1.5" svy="3.0" dvy="0.0"/>
 </lionengine:featurable>

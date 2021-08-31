@@ -42,6 +42,7 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
     private static final String PATH = InputValidator.PATH_MATCH;
 
+    private TextWidget ring;
     private TextWidget extremity;
     private TextWidget length;
     private TextWidget speed;
@@ -64,6 +65,7 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     @Override
     protected void createFields(Composite parent, RotatingConfig config)
     {
+        ring = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_RING), PATH, true, true);
         extremity = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_EXTREMITY), PATH, true, true);
         length = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_LENGTH), VALIDATOR, true);
         speed = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_SPEED), VALIDATOR_DOUBLE, true);
@@ -72,6 +74,7 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
         controlled = UtilButton.createCheck(UtilConversion.toTitleCase(RotatingConfig.ATT_CONTROLLED), parent);
         back = new TextWidget(parent, UtilConversion.toTitleCase(RotatingConfig.ATT_BACK), VALIDATOR, true);
 
+        ring.set(config.getRing());
         extremity.set(config.getExtremity());
         length.set(config.getLength());
         speed.set(config.getSpeed());
@@ -84,7 +87,8 @@ public class RotatingEditor extends EditorAbstract<RotatingConfig>
     @Override
     protected void onExit()
     {
-        output = Optional.of(new RotatingConfig(extremity.getValueText().orElse(Constant.EMPTY_STRING),
+        output = Optional.of(new RotatingConfig(ring.getValueText().orElse(Constant.EMPTY_STRING),
+                                                extremity.getValueText().orElse(Constant.EMPTY_STRING),
                                                 length.getValue().orElse(0),
                                                 speed.getValueDouble().orElse(0.0),
                                                 offset.getValue().orElse(0),

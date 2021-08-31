@@ -62,4 +62,5 @@
     <hurtable effect="effect/tower/ExplodeBig.xml"/>
     <jumper offset="-2"/>
     <shade horizontal="4" vertical="4"/>
+    <patrol amplitude="48" sh="0.4"/>
 </lionengine:featurable>

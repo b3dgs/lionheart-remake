@@ -71,5 +71,4 @@
     <hurtable effect="effect/swamp/ExplodeBig.xml"/>
     <shade horizontal="4" vertical="4"/>
     <patrol amplitude="48" sh="0.4"/>
-    <patrol amplitude="48" sh="-0.4"/>
 </lionengine:featurable>

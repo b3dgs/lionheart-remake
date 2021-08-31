@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
@@ -32,7 +34,7 @@ public final class ModelConfig implements XmlSaver
     public static final String ATT_MIRROR = "mirror";
 
     /** Mirror flag. */
-    private final boolean mirror;
+    private final Optional<Boolean> mirror;
 
     /**
      * Create blank configuration.
@@ -41,7 +43,7 @@ public final class ModelConfig implements XmlSaver
     {
         super();
 
-        mirror = false;
+        mirror = Optional.empty();
     }
 
     /**
@@ -53,7 +55,7 @@ public final class ModelConfig implements XmlSaver
     {
         super();
 
-        this.mirror = mirror;
+        this.mirror = Optional.of(Boolean.valueOf(mirror));
     }
 
     /**
@@ -67,7 +69,7 @@ public final class ModelConfig implements XmlSaver
 
         Check.notNull(root);
 
-        mirror = root.getBoolean(false, ATT_MIRROR, NODE_MODEL);
+        mirror = root.getBooleanOptional(ATT_MIRROR, NODE_MODEL);
     }
 
     /**
@@ -75,7 +77,7 @@ public final class ModelConfig implements XmlSaver
      * 
      * @return The mirror flag.
      */
-    public boolean getMirror()
+    public Optional<Boolean> getMirror()
     {
         return mirror;
     }
@@ -83,16 +85,16 @@ public final class ModelConfig implements XmlSaver
     @Override
     public void save(Xml root)
     {
-        if (mirror)
+        mirror.ifPresent(m ->
         {
             final Xml node = root.createChild(NODE_MODEL);
-            node.writeBoolean(ATT_MIRROR, mirror);
-        }
+            node.writeBoolean(ATT_MIRROR, m.booleanValue());
+        });
     }
 
-    private static void add(StringBuilder builder, String name, boolean value)
+    private static void add(StringBuilder builder, String name, Optional<Boolean> value)
     {
-        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
     }
 
     @Override

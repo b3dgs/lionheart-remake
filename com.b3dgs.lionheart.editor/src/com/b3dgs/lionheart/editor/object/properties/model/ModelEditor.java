@@ -55,7 +55,7 @@ public class ModelEditor extends EditorAbstract<ModelConfig>
     {
         mirror = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_MIRROR), parent);
 
-        mirror.setSelection(config.getMirror());
+        mirror.setSelection(config.getMirror().orElse(Boolean.FALSE).booleanValue());
     }
 
     @Override

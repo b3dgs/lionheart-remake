@@ -69,6 +69,11 @@ public final class HotFireBall extends FeatureModel
     public HotFireBall(Services services, Setup setup)
     {
         super(services, setup);
+
+        if (setup.hasNode(HotFireBallConfig.NODE_HOTFIREBALL))
+        {
+            config = new HotFireBallConfig(setup.getRoot());
+        }
     }
 
     @Override
@@ -86,7 +91,10 @@ public final class HotFireBall extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
-        config = new HotFireBallConfig(root);
+        if (root.hasNode(HotFireBallConfig.NODE_HOTFIREBALL))
+        {
+            config = new HotFireBallConfig(root);
+        }
         launcher.setLevel(config.getLevel());
         tick.set(config.getDelay() / 2);
     }

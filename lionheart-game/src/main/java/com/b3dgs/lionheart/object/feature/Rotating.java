@@ -58,8 +58,6 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
 public final class Rotating extends FeatureModel
                             implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
 {
-    private static final String RING = "ring.xml";
-
     private final List<Transformable> rings = new ArrayList<>();
     private final Tick tick = new Tick();
     private final Spawner spawner = services.get(Spawner.class);
@@ -99,6 +97,10 @@ public final class Rotating extends FeatureModel
         {
             target = null;
         }
+        if (setup.hasNode(RotatingConfig.NODE_ROTATING))
+        {
+            config = new RotatingConfig(setup.getRoot());
+        }
     }
 
     /**
@@ -124,7 +126,10 @@ public final class Rotating extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
-        config = new RotatingConfig(root);
+        if (root.hasNode(RotatingConfig.NODE_ROTATING))
+        {
+            config = new RotatingConfig(root);
+        }
         rings.stream().map(r -> r.getFeature(Identifiable.class)).forEach(Identifiable::destroy);
         rings.clear();
 
@@ -145,7 +150,8 @@ public final class Rotating extends FeatureModel
             final String folder = setup.getMedia().getParentPath().replace(Folder.ENTITY, Folder.LIMB);
             for (int i = 0; i < config.getLength(); i++)
             {
-                rings.add(spawner.spawn(Medias.create(folder, RING), transformable).getFeature(Transformable.class));
+                rings.add(spawner.spawn(Medias.create(folder, config.getRing()), transformable)
+                                 .getFeature(Transformable.class));
             }
             platform = spawner.spawn(Medias.create(folder, config.getExtremity()), transformable)
                               .getFeature(Transformable.class);

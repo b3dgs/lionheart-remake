@@ -35,7 +35,7 @@ public class LaserAirshipEditor extends EditorAbstract<LaserAirshipConfig>
 {
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("properties", "laserairship.png");
-    private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
+    private static final String VALIDATOR = InputValidator.INTEGER_MATCH;
 
     private TextWidget fire;
     private TextWidget stay;

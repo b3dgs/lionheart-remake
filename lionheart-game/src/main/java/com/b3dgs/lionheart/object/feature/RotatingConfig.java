@@ -29,6 +29,8 @@ public final class RotatingConfig implements XmlSaver
 {
     /** Rotating node name. */
     public static final String NODE_ROTATING = "rotating";
+    /** Ring node name. */
+    public static final String ATT_RING = "ring";
     /** Extremity attribute name. */
     public static final String ATT_EXTREMITY = "extremity";
     /** Length attribute name. */
@@ -44,6 +46,10 @@ public final class RotatingConfig implements XmlSaver
     /** Back attribute name. */
     public static final String ATT_BACK = "back";
 
+    private static final String DEFAULT_RING = "ring.xml";
+
+    /** Ring reference. */
+    private final String ring;
     /** Extremity reference. */
     private final String extremity;
     /** Length value. */
@@ -66,6 +72,7 @@ public final class RotatingConfig implements XmlSaver
     {
         super();
 
+        ring = Constant.EMPTY_STRING;
         extremity = Constant.EMPTY_STRING;
         length = 4;
         speed = 0.5;
@@ -78,6 +85,7 @@ public final class RotatingConfig implements XmlSaver
     /**
      * Create configuration.
      * 
+     * @param ring The ring object.
      * @param extremity The extremity object.
      * @param length The ring length.
      * @param speed The speed value.
@@ -86,7 +94,8 @@ public final class RotatingConfig implements XmlSaver
      * @param controlled The controlled flag.
      * @param back The back value.
      */
-    public RotatingConfig(String extremity,
+    public RotatingConfig(String ring,
+                          String extremity,
                           int length,
                           double speed,
                           int offset,
@@ -96,6 +105,7 @@ public final class RotatingConfig implements XmlSaver
     {
         super();
 
+        this.ring = ring;
         this.extremity = extremity;
         this.length = length;
         this.speed = speed;
@@ -117,6 +127,7 @@ public final class RotatingConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_ROTATING);
+        ring = node.getStringDefault(DEFAULT_RING, ATT_RING);
         extremity = node.getString(ATT_EXTREMITY);
         length = node.getInteger(4, ATT_LENGTH);
         speed = node.getDouble(1.0, ATT_SPEED);
@@ -124,6 +135,16 @@ public final class RotatingConfig implements XmlSaver
         amplitude = node.getInteger(0, ATT_AMPLITUDE);
         controlled = node.getBoolean(false, ATT_CONTROLLED);
         back = node.getInteger(-1, ATT_BACK);
+    }
+
+    /**
+     * Get the ring.
+     * 
+     * @return The ring.
+     */
+    public String getRing()
+    {
+        return ring;
     }
 
     /**
@@ -200,6 +221,10 @@ public final class RotatingConfig implements XmlSaver
     public void save(Xml root)
     {
         final Xml node = root.createChild(NODE_ROTATING);
+        if (!DEFAULT_RING.equals(ring))
+        {
+            node.writeString(ATT_RING, ring);
+        }
         node.writeString(ATT_EXTREMITY, extremity);
         node.writeInteger(ATT_LENGTH, length);
         node.writeDouble(ATT_SPEED, speed);
@@ -246,6 +271,7 @@ public final class RotatingConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Rotating [ ");
+        add(builder, ATT_RING, ring);
         add(builder, ATT_EXTREMITY, extremity);
         add(builder, ATT_LENGTH, length);
         add(builder, ATT_SPEED, speed);
