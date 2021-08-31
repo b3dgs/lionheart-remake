@@ -28,4 +28,12 @@
         <lionengine:fire index="K4" positive="22" negative="21"/>
         <lionengine:fire index="K5" positive="23" negative="23"/>
     </lionengine:device>
+    <lionengine:device class="com.b3dgs.lionengine.android.Gamepad">
+        <lionengine:horizontal positive="2" negative="1"/>
+        <lionengine:vertical positive="0" negative="3"/>
+        <lionengine:fire index="UP" positive="97" negative="97"/>
+        <lionengine:fire index="CTRL_RIGHT" positive="96" negative="96"/>
+        <lionengine:fire index="PAUSE" positive="100" negative="100"/>
+        <lionengine:fire index="QUIT" positive="99" negative="99"/>
+    </lionengine:device>
 </lionengine:input>
