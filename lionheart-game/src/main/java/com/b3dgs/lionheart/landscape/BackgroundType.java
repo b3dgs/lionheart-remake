@@ -41,6 +41,8 @@ public enum BackgroundType
     ANCIENTTOWN_DAWN(WorldType.ANCIENTTOWN, ThemeType.DAWN),
     /** Ancient Town day. */
     ANCIENTTOWN_DAY(WorldType.ANCIENTTOWN, ThemeType.DAY),
+    /** Ancient Town cold. */
+    ANCIENTTOWN_COLD(WorldType.ANCIENTTOWN, ThemeType.COLD),
     /** Lava. */
     LAVA(WorldType.LAVA, ThemeType.LAVA),
     /** Secret. */
