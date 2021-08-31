@@ -36,7 +36,7 @@ import com.b3dgs.lionheart.editor.object.properties.EditorAbstract;
 public class CheckpointEditor extends EditorAbstract<Checkpoint>
 {
     /** Dialog icon. */
-    public static final Image ICON = UtilIcon.get("dialog", "patrol-edit.png");
+    public static final Image ICON = UtilIcon.get("properties", "checkpoint.png");
     /** Must match a path. */
     public static final String PATH_MATCH = "[a-zA-z0-9-/]+";
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
