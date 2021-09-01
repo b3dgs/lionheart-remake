@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
+import com.b3dgs.lionengine.geom.Coord;
 
 /**
  * Entity model configuration.
@@ -32,9 +33,17 @@ public final class ModelConfig implements XmlSaver
     public static final String NODE_MODEL = "model";
     /** Mirror attribute name. */
     public static final String ATT_MIRROR = "mirror";
+    /** Next attribute name. */
+    public static final String ATT_NEXT = "next";
+    /** Spawn tile x attribute name. */
+    public static final String ATT_SPAWN_TX = "stx";
+    /** Spawn tile y attribute name. */
+    public static final String ATT_SPAWN_TY = "sty";
 
     /** Mirror flag. */
     private final Optional<Boolean> mirror;
+    private final Optional<String> next;
+    private final Optional<Coord> nextSpawn;
 
     /**
      * Create blank configuration.
@@ -44,18 +53,24 @@ public final class ModelConfig implements XmlSaver
         super();
 
         mirror = Optional.empty();
+        next = Optional.empty();
+        nextSpawn = Optional.empty();
     }
 
     /**
      * Create configuration.
      * 
      * @param mirror The mirror flag.
+     * @param next The next stage.
+     * @param nextSpawn The next spawn coord.
      */
-    public ModelConfig(boolean mirror)
+    public ModelConfig(boolean mirror, Optional<String> next, Optional<Coord> nextSpawn)
     {
         super();
 
         this.mirror = Optional.of(Boolean.valueOf(mirror));
+        this.next = next;
+        this.nextSpawn = nextSpawn;
     }
 
     /**
@@ -70,6 +85,16 @@ public final class ModelConfig implements XmlSaver
         Check.notNull(root);
 
         mirror = root.getBooleanOptional(ATT_MIRROR, NODE_MODEL);
+        next = root.getStringOptional(ATT_NEXT, NODE_MODEL);
+        if (root.hasAttribute(ATT_SPAWN_TX, NODE_MODEL) && root.hasAttribute(ATT_SPAWN_TY, NODE_MODEL))
+        {
+            nextSpawn = Optional.of(new Coord(root.getDouble(ATT_SPAWN_TX, NODE_MODEL),
+                                              root.getDouble(ATT_SPAWN_TY, NODE_MODEL)));
+        }
+        else
+        {
+            nextSpawn = Optional.empty();
+        }
     }
 
     /**
@@ -82,19 +107,58 @@ public final class ModelConfig implements XmlSaver
         return mirror;
     }
 
+    /**
+     * Get next stage.
+     * 
+     * @return The next stage.
+     */
+    public Optional<String> getNext()
+    {
+        return next;
+    }
+
+    /**
+     * Get next spawn.
+     * 
+     * @return The next spawn.
+     */
+    public Optional<Coord> getNextSpawn()
+    {
+        return nextSpawn;
+    }
+
     @Override
     public void save(Xml root)
     {
-        mirror.ifPresent(m ->
+        if (mirror.isPresent() || next.isPresent() || nextSpawn.isPresent())
         {
             final Xml node = root.createChild(NODE_MODEL);
-            node.writeBoolean(ATT_MIRROR, m.booleanValue());
-        });
+            mirror.ifPresent(m ->
+            {
+                node.writeBoolean(ATT_MIRROR, m.booleanValue());
+            });
+            next.ifPresent(n -> node.writeString(ATT_NEXT, n));
+            nextSpawn.ifPresent(s ->
+            {
+                node.writeDouble(ATT_SPAWN_TX, s.getX());
+                node.writeDouble(ATT_SPAWN_TY, s.getY());
+            });
+        }
     }
 
     private static void add(StringBuilder builder, String name, Optional<Boolean> value)
     {
         value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    private static void addStr(StringBuilder builder, String name, Optional<String> value)
+    {
+        value.ifPresent(v -> builder.append(name).append(Constant.DOUBLE_DOT).append(v).append(Constant.SPACE));
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
     }
 
     @Override
@@ -103,6 +167,12 @@ public final class ModelConfig implements XmlSaver
         final StringBuilder builder = new StringBuilder();
         builder.append("Model [ ");
         add(builder, ATT_MIRROR, mirror);
+        addStr(builder, ATT_NEXT, next);
+        nextSpawn.ifPresent(n ->
+        {
+            add(builder, ATT_SPAWN_TX, n.getX());
+            add(builder, ATT_SPAWN_TY, n.getY());
+        });
         builder.append("]");
         return builder.toString();
     }

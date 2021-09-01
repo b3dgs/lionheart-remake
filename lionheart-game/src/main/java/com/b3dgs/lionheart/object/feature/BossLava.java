@@ -800,7 +800,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
                 }
                 identifiable.destroy();
                 music.playMusic(Music.BOSS_WIN);
-                model.getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
+                model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
                 stats = null;
             }
         }

@@ -172,7 +172,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
             updater = this::updateExplode;
             head.kill(true);
             music.playMusic(Music.BOSS_WIN);
-            model.getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
+            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
             tick.restart();
         }
         else if (hurtable.isHurting())

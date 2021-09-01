@@ -41,14 +41,6 @@ public final class EntityConfig
     public static final String ATT_TX = "tx";
     /** Tile y attribute name. */
     public static final String ATT_TY = "ty";
-    /** Mirror attribute name. */
-    public static final String ATT_MIRROR = "mirror";
-    /** Next attribute name. */
-    public static final String ATT_NEXT = "next";
-    /** Spawn tile x attribute name. */
-    public static final String ATT_SPAWN_TX = "stx";
-    /** Spawn tile y attribute name. */
-    public static final String ATT_SPAWN_TY = "sty";
     /** Vx attribute name. */
     public static final String ATT_VX = "vx";
 

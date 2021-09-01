@@ -170,7 +170,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                         {
                             step = 10;
                             music.playMusic(Music.BOSS_WIN);
-                            model.getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
+                            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
                             tick.restart();
                         }
                     }
@@ -404,7 +404,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
             final Featurable boss = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss.xml"),
                                                   target.getX(),
                                                   MAX_Y);
-            boss.getFeature(EntityModel.class).setNext(model.getNext(), Optional.empty());
+            boss.getFeature(EntityModel.class).setNext(model.getConfig().getNext(), Optional.empty());
             boss.getFeature(Stats.class).applyDamages(stats.getHealthMax() - stats.getHealth());
         }
     }

@@ -25,9 +25,11 @@ import org.eclipse.swt.widgets.Composite;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.editor.utility.UtilIcon;
 import com.b3dgs.lionengine.editor.utility.control.UtilButton;
+import com.b3dgs.lionengine.editor.validator.InputValidator;
+import com.b3dgs.lionengine.editor.widget.TextWidget;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.editor.object.properties.EditorAbstract;
 import com.b3dgs.lionheart.object.ModelConfig;
-import com.b3dgs.lionheart.object.feature.PatrolConfig;
 
 /**
  * Editor dialog.
@@ -37,7 +39,13 @@ public class ModelEditor extends EditorAbstract<ModelConfig>
     /** Dialog icon. */
     public static final Image ICON = UtilIcon.get("properties", "model.png");
 
+    private static final String PATH_MATCH = "[a-zA-z0-9-/\\.]+";
+    private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
+
     private Button mirror;
+    private TextWidget next;
+    private TextWidget stx;
+    private TextWidget sty;
 
     /**
      * Create editor.
@@ -53,14 +61,32 @@ public class ModelEditor extends EditorAbstract<ModelConfig>
     @Override
     protected void createFields(Composite parent, ModelConfig config)
     {
-        mirror = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_MIRROR), parent);
+        mirror = UtilButton.createCheck(UtilConversion.toTitleCase(ModelConfig.ATT_MIRROR), parent);
+        next = new TextWidget(parent, UtilConversion.toTitleCase(ModelConfig.ATT_NEXT), PATH_MATCH, true, true);
+        stx = new TextWidget(parent, UtilConversion.toTitleCase(ModelConfig.ATT_SPAWN_TX), VALIDATOR_DOUBLE, true);
+        sty = new TextWidget(parent, UtilConversion.toTitleCase(ModelConfig.ATT_SPAWN_TY), VALIDATOR_DOUBLE, true);
 
         mirror.setSelection(config.getMirror().orElse(Boolean.FALSE).booleanValue());
+        config.getNext().ifPresent(next::set);
+        config.getNextSpawn().ifPresent(c ->
+        {
+            stx.set(c.getX());
+            sty.set(c.getY());
+        });
     }
 
     @Override
     protected void onExit()
     {
-        output = Optional.of(new ModelConfig(mirror.getSelection()));
+        final Optional<Coord> spawn;
+        if (stx.getValueDouble().isPresent() && sty.getValueDouble().isPresent())
+        {
+            spawn = Optional.of(new Coord(stx.getValueDouble().getAsDouble(), sty.getValueDouble().getAsDouble()));
+        }
+        else
+        {
+            spawn = Optional.empty();
+        }
+        output = Optional.of(new ModelConfig(mirror.getSelection(), next.getValueText(), spawn));
     }
 }

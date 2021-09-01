@@ -456,7 +456,7 @@ public final class Hurtable extends FeatureModel
             {
                 identifiable.destroy();
             }
-            model.getNext().ifPresent(next -> stage.loadNextStage(next, 400));
+            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, 400));
         }
     }
 

@@ -105,9 +105,7 @@ public final class EntityModel extends EntityModelHelper
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
     private final int frames;
 
-    private ModelConfig config;
-    private Optional<String> next = Optional.empty();
-    private Optional<Coord> nextSpawn = Optional.empty();
+    private ModelConfig config = new ModelConfig();
     private boolean jumpOnHurt = true;
 
     @FeatureGet private Body body;
@@ -170,8 +168,7 @@ public final class EntityModel extends EntityModelHelper
      */
     public void setNext(Optional<String> next, Optional<Coord> nextSpawn)
     {
-        this.next = next;
-        this.nextSpawn = nextSpawn;
+        config = new ModelConfig(false, next, nextSpawn);
     }
 
     /**
@@ -333,26 +330,6 @@ public final class EntityModel extends EntityModelHelper
     }
 
     /**
-     * Get next stage.
-     * 
-     * @return The next stage.
-     */
-    public Optional<String> getNext()
-    {
-        return next;
-    }
-
-    /**
-     * Get next spawn.
-     * 
-     * @return The next spawn.
-     */
-    public Optional<Coord> getNextSpawn()
-    {
-        return nextSpawn;
-    }
-
-    /**
      * Check if jump on hurt is enabled.
      * 
      * @return <code>true</code> if enabled, <code>false</code> else.
@@ -380,18 +357,6 @@ public final class EntityModel extends EntityModelHelper
         config = new ModelConfig(root);
         mirrorable.mirror(config.getMirror().orElse(mirror).booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
-
-        final Optional<Coord> nextSpawn;
-        if (root.hasAttribute(EntityConfig.ATT_SPAWN_TX) && root.hasAttribute(EntityConfig.ATT_SPAWN_TY))
-        {
-            nextSpawn = Optional.of(new Coord(root.getDouble(EntityConfig.ATT_SPAWN_TX),
-                                              root.getDouble(EntityConfig.ATT_SPAWN_TY)));
-        }
-        else
-        {
-            nextSpawn = Optional.empty();
-        }
-        setNext(root.getStringOptional(EntityConfig.ATT_NEXT), nextSpawn);
     }
 
     @Override
@@ -408,12 +373,6 @@ public final class EntityModel extends EntityModelHelper
         {
             config.save(root);
         }
-
-        nextSpawn.ifPresent(s ->
-        {
-            root.writeDouble(EntityConfig.ATT_SPAWN_TX, s.getX());
-            root.writeDouble(EntityConfig.ATT_SPAWN_TY, s.getY());
-        });
     }
 
     @Override
