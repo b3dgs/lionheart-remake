@@ -11,6 +11,7 @@
         <checkpoint tx="326.0" ty="10.0"/>
         <checkpoint tx="401.0" ty="35.0"/>
         <checkpoint tx="498.0" ty="17.0"/>
+        <checkpoint tx="614.0" ty="11.0" next="stage/stage_lava.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Bee.xml" tx="21.0" ty="16.0">

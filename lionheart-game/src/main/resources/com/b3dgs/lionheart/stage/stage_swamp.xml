@@ -14,6 +14,7 @@
         <checkpoint tx="460.0" ty="5.0"/>
         <checkpoint tx="599.0" ty="8.0"/>
     </checkpoints>
+    <boss tx="609" ty="8.1" tsx="613" tsy="-7" next="stage/stage_ancienttown.xml"/>
     <entities>
         <entity file="entity/swamp/Talisment.xml" tx="2.0" ty="15.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="3.0" ty="16.0"/>

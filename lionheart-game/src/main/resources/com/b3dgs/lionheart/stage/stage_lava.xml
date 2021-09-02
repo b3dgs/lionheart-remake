@@ -3,7 +3,7 @@
     <music file="music/lava.sc68"/>
     <map file="levels/lava/stage_lava.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
-    <background type="LAVA"/>
+    <background type="LAVA_HOT"/>
     <foreground type="LAVA" waterDepth="2" waterEffect="false" waterOffset="30" waterSpeed="0.1"/>
     <checkpoints>
         <checkpoint tx="6.0" ty="24.0"/>
@@ -11,8 +11,10 @@
         <checkpoint tx="291.0" ty="4.0"/>
         <checkpoint tx="450.0" ty="8.0"/>
         <checkpoint tx="590.0" ty="16.0"/>
+        <checkpoint tx="662.0" ty="3.0" next="stage/stage_secret.xml"/>
         <checkpoint tx="706.0" ty="5.0"/>
     </checkpoints>
+    <boss tx="880" ty="17" tsx="860" tsy="3" next="stage/stage_airship.xml"/>
     <entities>
         <entity file="entity/lava/FireBallLittle.xml" tx="32.0" ty="34.0"/>
         <entity file="entity/lava/FireBallLittle.xml" tx="26.0" ty="36.0"/>
