@@ -92,7 +92,7 @@ import com.b3dgs.lionheart.object.state.StateWin;
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
     private final MapTileWater mapWater = services.create(MapTileWater.class);
-    private final CheckpointHandler checkpoint = services.create(CheckpointHandler.class);
+    private final CheckpointHandler checkpoint;
     private final Hud hud = services.create(Hud.class);
     private final ScreenShaker shaker = services.create(ScreenShaker.class);
     private final DeviceController device;
@@ -149,7 +149,21 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         createCheatsMenu();
 
-        services.add((CheatsProvider) () -> cheats);
+        services.add(new CheatsProvider()
+        {
+            @Override
+            public boolean getCheats()
+            {
+                return cheats;
+            }
+
+            @Override
+            public boolean isFly()
+            {
+                return fly;
+            }
+        });
+        checkpoint = services.create(CheckpointHandler.class);
         services.add(new MusicPlayer()
         {
             @Override

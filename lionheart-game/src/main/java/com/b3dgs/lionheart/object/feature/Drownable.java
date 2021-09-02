@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.object.state.StateDrowned;
 
@@ -44,6 +45,7 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
     private static final int DROWN_OFFSET_Y = 8;
 
     private final MapTileWater water = services.get(MapTileWater.class);
+    private final CheatsProvider cheats = services.get(CheatsProvider.class);
 
     private Updatable check;
 
@@ -69,7 +71,7 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
      */
     private void checkStart(double extrp)
     {
-        if (transformable.getY() < water.getCurrent() - transformable.getHeight() + DROWN_OFFSET_Y)
+        if (!cheats.isFly() && transformable.getY() < water.getCurrent() - transformable.getHeight() + DROWN_OFFSET_Y)
         {
             stateHandler.changeState(StateDrowned.class);
             check = UpdatableVoid.getInstance();

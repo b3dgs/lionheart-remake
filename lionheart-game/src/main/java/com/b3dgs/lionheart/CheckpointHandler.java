@@ -75,7 +75,10 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     private final List<Checkpoint> nexts = new ArrayList<>();
     private final ListenableModel<CheckpointListener> listenable = new ListenableModel<>();
+
     private final MapTile map;
+    private final CheatsProvider cheats;
+
     private int nextsCount;
     private Updatable checkerBoss;
     private Transformable player;
@@ -94,6 +97,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         super();
 
         map = services.get(MapTile.class);
+        cheats = services.get(CheatsProvider.class);
     }
 
     /**
@@ -160,10 +164,11 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         for (int i = 0; i < nextsCount; i++)
         {
             final Checkpoint checkpoint = nexts.get(i);
-            if (UtilMath.getDistance(map.getInTileX(player),
-                                     map.getInTileY(player),
-                                     checkpoint.getTx(),
-                                     checkpoint.getTy()) < END_DISTANCE_TILE)
+            if (!cheats.isFly()
+                && UtilMath.getDistance(map.getInTileX(player),
+                                        map.getInTileY(player),
+                                        checkpoint.getTx(),
+                                        checkpoint.getTy()) < END_DISTANCE_TILE)
             {
                 final Optional<String> nextStage = checkpoint.getNext();
                 if (nextStage.isPresent())
@@ -186,7 +191,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      */
     private void updateBoss(Coord boss, Coord spawn)
     {
-        if (UtilMath.getDistance(player, boss) < BOSS_DISTANCE)
+        if (!cheats.isFly() && UtilMath.getDistance(player, boss) < BOSS_DISTANCE)
         {
             final int n = listenable.size();
             for (int i = 0; i < n; i++)
