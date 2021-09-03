@@ -33,6 +33,8 @@ public enum ThemeType
     COLD,
     /** Lava. */
     LAVA,
+    /** Hot. */
+    HOT,
     /** Secret. */
     SECRET,
     /** Airship. */

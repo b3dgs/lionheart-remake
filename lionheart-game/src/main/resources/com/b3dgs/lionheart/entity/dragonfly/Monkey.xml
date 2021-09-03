@@ -38,4 +38,12 @@
     <stats health="20"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shade horizontal="9" vertical="1"/>
+    <patrol sh="-0.5" sv="0.0" amplitude="192"/>
+    <patrol sh="0.25" sv="0.0" delay="60"/>
+    <patrol sh="0.75" sv="-0.25" amplitude="320" mirror="false"/>
+    <patrol sh="0.25" sv="0.0" delay="60"/>
+    <patrol sh="0.25" sv="0.5" amplitude="160"/>
+    <patrol sh="0.25" sv="0.0" delay="60"/>
+    <patrol sh="-0.5" sv="0.0" amplitude="0"/>
+    <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
 </lionengine:featurable>

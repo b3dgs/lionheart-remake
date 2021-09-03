@@ -45,14 +45,24 @@ public enum BackgroundType
     ANCIENTTOWN_COLD(WorldType.ANCIENTTOWN, ThemeType.COLD),
     /** Lava. */
     LAVA(WorldType.LAVA, ThemeType.LAVA),
+    /** Lava. */
+    LAVA_HOT(WorldType.LAVA, ThemeType.HOT),
     /** Secret. */
     SECRET(WorldType.SECRET, ThemeType.SECRET),
+    /** Secret cold. */
+    SECRET_COLD(WorldType.SECRET, ThemeType.COLD),
     /** Airship. */
     AIRSHIP(WorldType.AIRSHIP, ThemeType.AIRSHIP),
+    /** Airship cold. */
+    AIRSHIP_COLD(WorldType.AIRSHIP, ThemeType.COLD),
     /** Dragonfly. */
     DRAGONFLY(WorldType.DRAGONFLY, ThemeType.DRAGONFLY),
+    /** Dragonfly cold. */
+    DRAGONFLY_COLD(WorldType.DRAGONFLY, ThemeType.COLD),
     /** Tower. */
     TOWER(WorldType.TOWER, ThemeType.TOWER),
+    /** Tower cold. */
+    TOWER_COLD(WorldType.TOWER, ThemeType.COLD),
     /** Norka. */
     NORKA(WorldType.NORKA, ThemeType.NORKA),
     /** None. */

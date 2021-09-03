@@ -29,4 +29,5 @@
     <stats health="4"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shade horizontal="5" vertical="2"/>
+    <patrol sh="-0.7" sv="0.03" amplitude="72" curve="true"/>
 </lionengine:featurable>

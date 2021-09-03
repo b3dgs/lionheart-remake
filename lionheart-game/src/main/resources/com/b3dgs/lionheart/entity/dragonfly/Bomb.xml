@@ -31,4 +31,5 @@
     <stats health="20"/>
     <hurtable frame="1" effect="effect/dragonfly/Explode5.xml"/>
     <shade horizontal="1" vertical="1"/>
+    <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
 </lionengine:featurable>
