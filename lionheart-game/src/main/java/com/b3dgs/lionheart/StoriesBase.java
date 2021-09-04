@@ -33,6 +33,7 @@ public class StoriesBase implements Resource, Renderable
 
     /** Story index. */
     private int story;
+    private int start;
 
     /**
      * Create stories.
@@ -63,6 +64,16 @@ public class StoriesBase implements Resource, Renderable
     }
 
     /**
+     * Set start index.
+     * 
+     * @param start The start index.
+     */
+    public void setStart(int start)
+    {
+        this.start = start;
+    }
+
+    /**
      * Get stories count.
      * 
      * @return The stories count.
@@ -84,7 +95,7 @@ public class StoriesBase implements Resource, Renderable
     @Override
     public void render(Graphic g)
     {
-        for (int i = 0; i < story; i++)
+        for (int i = start; i < story; i++)
         {
             stories.get(i).setShowText(false);
             stories.get(i).render(g);

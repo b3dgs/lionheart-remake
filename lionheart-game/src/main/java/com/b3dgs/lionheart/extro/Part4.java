@@ -295,6 +295,7 @@ public class Part4 extends Sequence
     {
         stories.load();
         stories.setStory(STORY_1);
+        stories.setStart(STORY_1);
 
         amulet.load();
         amulet.prepare();
