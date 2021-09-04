@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
+import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -119,6 +120,7 @@ public class Part2 extends Sequence
         services.add(context);
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
+        services.add((CheatsProvider) () -> false);
         services.add(new CheckpointHandler(services));
         services.add(new MapTileWater(services));
         services.add((LoadNextStage) (next, tickDelay, spawn) ->

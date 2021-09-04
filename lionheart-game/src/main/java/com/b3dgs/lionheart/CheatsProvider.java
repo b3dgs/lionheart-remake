@@ -33,5 +33,8 @@ public interface CheatsProvider
      * 
      * @return <code>true</code> if enabled, <code>false</code> else.
      */
-    boolean isFly();
+    default boolean isFly()
+    {
+        return false;
+    }
 }
