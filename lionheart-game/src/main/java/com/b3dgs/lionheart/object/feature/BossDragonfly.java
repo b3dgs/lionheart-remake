@@ -137,7 +137,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
      */
     private void updateLeave(double extrp)
     {
-        if (camera.getX() < 719 * 16)
+        if (camera.getX() < 736 * 16 - camera.getWidth())
         {
             updater = this::updateApproach;
             tick.restart();
@@ -153,7 +153,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
      */
     private void updateAwait(double extrp)
     {
-        if (camera.getX() < 741 * 16)
+        if (camera.getX() < 758 * 16 - camera.getWidth())
         {
             camera.moveLocation(extrp, SPEED, 0.0);
             target.moveLocationX(extrp, SPEED);

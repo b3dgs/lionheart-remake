@@ -26,6 +26,9 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
  */
 final class Black extends BackgroundAbstract
 {
+    private int width;
+    private int height;
+
     /**
      * Constructor.
      * 
@@ -34,6 +37,9 @@ final class Black extends BackgroundAbstract
     Black(SourceResolutionProvider source)
     {
         super(null, 0, 0);
+
+        width = source.getWidth();
+        height = source.getHeight();
 
         add(new BackgroundComponent()
         {
@@ -46,8 +52,17 @@ final class Black extends BackgroundAbstract
             @Override
             public void render(Graphic g)
             {
-                g.clear(0, 0, source.getWidth(), source.getHeight());
+                g.clear(0, 0, width, height);
             }
         });
+    }
+
+    @Override
+    public void setScreenSize(int width, int height)
+    {
+        super.setScreenSize(width, height);
+
+        this.width = width;
+        this.height = height;
     }
 }

@@ -46,13 +46,10 @@ public class AppInfo implements Updatable, Renderable
      * 
      * @param text The text object.
      * @param value The text value.
-     * @param x The horizontal location.
-     * @param y The vertical location.
      * @param align The align used.
      */
-    private static void setText(Text text, String value, int x, int y, Align align)
+    private static void setText(Text text, String value, Align align)
     {
-        text.setLocation(x, y);
         text.setAlign(align);
         text.setText(value);
         text.setColor(ColorRgba.GRAY_LIGHT);
@@ -86,15 +83,26 @@ public class AppInfo implements Updatable, Renderable
         textFps = Graphics.createText(size);
         textEngine = Graphics.createText(size);
 
-        setText(textEngine, ENGINE, 0, source.getHeight() - textEngine.getSize(), Align.LEFT);
-        setText(textFps,
-                String.valueOf(source.getRate()),
-                source.getWidth() / 2,
-                source.getHeight() - textFps.getSize(),
-                Align.CENTER);
-        setText(textName, NAME, source.getWidth(), source.getHeight() - textName.getSize(), Align.RIGHT);
+        setText(textEngine, ENGINE, Align.LEFT);
+        setText(textFps, String.valueOf(source.getRate()), Align.CENTER);
+        setText(textName, NAME, Align.RIGHT);
+
+        onResolutionChanged(source.getWidth(), source.getHeight());
 
         device = services.get(DeviceController.class);
+    }
+
+    /**
+     * Called on resolution changed.
+     * 
+     * @param width The new width.
+     * @param height The new height.
+     */
+    public final void onResolutionChanged(int width, int height)
+    {
+        textEngine.setLocation(0, height - textEngine.getSize());
+        textFps.setLocation(width / 2, height - textFps.getSize());
+        textName.setLocation(width, height - textName.getSize());
     }
 
     @Override

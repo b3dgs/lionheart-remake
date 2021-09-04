@@ -221,12 +221,12 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
         {
             if (!free)
             {
-                if (camera.getX() < 718 * 16)
+                if (camera.getX() < 735 * 16 - camera.getWidth())
                 {
                     camera.moveLocation(extrp, SPEED, 0.0);
                     target.moveLocationX(extrp, SPEED);
                 }
-                if (camera.getX() < 705 * 16)
+                if (camera.getX() < 722 * 16 - camera.getWidth())
                 {
                     launcher.fire();
                 }
