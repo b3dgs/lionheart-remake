@@ -64,6 +64,7 @@ public enum StageHard implements Media
 
     /** Level file. */
     private final Media file = Medias.create(Folder.STAGE,
+                                             Folder.ORIGINAL,
                                              name().toLowerCase(Locale.ENGLISH) + "_hard" + Extension.STAGE);
 
     @Override

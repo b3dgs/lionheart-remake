@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic6.png" text="tower.txt">
+    <music file="music/tower.sc68"/>
+    <map file="levels/tower/stage_tower.lvl"/>
+    <raster folder="raster/tower/tower/"/>
+    <background type="TOWER_COLD"/>
+    <foreground raise="2448" type="WATER" waterDepth="8" waterOffset="32"/>
+    <checkpoints>
+        <checkpoint tx="26.0" ty="4.0"/>
+        <checkpoint next="stage/alternative/stage9.xml" tx="27.0" ty="140.0"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/tower/Spike1.xml" tx="12.0" ty="8.0"/>
+        <entity file="entity/tower/Spike1.xml" tx="21.0" ty="13.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="21.0" ty="18.0">
+            <rotating extremity="SpikeBowl.xml" length="3" speed="2.5"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="26.0" ty="15.0">
+            <patrol amplitude="48" sh="0.4"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="14.0" ty="25.0">
+            <patrol amplitude="48" sh="0.4"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="29.0" ty="25.0">
+            <patrol amplitude="48" sh="-0.4"/>
+        </entity>
+        <entity file="entity/tower/Spike1.xml" tx="21.0" ty="28.0">
+            <spike delay="75"/>
+        </entity>
+        <entity file="entity/tower/Spike1.xml" tx="25.0" ty="33.0"/>
+        <entity file="entity/tower/Spike1.xml" tx="19.0" ty="37.0">
+            <spike delay="150"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="25.0" ty="40.0">
+            <patrol amplitude="48" sh="0.4"/>
+        </entity>
+        <entity file="entity/tower/Fish.xml" tx="15.0" ty="60.0"/>
+        <entity file="entity/tower/Fish.xml" tx="28.0" ty="63.0"/>
+        <entity file="entity/tower/RotatingPlatform360.xml" tx="21.0" ty="61.0">
+            <rotating extremity="Platform1.xml" length="4" speed="2.0"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatform360.xml" tx="17.0" ty="68.0">
+            <rotating extremity="Platform1.xml" length="1" speed="1.0"/>
+        </entity>
+        <entity file="entity/tower/Spike1.xml" tx="21.0" ty="63.0"/>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="78.0">
+            <model mirror="true"/>
+            <shooter anim="6" fireDelay="150" firedDelay="0" svx="1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="78.0">
+            <shooter anim="6" fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="25.0" ty="80.0">
+            <rotating extremity="SpikeBowl.xml" length="2" speed="-2.0"/>
+        </entity>
+        <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="25.0" ty="91.0">
+            <rotating extremity="SpikeBowl.xml" length="2" speed="2.5"/>
+        </entity>
+        <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="15.0" ty="103.0">
+            <rotating extremity="SpikeBowl.xml" length="3" speed="2.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="106.0">
+            <model mirror="true"/>
+            <shooter anim="6" fireDelay="400" firedDelay="0" svx="1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="90.0">
+            <model mirror="false"/>
+            <shooter anim="6" fireDelay="150" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Spike1.xml" tx="21.0" ty="98.0"/>
+        <entity file="entity/tower/Crawling.xml" tx="29.0" ty="88.0">
+            <patrol amplitude="32" sh="0.4"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatformControlled.xml" tx="23.0" ty="108.0">
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="4" speed="0.05"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="112.0">
+            <model mirror="true"/>
+            <shooter anim="6" fireDelay="400" firedDelay="0" svx="1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Spike1.xml" tx="14.0" ty="117.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/tower/Spike1.xml" tx="28.0" ty="117.0">
+            <spike delay="40"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="120.0">
+            <model mirror="true"/>
+            <shooter anim="6" fireDelay="150" firedDelay="0" svx="1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="120.0">
+            <shooter anim="6" fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatform360.xml" tx="21.0" ty="125.0">
+            <rotating extremity="Platform1.xml" length="4" speed="1.5"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="135.0">
+            <shooter anim="6" fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="13.0" ty="134.0">
+            <patrol amplitude="32" sh="0.4"/>
+        </entity>
+        <entity file="entity/tower/PotionLittle.xml" tx="11.0" ty="74.0"/>
+        <entity file="entity/tower/PotionLittle.xml" tx="31.0" ty="74.0"/>
+        <entity file="entity/tower/RotatingPlatform180.xml" tx="24.0" ty="52.0">
+            <rotating amplitude="50" extremity="Platform1.xml" length="3" speed="0.06"/>
+        </entity>
+    </entities>
+</stage>

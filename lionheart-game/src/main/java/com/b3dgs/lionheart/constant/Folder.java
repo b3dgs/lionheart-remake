@@ -49,6 +49,10 @@ public final class Folder
     public static final String LEVEL = "levels";
     /** Stage folder. */
     public static final String STAGE = "stage";
+    /** Stage original folder. */
+    public static final String ORIGINAL = "original";
+    /** Stage alternative folder. */
+    public static final String ALTERNATIVE = "alternative";
     /** Text folder. */
     public static final String TEXT = "text";
     /** Sfx folder. */

@@ -417,8 +417,11 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                final Media stage = settings.getStages() ? Medias.create(Folder.STAGE, "stage_swamp.xml")
-                                                         : difficulty > 0 ? StageHard.STAGE1 : Stage.STAGE1;
+                final Media stage = Folder.ORIGINAL.equals(settings.getStages()) ? difficulty > 0 ? StageHard.STAGE1
+                                                                                                  : Stage.STAGE1
+                                                                                 : Medias.create(Folder.STAGE,
+                                                                                                 settings.getStages(),
+                                                                                                 "stage1.xml");
                 final StageConfig config = StageConfig.imports(new Configurer(stage));
                 end(ScenePicture.class, stage, getInitConfig(), config.getPic().get(), config.getText().get());
                 break;

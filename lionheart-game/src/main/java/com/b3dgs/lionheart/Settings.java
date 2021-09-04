@@ -25,6 +25,7 @@ import java.util.Properties;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * General settings from properties.
@@ -58,6 +59,8 @@ public final class Settings
 
     /** Raster key. */
     public static final String RASTER = "raster";
+    /** Raster enabled key. */
+    public static final String RASTER_ENABLED = RASTER + ".enabled";
     /** Raster check key. */
     public static final String RASTER_CHECK = RASTER + ".check";
     /** Raster map key. */
@@ -90,7 +93,7 @@ public final class Settings
     public static final String LOAD_PARALLEL = "load.parallel";
 
     /** New stages flag. */
-    public static final String STAGES = "stages.new";
+    public static final String STAGES = "stages";
 
     /** Temp file. */
     private static final File FILE = new File(new File(System.getProperty("java.io.tmpdir"), Constant.PROGRAM_NAME),
@@ -280,7 +283,7 @@ public final class Settings
      */
     public boolean getRaster()
     {
-        return getBoolean(RASTER, true);
+        return getBoolean(RASTER_ENABLED, true);
     }
 
     /**
@@ -398,9 +401,9 @@ public final class Settings
      * 
      * @return The stages value.
      */
-    public boolean getStages()
+    public String getStages()
     {
-        return getBoolean(STAGES, false);
+        return properties.getProperty(STAGES, Folder.ORIGINAL);
     }
 
     /**

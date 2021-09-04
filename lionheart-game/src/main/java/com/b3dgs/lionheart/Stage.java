@@ -63,7 +63,9 @@ public enum Stage implements Media
     STAGE10;
 
     /** Level file. */
-    private final Media file = Medias.create(Folder.STAGE, name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
+    private final Media file = Medias.create(Folder.STAGE,
+                                             Folder.ORIGINAL,
+                                             name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 
     @Override
     public String getPath()
