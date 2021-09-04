@@ -38,7 +38,7 @@ public final class Constant
     /** Resolution. */
     public static final Resolution RESOLUTION = new Resolution(320, 240, 60);
     /** Game resolution. */
-    public static final Resolution RESOLUTION_GAME = new Resolution(280, 208, 60);
+    public static final Resolution RESOLUTION_GAME = new Resolution(278, 208, 60);
     /** Resolution. */
     public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, 60);
 
