@@ -50,4 +50,5 @@
     <stats health="1"/>
     <hurtable effect="effect/spidercave2/ExplodeLittle.xml"/>
     <shade horizontal="5" vertical="2"/>
+    <patrol sh="-0.35" amplitude="48" offset="0"/>
 </lionengine:featurable>

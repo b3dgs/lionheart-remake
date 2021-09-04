@@ -218,6 +218,17 @@ public final class Hurtable extends FeatureModel
     }
 
     /**
+     * Set shade offset.
+     * 
+     * @param ox The horizontal offset.
+     * @param oy The vertical offset.
+     */
+    public void setShadeOffset(int ox, int oy)
+    {
+        shade.setFrameOffsets(ox, oy);
+    }
+
+    /**
      * Check if hurting.
      * 
      * @return <code>true</code> if hurting, <code>false</code> else.

@@ -87,7 +87,7 @@ public final class Util
         {
             final double factor = source.getHeight() / (double) output.getHeight();
             return new Resolution((int) Math.floor(output.getWidth() * factor),
-                                  (int) Math.floor(output.getHeight() * factor),
+                                  (int) Math.round(output.getHeight() * factor),
                                   source.getRate());
         }
         return output;

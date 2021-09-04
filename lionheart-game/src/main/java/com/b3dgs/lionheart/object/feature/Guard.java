@@ -53,6 +53,7 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Hurtable hurtable;
 
     private double startX;
     private boolean started;
@@ -78,11 +79,13 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
             rasterable.setFrameOffsets(-22, 0);
+            hurtable.setShadeOffset(-22, 0);
         }
         else if (mirrorable.is(Mirror.HORIZONTAL) && target.getX() < transformable.getX())
         {
             mirrorable.mirror(Mirror.NONE);
             rasterable.setFrameOffsets(0, 0);
+            hurtable.setShadeOffset(0, 0);
         }
     }
 

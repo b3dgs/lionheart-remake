@@ -102,7 +102,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Tick tick = new Tick();
     private final List<CheatMenu> menus = new ArrayList<>();
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(5);
+    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
     private final Thread musicTask;
     private Audio music;
@@ -447,7 +447,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         player = featurable.getFeature(StateHandler.class);
         hud.setFeaturable(featurable);
         services.add(featurable.getFeature(Trackable.class));
-        trackPlayer(featurable);
         handler.add(featurable);
 
         final String theme = stage.getBackground().getWorld().getFolder();
@@ -486,6 +485,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final Coord coord = checkpoint.getCurrent(transformable);
             transformable.teleport(coord.getX(), coord.getY());
         }
+        trackPlayer(featurable);
 
         if (settings.getLoadParallel())
         {
@@ -514,7 +514,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void trackPlayer(Featurable player)
     {
-        tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 10));
+        tracker.addFeature(new LayerableModel(player.getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
         trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
         tracker.setOffset(0, trackerInitY);
         tracker.track(player);
@@ -873,7 +873,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private void loadRasterEntities(Settings settings, StageConfig stage, Featurable[] entities)
     {
-        final int threads = 4;
+        final int threads = Runtime.getRuntime().availableProcessors();
         final int entitiesPerThread = (int) Math.floor(entities.length / (double) threads);
         int start = 0;
 

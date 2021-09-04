@@ -52,6 +52,7 @@ public class Landscape
     {
         background.update(extrp, camera.getMovementHorizontal(), camera.getX(), camera.getY());
         foreground.update(extrp, camera.getMovementHorizontal(), camera.getX(), camera.getY());
+        foreground.update(extrp);
     }
 
     /**
