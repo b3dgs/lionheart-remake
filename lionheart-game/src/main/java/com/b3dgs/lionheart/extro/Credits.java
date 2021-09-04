@@ -138,6 +138,8 @@ public class Credits extends Sequence
         loadTextLines();
         count = texts.size();
         lastText = texts.get(count - 1);
+
+        setSystemCursorVisible(false);
     }
 
     @Override

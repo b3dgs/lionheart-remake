@@ -164,11 +164,6 @@ public class Continue extends Sequence
                                                                             .iterator()
                                                                             .next()
                                                                             .getDevice()));
-        cursor.setInputDevice(deviceCursor);
-        cursor.addImage(0, Medias.create(Folder.SPRITE, "cursor.png"));
-        cursor.setRenderingOffset(-2, -2);
-        cursor.load();
-
         info = new AppInfo(this::getFps, services);
 
         mainY = (getHeight() + MAIN_Y_OFFSET) / 2;
@@ -182,7 +177,7 @@ public class Continue extends Sequence
 
         data = create();
 
-        setSystemCursorVisible(false);
+        setSystemCursorVisible(true);
 
         timeLeft.start();
     }
@@ -423,7 +418,6 @@ public class Continue extends Sequence
         renderTransition(g);
 
         info.render(g);
-        cursor.render(g);
     }
 
     @Override

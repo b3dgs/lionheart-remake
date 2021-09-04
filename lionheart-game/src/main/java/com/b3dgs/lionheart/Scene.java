@@ -68,8 +68,6 @@ public class Scene extends SequenceGame<World>
         this.exit = exit;
         music = StageConfig.imports(new Configurer(stage)).getMusic();
         services.add(init.getDifficulty());
-
-        setSystemCursorVisible(false);
     }
 
     @Override
@@ -122,6 +120,14 @@ public class Scene extends SequenceGame<World>
         {
             end();
         }
+    }
+
+    @Override
+    protected void onResolutionChanged(int width, int height)
+    {
+        super.onResolutionChanged(width, height);
+
+        info.onResolutionChanged(width, height);
     }
 
     @Override
