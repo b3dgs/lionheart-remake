@@ -35,6 +35,8 @@ public enum WorldType
     SPIDERCAVE1,
     /** Spider cave 2 world. */
     SPIDERCAVE2,
+    /** Spider cave 3 world. */
+    SPIDERCAVE3,
     /** Ancient town world. */
     ANCIENTTOWN,
     /** Lava world. */

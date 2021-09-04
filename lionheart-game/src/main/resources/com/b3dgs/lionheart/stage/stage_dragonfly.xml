@@ -6,7 +6,7 @@
     <background type="DRAGONFLY_COLD"/>
     <foreground type="NONE"/>
     <checkpoints>
-        <checkpoint tx="720" ty="7"/>
+        <checkpoint tx="360" ty="7"/>
         <checkpoint tx="420" ty="7"/>
         <checkpoint tx="444" ty="7"/>
         <checkpoint tx="468" ty="7"/>
@@ -22,7 +22,7 @@
     </checkpoints>
     <boss tx="725" ty="12" tsx="752" tsy="6" next="stage/stage_tower.xml"/>
     <entities>
-        <entity file="entity/dragonfly/Dragonflyer.xml" tx="720" ty="10.0"/>
+        <entity file="entity/dragonfly/Dragonflyer.xml" tx="360" ty="10.0"/>
         <entity file="entity/dragonfly/Monkey.xml" tx="392.0" ty="20.0">
             <patrol amplitude="192" sh="-0.5" sv="0.0"/>
             <patrol delay="60" sh="0.25" sv="0.0"/>

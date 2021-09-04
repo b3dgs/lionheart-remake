@@ -35,6 +35,8 @@ public enum BackgroundType
     SPIDERCAVE1(WorldType.SPIDERCAVE1, null),
     /** Spider cave 2. */
     SPIDERCAVE2(WorldType.SPIDERCAVE2, null),
+    /** Spider cave 3. */
+    SPIDERCAVE3(WorldType.SPIDERCAVE3, null),
     /** Ancient Town dusk. */
     ANCIENTTOWN_DUSK(WorldType.ANCIENTTOWN, ThemeType.DUSK),
     /** Ancient Town dawn. */

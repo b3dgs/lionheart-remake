@@ -14,7 +14,7 @@
         <checkpoint tx="662.0" ty="3.0" next="stage/stage_secret.xml"/>
         <checkpoint tx="706.0" ty="5.0"/>
     </checkpoints>
-    <boss tx="880" ty="17" tsx="860" tsy="3" next="stage/stage_airship.xml"/>
+    <boss tx="880" ty="17" tsx="861" tsy="3" next="stage/stage_airship.xml"/>
     <entities>
         <entity file="entity/lava/FireBallLittle.xml" tx="32.0" ty="34.0"/>
         <entity file="entity/lava/FireBallLittle.xml" tx="26.0" ty="36.0"/>

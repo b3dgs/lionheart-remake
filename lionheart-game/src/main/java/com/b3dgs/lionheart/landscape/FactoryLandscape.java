@@ -105,6 +105,7 @@ public final class FactoryLandscape
                 break;
             case SPIDERCAVE1:
             case SPIDERCAVE2:
+            case SPIDERCAVE3:
                 background = new Black(source);
                 break;
             case ANCIENTTOWN:

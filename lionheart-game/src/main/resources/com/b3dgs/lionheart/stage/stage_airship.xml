@@ -248,7 +248,9 @@
         <entity file="entity/airship/Catapult.xml" tx="600.0" ty="29.0">
             <catapult vx="-1.6" vy="6.0"/>
         </entity>
-        <entity file="entity/airship/Guard.xml" tx="579.0" ty="38.0" next="stage/stage_dragonfly.xml"/>
+        <entity file="entity/airship/Guard.xml" tx="579.0" ty="38.0">
+            <model next="stage/stage_dragonfly.xml"/>
+        </entity>
         <entity file="entity/airship/Canon.xml" tx="592.0" ty="32.0"/>
         <entity file="entity/airship/Talisment.xml" tx="603.0" ty="39.0"/>
         <entity file="entity/airship/Talisment.xml" tx="605.0" ty="38.0"/>
