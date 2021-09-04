@@ -76,21 +76,22 @@ public class Menu extends Sequence
     private static final int OPTIONS_TITLE_OFFSET_Y = 96;
     private static final int OPTIONS_TEXT_OFFSET_X = 12;
 
-    private static List<String> getText(String file)
+    private static List<String> getText(Settings settings, String file)
     {
-        return Util.readLines(Medias.create(Folder.TEXT, Settings.getInstance().getLang(), Folder.MENU, file));
+        return Util.readLines(Medias.create(Folder.TEXT, settings.getLang(), Folder.MENU, file));
     }
 
     private final ColorRgba colorOption = new ColorRgba(170, 204, 238);
     private final ColorRgba colorTitle = new ColorRgba(255, 255, 255);
     private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
     private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private final Settings settings = Settings.getInstance();
 
-    private final List<String> main = getText("main.txt");
-    private final List<String> options = getText("options.txt");
-    private final List<String> optionsDifficulty = getText("difficulties.txt");
-    private final List<String> optionsJoystick = getText("joystick.txt");
-    private final List<String> optionsMusic = getText("music.txt");
+    private final List<String> main = getText(settings, "main.txt");
+    private final List<String> options = getText(settings, "options.txt");
+    private final List<String> optionsDifficulty = getText(settings, "difficulties.txt");
+    private final List<String> optionsJoystick = getText(settings, "joystick.txt");
+    private final List<String> optionsMusic = getText(settings, "music.txt");
 
     /** Alpha step speed. */
     int alphaSpeed = FADE_SPEED;
@@ -141,8 +142,7 @@ public class Menu extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-        device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Settings.getInstance().getInput())));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(settings.getInput())));
         device.setVisible(false);
 
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
@@ -236,7 +236,7 @@ public class Menu extends Sequence
             if (music > 0)
             {
                 audio = AudioFactory.loadAudio(Music.values()[music - 1]);
-                audio.setVolume(Settings.getInstance().getVolumeMusic());
+                audio.setVolume(settings.getVolumeMusic());
                 audio.play();
             }
         }
@@ -417,7 +417,8 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                final Media stage = difficulty > 0 ? StageHard.STAGE1 : Stage.STAGE1;
+                final Media stage = settings.getStages() ? Medias.create(Folder.STAGE, "stage_swamp.xml")
+                                                         : difficulty > 0 ? StageHard.STAGE1 : Stage.STAGE1;
                 final StageConfig config = StageConfig.imports(new Configurer(stage));
                 end(ScenePicture.class, stage, getInitConfig(), config.getPic().get(), config.getText().get());
                 break;

@@ -89,6 +89,9 @@ public final class Settings
     /** Flag value. */
     public static final String LOAD_PARALLEL = "load.parallel";
 
+    /** New stages flag. */
+    public static final String STAGES = "stages.new";
+
     /** Temp file. */
     private static final File FILE = new File(new File(System.getProperty("java.io.tmpdir"), Constant.PROGRAM_NAME),
                                               FILENAME);
@@ -388,6 +391,16 @@ public final class Settings
     public boolean getLoadParallel()
     {
         return getBoolean(LOAD_PARALLEL, true);
+    }
+
+    /**
+     * Get stages value.
+     * 
+     * @return The stages value.
+     */
+    public boolean getStages()
+    {
+        return getBoolean(STAGES, false);
     }
 
     /**
