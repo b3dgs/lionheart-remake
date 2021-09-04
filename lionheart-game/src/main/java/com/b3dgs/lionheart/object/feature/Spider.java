@@ -134,13 +134,16 @@ public final class Spider extends FeatureModel
         {
             config = new SpiderConfig(root);
         }
-        if (hasConfig && config.getFollow())
+        if (!root.hasNode(PatrolConfig.NODE_PATROL))
         {
-            track();
-        }
-        else
-        {
-            track(0);
+            if (!hasConfig || config.getFollow())
+            {
+                track();
+            }
+            else
+            {
+                track(0);
+            }
         }
     }
 

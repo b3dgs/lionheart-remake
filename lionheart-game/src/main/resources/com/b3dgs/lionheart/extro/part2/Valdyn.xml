@@ -5,6 +5,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Trackable</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Valdyn2.png"/>
     <lionengine:frames horizontal="2" vertical="2"/>
