@@ -35,9 +35,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -59,6 +63,7 @@ import javax.swing.border.Border;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
@@ -70,6 +75,7 @@ import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Program starts here.
@@ -91,25 +97,37 @@ public final class Launcher
         4.0
       / 3.0, 16.0 / 10.0, 16.0 / 9.0, 21.0 / 9.0
     };
+    private static final Map<String, String> LANG_FULL = new HashMap<>();
+    private static final Map<String, String> LANG_SHORT = new HashMap<>();
 
     private static final AtomicInteger SCALE = new AtomicInteger();
     private static final AtomicInteger RATIO = new AtomicInteger();
     private static final AtomicBoolean FULLSCREEN = new AtomicBoolean();
     private static final AtomicInteger FLAG = new AtomicInteger();
+    private static final AtomicBoolean RASTER = new AtomicBoolean();
+    private static final AtomicInteger ZOOM = new AtomicInteger();
     private static final AtomicInteger MUSIC = new AtomicInteger();
     private static final AtomicInteger SFX = new AtomicInteger();
     private static final AtomicInteger GAMEPAD = new AtomicInteger();
+    private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
+    private static final AtomicReference<String> LANG = new AtomicReference<>("en");
 
     private static final String FILENAME_ICON = "icon-256.png";
     private static final String FILENAME_LOGO = "logo.png";
     private static final String SETTINGS_SEPARATOR = "=";
 
+    private static final String LABEL_LANG = "Lang: ";
+    private static final String LABEL_ZOOM = "Zoom: ";
+    private static final String LABEL_ORIGINAL = "Original";
+    private static final String LABEL_MODERN = "Modern";
     private static final String LABEL_MUSIC = "Music: ";
     private static final String LABEL_SFX = "  Sfx: ";
     private static final String LABEL_SCALE = "Scale: x";
     private static final String LABEL_RATIO = "Ratio: ";
     private static final String LABEL_FULLSCREEN = "Fullscreen:";
     private static final String LABEL_FLAG = "Flag: ";
+    private static final String LABEL_RASTER = "Raster:";
+    private static final String LABEL_STAGES = "Stages ";
     private static final String LABEL_GAMEPAD = "Gamepad: ";
     private static final String LABEL_SETUP_DEVICE = "Setup ";
     private static final String LABEL_PLAY = "Play";
@@ -126,9 +144,21 @@ public final class Launcher
     private static final Border BORDER_SPLASH = BorderFactory.createEmptyBorder(10, 10, 10, 10);
     private static final Border BORDER = BorderFactory.createEmptyBorder(3, 10, 3, 10);
 
+    static
+    {
+        LANG_FULL.put("en", "English");
+        LANG_FULL.put("fr", "Français");
+        LANG_FULL.put("de", "Deutsch");
+        LANG_FULL.put("es", "Español");
+
+        LANG_FULL.forEach((k, v) -> LANG_SHORT.put(v, k));
+    }
+
     private static void load()
     {
         final Settings settings = Settings.getInstance();
+
+        LANG.set(settings.getLang());
 
         final java.awt.DisplayMode display = GraphicsEnvironment.getLocalGraphicsEnvironment()
                                                                 .getDefaultScreenDevice()
@@ -146,9 +176,14 @@ public final class Launcher
             }
         }
         FULLSCREEN.set(display.getWidth() == width && display.getHeight() == height);
+        RASTER.set(settings.getRaster());
+        ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
+                                (int) (Constant.ZOOM_MIN * 100),
+                                (int) (Constant.ZOOM_MAX * 100)));
         MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
         SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
         FLAG.set(UtilMath.clamp(settings.getFlag(), 0, ImageLoadStrategy.values().length));
+        STAGES.set(settings.getStages());
     }
 
     /**
@@ -191,11 +226,14 @@ public final class Launcher
         splash.setBorder(BORDER_SPLASH);
         box2.add(splash);
 
+        createLang(box);
         final Container scale = createScale(box);
         final Container ratio = createRatio(box);
         createFullscreen(box, scale, ratio);
-        createVolume(box, LABEL_MUSIC, MUSIC);
-        createVolume(box, LABEL_SFX, SFX);
+        createZoom(box);
+        createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
+        createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
+        createStages(box);
         createGamepad(box, gamepad);
         createSetups(box, frame, gamepad);
         createButtons(box, frame, gamepad);
@@ -228,6 +266,37 @@ public final class Launcher
             }
         });
         return frame;
+    }
+
+    private static Container createLang(Container parent)
+    {
+        final JLabel label = new JLabel(LABEL_LANG);
+        label.setFont(FONT);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        final List<String> langs = Medias.create(Folder.TEXT)
+                                         .getMedias()
+                                         .stream()
+                                         .map(Media::getName)
+                                         .map(f -> LANG_FULL.getOrDefault(f, f))
+                                         .sorted()
+                                         .collect(Collectors.toList());
+        final JComboBox<String> combo = new JComboBox<>(langs.toArray(new String[langs.size()]));
+        combo.setFont(FONT);
+        combo.addItemListener(e ->
+        {
+            final String k = combo.getItemAt(combo.getSelectedIndex());
+            LANG.set(LANG_SHORT.getOrDefault(k, k));
+        });
+        combo.setSelectedItem(LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        box.add(label);
+        box.add(combo);
+        parent.add(box);
+
+        return combo;
     }
 
     private static Container createScale(Container parent)
@@ -294,30 +363,71 @@ public final class Launcher
         combo.setSelectedIndex(FLAG.get());
         combo.addItemListener(e -> FLAG.set(combo.getSelectedIndex()));
 
+        final JCheckBox raster = new JCheckBox(LABEL_RASTER);
+        raster.setFont(FONT);
+        raster.setHorizontalTextPosition(SwingConstants.LEADING);
+        raster.setSelected(RASTER.get());
+        raster.addChangeListener(e -> RASTER.set(raster.isSelected()));
+        raster.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
         box.add(check);
         box.add(label);
         box.add(combo);
+        box.add(raster);
         parent.add(box);
     }
 
-    private static void createVolume(Container parent, String title, AtomicInteger value)
+    private static void createZoom(Container parent)
+    {
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
+        final JButton original = new JButton(LABEL_ORIGINAL);
+        original.setFont(FONT);
+
+        final JButton modern = new JButton(LABEL_MODERN);
+        modern.setFont(FONT);
+
+        final JSlider slider = createSlider(box,
+                                            LABEL_ZOOM,
+                                            ZOOM,
+                                            (int) (Constant.ZOOM_MIN * 100),
+                                            (int) (Constant.ZOOM_MAX * 100));
+
+        original.addActionListener(event ->
+        {
+            slider.setValue(100);
+            ZOOM.set(100);
+        });
+        modern.addActionListener(event ->
+        {
+            slider.setValue(115);
+            ZOOM.set(115);
+        });
+
+        box.add(original);
+        box.add(modern);
+        parent.add(box);
+    }
+
+    private static JSlider createSlider(Container parent, String title, AtomicInteger value, int min, int max)
     {
         final JLabel label = new JLabel(title);
         label.setFont(FONT);
 
-        final JSlider slider = new JSlider(0, com.b3dgs.lionengine.Constant.HUNDRED, value.get());
+        final JSlider slider = new JSlider(min, max, value.get());
         slider.setFont(FONT);
 
-        final JLabel result = new JLabel(String.valueOf(getVolume(slider.getValue())));
+        final JLabel result = new JLabel(String.valueOf(getPercent(slider.getValue())));
         result.setFont(FONT);
         result.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
         slider.addChangeListener(e ->
         {
             value.set(slider.getValue());
-            result.setText(getVolume(value.get()));
+            result.setText(getPercent(value.get()));
         });
 
         final Box box = Box.createHorizontalBox();
@@ -327,9 +437,11 @@ public final class Launcher
         box.add(result);
 
         parent.add(box);
+
+        return slider;
     }
 
-    private static String getVolume(int percent)
+    private static String getPercent(int percent)
     {
         if (percent < com.b3dgs.lionengine.Constant.DECADE)
         {
@@ -340,6 +452,32 @@ public final class Launcher
             return "0" + percent;
         }
         return String.valueOf(percent);
+    }
+
+    private static void createStages(Container parent)
+    {
+        final JLabel label = new JLabel(LABEL_STAGES);
+        label.setFont(FONT);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        final List<String> stages = Medias.create(Folder.STAGE)
+                                          .getMedias()
+                                          .stream()
+                                          .filter(m -> m.getFile().isDirectory())
+                                          .map(Media::getName)
+                                          .sorted()
+                                          .collect(Collectors.toList());
+
+        final JComboBox<String> combo = new JComboBox<>(stages.toArray(new String[stages.size()]));
+        combo.setFont(FONT);
+        combo.setSelectedItem(STAGES.get());
+        combo.addItemListener(e -> STAGES.set(combo.getItemAt(combo.getSelectedIndex())));
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        box.add(label);
+        box.add(combo);
+        parent.add(box);
     }
 
     private static void createGamepad(Container parent, Gamepad gamepad)
@@ -430,6 +568,7 @@ public final class Launcher
         exit.setFont(FONT);
         exit.addActionListener(event ->
         {
+            save();
             gamepad.close();
             window.dispose();
         });
@@ -512,7 +651,7 @@ public final class Launcher
                                       .getDisplayMode()
                                       .getWidth();
         }
-        return AVAILABLE_SCALE[SCALE.get()].intValue() * Settings.getInstance().getResolution().getWidth();
+        return AVAILABLE_SCALE[SCALE.get()].intValue() * Constant.RESOLUTION.getWidth();
     }
 
     private static int getOutputHeight()
@@ -525,7 +664,7 @@ public final class Launcher
                                       .getHeight();
         }
         return (int) Math.floor(AVAILABLE_SCALE[SCALE.get()].intValue()
-                                * Settings.getInstance().getResolution().getWidth()
+                                * Constant.RESOLUTION.getWidth()
                                 / RATIO_VALUE[RATIO.get()]);
     }
 
@@ -541,13 +680,25 @@ public final class Launcher
                 for (final String line : lines)
                 {
                     final String[] data = line.split(SETTINGS_SEPARATOR);
-                    if (line.contains(Settings.RESOLUTION_WIDTH))
+                    if (line.contains(Settings.LANG))
+                    {
+                        writeFormatted(output, data, LANG.get());
+                    }
+                    else if (line.contains(Settings.RESOLUTION_WIDTH))
                     {
                         writeFormatted(output, data, getOutputWidth());
                     }
                     else if (line.contains(Settings.RESOLUTION_HEIGHT))
                     {
                         writeFormatted(output, data, getOutputHeight());
+                    }
+                    else if (line.contains(Settings.RASTER_ENABLED))
+                    {
+                        writeFormatted(output, data, RASTER.get());
+                    }
+                    else if (line.contains(Settings.ZOOM))
+                    {
+                        writeFormatted(output, data, ZOOM.get() / 100.0);
                     }
                     else if (line.contains(Settings.VOLUME_MUSIC))
                     {
@@ -560,6 +711,10 @@ public final class Launcher
                     else if (line.contains(Settings.FLAG))
                     {
                         writeFormatted(output, data, FLAG.get());
+                    }
+                    else if (line.contains(Settings.STAGES))
+                    {
+                        writeFormatted(output, data, STAGES.get());
                     }
                     else
                     {
@@ -581,7 +736,22 @@ public final class Launcher
         Settings.load();
     }
 
+    private static void writeFormatted(FileWriter output, String[] data, String value) throws IOException
+    {
+        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
+    }
+
     private static void writeFormatted(FileWriter output, String[] data, int value) throws IOException
+    {
+        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
+    }
+
+    private static void writeFormatted(FileWriter output, String[] data, double value) throws IOException
+    {
+        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
+    }
+
+    private static void writeFormatted(FileWriter output, String[] data, boolean value) throws IOException
     {
         output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
     }
