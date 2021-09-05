@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Flower</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Flower.png" icon="Flower_ico.png"/>
-    <lionengine:frames horizontal="9" vertical="2"/>
+    <lionengine:surface image="surface/Flower.png"/>
+    <lionengine:frames horizontal="3" vertical="3"/>
     <lionengine:size width="48" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -27,7 +28,7 @@
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="3"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/swamp/Bullet.xml" ox="10" oy="0">
             <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
@@ -36,4 +37,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="effect/swamp/ExplodeBig.xml" persist="true"/>
+    <shade horizontal="3" vertical="3"/>
 </lionengine:featurable>

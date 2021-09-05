@@ -1,0 +1,3 @@
+PAUSA
+OK
+ABANDONAR ?

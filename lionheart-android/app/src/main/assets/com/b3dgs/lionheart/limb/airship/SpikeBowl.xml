@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="SpikeBowl.png"/>
+    <lionengine:frames horizontal="1" vertical="1" offsetY="8"/>
+    <lionengine:size width="32" height="32"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:collisions>
+        <lionengine:collision name="attack" offsetX="0" offsetY="-1" width="18" height="18" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
+    <lionengine:collidable group="3" accepted="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>

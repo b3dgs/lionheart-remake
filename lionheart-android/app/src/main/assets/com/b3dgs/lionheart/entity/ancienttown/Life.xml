@@ -6,7 +6,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Takeable</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Life.png" icon="Life_ico.png"/>
+    <lionengine:surface image="surface/Life.png"/>
     <lionengine:frames horizontal="4" vertical="2"/>
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

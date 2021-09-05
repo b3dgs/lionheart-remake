@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
@@ -8,7 +9,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="BossGobelin.png"/>
-    <lionengine:frames horizontal="5" vertical="8"/>
+    <lionengine:frames horizontal="5" vertical="4"/>
     <lionengine:size width="48" height="48"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -33,5 +34,6 @@
     <stats health="4"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shooter fireDelay="30" firedDelay="10" anim="13" svx="1.0" svy="1.0"/>
+    <shade horizontal="5" vertical="4"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

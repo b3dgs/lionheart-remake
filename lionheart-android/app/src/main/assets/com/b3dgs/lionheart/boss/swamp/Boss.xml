@@ -14,7 +14,7 @@
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="2" speed="0.4" reversed="false" repeat="true"/>
     </lionengine:animations>
-    <lionengine:layerable layerRefresh="3" layerDisplay="0"/>
+    <lionengine:layerable layerRefresh="7" layerDisplay="0"/>
     <lionengine:launcher>
         <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>

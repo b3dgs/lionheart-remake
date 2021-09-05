@@ -22,7 +22,7 @@
             <lionengine:group>groundboss</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
-    <lionengine:layerable layerRefresh="1" layerDisplay="4"/>
+    <lionengine:layerable layerRefresh="7" layerDisplay="6"/>
     <lionengine:collidable group="2" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

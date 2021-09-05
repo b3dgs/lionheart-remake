@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrols</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Bird</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Bird.png" icon="Bird_ico.png"/>
-    <lionengine:frames horizontal="10" vertical="12"/>
+    <lionengine:frames horizontal="10" vertical="6"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -21,12 +23,12 @@
         <lionengine:animation name="idle" start="11" end="20" speed="0.25" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="ground" x="0" y="24" width="16" height="1"/>
         </lionengine:animation>
-        <lionengine:animation name="hurt" start="11" end="20" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="10" speed="0.25" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
+    <lionengine:layerable layerRefresh="7" layerDisplay="6"/>
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="-1" persist="true"/>
+    <shade horizontal="5" vertical="4"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

@@ -1,0 +1,4 @@
+Empezar juego
+Opciones
+Introducción
+Salida

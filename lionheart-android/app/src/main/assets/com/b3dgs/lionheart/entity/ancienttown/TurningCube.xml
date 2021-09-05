@@ -5,10 +5,11 @@
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrols</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.TurningCube</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="TurningCube.png" icon="TurningCube_ico.png"/>
+    <lionengine:surface image="surface/TurningCube.png"/>
     <lionengine:frames horizontal="4" vertical="2"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>

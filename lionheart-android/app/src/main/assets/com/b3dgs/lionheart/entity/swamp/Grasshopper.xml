@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Grasshopper</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Grasshopper.png" icon="Grasshopper_ico.png"/>
-    <lionengine:frames horizontal="6" vertical="3"/>
+    <lionengine:surface image="surface/Grasshopper.png"/>
+    <lionengine:frames horizontal="5" vertical="3"/>
     <lionengine:size width="64" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -61,5 +62,6 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="2"/>
-    <hurtable frame="16" effect="effect/swamp/ExplodeBig.xml"/>
+    <hurtable frame="1" effect="effect/swamp/ExplodeBig.xml"/>
+    <shade horizontal="2" vertical="1"/>
 </lionengine:featurable>

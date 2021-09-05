@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage>
+    <music file="music/swamp.sc68"/>
+    <map file="levels/swamp/stage5.lvl"/>
+    <raster folder="raster/swamp/day/"/>
+    <background type="SWAMP_DAY"/>
+    <foreground type="WATER" waterDepth="8" waterOffset="24"/>
+    <checkpoints>
+        <checkpoint tx="46" ty="4"/>
+        <checkpoint tx="36" ty="20"/>
+        <checkpoint tx="117" ty="4"/>
+        <checkpoint tx="191" ty="4"/>
+        <checkpoint tx="230" ty="31"/>
+        <checkpoint tx="309" ty="30"/>
+        <checkpoint tx="351" ty="10"/>
+        <checkpoint tx="441" ty="15"/>
+        <checkpoint tx="512" ty="29"/>
+    </checkpoints>
+    <boss tx="594" ty="8.1" tsx="598" tsy="-7" next="stage/original/stage6.xml"/>
+    <entities>
+        <entity file="entity/swamp/Crawling.xml" tx="59.0" ty="5.0">
+            <patrol sh="-0.3" amplitude="208"/>
+        </entity>
+        <entity file="entity/swamp/Sheet.xml" tx="21.0" ty="6.0">
+            <model mirror="true"/>
+            <sheet hide="true"/>
+        </entity>
+        <entity file="entity/swamp/Sheet.xml" tx="25.0" ty="5.0">
+            <sheet hide="true"/>
+        </entity>
+        <entity file="entity/swamp/Life.xml" tx="6.0" ty="12.0"/>
+        <entity file="entity/swamp/Sword2.xml" tx="10.0" ty="15.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="27.0" ty="18.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="29.0" ty="18.0"/>
+        <entity file="entity/swamp/Grasshopper.xml" tx="69.0" ty="17.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="88.0" ty="8.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="88.0" ty="9.0"/>
+        <entity file="entity/swamp/Grasshopper.xml" tx="52.0" ty="26.0"/>
+        <entity file="entity/swamp/Sheet.xml" tx="63.0" ty="16.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/swamp/PotionBig.xml" tx="97.0" ty="25.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="88.0" ty="25.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="89.0" ty="25.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="90.0" ty="25.0"/>
+        <entity file="entity/swamp/Beetle.xml" tx="50.0" ty="22.0">
+            <patrol sh="-1.0" amplitude="140"/>
+        </entity>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="16.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="14.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="12.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="10.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="8.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="6.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="4.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="2.0" ty="24.0"/>
+        <entity file="entity/swamp/CarnivorousPlant.xml" tx="1.0" ty="24.0"/>
+        <entity file="entity/swamp/Beetle.xml" tx="20.0" ty="40.0">
+            <patrol sh="0.0" sv="-1.2" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="1.0" amplitude="80" animOffset="12"/>
+            <patrol sh="1.2" sv="0.0" amplitude="608" animOffset="0"/>
+            <patrol sh="0.0" sv="-1.2" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="1.2" amplitude="80" animOffset="12"/>
+            <patrol sh="-1.2" sv="0.0" amplitude="800" animOffset="0"/>
+            <patrol sh="0.0" sv="-1.2" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="1.2" amplitude="80" animOffset="12"/>
+            <patrol sh="1.2" sv="0.0" amplitude="192" animOffset="0"/>
+        </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="2.0" ty="43.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="30.5" ty="48.0">
+            <patrol sh="-0.2" sv="-1.0" amplitude="64"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="36.0" ty="50.0">
+            <patrol sh="-0.7" sv="-0.7" amplitude="48"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="37.0" ty="52.0">
+            <patrol sh="0.8" amplitude="96"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="46.0" ty="57.0">
+            <patrol sv="-0.8" amplitude="40" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="50.0" ty="52.0">
+            <patrol sv="0.8" amplitude="40" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="54.0" ty="53.0">
+            <patrol sv="-0.8" amplitude="40" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="58.0" ty="45.0">
+            <patrol sh="0.8" amplitude="128"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="66.0" ty="45.0">
+            <patrol sh="-0.8" amplitude="128"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="74.0" ty="47.0">
+            <model mirror="true"/>
+            <patrol sv="0.8" amplitude="64" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Beetle.xml" tx="67.0" ty="45.0">
+            <patrol sh="0.6" amplitude="72"/>
+        </entity>
+        <entity file="entity/swamp/Beetle.xml" tx="79.0" ty="45.0">
+            <patrol sh="-0.6" amplitude="72"/>
+        </entity>
+        <entity file="entity/swamp/Crawling.xml" tx="87.0" ty="43.0">
+            <patrol sh="-0.3" amplitude="64"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="104.0" ty="31.0">
+            <patrol sh="-0.3" sv="0.6" amplitude="96"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="114.0" ty="11.0">
+            <patrol sh="-0.3" sv="0.6" amplitude="96"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="109.0" ty="21.0">
+            <patrol sh="-0.3" sv="0.6" amplitude="96"/>
+        </entity>
+        <entity file="entity/swamp/Floater.xml" tx="120.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="124.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="128.0" ty="2.0"/>
+        <entity file="entity/swamp/Sheet.xml" tx="132.0" ty="5.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="136.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="140.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="145.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="150.0" ty="2.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="141.0" ty="6.0">
+            <patrol sh="-0.4" amplitude="64"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="150.0" ty="6.0">
+            <patrol sh="-0.4" amplitude="80"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="163.0" ty="12.0">
+            <model mirror="true"/>
+            <patrol sh="-0.3" sv="-1.5" proximity="64"/>
+        </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="163.0" ty="13.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="163.0" ty="19.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="163.0" ty="20.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="160.0" ty="20.0">
+            <patrol sh="1.5" amplitude="112"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="167.0" ty="20.0">
+            <patrol sh="-1.5" amplitude="112"/>
+        </entity>
+        <entity file="entity/swamp/Floater.xml" tx="170.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="175.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="180.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="185.0" ty="2.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="174.0" ty="6.0">
+            <model mirror="true"/>
+            <patrol sh="-0.5" proximity="64"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="179.0" ty="6.0">
+            <model mirror="true"/>
+            <patrol sh="-0.5" proximity="64"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="184.0" ty="6.0">
+            <model mirror="true"/>
+            <patrol sh="-0.5" proximity="64"/>
+        </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="204.0" ty="6.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="211.0" ty="4.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="211.0" ty="5.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="212.0" ty="5.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="212.0" ty="4.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="214.0" ty="7.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="215.0" ty="7.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="211.0" ty="18.0"/>
+        <entity file="entity/swamp/Life.xml" tx="210.0" ty="18.0"/>
+        <entity file="entity/swamp/Life.xml" tx="209.0" ty="18.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="186.0" ty="15.0">
+            <patrol sh="0.8" proximity="0"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="199.0" ty="18.0">
+            <model mirror="true"/>
+            <patrol sh="-0.8" proximity="0"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="186.0" ty="21.0">
+            <patrol sh="0.8" proximity="0"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="199.0" ty="24.0">
+            <model mirror="true"/>
+            <patrol sh="-0.8" proximity="0"/>
+        </entity>
+        <entity file="entity/swamp/Talisment.xml" tx="191.0" ty="50.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="193.0" ty="50.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="192.0" ty="51.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="192.0" ty="52.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="220.0" ty="43.0"/>
+        <entity file="entity/swamp/Crawling.xml" tx="227.0" ty="44.0">
+            <patrol sh="-0.3" amplitude="96"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="234.0" ty="26.0">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="238.0" ty="26.0">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="242.0" ty="26.0">
+            <spike delay="0"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="235.0" ty="26.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="237.0" ty="26.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="239.0" ty="26.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/swamp/Spike2.xml" tx="241.0" ty="26.0">
+            <spike delay="50"/>
+        </entity>
+        <entity file="entity/swamp/TurningAuto.xml" tx="239.0" ty="29.0"/>
+        <entity file="entity/swamp/Sheet.xml" tx="243.0" ty="31.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="241.0" ty="50.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="270.0" ty="54.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="257.0" ty="62.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="259.0" ty="62.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="261.0" ty="62.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="266.0" ty="62.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="268.0" ty="62.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="274.0" ty="61.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="276.0" ty="61.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="278.0" ty="61.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="284.0" ty="60.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="286.0" ty="60.0"/>
+        <entity file="entity/swamp/Life.xml" tx="290.0" ty="41.0"/>
+        <entity file="entity/swamp/Crawling.xml" tx="319.0" ty="24.0">
+            <patrol sh="-0.3"/>
+        </entity>
+        <entity file="entity/swamp/Crawling.xml" tx="304.0" ty="22.0">
+            <patrol sh="0.3"/>
+        </entity>
+        <entity file="entity/swamp/Sheet.xml" tx="312.0" ty="10.0">
+            <model mirror="true"/>
+        </entity>
+        <entity file="entity/swamp/Beetle.xml" tx="312.0" ty="7.0">
+            <patrol sh="0.0" sv="-0.5" amplitude="64" animOffset="12"/>
+            <patrol sh="0.5" sv="0.0" amplitude="48" animOffset="0"/>
+            <patrol sh="-0.5" sv="0.0" amplitude="112" animOffset="0"/>
+            <patrol sh="0.5" sv="0.0" amplitude="64" animOffset="0"/>
+            <patrol sh="0.0" sv="0.5" amplitude="64" animOffset="12"/>
+        </entity>
+        <entity file="entity/swamp/Beetle.xml" tx="314.0" ty="9.0">
+            <patrol sh="1.0" sv="0.0" amplitude="352" animOffset="0"/>
+            <patrol sh="0.0" sv="-1.0" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="1.0" amplitude="80" animOffset="12"/>
+            <patrol sh="-1.0" sv="0.0" amplitude="352" animOffset="0"/>
+        </entity>
+        <entity file="entity/swamp/Beetle.xml" tx="345.0" ty="5.0">
+            <patrol sv="0.3" amplitude="64" animOffset="12"/>
+        </entity>
+        <entity file="entity/swamp/Floater.xml" tx="340.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="345.0" ty="2.0"/>
+        <entity file="entity/swamp/Grasshopper.xml" tx="297.0" ty="7.0"/>
+        <entity file="entity/swamp/Beetle.xml" tx="276.0" ty="4.0">
+            <patrol sh="-0.5" amplitude="96"/>
+        </entity>
+        <entity file="entity/swamp/NestLittle.xml" tx="262.0" ty="12.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="256.0" ty="12.0">
+            <model mirror="true"/>
+            <patrol sv="-1.5" proximity="24"/>
+        </entity>
+        <entity file="entity/swamp/NestLittle.xml" tx="241.0" ty="11.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="251.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="247.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="243.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="239.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="235.0" ty="2.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="363.0" ty="6.0">
+            <patrol sh="-1.2" sv="0.6" amplitude="192" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="350.0" ty="12.5">
+            <patrol sh="1.2" sv="-0.6" amplitude="192" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Dragon.xml" tx="377.5" ty="6.0"/>
+        <entity file="entity/swamp/Dragon.xml" tx="391.5" ty="7.0"/>
+        <entity file="entity/swamp/Dragon.xml" tx="420.5" ty="7.0"/>
+        <entity file="entity/swamp/Dragon.xml" tx="431.5" ty="18.0"/>
+        <entity file="entity/swamp/Dragon.xml" tx="514.5" ty="10.0"/>
+        <entity file="entity/swamp/Dragon.xml" tx="523.5" ty="32.0"/>
+        <entity file="entity/swamp/Sheet.xml" tx="416.0" ty="10.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="430.0" ty="1.0"/>
+        <entity file="entity/swamp/Flower.xml" tx="428.0" ty="22.0"/>
+        <entity file="entity/swamp/Bird.xml" tx="446.0" ty="20.5">
+            <patrol sv="0.5" amplitude="40" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Talisment.xml" tx="445.0" ty="31.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="448.0" ty="31.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="446.0" ty="29.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="447.0" ty="29.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="442.0" ty="27.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="466.0" ty="19.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="465.0" ty="19.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="466.0" ty="18.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="467.0" ty="18.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="461.0" ty="18.0">
+            <model mirror="true"/>
+            <patrol sh="-0.8" sv="-1.2" proximity="48"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="468.0" ty="14.0">
+            <model mirror="true"/>
+            <patrol sh="-0.8" sv="-1.2" proximity="48"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="474.0" ty="10.0">
+            <model mirror="true"/>
+            <patrol sh="-0.8" sv="-1.2" proximity="48"/>
+        </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="490.0" ty="2.0"/>
+        <entity file="entity/swamp/Floater.xml" tx="488.0" ty="2.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="534.0" ty="5.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="539.0" ty="5.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="540.0" ty="4.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="541.0" ty="5.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="542.0" ty="4.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="543.0" ty="5.0"/>
+        <entity file="entity/swamp/Bird.xml" tx="503.0" ty="18.5">
+            <patrol sv="0.5" amplitude="48" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Bird.xml" tx="508.0" ty="25.0">
+            <patrol sv="0.5" amplitude="48" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="521.0" ty="29.0"/>
+        <entity file="entity/swamp/PotionLittle.xml" tx="524.0" ty="29.0"/>
+        <entity file="entity/swamp/Sheet.xml" tx="523.0" ty="39.0"/>
+        <entity file="entity/swamp/Bird.xml" tx="516.0" ty="45.0">
+            <patrol sh="0.5" amplitude="64" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Bird.xml" tx="514.0" ty="47.0">
+            <patrol sh="0.5" amplitude="64" mirror="false"/>
+        </entity>
+        <entity file="entity/swamp/Dragon.xml" tx="498.5" ty="51.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="483.0" ty="51.0">
+            <patrol sh="1.0" proximity="192"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="476.0" ty="51.0">
+            <patrol sh="1.0" proximity="192"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="469.0" ty="51.0">
+            <patrol sh="1.0" proximity="192"/>
+        </entity>
+        <entity file="entity/swamp/Grasshopper.xml" tx="438.0" ty="53.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="425.0" ty="51.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="425.0" ty="50.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="426.0" ty="52.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="427.0" ty="52.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="428.0" ty="52.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="429.0" ty="51.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="429.0" ty="50.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="428.0" ty="49.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="427.0" ty="49.0"/>
+        <entity file="entity/swamp/Talisment.xml" tx="426.0" ty="49.0"/>
+        <entity file="entity/swamp/PotionBig.xml" tx="446.0" ty="61.0"/>
+        <entity file="entity/swamp/Life.xml" tx="442.0" ty="60.0"/>
+        <entity file="entity/swamp/Bee.xml" tx="548.0" ty="22.0">
+            <patrol sh="1.0" amplitude="80"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="551.0" ty="16.0">
+            <patrol sh="1.0" amplitude="80"/>
+        </entity>
+        <entity file="entity/swamp/Bee.xml" tx="554.0" ty="10.0">
+            <patrol sh="1.0" amplitude="80"/>
+        </entity>
+        <entity file="entity/swamp/Beetle.xml" tx="562.0" ty="5.0">
+            <patrol sh="1.0" amplitude="120"/>
+        </entity>
+    </entities>
+</stage>

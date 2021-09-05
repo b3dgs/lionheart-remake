@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrols</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Shooter</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Dragon4</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Wizard.png"/>
-    <lionengine:frames horizontal="10" vertical="4"/>
+    <lionengine:surface image="surface/Wizard.png"/>
+    <lionengine:frames horizontal="5" vertical="4"/>
     <lionengine:size width="64" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
@@ -46,4 +48,13 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="20"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
+    <shade horizontal="5" vertical="4"/>
+    <patrol sh="-0.7" sv="0.0" amplitude="192" mirror="false"/>
+    <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
+    <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
+    <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
+    <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
+    <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
+    <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
+    <shooter fireDelay="60" firedDelay="0" svx="1.0" svy="1.0" anim="7"/>
 </lionengine:featurable>
