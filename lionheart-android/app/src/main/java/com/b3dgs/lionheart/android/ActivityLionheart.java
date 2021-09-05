@@ -49,6 +49,7 @@ public final class ActivityLionheart extends ActivityGame
         EngineAndroid.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, this);
         AudioFactory.addFormat(Sc68Format.getFailsafe());
 
+        Settings.load();
         final Settings settings = Settings.getInstance();
         AudioFactory.setVolume(settings.getVolumeMaster());
 
