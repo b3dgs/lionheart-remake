@@ -17,18 +17,12 @@
     </checkpoints>
     <boss tx="609" ty="8.1" tsx="613" tsy="-7" next="stage/alternative/stage3.xml"/>
     <entities>
-        <entity file="entity/swamp/Talisment.xml" tx="519.0" ty="47.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="519.0" ty="48.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="519.0" ty="49.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="519.0" ty="50.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="500.0" ty="62.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="500.0" ty="61.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="501.0" ty="60.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="502.0" ty="60.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="503.0" ty="61.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="503.0" ty="62.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="501.0" ty="63.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="502.0" ty="63.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="482.0" ty="49.0"/>
         <entity file="entity/swamp/PotionLittle.xml" tx="481.0" ty="49.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="442.0" ty="46.0"/>
