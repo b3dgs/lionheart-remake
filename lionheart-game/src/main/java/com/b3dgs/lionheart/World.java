@@ -809,6 +809,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 {
                     final Featurable featurable = createEntity(entityConfig.get(i), settings);
                     loadRasterEntity(stage, featurable, settings);
+                    handler.add(featurable);
                 }
             }
 
@@ -1057,6 +1058,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     public void onResolutionChanged(int width, int height)
     {
         camera.setView(0, 0, width, height, height);
+        camera.setLimits(map);
         landscape.setScreenSize(width, height);
         hud.setScreenSize(width, height);
     }
