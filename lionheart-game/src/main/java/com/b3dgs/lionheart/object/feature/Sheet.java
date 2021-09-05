@@ -131,7 +131,10 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
             }
         }
 
-        if (target != null && config.getHide() && Math.abs(transformable.getX() - target.getX()) < HIDE_RANGE)
+        if (target != null
+            && config.getHide()
+            && Math.abs(transformable.getX() - target.getX()) < HIDE_RANGE
+            && Math.abs(transformable.getY() - target.getY()) < HIDE_RANGE * 1.3)
         {
             ifIs(Rasterable.class, r -> r.setVisibility(true));
             target = null;
