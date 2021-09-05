@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.android;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.android.Mouse;
 import com.b3dgs.lionengine.android.VirtualDeviceButton;
-import com.b3dgs.lionengine.geom.Rectangle;
 
 /**
  * Entity updating implementation.
@@ -27,57 +26,20 @@ import com.b3dgs.lionengine.geom.Rectangle;
 public final class VirtualKeyboard extends VirtualDeviceButton
 {
     /** CTRL key. */
-    private static final Integer CONTROL = Integer.valueOf(0);
+    private static final Integer CONTROL = 0;
     /** Arrow left key. */
-    private static final Integer LEFT = Integer.valueOf(1);
+    private static final Integer LEFT = 1;
     /** Arrow right key. */
-    private static final Integer RIGHT = Integer.valueOf(2);
+    private static final Integer RIGHT = 2;
     /** Arrow down key. */
-    private static final Integer DOWN = Integer.valueOf(3);
+    private static final Integer DOWN = 3;
     /** Arrow up key. */
-    private static final Integer UP = Integer.valueOf(4);
-    /** Pause key. */
-    private static final Integer PAUSE = Integer.valueOf(5);
-    /** Ctrl left key. */
-    private static final Integer CTRL_LEFT = Integer.valueOf(6);
-    /** Tab key. */
-    private static final Integer TAB = Integer.valueOf(7);
-    /** Page down key. */
-    private static final Integer PAGE_DOWN = Integer.valueOf(8);
-    /** F1 key. */
-    private static final Integer F1 = Integer.valueOf(9);
-    /** F2 key. */
-    private static final Integer F2 = Integer.valueOf(10);
-    /** F3 key. */
-    private static final Integer F3 = Integer.valueOf(11);
-    /** F4 key. */
-    private static final Integer F4 = Integer.valueOf(12);
-    /** F5 key. */
-    private static final Integer F5 = Integer.valueOf(13);
-    /** F6 key. */
-    private static final Integer F6 = Integer.valueOf(14);
-    /** F7 key. */
-    private static final Integer F7 = Integer.valueOf(15);
-    /** F8 key. */
-    private static final Integer F8 = Integer.valueOf(16);
-    /** F9 key. */
-    private static final Integer F9 = Integer.valueOf(17);
-    /** F10 key. */
-    private static final Integer F10 = Integer.valueOf(18);
-    /** K1 key. */
-    private static final Integer K1 = Integer.valueOf(19);
-    /** K2 key. */
-    private static final Integer K2 = Integer.valueOf(20);
-    /** K3 key. */
-    private static final Integer K3 = Integer.valueOf(21);
-    /** K4 key. */
-    private static final Integer K4 = Integer.valueOf(22);
-    /** K5 key. */
-    private static final Integer K5 = Integer.valueOf(23);
+    private static final Integer UP = 4;
 
-    private static final int X = 310;
-    private static final int Y = 130;
+    private static final int X = 360;
+    private static final int Y = 150;
     private static final int SIZE = 30;
+    private static final int SIZE_BUTTON = 24;
 
     /**
      * Create updater.
@@ -108,7 +70,7 @@ public final class VirtualKeyboard extends VirtualDeviceButton
         addButton(X + SIZE, Y + SIZE, RIGHT, Medias.create("button", "down_right.png"));
         addButton(X + SIZE, Y + SIZE, DOWN, Medias.create("button", "down_right.png"));
 
-        addButton(1, Y - SIZE / 2, UP, Medias.create("button", "1.png"));
-        addButton(1, Y + SIZE / 2, CONTROL, Medias.create("button", "2.png"));
+        addButton(1, Y - SIZE_BUTTON, UP, Medias.create("button", "1.png"));
+        addButton(1, Y + SIZE_BUTTON, CONTROL, Medias.create("button", "2.png"));
     }
 }
