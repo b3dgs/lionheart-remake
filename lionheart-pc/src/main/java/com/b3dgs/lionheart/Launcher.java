@@ -105,6 +105,8 @@ public final class Launcher
     private static final AtomicBoolean FULLSCREEN = new AtomicBoolean();
     private static final AtomicInteger FLAG = new AtomicInteger();
     private static final AtomicBoolean RASTER = new AtomicBoolean();
+    private static final AtomicBoolean HUD = new AtomicBoolean();
+    private static final AtomicBoolean HUD_SWORD = new AtomicBoolean();
     private static final AtomicInteger ZOOM = new AtomicInteger();
     private static final AtomicInteger MUSIC = new AtomicInteger();
     private static final AtomicInteger SFX = new AtomicInteger();
@@ -127,6 +129,9 @@ public final class Launcher
     private static final String LABEL_FULLSCREEN = "Fullscreen:";
     private static final String LABEL_FLAG = "Flag: ";
     private static final String LABEL_RASTER = "Raster:";
+    private static final String LABEL_HUD = "Hud";
+    private static final String LABEL_HUD_VISIBLE = "Visible:";
+    private static final String LABEL_HUD_SWORD = "Sword:";
     private static final String LABEL_STAGES = "Stages ";
     private static final String LABEL_GAMEPAD = "Gamepad: ";
     private static final String LABEL_SETUP_DEVICE = "Setup ";
@@ -177,6 +182,8 @@ public final class Launcher
         }
         FULLSCREEN.set(display.getWidth() == width && display.getHeight() == height);
         RASTER.set(settings.getRaster());
+        HUD.set(settings.getHudVisible());
+        HUD_SWORD.set(settings.getHudSword());
         ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
                                 (int) (Constant.ZOOM_MIN * 100),
                                 (int) (Constant.ZOOM_MAX * 100)));
@@ -230,6 +237,7 @@ public final class Launcher
         final Container scale = createScale(box);
         final Container ratio = createRatio(box);
         createFullscreen(box, scale, ratio);
+        createHud(box);
         createZoom(box);
         createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
@@ -376,6 +384,29 @@ public final class Launcher
         box.add(label);
         box.add(combo);
         box.add(raster);
+        parent.add(box);
+    }
+
+    private static void createHud(Container parent)
+    {
+        final JCheckBox hud = new JCheckBox(LABEL_HUD_VISIBLE);
+        hud.setFont(FONT);
+        hud.setHorizontalTextPosition(SwingConstants.LEADING);
+        hud.setSelected(HUD.get());
+        hud.addChangeListener(e -> HUD.set(hud.isSelected()));
+
+        final JCheckBox sword = new JCheckBox(LABEL_HUD_SWORD);
+        sword.setFont(FONT);
+        sword.setHorizontalTextPosition(SwingConstants.LEADING);
+        sword.setSelected(HUD_SWORD.get());
+        sword.addChangeListener(e -> HUD_SWORD.set(sword.isSelected()));
+        sword.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BorderFactory.createTitledBorder(LABEL_HUD));
+        box.add(hud);
+        box.add(sword);
+
         parent.add(box);
     }
 
@@ -695,6 +726,14 @@ public final class Launcher
                     else if (line.contains(Settings.RASTER_ENABLED))
                     {
                         writeFormatted(output, data, RASTER.get());
+                    }
+                    else if (line.contains(Settings.HUD_VISIBLE))
+                    {
+                        writeFormatted(output, data, HUD.get());
+                    }
+                    else if (line.contains(Settings.HUD_SWORD))
+                    {
+                        writeFormatted(output, data, HUD_SWORD.get());
                     }
                     else if (line.contains(Settings.ZOOM))
                     {

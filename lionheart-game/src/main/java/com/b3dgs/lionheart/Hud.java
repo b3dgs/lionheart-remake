@@ -65,14 +65,15 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final double TALISMENT_X_RATIO = 0.205;
     private static final int TALISMENT_Y = 1;
+    private static final int TALISMENT_TILE = 0;
 
     private static final double AMULET_X_RATIO = 0.72;
     private static final int AMULET_Y = 1;
+    private static final int AMULET_TILE = 1;
 
-    private static final boolean SWORD_VISIBLE = false;
     private static final double SWORD_X_RATIO = 0.5;
     private static final int SWORD_Y = 1;
-    private static final int SWORD_TILE = 1;
+    private static final int SWORD_TILE = 2;
 
     private static final int LIFE_TILE = 6;
     private static final int LIFE_Y = 1;
@@ -98,6 +99,7 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private final SpriteTiled[] hearts = new SpriteTiled[HEALTH_MAX];
     private final Tick tick = new Tick();
+    private final boolean swordVisible = Settings.getInstance().getHudSword();
     private final Viewer viewer;
 
     private Updatable updaterHud = UpdatableVoid.getInstance();
@@ -203,7 +205,7 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     private void loadTalisment()
     {
-        talisment.setTile(0);
+        talisment.setTile(TALISMENT_TILE);
         talisment.setLocation(viewer.getWidth() * TALISMENT_X_RATIO, TALISMENT_Y + 2);
         numberTalisment.setLocation(talisment.getX() + talisment.getTileWidth(), TALISMENT_Y + 1);
     }
@@ -222,7 +224,7 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     private void loadAmulet()
     {
-        amulet.setTile(1);
+        amulet.setTile(AMULET_TILE);
         amulet.setLocation(viewer.getWidth() * AMULET_X_RATIO, AMULET_Y);
     }
 
@@ -261,7 +263,7 @@ public final class Hud implements Resource, Updatable, Renderable
         updateHeart();
 
         numberTalisment.setValue(stats.getTalisment());
-        if (SWORD_VISIBLE)
+        if (swordVisible)
         {
             sword.setTile(SWORD_TILE + stats.getSword());
         }
@@ -334,7 +336,7 @@ public final class Hud implements Resource, Updatable, Renderable
         talisment.render(g);
         numberTalisment.render(g);
 
-        if (SWORD_VISIBLE)
+        if (swordVisible)
         {
             sword.render(g);
         }

@@ -78,6 +78,8 @@ public final class Settings
     public static final String HUD = "hud";
     /** Hud visible key. */
     public static final String HUD_VISIBLE = HUD + ".visible";
+    /** Hud sword key. */
+    public static final String HUD_SWORD = HUD + ".sword";
 
     /** Background key. */
     public static final String BACKGROUND = "background";
@@ -354,6 +356,16 @@ public final class Settings
     public boolean getHudVisible()
     {
         return getBoolean(HUD_VISIBLE, true);
+    }
+
+    /**
+     * Get hud sword value.
+     * 
+     * @return The hud sword value.
+     */
+    public boolean getHudSword()
+    {
+        return getBoolean(HUD_SWORD, true);
     }
 
     /**
