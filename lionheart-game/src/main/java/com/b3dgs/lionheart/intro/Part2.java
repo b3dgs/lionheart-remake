@@ -70,8 +70,8 @@ public final class Part2 implements Updatable, Renderable
     private static final int EQUIP_HAND_X = 120;
     private static final int EQUIP_HAND_Y = 19;
 
-    private static final int RAGE_FLASH_COUNT = 11;
-    private static final int RAGE_FLASH_MOD = 3;
+    private static final int RAGE_FLASH_COUNT = 24;
+    private static final int RAGE_FLASH_MOD = 6;
 
     private static final double SPEED_CAVE_FADE_IN = 4;
     private static final double SPEED_CAVE_FADE_OUT = 12;
@@ -98,8 +98,8 @@ public final class Part2 implements Updatable, Renderable
     private static final int TIME_RAGE_FADE_IN_MS = 81500;
     private static final int TIME_RAGE_START_MS = 83600;
     private static final int TIME_RAGE_FLASH_MS = 84800;
-    private static final int TIME_RAGE_END_MS = 85200;
-    private static final int TIME_RAGE_FADE_OUT_MS = 86600;
+    private static final int TIME_RAGE_END_MS = 85500;
+    private static final int TIME_RAGE_FADE_OUT_MS = 87500;
 
     /**
      * Get media from filename.
@@ -805,7 +805,7 @@ public final class Part2 implements Updatable, Renderable
         valdyn1.setLocation(width / 2, height / 2);
         valdyn1.render(g);
 
-        if (flash % RAGE_FLASH_MOD > 0)
+        if (!UtilMath.isBetween(flash % RAGE_FLASH_MOD, 0, RAGE_FLASH_MOD / 2 - 1))
         {
             valdyn2.setLocation(width / 2, height / 2);
             valdyn2.render(g);

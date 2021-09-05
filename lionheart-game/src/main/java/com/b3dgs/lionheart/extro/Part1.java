@@ -95,6 +95,7 @@ public class Part1 extends Sequence
     private static final double CITADEL_FALL_SPEED = 0.05;
     private static final double CITADEL_ACC_MAX = 3.0;
 
+    private static final int EXPLODE_Y_OFFSET = 8;
     private static final double EXPLODE_Y_SCALE = 0.6;
 
     private static final int TIME_EXPLODE_LOT_MS = 15300;
@@ -213,7 +214,7 @@ public class Part1 extends Sequence
             final double x = UtilRandom.getRandomInteger(width);
             final double y = UtilRandom.getRandomInteger((int) (height * EXPLODE_Y_SCALE)) + height + bandHeight;
             final int citadelOffsetY = citadel.getHeight() / 3;
-            spawner.spawn(media, citadel.getX() + x, y - citadel.getY() + citadelOffsetY);
+            spawner.spawn(media, citadel.getX() + x, y - citadel.getY() + citadelOffsetY - EXPLODE_Y_OFFSET);
         }
     }
 

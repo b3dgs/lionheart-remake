@@ -84,16 +84,16 @@ public class Part5 extends Sequence
 
     private static final int TIME_TRANSFORM1_MS = 141600;
     private static final int TIME_TRANSFORM_ALPHA_IN_MS = 142500;
-    private static final int TIME_TRANSFORM2_MS = 142700;
-    private static final int TIME_TRANSFORM3_MS = 143600;
-    private static final int TIME_TRANSFORM4_MS = 145200;
-    private static final int TIME_TRANSFORM5_MS = 147900;
-    private static final int TIME_TRANSFORM6_MS = 148900;
-    private static final int TIME_TRANSFORM7_MS = 149900;
+    private static final int TIME_TRANSFORM2_MS = 143400;
+    private static final int TIME_TRANSFORM3_MS = 144300;
+    private static final int TIME_TRANSFORM4_MS = 145900;
+    private static final int TIME_TRANSFORM5_MS = 148700;
+    private static final int TIME_TRANSFORM6_MS = 149700;
+    private static final int TIME_TRANSFORM7_MS = 150700;
     private static final int TIME_TRANSFORM_FLICKER_MS = 151900;
     private static final int TIME_TRANSFORM8_MS = 153600;
-    private static final int TIME_TRANSFORM_ALPHA_OUT_MS = 154500;
-    private static final int TIME_TRANSFORM_EYES_MS = 155600;
+    private static final int TIME_TRANSFORM_ALPHA_OUT_MS = 155000;
+    private static final int TIME_TRANSFORM_EYES_MS = 156000;
 
     private static final int TIME_FADE_OUT_MS = 160300;
 

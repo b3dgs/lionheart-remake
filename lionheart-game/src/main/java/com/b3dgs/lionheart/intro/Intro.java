@@ -242,12 +242,6 @@ public class Intro extends Sequence
     }
 
     @Override
-    protected void onLoaded(double extrp, Graphic g)
-    {
-        part1.render(g);
-    }
-
-    @Override
     public void update(double extrp)
     {
         time.update(extrp);
