@@ -35,10 +35,6 @@ import com.b3dgs.lionheart.landscape.BackgroundType;
  */
 public final class Loading extends Sequence
 {
-    private static final int MIN_HEIGHT = 180;
-    private static final int MAX_WIDTH = 320;
-    private static final int MARGIN_WIDTH = 0;
-
     private final Progress progress = new Progress(getWidth(), getHeight());
     private final BackgroundType[] backgrounds = BackgroundType.values();
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
@@ -54,7 +50,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), new LoopUnlocked());
+        super(context, Util.getResolution(Constant.RESOLUTION, context), new LoopUnlocked());
 
         max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 

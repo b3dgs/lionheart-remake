@@ -62,10 +62,6 @@ import com.b3dgs.lionheart.constant.Folder;
 // CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
 public class Continue extends Sequence
 {
-    private static final int MIN_HEIGHT = 360;
-    private static final int MAX_WIDTH = 640;
-    private static final int MARGIN_WIDTH = 0;
-
     private static final int INDEX_CONTINUE = 0;
     private static final int INDEX_YES = 1;
     private static final int INDEX_NO = 2;
@@ -120,6 +116,7 @@ public class Continue extends Sequence
     private final InitConfig init;
     private final DeviceController deviceCursor;
     private final Cursor cursor;
+    private final DevicePointer pointer;
 
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
@@ -137,7 +134,7 @@ public class Continue extends Sequence
      */
     public Continue(Context context, Media stage, InitConfig init)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
 
         this.stage = stage;
         this.init = init;
@@ -160,10 +157,11 @@ public class Continue extends Sequence
         cursor.setSensibility(getWidth() / (double) Constant.RESOLUTION.getWidth(),
                               getHeight() / (double) Constant.RESOLUTION.getHeight());
         cursor.setArea(0, 0, getWidth(), getHeight());
-        cursor.setSync((DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
-                                                                            .iterator()
-                                                                            .next()
-                                                                            .getDevice()));
+        pointer = (DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
+                                                                       .iterator()
+                                                                       .next()
+                                                                       .getDevice());
+        cursor.setSync(pointer);
         info = new AppInfo(this::getFps, services);
 
         mainY = (getHeight() + MAIN_Y_OFFSET) / 2;
@@ -402,6 +400,14 @@ public class Continue extends Sequence
         device.update(extrp);
         deviceCursor.update(extrp);
         cursor.update(extrp);
+        if (device.isFired())
+        {
+            cursor.setSync(null);
+        }
+        if (Double.compare(pointer.getMoveX(), 0.0) != 0 || Double.compare(pointer.getMoveY(), 0.0) != 0)
+        {
+            cursor.setSync(pointer);
+        }
         valdyn.update(extrp);
 
         updateTransition(extrp);

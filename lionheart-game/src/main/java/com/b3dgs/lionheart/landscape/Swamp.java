@@ -41,7 +41,7 @@ final class Swamp extends BackgroundAbstract
 
     private static final int CLOUD_Y = 4;
 
-    private static final int MOON_OFFSET_X = -56;
+    private static final double MOON_SCALE_X = 0.6;
     private static final int MOON_OFFSET_Y = 50;
 
     private static final int PARALLAX_W = 50;
@@ -52,7 +52,8 @@ final class Swamp extends BackgroundAbstract
     private final Backdrop backdrop;
     private final Clouds clouds;
     private final Parallax parallax;
-    private double scaleH;
+
+    private double moonOffsetX;
 
     /**
      * Constructor.
@@ -67,7 +68,6 @@ final class Swamp extends BackgroundAbstract
     {
         super(theme, 0, HEIGHT_MAX);
 
-        this.scaleH = scaleH;
         totalHeight = HEIGHT_TOTAL;
 
         final int width = source.getWidth();
@@ -86,6 +86,8 @@ final class Swamp extends BackgroundAbstract
                                 PARALLAX_Y,
                                 PARALLAX_W,
                                 PARALLAX_H);
+        moonOffsetX = width * MOON_SCALE_X;
+
         add(backdrop);
         add(clouds);
         add(parallax);
@@ -94,7 +96,7 @@ final class Swamp extends BackgroundAbstract
     @Override
     public void setScreenSize(int width, int height)
     {
-        scaleH = width / (double) Constant.RESOLUTION_GAME.getWidth();
+        moonOffsetX = width * MOON_SCALE_X;
         setOffsetY(height - Constant.RESOLUTION_GAME.getHeight());
         backdrop.setScreenWidth(width);
         clouds.setScreenWidth(width);
@@ -140,8 +142,7 @@ final class Swamp extends BackgroundAbstract
             }
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y);
             moonOffset = MOON_OFFSET_Y;
-            final int x = (int) (224 * scaleH);
-            moon = new BackgroundElementRastered(x,
+            moon = new BackgroundElementRastered(0,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
                                                  Medias.create(path, "palette.png"),
@@ -196,7 +197,7 @@ final class Swamp extends BackgroundAbstract
         {
             final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY()));
             moon.setRaster(id);
-            moon.setLocation(moon.getMainX() - MOON_OFFSET_X, moon.getOffsetY() + moon.getMainY());
+            moon.setLocation(moon.getMainX() + moonOffsetX, moon.getOffsetY() + moon.getMainY());
             moon.render(g);
         }
 

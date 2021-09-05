@@ -86,7 +86,7 @@ public final class Util
         if (Settings.getInstance().getResolutionResize())
         {
             final double factor = source.getHeight() / (double) output.getHeight();
-            return new Resolution((int) Math.floor(output.getWidth() * factor),
+            return new Resolution((int) Math.round(output.getWidth() * factor),
                                   (int) Math.round(output.getHeight() * factor),
                                   source.getRate());
         }

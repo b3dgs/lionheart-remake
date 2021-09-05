@@ -68,8 +68,6 @@ import com.b3dgs.lionheart.intro.Intro;
 public class Menu extends Sequence
 {
     private static final int MIN_HEIGHT = 360;
-    private static final int MAX_WIDTH = 640;
-    private static final int MARGIN_WIDTH = 0;
     private static final int FADE_SPEED = 8;
     private static final int CENTER_X = 320;
     private static final int MENU_MAIN_IMAGE_OFFSET_Y = 32;
@@ -110,6 +108,7 @@ public class Menu extends Sequence
     private final int mainY;
     private final DeviceController deviceCursor;
     private final Cursor cursor;
+    private final DevicePointer pointer;
 
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
@@ -137,7 +136,7 @@ public class Menu extends Sequence
      */
     public Menu(Context context)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
 
         final Services services = new Services();
         services.add(context);
@@ -156,10 +155,12 @@ public class Menu extends Sequence
         cursor.setSensibility(getWidth() / (double) Constant.RESOLUTION.getWidth(),
                               getHeight() / (double) Constant.RESOLUTION.getHeight());
         cursor.setArea(0, 0, getWidth(), getHeight());
-        cursor.setSync((DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
-                                                                            .iterator()
-                                                                            .next()
-                                                                            .getDevice()));
+
+        pointer = (DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
+                                                                       .iterator()
+                                                                       .next()
+                                                                       .getDevice());
+        cursor.setSync(pointer);
 
         info = new AppInfo(this::getFps, services);
 
@@ -578,6 +579,14 @@ public class Menu extends Sequence
         device.update(extrp);
         deviceCursor.update(extrp);
         cursor.update(extrp);
+        if (device.isFired())
+        {
+            cursor.setSync(null);
+        }
+        if (Double.compare(pointer.getMoveX(), 0.0) != 0 || Double.compare(pointer.getMoveY(), 0.0) != 0)
+        {
+            cursor.setSync(pointer);
+        }
 
         updateTransition(extrp);
         updateMenu(extrp);
@@ -594,7 +603,6 @@ public class Menu extends Sequence
         renderTransition(g);
 
         info.render(g);
-        // cursor.render(g);
     }
 
     @Override

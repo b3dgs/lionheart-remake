@@ -39,7 +39,7 @@ final class Lava extends BackgroundAbstract
     private static final int HEIGHT_MAX = 338;
     private static final int HEIGHT_TOTAL = 85;
 
-    private static final int MOON_OFFSET_X = -30;
+    private static final double MOON_SCALE_X = 0.6;
     private static final int MOON_OFFSET_Y = 52;
     private static final int MOUNTAIN_OFFSET_Y = -10;
     private static final int MOUNTAIN2_OFFSET_Y = 48;
@@ -54,7 +54,8 @@ final class Lava extends BackgroundAbstract
 
     private final Backdrop backdrop;
     private final Parallax parallax;
-    private double scaleH;
+
+    private double moonOffsetX;
 
     /**
      * Constructor.
@@ -69,7 +70,6 @@ final class Lava extends BackgroundAbstract
     {
         super(theme, 0, HEIGHT_MAX);
 
-        this.scaleH = scaleH;
         totalHeight = HEIGHT_TOTAL;
 
         final int width = source.getWidth();
@@ -87,6 +87,8 @@ final class Lava extends BackgroundAbstract
                                 PARALLAX_Y,
                                 PARALLAX_W,
                                 PARALLAX_H);
+        moonOffsetX = width * MOON_SCALE_X;
+
         add(backdrop);
         add(parallax);
     }
@@ -94,7 +96,7 @@ final class Lava extends BackgroundAbstract
     @Override
     public void setScreenSize(int width, int height)
     {
-        scaleH = width / (double) Constant.RESOLUTION_GAME.getWidth();
+        moonOffsetX = width * MOON_SCALE_X;
         setOffsetY(height - Constant.RESOLUTION_GAME.getHeight());
         backdrop.setScreenWidth(width);
         parallax.setScreenSize(width, height);
@@ -144,8 +146,7 @@ final class Lava extends BackgroundAbstract
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y + MOUNTAIN_OFFSET_Y);
             mountain2 = createElement(path, "mountain2.png", 0, PARALLAX_Y + MOUNTAIN2_OFFSET_Y);
             moonOffset = MOON_OFFSET_Y;
-            final int x = (int) (196 * scaleH);
-            moon = new BackgroundElementRastered(x,
+            moon = new BackgroundElementRastered(0,
                                                  moonOffset,
                                                  Medias.create(path, "moon.png"),
                                                  Medias.create(path, "palette.png"),
@@ -218,7 +219,7 @@ final class Lava extends BackgroundAbstract
         {
             final int id = (int) (mountain.getOffsetY() + (totalHeight - getOffsetY()));
             moon.setRaster(id);
-            moon.setLocation(moon.getMainX() + MOON_OFFSET_X, moon.getOffsetY() + moon.getMainY());
+            moon.setLocation(moon.getMainX() + moonOffsetX, moon.getOffsetY() + moon.getMainY());
             moon.render(g);
         }
 
