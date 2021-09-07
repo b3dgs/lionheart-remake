@@ -50,6 +50,7 @@ public final class ScenePicture extends Sequence
     private static final int PUSH_Y = 225;
     private static final int PUSH_BUTTON_TICK = 30;
     private static final int FADE_SPEED = 6;
+    private static final int TEXT_HEIGHT_NORMAL = 36;
     private static final int TEXT_HEIGHT_MAX = 40;
 
     private final String pushButton = Util.readLines(Medias.create(Folder.TEXT,
@@ -73,6 +74,7 @@ public final class ScenePicture extends Sequence
     private int fadePic = 255;
     private int fadeText = 255;
     private int speed = FADE_SPEED;
+    private int picYoffset;
     private boolean showPush;
 
     /**
@@ -130,7 +132,7 @@ public final class ScenePicture extends Sequence
         font.load();
         font.prepare();
         text = Drawable.loadImage(cacheText(narrative));
-        text.setLocation(0, TEXT_Y);
+        text.setLocation(0, TEXT_Y + picYoffset);
         text.setOrigin(Origin.TOP_LEFT);
 
         setSystemCursorVisible(false);
@@ -145,7 +147,9 @@ public final class ScenePicture extends Sequence
     private ImageBuffer cacheText(String text)
     {
         final String str = Util.toFontText(Medias.create(Folder.TEXT, Settings.getInstance().getLang(), text));
-        final ImageBuffer buffer = Graphics.createImageBuffer(getWidth(), font.getTextHeight(str) + 8);
+        final int textHeight = font.getTextHeight(str);
+        picYoffset = TEXT_HEIGHT_NORMAL - textHeight;
+        final ImageBuffer buffer = Graphics.createImageBuffer(getWidth(), textHeight + 8);
         buffer.prepare();
 
         final Graphic g = buffer.createGraphic();
@@ -228,7 +232,7 @@ public final class ScenePicture extends Sequence
         picture.load();
         picture.prepare();
         picture.setOrigin(Origin.CENTER_TOP);
-        picture.setLocation(getWidth() / 2 - 1, PIC_Y);
+        picture.setLocation(getWidth() / 2 - 1, PIC_Y + picYoffset);
     }
 
     @Override
@@ -254,7 +258,7 @@ public final class ScenePicture extends Sequence
         {
             g.setColor(Constant.ALPHAS_BLACK[fadePic]);
             g.drawRect((int) picture.getX() - picture.getWidth() / 2,
-                       (int) picture.getY(),
+                       (int) picture.getY() + picYoffset,
                        picture.getWidth(),
                        picture.getHeight(),
                        true);
@@ -264,7 +268,7 @@ public final class ScenePicture extends Sequence
         if (fadeText > 0)
         {
             g.setColor(Constant.ALPHAS_BLACK[fadeText]);
-            g.drawRect(0, (int) text.getY(), getWidth(), TEXT_HEIGHT_MAX, true);
+            g.drawRect(0, (int) text.getY() + picYoffset, getWidth(), TEXT_HEIGHT_MAX - picYoffset * 2, true);
         }
 
         g.setColor(ColorRgba.WHITE);

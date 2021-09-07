@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -138,7 +139,8 @@ public final class Util
     public static List<String> readLines(Media media)
     {
         final List<String> lines = new ArrayList<>();
-        try (BufferedReader data = new BufferedReader(new InputStreamReader(media.getInputStream())))
+        try (BufferedReader data = new BufferedReader(new InputStreamReader(media.getInputStream(),
+                                                                            StandardCharsets.UTF_8)))
         {
             String line;
             while ((line = data.readLine()) != null)

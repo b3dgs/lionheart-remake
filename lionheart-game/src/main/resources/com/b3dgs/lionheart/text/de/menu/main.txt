@@ -1,4 +1,4 @@
 Spiel starten
 Optionen
 Einleitung
-Ausfahrt
+Beenden

@@ -28,6 +28,8 @@ import com.b3dgs.lionengine.graphic.Text;
  */
 final class Choice implements Renderable
 {
+    private static final int MAX_WIDTH = 130;
+
     /** Horizontal location. */
     private final int x;
     /** Vertical location. */
@@ -130,6 +132,11 @@ final class Choice implements Renderable
     @Override
     public void render(Graphic g)
     {
-        text.draw(g, x, y, align, name);
+        int offsetX = 0;
+        if (Align.LEFT == align)
+        {
+            offsetX = Math.max(0, text.getStringWidth(g, name) - MAX_WIDTH);
+        }
+        text.draw(g, x - offsetX, y, align, name);
     }
 }

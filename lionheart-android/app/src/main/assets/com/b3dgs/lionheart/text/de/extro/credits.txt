@@ -1,6 +1,6 @@
-C26 Gratulation für
-C26 vervollständigen LIONHEART !
-C26 (remake ausführung)
+C26 Gratulation für das
+C26 durchspielen von LIONHEART !
+C26 (Remake Version)
 
 
 
@@ -8,28 +8,28 @@ C26 Das Personal:
 C14 ------------------
 
 L24 Erwin Kloibhofer
-L11 allgemeine programmierung, Schnitzel-cooking
+L11 Allgemeine Programmierung, Schnitzel braten
 L24 Michael Bittner
-L11 zusätzliche programmierung, intro, extro,
-L11 3D-scroller, ideen, Spaetzle
+L11 Zusätzliche Programmierung, Intro, Extro,
+L11 3D-scroller, Ideen, Spätzle
 L24 Henk Nieborg
-L11 grafiken, animationen, ideen & konsolen
-L11 inspiration
+L11 Grafiken, Animationen, Ideen & Konsolen
+L11 Inspiration
 L24 Erik Simon
-L11 konzept, spieldesign, einige farben,
-L11 curryhuhn, das personal verprügeln
+L11 Konzept, Spieldesign, einige Farben,
+L11 Curryhuhn, das Personal verprügeln
 L24 Matthias Steinwachs
-L11 komponieren, musik, soundeffekte,
-L11 lustige briefe
+L11 Komponieren, Musik, Soundeffekte,
+L11 Lustige Briefe
 L24 Matthias Moerstedt
-L11 soundroutine patching,
-L11 aufsichtsbehörde (seufz)
+L11 Soundroutine patching,
+L11 Aufsichtsbehörde (seufz)
 L24 Jurie Horneman
-L11 geschichten schreiben, ideen, chili con carne 
+L11 Geschichten schreiben, Ideen, Chili con carne 
 L24 Dieter Rottermund
-L11 titelbild
+L11 Titelbild
 L24 Pierre-Alexandre
-L11 remake programmierung
+L11 Remake Programmierung
 
 
 
@@ -37,7 +37,7 @@ L11 remake programmierung
 
 
 
-C26 Persönliche nachrichten:
+C26 Persönliche Nachrichten:
 C14 ------------------------------------------
 
 
@@ -115,12 +115,12 @@ L11 I hope you will enjoy this remake again, and
 L11 see you for another project !
 
 
-L11 Vergesst meine webseite nicht, www.b3dgs.com !
+L11 Vergesst meine Webseite nicht, www.b3dgs.com !
 
 
 
-L11 In erinnerung an alte Spiele...
-L11 lass den Amiga nicht sterben !
+L11 In Erinnerung an alte Spiele...
+L11 Lass den Amiga nicht sterben !
 
 
 
