@@ -54,9 +54,7 @@ import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.Stage;
 import com.b3dgs.lionheart.StageConfig;
-import com.b3dgs.lionheart.StageHard;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
@@ -418,11 +416,12 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                final Media stage = Folder.ORIGINAL.equals(settings.getStages()) ? difficulty > 0 ? StageHard.STAGE1
-                                                                                                  : Stage.STAGE1
-                                                                                 : Medias.create(Folder.STAGE,
-                                                                                                 settings.getStages(),
-                                                                                                 "stage1.xml");
+                final String suffix = difficulty > 0 ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
+                Media stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1" + suffix + ".xml");
+                if (!stage.exists())
+                {
+                    stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1.xml");
+                }
                 final StageConfig config = StageConfig.imports(new Configurer(stage));
                 end(ScenePicture.class, stage, getInitConfig(), config.getPic().get(), config.getText().get());
                 break;
