@@ -43,6 +43,18 @@
             <lionengine:group>pillar</lionengine:group>
             <lionengine:group>pillar2</lionengine:group>
         </lionengine:category>
+        <lionengine:category name="leg_left" axis="Y" x="-2" y="0">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_right" axis="Y" x="2" y="0">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+        </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
@@ -50,5 +62,4 @@
     <stats health="1"/>
     <hurtable effect="effect/spidercave1/ExplodeLittle.xml"/>
     <shade horizontal="5" vertical="2"/>
-    <patrol sh="-0.35" amplitude="48" offset="0"/>
 </lionengine:featurable>
