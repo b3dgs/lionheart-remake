@@ -131,13 +131,14 @@ final class Swamp extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
-            backcolorA = createElement(path, "backcolor1.png", 0, 0);
             if (flickering)
             {
+                backcolorA = createElement(path, "backcolor1.png", 0, 0);
                 backcolorB = createElement(path, "backcolor2.png", 0, 0);
             }
             else
             {
+                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y);
@@ -226,11 +227,6 @@ final class Swamp extends BackgroundAbstract
             final double mx = mountain.getOffsetX() + speed * 0.24;
             mountain.setOffsetX(UtilMath.wrapDouble(mx, 0.0, mountainSprite.getWidth()));
             mountain.setOffsetY(y);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
         }
 
         @Override
@@ -239,6 +235,11 @@ final class Swamp extends BackgroundAbstract
             renderBackdrop(g);
             renderMoon(g);
             renderMountains(g);
+
+            if (flickering)
+            {
+                flicker = !flicker;
+            }
         }
     }
 }

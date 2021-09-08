@@ -86,13 +86,15 @@ final class Gradient extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
-            backcolorA = createElement(path, "backcolor1.png", 0, 0);
+
             if (flickering)
             {
+                backcolorA = createElement(path, "backcolor1.png", 0, 0);
                 backcolorB = createElement(path, "backcolor2.png", 0, 0);
             }
             else
             {
+                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
             setScreenWidth(screenWidth);
@@ -112,11 +114,6 @@ final class Gradient extends BackgroundAbstract
         public void update(double extrp, int x, int y, double speed)
         {
             backcolorA.setOffsetY(y);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
         }
 
         @Override
@@ -137,6 +134,10 @@ final class Gradient extends BackgroundAbstract
                 final double y = backcolorA.getOffsetY() + backcolorA.getMainY();
                 sprite.setLocation(x, y);
                 sprite.render(g);
+            }
+            if (flickering)
+            {
+                flicker = !flicker;
             }
         }
     }

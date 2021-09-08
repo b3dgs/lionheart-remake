@@ -108,13 +108,14 @@ final class Airship extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
-            backcolorA = createElement(path, "backcolor1.png", 0, 0);
             if (flickering)
             {
+                backcolorA = createElement(path, "backcolor1.png", 0, 0);
                 backcolorB = createElement(path, "backcolor2.png", 0, 0);
             }
             else
             {
+                backcolorA = createElement(path, "backcolor.png", 0, 0);
                 backcolorB = null;
             }
             this.screenWidth = screenWidth;
@@ -159,17 +160,17 @@ final class Airship extends BackgroundAbstract
         public void update(double extrp, int x, int y, double speed)
         {
             backcolorA.setOffsetY(y);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
         }
 
         @Override
         public void render(Graphic g)
         {
             renderBackdrop(g);
+
+            if (flickering)
+            {
+                flicker = !flicker;
+            }
         }
     }
 
@@ -199,13 +200,14 @@ final class Airship extends BackgroundAbstract
             super();
 
             this.flickering = flickering;
-            backcolorA = createElement(path, "backcolorForest1.png", 0, FOREST_Y + 100);
             if (flickering)
             {
+                backcolorA = createElement(path, "backcolorForest1.png", 0, FOREST_Y + 100);
                 backcolorB = createElement(path, "backcolorForest2.png", 0, FOREST_Y + 100);
             }
             else
             {
+                backcolorA = createElement(path, "backcolorForest.png", 0, FOREST_Y + 100);
                 backcolorB = null;
             }
             forest = createElement(path, "forest.png", 0, FOREST_Y);
@@ -274,11 +276,6 @@ final class Airship extends BackgroundAbstract
             backcolorA.setOffsetY(y);
             forest.setOffsetX(UtilMath.wrapDouble(forest.getOffsetX() + FOREST_SPEED, 0.0, forestSprite.getWidth()));
             forest.setOffsetY(y);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
         }
 
         @Override
@@ -286,6 +283,11 @@ final class Airship extends BackgroundAbstract
         {
             renderBackdrop(g);
             renderForest(g);
+
+            if (flickering)
+            {
+                flicker = !flicker;
+            }
         }
     }
 }

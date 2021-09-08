@@ -134,13 +134,14 @@ final class Lava extends BackgroundAbstract
 
             this.flickering = flickering;
             cloud = createElement(path, "cloud.png", 0, 0);
-            backcolorA = createElement(path, "backcolor1.png", 0, 1);
             if (flickering)
             {
+                backcolorA = createElement(path, "backcolor1.png", 0, 1);
                 backcolorB = createElement(path, "backcolor2.png", 0, 1);
             }
             else
             {
+                backcolorA = createElement(path, "backcolor.png", 0, 1);
                 backcolorB = null;
             }
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y + MOUNTAIN_OFFSET_Y);
@@ -273,11 +274,6 @@ final class Lava extends BackgroundAbstract
                                                      0.0,
                                                      mountain2Sprite.getWidth()));
             mountain2.setOffsetY(y);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
         }
 
         @Override
@@ -288,6 +284,11 @@ final class Lava extends BackgroundAbstract
             renderCloud(g);
             renderMountains(g);
             renderMountains2(g);
+
+            if (flickering)
+            {
+                flicker = !flicker;
+            }
         }
     }
 }
