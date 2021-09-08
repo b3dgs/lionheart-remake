@@ -41,6 +41,10 @@ final class Norka extends BackgroundAbstract
 
     private final Backdrop backdrop;
 
+    private int width;
+    private int height;
+    private int offsetY;
+
     /**
      * Constructor.
      * 
@@ -56,7 +60,7 @@ final class Norka extends BackgroundAbstract
 
         final String path = UtilFolder.getPath(Folder.BACKGROUND, WorldType.NORKA.getFolder(), theme);
         final int width = source.getWidth();
-        backdrop = new Backdrop(path, flickering, width, source);
+        backdrop = new Backdrop(path, flickering, width);
         add(backdrop);
         totalHeight = 0;
         setScreenSize(source.getWidth(), source.getHeight());
@@ -65,7 +69,10 @@ final class Norka extends BackgroundAbstract
     @Override
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight());
+        this.width = width;
+        this.height = height;
+        offsetY = height - Constant.RESOLUTION_GAME.getHeight();
+        setOffsetY(offsetY);
     }
 
     /**
@@ -77,7 +84,6 @@ final class Norka extends BackgroundAbstract
         private final int[][] data = {{0, 144}, {64, 112}, {128, 96}, {160, 96}, {256, 96}, {304, 112}, {368, 144}};
         // @formatter:on
         private final SpriteAnimated[] back = new SpriteAnimated[BACK_COUNT];
-        private final SourceResolutionProvider source;
 
         private double frame;
 
@@ -87,13 +93,11 @@ final class Norka extends BackgroundAbstract
          * @param path The backdrop path.
          * @param flickering The flickering flag effect.
          * @param screenWidth The screen width.
-         * @param source The resolution source reference.
          */
-        Backdrop(String path, boolean flickering, int screenWidth, SourceResolutionProvider source)
+        Backdrop(String path, boolean flickering, int screenWidth)
         {
             super();
 
-            this.source = source;
             for (int i = 0; i < back.length; i++)
             {
                 back[i] = Drawable.loadSpriteAnimated(Medias.create(path, "back" + (i + 1) + ".png"), BACK_FH, BACK_FV);
@@ -112,17 +116,17 @@ final class Norka extends BackgroundAbstract
             for (int i = 0; i < back.length; i++)
             {
                 back[i].setFrame(id);
-                back[i].setLocation(data[i][0] - x, y - data[i][1]);
+                back[i].setLocation(data[i][0] - x, y - data[i][1] + offsetY);
             }
         }
 
         @Override
         public void render(Graphic g)
         {
-            g.clear(0, 0, source.getWidth(), source.getHeight());
-            for (final SpriteAnimated element : back)
+            g.clear(0, 0, width, height);
+            for (int i = 0; i < back.length; i++)
             {
-                element.render(g);
+                back[i].render(g);
             }
         }
     }

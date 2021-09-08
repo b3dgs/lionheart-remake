@@ -42,6 +42,8 @@ public final class ForegroundConfig
     public static final String ATT_WATER_EFFECT = "waterEffect";
     /** Water raise attribute name. */
     public static final String ATT_WATER_RAISE = "raise";
+    /** Width limit. */
+    private static final String ATT_WIDTH_MAX = "widthMax";
 
     /**
      * Imports the config from configurer.
@@ -69,6 +71,8 @@ public final class ForegroundConfig
     private final boolean waterEffect;
     /** Water raise flag. */
     private final int waterRaise;
+    /** Width max value. */
+    private final OptionalInt widthMax;
 
     /**
      * Create config.
@@ -88,6 +92,7 @@ public final class ForegroundConfig
         waterSpeed = root.getDoubleOptional(ATT_WATER_SPEED, NODE_FOREGROUND);
         waterEffect = root.getBoolean(true, ATT_WATER_EFFECT, NODE_FOREGROUND);
         waterRaise = root.getInteger(0, ATT_WATER_RAISE, NODE_FOREGROUND);
+        widthMax = root.getIntegerOptional(ATT_WIDTH_MAX, NODE_FOREGROUND);
     }
 
     /**
@@ -149,4 +154,15 @@ public final class ForegroundConfig
     {
         return waterRaise;
     }
+
+    /**
+     * Get the width max value.
+     * 
+     * @return The width max value.
+     */
+    public OptionalInt getWidthMax()
+    {
+        return widthMax;
+    }
+
 }

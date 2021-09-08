@@ -84,6 +84,8 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     private double raise;
     /** Water raise max. */
     private double raiseMax;
+    /** Max width. */
+    private final int widthMax;
     /** Water current line. */
     private int offsetLine;
     /** Water line offset side. */
@@ -111,6 +113,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         effect = config.getWaterEffect();
         raiseMax = config.getWaterRaise();
         raise = 0;
+        widthMax = config.getWidthMax().orElse(0);
 
         mapWater = services.get(MapTileWater.class);
 
@@ -171,6 +174,11 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         if (enabled)
         {
             renderComponent(1, g);
+
+            if (widthMax > 0)
+            {
+                g.clear(widthMax, 0, screenWidth - widthMax, screenHeight);
+            }
         }
     }
 
