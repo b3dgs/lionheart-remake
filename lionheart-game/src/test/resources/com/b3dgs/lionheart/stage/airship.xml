@@ -25,7 +25,7 @@
             <laser fireDelay="100" stayDelay="90"/>
         </entity>
         <entity file="entity/airship/Rotating.xml" tx="610.0" ty="11.0">
-            <rotating amplitude="90" extremity="entity/airship/SpikeBowl.xml" ring="entity/airship/Ring.xml" length="3" speed="-0.05"/>
+            <rotating amplitude="90" extremity="entity/airship/SpikeBowl.xml" length="3" speed="-0.05"/>
         </entity>
         <entity file="entity/airship/Talisment.xml" tx="600.0" ty="18.0"/>
         <entity file="entity/airship/PotionLittle.xml" tx="601.0" ty="18.0"/>
@@ -37,7 +37,7 @@
             <catapult vx="-1.5" vy="6.0"/>
         </entity>
         <entity file="entity/airship/Rotating.xml" tx="615.0" ty="11.0">
-            <rotating amplitude="15" controlled="true" extremity="entity/airship/Platform2.xml" ring="entity/airship/Ring.xml" length="3" speed="0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="entity/airship/Platform2.xml" length="3" speed="0.05"/>
         </entity>
     </entities>
 </stage>

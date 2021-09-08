@@ -44,13 +44,13 @@
             <patrol sh="0.0" sv="0.6" amplitude="32" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="48.0" ty="8.0">
-            <rotating amplitude="30" extremity="entity/ancienttown/Platform.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="30" extremity="entity/ancienttown/Platform.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="54.0" ty="8.0">
-            <rotating amplitude="15" controlled="true" extremity="entity/ancienttown/Platform2.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="entity/ancienttown/Platform2.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Rotating2.xml" tx="62.0" ty="8.0">
-            <rotating amplitude="90" extremity="entity/ancienttown/SpikeBowl.xml" ring="entity/ancienttown/Ring.xml" length="4" speed="0.05"/>
+            <rotating amplitude="90" extremity="entity/ancienttown/SpikeBowl.xml" length="4" speed="0.05"/>
         </entity>
         <entity file="entity/ancienttown/Rotating1.xml" tx="68.0" ty="3.0">
             <rotating extremity="entity/ancienttown/FireBall.xml" ring="entity/ancienttown/FireBall.xml" length="4" speed="-1.5"/>
