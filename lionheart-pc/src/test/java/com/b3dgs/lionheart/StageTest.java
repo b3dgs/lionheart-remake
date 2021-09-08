@@ -79,4 +79,21 @@ final class StageTest
                                              Boolean.TRUE);
         task.await();
     }
+
+    /**
+     * Test all stages.
+     * 
+     * @param stage The stage value.
+     */
+    @ParameterizedTest
+    @EnumSource(StageAlternative.class)
+    void testStageAlternative(StageAlternative stage)
+    {
+        final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+                                             Scene.class,
+                                             stage,
+                                             Constant.INIT_STANDARD,
+                                             Boolean.TRUE);
+        task.await();
+    }
 }
