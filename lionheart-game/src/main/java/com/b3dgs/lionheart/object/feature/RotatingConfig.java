@@ -46,7 +46,7 @@ public final class RotatingConfig implements XmlSaver
     /** Back attribute name. */
     public static final String ATT_BACK = "back";
 
-    private static final String DEFAULT_RING = "ring.xml";
+    private static final String DEFAULT_RING = "Ring.xml";
 
     /** Ring reference. */
     private final String ring;
