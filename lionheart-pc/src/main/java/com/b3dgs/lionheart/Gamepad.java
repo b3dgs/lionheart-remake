@@ -45,9 +45,6 @@ import uk.co.electronstudio.sdl2gdx.SDL2ControllerManager;
  */
 public class Gamepad implements DevicePush
 {
-    /** No click value. */
-    public static final Integer NO_CODE = Integer.valueOf(-1);
-
     /**
      * Get instance or <code>null</code>.
      * 
@@ -75,7 +72,16 @@ public class Gamepad implements DevicePush
         {
             if (System.getProperty("os.name", Constant.EMPTY_STRING).toLowerCase(Locale.ENGLISH).contains("win"))
             {
-                System.load(UtilStream.getCopy(Medias.create("libusb-1.0.dll")).getAbsolutePath());
+                final String arch;
+                if (com.sun.jna.Native.POINTER_SIZE == 4)
+                {
+                    arch = "32";
+                }
+                else
+                {
+                    arch = "64";
+                }
+                System.load(UtilStream.getCopy(Medias.create("libusb-1.0_" + arch + ".dll")).getAbsolutePath());
             }
         }
         catch (final Throwable throwable) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
@@ -137,7 +143,9 @@ public class Gamepad implements DevicePush
                     final Integer index = controllers.get(controller.getName());
                     if (index != null)
                     {
-                        press.get(index).add(Integer.valueOf(buttonCode));
+                        final Integer code = Integer.valueOf(buttonCode);
+                        last.put(index, code);
+                        press.get(index).add(code);
                     }
                     return false;
                 }
@@ -148,7 +156,9 @@ public class Gamepad implements DevicePush
                     final Integer index = controllers.get(controller.getName());
                     if (index != null)
                     {
-                        press.get(index).remove(Integer.valueOf(buttonCode));
+                        final Integer code = Integer.valueOf(buttonCode);
+                        last.remove(index, code);
+                        press.get(index).remove(code);
                     }
                     return false;
                 }
@@ -289,7 +299,6 @@ public class Gamepad implements DevicePush
      */
     private void init(Integer index)
     {
-        last.put(index, NO_CODE);
         press.put(index, new HashSet<>());
         pressed.put(index, new HashSet<>());
     }
@@ -371,7 +380,6 @@ public class Gamepad implements DevicePush
     {
         if (controller != null)
         {
-            last.put(controller, index);
             return contains(press, index);
         }
         return false;
@@ -384,7 +392,6 @@ public class Gamepad implements DevicePush
         {
             if (contains(press, index) && !contains(pressed, index))
             {
-                last.put(controller, index);
                 pressed.get(controller).add(index);
                 return true;
             }
