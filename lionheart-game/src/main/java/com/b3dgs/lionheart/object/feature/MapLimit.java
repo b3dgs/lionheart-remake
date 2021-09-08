@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -37,6 +38,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 public final class MapLimit extends FeatureModel implements Routine
 {
     private final MapTile map = services.get(MapTile.class);
+    private final Viewer viewer = services.get(Viewer.class);
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
@@ -64,6 +66,11 @@ public final class MapLimit extends FeatureModel implements Routine
         else if (transformable.getX() > map.getWidth() - map.getTileWidth())
         {
             transformable.teleportX(map.getWidth() - map.getTileWidth());
+            model.getMovement().zero();
+        }
+        if (transformable.getX() < viewer.getX())
+        {
+            transformable.teleportX(viewer.getX());
             model.getMovement().zero();
         }
     }
