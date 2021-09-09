@@ -66,7 +66,6 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Glue glue;
 
-    private Transformable other;
     private DeviceController device;
     private boolean hit;
     private Force old;
@@ -87,7 +86,6 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     public void update(double extrp)
     {
         tick.update(extrp);
-
         if (hit && !hurtable.isHurting())
         {
             hit = false;
@@ -106,11 +104,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        other = collidable.getFeature(Transformable.class);
-        if (!hit
-            && Double.compare(other.getY(), other.getOldY()) <= 0
-            && with.getName().startsWith(Anim.ATTACK)
-            && by.getName().startsWith(Anim.ATTACK))
+        if (!hit && with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
         {
             old = launchable.getDirection();
             launchable.setVector(null);
