@@ -207,42 +207,39 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void createCheatsMenu()
     {
-        final CheatMenu maxHeart = new CheatMenu(services, this::isPressed, 80, "Max Heart", () ->
+        final CheatMenu maxHeart = new CheatMenu(services, this::isPressed, 90, "Max Heart", () ->
         {
             player.getFeature(Stats.class).maxHeart();
-            closeCheatsMenu();
         });
-        final CheatMenu maxLife = new CheatMenu(services, this::isPressed, 80, "Max Life", () ->
+        final CheatMenu maxLife = new CheatMenu(services, this::isPressed, 90, "Max Life", () ->
         {
             player.getFeature(Stats.class).apply(new TakeableConfig(null, null, 0, 0, 99, 0, false));
-            closeCheatsMenu();
         });
-        final CheatMenu freeFly = new CheatMenu(services, this::isPressed, 80, "Fly", () ->
+        final CheatMenu freeFly = new CheatMenu(services, this::isPressed, 90, "Fly", () ->
         {
             cheats = true;
             fly = !fly;
             unlockPlayer(fly);
             cursor.setInputDevice(deviceCursor);
-            closeCheatsMenu();
             sequencer.setSystemCursorVisible(false);
         });
 
-        final CheatMenu[] stages = new CheatMenu[14];
+        final CheatMenu[] stages = new CheatMenu[(int) Medias.create(Folder.STAGE, Settings.getInstance().getStages())
+                                                             .getMedias()
+                                                             .stream()
+                                                             .filter(m -> !m.getName()
+                                                                            .endsWith(Constant.STAGE_HARD_SUFFIX))
+                                                             .count()];
         for (int i = 0; i < stages.length; i++)
         {
             final int index = i;
-            stages[i] = new CheatMenu(services, this::isPressed, 32, String.valueOf(i + 1), () ->
+            stages[i] = new CheatMenu(services, this::isPressed, 40, String.valueOf(i + 1), () ->
             {
-                sequencer.end(SceneBlack.class, Util.getStage(difficulty, index), getInitConfig(Optional.empty()));
-                closeCheatsMenu();
+                sequencer.end(SceneBlack.class, Util.getStage(difficulty, index + 1), getInitConfig(Optional.empty()));
             });
         }
 
-        final CheatMenu stage = new CheatMenu(services, this::isPressed, 80, "Stage", () ->
-        {
-            closeCheatsMenu();
-            cheatsMenu = true;
-        }, stages);
+        final CheatMenu stage = new CheatMenu(services, this::isPressed, 90, "Stage", null, stages);
         menus.add(maxHeart);
         menus.add(maxLife);
         menus.add(freeFly);
@@ -269,6 +266,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             menus.get(i).hide();
         }
+        pressed = false;
     }
 
     /**
@@ -634,19 +632,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         if (cheatsMenu)
         {
             pressed = deviceCursor.isFiredOnce(DeviceMapping.LEFT);
-            if (pressed)
-            {
-                closeCheatsMenu();
-            }
         }
         else if (!fly && deviceCursor.isFiredOnce(DeviceMapping.RIGHT))
         {
             cheatsMenu = true;
             cursor.setInputDevice(null);
-            for (int i = 0; i < menus.size(); i++)
-            {
-                menus.get(i).spawn(cursor.getScreenX(), cursor.getScreenY() + i * (menus.get(i).getHeight() + 1));
-            }
+
+            Util.showMenu(camera, cursor, menus, 0, 0);
         }
         else if (deviceCursor.isFiredOnce(DeviceMapping.RIGHT))
         {
@@ -705,7 +697,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
-                sequencer.end(SceneBlack.class, Util.getStage(difficulty, i), getInitConfig(Optional.empty()));
+                final Media stage = Util.getStage(difficulty, i + 1);
+                if (stage.exists())
+                {
+                    sequencer.end(SceneBlack.class, stage, getInitConfig(Optional.empty()));
+                }
             }
         }
         if (device.isFiredOnce(DeviceMapping.K5))
@@ -1035,7 +1031,24 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         for (int i = 0; i < menus.size(); i++)
         {
+            menus.get(i).updateSub(extrp);
+            if (menus.get(i).isHoverSub())
+            {
+                for (int j = 0; j < menus.size(); j++)
+                {
+                    menus.get(j).setInactive();
+                }
+                break;
+            }
+        }
+
+        for (int i = 0; i < menus.size(); i++)
+        {
             menus.get(i).update(extrp);
+        }
+        if (pressed)
+        {
+            closeCheatsMenu();
         }
     }
 
@@ -1059,6 +1072,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         camera.setView(0, 0, width, height, height);
         camera.setLimits(map);
+        cursor.setArea(0, 0, camera.getWidth(), camera.getHeight());
         landscape.setScreenSize(width, height);
         hud.setScreenSize(width, height);
     }

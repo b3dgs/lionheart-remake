@@ -30,6 +30,8 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.game.Cursor;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
@@ -225,11 +227,75 @@ public final class Util
      */
     public static Media getStage(Difficulty difficulty, int index)
     {
-        if (Difficulty.NORMAL.equals(difficulty) || index > 9 && index < 13)
+        final Media stage = Medias.create(Folder.STAGE,
+                                          Settings.getInstance().getStages(),
+                                          Constant.STAGE_PREFIX + index + Constant.STAGE_HARD_SUFFIX);
+        if (!Difficulty.NORMAL.equals(difficulty) && stage.exists())
         {
-            return Stage.values()[index];
+            return stage;
         }
-        return StageHard.values()[index];
+        return Medias.create(Folder.STAGE, Settings.getInstance().getStages(), Constant.STAGE_PREFIX + index + ".xml");
+    }
+
+    /**
+     * Show menu at cursor location.
+     * 
+     * @param viewer The viewer reference.
+     * @param cursor The cursor reference.
+     * @param menus The menus to show.
+     * @param ox The horizontal cursor offset.
+     * @param oy The vertical cursor offset.
+     */
+    public static void showMenu(Viewer viewer, Cursor cursor, List<CheatMenu> menus, double ox, double oy)
+    {
+        int w = 0;
+        int h = 0;
+        for (int i = 0; i < menus.size(); i++)
+        {
+            final CheatMenu menu = menus.get(i);
+            w = menu.getWidth();
+            h += menu.getHeight();
+        }
+        h++;
+
+        final int mx = viewer.getWidth() - (w + 1);
+        final int my = viewer.getHeight() - h;
+        double cx = cursor.getScreenX() + ox;
+        double cy = cursor.getScreenY() + oy;
+
+        if (cx > mx)
+        {
+            cx = mx;
+        }
+        if (cy > my)
+        {
+            cy = my;
+        }
+        double x = cx;
+
+        for (int i = 0; i < menus.size(); i++)
+        {
+            double y = cy + i * menus.get(i).getHeight();
+            if (y < 0)
+            {
+                cy -= y;
+                y = 0;
+            }
+            if (y > viewer.getHeight() - 1)
+            {
+                final double offsetX = menus.get(i).getWidth() * Math.floor(y / viewer.getHeight());
+                if (cx + offsetX > viewer.getWidth() - 2)
+                {
+                    x = cx - offsetX;
+                }
+                else
+                {
+                    x = cx + offsetX;
+                }
+                y = y - viewer.getHeight();
+            }
+            menus.get(i).spawn(x, y - 1);
+        }
     }
 
     /**

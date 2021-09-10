@@ -112,6 +112,11 @@ public final class Constant
                                                                true,
                                                                Optional.empty());
 
+    /** Stage prefix. */
+    public static final String STAGE_PREFIX = "stage";
+    /** Stage hard suffix. */
+    public static final String STAGE_HARD_SUFFIX = "_hard.xml";
+
     /** Raster tile file. */
     public static final String RASTER_FILE_TILE = "tiles.png";
     /** Raster water file. */
