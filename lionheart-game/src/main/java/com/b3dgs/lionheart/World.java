@@ -207,36 +207,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void createCheatsMenu()
     {
-        final CheatMenu maxHeart = new CheatMenu(services, this::isPressed, 90, "Max Heart", () ->
-        {
-            player.getFeature(Stats.class).maxHeart();
-        });
-        final CheatMenu maxLife = new CheatMenu(services, this::isPressed, 90, "Max Life", () ->
-        {
-            player.getFeature(Stats.class).apply(new TakeableConfig(null, null, 0, 0, 99, 0, false));
-        });
-        final CheatMenu freeFly = new CheatMenu(services, this::isPressed, 90, "Fly", () ->
-        {
-            cheats = true;
-            fly = !fly;
-            unlockPlayer(fly);
-            cursor.setInputDevice(deviceCursor);
-            sequencer.setSystemCursorVisible(false);
-        });
+        final CheatMenu maxHeart = new CheatMenu(services, this::isPressed, 90, "Max Heart", this::onCheatsMaxHeart);
+        final CheatMenu maxLife = new CheatMenu(services, this::isPressed, 90, "Max Life", this::onCheatsMaxLife);
+        final CheatMenu freeFly = new CheatMenu(services, this::isPressed, 90, "Fly", this::onCheatsFly);
 
-        final CheatMenu[] stages = new CheatMenu[(int) Medias.create(Folder.STAGE, Settings.getInstance().getStages())
-                                                             .getMedias()
-                                                             .stream()
-                                                             .filter(m -> !m.getName()
-                                                                            .endsWith(Constant.STAGE_HARD_SUFFIX))
-                                                             .count()];
+        final int stagesCount = (int) Medias.create(Folder.STAGE, Settings.getInstance().getStages())
+                                            .getMedias()
+                                            .stream()
+                                            .filter(m -> !m.getName().endsWith(Constant.STAGE_HARD_SUFFIX))
+                                            .count();
+        final CheatMenu[] stages = new CheatMenu[stagesCount];
         for (int i = 0; i < stages.length; i++)
         {
             final int index = i;
-            stages[i] = new CheatMenu(services, this::isPressed, 40, String.valueOf(i + 1), () ->
-            {
-                sequencer.end(SceneBlack.class, Util.getStage(difficulty, index + 1), getInitConfig(Optional.empty()));
-            });
+            stages[i] = new CheatMenu(services, this::isPressed, 40, String.valueOf(i + 1), () -> onCheatsStage(index));
         }
 
         final CheatMenu stage = new CheatMenu(services, this::isPressed, 90, "Stage", null, stages);
@@ -244,6 +228,30 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         menus.add(maxLife);
         menus.add(freeFly);
         menus.add(stage);
+    }
+
+    private void onCheatsMaxHeart()
+    {
+        player.getFeature(Stats.class).maxHeart();
+    }
+
+    private void onCheatsMaxLife()
+    {
+        player.getFeature(Stats.class).apply(new TakeableConfig(null, null, 0, 0, 99, 0, false));
+    }
+
+    private void onCheatsFly()
+    {
+        cheats = true;
+        fly = !fly;
+        unlockPlayer(fly);
+        cursor.setInputDevice(deviceCursor);
+        sequencer.setSystemCursorVisible(false);
+    }
+
+    private void onCheatsStage(int index)
+    {
+        sequencer.end(SceneBlack.class, Util.getStage(difficulty, index + 1), getInitConfig(Optional.empty()));
     }
 
     /**
