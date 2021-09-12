@@ -10,7 +10,7 @@
     </lionengine:features>
     <lionengine:surface image="surface/NestLittle.png"/>
     <lionengine:frames horizontal="1" vertical="1"/>
-    <lionengine:size width="48" height="48"/>
+    <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
