@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.Music;
@@ -49,7 +50,7 @@ public final class Extro extends Sequence
      */
     public Extro(Context context, Boolean alternative)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), new LoopUnlocked());
 
         audio = AudioFactory.loadAudio(Music.EXTRO);
         audio.setVolume(Settings.getInstance().getVolumeMusic());
@@ -74,6 +75,7 @@ public final class Extro extends Sequence
     protected void onLoaded(double extrp, Graphic g)
     {
         audio.play();
+        time.start();
     }
 
     @Override

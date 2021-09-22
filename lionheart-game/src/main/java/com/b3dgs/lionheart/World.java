@@ -178,7 +178,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 World.this.stopMusic();
             }
         });
-        services.add(tick);
         map.addFeature(new LayerableModel(4, 2));
         map.addFeature(new MapTilePersisterOptimized(), true);
 
@@ -304,7 +303,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             @Override
             public void notifyMapLoaded()
             {
-                if (settings.getLoadParallel())
+                if (settings.getFlagParallel())
                 {
                     executor.execute(() -> map.loadAfter(map.getMedia()));
                 }
@@ -493,7 +492,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         trackPlayer(featurable);
 
-        if (settings.getLoadParallel())
+        if (settings.getFlagParallel())
         {
             executor.execute(() -> loadRasterHero(stage, featurable));
         }
@@ -569,7 +568,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 final Media media = Medias.create(raster, Constant.RASTER_FILE_TILE);
                 if (media.exists())
                 {
-                    featurable.ifIs(Rasterable.class, r -> r.setRaster(true, media, map.getTileHeight()));
+                    featurable.ifIs(Rasterable.class,
+                                    r -> r.setRaster(true,
+                                                     media,
+                                                     map.getTileHeight(),
+                                                     stage.getLinesPerRaster(),
+                                                     stage.getRasterLineOffset()));
                 }
             });
         }
@@ -719,7 +723,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             {
                 stopMusic();
                 sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
-            }, 200L);
+            }, source.getRate(), 3000);
         }
     }
 
@@ -800,7 +804,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
 
             final Featurable[] entities;
-            if (settings.getLoadParallel())
+            if (settings.getFlagParallel())
             {
                 entities = createEntities(settings, stage);
             }
@@ -817,7 +821,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 }
             }
 
-            if (settings.getLoadParallel())
+            if (settings.getFlagParallel())
             {
                 executor.execute(() -> createEffectCache(stage));
             }
@@ -826,7 +830,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 createEffectCache(stage);
             }
 
-            if (settings.getLoadParallel())
+            if (settings.getFlagParallel())
             {
                 loadRasterEntities(settings, stage, entities);
             }
@@ -948,15 +952,15 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     @Override
-    public void loadNextStage(String next, int tickDelay, Optional<Coord> spawn)
+    public void loadNextStage(String next, int delayMs, Optional<Coord> spawn)
     {
-        if (tickDelay > 0)
+        if (delayMs > 0)
         {
             player.getFeature(Stats.class).win();
             tick.addAction(() ->
             {
                 sequencer.end(SceneBlack.class, Medias.create(next), getInitConfig(spawn));
-            }, tickDelay);
+            }, source.getRate(), delayMs);
         }
         else
         {
@@ -1031,7 +1035,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             landscape.update(extrp, camera);
             if (trackerY > 0)
             {
-                trackerY = UtilMath.clamp(trackerY += 0.5, 0.0, 21.0);
+                trackerY = UtilMath.clamp(trackerY += 0.5 * extrp, 0.0, 21.0);
                 tracker.setOffset(0, trackerInitY + (int) Math.floor(trackerY));
             }
         }

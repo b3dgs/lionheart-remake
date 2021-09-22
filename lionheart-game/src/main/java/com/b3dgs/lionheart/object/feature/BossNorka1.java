@@ -35,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
@@ -51,17 +52,17 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossNorka1 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int MOVE_DOWN_DELAY_TICK = 150;
-    private static final int PATROL_DELAY_TICK = 50;
-    private static final int PATROL_END_DELAY_TICK = 50;
-    private static final int APPROACHED_DELAY_TICK = 60;
-    private static final int ATTACK_PREPARE_DELAY_TICK = 50;
-    private static final int ATTACK_DELAY_TICK = 50;
-    private static final int MOVE_BACK_DELAY_TICK = 15;
+    private static final int MOVE_DOWN_DELAY_MS = 2500;
+    private static final int PATROL_DELAY_MS = 800;
+    private static final int PATROL_END_DELAY_MS = 800;
+    private static final int APPROACHED_DELAY_MS = 1000;
+    private static final int ATTACK_PREPARE_DELAY_MS = 800;
+    private static final int ATTACK_DELAY_MS = 800;
+    private static final int MOVE_BACK_DELAY_MS = 250;
 
-    private static final double MOVE_SPEED = 2.5;
+    private static final double MOVE_SPEED = 3.0;
     private static final int MOVE_DOWN_Y = 192;
-    private static final double CURVE_SPEED = 8.0;
+    private static final double CURVE_SPEED = 9.5;
     private static final double CURVE_AMPLITUDE = 3.0;
     private static final int[] PATROL_X =
     {
@@ -77,6 +78,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private final Animation attackprepare;
     private final Animation attack;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
 
     private Updatable current;
@@ -110,8 +112,8 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         attackprepare = config.getAnimation("attackprepare");
         attack = config.getAnimation(Anim.ATTACK);
 
-        movement.setVelocity(1.0);
-        movement.setSensibility(0.5);
+        movement.setVelocity(1.2);
+        movement.setSensibility(0.6);
     }
 
     /**
@@ -122,7 +124,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private void updateMoveDown(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(MOVE_DOWN_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), MOVE_DOWN_DELAY_MS))
         {
             transformable.moveLocationY(extrp, -MOVE_SPEED);
             if (transformable.getY() < MOVE_DOWN_Y)
@@ -143,9 +145,10 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateAwaitPatrol(double extrp)
     {
+        updateCurve(extrp);
+
         tick.update(extrp);
-        updateCurve();
-        if (tick.elapsed(PATROL_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), PATROL_DELAY_MS))
         {
             do
             {
@@ -193,9 +196,10 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateEndPatrol(double extrp)
     {
+        updateCurve(extrp);
+
         tick.update(extrp);
-        updateCurve();
-        if (tick.elapsed(PATROL_END_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), PATROL_END_DELAY_MS))
         {
             animatable.play(approach);
             current = this::updateApproach;
@@ -225,9 +229,10 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateApproached(double extrp)
     {
+        updateCurve(extrp);
+
         tick.update(extrp);
-        updateCurve();
-        if (tick.elapsed(APPROACHED_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), APPROACHED_DELAY_MS))
         {
             animatable.play(attackprepare);
             current = this::updateAttackPrepare;
@@ -243,9 +248,10 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateAttackPrepare(double extrp)
     {
+        updateCurve(extrp);
+
         tick.update(extrp);
-        updateCurve();
-        if (tick.elapsed(ATTACK_PREPARE_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), ATTACK_PREPARE_DELAY_MS))
         {
             final double dh = target.getX() - transformable.getOldX();
             final double dv = target.getY() - transformable.getOldY();
@@ -285,8 +291,9 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private void updateAttack(double extrp)
     {
         transformable.moveLocation(extrp, movement);
+
         tick.update(extrp);
-        if (tick.elapsed(ATTACK_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), ATTACK_DELAY_MS))
         {
             animatable.play(approached);
             mirrorable.mirror(Mirror.NONE);
@@ -303,7 +310,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private void updateMoveBackPrepare(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(MOVE_BACK_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), MOVE_BACK_DELAY_MS))
         {
             animatable.play(approach);
             animatable.setFrame(approach.getLast());
@@ -336,10 +343,12 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
 
     /**
      * Update curve effect.
+     * 
+     * @param extrp The extrapolation value.
      */
-    private void updateCurve()
+    private void updateCurve(double extrp)
     {
-        angle = UtilMath.wrapAngleDouble(angle + CURVE_SPEED);
+        angle = UtilMath.wrapAngleDouble(angle + CURVE_SPEED * extrp);
         transformable.teleportY(MOVE_DOWN_Y + UtilMath.cos(angle) * CURVE_AMPLITUDE);
     }
 
@@ -354,7 +363,7 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         {
             current = this::updateMoveBackPrepare;
             tick.restart();
-            tick.set(MOVE_BACK_DELAY_TICK);
+            tick.set(MOVE_BACK_DELAY_MS);
         }
     }
 

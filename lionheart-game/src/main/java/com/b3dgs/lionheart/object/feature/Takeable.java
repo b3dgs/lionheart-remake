@@ -48,7 +48,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class Takeable extends FeatureModel implements CollidableListener, Recyclable
 {
-    private static final int AMULET_TICK = 520;
+    private static final int AMULET_DELAY_MS = 8500;
 
     private final MusicPlayer player = services.get(MusicPlayer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
@@ -84,7 +84,9 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
                     player.playMusic(Music.SECRET_WIN);
                     model.getConfig()
                          .getNext()
-                         .ifPresent(next -> stage.loadNextStage(next, AMULET_TICK, model.getConfig().getNextSpawn()));
+                         .ifPresent(next -> stage.loadNextStage(next,
+                                                                AMULET_DELAY_MS,
+                                                                model.getConfig().getNextSpawn()));
                 }
                 else
                 {

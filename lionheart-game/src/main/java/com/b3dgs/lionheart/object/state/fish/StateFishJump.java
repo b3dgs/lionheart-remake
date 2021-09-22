@@ -58,9 +58,9 @@ final class StateFishJump extends State
             }
         });
 
-        jump.setVelocity(0.05);
+        jump.setVelocity(0.06);
         jump.setSensibility(0.5);
-        jump.setDirection(0.0, 3.2);
+        jump.setDirection(0.0, 3.8);
     }
 
     @Override

@@ -29,11 +29,15 @@ public final class JumperConfig implements XmlSaver
 {
     /** Config node name. */
     public static final String NODE_JUMPER = "jumper";
-    /** Tick attribute name. */
-    public static final String ATT_TICK = "tick";
+    /** Delay attribute name. */
+    public static final String ATT_DELAY_MS = "delay";
+    /** Horizontal force attribute name. */
+    public static final String ATT_H = "h";
 
-    /** Jump tick. */
-    private final int tick;
+    /** Jump delay. */
+    private final int delay;
+    /** Jump horizontal force. */
+    private final double h;
 
     /**
      * Create blank configuration.
@@ -42,19 +46,22 @@ public final class JumperConfig implements XmlSaver
     {
         super();
 
-        tick = 0;
+        delay = 0;
+        h = 1.3;
     }
 
     /**
      * Create configuration.
      * 
-     * @param tick The jump tick.
+     * @param delay The jump delay.
+     * @param h The horizontal force.
      */
-    public JumperConfig(int tick)
+    public JumperConfig(int delay, double h)
     {
         super();
 
-        this.tick = tick;
+        this.delay = delay;
+        this.h = h;
     }
 
     /**
@@ -68,30 +75,47 @@ public final class JumperConfig implements XmlSaver
 
         Check.notNull(root);
 
-        tick = root.getInteger(0, ATT_TICK, NODE_JUMPER);
+        delay = root.getInteger(0, ATT_DELAY_MS, NODE_JUMPER);
+        h = root.getDouble(1.3, ATT_H, NODE_JUMPER);
     }
 
     /**
-     * Get the jump tick.
+     * Get the jump delay.
      * 
-     * @return The jump tick.
+     * @return The jump delay.
      */
-    public int getTick()
+    public int getDelay()
     {
-        return tick;
+        return delay;
+    }
+
+    /**
+     * Get the jump horizontal force.
+     * 
+     * @return The jump horizontal force.
+     */
+    public double getH()
+    {
+        return h;
     }
 
     @Override
     public void save(Xml root)
     {
-        if (tick > 0)
+        if (delay > 0)
         {
             final Xml node = root.createChild(NODE_JUMPER);
-            node.writeInteger(ATT_TICK, tick);
+            node.writeInteger(ATT_DELAY_MS, delay);
+            node.writeDouble(ATT_H, h);
         }
     }
 
     private static void add(StringBuilder builder, String name, int value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
     {
         builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
     }
@@ -101,7 +125,8 @@ public final class JumperConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Jumper [ ");
-        add(builder, ATT_TICK, tick);
+        add(builder, ATT_DELAY_MS, delay);
+        add(builder, ATT_H, h);
         builder.append("]");
         return builder.toString();
     }

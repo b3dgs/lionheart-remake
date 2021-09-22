@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state.guard;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -27,8 +26,6 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StateGuardSalto extends State
 {
-    private final Tick tick = new Tick();
-
     /**
      * Create the state.
      * 
@@ -65,14 +62,5 @@ public final class StateGuardSalto extends State
         jump.setDestination(0.0, 0.0);
         jump.setVelocity(0.05);
         body.resetGravity();
-        tick.restart();
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        super.update(extrp);
-
-        tick.update(extrp);
     }
 }

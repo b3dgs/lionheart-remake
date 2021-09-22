@@ -11,13 +11,13 @@
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="8" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="take" offsetX="0" offsetY="2" width="8" height="12" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
-    <lionengine:rasterable extern="true"/>
+    <lionengine:rasterable extern="true" offset="2"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>
     <takeable effect="effect/lava/Taken.xml" sfx="ITEM_TAKEN" talisment="1"/>

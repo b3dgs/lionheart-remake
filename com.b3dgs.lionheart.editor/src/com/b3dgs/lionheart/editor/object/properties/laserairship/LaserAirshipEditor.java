@@ -54,8 +54,14 @@ public class LaserAirshipEditor extends EditorAbstract<LaserAirshipConfig>
     @Override
     protected void createFields(Composite parent, LaserAirshipConfig config)
     {
-        fire = new TextWidget(parent, UtilConversion.toTitleCase(LaserAirshipConfig.ATT_FIRE_DELAY), VALIDATOR, true);
-        stay = new TextWidget(parent, UtilConversion.toTitleCase(LaserAirshipConfig.ATT_STAY_DELAY), VALIDATOR, true);
+        fire = new TextWidget(parent,
+                              UtilConversion.toTitleCase(LaserAirshipConfig.ATT_FIRE_DELAY_MS),
+                              VALIDATOR,
+                              true);
+        stay = new TextWidget(parent,
+                              UtilConversion.toTitleCase(LaserAirshipConfig.ATT_STAY_DELAY_MS),
+                              VALIDATOR,
+                              true);
 
         fire.set(config.getFireDelay());
         stay.set(config.getStayDelay());

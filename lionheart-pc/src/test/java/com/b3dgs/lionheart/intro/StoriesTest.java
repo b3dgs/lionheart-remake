@@ -96,7 +96,7 @@ public class StoriesTest
      */
     private static class Mock extends Sequence
     {
-        private final Stories stories = new Stories();
+        private final Stories stories = new Stories(getWidth(), getHeight());
         private final DeviceController device;
         private final Boolean auto;
         private int story;

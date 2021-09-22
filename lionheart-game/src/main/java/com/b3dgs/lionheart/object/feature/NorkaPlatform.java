@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
  * Effect feature implementation.
@@ -41,6 +42,8 @@ import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 public final class NorkaPlatform extends FeatureModel implements Routine, Recyclable
 {
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private boolean first;
     private double startX;
@@ -65,6 +68,8 @@ public final class NorkaPlatform extends FeatureModel implements Routine, Recycl
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
+
         if (first)
         {
             startX = transformable.getX();
@@ -84,8 +89,7 @@ public final class NorkaPlatform extends FeatureModel implements Routine, Recycl
             launchable.getDirection().zero();
             tick.start();
         }
-        tick.update(extrp);
-        if (tick.elapsed(delay))
+        if (tick.elapsedTime(source.getRate(), delay))
         {
             hurtable.kill(true);
         }
@@ -97,17 +101,17 @@ public final class NorkaPlatform extends FeatureModel implements Routine, Recycl
         if (Double.compare(launchable.getDirection().getDirectionVertical(), -3.0) == 0)
         {
             max = 48;
-            delay = 280;
+            delay = 4600;
         }
         else if (Double.compare(launchable.getDirection().getDirectionVertical(), -0.5) == 0)
         {
             max = 112;
-            delay = 258;
+            delay = 4300;
         }
         else
         {
             max = 76;
-            delay = 250;
+            delay = 4000;
         }
         return max;
     }

@@ -35,7 +35,7 @@ public final class StateGripSoar extends State
     private static final int OFFSET_5 = -30;
     private static final int OFFSET_8 = -55;
 
-    private static final double SOAR_SPEED = 0.85;
+    private static final double SOAR_SPEED = 1.02;
 
     private final Camera camera;
     private double offset;
@@ -94,15 +94,15 @@ public final class StateGripSoar extends State
     @Override
     public void update(double extrp)
     {
-        offset += SOAR_SPEED;
+        offset += SOAR_SPEED * extrp;
 
-        if (camera.getViewpointY(transformable.getY() + offset) < 138)
+        if (camera.getViewpointY(transformable.getY() + offset) < 155)
         {
             camera.setShake(0, (int) (offset - offset2));
         }
         else
         {
-            offset2 += SOAR_SPEED;
+            offset2 += SOAR_SPEED * extrp;
         }
         rasterable.setFrameOffsets(0, frameOffset);
         body.resetGravity();

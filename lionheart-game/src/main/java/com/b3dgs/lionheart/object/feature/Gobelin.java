@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
@@ -48,13 +49,15 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Gobelin extends FeatureModel implements Routine, Recyclable
 {
-    private static final int MOVE_UP_DELAY = 50;
+    private static final int MOVE_UP_DELAY_MS = 800;
 
     private final Tick tick = new Tick();
-    private final MapTile map = services.get(MapTile.class);
     private final Animation idle;
     private final Animation attack;
     private final Animation fall;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final MapTile map = services.get(MapTile.class);
 
     private int phase;
 
@@ -83,6 +86,7 @@ public final class Gobelin extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
+
         if (phase == 0 && animatable.is(AnimState.FINISHED))
         {
             phase++;
@@ -90,13 +94,13 @@ public final class Gobelin extends FeatureModel implements Routine, Recyclable
             launcher.fire();
             tick.restart();
         }
-        if (phase == 1 && tick.elapsed(MOVE_UP_DELAY))
+        if (phase == 1 && tick.elapsedTime(source.getRate(), MOVE_UP_DELAY_MS))
         {
             animatable.play(fall);
             phase++;
             tick.restart();
         }
-        else if (phase == 2 && tick.elapsed(MOVE_UP_DELAY))
+        else if (phase == 2 && tick.elapsedTime(source.getRate(), MOVE_UP_DELAY_MS))
         {
             animatable.play(attack);
             Sfx.MONSTER_GOBELIN.play();

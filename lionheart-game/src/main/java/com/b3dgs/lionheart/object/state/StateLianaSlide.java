@@ -32,9 +32,9 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackLianaSlide;
 public class StateLianaSlide extends State
 {
     private static final int FRAME_OFFSET_Y = 7;
-    private static final double LIANA_SPEED_FAST = 1.1;
-    private static final double LIANA_SPEED_SLOW = 0.6;
-    private static final double LIANA_SPEED = 0.8;
+    private static final double LIANA_SPEED_FAST = 1.25;
+    private static final double LIANA_SPEED_SLOW = 0.75;
+    private static final double LIANA_SPEED = 1.0;
 
     private double speed = LIANA_SPEED;
     private double oldVelocity;
@@ -97,7 +97,7 @@ public class StateLianaSlide extends State
         {
             speed = LIANA_SPEED;
         }
-        movement.setDestination(speed * liana.getSide(), -speed * 2);
+        movement.setDestination(speed * liana.getSide(), -speed * 2 - 1);
     }
 
     @Override

@@ -15,6 +15,6 @@
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <rotating amplitude="90" extremity="SpikeBowl.xml" length="3" speed="0.05"/>
+    <rotating amplitude="90" extremity="SpikeBowl.xml" length="3" speed="0.06"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

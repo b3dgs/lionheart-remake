@@ -6,13 +6,13 @@
     <background type="SWAMP_DUSK"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="13" ty="4"/>
-        <checkpoint tx="79" ty="11"/>
-        <checkpoint tx="147" ty="4"/>
-        <checkpoint tx="200" ty="9"/>
-        <checkpoint tx="237" ty="11"/>
-        <checkpoint tx="285" ty="4"/>
-        <checkpoint tx="327" ty="25" next="stage/original/stage2.xml"/>
+        <checkpoint tx="13.0" ty="4.0"/>
+        <checkpoint tx="79.0" ty="11.0"/>
+        <checkpoint tx="147.0" ty="4.0"/>
+        <checkpoint tx="200.0" ty="9.0"/>
+        <checkpoint tx="237.0" ty="11.0"/>
+        <checkpoint tx="285.0" ty="4.0"/>
+        <checkpoint tx="327.0" ty="25.0" next="stage/original/stage2.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/swamp/Talisment.xml" tx="74.0" ty="43.0"/>
@@ -142,18 +142,14 @@
         <entity file="entity/swamp/Talisment.xml" tx="100.0" ty="26.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="100.0" ty="25.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="36.5" ty="4.0">
-            <jumper tick="8"/>
-            <patrol sh="-0.3" amplitude="224"/>
+            <jumper delay="130"/>
+            <patrol sh="-0.2" amplitude="224"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="63.5" ty="8.0">
-            <patrol sh="-0.3" amplitude="80"/>
+            <patrol sh="-0.2" amplitude="80"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="68.0" ty="9.0">
-            <patrol sh="-0.5"/>
-        </entity>
-        <entity file="entity/swamp/Dino.xml" tx="78.0" ty="13.0">
-            <patrol sh="-0.5"/>
-        </entity>
+        <entity file="entity/swamp/Dino.xml" tx="68.0" ty="9.0"/>
+        <entity file="entity/swamp/Dino.xml" tx="78.0" ty="13.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="106.5" ty="11.0">
             <patrol sh="-0.2" amplitude="144"/>
         </entity>
@@ -161,7 +157,7 @@
             <patrol sh="-0.2" amplitude="64"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="185.5" ty="7.0">
-            <jumper tick="6"/>
+            <jumper delay="100" h="1.0"/>
             <patrol sh="-0.2" amplitude="144"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="214.5" ty="8.0">
@@ -171,10 +167,11 @@
             <patrol sh="0.2" amplitude="96"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="250.5" ty="26.0">
-            <jumper tick="4"/>
+            <jumper delay="70" h="1.1"/>
             <patrol sh="-0.2" amplitude="96"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="295.5" ty="16.0">
+            <jumper delay="70" h="1.05"/>
             <patrol sh="0.2" amplitude="96"/>
         </entity>
     </entities>

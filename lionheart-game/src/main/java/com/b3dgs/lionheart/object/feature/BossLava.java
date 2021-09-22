@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
@@ -59,13 +60,13 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossLava extends FeatureModel implements Routine, Recyclable
 {
-    private static final int END_TICK = 500;
+    private static final int END_DELAY_MS = 8000;
     private static final int Y = 60;
     private static final int WALK_OFFSET = 60;
     private static final int RANGE_X = 368;
-    private static final int TICK_RISE = 200;
-    private static final int TICK_IDLE = 100;
-    private static final int TICK_JUMP = 14;
+    private static final int RISE_DELAY_MS = 3000;
+    private static final int IDLE_DELAY_MS = 1500;
+    private static final int JUMP_DELAY_MS = 250;
 
     private static final String[] LIMBS =
     {
@@ -493,6 +494,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private final Animator animator = new AnimatorModel();
     private final Tick tick = new Tick();
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
@@ -555,6 +557,8 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
      */
     private void start(double extrp)
     {
+        tick.update(extrp);
+
         if (!tick.isStarted())
         {
             startY = transformable.getY();
@@ -562,11 +566,10 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
             landscape.setEnabled(false);
             tick.start();
         }
-        tick.update(extrp);
         body.resetGravity();
         transformable.teleportY(startY);
 
-        if (tick.elapsed(TICK_RISE))
+        if (tick.elapsedTime(source.getRate(), RISE_DELAY_MS))
         {
             for (int i = 0; i < LIMBS.length; i++)
             {
@@ -610,7 +613,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         animator.update(extrp);
 
-        if (tick.elapsed(TICK_IDLE))
+        if (tick.elapsedTime(source.getRate(), IDLE_DELAY_MS))
         {
             phase = this::updateWalk;
             transformable.setLocationY(startY + Y + 8);
@@ -653,7 +656,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
         tick.update(extrp);
         animator.update(extrp);
 
-        if (tick.elapsed(TICK_IDLE))
+        if (tick.elapsedTime(source.getRate(), IDLE_DELAY_MS))
         {
             phase = this::updatePrepareJump;
             transformable.setLocationY(startY + Y + 4);
@@ -688,14 +691,14 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
      */
     private void updateJump(double extrp)
     {
-        animator.update(extrp);
         tick.update(extrp);
+        animator.update(extrp);
         transformable.moveLocationX(extrp, -1.0);
 
         if (animator.getAnimState() == AnimState.FINISHED && transformable.getY() < transformable.getOldY())
         {
             tick.start();
-            if (tick.elapsed(TICK_JUMP))
+            if (tick.elapsedTime(source.getRate(), JUMP_DELAY_MS))
             {
                 phase = this::updateFall;
                 model.getJump().setDirection(0.0, 0.0);
@@ -800,7 +803,7 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
                 }
                 identifiable.destroy();
                 music.playMusic(Music.BOSS_WIN);
-                model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
+                model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_DELAY_MS));
                 stats = null;
             }
         }

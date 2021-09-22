@@ -56,9 +56,9 @@ public class GeyzerEditor extends EditorAbstract<GeyzerConfig>
     @Override
     protected void createFields(Composite parent, GeyzerConfig config)
     {
-        first = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_FIRST), VALIDATOR, true);
-        start = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_START), VALIDATOR, true);
-        down = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DELAY_DOWN), VALIDATOR, true);
+        first = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_FIRST_DELAY_MS), VALIDATOR, true);
+        start = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_START_DELAY_MS), VALIDATOR, true);
+        down = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_DOWN_DELAY_MS), VALIDATOR, true);
         height = new TextWidget(parent, UtilConversion.toTitleCase(GeyzerConfig.ATT_HEIGHT), VALIDATOR, true);
 
         first.set(config.getDelayFirst());

@@ -21,7 +21,7 @@
             <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
             <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
             <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
-            <shooter fireDelay="60" firedDelay="0" svx="1.0" svy="1.0" anim="7"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="1.0" svy="1.0" anim="7"/>
         </entity>
         <entity file="entity/dragonfly/Bomb.xml" tx="18.0" ty="14.0">
             <patrol sh="0.0" sv="0.08" amplitude="4" curve="true"/>
@@ -30,7 +30,7 @@
             <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
             <patrol sh="0.25" sv="0.05" delay="280" amplitude="20" curve="true" mirror="false"/>
             <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
-            <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter fireDelay="800" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/dragonfly/Monkey.xml" tx="28.0" ty="16.0">
             <patrol sh="-0.5" sv="0.0" amplitude="192"/>
@@ -40,7 +40,7 @@
             <patrol sh="0.25" sv="0.5" amplitude="160"/>
             <patrol sh="0.25" sv="0.0" delay="60"/>
             <patrol sh="-0.5" sv="0.0" amplitude="0"/>
-            <shooter fireDelay="30" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter fireDelay="500" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/dragonfly/Frog.xml" tx="25.0" ty="12.0"/>
     </entities>

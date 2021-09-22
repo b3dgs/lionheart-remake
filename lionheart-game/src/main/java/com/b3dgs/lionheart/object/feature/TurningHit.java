@@ -76,7 +76,7 @@ public final class TurningHit extends Turning implements CollidableListener
         if (stopped && animatable.getFrameAnim() == idle.getFirst())
         {
             startIdle();
-            resetTick();
+            resetDelay();
             stateHandler.changeState(StateIdle.class);
             stopped = false;
         }

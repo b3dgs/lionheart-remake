@@ -35,6 +35,8 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.state.StateBitten;
 
@@ -47,10 +49,12 @@ import com.b3dgs.lionheart.object.state.StateBitten;
 @FeatureInterface
 public final class CarnivorousPlant extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final int BITE_TICK = 100;
+    private static final int BITE_DELAY_MS = 1500;
 
     private final Tick tick = new Tick();
     private final Animation bite;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Collidable collidable;
@@ -68,14 +72,14 @@ public final class CarnivorousPlant extends FeatureModel implements Routine, Rec
         super(services, setup);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
-        bite = config.getAnimation("bite");
+        bite = config.getAnimation(Anim.ATTACK);
     }
 
     @Override
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(BITE_TICK) && animatable.getAnimState() == AnimState.FINISHED)
+        if (animatable.getAnimState() == AnimState.FINISHED && tick.elapsedTime(source.getRate(), BITE_DELAY_MS))
         {
             if (UtilRandom.getRandomBoolean())
             {

@@ -35,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -52,14 +53,16 @@ import com.b3dgs.lionheart.object.XmlSaver;
 public final class Dragon1 extends FeatureModel
                            implements XmlLoader, XmlSaver, Editable<Dragon1Config>, Routine, Recyclable
 {
-    private static final double SPEED_X = 1.2;
-    private static final double SPEED_Y = 0.7;
-    private static final int START_DELAY_TICK = 90;
-    private static final int FIRED_DELAY_TICK = 50;
+    private static final double SPEED_X = 1.45;
+    private static final double SPEED_Y = 0.85;
+    private static final int START_DELAY_MS = 1500;
+    private static final int FIRED_DELAY_MS = 800;
     private static final int HEIGHT_LIMIT = 400;
 
     private final Tick tick = new Tick();
     private final Animation idle;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private Updatable current;
     private Dragon1Config config;
@@ -83,6 +86,8 @@ public final class Dragon1 extends FeatureModel
         super(services, setup);
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+
+        load(setup.getRoot());
     }
 
     /**
@@ -92,11 +97,13 @@ public final class Dragon1 extends FeatureModel
      */
     private void updateStart(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
-        if (tick.elapsed(START_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), START_DELAY_MS))
         {
             current = this::updateFire;
-            tick.set(FIRED_DELAY_TICK);
+            tick.set(FIRED_DELAY_MS);
         }
     }
 
@@ -108,7 +115,7 @@ public final class Dragon1 extends FeatureModel
     private void updateFire(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(FIRED_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), FIRED_DELAY_MS))
         {
             if (count < config.getFiredCount())
             {
@@ -152,18 +159,17 @@ public final class Dragon1 extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
-        config = new Dragon1Config(root);
+        if (root.hasNode(Dragon1Config.NODE_DRAGON1))
+        {
+            config = new Dragon1Config(root);
+        }
         current = this::updateStart;
-        tick.restart();
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -177,9 +183,8 @@ public final class Dragon1 extends FeatureModel
     public void recycle()
     {
         current = UpdatableVoid.getInstance();
-        config = null;
         animatable.play(idle);
         count = 0;
-        tick.restart();
+        tick.stop();
     }
 }

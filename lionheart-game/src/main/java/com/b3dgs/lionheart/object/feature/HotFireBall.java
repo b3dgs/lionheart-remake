@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -47,10 +48,12 @@ import com.b3dgs.lionheart.object.XmlSaver;
 public final class HotFireBall extends FeatureModel
                                implements XmlLoader, XmlSaver, Editable<HotFireBallConfig>, Routine, Recyclable
 {
-    private static final int BALL_DELAY_TICK = 8;
+    private static final int BALL_DELAY_MS = 130;
 
     private final Tick tick = new Tick();
     private final Tick series = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Viewer viewer = services.get(Viewer.class);
 
     private HotFireBallConfig config;
@@ -96,16 +99,12 @@ public final class HotFireBall extends FeatureModel
             config = new HotFireBallConfig(root);
         }
         launcher.setLevel(config.getLevel());
-        tick.set(config.getDelay() / 2);
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -121,10 +120,11 @@ public final class HotFireBall extends FeatureModel
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (config != null && tick.elapsed(config.getDelay()))
+        series.update(extrp);
+
+        if (tick.elapsedTime(source.getRate(), config.getDelay()))
         {
-            series.update(extrp);
-            if (series.elapsed(BALL_DELAY_TICK))
+            if (series.elapsedTime(source.getRate(), BALL_DELAY_MS))
             {
                 if (current == 0 && viewer.isViewable(transformable, 0, 0))
                 {

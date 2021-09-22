@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -41,11 +42,13 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class GobelinAirship extends FeatureModel implements Routine, Recyclable
 {
-    private static final int ATTACK_DELAY = 80;
+    private static final int ATTACK_DELAY_MS = 1300;
 
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation attack;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private int phase;
 
@@ -72,7 +75,8 @@ public final class GobelinAirship extends FeatureModel implements Routine, Recyc
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (phase == 0 && tick.elapsed(ATTACK_DELAY))
+
+        if (phase == 0 && tick.elapsedTime(source.getRate(), ATTACK_DELAY_MS))
         {
             animatable.play(attack);
             phase = 1;

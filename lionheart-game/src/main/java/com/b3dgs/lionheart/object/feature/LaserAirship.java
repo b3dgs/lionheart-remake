@@ -36,7 +36,9 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -52,12 +54,15 @@ import com.b3dgs.lionheart.object.XmlSaver;
 public final class LaserAirship extends FeatureModel
                                 implements XmlSaver, XmlLoader, Editable<LaserAirshipConfig>, Routine, Recyclable
 {
-    private static final int PREPARE_DELAY_TICK = 40;
-    private static final double DOT_SPEED = 5.0;
+    private static final int PREPARE_DELAY_MS = 650;
+    private static final double DOT_SPEED = 6.0;
     private static final int DOT_HEIGHT = -88;
     private static final int DOT_HIDE = -100;
+    private static final String LASER_DOT_FILE = "LaserDot.xml";
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
 
     private LaserAirshipConfig config;
@@ -84,6 +89,8 @@ public final class LaserAirship extends FeatureModel
     public LaserAirship(Services services, Setup setup)
     {
         super(services, setup);
+
+        load(setup.getRoot());
     }
 
     /**
@@ -93,8 +100,10 @@ public final class LaserAirship extends FeatureModel
      */
     private void updatePrepare(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
-        if (tick.elapsed(config.getFireDelay()))
+        if (tick.elapsedTime(source.getRate(), config.getFireDelay()))
         {
             dotStart.teleport(transformable.getX(), transformable.getY());
             dotEnd.teleport(transformable.getX(), transformable.getY());
@@ -116,7 +125,7 @@ public final class LaserAirship extends FeatureModel
     private void updateFire(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(PREPARE_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), PREPARE_DELAY_MS))
         {
             current = this::updateFired;
             tick.restart();
@@ -164,16 +173,16 @@ public final class LaserAirship extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
-        config = new LaserAirshipConfig(root);
+        if (root.hasNode(LaserAirshipConfig.NODE_LASER))
+        {
+            config = new LaserAirshipConfig(root);
+        }
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -217,12 +226,12 @@ public final class LaserAirship extends FeatureModel
         }
         if (!Settings.isEditor())
         {
-            dotStart = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
+            dotStart = spawner.spawn(Medias.create(Folder.EFFECT, WorldType.AIRSHIP.getFolder(), LASER_DOT_FILE),
                                      transformable.getX(),
                                      transformable.getY())
                               .getFeature(Transformable.class);
 
-            dotEnd = spawner.spawn(Medias.create(Folder.EFFECT, "airship", "LaserDot.xml"),
+            dotEnd = spawner.spawn(Medias.create(Folder.EFFECT, WorldType.AIRSHIP.getFolder(), LASER_DOT_FILE),
                                    transformable.getX(),
                                    transformable.getY())
                             .getFeature(Transformable.class);
@@ -232,6 +241,6 @@ public final class LaserAirship extends FeatureModel
         }
         current = this::updatePrepare;
         dotEndY = 0.0;
-        tick.restart();
+        tick.stop();
     }
 }

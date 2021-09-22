@@ -123,6 +123,12 @@ public enum Music implements Media
     }
 
     @Override
+    public boolean isJar()
+    {
+        return media.isJar();
+    }
+
+    @Override
     public String getName()
     {
         return media.getName();

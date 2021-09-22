@@ -56,12 +56,6 @@ public final class StatePatrolCeil extends State
     {
         movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED,
                                 device.getVerticalDirection() * Constant.WALK_SPEED);
-        if (Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
-            || Double.compare(movement.getDirectionVertical(), 0.0) != 0)
-        {
-            animatable.setAnimSpeed(Math.abs(movement.getDirectionHorizontal() + movement.getDirectionVertical())
-                                    * animation.getSpeed());
-        }
     }
 
     @Override

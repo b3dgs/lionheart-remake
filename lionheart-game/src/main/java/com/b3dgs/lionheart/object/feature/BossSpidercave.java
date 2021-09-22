@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -63,16 +64,18 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
 {
     private static final int HEAD_OFFSET_X = -38;
     private static final int PATROL_MARGIN = 80;
-    private static final int HEAD_OPENED_TICK = 80;
+    private static final int HEAD_OPENED_DELAY_MS = 1250;
     private static final int HEAD_ATTACK_OFFSET_Y = 12;
 
-    private final Trackable target = services.get(Trackable.class);
-    private final Spawner spawner = services.get(Spawner.class);
     private final Tick tick = new Tick();
     private final Animation walk;
     private final Animation attack;
     private final Animation dead;
     private final Updatable updater;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.get(Trackable.class);
+    private final Spawner spawner = services.get(Spawner.class);
 
     private Featurable head;
     private Transformable headTransformable;
@@ -117,8 +120,6 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
 
         updater = extrp ->
         {
-            tick.update(extrp);
-
             if (step == 0 || step == 4)
             {
                 if (minX < 0)
@@ -152,14 +153,16 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 step++;
                 tick.restart();
             }
-            else if (step == 2 && !headAnim.is(AnimState.PLAYING) && tick.elapsed(HEAD_OPENED_TICK))
+            else if (step == 2
+                     && !headAnim.is(AnimState.PLAYING)
+                     && tick.elapsedTime(source.getRate(), HEAD_OPENED_DELAY_MS))
             {
                 launcher.setLevel(1);
                 launcher.fire();
                 tick.restart();
                 step++;
             }
-            else if (step == 3 && tick.elapsed(HEAD_OPENED_TICK))
+            else if (step == 3 && tick.elapsedTime(source.getRate(), HEAD_OPENED_DELAY_MS))
             {
                 animatable.play(walk);
                 headAnim.play(headOpen);
@@ -177,10 +180,12 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 tick.restart();
                 step++;
             }
-            else if (step == 6 && !headAnim.is(AnimState.PLAYING) && tick.elapsed(HEAD_OPENED_TICK))
+            else if (step == 6
+                     && !headAnim.is(AnimState.PLAYING)
+                     && tick.elapsedTime(source.getRate(), HEAD_OPENED_DELAY_MS))
             {
                 oldY = transformable.getY();
-                body.setGravity(4.5);
+                body.setGravity(0.25);
                 body.setGravityMax(4.5);
                 body.resetGravity();
                 jump = 8.0;
@@ -265,6 +270,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         current.update(extrp);
 
         if (stats.getHealth() == 0 && transformable.getY() < oldY)
@@ -289,7 +295,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
 
         minX = -1.0;
         maxX = -1.0;
-        speed = -0.4;
+        speed = -0.5;
         collidable.setEnabled(true);
         animatable.play(walk);
         stats = head.getFeature(Stats.class);

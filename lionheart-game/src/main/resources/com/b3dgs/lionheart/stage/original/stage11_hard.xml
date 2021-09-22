@@ -174,13 +174,13 @@
         <entity file="entity/airship/Canon.xml" tx="656.0" ty="10.0"/>
         <entity file="entity/airship/Canon.xml" tx="689.0" ty="10.0"/>
         <entity file="entity/airship/Laser.xml" tx="699.5" ty="10.0">
-            <laser fireDelay="120" stayDelay="80"/>
+            <laser fireDelay="2000" stayDelay="80"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="722.5" ty="10.0">
-            <laser fireDelay="120" stayDelay="80"/>
+            <laser fireDelay="2000" stayDelay="80"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="729.5" ty="10.0">
-            <laser fireDelay="100" stayDelay="-1"/>
+            <laser fireDelay="1600" stayDelay="-1"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="744.0" ty="9.5"/>
         <entity file="entity/airship/Canon.xml" tx="740.5" ty="26.0"/>
@@ -199,7 +199,7 @@
         <entity file="entity/airship/Canon.xml" tx="637.0" ty="78.0"/>
         <entity file="entity/airship/PotionLittle.xml" tx="632.0" ty="80.0"/>
         <entity file="entity/airship/Laser.xml" tx="650.5" ty="78.0">
-            <laser fireDelay="100" stayDelay="90"/>
+            <laser fireDelay="1600" stayDelay="90"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="704.0" ty="58.0"/>
         <entity file="entity/airship/Dragon3.xml" tx="710.0" ty="54.0"/>

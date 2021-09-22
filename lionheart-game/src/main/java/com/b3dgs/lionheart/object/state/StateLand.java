@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -29,8 +30,8 @@ import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
  */
 public final class StateLand extends State
 {
-    /** Stay in land during delay in tick. */
-    private static final long LAND_TICK = 10L;
+    /** Stay in land during delay in milli. */
+    private static final long LAND_DELAY_MS = 150;
 
     private final Tick landed = new Tick();
 
@@ -44,7 +45,9 @@ public final class StateLand extends State
     {
         super(model, animation);
 
-        addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsed(LAND_TICK));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+
+        addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsedTime(source.getRate(), LAND_DELAY_MS));
         addTransition(StateJump.class, () -> !hasWin() && !isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
         addTransition(StateCrouch.class, () -> !hasWin() && isGoDown());
         addTransition(StatePrepareAttack.class, () -> !hasWin() && isFire());
@@ -67,6 +70,8 @@ public final class StateLand extends State
     @Override
     public void update(double extrp)
     {
+        super.update(extrp);
+
         landed.update(extrp);
     }
 

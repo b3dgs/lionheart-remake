@@ -21,5 +21,5 @@
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="3" accepted="1"/>
-    <hotfireball delay="60" count="5" level="0" vx="0.0" vy="5.0"/>
+    <hotfireball delay="1000" count="5" level="0" vx="0.0" vy="6.0"/>
 </lionengine:featurable>

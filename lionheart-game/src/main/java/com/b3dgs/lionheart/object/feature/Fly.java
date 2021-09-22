@@ -37,7 +37,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 @FeatureInterface
 public final class Fly extends FeatureModel implements Routine, Recyclable
 {
-    private static final double SPEED = 1.1;
+    private static final double SPEED = 1.3;
 
     private final Force direction = new Force();
     private final Trackable target = services.get(Trackable.class);
@@ -55,7 +55,7 @@ public final class Fly extends FeatureModel implements Routine, Recyclable
     {
         super(services, setup);
 
-        direction.setVelocity(0.04);
+        direction.setVelocity(0.048);
         direction.setSensibility(0.01);
     }
 

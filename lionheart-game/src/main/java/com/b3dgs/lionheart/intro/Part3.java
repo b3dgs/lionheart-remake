@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -58,34 +59,34 @@ public class Part3 extends Sequence
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
 
-    private static final int FADE_SPEED = 5;
-    private static final double ANIM_SPEED = 0.18;
+    private static final int FADE_SPEED = 7;
+    private static final double ANIM_SPEED = 0.22;
 
     private static final int VALDYN_X_MAX = 228;
-    private static final double VALDYN_X_SPEED = 1.0;
-    private static final double CAMERA_X_SPEED = 1.0;
+    private static final double VALDYN_X_SPEED = 1.2;
+    private static final double CAMERA_X_SPEED = 1.2;
 
     private static final int DRAGON_OFFSET_X = 3;
     private static final int DRAGON_OFFSET_Y = -33;
     private static final int DRAGON_MOVE_DOWN_FRAME = 10;
     private static final int DRAGON_FLY_FRAME = 18;
-    private static final double DRAGON_MOVE_DOWN_SPEED = 0.03;
-    private static final double DRAGON_MOVE_DOWN_MAX = -1.6;
-    private static final double DRAGON_MOVE_X = 1.3;
-    private static final double DRAGON_MOVE_Y = 1.4;
+    private static final double DRAGON_MOVE_DOWN_SPEED = 0.035;
+    private static final double DRAGON_MOVE_DOWN_MAX = -1.9;
+    private static final double DRAGON_MOVE_X = 1.5;
+    private static final double DRAGON_MOVE_Y = 1.75;
 
     private static final int TIME_FADE_IN_MS = 93800;
-    private static final int TIME_VALDYN_MOVE_MS = 95500;
-    private static final int TIME_VALDYN_RENDER_AFTER_MS = 95800;
-    private static final int TIME_DRAGON_HEAD_MS = 96500;
-    private static final int TIME_CAMERA_MOVE_MS = 96700;
-    private static final int TIME_VALDYN_HAND_MS = 99500;
+    private static final int TIME_VALDYN_MOVE_MS = 95000;
+    private static final int TIME_VALDYN_RENDER_AFTER_MS = 95200;
+    private static final int TIME_DRAGON_HEAD_MS = 96000;
+    private static final int TIME_CAMERA_MOVE_MS = 96200;
+    private static final int TIME_VALDYN_HAND_MS = 99000;
     private static final int TIME_VALDYN_DRAGON_MS = 100000;
     private static final int TIME_DRAGON_EAT_MS = 98500;
-    private static final int TIME_DRAGON_BACK_MS = 100000;
+    private static final int TIME_DRAGON_BACK_MS = 99900;
     private static final int TIME_DRAGON_FLY_MS = 101900;
     private static final int TIME_DRAGON_RENDER_AFTER_MS = 101200;
-    private static final int TIME_FADE_OUT_MS = 108700;
+    private static final int TIME_FADE_OUT_MS = 108000;
 
     /**
      * Get media from filename.
@@ -123,8 +124,8 @@ public class Part3 extends Sequence
     private final Animation dragonBack = createAnimation(1, 15, true, false);
     private final Animation dragonFly = createAnimation(1, 20, true, true);
 
-    private final Coord valdynCoord = new Coord(28, -78);
-    private final Coord dragonCoord = new Coord(176, -44);
+    private final Coord valdynCoord = new Coord(28.0, -78.0);
+    private final Coord dragonCoord = new Coord(176.0, -44.0);
 
     private final Camera camera = new Camera();
     private final AppInfo info;
@@ -139,7 +140,7 @@ public class Part3 extends Sequence
 
     private Renderable rendererFade = this::renderFade;
 
-    private double alpha;
+    private double alpha = 255.0;
     private double dragonGoDown;
     private boolean skip;
 
@@ -152,7 +153,7 @@ public class Part3 extends Sequence
      */
     public Part3(Context context, Time time, Audio audio)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
@@ -195,7 +196,7 @@ public class Part3 extends Sequence
      */
     private void updateValdynMove(double extrp)
     {
-        valdynCoord.translate(VALDYN_X_SPEED, 0.0);
+        valdynCoord.translate(VALDYN_X_SPEED * extrp, 0.0);
 
         if (valdynCoord.getX() > VALDYN_X_MAX)
         {
@@ -359,12 +360,12 @@ public class Part3 extends Sequence
     {
         if (dragon2.getFrame() > DRAGON_MOVE_DOWN_FRAME)
         {
-            dragonGoDown -= DRAGON_MOVE_DOWN_SPEED;
+            dragonGoDown -= DRAGON_MOVE_DOWN_SPEED * extrp;
             if (dragonGoDown < DRAGON_MOVE_DOWN_MAX)
             {
                 dragonGoDown = DRAGON_MOVE_DOWN_MAX;
             }
-            dragonCoord.translate(DRAGON_MOVE_X, DRAGON_MOVE_Y + dragonGoDown);
+            dragonCoord.translate(DRAGON_MOVE_X * extrp, (DRAGON_MOVE_Y + dragonGoDown) * extrp);
 
             if (dragon2.getAnimState() == AnimState.REVERSING && dragon2.getFrameAnim() <= DRAGON_FLY_FRAME)
             {
@@ -394,11 +395,11 @@ public class Part3 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateSkip;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -412,6 +413,7 @@ public class Part3 extends Sequence
     private void updateSkip(double extrp)
     {
         skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT);
+
         if (time.isAfter(TIME_FADE_OUT_MS) || skip)
         {
             updaterFade = this::updateFadeOut;
@@ -426,11 +428,12 @@ public class Part3 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
+
             if (skip)
             {
                 audio.stop();
@@ -444,14 +447,29 @@ public class Part3 extends Sequence
     }
 
     /**
-     * Render fade effect.
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
+     * Render fade.
      * 
      * @param g The graphic output.
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     /**

@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
@@ -46,9 +47,11 @@ import com.b3dgs.lionheart.constant.Anim;
 public final class BossSwampBowl extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final int PALLET_OFFSET = 2;
-    private static final int HIT_TICK_DELAY = 1;
+    private static final int HIT_DELAY_MS = 30;
 
-    private final Tick hitTick = new Tick();
+    private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private boolean hit;
     private double effect;
@@ -96,7 +99,7 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     public void hit()
     {
         hit = true;
-        hitTick.start();
+        tick.start();
     }
 
     /**
@@ -120,14 +123,14 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     @Override
     public void update(double extrp)
     {
-        effect = UtilMath.wrapDouble(effect + 0.08, 0, Constant.ANGLE_MAX);
+        effect = UtilMath.wrapDouble(effect + 0.1 * extrp, 0, Constant.ANGLE_MAX);
 
-        hitTick.update(extrp);
-        if (hitTick.elapsed(HIT_TICK_DELAY))
+        tick.update(extrp);
+        if (tick.elapsedTime(source.getRate(), HIT_DELAY_MS))
         {
             frame = UtilMath.wrap(frame + 1, 1, 3);
             animatable.setFrame(frame);
-            hitTick.restart();
+            tick.restart();
         }
     }
 
@@ -147,7 +150,7 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
         hit = false;
         effect = 0.0;
         frame = 1;
-        hitTick.stop();
+        tick.stop();
         animatable.setFrame(frame);
     }
 }

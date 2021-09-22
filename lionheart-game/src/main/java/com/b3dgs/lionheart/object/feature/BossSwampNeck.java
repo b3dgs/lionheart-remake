@@ -35,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 
 /**
@@ -49,9 +50,11 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     private static final int PALLET_OFFSET = 2;
     private static final int OFFSET_X = -26;
     private static final int OFFSET_Y = 87;
-    private static final int HIT_TICK_DELAY = 2;
+    private static final int HIT_DELAY_MS = 30;
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private CollidableListener listener;
     private int frame;
@@ -128,7 +131,7 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
         if (collidable.isEnabled())
         {
             tick.update(extrp);
-            if (tick.elapsed(HIT_TICK_DELAY))
+            if (tick.elapsedTime(source.getRate(), HIT_DELAY_MS))
             {
                 frame++;
                 if (frame > 2)

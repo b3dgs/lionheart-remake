@@ -34,12 +34,12 @@ import com.b3dgs.lionheart.object.feature.Patrol;
  */
 public class StateSlideBase extends State
 {
-    private static final double SPEED_JUMP_X = 2.2;
-    private static final Direction SPEED_JUMP_Y = new Force(0.0, SPEED_JUMP_X * 1.5);
+    private static final double SPEED_JUMP_X = 2.6;
+    private static final Direction SPEED_JUMP_Y = new Force(0.0, SPEED_JUMP_X * 1.8);
 
     private final AtomicBoolean abord = new AtomicBoolean();
 
-    private double speed = 0.5;
+    private double speed = 0.6;
 
     /**
      * Create the state.

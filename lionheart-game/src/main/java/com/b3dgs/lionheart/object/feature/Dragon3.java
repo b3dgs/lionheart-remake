@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.EntityModel;
 
@@ -45,10 +46,12 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class Dragon3 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRED_DELAY_TICK = 80;
+    private static final int FIRED_DELAY_MS = 1300;
 
     private final Tick tick = new Tick();
     private final Animation idle;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private Updatable current;
 
@@ -80,7 +83,7 @@ public final class Dragon3 extends FeatureModel implements Routine, Recyclable
     private void updateFire(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(FIRED_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), FIRED_DELAY_MS))
         {
             launcher.fire();
             tick.restart();

@@ -61,7 +61,7 @@ public class Scene extends SequenceGame<World>
      */
     Scene(Context context, Media stage, InitConfig init, Boolean exit)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION_GAME, context), World::new);
+        super(context, Util.getResolution(Constant.RESOLUTION_GAME, context), Util.getLoop(), World::new);
 
         this.stage = stage;
         this.init = init;

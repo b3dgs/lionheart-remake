@@ -50,7 +50,7 @@
             <shooter anim="6" fireDelay="150" firedDelay="0" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="78.0">
-            <shooter anim="6" fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="1600" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="25.0" ty="80.0">
             <rotating extremity="SpikeBowl.xml" length="2" speed="-2.0"/>
@@ -91,13 +91,13 @@
             <shooter anim="6" fireDelay="150" firedDelay="0" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="120.0">
-            <shooter anim="6" fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="1600" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/RotatingPlatform360.xml" tx="21.0" ty="125.0">
             <rotating extremity="Platform1.xml" length="4" speed="1.5"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="135.0">
-            <shooter anim="6" fireDelay="100" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="1600" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Crawling.xml" tx="13.0" ty="134.0">
             <patrol amplitude="32" sh="0.4"/>

@@ -13,9 +13,9 @@
     <lionengine:size width="16" height="20"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.3" reversed="false" repeat="false"/>
-        <lionengine:animation name="walk" start="1" end="8" speed="0.3" reversed="false" repeat="true"/>
-        <lionengine:animation name="hurt" start="1" end="1" speed="0.3" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.36" reversed="false" repeat="false"/>
+        <lionengine:animation name="walk" start="1" end="8" speed="0.36" reversed="false" repeat="true"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="0.36" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="8" height="14" mirror="false"/>

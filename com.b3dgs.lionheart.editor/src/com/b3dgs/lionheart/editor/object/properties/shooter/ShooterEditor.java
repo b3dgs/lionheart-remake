@@ -63,8 +63,14 @@ public class ShooterEditor extends EditorAbstract<ShooterConfig>
     @Override
     protected void createFields(Composite parent, ShooterConfig config)
     {
-        fireDelay = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRE_DELAY), VALIDATOR, true);
-        firedDelay = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_FIRED_DELAY), VALIDATOR, true);
+        fireDelay = new TextWidget(parent,
+                                   UtilConversion.toTitleCase(ShooterConfig.ATT_FIRE_DELAY_MS),
+                                   VALIDATOR,
+                                   true);
+        firedDelay = new TextWidget(parent,
+                                    UtilConversion.toTitleCase(ShooterConfig.ATT_FIRED_DELAY_MS),
+                                    VALIDATOR,
+                                    true);
         anim = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_ANIM), VALIDATOR, true);
         svx = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_SVX), VALIDATOR_DOUBLE, true);
         svy = new TextWidget(parent, UtilConversion.toTitleCase(ShooterConfig.ATT_SVY), VALIDATOR_DOUBLE, true);

@@ -170,8 +170,8 @@ final class DragonEnd extends BackgroundAbstract
          */
         private void renderMountains(Graphic g)
         {
-            final int oy = (int) (mountain.getOffsetY() + mountain.getMainY());
-            final int ox = (int) (-mountain.getOffsetX() + mountain.getMainX());
+            final int oy = (int) Math.round(mountain.getOffsetY() + mountain.getMainY());
+            final int ox = (int) Math.round(-mountain.getOffsetX() + mountain.getMainX());
             final int sx = mountainSprite.getWidth();
             for (int j = 0; j < w; j++)
             {
@@ -184,7 +184,7 @@ final class DragonEnd extends BackgroundAbstract
         public void update(double extrp, int x, int y, double speed)
         {
             backcolor.setOffsetY(y);
-            final double mx = mountain.getOffsetX() + speed * 0.24;
+            final double mx = mountain.getOffsetX() + speed * 0.25;
             mountain.setOffsetX(UtilMath.wrapDouble(mx, 0.0, mountainSprite.getWidth()));
             mountain.setOffsetY(y);
         }

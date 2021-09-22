@@ -13,16 +13,16 @@
     <lionengine:size width="80" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="guardsalto" start="1" end="7" speed="0.2" reversed="false" repeat="true">
+        <lionengine:animation name="guardsalto" start="1" end="7" speed="0.24" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="attack" x="12" y="28" width="32" height="32" mirror="false"/>
         </lionengine:animation>
-        <lionengine:animation name="turn" start="8" end="10" speed="0.2" reversed="false" repeat="false">
+        <lionengine:animation name="turn" start="8" end="10" speed="0.24" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="12" y="0" width="28" height="60" mirror="false"/>
         </lionengine:animation>
         <lionengine:animation name="guardattackprepare" start="11" end="11" speed="1.0" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="12" y="0" width="28" height="60" mirror="false"/>
         </lionengine:animation>
-        <lionengine:animation name="guardattack" start="12" end="14" speed="0.2" reversed="false" repeat="false">
+        <lionengine:animation name="guardattack" start="12" end="14" speed="0.24" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="attack" x="6" y="40" width="94" height="8" mirror="false"/>
         </lionengine:animation>
         <lionengine:animation name="hurt" start="15" end="15" speed="1.0" reversed="false" repeat="false"/>
@@ -34,9 +34,9 @@
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.guard.StateGuardAttackPrepare</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
-    <lionengine:body gravity="1.0" gravityMax="3.5"/>
+    <lionengine:body gravity="0.072" gravityMax="4.2"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="9"/>
-    <hurtable frame="1" backward="0.85" effect="effect/airship/ExplodeBig.xml" sfx="MONSTER_EXECUTIONER_HURT"/>
+    <hurtable frame="1" backward="1.0" effect="effect/airship/ExplodeBig.xml" sfx="MONSTER_EXECUTIONER_HURT"/>
     <shade horizontal="1" vertical="1"/>
 </lionengine:featurable>

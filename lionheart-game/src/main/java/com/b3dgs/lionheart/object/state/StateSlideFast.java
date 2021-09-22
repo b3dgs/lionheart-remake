@@ -41,6 +41,6 @@ final class StateSlideFast extends StateSlideBase
                       () -> is(Mirror.HORIZONTAL) && isGoRight() || is(Mirror.NONE) && isGoLeft());
         addTransition(StateAttackSlide.class, this::isFireOnce);
 
-        setSpeed(1.0);
+        setSpeed(1.2);
     }
 }

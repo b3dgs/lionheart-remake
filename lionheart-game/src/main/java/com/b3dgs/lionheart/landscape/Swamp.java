@@ -224,7 +224,7 @@ final class Swamp extends BackgroundAbstract
         {
             backcolorA.setOffsetY(y);
             moon.setOffsetY(moonOffset - totalHeight + getOffsetY());
-            final double mx = mountain.getOffsetX() + speed * 0.24;
+            final double mx = mountain.getOffsetX() + speed * 0.25;
             mountain.setOffsetX(UtilMath.wrapDouble(mx, 0.0, mountainSprite.getWidth()));
             mountain.setOffsetY(y);
         }

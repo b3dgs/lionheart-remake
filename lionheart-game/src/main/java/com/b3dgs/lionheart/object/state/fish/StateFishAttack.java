@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state.fish;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Trackable;
@@ -28,7 +29,10 @@ import com.b3dgs.lionheart.object.feature.Trackable;
  */
 public final class StateFishAttack extends State
 {
+    private static final int DELAY_MS = 350;
+
     private final Tick tick = new Tick();
+
     private final Launcher launcher = model.getFeature(Launcher.class);
     private final Trackable target = model.getServices().get(Trackable.class);
 
@@ -42,7 +46,8 @@ public final class StateFishAttack extends State
     {
         super(model, animation);
 
-        addTransition(StateFishFall.class, () -> tick.elapsed(20));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StateFishFall.class, () -> tick.elapsedTime(source.getRate(), DELAY_MS));
     }
 
     @Override

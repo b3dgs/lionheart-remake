@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.game.feature.state.StateLast;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Guard;
+import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.Patrol;
 
 /**
@@ -39,7 +40,9 @@ public final class StateTurn extends State
     {
         super(model, animation);
 
-        addTransition(StateLast.class, () -> is(AnimState.FINISHED));
+        addTransition(StateLast.class, () -> is(AnimState.FINISHED) && (!model.hasFeature(Jumper.class) || !isGoUp()));
+        addTransition(StatePrepareJump.class,
+                      () -> is(AnimState.FINISHED) && model.hasFeature(Jumper.class) && isGoUp());
     }
 
     @Override

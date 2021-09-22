@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 
@@ -45,14 +46,15 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Frog extends FeatureModel implements Routine, Recyclable
 {
-    private static final int AWAIT_DELAY_TICK = 60;
-    private static final double SPEED = 3.0;
-
-    private final Viewer viewer = services.get(Viewer.class);
+    private static final int AWAIT_DELAY_MS = 1000;
+    private static final double SPEED = 3.5;
 
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation turn;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Viewer viewer = services.get(Viewer.class);
 
     private int phase;
 
@@ -82,6 +84,7 @@ public final class Frog extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
+
         if (phase == 0 && transformable.getX() < viewer.getX() - transformable.getWidth())
         {
             rasterable.setVisibility(true);
@@ -96,7 +99,7 @@ public final class Frog extends FeatureModel implements Routine, Recyclable
                 transformable.teleportX(viewer.getX());
                 tick.start();
             }
-            if (tick.elapsed(AWAIT_DELAY_TICK))
+            if (tick.elapsedTime(source.getRate(), AWAIT_DELAY_MS))
             {
                 collidable.setEnabled(true);
                 animatable.play(turn);

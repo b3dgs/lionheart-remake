@@ -108,6 +108,7 @@ public final class StatePatrol extends State
         super.enter();
 
         turn = false;
+        movement.setVelocity(1.0);
     }
 
     @Override

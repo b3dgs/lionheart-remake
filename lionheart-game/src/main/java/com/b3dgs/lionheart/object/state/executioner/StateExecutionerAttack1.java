@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.state.executioner;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Executioner;
@@ -30,12 +29,10 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  */
 public final class StateExecutionerAttack1 extends State
 {
-    private static final double ATTACK_SPEED = 1.8;
+    private static final double ATTACK_SPEED = 2.15;
     private static final double ATTACK1_DISTANCE_MIN = 16.0;
 
     private final Trackable target = model.getServices().get(Trackable.class);
-
-    private final Tick tick = new Tick();
 
     private Mirror mirror;
     private double velocity;
@@ -65,7 +62,7 @@ public final class StateExecutionerAttack1 extends State
         velocity = movement.getVelocity();
         movement.zero();
         movement.setDestination(0.0, 0.0);
-        movement.setVelocity(0.001);
+        movement.setVelocity(0.0012);
         int side;
         if (mirrorable.getMirror() == Mirror.HORIZONTAL)
         {
@@ -76,11 +73,10 @@ public final class StateExecutionerAttack1 extends State
             side = 1;
         }
         movement.setDirection(ATTACK_SPEED * side, 0.0);
-        jump.setDirection(0.0, 2.0);
+        jump.setDirection(0.0, 2.4);
         jump.setDestination(0.0, 0.0);
-        jump.setVelocity(0.05);
+        jump.setVelocity(0.06);
         body.resetGravity();
-        tick.restart();
     }
 
     @Override
@@ -88,7 +84,6 @@ public final class StateExecutionerAttack1 extends State
     {
         super.update(extrp);
 
-        tick.update(extrp);
         mirrorable.mirror(mirror);
     }
 

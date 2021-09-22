@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.constant.Folder;
@@ -48,8 +49,8 @@ public final class ScenePicture extends Sequence
     private static final int PIC_Y = 17;
     private static final int TEXT_Y = 186;
     private static final int PUSH_Y = 225;
-    private static final int PUSH_BUTTON_TICK = 30;
-    private static final int FADE_SPEED = 6;
+    private static final int PUSH_BUTTON_DELAY_MS = 500;
+    private static final int FADE_SPEED = 8;
     private static final int TEXT_HEIGHT_NORMAL = 36;
     private static final int TEXT_HEIGHT_MAX = 40;
 
@@ -62,6 +63,9 @@ public final class ScenePicture extends Sequence
                                                             12,
                                                             12);
     private final Tick tick = new Tick();
+    private final SourceResolutionProvider source = new SourceResolutionDelegate(this::getWidth,
+                                                                                 this::getHeight,
+                                                                                 this::getRate);
     private final Image text;
     private final Media stage;
     private final InitConfig init;
@@ -71,8 +75,8 @@ public final class ScenePicture extends Sequence
     private final AppInfo info;
     private final Boolean auto;
 
-    private int fadePic = 255;
-    private int fadeText = 255;
+    private double fadePic = 255.0;
+    private double fadeText = 255.0;
     private int speed = FADE_SPEED;
     private int picYoffset;
     private boolean showPush;
@@ -105,7 +109,7 @@ public final class ScenePicture extends Sequence
      */
     ScenePicture(Context context, Media stage, InitConfig init, Media pic, String narrative, Boolean auto)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.stage = stage;
         this.init = init;
@@ -118,7 +122,7 @@ public final class ScenePicture extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
+        services.add(source);
         device = services.add(DeviceControllerConfig.create(services,
                                                             Medias.create(Settings.getInstance().getInput())));
 
@@ -161,13 +165,16 @@ public final class ScenePicture extends Sequence
 
     /**
      * Update picture.
+     * 
+     * @param extrp The extrapolation value.
      */
-    private void updatePicture()
+    private void updatePicture(double extrp)
     {
-        if (fadeText == 255)
+        if (getFadeText() == 255)
         {
-            fadePic = UtilMath.clamp(fadePic - speed, 0, 255);
-            if (speed < 0 && fadePic == 255)
+            fadePic = UtilMath.clamp(fadePic - speed * extrp, 0.0, 255.0);
+
+            if (speed < 0 && getFadePic() == 255)
             {
                 end();
             }
@@ -176,13 +183,16 @@ public final class ScenePicture extends Sequence
 
     /**
      * Update text.
+     * 
+     * @param extrp The extrapolation value.
      */
-    private void updateText()
+    private void updateText(double extrp)
     {
-        if (fadePic == 0)
+        if (getFadePic() == 0)
         {
-            fadeText = UtilMath.clamp(fadeText - speed, 0, 255);
-            if (fadeText == 0)
+            fadeText = UtilMath.clamp(fadeText - speed * extrp, 0.0, 255.0);
+
+            if (getFadeText() == 0)
             {
                 updateFadedIn();
             }
@@ -219,11 +229,31 @@ public final class ScenePicture extends Sequence
     private void updatePushButton(double extrp)
     {
         tick.update(extrp);
-        if (speed > 0 && tick.elapsed(PUSH_BUTTON_TICK))
+        if (speed > 0 && tick.elapsedTime(source.getRate(), PUSH_BUTTON_DELAY_MS))
         {
             showPush = !showPush;
             tick.restart();
         }
+    }
+
+    /**
+     * Get fade text value.
+     * 
+     * @return The fade text value.
+     */
+    private int getFadeText()
+    {
+        return (int) Math.floor(fadeText);
+    }
+
+    /**
+     * Get fade picture value.
+     * 
+     * @return The fade picture value.
+     */
+    private int getFadePic()
+    {
+        return (int) Math.floor(fadePic);
     }
 
     @Override
@@ -241,8 +271,8 @@ public final class ScenePicture extends Sequence
         device.update(extrp);
         deviceCursor.update(extrp);
 
-        updatePicture();
-        updateText();
+        updatePicture(extrp);
+        updateText(extrp);
         updatePushButton(extrp);
 
         info.update(extrp);
@@ -254,21 +284,25 @@ public final class ScenePicture extends Sequence
         g.clear(0, 0, getWidth(), getHeight());
 
         picture.render(g);
-        if (fadePic > 0)
+        if (getFadePic() > 0)
         {
-            g.setColor(Constant.ALPHAS_BLACK[fadePic]);
-            g.drawRect((int) picture.getX() - picture.getWidth() / 2,
-                       (int) picture.getY() + picYoffset,
+            g.setColor(Constant.ALPHAS_BLACK[getFadePic()]);
+            g.drawRect((int) Math.round(picture.getX() - picture.getWidth() / 2),
+                       (int) Math.round(picture.getY() + picYoffset),
                        picture.getWidth(),
                        picture.getHeight(),
                        true);
         }
 
         text.render(g);
-        if (fadeText > 0)
+        if (getFadeText() > 0)
         {
-            g.setColor(Constant.ALPHAS_BLACK[fadeText]);
-            g.drawRect(0, (int) text.getY() + picYoffset, getWidth(), TEXT_HEIGHT_MAX - picYoffset * 2, true);
+            g.setColor(Constant.ALPHAS_BLACK[getFadeText()]);
+            g.drawRect(0,
+                       (int) Math.round(text.getY() + picYoffset),
+                       getWidth(),
+                       TEXT_HEIGHT_MAX - picYoffset * 2,
+                       true);
         }
 
         g.setColor(ColorRgba.WHITE);

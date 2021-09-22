@@ -43,7 +43,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
-import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
@@ -62,9 +61,8 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
 {
     private static final int PALLET_OFFSET = 15;
     private static final String ANIM_HATCH = "hatch";
-    private static final double FALL_VELOCITY = 0.1;
+    private static final double FALL_VELOCITY = 0.12;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Force force = new Force();
     private final Animation fall;
@@ -118,9 +116,8 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
     {
         super.prepare(provider);
 
-        body.setGravity(Constant.GRAVITY / 2);
+        body.setGravity(Constant.GRAVITY / 2 * 0.06);
         body.setGravityMax(Constant.GRAVITY / 2);
-        body.setDesiredFps(source.getRate());
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }

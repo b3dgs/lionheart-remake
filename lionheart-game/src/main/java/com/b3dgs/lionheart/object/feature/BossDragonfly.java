@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
@@ -50,14 +51,15 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossDragonfly extends FeatureModel implements Routine, Recyclable
 {
-    private static final int END_TICK = 500;
-    private static final int APPROACH_DELAY_TICK = 40;
-    private static final double SPEED = 13.0 / 31.0;
-    private static final double SPEED_LEAVE = -2.5;
-    private static final int EXPLODE_DELAY = 10;
+    private static final int END_DELAY_MS = 8000;
+    private static final int APPROACH_DELAY_MS = 650;
+    private static final double SPEED = 0.5;
+    private static final double SPEED_LEAVE = -3.0;
+    private static final int EXPLODE_DELAY_MS = 160;
 
     private final Tick tick = new Tick();
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
@@ -65,7 +67,6 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private final LoadNextStage stage = services.get(LoadNextStage.class);
 
     private Updatable updater;
-
     private Hurtable head;
     private Hurtable gobelin;
     private Stats stats;
@@ -124,7 +125,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private void updateApproach(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(APPROACH_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), APPROACH_DELAY_MS))
         {
             updater = this::updateAwait;
         }
@@ -172,7 +173,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
             updater = this::updateExplode;
             head.kill(true);
             music.playMusic(Music.BOSS_WIN);
-            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
+            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_DELAY_MS));
             tick.restart();
         }
         else if (hurtable.isHurting())
@@ -191,7 +192,7 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private void updateExplode(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(EXPLODE_DELAY))
+        if (tick.elapsedTime(source.getRate(), EXPLODE_DELAY_MS))
         {
             spawnExplode();
             tick.restart();

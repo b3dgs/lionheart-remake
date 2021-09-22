@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
@@ -38,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Editable;
@@ -58,9 +58,9 @@ public final class Shooter extends FeatureModel
     private final Animation idle;
     private final Animation attack;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
 
-    private ShooterConfig def;
     private ShooterConfig config;
     private Updatable updater;
     private boolean enabled;
@@ -80,14 +80,11 @@ public final class Shooter extends FeatureModel
     {
         super(services, setup);
 
-        if (setup.hasNode(ShooterConfig.NODE_SHOOTER))
-        {
-            def = new ShooterConfig(setup.getRoot());
-        }
-
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation("patrol");
         attack = config.getAnimation(Anim.ATTACK);
+
+        load(setup.getRoot());
     }
 
     @Override
@@ -100,19 +97,6 @@ public final class Shooter extends FeatureModel
     public void setConfig(ShooterConfig config)
     {
         this.config = config;
-    }
-
-    /**
-     * Load configuration.
-     * 
-     * @param config The configuration to load.
-     */
-    public void load(ShooterConfig config)
-    {
-        this.config = config;
-        updater = this::updatePrepare;
-        tick.restart();
-        tick.set(config.getFireDelay() / 2);
     }
 
     /**
@@ -132,18 +116,21 @@ public final class Shooter extends FeatureModel
      */
     private void updatePrepare(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
         if (enabled
-            && tick.elapsed(config.getFireDelay())
+            && tick.elapsedTime(source.getRate(), config.getFireDelay())
             && (animatable.is(AnimState.FINISHED)
                 || animatable.is(AnimState.STOPPED)
                 || animatable.getFrameAnim() == 1))
         {
             updater = this::updateFire;
-            if (config.getAnim() > 0)
+            if (config.getAnim() != 0)
             {
                 animatable.play(attack);
             }
+            tick.stop();
         }
     }
 
@@ -154,17 +141,17 @@ public final class Shooter extends FeatureModel
      */
     private void updateFire(double extrp)
     {
-        if (config.getAnim() == 0 || animatable.getFrameAnim() == config.getAnim())
+        if (config.getAnim() < 1 || animatable.getFrameAnim() == config.getAnim())
         {
             if (config.getTrack())
             {
-                launcher.fire(new Force(0.25, 0.0), target);
+                launcher.fire(new Force(0.3, 0.0), target);
             }
             else
             {
                 launcher.fire();
             }
-            if (config.getAnim() > 0)
+            if (config.getAnim() != 0)
             {
                 updater = this::updateCheckAnimEnd;
             }
@@ -178,7 +165,6 @@ public final class Shooter extends FeatureModel
                 {
                     updater = this::updatePrepare;
                 }
-                tick.restart();
             }
         }
     }
@@ -190,7 +176,7 @@ public final class Shooter extends FeatureModel
      */
     private void updateCheckAnimEnd(double extrp)
     {
-        if (animatable.is(AnimState.FINISHED))
+        if (animatable.is(AnimState.FINISHED) || config.getAnim() < 0)
         {
             if (config.getFiredDelay() > 0)
             {
@@ -198,10 +184,12 @@ public final class Shooter extends FeatureModel
             }
             else
             {
-                animatable.play(idle);
+                if (config.getAnim() > 0)
+                {
+                    animatable.play(idle);
+                }
                 updater = this::updatePrepare;
             }
-            tick.restart();
         }
     }
 
@@ -212,12 +200,14 @@ public final class Shooter extends FeatureModel
      */
     private void updateFired(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
-        if (tick.elapsed(config.getFiredDelay()))
+        if (tick.elapsedTime(source.getRate(), config.getFiredDelay()))
         {
             animatable.play(idle);
             updater = this::updatePrepare;
-            tick.restart();
+            tick.stop();
         }
     }
 
@@ -226,17 +216,15 @@ public final class Shooter extends FeatureModel
     {
         if (root.hasNode(ShooterConfig.NODE_SHOOTER))
         {
-            load(new ShooterConfig(root));
+            config = new ShooterConfig(root);
+            updater = this::updatePrepare;
         }
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -262,7 +250,7 @@ public final class Shooter extends FeatureModel
                        r -> r.getMedia().ifPresent(media -> r.setRaster(true, media, map.getTileHeight())));
             }
 
-            if (config != null && !config.getTrack())
+            if (!config.getTrack())
             {
                 final Force direction = l.getDirection();
                 if (direction != null)
@@ -280,12 +268,7 @@ public final class Shooter extends FeatureModel
     @Override
     public void recycle()
     {
-        config = null;
-        updater = UpdatableVoid.getInstance();
         enabled = true;
-        if (def != null)
-        {
-            load(def);
-        }
+        tick.stop();
     }
 }

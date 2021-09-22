@@ -36,6 +36,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
@@ -51,13 +52,13 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossNorka2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int MOVE_DOWN_DELAY_TICK = 50;
-    private static final int START_ATTACK_DELAY_TICK = 30;
-    private static final int END_ATTACK_DELAY_TICK = 100;
+    private static final int MOVE_DOWN_DELAY_MS = 800;
+    private static final int START_ATTACK_DELAY_MS = 500;
+    private static final int END_ATTACK_DELAY_MS = 1500;
 
     private static final int ATTACK_DISTANCE_MAX = 96;
-    private static final double MOVE_X_SPEED = 1.0;
-    private static final double MOVE_Y_SPEED = 4.0;
+    private static final double MOVE_X_SPEED = 1.2;
+    private static final double MOVE_Y_SPEED = 4.8;
     private static final int MOVE_DOWN_Y = 80;
 
     private final Tick tick = new Tick();
@@ -67,6 +68,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private final Animation turn;
     private final Animation attack;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
 
@@ -99,8 +101,8 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
         turn = config.getAnimation(Anim.TURN);
         attack = config.getAnimation(Anim.ATTACK);
 
-        movement.setVelocity(0.1);
-        movement.setSensibility(0.5);
+        movement.setVelocity(0.12);
+        movement.setSensibility(0.6);
     }
 
     /**
@@ -111,8 +113,9 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private void updateMoveDown(double extrp)
     {
         animatable.play(fall);
+
         tick.update(extrp);
-        if (tick.elapsed(MOVE_DOWN_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), MOVE_DOWN_DELAY_MS))
         {
             if (transformable.getY() < MOVE_DOWN_Y)
             {
@@ -240,8 +243,9 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         transformable.teleportY(MOVE_DOWN_Y);
         body.resetGravity();
+
         tick.update(extrp);
-        if (tick.elapsed(START_ATTACK_DELAY_TICK) && animatable.is(AnimState.FINISHED))
+        if (tick.elapsedTime(source.getRate(), START_ATTACK_DELAY_MS) && animatable.is(AnimState.FINISHED))
         {
             launcher.fire(target);
             current = this::updateEndAttackDelay;
@@ -258,8 +262,9 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         transformable.teleportY(MOVE_DOWN_Y);
         body.resetGravity();
+
         tick.update(extrp);
-        if (tick.elapsed(END_ATTACK_DELAY_TICK) && !hurtable.isHurting())
+        if (tick.elapsedTime(source.getRate(), END_ATTACK_DELAY_MS) && !hurtable.isHurting())
         {
             animatable.play(attack);
             animatable.setFrame(attack.getLast());

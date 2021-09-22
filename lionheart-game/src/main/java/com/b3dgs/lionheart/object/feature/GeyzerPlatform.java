@@ -69,7 +69,7 @@ public final class GeyzerPlatform extends FeatureModel implements Routine, Colli
     {
         super.prepare(provider);
 
-        model.getMovement().setVelocity(0.02);
+        model.getMovement().setVelocity(0.025);
     }
 
     @Override
@@ -95,13 +95,14 @@ public final class GeyzerPlatform extends FeatureModel implements Routine, Colli
             if (Double.compare(other.getY(), other.getOldY()) == 0)
             {
                 transformable.teleportY(other.getY() + other.getHeight());
+                model.getMovement().setDirection(0.0, 0.0);
             }
             else
             {
                 transformable.setLocationY(other.getY() + other.getHeight());
+                model.getMovement().setDirection(0.0, 3.0);
             }
             body.resetGravity();
-            model.getMovement().setDirection(0.0, transformable.getY() - transformable.getOldY());
             collide = true;
             played = false;
         }

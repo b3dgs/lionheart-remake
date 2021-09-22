@@ -44,8 +44,8 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
 @FeatureInterface
 public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Editable<SheetConfig>, Routine, Recyclable
 {
-    private static final double CURVE_FORCE = 6.0;
-    private static final double CURVE_SPEED = 7.0;
+    private static final double CURVE_FORCE = 7.0;
+    private static final double CURVE_SPEED = 8.0;
     private static final int HIDE_RANGE = 48;
 
     private Trackable target;
@@ -68,6 +68,8 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     public Sheet(Services services, Setup setup)
     {
         super(services, setup);
+
+        load(setup.getRoot());
     }
 
     @Override
@@ -117,11 +119,11 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
             {
                 if (abord && Double.compare(curve, 90) < 0)
                 {
-                    curve -= CURVE_SPEED;
+                    curve -= CURVE_SPEED * extrp;
                 }
                 else
                 {
-                    curve += CURVE_SPEED;
+                    curve += CURVE_SPEED * extrp;
                 }
             }
             if (curve < 0 || curve > 180)
@@ -144,21 +146,22 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     @Override
     public void load(XmlReader root)
     {
-        config = new SheetConfig(root);
-        if (config.getHide())
+        if (root.hasNode(SheetConfig.NODE_SHEET))
         {
-            ifIs(Rasterable.class, r -> r.setVisibility(false));
-            target = services.getOptional(Trackable.class).orElse(null);
+            config = new SheetConfig(root);
+
+            if (config.getHide())
+            {
+                ifIs(Rasterable.class, r -> r.setVisibility(false));
+                target = services.getOptional(Trackable.class).orElse(null);
+            }
         }
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override

@@ -10,7 +10,7 @@
     <lionengine:size width="64" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="16" speed="0.15" reversed="true" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="16" speed="0.18" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <alwaysUpdate>true</alwaysUpdate>

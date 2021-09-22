@@ -132,7 +132,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         }
         if (start)
         {
-            down -= speedDown;
+            down -= speedDown * extrp;
             if (max > 0 && down < -max)
             {
                 down = -max;
@@ -140,7 +140,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         }
         else
         {
-            down += speedUp;
+            down += speedUp * extrp;
             if (down > 0)
             {
                 down = 0.0;

@@ -50,16 +50,16 @@ public final class Part1 implements Updatable, Renderable
 
     private static final int TEXT_SIZE = 24;
     private static final String TEXT_FONT = com.b3dgs.lionengine.Constant.FONT_SERIF;
-    private static final int TEXT_ALPHA_SPEED = 4;
+    private static final int TEXT_ALPHA_SPEED = 6;
     private static final int TEXT_LINE_HEIGHT = 22;
 
     private static final int SPRITE_BACKS_COUNT = 4;
     private static final int SPRITE_SCENERIES_COUNT = 6;
 
-    private static final double SPEED_CAMERA_BACK = 0.45;
-    private static final double SPEED_CAMERA_SCENERY = 0.77;
+    private static final double SPEED_CAMERA_BACK = 0.5;
+    private static final double SPEED_CAMERA_SCENERY = 1.0;
 
-    private static final int BACKGROUND_X_MAX = 900;
+    private static final int BACKGROUND_X_MAX = 810;
 
     private static final int TIME_START_CAMERA_MOVE_MS = 10100;
 
@@ -83,7 +83,7 @@ public final class Part1 implements Updatable, Renderable
     private final TextData[] texts = new TextData[]
     {
         new TextData(2350, 5200, 0, -40, 0, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS"),
-        new TextData(7000, 12000, 0, 56, 0, Align.CENTER),
+        new TextData(7000, 12100, 0, 56, 0, Align.CENTER),
         new TextData(15100, 17800, -112, -64, -154, Align.LEFT, titles.get(0), "              Erwin Kloibhofer",
                      "              Michael Bittner", "(remake) Pierre-Alexandre"),
         new TextData(20100, 22800, -112, -42, -34, Align.LEFT, titles.get(1), "Henk Nieborg"),
@@ -93,14 +93,15 @@ public final class Part1 implements Updatable, Renderable
     // @formatter:on
     private final SceneryData[] sceneriesData = new SceneryData[]
     {
-        new SceneryData(0, 32), new SceneryData(1, 420), new SceneryData(0, 570), new SceneryData(1, 670),
-        new SceneryData(2, 730), new SceneryData(0, 790), new SceneryData(3, 910), new SceneryData(0, 980),
-        new SceneryData(4, 1370), new SceneryData(5, 1690),
+        new SceneryData(0, 32), new SceneryData(1, 410), new SceneryData(0, 620), new SceneryData(1, 745),
+        new SceneryData(2, 795), new SceneryData(0, 850), new SceneryData(3, 1000), new SceneryData(0, 1090),
+        new SceneryData(4, 1510), new SceneryData(5, 1830),
     };
     private final Sprite[] backs = new Sprite[SPRITE_BACKS_COUNT];
     private final Sprite[] sceneries = new Sprite[SPRITE_SCENERIES_COUNT];
-    private final Sprite title = Drawable.loadSprite(get("title"));
-    private final Sprite titleShade = Drawable.loadSprite(get("title_shade"));
+    private final Sprite[] titleAlpha = new Sprite[256];
+    private final Sprite[] titleShadeAlpha = new Sprite[256];
+    private final Sprite[] titleShadeFade = new Sprite[256];
     private final Camera cameraBack = new Camera();
     private final Camera cameraScenery = new Camera();
     private final int width;
@@ -109,8 +110,9 @@ public final class Part1 implements Updatable, Renderable
     private final double cameraMax;
 
     private Updatable updaterCamera = this::updateCameraIdle;
-    private double alphaTitleOld;
+    private int alphaTitleOld;
     private double alphaShade;
+    private double extrp;
 
     /** Used to cache text rendering on first pass. */
     private boolean force = true;
@@ -131,7 +133,7 @@ public final class Part1 implements Updatable, Renderable
         this.width = width;
         this.height = height;
         // CHECKSTYLE IGNORE LINE: MagicNumber
-        cameraMax = 1801 - Math.ceil(158.4 * wide);
+        cameraMax = 1941 - Math.ceil(158.4 * wide);
     }
 
     /**
@@ -139,12 +141,30 @@ public final class Part1 implements Updatable, Renderable
      */
     public void load()
     {
+        final Sprite title = Drawable.loadSprite(get("title"));
         title.load();
         title.prepare();
 
+        for (int i = 0; i < titleAlpha.length; i++)
+        {
+            titleAlpha[i] = Drawable.loadSprite(title.getSurface());
+            titleAlpha[i].prepare();
+            titleAlpha[i].setAlpha(i);
+        }
+
+        final Sprite titleShade = Drawable.loadSprite(get("title_shade"));
         titleShade.load();
         titleShade.prepare();
-        titleShade.setAlpha(0);
+        for (int i = 0; i < titleShadeAlpha.length; i++)
+        {
+            titleShadeAlpha[i] = Drawable.loadSprite(titleShade.getSurface());
+            titleShadeAlpha[i].prepare();
+            titleShadeAlpha[i].setAlpha(i);
+
+            titleShadeFade[i] = Drawable.loadSprite(titleShade.getSurface());
+            titleShadeFade[i].prepare();
+            titleShadeFade[i].setFade(i, i);
+        }
 
         for (int i = 0; i < backs.length; i++)
         {
@@ -158,6 +178,9 @@ public final class Part1 implements Updatable, Renderable
             sceneries[i].load();
             sceneries[i].prepare();
         }
+
+        cameraBack.teleport(16.0, 0.0);
+        cameraScenery.teleport(16.0, 0.0);
     }
 
     /**
@@ -200,10 +223,12 @@ public final class Part1 implements Updatable, Renderable
     {
         if (cameraBack.getX() < BACKGROUND_X_MAX)
         {
+            final int x = (int) Math.floor(cameraBack.getX());
+            final double y = height / 2.0 - backs[0].getHeight() / 2.0;
+
             for (int i = 0; i < backs.length; i++)
             {
-                backs[i].setLocation(Math.floor(cameraBack.getViewpointX(i * backs[i].getWidth())),
-                                     height / 2 - backs[i].getHeight() / 2);
+                backs[i].setLocation(i * backs[0].getWidth() - x, y);
                 if (UtilMath.isBetween(backs[i].getX(), -backs[i].getWidth(), width))
                 {
                     backs[i].render(g);
@@ -223,16 +248,26 @@ public final class Part1 implements Updatable, Renderable
         if (alpha > 0)
         {
             updateTitleShade(alpha);
-            if (alpha == 255 || alpha < 255 && alphaShade == 255)
+            if (alpha == 255 || alpha < 255 && Double.compare(alphaShade, 255.0) == 0)
             {
                 updateTitleAlpha(alpha);
-                title.setLocation(width / 2 - title.getWidth() / 2, height / 2 - texts[1].getY());
-                title.render(g);
+                titleAlpha[alpha].setLocation(width / 2.0 - titleAlpha[alpha].getWidth() / 2.0,
+                                              height / 2.0 - texts[1].getY());
+                titleAlpha[alpha].render(g);
             }
 
-            if (alphaShade < 255)
+            if (alphaShade < 255.0)
             {
-                titleShade.setLocation(width / 2 - title.getWidth() / 2, height / 2 - texts[1].getY());
+                final Sprite titleShade;
+                if (alpha == 255)
+                {
+                    titleShade = titleShadeFade[alpha - (int) Math.floor(alphaShade)];
+                }
+                else
+                {
+                    titleShade = titleShadeAlpha[alpha];
+                }
+                titleShade.setLocation(width / 2.0 - titleShade.getWidth() / 2.0, height / 2.0 - texts[1].getY());
                 titleShade.render(g);
             }
         }
@@ -245,19 +280,17 @@ public final class Part1 implements Updatable, Renderable
      */
     private void updateTitleShade(int alpha)
     {
-        if (alphaShade < 255 && Double.compare(alphaTitleOld, alpha) != 0)
+        if (alphaShade < 255.0 && alphaTitleOld != alpha)
         {
-            titleShade.setAlpha(alpha);
             alphaTitleOld = alpha;
         }
-        if (alpha == 255 && alphaShade < 255)
+        if (alpha == 255 && alphaShade < 255.0)
         {
-            alphaShade += TEXT_ALPHA_SPEED;
-            if (alphaShade > 255)
+            alphaShade += TEXT_ALPHA_SPEED * extrp;
+            if (alphaShade > 255.0)
             {
-                alphaShade = 255;
+                alphaShade = 255.0;
             }
-            titleShade.setFade((int) Math.floor(alpha - alphaShade), (int) Math.floor(alpha - alphaShade));
         }
     }
 
@@ -268,9 +301,8 @@ public final class Part1 implements Updatable, Renderable
      */
     private void updateTitleAlpha(int alpha)
     {
-        if (Double.compare(alphaTitleOld, alpha) != 0)
+        if (alphaTitleOld != alpha)
         {
-            title.setAlpha(alpha);
             alphaTitleOld = alpha;
         }
     }
@@ -295,6 +327,7 @@ public final class Part1 implements Updatable, Renderable
     @Override
     public void update(double extrp)
     {
+        this.extrp = extrp;
         for (int i = 0; i < texts.length; i++)
         {
             texts[i].update(extrp);

@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -36,9 +35,9 @@ import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
-import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -59,7 +58,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
 {
     private static final String ATT_OFFSET = "offset";
 
-    private final Tick jumpStopTick = new Tick();
+    private final Tick jumpStop = new Tick();
     private final MapTile map;
     private final MapTileGroup mapGroup;
     private final DeviceController jumpControl = new DeviceControllerVoid()
@@ -77,6 +76,8 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
         }
     };
     private final int offset = setup.getInteger(0, ATT_OFFSET, JumperConfig.NODE_JUMPER);
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private JumperConfig config;
     private DeviceController oldControl;
@@ -103,6 +104,8 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
 
         map = services.get(MapTile.class);
         mapGroup = map.getFeature(MapTileGroup.class);
+
+        load(setup.getRoot());
     }
 
     /**
@@ -115,7 +118,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
     {
         final String group = mapGroup.getGroup(map.getTile(transformable,
                                                            map.getTileWidth() * side,
-                                                           (int) body.getGravity() - 5 + offset));
+                                                           (int) body.getGravity() + 1 + offset));
         return MapTileGroupModel.NO_GROUP_NAME.equals(group) || CollisionName.SPIKE.equals(group) || group == null;
     }
 
@@ -134,16 +137,16 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
     @Override
     public void load(XmlReader root)
     {
-        config = new JumperConfig(root);
+        if (root.hasNode(JumperConfig.NODE_JUMPER))
+        {
+            config = new JumperConfig(root);
+        }
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -157,30 +160,24 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
             {
                 if (mirrorable.is(Mirror.HORIZONTAL))
                 {
-                    move = -1.1;
+                    move = -config.getH();
                 }
-
                 if (mirrorable.is(Mirror.NONE))
                 {
-                    move = 1.1;
+                    move = config.getH();
                 }
-
-                body.setGravityMax(Constant.GRAVITY / 3);
-                model.getJump().setVelocity(0.1);
                 model.getMovement().setDirection(move, 0.0);
-                jumpStopTick.restart();
+                jumpPress = true;
+                jumpStop.restart();
             }
             else if (oldControl != null && f == StateFall.class && t == StatePatrol.class)
             {
                 move = 0.0;
                 model.setInput(oldControl);
-                body.setGravityMax(Constant.GRAVITY);
-                model.getJump().setDirection(DirectionNone.INSTANCE);
-                model.getMovement().setDirection(DirectionNone.INSTANCE);
                 oldControl = null;
                 jump = false;
                 jumpPress = false;
-                jumpStopTick.stop();
+                jumpStop.stop();
             }
         });
     }
@@ -188,6 +185,8 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
     @Override
     public void update(double extrp)
     {
+        jumpStop.update(extrp);
+
         if (!jump
             && handler.isState(StatePatrol.class)
             && (isNone(-1) && model.getMovement().getDirectionHorizontal() < 0
@@ -200,8 +199,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
         }
         else
         {
-            jumpStopTick.update(extrp);
-            if (jumpStopTick.elapsed(config.getTick()))
+            if (jumpStop.elapsedTime(source.getRate(), config.getDelay()))
             {
                 jumpPress = false;
             }

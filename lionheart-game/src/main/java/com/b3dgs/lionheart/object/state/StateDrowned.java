@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -29,8 +30,8 @@ import com.b3dgs.lionheart.object.feature.Stats;
  */
 public final class StateDrowned extends State
 {
-    /** Drown limit tick. */
-    private static final int DROWN_END_TICK = 60;
+    /** Drown limit. */
+    private static final int DROWN_END_DELAY_MS = 1000;
     /** Drown fall speed. */
     private static final double DEATH_FALL_SPEED = -0.7;
 
@@ -48,7 +49,8 @@ public final class StateDrowned extends State
     {
         super(model, animation);
 
-        addTransition(StateRespawn.class, () -> tick.elapsed(DROWN_END_TICK));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), DROWN_END_DELAY_MS));
     }
 
     @Override

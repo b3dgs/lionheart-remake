@@ -28,7 +28,6 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Cursor;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -71,9 +70,9 @@ public class Continue extends Sequence
     private static final int TEXT_VALUE_Y = 120;
     private static final int TEXT_CREDITS_Y = 244;
 
-    private static final int TIME_MAX_MILLI = 20_000;
-    private static final int FADE_OUT_TICK = 70;
-    private static final int FADE_SPEED = 8;
+    private static final int TIME_MAX_MS = 20_000;
+    private static final int FADE_OUT_DELAY_MS = 1000;
+    private static final int FADE_SPEED = 10;
 
     private static final int CENTER_X = 320;
     private static final int MAIN_Y_OFFSET = -336;
@@ -111,7 +110,7 @@ public class Continue extends Sequence
 
     private final int mainY;
 
-    private final Timing timeLeft = new Timing();
+    private final Tick timeLeft = new Tick();
     private final Media stage;
     private final InitConfig init;
     private final DeviceController deviceCursor;
@@ -134,7 +133,7 @@ public class Continue extends Sequence
      */
     public Continue(Context context, Media stage, InitConfig init)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
+        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
 
         this.stage = stage;
         this.init = init;
@@ -187,7 +186,7 @@ public class Continue extends Sequence
      */
     private Data create()
     {
-        final int x = (int) (CENTER_X * factorH);
+        final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
             new Choice(text, continues.get(INDEX_YES), x - 100, mainY + 188, Align.CENTER, null),
@@ -228,9 +227,9 @@ public class Continue extends Sequence
     {
         alpha -= FADE_SPEED * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() < 0)
         {
-            alpha = 0;
+            alpha = 0.0;
             transition = TransitionType.NONE;
         }
     }
@@ -242,13 +241,14 @@ public class Continue extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        if (tick.elapsed(FADE_OUT_TICK))
+        tick.update(extrp);
+        if (tick.elapsedTime(getRate(), FADE_OUT_DELAY_MS))
         {
             alpha += FADE_SPEED * extrp;
         }
-        if (alpha > 255)
+        if (getAlpha() > 255)
         {
-            alpha = 255;
+            alpha = 255.0;
 
             if (choice == 0)
             {
@@ -314,9 +314,9 @@ public class Continue extends Sequence
         // Accept choice
         if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
             || deviceCursor.isFiredOnce(DeviceMapping.LEFT)
-            || timeLeft.elapsed() > TIME_MAX_MILLI)
+            || timeLeft.elapsedTime(getRate()) > TIME_MAX_MS)
         {
-            if (timeLeft.elapsed() > TIME_MAX_MILLI)
+            if (timeLeft.elapsedTime(getRate()) > TIME_MAX_MS)
             {
                 choice = 1;
             }
@@ -338,15 +338,23 @@ public class Continue extends Sequence
         valdyn.render(g);
 
         textTitle.setColor(COLOR_TITLE);
-        textTitle.draw(g, (int) (CENTER_X * factorH), mainY + TEXT_TIME_Y, Align.CENTER, continues.get(INDEX_CONTINUE));
-        if (!tick.isStarted() && timeLeft.elapsed() < TIME_MAX_MILLI)
+        textTitle.draw(g,
+                       (int) Math.round(CENTER_X * factorH),
+                       mainY + TEXT_TIME_Y,
+                       Align.CENTER,
+                       continues.get(INDEX_CONTINUE));
+        if (!tick.isStarted() && timeLeft.elapsedTime(getRate()) < TIME_MAX_MS)
         {
-            textTitle.draw(g, (int) (CENTER_X * factorH), mainY + TEXT_VALUE_Y, Align.CENTER, "(" + formatTime() + ")");
+            textTitle.draw(g,
+                           (int) Math.round(CENTER_X * factorH),
+                           mainY + TEXT_VALUE_Y,
+                           Align.CENTER,
+                           "(" + formatTime() + ")");
         }
 
         text.setColor(COLOR_OPTION);
         text.draw(g,
-                  (int) (CENTER_X * factorH),
+                  (int) Math.round(CENTER_X * factorH),
                   mainY + TEXT_CREDITS_Y,
                   Align.CENTER,
                   continues.get(INDEX_CREDITS) + String.valueOf(init.getCredits()));
@@ -359,13 +367,39 @@ public class Continue extends Sequence
      */
     private String formatTime()
     {
-        final long time = (1_000 + TIME_MAX_MILLI - timeLeft.elapsed())
+        final long time = (1_000 + TIME_MAX_MS - timeLeft.elapsedTime(getRate()))
                           / com.b3dgs.lionengine.Constant.ONE_SECOND_IN_MILLI;
         if (time < com.b3dgs.lionengine.Constant.DECADE)
         {
             return "0" + time;
         }
         return String.valueOf(time);
+    }
+
+    /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
+     * Render fade.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     /**
@@ -377,9 +411,7 @@ public class Continue extends Sequence
     {
         if (transition != TransitionType.NONE)
         {
-            final int a = UtilMath.clamp((int) Math.floor(alpha), 0, 255);
-            g.setColor(Constant.ALPHAS_BLACK[a]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            renderFade(g);
         }
     }
 
@@ -396,7 +428,7 @@ public class Continue extends Sequence
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
+        timeLeft.update(extrp);
         device.update(extrp);
         deviceCursor.update(extrp);
         cursor.update(extrp);

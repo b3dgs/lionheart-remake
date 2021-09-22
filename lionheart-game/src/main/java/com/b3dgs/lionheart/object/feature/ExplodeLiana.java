@@ -59,7 +59,7 @@ public final class ExplodeLiana extends FeatureModel implements Routine, Recycla
     public void update(double extrp)
     {
         transformable.moveLocation(extrp, speed * side, -Math.abs(speed) * 4.0 + INIT_Y);
-        speed += 0.075;
+        speed += 0.09 * extrp;
     }
 
     @Override

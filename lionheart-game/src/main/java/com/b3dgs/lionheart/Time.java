@@ -16,7 +16,6 @@
  */
 package com.b3dgs.lionheart;
 
-import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 
@@ -34,13 +33,20 @@ public class Time implements Updatable
     /**
      * Create time.
      * 
-     * @param rate The rate source.
+     * @param rate The rate value.
      */
     public Time(int rate)
     {
         super();
 
         this.rate = rate;
+    }
+
+    /**
+     * Start time.
+     */
+    public void start()
+    {
         tick.start();
     }
 
@@ -49,9 +55,9 @@ public class Time implements Updatable
      * 
      * @param timeMs The time millisecond.
      */
-    public void set(int timeMs)
+    public void set(long timeMs)
     {
-        tick.set((int) Math.floor(timeMs / (Constant.ONE_SECOND_IN_MILLI / (double) rate)));
+        tick.set((int) Math.floor(timeMs / (com.b3dgs.lionengine.Constant.ONE_SECOND_IN_MILLI / (double) rate)));
     }
 
     /**

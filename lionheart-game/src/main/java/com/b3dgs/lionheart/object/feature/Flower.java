@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
@@ -53,14 +54,17 @@ import com.b3dgs.lionheart.object.state.StateDecay;
 @FeatureInterface
 public final class Flower extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRE_DELAY = 200;
-    private static final double FIRE_SPEED = 0.5;
+    private static final int FIRE_DELAY_MS = 3300;
+    private static final double FIRE_SPEED = 0.6;
 
     private final Tick tick = new Tick();
     private final Force direction = new Force();
+    private final int halfFrames;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final MapTile map = services.get(MapTile.class);
     private final Trackable target = services.get(Trackable.class);
-    private final int halfFrames;
+
     private Updatable current;
 
     @FeatureGet private Transformable transformable;
@@ -127,7 +131,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
     private void updateFire(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(FIRE_DELAY))
+        if (tick.elapsedTime(source.getRate(), FIRE_DELAY_MS))
         {
             launcher.fire(direction);
             Sfx.PROJECTILE_FLOWER.play();

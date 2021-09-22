@@ -95,16 +95,16 @@
         <entity file="entity/airship/Canon.xml" tx="591.0" ty="10.0"/>
         <entity file="entity/airship/Canon.xml" tx="616.0" ty="10.0"/>
         <entity file="entity/airship/Laser.xml" tx="646.0" ty="10.0">
-            <laser fireDelay="120" stayDelay="100"/>
+            <laser fireDelay="2000" stayDelay="100"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="657.0" ty="10.0">
             <laser fireDelay="150" stayDelay="100"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="665.0" ty="10.0">
-            <laser fireDelay="200" stayDelay="160"/>
+            <laser fireDelay="3300" stayDelay="160"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="729.0" ty="10.0">
-            <laser fireDelay="100" stayDelay="-1"/>
+            <laser fireDelay="1600" stayDelay="-1"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="722.0" ty="10.0"/>
         <entity file="entity/airship/RotatingSpikeBowl180.xml" tx="679.0" ty="11.0">
@@ -132,7 +132,7 @@
             <spike delay="100"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="745.0" ty="50.0">
-            <laser fireDelay="100" stayDelay="100"/>
+            <laser fireDelay="1600" stayDelay="100"/>
         </entity>
         <entity file="entity/airship/Talisment.xml" tx="743.0" ty="52.0"/>
         <entity file="entity/airship/Talisment.xml" tx="744.0" ty="53.0"/>
@@ -188,7 +188,7 @@
         <entity file="entity/airship/Spike.xml" tx="711.0" ty="49.0"/>
         <entity file="entity/airship/Spike.xml" tx="677.0" ty="36.0"/>
         <entity file="entity/airship/Laser.xml" tx="654.0" ty="89.0">
-            <laser fireDelay="100" stayDelay="-1"/>
+            <laser fireDelay="1600" stayDelay="-1"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="680.0" ty="99.0"/>
         <entity file="entity/airship/Sword4.xml" tx="701.0" ty="92.0"/>

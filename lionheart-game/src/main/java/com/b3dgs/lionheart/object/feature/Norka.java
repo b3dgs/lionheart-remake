@@ -36,6 +36,8 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.ForegroundWater;
@@ -49,17 +51,17 @@ import com.b3dgs.lionheart.landscape.ForegroundWater;
 @FeatureInterface
 public final class Norka extends FeatureModel implements Routine, Recyclable
 {
-    private static final int SPAWN_PILLAR_DELAY = 80;
-    private static final int SPAWN_FLYER_DELAY = 90;
+    private static final int SPAWN_PILLAR_DELAY_MS = 1250;
+    private static final int SPAWN_FLYER_DELAY_MS = 1500;
 
     private final Tick tick = new Tick();
     private final Identifiable[] pillar = new Identifiable[4];
     private final Animation idle;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Trackable target = services.get(Trackable.class);
     private final Hurtable playerHurtable = target.getFeature(Hurtable.class);
-
     private final ForegroundWater water = services.get(ForegroundWater.class);
 
     private Identifiable flyer;
@@ -86,10 +88,12 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
 
         for (int i = 0; i < pillar.length; i++)
         {
-            pillar[i] = spawner.spawn(Medias.create(Folder.ENTITY, "norka", "Pillar.xml"), 88 + i * 80, 0)
+            pillar[i] = spawner.spawn(Medias.create(Folder.ENTITY, WorldType.NORKA.getFolder(), "Pillar.xml"),
+                                      88 + i * 80,
+                                      0)
                                .getFeature(Identifiable.class);
             pillar[i].getFeature(Underwater.class).loadRaster("raster/norka/norka/");
-            pillar[i].getFeature(Pillar.class).load(new PillarConfig(100 + i * 100));
+            pillar[i].getFeature(Pillar.class).load(new PillarConfig(1650 + i * 1650));
         }
     }
 
@@ -100,11 +104,13 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
      */
     private void spawnPillar(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
-        if (tick.elapsed(SPAWN_PILLAR_DELAY))
+        if (tick.elapsedTime(source.getRate(), SPAWN_PILLAR_DELAY_MS))
         {
             phase = this::spawnFlyer;
-            tick.restart();
+            tick.stop();
         }
     }
 
@@ -115,13 +121,16 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
      */
     private void spawnFlyer(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
-        if (tick.elapsed(SPAWN_FLYER_DELAY))
+        if (tick.elapsedTime(source.getRate(), SPAWN_FLYER_DELAY_MS))
         {
             flyer = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Boss1.xml"), 208, 400)
                            .getFeature(Identifiable.class);
             flyer.addListener(id -> onFlyerDeath());
 
+            tick.stop();
             phase = UpdatableVoid.getInstance();
         }
     }
@@ -199,6 +208,6 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
         phase = this::spawnPillar;
         spawnDaemon();
         animatable.play(idle);
-        tick.restart();
+        tick.stop();
     }
 }

@@ -57,13 +57,13 @@ public final class Road extends FeatureModel implements Routine
         sprite0.load();
         sprite0.prepare();
         road = new BackgroundElement(0, 0, sprite0);
-        road.setOffsetY(-144);
+        road.setOffsetY(-176);
     }
 
     @Override
     public void update(double extrp)
     {
-        road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 2.5, 0.0, road.getRenderable().getWidth()));
+        road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 3 * extrp, 0.0, road.getRenderable().getWidth()));
     }
 
     @Override

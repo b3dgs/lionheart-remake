@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -41,7 +42,7 @@ import com.b3dgs.lionheart.Util;
  */
 public class Part3 extends Sequence
 {
-    private static final int FADE_SPEED = 3;
+    private static final int FADE_SPEED = 5;
 
     private static final int TIME_STORY0_MS = 41400;
     private static final int TIME_STORY1_MS = 56500;
@@ -63,7 +64,7 @@ public class Part3 extends Sequence
     private Renderable renderer = RenderableVoid.getInstance();
     private Renderable rendererFade = RenderableVoid.getInstance();
 
-    private double alpha = 255;
+    private double alpha;
 
     /**
      * Constructor.
@@ -75,7 +76,7 @@ public class Part3 extends Sequence
      */
     public Part3(Context context, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
@@ -156,13 +157,23 @@ public class Part3 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             end();
         }
+    }
+
+    /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
     }
 
     /**
@@ -172,8 +183,13 @@ public class Part3 extends Sequence
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     @Override

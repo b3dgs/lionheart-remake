@@ -44,7 +44,7 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossSwampLittle extends FeatureModel implements Routine, Recyclable
 {
-    private static final double SPEED_X = 1.0;
+    private static final double SPEED_X = 1.2;
 
     private final Trackable target = services.get(Trackable.class);
     private final Animation walk;

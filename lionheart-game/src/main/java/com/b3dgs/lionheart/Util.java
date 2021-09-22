@@ -38,6 +38,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConf
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.graphic.engine.Loop;
+import com.b3dgs.lionengine.graphic.engine.LoopHybrid;
+import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
@@ -74,6 +77,26 @@ public final class Util
         {
             init.accept(type);
         }
+    }
+
+    /**
+     * Get loop instance.
+     * 
+     * @return The loop instance.
+     */
+    public static Loop getLoop()
+    {
+        final Settings settings = Settings.getInstance();
+        final LoopFactory factory;
+        if (settings.getFlagVsync() && !settings.getResolutionWindowed())
+        {
+            factory = LoopUnlocked::new;
+        }
+        else
+        {
+            factory = LoopHybrid::new;
+        }
+        return factory.create(Constant.RESOLUTION, settings.getResolution());
     }
 
     /**
@@ -295,6 +318,34 @@ public final class Util
                 y = y - viewer.getHeight();
             }
             menus.get(i).spawn(x, y - 1);
+        }
+    }
+
+    /**
+     * Loop factory.
+     */
+    @FunctionalInterface
+    private interface LoopFactory
+    {
+        /**
+         * Create loop.
+         * 
+         * @param rateOriginal The original rate;
+         * @param rateDesired The desired rate.
+         * @return The created loop.
+         */
+        Loop create(int rateOriginal, int rateDesired);
+
+        /**
+         * Create loop.
+         * 
+         * @param original The original resolution;
+         * @param desired The desired resolution.
+         * @return The created loop.
+         */
+        default Loop create(Resolution original, Resolution desired)
+        {
+            return create(original.getRate(), desired.getRate());
         }
     }
 

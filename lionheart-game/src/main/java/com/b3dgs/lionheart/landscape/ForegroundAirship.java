@@ -34,10 +34,10 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class ForegroundAirship extends BackgroundAbstract implements Foreground
 {
-    private static final double FOREGROUND1_OFFSET_X = -2.8;
+    private static final double FOREGROUND1_OFFSET_X = -3.35;
     private static final int FOREGROUND1_OFFSET_Y = -49;
 
-    private static final double FOREGROUND2_OFFSET_X = -3.75;
+    private static final double FOREGROUND2_OFFSET_X = -4.5;
     private static final int FOREGROUND2_OFFSET_Y = -59;
 
     /** Primary. */
@@ -121,10 +121,10 @@ final class ForegroundAirship extends BackgroundAbstract implements Foreground
             foreground1.setOffsetY(y + FOREGROUND1_OFFSET_Y);
             foreground2.setOffsetY(y + FOREGROUND2_OFFSET_Y);
 
-            foreground1.setOffsetX(UtilMath.wrapDouble(foreground1.getOffsetX() + FOREGROUND1_OFFSET_X,
+            foreground1.setOffsetX(UtilMath.wrapDouble(foreground1.getOffsetX() + FOREGROUND1_OFFSET_X * extrp,
                                                        0.0,
                                                        foreground1.getRenderable().getWidth()));
-            foreground2.setOffsetX(UtilMath.wrapDouble(foreground2.getOffsetX() + FOREGROUND2_OFFSET_X,
+            foreground2.setOffsetX(UtilMath.wrapDouble(foreground2.getOffsetX() + FOREGROUND2_OFFSET_X * extrp,
                                                        0.0,
                                                        foreground2.getRenderable().getWidth()));
         }

@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state.guard;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Guard;
@@ -30,10 +31,10 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  */
 public final class StateGuardAttackPrepare extends State
 {
-    private static final int PREPARE_TICK = 20;
+    private static final int PREPARE_DELAY_MS = 350;
 
-    private final Trackable target = model.getServices().get(Trackable.class);
     private final Tick tick = new Tick();
+    private final Trackable target = model.getServices().get(Trackable.class);
 
     /**
      * Create the state.
@@ -45,22 +46,24 @@ public final class StateGuardAttackPrepare extends State
     {
         super(model, animation);
 
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+
         addTransition(StateGuardAttack.class,
-                      () -> tick.elapsed(PREPARE_TICK)
+                      () -> tick.elapsedTime(source.getRate(), PREPARE_DELAY_MS)
                             && (mirrorable.is(Mirror.NONE) && target.getX() < transformable.getX()
                                 || mirrorable.is(Mirror.HORIZONTAL) && target.getX() > transformable.getX())
                             && Double.compare(Math.abs(target.getX() - transformable.getX() - 12),
                                               Guard.ATTACK_DISTANCE_MAX) < 0);
 
         addTransition(StateGuardSalto.class,
-                      () -> tick.elapsed(PREPARE_TICK)
+                      () -> tick.elapsedTime(source.getRate(), PREPARE_DELAY_MS)
                             && (mirrorable.is(Mirror.NONE) && target.getX() < transformable.getX()
                                 || mirrorable.is(Mirror.HORIZONTAL) && target.getX() > transformable.getX())
                             && Double.compare(Math.abs(target.getX() - transformable.getX() - 12),
                                               Guard.ATTACK_DISTANCE_MAX) >= 0);
 
         addTransition(StateTurn.class,
-                      () -> tick.elapsed(PREPARE_TICK)
+                      () -> tick.elapsedTime(source.getRate(), PREPARE_DELAY_MS)
                             && (mirrorable.is(Mirror.NONE) && target.getX() > transformable.getX()
                                 || mirrorable.is(Mirror.HORIZONTAL) && target.getX() < transformable.getX()));
     }

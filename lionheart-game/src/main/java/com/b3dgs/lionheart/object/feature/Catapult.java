@@ -79,22 +79,24 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
         fire = config.getAnimation(Anim.ATTACK);
+
+        load(setup.getRoot());
     }
 
     @Override
     public void load(XmlReader root)
     {
-        config = new CatapultConfig(root);
-        vector = new Force(config.getVx(), config.getVy());
+        if (root.hasNode(CatapultConfig.NODE_CATAPULT))
+        {
+            config = new CatapultConfig(root);
+            vector = new Force(config.getVx(), config.getVy());
+        }
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override

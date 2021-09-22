@@ -12,36 +12,36 @@
     <lionengine:size width="48" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="2" end="2" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="raise" start="2" end="20" speed="0.75" reversed="false" repeat="false"/>
-        <lionengine:animation name="open" start="21" end="24" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="close" start="21" end="24" speed="0.25" reversed="true" repeat="false"/>
-        <lionengine:animation name="hide" start="2" end="20" speed="0.75" reversed="true" repeat="false"/>
+        <lionengine:animation name="idle" start="2" end="2" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="raise" start="2" end="20" speed="0.9" reversed="false" repeat="false"/>
+        <lionengine:animation name="open" start="21" end="24" speed="0.3" reversed="false" repeat="false"/>
+        <lionengine:animation name="close" start="21" end="24" speed="0.3" reversed="true" repeat="false"/>
+        <lionengine:animation name="hide" start="2" end="20" speed="0.6" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
     <lionengine:launcher mirrorable="true">
         <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="0">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="2">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="16" oy="0" delay="40">
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="32" oy="0" delay="4">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="32" oy="0" delay="80">
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="48" oy="0" delay="6">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="48" oy="0" delay="120">
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="64" oy="0" delay="8">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="64" oy="0" delay="160">
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="80" oy="0" delay="10">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        <lionengine:launchable media="projectile/swamp/Tongue.xml" ox="80" oy="0" delay="200">
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="projectile/swamp/TongueEnd.xml" ox="96" oy="0" delay="12">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        <lionengine:launchable media="projectile/swamp/TongueEnd.xml" ox="96" oy="0" delay="280">
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="3" accepted="1"/>

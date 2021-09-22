@@ -43,6 +43,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -64,9 +65,11 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 public final class Patrol extends FeatureModel
                           implements XmlLoader, Routine, TileCollidableListener, CollidableListener, Recyclable
 {
-    private final Trackable target = services.get(Trackable.class);
     private final Tick tick = new Tick();
     private final AnimationConfig anim;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private int currentIndex;
     private double sh;
@@ -318,7 +321,7 @@ public final class Patrol extends FeatureModel
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(delay))
+        if (tick.elapsedTime(source.getRate(), delay))
         {
             loadNextPatrol();
         }
@@ -341,13 +344,13 @@ public final class Patrol extends FeatureModel
             }
             else if (stats.getHealth() > 0)
             {
-                idle = UtilMath.wrapDouble(idle + 0.15, 0, 360);
+                idle = UtilMath.wrapDouble(idle + 0.15 * extrp, 0, 360);
                 transformable.teleportY(startY + Math.sin(idle) * 2.0);
             }
         }
         if (curve)
         {
-            curveAngle = UtilMath.wrapAngleDouble(curveAngle + sv);
+            curveAngle = UtilMath.wrapAngleDouble(curveAngle + sv * extrp);
             transformable.setLocationY(startY + Math.cos(curveAngle + 90) * amplitude);
         }
         if (!stateHandler.isState(StateJump.class) || stateHandler.isState(StateFall.class))

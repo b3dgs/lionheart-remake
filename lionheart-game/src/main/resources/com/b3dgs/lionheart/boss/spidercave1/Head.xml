@@ -12,8 +12,8 @@
     <lionengine:size width="36" height="36"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="none" start="1" end="1" speed="0.20" reversed="false" repeat="false"/>
-        <lionengine:animation name="open" start="1" end="6" speed="0.20" reversed="false" repeat="false"/>
+        <lionengine:animation name="none" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="open" start="1" end="6" speed="0.24" reversed="false" repeat="false"/>
         <lionengine:animation name="attack" start="11" end="11" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="6" end="6" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>

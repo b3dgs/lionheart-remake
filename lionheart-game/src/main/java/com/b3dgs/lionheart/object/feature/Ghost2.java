@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -43,13 +44,14 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class Ghost2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int TRACK_TICK = 100;
-    private static final double SPEED = 1.2;
+    private static final int TRACK_DELAY_MS = 1500;
+    private static final double SPEED = 1.45;
 
     private final Tick tick = new Tick();
-    private final Trackable target = services.get(Trackable.class);
-
     private final Force current = new Force();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.get(Trackable.class);
 
     private boolean phase;
     private double startY;
@@ -111,7 +113,6 @@ public final class Ghost2 extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
         current.update(extrp);
 
         if (first)
@@ -120,7 +121,8 @@ public final class Ghost2 extends FeatureModel implements Routine, Recyclable
             startY = transformable.getY();
         }
 
-        if (tick.elapsed(TRACK_TICK))
+        tick.update(extrp);
+        if (tick.elapsedTime(source.getRate(), TRACK_DELAY_MS))
         {
             if (!phase)
             {
@@ -140,7 +142,7 @@ public final class Ghost2 extends FeatureModel implements Routine, Recyclable
         }
         else
         {
-            idle = UtilMath.wrapDouble(idle + 0.15, 0, 360);
+            idle = UtilMath.wrapDouble(idle + 0.15 * extrp, 0, 360);
             transformable.teleportY(startY + Math.sin(idle) * 2.0);
         }
     }

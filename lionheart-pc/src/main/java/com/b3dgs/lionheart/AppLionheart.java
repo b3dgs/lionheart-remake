@@ -18,9 +18,12 @@ package com.b3dgs.lionheart;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import com.b3dgs.lionengine.Config;
+import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
@@ -71,18 +74,36 @@ public final class AppLionheart
 
         final Settings settings = Settings.getInstance();
         final ImageLoadStrategy[] strategies = ImageLoadStrategy.values();
-        ToolsAwt.setLoadStrategy(strategies[UtilMath.clamp(settings.getFlag(), 0, strategies.length)]);
+        ToolsAwt.setLoadStrategy(strategies[UtilMath.clamp(settings.getFlagStrategy(), 0, strategies.length)]);
         AudioFactory.setVolume(settings.getVolumeMaster());
 
-        Loader.start(Config.windowed(settings.getResolution(),
-                                     Arrays.asList(gamepad),
-                                     Medias.create("icon-16.png"),
-                                     Medias.create("icon-32.png"),
-                                     Medias.create("icon-48.png"),
-                                     Medias.create("icon-64.png"),
-                                     Medias.create("icon-128.png"),
-                                     Medias.create("icon-256.png")),
+        Loader.start(configure(settings,
+                               Arrays.asList(gamepad),
+                               Medias.create("icon-16.png"),
+                               Medias.create("icon-32.png"),
+                               Medias.create("icon-48.png"),
+                               Medias.create("icon-64.png"),
+                               Medias.create("icon-128.png"),
+                               Medias.create("icon-256.png")),
                      Loading.class);
+    }
+
+    /**
+     * Create a 32 bits color depth and fullscreen configuration using output resolution.
+     * 
+     * @param settings The settings reference.
+     * @param devices The devices reference.
+     * @param icons The icons (must not be <code>null</code>).
+     * @return The created fullscreen configuration.
+     * @throws LionEngineException If invalid argument.
+     */
+    private static Config configure(Settings settings, List<InputDevice> devices, Media... icons)
+    {
+        if (settings.getResolutionWindowed())
+        {
+            return Config.windowed(settings.getResolution(), devices, icons);
+        }
+        return Config.fullscreen(settings.getResolution(), devices, icons);
     }
 
     /**

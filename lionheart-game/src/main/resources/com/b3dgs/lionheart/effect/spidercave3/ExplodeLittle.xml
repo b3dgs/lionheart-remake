@@ -9,7 +9,7 @@
     <lionengine:frames horizontal="5" vertical="2"/>
     <lionengine:origin>MIDDLE</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="10" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="10" speed="0.48" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="7"/>

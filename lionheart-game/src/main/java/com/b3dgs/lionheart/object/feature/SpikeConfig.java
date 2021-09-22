@@ -32,7 +32,7 @@ public final class SpikeConfig implements XmlSaver
     /** Config node name. */
     public static final String NODE_SPIKE = "spike";
     /** Delay attribute name. */
-    public static final String ATT_DELAY = "delay";
+    public static final String ATT_DELAY_MS = "delay";
 
     /** Delay start. */
     private final OptionalInt delay;
@@ -68,8 +68,7 @@ public final class SpikeConfig implements XmlSaver
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_SPIKE);
-        delay = node.getIntegerOptional(ATT_DELAY);
+        delay = root.getIntegerOptional(ATT_DELAY_MS, NODE_SPIKE);
     }
 
     /**
@@ -88,7 +87,7 @@ public final class SpikeConfig implements XmlSaver
         delay.ifPresent(d ->
         {
             final Xml node = root.createChild(NODE_SPIKE);
-            node.writeInteger(ATT_DELAY, d);
+            node.writeInteger(ATT_DELAY_MS, d);
         });
     }
 
@@ -102,7 +101,7 @@ public final class SpikeConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Spike [");
-        add(builder, ATT_DELAY, delay);
+        add(builder, ATT_DELAY_MS, delay);
         builder.append("]");
         return builder.toString();
     }

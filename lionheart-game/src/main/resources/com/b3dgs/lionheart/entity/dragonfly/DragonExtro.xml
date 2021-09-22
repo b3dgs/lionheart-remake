@@ -10,7 +10,7 @@
     <lionengine:size width="128" height="128"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="13" speed="0.23" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="13" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="animal" offsetX="26" offsetY="50" width="16" height="1" mirror="false"/>

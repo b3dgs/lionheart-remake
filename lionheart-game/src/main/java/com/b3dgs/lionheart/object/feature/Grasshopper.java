@@ -41,7 +41,7 @@ import com.b3dgs.lionheart.object.state.StateJump;
  * Grasshopper feature implementation.
  * <ol>
  * <li>Follow player until defined distance.</li>
- * <li>Fire fly on timing.</li>
+ * <li>Fire fly on delay.</li>
  * </ol>
  */
 @FeatureInterface

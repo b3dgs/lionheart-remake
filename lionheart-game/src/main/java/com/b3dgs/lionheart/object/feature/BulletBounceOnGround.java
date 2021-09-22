@@ -46,6 +46,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.Settings;
@@ -67,8 +68,8 @@ public final class BulletBounceOnGround extends FeatureModel
     private static final String ATT_SFX = "sfx";
     private static final String ATT_COUNT = "count";
 
-    private static final double BOUNCE_MAX = 3.5;
-    private static final int BOUNCE_DELAY_TICK = 4;
+    private static final double BOUNCE_MAX = 3.0;
+    private static final int BOUNCE_DELAY_MS = 60;
 
     /**
      * Get horizontal side.
@@ -94,16 +95,19 @@ public final class BulletBounceOnGround extends FeatureModel
         return sideX;
     }
 
-    private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Sfx sfx;
     private final int count;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Viewer viewer = services.get(Viewer.class);
+
     private Rasterable rasterable;
     private Force jump;
     private double bounceX;
     private int bounced;
+    private double extrp = com.b3dgs.lionengine.Constant.EXTRP;
 
     @FeatureGet private Body body;
     @FeatureGet private Launchable launchable;
@@ -173,14 +177,16 @@ public final class BulletBounceOnGround extends FeatureModel
     {
         if ((count == 0 || bounced < count)
             && category.getName().contains(CollisionName.LEG)
-            && tick.elapsed(BOUNCE_DELAY_TICK))
+            && tick.elapsedTime(source.getRate(), BOUNCE_DELAY_MS))
         {
             if (result.containsY(CollisionName.GROUND)
                 || result.containsY(CollisionName.SLOPE)
                 || result.containsY(CollisionName.INCLINE)
                 || result.containsY(CollisionName.BLOCK))
             {
-                final double bounce = UtilMath.clamp(Math.abs(transformable.getOldY() - transformable.getY()) * 0.75,
+                final double bounce = UtilMath.clamp(Math.abs(transformable.getOldY() - transformable.getY())
+                                                     / extrp
+                                                     * 0.8,
                                                      0.0,
                                                      BOUNCE_MAX);
                 if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
@@ -195,12 +201,12 @@ public final class BulletBounceOnGround extends FeatureModel
                 final int sideX = getSideX(result);
                 if (result.containsY(CollisionName.SLOPE))
                 {
-                    bounceX += 0.5 * sideX;
+                    bounceX += 0.6 * sideX;
                     jump.setDestination(bounceX, 0.0);
                 }
                 if (result.containsY(CollisionName.INCLINE))
                 {
-                    bounceX += 0.75 * sideX;
+                    bounceX += 0.9 * sideX;
                     jump.setDestination(bounceX, 0.0);
                 }
                 bounceX = UtilMath.clamp(bounceX, -3, 3);
@@ -236,7 +242,7 @@ public final class BulletBounceOnGround extends FeatureModel
         super.prepare(provider);
 
         jump = model.getJump();
-        jump.setVelocity(0.1);
+        jump.setVelocity(0.12);
         jump.setSensibility(0.5);
         jump.setDestination(0.0, 0.0);
         jump.setDirection(0.0, 0.0);
@@ -260,6 +266,7 @@ public final class BulletBounceOnGround extends FeatureModel
     @Override
     public void update(double extrp)
     {
+        this.extrp = extrp;
         tick.update(extrp);
         rasterable.update(extrp);
     }
@@ -278,7 +285,7 @@ public final class BulletBounceOnGround extends FeatureModel
     {
         animatable.play(idle);
         tick.restart();
-        tick.set(BOUNCE_DELAY_TICK);
+        tick.set(BOUNCE_DELAY_MS);
         bounceX = 0.0;
         bounced = 0;
     }

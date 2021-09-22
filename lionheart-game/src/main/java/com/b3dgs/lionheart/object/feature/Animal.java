@@ -51,8 +51,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
 @FeatureInterface
 public final class Animal extends FeatureModel implements Routine, CollidableListener
 {
-    private static final double SPEED_GROUND = 2.5;
-    private static final double SPEED_BOAT = 0.5;
+    private static final double SPEED_GROUND = 3.0;
+    private static final double SPEED_BOAT = 0.6;
 
     private final Trackable target = services.get(Trackable.class);
     private final Rasterable playerSprite = target.getFeature(Rasterable.class);
@@ -151,7 +151,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
                 {
                     speed = 0.0;
                 }
-                cameraHeight += 0.75;
+                cameraHeight += 0.9 * extrp;
                 if (cameraHeight > 32)
                 {
                     cameraHeight = 32;
@@ -200,7 +200,7 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
         }
         else
         {
-            boatEffectY = UtilMath.wrapAngleDouble(boatEffectY + 5);
+            boatEffectY = UtilMath.wrapAngleDouble(boatEffectY + 5 * extrp);
             camera.setShake2(0, (int) Math.round(UtilMath.sin(boatEffectY) * 2));
         }
 

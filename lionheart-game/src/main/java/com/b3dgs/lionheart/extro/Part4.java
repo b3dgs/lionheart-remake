@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -49,7 +50,7 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class Part4 extends Sequence
 {
-    private static final int FADE_SPEED = 6;
+    private static final int FADE_SPEED = 8;
 
     private static final int STORY_1 = 3;
     private static final int STORY_2 = 4;
@@ -95,7 +96,7 @@ public class Part4 extends Sequence
 
     private Renderable rendererFade = this::renderFade;
 
-    private double alpha;
+    private double alpha = 255.0;
     private int glowed;
 
     /**
@@ -143,11 +144,11 @@ public class Part4 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateEnd;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -174,11 +175,11 @@ public class Part4 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             end();
             updaterFade = UpdatableVoid.getInstance();
         }
@@ -280,14 +281,29 @@ public class Part4 extends Sequence
     }
 
     /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
      * Render fade effect.
      * 
      * @param g The graphic output.
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     @Override
@@ -309,7 +325,6 @@ public class Part4 extends Sequence
         updaterFade.update(extrp);
         updaterAmulet.update(extrp);
         updaterStories.update(extrp);
-
         info.update(extrp);
 
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
@@ -337,7 +352,6 @@ public class Part4 extends Sequence
         }
 
         rendererFade.render(g);
-
         info.render(g);
     }
 

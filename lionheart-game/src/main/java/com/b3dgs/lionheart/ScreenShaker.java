@@ -20,17 +20,20 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
  * Handle screen shake effect.
  */
 public class ScreenShaker implements Updatable
 {
-    private static final int SHAKE_DELAY = 2;
+    private static final int SHAKE_DELAY_MS = 35;
     private static final int SHAKE_COUNT = 5;
     private static final int SHAKE_AMPLITUDE = 4;
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source;
     private final Camera camera;
 
     private int shakeX;
@@ -46,6 +49,7 @@ public class ScreenShaker implements Updatable
     {
         super();
 
+        source = services.get(SourceResolutionProvider.class);
         camera = services.get(Camera.class);
     }
 
@@ -58,7 +62,7 @@ public class ScreenShaker implements Updatable
         shakeY = 0;
         shakeCount = 0;
         tick.restart();
-        tick.set(SHAKE_DELAY);
+        tick.set(SHAKE_DELAY_MS);
     }
 
     /**
@@ -75,7 +79,7 @@ public class ScreenShaker implements Updatable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(SHAKE_DELAY))
+        if (tick.elapsedTime(source.getRate(), SHAKE_DELAY_MS))
         {
             if (shakeX == 0)
             {

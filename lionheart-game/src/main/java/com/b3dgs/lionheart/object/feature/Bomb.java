@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
  * Bomb feature implementation.
@@ -38,12 +39,14 @@ import com.b3dgs.lionengine.game.feature.collidable.Collision;
 @FeatureInterface
 public final class Bomb extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final int TRIGGER_DELAY_TICK = 10;
+    private static final int TRIGGER_DELAY_MS = 150;
     private static final int FLICKER_COUNT = 4;
     private static final String COLLISION_NAME = "trigger";
     private static final String COLLISION_NAME_DRAGON = "dragonfly";
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private int count;
 
@@ -65,7 +68,8 @@ public final class Bomb extends FeatureModel implements Routine, Recyclable, Col
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(TRIGGER_DELAY_TICK))
+
+        if (tick.elapsedTime(source.getRate(), TRIGGER_DELAY_MS))
         {
             hurtable.hurt();
             count++;

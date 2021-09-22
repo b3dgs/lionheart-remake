@@ -13,9 +13,9 @@
     <lionengine:size width="48" height="48"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="6" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="fall" start="1" end="6" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="land" start="1" end="6" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="6" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="fall" start="1" end="6" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="land" start="1" end="6" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="6" width="32" height="32" mirror="false"/>
@@ -33,7 +33,7 @@
     </lionengine:categories>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
-    <lionengine:body gravity="1.0" gravityMax="4.0"/>
+    <lionengine:body gravity="0.072" gravityMax="4.8"/>
     <lionengine:collidable group="2" accepted="1"/>
     <bulletBounceOnGround sfx="SCENERY_FIREBALL"/>
 </lionengine:featurable>

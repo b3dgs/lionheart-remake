@@ -144,7 +144,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         }
         else if (glue && collide)
         {
-            other.moveLocationX(extrp, reference.getX() - reference.getOldX());
+            other.moveLocationX(1.0, reference.getX() - reference.getOldX());
             other.getFeature(Body.class).resetGravity();
             other.teleportY(reference.getY() + offsetY);
         }

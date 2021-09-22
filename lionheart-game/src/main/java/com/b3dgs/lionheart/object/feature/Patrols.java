@@ -49,10 +49,7 @@ public final class Patrols extends FeatureModel implements XmlLoader, XmlSaver
     {
         super(services, setup);
 
-        if (setup.hasNode(PatrolConfig.NODE_PATROL))
-        {
-            load(setup.getRoot());
-        }
+        load(setup.getRoot());
     }
 
     /**

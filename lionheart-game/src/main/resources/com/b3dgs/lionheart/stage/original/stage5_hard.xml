@@ -197,16 +197,16 @@
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="235.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="237.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="239.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="241.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/TurningAuto.xml" tx="239.0" ty="29.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="243.0" ty="31.0">

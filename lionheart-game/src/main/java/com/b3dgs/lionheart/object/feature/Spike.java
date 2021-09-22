@@ -35,7 +35,9 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
@@ -49,21 +51,21 @@ import com.b3dgs.lionheart.object.XmlSaver;
 @FeatureInterface
 public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Editable<SpikeConfig>, Routine, Recyclable
 {
-    private static final int PHASE1_DELAY_TICK = 28;
-    private static final int PHASE2_DELAY_TICK = 28;
-    private static final int PHASE3_DELAY_TICK = 5;
+    private static final int PHASE1_DELAY_MS = 500;
+    private static final int PHASE2_DELAY_MS = 500;
+    private static final int PHASE3_DELAY_MS = 100;
 
     private final Tick tick = new Tick();
     private final Tick delay = new Tick();
+    private final Animation rise;
+    private final Animation attack;
+    private final Animation hide;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Viewer viewer = services.get(Viewer.class);
-    private final Updatable phaseUpdater;
-    private final Animation phase1;
-    private final Animation phase2;
-    private final Animation phase3;
 
     private SpikeConfig config;
-    private int phase;
-    private Updatable checker;
+    private Updatable updater;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Collidable collidable;
@@ -81,51 +83,106 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
         super(services, setup);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
-        phase1 = config.getAnimation("phase1");
-        phase2 = config.getAnimation("attack");
-        phase3 = config.getAnimation("phase3");
+        rise = config.getAnimation("phase1");
+        attack = config.getAnimation(Anim.ATTACK);
+        hide = config.getAnimation("phase3");
 
-        phaseUpdater = extrp ->
+        load(setup.getRoot());
+    }
+
+    /**
+     * Update prepare attack phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updatePrepareAttack(double extrp)
+    {
+        tick.start();
+
+        tick.update(extrp);
+        if (tick.elapsedTime(source.getRate(), PHASE1_DELAY_MS))
         {
-            tick.update(extrp);
-            if (phase == 0 && tick.elapsed(PHASE1_DELAY_TICK))
+            tick.restart();
+            animatable.play(rise);
+            updater = this::updateAttackPrepared;
+        }
+    }
+
+    /**
+     * Update attack prepared phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateAttackPrepared(double extrp)
+    {
+        if (animatable.is(AnimState.FINISHED))
+        {
+            updater = this::updateAttack;
+            tick.restart();
+        }
+    }
+
+    /**
+     * Update attack phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateAttack(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsedTime(source.getRate(), PHASE2_DELAY_MS))
+        {
+            animatable.play(attack);
+            if (viewer.isViewable(transformable, 0, 0))
             {
-                tick.restart();
-                animatable.play(phase1);
-                phase = 1;
+                Sfx.SCENERY_SPIKE.play();
             }
-            else if (phase == 1 && animatable.is(AnimState.FINISHED))
-            {
-                tick.restart();
-                phase = 2;
-            }
-            else if (phase == 2 && tick.elapsed(PHASE2_DELAY_TICK))
-            {
-                animatable.play(phase2);
-                if (viewer.isViewable(transformable, 0, 0))
-                {
-                    Sfx.SCENERY_SPIKE.play();
-                }
-                phase = 3;
-            }
-            else if (phase == 3 && animatable.is(AnimState.FINISHED))
-            {
-                tick.restart();
-                phase = 4;
-            }
-            else if (phase == 4 && tick.elapsed(PHASE3_DELAY_TICK))
-            {
-                animatable.play(phase3);
-                animatable.setFrame(phase3.getLast());
-                phase = 5;
-            }
-            else if (phase == 5 && animatable.is(AnimState.FINISHED))
-            {
-                tick.restart();
-                phase = 0;
-            }
-        };
-        checker = phaseUpdater;
+            updater = this::updateAttackFinished;
+        }
+    }
+
+    /**
+     * Update attack finished phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateAttackFinished(double extrp)
+    {
+        if (animatable.is(AnimState.FINISHED))
+        {
+            updater = this::updateMoveDown;
+            tick.restart();
+        }
+    }
+
+    /**
+     * Update move down phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateMoveDown(double extrp)
+    {
+        tick.update(extrp);
+        if (tick.elapsedTime(source.getRate(), PHASE3_DELAY_MS))
+        {
+            animatable.play(hide);
+            animatable.setFrame(hide.getLast());
+            updater = this::updateDone;
+        }
+    }
+
+    /**
+     * Update done phase.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateDone(double extrp)
+    {
+        if (animatable.is(AnimState.FINISHED))
+        {
+            updater = this::updatePrepareAttack;
+            tick.restart();
+        }
     }
 
     @Override
@@ -146,14 +203,16 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
         if (root.hasNode(SpikeConfig.NODE_SPIKE))
         {
             config = new SpikeConfig(root);
-            config.getDelay().ifPresent(delayTick ->
+
+            config.getDelay().ifPresent(delayMs ->
             {
-                checker = extrp ->
+                updater = extrp ->
                 {
+                    delay.start();
                     delay.update(extrp);
-                    if (delay.elapsed(delayTick))
+                    if (delay.elapsedTime(source.getRate(), delayMs))
                     {
-                        checker = phaseUpdater;
+                        updater = this::updatePrepareAttack;
                     }
                 };
             });
@@ -163,24 +222,19 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
     public void update(double extrp)
     {
-        checker.update(extrp);
+        updater.update(extrp);
     }
 
     @Override
     public void recycle()
     {
-        animatable.setFrame(phase1.getFirst());
-        tick.restart();
-        delay.restart();
-        phase = 0;
+        animatable.setFrame(rise.getFirst());
+        updater = this::updatePrepareAttack;
     }
 }

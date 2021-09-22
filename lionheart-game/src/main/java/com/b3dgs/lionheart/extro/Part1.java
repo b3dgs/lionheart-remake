@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.game.feature.Handler;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -67,33 +68,33 @@ public class Part1 extends Sequence
     private static final int MIN_HEIGHT = 208;
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
-    private static final int SPAWN_EXPLODE_DELAY = 35;
-    private static final int SPAWN_EXPLODE_MEDIUM_DELAY = 5;
-    private static final int SPAWN_EXPLODE_FAST_DELAY = 1;
-    private static final int FADE_SPEED = 3;
+    private static final int SPAWN_EXPLODE_DELAY = 500;
+    private static final int SPAWN_EXPLODE_MEDIUM_DELAY = 80;
+    private static final int SPAWN_EXPLODE_FAST_DELAY = 15;
+    private static final int FADE_SPEED = 5;
 
     private static final String PART1_FOLDER = "part1";
     private static final String EXPLODE_LITTLE = "ExplodeLittle.xml";
     private static final String EXPLODE_BIG = "ExplodeBig.xml";
 
-    private static final int VALDYN_X = 98;
-    private static final int VALDYN_Y = 66;
+    private static final int VALDYN_X = 100;
+    private static final int VALDYN_Y = 65;
     private static final int VALDYN_Z = 100;
     private static final int VALDYN_X_MAX = 140;
-    private static final double VALDYN_Z_SPEED = 0.0011;
-    private static final double VALDYN_Z_ACC = -0.3;
-    private static final double VALDYN_Z_ACC_MIN = -0.3;
-    private static final double VALDYN_Z_ACC_MAX = -0.09;
+    private static final double VALDYN_Z_SPEED = 0.00125;
+    private static final double VALDYN_Z_ACC = -0.35;
+    private static final double VALDYN_Z_ACC_MIN = -0.35;
+    private static final double VALDYN_Z_ACC_MAX = -0.10;
     private static final int VALDYN_SCALE_MIN = 10;
     private static final int VALDYN_SCALE_MAX = 400;
-    private static final double VALDYN_MOVE_X = -0.04;
-    private static final double VALDYN_MOVE_Y = 0.008;
+    private static final double VALDYN_MOVE_X = -0.05;
+    private static final double VALDYN_MOVE_Y = 0.01;
     private static final int VALDYN_MOVE_X_SCALE_DIVISOR = -500;
 
     private static final int CITADEL_X = 82;
     private static final int CITADEL_Y = 4;
     private static final double CITADEL_FALL_SPEED = 0.05;
-    private static final double CITADEL_ACC_MAX = 3.0;
+    private static final double CITADEL_ACC_MAX = 3.5;
 
     private static final int EXPLODE_Y_OFFSET = 8;
     private static final double EXPLODE_Y_SCALE = 0.6;
@@ -136,7 +137,7 @@ public class Part1 extends Sequence
         return featurable;
     });
     private final Tick tickExplode = new Tick();
-    private final Animation valdynAnim = new Animation(Animation.DEFAULT_NAME, 1, 12, 0.2, false, true);
+    private final Animation valdynAnim = new Animation(Animation.DEFAULT_NAME, 1, 12, 0.25, false, true);
     private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
     private final AppInfo info;
     private final Time time;
@@ -156,7 +157,7 @@ public class Part1 extends Sequence
     private double valdynY = VALDYN_Y;
     private double valdynZ = VALDYN_Z;
     private double valdynZacc = VALDYN_Z_ACC;
-    private double alpha;
+    private double alpha = 255.0;
 
     /**
      * Constructor.
@@ -168,7 +169,7 @@ public class Part1 extends Sequence
      */
     public Part1(Context context, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
@@ -202,7 +203,8 @@ public class Part1 extends Sequence
      */
     private void spawnExplode(int delay)
     {
-        if (tickExplode.elapsed(delay))
+        tickExplode.update(delay);
+        if (tickExplode.elapsedTime(getRate(), delay))
         {
             tickExplode.restart();
 
@@ -248,11 +250,11 @@ public class Part1 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateFadeOutInit;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -279,11 +281,11 @@ public class Part1 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             end();
         }
     }
@@ -324,8 +326,8 @@ public class Part1 extends Sequence
     private void updateCitadelFall(double extrp)
     {
         citadel.setFrame(2);
-        citadelY = UtilMath.clamp(citadelY + citadelYacc, 0.0, getHeight() + citadel.getHeight());
-        citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED, 0.0, CITADEL_ACC_MAX);
+        citadelY = UtilMath.clamp(citadelY + citadelYacc * extrp, 0.0, getHeight() + citadel.getHeight());
+        citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED * extrp, 0.0, CITADEL_ACC_MAX);
         citadel.setLocation(CITADEL_X, bandHeight + citadelY);
     }
 
@@ -339,17 +341,18 @@ public class Part1 extends Sequence
         valdyn.update(extrp);
         valdyn.setLocation(valdynX, valdynY);
 
-        valdynZ += valdynZacc;
-        valdynZacc = UtilMath.clamp(valdynZacc + VALDYN_Z_SPEED, VALDYN_Z_ACC_MIN, VALDYN_Z_ACC_MAX);
+        valdynZ += valdynZacc * extrp;
+        valdynZacc = UtilMath.clamp(valdynZacc + VALDYN_Z_SPEED * extrp, VALDYN_Z_ACC_MIN, VALDYN_Z_ACC_MAX);
 
         final double scale = UtilMath.clamp(1000 / valdynZ, VALDYN_SCALE_MIN, VALDYN_SCALE_MAX);
         valdyn.stretch(scale, scale);
 
-        valdynX += VALDYN_MOVE_X - scale / VALDYN_MOVE_X_SCALE_DIVISOR;
-        valdynY += VALDYN_MOVE_Y;
+        valdynX += (VALDYN_MOVE_X - scale / VALDYN_MOVE_X_SCALE_DIVISOR) * extrp;
+        valdynY += VALDYN_MOVE_Y * extrp;
 
         if (valdynX > VALDYN_X_MAX)
         {
+            valdynX = VALDYN_X_MAX;
             updaterValdyn = UpdatableVoid.getInstance();
             rendererValdyn = RenderableVoid.getInstance();
         }
@@ -362,8 +365,6 @@ public class Part1 extends Sequence
      */
     private void updateExplodeFew(double extrp)
     {
-        tickExplode.update(extrp);
-
         spawnExplode(SPAWN_EXPLODE_DELAY);
         spawnExplode(SPAWN_EXPLODE_DELAY);
         spawnExplode(SPAWN_EXPLODE_DELAY);
@@ -382,8 +383,6 @@ public class Part1 extends Sequence
      */
     private void updateExplodeLot(double extrp)
     {
-        tickExplode.update(extrp);
-
         spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
 
         if (time.isAfter(TIME_CITADEL_FALL_MS))
@@ -399,8 +398,6 @@ public class Part1 extends Sequence
      */
     private void updateExplodeMedium(double extrp)
     {
-        tickExplode.update(extrp);
-
         spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
         spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
         spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
@@ -415,14 +412,29 @@ public class Part1 extends Sequence
     }
 
     /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
      * Draw fade effect.
      * 
      * @param g The graphic output.
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     /**
@@ -446,7 +458,6 @@ public class Part1 extends Sequence
         updaterCitadel.update(extrp);
         updaterValdyn.update(extrp);
         updaterExplode.update(extrp);
-
         info.update(extrp);
 
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
@@ -466,7 +477,6 @@ public class Part1 extends Sequence
         rendererFade.render(g);
 
         drawBand(g);
-
         info.render(g);
     }
 

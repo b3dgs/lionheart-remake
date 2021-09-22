@@ -23,7 +23,6 @@ import java.util.Optional;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
@@ -59,7 +58,6 @@ public final class Rotating extends FeatureModel
                             implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
 {
     private final List<Transformable> rings = new ArrayList<>();
-    private final Tick tick = new Tick();
     private final Spawner spawner = services.get(Spawner.class);
     private final Viewer viewer = services.get(Viewer.class);
     private final StateHandler target;
@@ -170,17 +168,12 @@ public final class Rotating extends FeatureModel
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
     public void update(double extrp)
     {
-        tick.update(extrp);
-
         for (int i = 0; i < count; i++)
         {
             rings.get(i)
@@ -188,68 +181,65 @@ public final class Rotating extends FeatureModel
                               transformable.getY() + (i + 0.5) * UtilMath.sin(angle + 90) * 16);
         }
 
-        if (config != null)
+        if (config.getAmplitude() > 0)
         {
-            if (config.getAmplitude() > 0)
+            if (config.isControlled())
             {
-                if (config.isControlled())
+                if (collide && target.isState(StateCrouch.class))
                 {
-                    if (collide && target.isState(StateCrouch.class))
+                    if (platform.getOldY() > platform.getY())
                     {
-                        if (platform.getOldY() > platform.getY())
-                        {
-                            max += 0.03;
-                        }
-                        else
-                        {
-                            max -= 0.05;
-                        }
+                        max += 0.035 * extrp;
                     }
                     else
                     {
-                        max -= 0.002;
+                        max -= 0.06 * extrp;
                     }
-                    max = UtilMath.clamp(max, 0.8, 5.5);
-
-                    if (angle > Constant.ANGLE_MAX / 2 + config.getAmplitude())
-                    {
-                        side = -config.getSpeed();
-                    }
-                    else if (angle < Constant.ANGLE_MAX / 2 - config.getAmplitude())
-                    {
-                        side = config.getSpeed();
-                    }
-                    angleAcc += side;
                 }
                 else
                 {
-                    max = 3.5;
-                    if (Math.abs(angleStart - angle) > config.getAmplitude())
-                    {
-                        angleAcc -= config.getSpeed();
-                    }
-                    else
-                    {
-                        angleAcc += config.getSpeed();
-                    }
+                    max -= 0.0024;
                 }
+                max = UtilMath.clamp(max, 0.95, 6.5);
 
-                angleAcc = UtilMath.clamp(angleAcc, -max, max);
-                angle = UtilMath.wrapAngleDouble(angle + angleAcc);
+                if (angle > Constant.ANGLE_MAX / 2 + config.getAmplitude())
+                {
+                    side = -config.getSpeed();
+                }
+                else if (angle < Constant.ANGLE_MAX / 2 - config.getAmplitude())
+                {
+                    side = config.getSpeed();
+                }
+                angleAcc += side * extrp;
             }
             else
             {
-                angle = UtilMath.wrapAngleDouble(angle + config.getSpeed());
+                max = 3.5;
+                if (Math.abs(angleStart - angle) > config.getAmplitude())
+                {
+                    angleAcc -= config.getSpeed() * extrp;
+                }
+                else
+                {
+                    angleAcc += config.getSpeed() * extrp;
+                }
             }
 
-            if (angleBack > -1 && config.getSpeed() > 0 ? angle > angleBack : angle < angleBack)
+            angleAcc = UtilMath.clamp(angleAcc, -max, max);
+            angle = UtilMath.wrapAngleDouble(angle + angleAcc * extrp);
+        }
+        else
+        {
+            angle = UtilMath.wrapAngleDouble(angle + config.getSpeed() * extrp);
+        }
+
+        if (angleBack > -1 && config.getSpeed() > 0 ? angle > angleBack : angle < angleBack)
+        {
+            angle -= angleAcc * extrp;
+            angleAcc = -angleAcc;
+            if (viewer.isViewable(transformable, 0, 0))
             {
-                angle -= angleAcc;
-                angleAcc = -angleAcc;
-                if (viewer.isViewable(transformable, 0, 0))
-                {
-                    Sfx.SCENERY_ROTATINGPLATFORM.play();
-                }
+                Sfx.SCENERY_ROTATINGPLATFORM.play();
             }
         }
         collide = false;
@@ -260,8 +250,6 @@ public final class Rotating extends FeatureModel
     {
         angle = Constant.ANGLE_MAX / 2;
         angleAcc = 0.0;
-        max = 0.8;
-        tick.restart();
-        tick.set(10);
+        max = 0.95;
     }
 }

@@ -45,8 +45,10 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.Anim;
 
 /**
  * Dragon feature implementation.
@@ -63,19 +65,22 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     private static final int TONGUE_COUNT = 7;
     private static final int TONGUE_OFFSET_X = 8;
     private static final int TONGUE_OFFSET_Y = 23;
-    private static final int TONGUE_RETRACT_TICK_DELAY = 3;
+    private static final int TONGUE_RETRACT_DELAY_MS = 40;
     private static final int THROW_DISTANCE = 160;
 
     private final List<Launchable> tongue = new ArrayList<>();
     private final Tick tick = new Tick();
-    private final MapTile map = services.get(MapTile.class);
-    private final Viewer viewer = services.get(Viewer.class);
-    private final Trackable target = services.get(Trackable.class);
     private final Animation idle;
     private final Animation raise;
     private final Animation open;
     private final Animation close;
     private final Animation hide;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final MapTile map = services.get(MapTile.class);
+    private final Viewer viewer = services.get(Viewer.class);
+    private final Trackable target = services.get(Trackable.class);
+
     private Updatable current;
     private boolean fired;
     private boolean hurt;
@@ -100,7 +105,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
         super(services, setup);
 
         final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation("idle");
+        idle = config.getAnimation(Anim.IDLE);
         raise = config.getAnimation("raise");
         open = config.getAnimation("open");
         close = config.getAnimation("close");
@@ -179,7 +184,6 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
                     tick.start();
                 }
             }
-            tick.update(extrp);
             if (tick.isStarted() && tongue.isEmpty())
             {
                 final int frame = animatable.getFrame();
@@ -231,7 +235,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
                 {
                     tongue.clear();
                 }
-            }, TONGUE_RETRACT_TICK_DELAY * i);
+            }, source.getRate(), TONGUE_RETRACT_DELAY_MS * i);
         }
     }
 
@@ -268,6 +272,7 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         current.update(extrp);
 
         if (hurt && !viewer.isViewable(transformable, 0, 0))

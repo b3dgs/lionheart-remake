@@ -36,11 +36,11 @@ public final class Constant
     public static final Version PROGRAM_VERSION = Version.create(1, 1, 0);
 
     /** Resolution. */
-    public static final Resolution RESOLUTION = new Resolution(320, 240, 60);
+    public static final Resolution RESOLUTION = new Resolution(320, 240, 50);
     /** Game resolution. */
-    public static final Resolution RESOLUTION_GAME = new Resolution(278, 208, 60);
+    public static final Resolution RESOLUTION_GAME = new Resolution(278, 208, RESOLUTION.getRate());
     /** Resolution. */
-    public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, 60);
+    public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, RESOLUTION.getRate());
 
     /** Debug flag. */
     public static final boolean DEBUG = false;
@@ -77,9 +77,9 @@ public final class Constant
     /** Camera horizontal margin. */
     public static final int CAMERA_HORIZONTAL_MARGIN = 16;
     /** Maximum gravity. */
-    public static final double GRAVITY = 6.5;
+    public static final double GRAVITY = 7.8;
     /** Walk speed. */
-    public static final double WALK_SPEED = 5.0 / 3.0;
+    public static final double WALK_SPEED = 2.0;
     /** Minimum speed to start walk. */
     public static final double WALK_MIN_SPEED = 0.75;
     /** Walk velocity on slope decrease. */
@@ -91,9 +91,9 @@ public final class Constant
     /** Jump maximum height on hit. */
     public static final double JUMP_HIT = 5.5;
     /** Jump maximum height. */
-    public static final Direction JUMP_MAX = new Force(0.0, 5.4);
+    public static final Direction JUMP_MAX = new Force(0.0, 5.7);
     /** Jump spider height. */
-    public static final Direction JUMP_SPIDER = new Force(0.0, 3.5);
+    public static final Direction JUMP_SPIDER = new Force(0.0, 4.2);
 
     /** Init config normal/hard. */
     public static final InitConfig INIT_STANDARD = new InitConfig(4, 2, Difficulty.NORMAL);
@@ -102,13 +102,13 @@ public final class Constant
     /** Init config lion hard. */
     public static final InitConfig INIT_LIONHARD = new InitConfig(3, 2, Difficulty.LIONHARD);
     /** Init config debug. */
-    public static final InitConfig INIT_DEBUG = new InitConfig(8,
-                                                               99,
-                                                               99,
-                                                               1,
+    public static final InitConfig INIT_DEBUG = new InitConfig(7,
+                                                               90,
+                                                               90,
+                                                               3,
                                                                Boolean.TRUE,
                                                                9,
-                                                               Difficulty.LIONHARD,
+                                                               Difficulty.NORMAL,
                                                                true,
                                                                Optional.empty());
 

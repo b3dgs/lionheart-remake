@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -56,8 +57,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private static final int MAX_X = 80;
     private static final int MIN_Y = -96;
     private static final int MAX_Y = 64;
-    private static final int FIRE_DELAY_TICK = 100;
-    private static final int FIRED_DELAY_TICK = 70;
+    private static final int FIRE_DELAY_MS = 1500;
+    private static final int FIRED_DELAY_MS = 1000;
     private static final double TRACK_SPEED = 1.25;
 
     private final Transformable[] limbs = new Transformable[6];
@@ -67,6 +68,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private final Animation attack;
     private final Animation turn;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
 
@@ -108,6 +110,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
      */
     private void updateTrack(double extrp)
     {
+        tick.update(extrp);
+
         if (start)
         {
             startX = transformable.getX();
@@ -115,9 +119,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
             start = false;
         }
 
-        tick.update(extrp);
         if (animatable.getFrame() == 1
-            && tick.elapsed(FIRE_DELAY_TICK)
+            && tick.elapsedTime(source.getRate(), FIRE_DELAY_MS)
             && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4) < 8)
         {
             launcher.fire();
@@ -216,7 +219,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private void updateFired(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(FIRED_DELAY_TICK))
+        if (tick.elapsedTime(source.getRate(), FIRED_DELAY_MS))
         {
             animatable.play(idle);
             updater = this::updateTrack;

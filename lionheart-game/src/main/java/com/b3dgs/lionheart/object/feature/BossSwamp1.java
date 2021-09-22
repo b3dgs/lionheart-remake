@@ -62,7 +62,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private static final int MAX_Y = 220;
     private static final int TOP_Y = 230;
     private static final int MAX_AWAY_Y = 388;
-    private static final double MOVE_X = 0.9;
+    private static final double MOVE_X = 1.1;
     private static final int BOWL_MARGIN = 48;
     private static final int PALLET_OFFSET = 2;
 
@@ -165,7 +165,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
         if (fired)
         {
             final int n = bowls.size();
-            int hitCount = 0;
+            final List<Launchable> toRemove = new ArrayList<>(0);
             for (int i = 0; i < n; i++)
             {
                 final Transformable trans = bowls.get(i).getFeature(Transformable.class);
@@ -183,17 +183,22 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                     if (trans.getY() > transformable.getY() + trans.getHeight())
                     {
                         trans.getFeature(Identifiable.class).destroy();
-                        hitCount++;
-                    }
-                    if (hitCount == n)
-                    {
-                        hit = 2;
+                        toRemove.add(bowls.get(i));
                     }
                 }
                 else
                 {
                     trans.teleport(x, transformable.getY() - i * 12 + 16);
                 }
+            }
+            for (int i = 0; i < toRemove.size(); i++)
+            {
+                bowls.remove(toRemove.get(i));
+            }
+            toRemove.clear();
+            if (bowls.isEmpty())
+            {
+                hit = 2;
             }
         }
         if (!fired

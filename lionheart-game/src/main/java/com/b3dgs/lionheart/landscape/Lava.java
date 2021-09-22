@@ -45,7 +45,7 @@ final class Lava extends BackgroundAbstract
     private static final int MOUNTAIN2_OFFSET_Y = 48;
 
     private static final double MOUNTAIN_SPEED_FACTOR = 0.15;
-    private static final double MOUNTAIN2_SPEED_FACTOR = 0.26;
+    private static final double MOUNTAIN2_SPEED_FACTOR = 0.25;
 
     private static final int PARALLAX_W = 60;
     private static final int PARALLAX_H = 100;

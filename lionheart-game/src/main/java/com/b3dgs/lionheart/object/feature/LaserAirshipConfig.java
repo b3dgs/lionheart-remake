@@ -31,9 +31,9 @@ public final class LaserAirshipConfig implements XmlSaver
     /** Config node name. */
     public static final String NODE_LASER = "laser";
     /** Fire delay attribute name. */
-    public static final String ATT_FIRE_DELAY = "fireDelay";
+    public static final String ATT_FIRE_DELAY_MS = "fireDelay";
     /** Stay delay attribute name. */
-    public static final String ATT_STAY_DELAY = "stayDelay";
+    public static final String ATT_STAY_DELAY_MS = "stayDelay";
 
     /** Fire delay. */
     private final int fireDelay;
@@ -78,8 +78,8 @@ public final class LaserAirshipConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_LASER);
-        fireDelay = node.getInteger(ATT_FIRE_DELAY);
-        stayDelay = node.getInteger(ATT_STAY_DELAY);
+        fireDelay = node.getInteger(ATT_FIRE_DELAY_MS);
+        stayDelay = node.getInteger(ATT_STAY_DELAY_MS);
     }
 
     /**
@@ -108,8 +108,8 @@ public final class LaserAirshipConfig implements XmlSaver
         Check.notNull(root);
 
         final Xml node = root.createChild(NODE_LASER);
-        node.writeInteger(ATT_FIRE_DELAY, fireDelay);
-        node.writeInteger(ATT_STAY_DELAY, stayDelay);
+        node.writeInteger(ATT_FIRE_DELAY_MS, fireDelay);
+        node.writeInteger(ATT_STAY_DELAY_MS, stayDelay);
     }
 
     private static void add(StringBuilder builder, String name, int value)
@@ -122,8 +122,8 @@ public final class LaserAirshipConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Laser [ ");
-        add(builder, ATT_FIRE_DELAY, fireDelay);
-        add(builder, ATT_STAY_DELAY, stayDelay);
+        add(builder, ATT_FIRE_DELAY_MS, fireDelay);
+        add(builder, ATT_STAY_DELAY_MS, stayDelay);
         builder.append("]");
         return builder.toString();
     }

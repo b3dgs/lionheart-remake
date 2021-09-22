@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.drawable.SpriteDigit;
 import com.b3dgs.lionengine.graphic.drawable.SpriteTiled;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.feature.Stats;
 
@@ -56,6 +57,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final String IMG_HEART = "health.png";
     private static final String IMG_HUD = "hud.png";
     private static final String IMG_NUMBERS = "numbers.png";
+    private static final String TXT_FILE = "hud.txt";
 
     private static final int HEALTH_TILE_WIDTH = 8;
     private static final int HEALTH_TILE_HEIGHT = 8;
@@ -79,11 +81,11 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final int LIFE_Y = 1;
     private static final int LIFE_X_BORDER = 4;
 
-    private static final int PAUSE_FLICKER_TICK = 14;
+    private static final int PAUSE_FLICKER_DELAY_MS = 250;
 
     private final List<String> hud = Util.readLines(Medias.create(Folder.TEXT,
                                                                   Settings.getInstance().getLang(),
-                                                                  "hud.txt"));
+                                                                  TXT_FILE));
 
     private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITE, IMG_HEART));
     private final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_HUD));
@@ -100,6 +102,8 @@ public final class Hud implements Resource, Updatable, Renderable
     private final SpriteTiled[] hearts = new SpriteTiled[HEALTH_MAX];
     private final Tick tick = new Tick();
     private final boolean swordVisible = Settings.getInstance().getHudSword();
+
+    private final SourceResolutionProvider source;
     private final Viewer viewer;
 
     private Updatable updaterHud = UpdatableVoid.getInstance();
@@ -121,6 +125,7 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         super();
 
+        source = services.get(SourceResolutionProvider.class);
         viewer = services.get(Viewer.class);
     }
 
@@ -303,7 +308,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private void updatePause(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(PAUSE_FLICKER_TICK))
+        if (tick.elapsedTime(source.getRate(), PAUSE_FLICKER_DELAY_MS))
         {
             flicker = !flicker;
             text.setColor(flicker ? ColorRgba.BLACK : ColorRgba.WHITE);
@@ -395,6 +400,7 @@ public final class Hud implements Resource, Updatable, Renderable
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         updaterHud.update(extrp);
         updaterPause.update(extrp);
     }

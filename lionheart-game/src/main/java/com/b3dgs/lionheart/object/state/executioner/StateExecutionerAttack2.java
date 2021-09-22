@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state.executioner;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -29,7 +30,7 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
  */
 public final class StateExecutionerAttack2 extends State
 {
-    private static final int ATTACK_TICK = 40;
+    private static final int ATTACK_DELAY_MS = 500;
 
     private final Tick tick = new Tick();
 
@@ -43,7 +44,9 @@ public final class StateExecutionerAttack2 extends State
     {
         super(model, animation);
 
-        addTransition(StatePatrol.class, () -> tick.elapsed(ATTACK_TICK) && is(AnimState.FINISHED));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StatePatrol.class,
+                      () -> tick.elapsedTime(source.getRate(), ATTACK_DELAY_MS) && is(AnimState.FINISHED));
     }
 
     @Override

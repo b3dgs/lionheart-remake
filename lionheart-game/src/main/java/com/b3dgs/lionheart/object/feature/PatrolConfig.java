@@ -53,7 +53,7 @@ public final class PatrolConfig implements XmlSaver
     /** Vertical animation offset attribute name. */
     public static final String ATT_ANIMOFFSET = "animOffset";
     /** Patrol delay offset attribute name. */
-    public static final String ATT_DELAY = "delay";
+    public static final String ATT_DELAY_MS = "delay";
     /** Curve attribute name. */
     public static final String ATT_CURVE = "curve";
 
@@ -135,7 +135,7 @@ public final class PatrolConfig implements XmlSaver
         coll = root.getBooleanOptional(ATT_COLL);
         proximity = root.getIntegerOptional(ATT_PROXIMITY);
         animOffset = root.getIntegerOptional(ATT_ANIMOFFSET);
-        delay = root.getIntegerOptional(ATT_DELAY);
+        delay = root.getIntegerOptional(ATT_DELAY_MS);
         curve = root.getBooleanOptional(ATT_CURVE);
     }
 
@@ -295,7 +295,7 @@ public final class PatrolConfig implements XmlSaver
         coll.ifPresent(v -> node.writeBoolean(ATT_COLL, v.booleanValue()));
         proximity.ifPresent(v -> node.writeInteger(ATT_PROXIMITY, v));
         animOffset.ifPresent(v -> node.writeInteger(ATT_ANIMOFFSET, v));
-        delay.ifPresent(v -> node.writeInteger(ATT_DELAY, v));
+        delay.ifPresent(v -> node.writeInteger(ATT_DELAY_MS, v));
         curve.ifPresent(v -> node.writeBoolean(ATT_CURVE, v.booleanValue()));
     }
 
@@ -327,7 +327,7 @@ public final class PatrolConfig implements XmlSaver
         add(builder, ATT_COLL, coll);
         add(builder, ATT_PROXIMITY, proximity);
         add(builder, ATT_ANIMOFFSET, animOffset);
-        add(builder, ATT_DELAY, delay);
+        add(builder, ATT_DELAY_MS, delay);
         add(builder, ATT_CURVE, curve);
         builder.append("]");
         return builder.toString();

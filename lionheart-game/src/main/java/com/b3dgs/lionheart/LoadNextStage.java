@@ -29,20 +29,20 @@ public interface LoadNextStage
      * Load next stage.
      * 
      * @param next The next stage.
-     * @param tickDelay The tick delay before load stage.
+     * @param delayMs The delay before load stage in milli.
      * @param spawn The next spawn.
      */
-    void loadNextStage(String next, int tickDelay, Optional<Coord> spawn);
+    void loadNextStage(String next, int delayMs, Optional<Coord> spawn);
 
     /**
      * Load next stage.
      * 
      * @param next The next stage.
-     * @param tickDelay The tick delay before load stage.
+     * @param delayMs The delay before load stage in milli.
      */
-    default void loadNextStage(String next, int tickDelay)
+    default void loadNextStage(String next, int delayMs)
     {
-        loadNextStage(next, tickDelay, Optional.empty());
+        loadNextStage(next, delayMs, Optional.empty());
     }
 
     /**

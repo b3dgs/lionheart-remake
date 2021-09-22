@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.Layerable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -31,7 +32,7 @@ import com.b3dgs.lionheart.object.feature.Stats;
 public final class StateBitten extends State
 {
     /** Bitten limit drown vertical position. */
-    private static final int BITTEN_TICK = 50;
+    private static final int BITTEN_DELAY_MS = 800;
     /** Bitten fall speed. */
     private static final double DEATH_FALL_SPEED = -0.7;
 
@@ -53,7 +54,8 @@ public final class StateBitten extends State
     {
         super(model, animation);
 
-        addTransition(StateRespawn.class, () -> tick.elapsed(BITTEN_TICK));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), BITTEN_DELAY_MS));
     }
 
     @Override

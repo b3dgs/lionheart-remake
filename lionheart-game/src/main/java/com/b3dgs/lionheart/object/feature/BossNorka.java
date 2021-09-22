@@ -47,6 +47,7 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.ScreenShaker;
@@ -72,14 +73,14 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossNorka extends FeatureModel implements Routine, Recyclable
 {
-    private static final int END_TICK = 500;
-    private static final double CURVE_SPEED = 8.0;
+    private static final int END_DELAY_MS = 8000;
+    private static final double CURVE_SPEED = 9.5;
     private static final double CURVE_AMPLITUDE = 3.0;
     private static final int Y = 60;
     private static final int WALK_OFFSET = 47;
-    private static final int TICK_JUMP = 300;
-    private static final int TICK_AWAIT = 70;
-    private static final int TICK_PHASE_FIRE = 300;
+    private static final int JUMP_DELAY_MS = 5000;
+    private static final int AWAIT_DELAY_MS = 1000;
+    private static final int FIRE_DELAY_MS = 5000;
     // @formatter:off
     private static final int[] PATROLS = {WALK_OFFSET * 2, 0, -WALK_OFFSET * 2, 0};
     // @formatter:on
@@ -101,9 +102,9 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         final int vx = UtilRandom.getRandomInteger(3);
         if (UtilRandom.getRandomBoolean())
         {
-            return vx - 3.5;
+            return vx - 4.2;
         }
-        return vx + 0.5;
+        return vx + 0.6;
     }
 
     // @formatter:off
@@ -490,6 +491,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private final Animator animator = new AnimatorModel();
     private final Tick tick = new Tick();
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final Sequencer sequencer = services.get(Sequencer.class);
@@ -668,7 +670,6 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private void updateJump(double extrp)
     {
         animator.update(extrp);
-        tick.update(extrp);
         transformable.teleportY(startY + Y - 24);
         body.resetGravity();
 
@@ -705,11 +706,12 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private void updateAttack(double extrp)
     {
         launcher.fire(new Force(getRandomDirectionX(), -UtilRandom.getRandomDouble() / 5));
-        updateCurve();
+        updateCurve(extrp);
         transformable.teleportY(startY + Y - 24 + UtilMath.cos(angle) * CURVE_AMPLITUDE);
         body.resetGravity();
+
         tick.update(extrp);
-        if (tick.elapsed(TICK_PHASE_FIRE))
+        if (tick.elapsedTime(source.getRate(), FIRE_DELAY_MS))
         {
             phase = this::updateFall;
         }
@@ -722,11 +724,12 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
      */
     private void updatePlatform(double extrp)
     {
-        updateCurve();
+        updateCurve(extrp);
         transformable.teleportY(startY + Y - 24 + UtilMath.cos(angle) * CURVE_AMPLITUDE);
         body.resetGravity();
+
         tick.update(extrp);
-        if (tick.elapsed(TICK_JUMP))
+        if (tick.elapsedTime(source.getRate(), JUMP_DELAY_MS))
         {
             phase = this::updateFall;
         }
@@ -776,7 +779,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         body.resetGravity();
 
         tick.update(extrp);
-        if (tick.elapsed(TICK_AWAIT))
+        if (tick.elapsedTime(source.getRate(), AWAIT_DELAY_MS))
         {
             phase = this::updateRise;
             transformable.teleportY(startY);
@@ -792,9 +795,10 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
      */
     private void updateEnd(double extrp)
     {
-        tick.update(extrp);
         body.resetGravity();
-        if (tick.elapsed(END_TICK))
+
+        tick.update(extrp);
+        if (tick.elapsedTime(source.getRate(), END_DELAY_MS))
         {
             identifiable.destroy();
             music.stopMusic();
@@ -826,10 +830,12 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
 
     /**
      * Update curve effect.
+     * 
+     * @param extrp The extrapolation value.
      */
-    private void updateCurve()
+    private void updateCurve(double extrp)
     {
-        angle = UtilMath.wrapAngleDouble(angle + CURVE_SPEED);
+        angle = UtilMath.wrapAngleDouble(angle + CURVE_SPEED * extrp);
     }
 
     @Override

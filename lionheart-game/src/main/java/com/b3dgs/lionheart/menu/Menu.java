@@ -66,7 +66,7 @@ import com.b3dgs.lionheart.intro.Intro;
 public class Menu extends Sequence
 {
     private static final int MIN_HEIGHT = 360;
-    private static final int FADE_SPEED = 8;
+    private static final int FADE_SPEED = 10;
     private static final int CENTER_X = 320;
     private static final int MENU_MAIN_IMAGE_OFFSET_Y = 32;
     private static final int OPTIONS_TITLE_OFFSET_Y = 96;
@@ -134,7 +134,7 @@ public class Menu extends Sequence
      */
     public Menu(Context context)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context));
+        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
 
         final Services services = new Services();
         services.add(context);
@@ -175,7 +175,7 @@ public class Menu extends Sequence
      */
     private Data createMain()
     {
-        final int x = (int) (CENTER_X * factorH);
+        final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
             new Choice(text, main.get(0), x, mainY + 120, Align.CENTER, MenuType.NEW),
@@ -193,7 +193,7 @@ public class Menu extends Sequence
      */
     private Data createOptions()
     {
-        final int x = (int) (CENTER_X * factorH);
+        final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
             new Choice(text, options.get(0), x - 118, mainY + 128, Align.LEFT),
@@ -303,7 +303,8 @@ public class Menu extends Sequence
     private void updateFadeIn(double extrp)
     {
         alpha -= alphaSpeed * extrp;
-        if (alpha < 0.0)
+
+        if (getAlpha() < 0)
         {
             alpha = 0.0;
             transition = TransitionType.NONE;
@@ -318,7 +319,8 @@ public class Menu extends Sequence
     private void updateFadeOut(double extrp)
     {
         alpha += alphaSpeed * extrp;
-        if (alpha > 255.0)
+
+        if (getAlpha() > 255)
         {
             alpha = 255.0;
             menu = menuNext;
@@ -502,7 +504,7 @@ public class Menu extends Sequence
 
         textTitle.setColor(colorTitle);
         textTitle.draw(g,
-                       (int) (Menu.CENTER_X * factorH),
+                       (int) Math.round(Menu.CENTER_X * factorH),
                        mainY + OPTIONS_TITLE_OFFSET_Y,
                        Align.CENTER,
                        main.get(1).toUpperCase(Locale.ENGLISH));
@@ -523,10 +525,36 @@ public class Menu extends Sequence
     private void drawOptionText(Graphic g, int index, String data)
     {
         text.draw(g,
-                  (int) (CENTER_X * factorH) + OPTIONS_TEXT_OFFSET_X,
+                  (int) Math.round(CENTER_X * factorH) + OPTIONS_TEXT_OFFSET_X,
                   menusData[1].choices[index].getY(),
                   Align.LEFT,
                   data);
+    }
+
+    /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
+     * Render fade.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderFade(Graphic g)
+    {
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     /**
@@ -538,10 +566,7 @@ public class Menu extends Sequence
     {
         if (transition != TransitionType.NONE)
         {
-            final int a = UtilMath.clamp((int) Math.floor(alpha), 0, 255);
-            g.setColor(Constant.ALPHAS_BLACK[a]);
-            g.drawRect(0, 0, getWidth(), getHeight(), true);
-            g.setColor(ColorRgba.BLACK);
+            renderFade(g);
         }
     }
 
@@ -567,7 +592,7 @@ public class Menu extends Sequence
             menus[i].load();
             menus[i].prepare();
         }
-        final int x = (int) (CENTER_X * factorH);
+        final int x = (int) Math.round(CENTER_X * factorH);
         menus[0].setLocation(x, mainY + MENU_MAIN_IMAGE_OFFSET_Y);
         menus[1].setLocation(x, mainY);
     }

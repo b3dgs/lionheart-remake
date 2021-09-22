@@ -8,13 +8,13 @@
     </lionengine:features>
     <lionengine:size width="48" height="64"/>
     <lionengine:animations>
-        <lionengine:animation name="rise" start="1" end="27" speed="0.6" reversed="false" repeat="false"/>
-        <lionengine:animation name="idle" start="28" end="47" speed="0.8" reversed="false" repeat="true"/>
-        <lionengine:animation name="walk" start="48" end="78" speed="0.8" reversed="false" repeat="true"/>
-        <lionengine:animation name="preparejump" start="80" end="105" speed="0.7" reversed="false" repeat="false"/>
-        <lionengine:animation name="jump" start="106" end="118" speed="0.5" reversed="false" repeat="false"/>
-        <lionengine:animation name="land" start="119" end="135" speed="0.5" reversed="false" repeat="false"/>
+        <lionengine:animation name="rise" start="1" end="27" speed="0.72" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="28" end="47" speed="0.95" reversed="false" repeat="true"/>
+        <lionengine:animation name="walk" start="48" end="78" speed="0.95" reversed="false" repeat="true"/>
+        <lionengine:animation name="preparejump" start="80" end="105" speed="0.85" reversed="false" repeat="false"/>
+        <lionengine:animation name="jump" start="106" end="118" speed="0.6" reversed="false" repeat="false"/>
+        <lionengine:animation name="land" start="119" end="135" speed="0.6" reversed="false" repeat="false"/>
     </lionengine:animations>
-    <lionengine:body gravity="1.4" gravityMax="4.0"/>
+    <lionengine:body gravity="0.1" gravityMax="4.8"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

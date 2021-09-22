@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
  * Explode5 feature implementation.
@@ -39,26 +40,21 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 @FeatureInterface
 public final class Explode5 extends FeatureModel implements Routine, Recyclable
 {
+    // @formatter:off
     private static final int[][] OFFSET =
     {
-        {
-            0, 0, 0
-        },
-        {
-            -16, 16, 9
-        },
-        {
-            16, 16, 18
-        },
-        {
-            16, -16, 27
-        },
-        {
-            -16, -16, 36
-        }
+        {0, 0, 0},
+        {-16, 16, 150},
+        {16, 16, 300},
+        {16, -16, 450},
+        {-16, -16, 600}
     };
+    //  @formatter:on
+    private static final String EXPLODE_FILE = "Explode.xml";
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
 
     private int phase;
@@ -87,15 +83,16 @@ public final class Explode5 extends FeatureModel implements Routine, Recyclable
             for (int i = 0; i < OFFSET.length; i++)
             {
                 final int index = i;
-                tick.addAction(() -> spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Explode.xml"),
+                tick.addAction(() -> spawner.spawn(Medias.create(setup.getMedia().getParentPath(), EXPLODE_FILE),
                                                    transformable.getX() + OFFSET[index][0],
                                                    transformable.getY() + OFFSET[index][1]),
+                               source.getRate(),
                                OFFSET[index][2]);
             }
             phase++;
             tick.restart();
         }
-        else if (phase == 1 && tick.elapsed(OFFSET[OFFSET.length - 1][2] + OFFSET[1][2]))
+        else if (phase == 1 && tick.elapsedTime(source.getRate(), OFFSET[OFFSET.length - 1][2] + OFFSET[1][2]))
         {
             identifiable.destroy();
         }

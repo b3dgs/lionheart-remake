@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
@@ -57,8 +58,8 @@ import com.b3dgs.lionheart.menu.Menu;
 public class Credits extends Sequence
 {
     private static final ColorRgba COLOR = new ColorRgba(238, 238, 238);
-    private static final double SCROLL_SPEED = 0.2;
-    private static final int FADE_SPEED = 8;
+    private static final double SCROLL_SPEED = 0.24;
+    private static final int FADE_SPEED = 10;
 
     private static final String PART4_FOLDER = "part4";
     private static final String PART5_FOLDER = "part5";
@@ -87,6 +88,7 @@ public class Credits extends Sequence
     private final Time time;
     private final Audio audio;
     private final boolean alternative;
+    private final AppInfo info;
     private final int count;
     private final Text lastText;
     private final DeviceController deviceCursor;
@@ -117,11 +119,12 @@ public class Credits extends Sequence
 
         if (this.alternative)
         {
+            alpha = 255.0;
             credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, PART5_FOLDER, FILENAME_IMAGE));
         }
         else
         {
-            alpha = 255;
+            alpha = 0.0;
             credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, PART4_FOLDER, FILENAME_IMAGE));
         }
 
@@ -134,6 +137,8 @@ public class Credits extends Sequence
 
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
+
+        info = new AppInfo(this::getFps, services);
 
         loadTextLines();
         count = texts.size();
@@ -228,11 +233,11 @@ public class Credits extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updater = this::updateStart;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -266,7 +271,7 @@ public class Credits extends Sequence
             for (int i = 0; i < count; i++)
             {
                 final Text text = texts.get(i);
-                text.setLocation(text.getLocationX(), text.getLocationY() - SCROLL_SPEED);
+                text.setLocation(text.getLocationX(), text.getLocationY() - SCROLL_SPEED * extrp);
             }
         }
         else if (device.isFired(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
@@ -283,14 +288,24 @@ public class Credits extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha > 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             end(Menu.class);
             updater = UpdatableVoid.getInstance();
         }
+    }
+
+    /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
     }
 
     /**
@@ -300,8 +315,13 @@ public class Credits extends Sequence
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     /**
@@ -337,6 +357,7 @@ public class Credits extends Sequence
         deviceCursor.update(extrp);
         time.update(extrp);
         updater.update(extrp);
+        info.update(extrp);
 
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))
         {
@@ -352,6 +373,7 @@ public class Credits extends Sequence
         credits.render(g);
         rendererText.render(g);
         rendererFade.render(g);
+        info.render(g);
     }
 
     @Override

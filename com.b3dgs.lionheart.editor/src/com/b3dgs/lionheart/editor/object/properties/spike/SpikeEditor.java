@@ -53,7 +53,7 @@ public class SpikeEditor extends EditorAbstract<SpikeConfig>
     @Override
     protected void createFields(Composite parent, SpikeConfig config)
     {
-        delay = new TextWidget(parent, UtilConversion.toTitleCase(SpikeConfig.ATT_DELAY), VALIDATOR, true);
+        delay = new TextWidget(parent, UtilConversion.toTitleCase(SpikeConfig.ATT_DELAY_MS), VALIDATOR, true);
 
         config.getDelay().ifPresent(delay::set);
     }

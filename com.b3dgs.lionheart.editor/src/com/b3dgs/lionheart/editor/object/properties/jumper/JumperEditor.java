@@ -37,7 +37,8 @@ public class JumperEditor extends EditorAbstract<JumperConfig>
     public static final Image ICON = UtilIcon.get("properties", "jumper.png");
     private static final String VALIDATOR = InputValidator.INTEGER_POSITIVE_STRICT_MATCH;
 
-    private TextWidget tick;
+    private TextWidget time;
+    private TextWidget h;
 
     /**
      * Create editor.
@@ -53,14 +54,16 @@ public class JumperEditor extends EditorAbstract<JumperConfig>
     @Override
     protected void createFields(Composite parent, JumperConfig config)
     {
-        tick = new TextWidget(parent, UtilConversion.toTitleCase(JumperConfig.ATT_TICK), VALIDATOR, true);
+        time = new TextWidget(parent, UtilConversion.toTitleCase(JumperConfig.ATT_DELAY_MS), VALIDATOR, true);
+        h = new TextWidget(parent, UtilConversion.toTitleCase(JumperConfig.ATT_H), VALIDATOR, true);
 
-        tick.set(config.getTick());
+        time.set(config.getDelay());
+        h.set(config.getH());
     }
 
     @Override
     protected void onExit()
     {
-        output = Optional.of(new JumperConfig(tick.getValue().orElse(0)));
+        output = Optional.of(new JumperConfig(time.getValue().orElse(0), h.getValueDouble().orElse(0.0)));
     }
 }

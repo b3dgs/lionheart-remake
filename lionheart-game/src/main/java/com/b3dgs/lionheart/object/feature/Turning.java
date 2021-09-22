@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateTurn;
 
@@ -48,21 +49,21 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 public class Turning extends FeatureModel implements Routine, Recyclable
 {
     /** Max shake amplitude in height. */
-    private static final double CURVE_FORCE = 2.0;
+    private static final double CURVE_FORCE = 2.2;
     /** Shake curve speed value. */
-    private static final double CURVE_SPEED = 50.0;
-    /** Tick delay before starting rotation. */
-    private static final int DELAY_BEFORE_ROTATE = 50;
-    /** Tick delay before starting to shake. */
-    private static final int DELAY_BEFORE_SHAKE = 100;
+    private static final double CURVE_SPEED = 60.0;
+    /** Delay before starting rotation. */
+    private static final int BEFORE_ROTATE_DELAY_MS = 800;
+    /** Delay before starting to shake. */
+    private static final int BEFORE_SHAKE_DELAY_MS = 1500;
     /** Total number of shakes in shaking state. */
     private static final int SHAKE_MAX_COUNT = 3;
 
-    /** Shake and rotate tick. */
     private final Tick tick = new Tick();
-    /** Current turning check. */
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
     private Updatable check;
-    /** Current shake curve value. */
     private double curve;
 
     @FeatureGet private StateHandler stateHandler;
@@ -88,6 +89,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     protected void startIdle()
     {
         check = this::checkShake;
+        tick.start();
     }
 
     /**
@@ -96,13 +98,13 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     protected void startTurn()
     {
         check = this::checkRotate;
-        tick.set(DELAY_BEFORE_ROTATE);
+        tick.set(BEFORE_ROTATE_DELAY_MS);
     }
 
     /**
-     * Reset internal tick.
+     * Reset internal delay.
      */
-    protected void resetTick()
+    protected void resetDelay()
     {
         tick.restart();
     }
@@ -115,7 +117,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     private void checkShake(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(DELAY_BEFORE_SHAKE) && animatable.is(AnimState.FINISHED))
+        if (animatable.is(AnimState.FINISHED) && tick.elapsedTime(source.getRate(), BEFORE_SHAKE_DELAY_MS))
         {
             glue.start();
             glue.setTransformY(this::computeCurve);
@@ -132,7 +134,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
      */
     private void updateShake(double extrp)
     {
-        curve += CURVE_SPEED;
+        curve += CURVE_SPEED * extrp;
         if (curve > SHAKE_MAX_COUNT * com.b3dgs.lionengine.Constant.MAX_DEGREE)
         {
             check = this::checkRotate;
@@ -149,7 +151,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     private void checkRotate(double extrp)
     {
         tick.update(extrp);
-        if (tick.elapsed(DELAY_BEFORE_ROTATE))
+        if (tick.elapsedTime(source.getRate(), BEFORE_ROTATE_DELAY_MS))
         {
             check = this::checkShake;
             stateHandler.changeState(StateTurn.class);
@@ -178,8 +180,8 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     @Override
     public void recycle()
     {
-        startIdle();
+        tick.stop();
         curve = 0.0;
-        tick.restart();
+        startIdle();
     }
 }

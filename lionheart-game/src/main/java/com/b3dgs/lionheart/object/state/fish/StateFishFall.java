@@ -47,7 +47,7 @@ public final class StateFishFall extends State
     {
         super.enter();
 
-        jump.setVelocity(0.05);
+        jump.setVelocity(0.06);
         jump.setSensibility(0.5);
         jump.setDestination(0.0, -2.0);
     }

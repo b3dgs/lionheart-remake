@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -26,8 +27,8 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StateDead extends State
 {
-    /** Stay in dead state during this delay in tick. */
-    private static final long DEAD_DELAY_TICK = 60L;
+    /** Stay in dead state during this delay in milli. */
+    private static final long DEAD_DELAY_MS = 1000;
 
     private final Tick tick = new Tick();
 
@@ -41,7 +42,8 @@ public final class StateDead extends State
     {
         super(model, animation);
 
-        addTransition(StateRespawn.class, () -> tick.elapsed(DEAD_DELAY_TICK));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), DEAD_DELAY_MS));
     }
 
     @Override

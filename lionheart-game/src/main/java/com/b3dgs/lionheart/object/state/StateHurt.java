@@ -17,9 +17,11 @@
 package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -36,9 +38,11 @@ public final class StateHurt extends State
 {
     private static final double HURT_JUMP_FORCE = 2.5;
     private static final int FLICKER_COUNT = 16;
+    private static final int FLICKER_DELAY_MS = 16;
 
     private final Hurtable hurtable = model.getFeature(Hurtable.class);
     private final Stats stats = model.getFeature(Stats.class);
+    private final Tick tick = new Tick();
     private final Updatable updateFlicker;
 
     private Updatable updater;
@@ -59,9 +63,11 @@ public final class StateHurt extends State
         addTransition(StateLast.class, () -> !hurtable.isHurting() && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> !hurtable.isHurting() && model.hasFeature(Patrol.class));
 
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+
         updateFlicker = extrp ->
         {
-            if (flicker < FLICKER_COUNT)
+            if (flicker < FLICKER_COUNT && tick.elapsedTime(source.getRate(), FLICKER_DELAY_MS))
             {
                 if (flicker % 3 != 0)
                 {
@@ -87,6 +93,7 @@ public final class StateHurt extends State
                     hurtable.kill();
                 }
                 flicker++;
+                tick.restart();
             }
         };
     }
@@ -127,11 +134,13 @@ public final class StateHurt extends State
         }
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         hurtable.setEnabled(false);
+        tick.restart();
     }
 
     @Override
     public void update(double extrp)
     {
+        tick.update(extrp);
         updater.update(extrp);
         if (!model.hasFeature(Patrol.class))
         {

@@ -35,6 +35,9 @@ public final class Settings
     /** Settings file. */
     public static final String FILENAME = "lionheart.properties";
 
+    /** Version key. */
+    public static final String VERSION = "version";
+
     /** Language key. */
     public static final String LANG = "lang";
 
@@ -43,10 +46,14 @@ public final class Settings
 
     /** Resolution key. */
     public static final String RESOLUTION = "resolution";
+    /** Resolution windowed. */
+    public static final String RESOLUTION_WINDOWED = RESOLUTION + ".windowed";
     /** Resolution width. */
     public static final String RESOLUTION_WIDTH = RESOLUTION + ".width";
     /** Resolution height. */
     public static final String RESOLUTION_HEIGHT = RESOLUTION + ".height";
+    /** Resolution rate. */
+    public static final String RESOLUTION_RATE = RESOLUTION + ".rate";
     /** Resolution resize key. */
     public static final String RESOLUTION_RESIZE = RESOLUTION + ".resize";
 
@@ -89,10 +96,14 @@ public final class Settings
     /** Zoom value. */
     public static final String ZOOM = "zoom";
 
-    /** Flag value. */
+    /** Flag key. */
     public static final String FLAG = "flag";
-    /** Flag value. */
-    public static final String LOAD_PARALLEL = "load.parallel";
+    /** Flag load value. */
+    public static final String FLAG_STRATEGY = FLAG + ".strategy";
+    /** Flag parallel value. */
+    public static final String FLAG_PARALLEL = FLAG + ".parallel";
+    /** Flag sync value. */
+    public static final String FLAG_VSYNC = FLAG + ".vsync";
 
     /** New stages flag. */
     public static final String STAGES = "stages";
@@ -112,6 +123,11 @@ public final class Settings
      */
     public static void load()
     {
+        if (!checkVersion())
+        {
+            FILE.delete();
+        }
+
         if (FILE.exists())
         {
             try (InputStream input = new FileInputStream(FILE))
@@ -184,6 +200,26 @@ public final class Settings
         return FILE;
     }
 
+    /**
+     * Check version validity.
+     * 
+     * @return <code>true</code> if correct, <code>false</code> else.
+     */
+    private static boolean checkVersion()
+    {
+        final Settings settings = new Settings();
+        try (InputStream input = new FileInputStream(FILE))
+        {
+            settings.load(input);
+            return settings.getVersion().equals(Constant.PROGRAM_VERSION.toString());
+        }
+        catch (@SuppressWarnings("unused") final IOException exception)
+        {
+            // Ignore
+        }
+        return false;
+    }
+
     /** Properties data. */
     private final Properties properties = new Properties();
 
@@ -207,6 +243,16 @@ public final class Settings
     }
 
     /**
+     * Get version.
+     * 
+     * @return The version.
+     */
+    public String getVersion()
+    {
+        return properties.getProperty(VERSION, "0.0.0");
+    }
+
+    /**
      * Get language.
      * 
      * @return The language.
@@ -227,6 +273,16 @@ public final class Settings
     }
 
     /**
+     * Get windowed flag.
+     * 
+     * @return The windowed flag.
+     */
+    public boolean getResolutionWindowed()
+    {
+        return getBoolean(RESOLUTION_WINDOWED, true);
+    }
+
+    /**
      * Get output resolution.
      * 
      * @return The output resolution.
@@ -235,7 +291,7 @@ public final class Settings
     {
         return new Resolution(getInt(RESOLUTION_WIDTH, Constant.RESOLUTION.getWidth()),
                               getInt(RESOLUTION_HEIGHT, Constant.RESOLUTION.getHeight()),
-                              Constant.RESOLUTION_OUTPUT.getRate());
+                              getInt(RESOLUTION_RATE, Constant.RESOLUTION.getRate()));
     }
 
     /**
@@ -375,7 +431,7 @@ public final class Settings
      */
     public boolean getBackgroundFlicker()
     {
-        return getBoolean(BACKGROUND_FLICKER, true);
+        return getBoolean(BACKGROUND_FLICKER, false);
     }
 
     /**
@@ -389,13 +445,23 @@ public final class Settings
     }
 
     /**
-     * Get flag value.
+     * Get flag strategy value.
      * 
      * @return The flag value.
      */
-    public int getFlag()
+    public int getFlagStrategy()
     {
-        return getInt(FLAG, 0);
+        return getInt(FLAG_STRATEGY, 0);
+    }
+
+    /**
+     * Get flag sync value.
+     * 
+     * @return The flag sync value.
+     */
+    public boolean getFlagVsync()
+    {
+        return getBoolean(FLAG_VSYNC, false);
     }
 
     /**
@@ -403,9 +469,9 @@ public final class Settings
      * 
      * @return The load parallel value.
      */
-    public boolean getLoadParallel()
+    public boolean getFlagParallel()
     {
-        return getBoolean(LOAD_PARALLEL, true);
+        return getBoolean(FLAG_PARALLEL, true);
     }
 
     /**

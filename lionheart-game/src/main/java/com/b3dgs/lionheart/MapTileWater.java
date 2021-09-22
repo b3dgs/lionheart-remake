@@ -164,7 +164,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
             final double viewX = viewer.getX();
 
             final int vtx = map.getInTileX(viewer);
-            final int vtx2 = vtx + (int) Math.ceil(viewer.getWidth() / (double) map.getTileWidth());
+            final int vtx2 = vtx + (int) Math.ceil(viewer.getWidth() / (double) map.getTileWidth()) + 1;
             int ty;
             final int max = (int) Math.floor((waterHeight - 2) / (double) map.getTileHeight());
 

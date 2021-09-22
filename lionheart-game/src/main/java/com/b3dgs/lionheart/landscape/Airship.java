@@ -39,7 +39,7 @@ final class Airship extends BackgroundAbstract
 
     private static final int TREE_Y = 4;
 
-    private static final double FOREST_SPEED = 1.25;
+    private static final double FOREST_SPEED = 1.5;
     private static final int FOREST_Y = 180;
 
     private final Backdrop backdrop;
@@ -274,7 +274,9 @@ final class Airship extends BackgroundAbstract
         public void update(double extrp, int x, int y, double speed)
         {
             backcolorA.setOffsetY(y);
-            forest.setOffsetX(UtilMath.wrapDouble(forest.getOffsetX() + FOREST_SPEED, 0.0, forestSprite.getWidth()));
+            forest.setOffsetX(UtilMath.wrapDouble(forest.getOffsetX() + FOREST_SPEED * extrp,
+                                                  0.0,
+                                                  forestSprite.getWidth()));
             forest.setOffsetY(y);
         }
 

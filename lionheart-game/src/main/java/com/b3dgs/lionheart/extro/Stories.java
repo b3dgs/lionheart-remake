@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.extro;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.StoriesBase;
 import com.b3dgs.lionheart.StoryRenderer;
@@ -64,11 +65,12 @@ public class Stories extends StoriesBase
 
         final String[] texts = loadTexts(Settings.getInstance().getLang(), 7);
         final int textX = width / 2 - 124;
+        final int offsetX = width / 2 - Constant.RESOLUTION.getWidth() / 2;
 
         // CHECKSTYLE OFF: MagicNumber
-        add(new StoryRenderer(get(PART3, PIC0), 0, 0, texts[0], 1, 128));
-        add(new StoryRenderer(get(PART3, PIC1), 160, 14, texts[1], 1, 128));
-        add(new StoryRenderer(get(PART3, PIC2), 80, 29, texts[2], 1, 128));
+        add(new StoryRenderer(get(PART3, PIC0), offsetX + 0, 0, texts[0], offsetX + 1, 128));
+        add(new StoryRenderer(get(PART3, PIC1), offsetX + 160, 14, texts[1], offsetX + 1, 128));
+        add(new StoryRenderer(get(PART3, PIC2), offsetX + 80, 29, texts[2], offsetX + 1, 128));
         add(new StoryRenderer(get(PART4, CREDITS), width / 2, height / 2, Origin.MIDDLE, null, 0, 0));
         add(new StoryRenderer(get(PART4, CREDITS), width / 2, height / 2, Origin.MIDDLE, texts[3], textX, 22));
         add(new StoryRenderer(get(PART4, CREDITS), width / 2, height / 2, Origin.MIDDLE, texts[4], textX, 22));

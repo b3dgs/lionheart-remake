@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -46,13 +47,16 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
 {
     private static final double VX = -5.0;
     private static final double VY = 2.5;
-    private static final int EFFECT_DELAY = 6;
+    private static final int EFFECT_DELAY_MS = 100;
     private static final int SMOKE_OFFSET_Y = -4;
     private static final String SMOKE_FILE = "Smoke.xml";
 
-    private final Tick tickAlive = new Tick();
-    private final Tick tickEffect = new Tick();
+    private final Tick alive = new Tick();
+    private final Tick effect = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
+
     private int stayDelay;
     private Updatable current;
 
@@ -92,16 +96,17 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
      */
     private void updateFire(double extrp)
     {
-        tickAlive.start();
-        tickAlive.update(extrp);
-        tickEffect.update(extrp);
+        alive.start();
 
-        if (stayDelay > 0 && tickAlive.elapsed(stayDelay))
+        alive.update(extrp);
+        effect.update(extrp);
+
+        if (stayDelay > 0 && alive.elapsedTime(source.getRate(), stayDelay))
         {
-            tickAlive.stop();
+            alive.stop();
             identifiable.destroy();
         }
-        else if (tickEffect.elapsed(EFFECT_DELAY))
+        else if (effect.elapsedTime(source.getRate(), EFFECT_DELAY_MS))
         {
             spawner.spawn(Medias.create(Folder.EFFECT, WorldType.AIRSHIP.getFolder(), SMOKE_FILE),
                           transformable.getX(),
@@ -109,7 +114,7 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
                    .getFeature(EntityModel.class)
                    .getMovement()
                    .setDirection(VX, VY);
-            tickEffect.restart();
+            effect.restart();
         }
     }
 
@@ -123,7 +128,7 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
     public void recycle()
     {
         current = this::updateFire;
-        tickAlive.stop();
-        tickEffect.restart();
+        alive.stop();
+        effect.restart();
     }
 }

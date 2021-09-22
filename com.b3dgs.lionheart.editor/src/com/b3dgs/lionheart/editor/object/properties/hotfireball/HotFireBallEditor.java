@@ -58,7 +58,7 @@ public class HotFireBallEditor extends EditorAbstract<HotFireBallConfig>
     @Override
     protected void createFields(Composite parent, HotFireBallConfig config)
     {
-        delay = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY), VALIDATOR, true);
+        delay = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_DELAY_MS), VALIDATOR, true);
         count = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_COUNT), VALIDATOR, true);
         level = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_LEVEL), VALIDATOR, true);
         vx = new TextWidget(parent, UtilConversion.toTitleCase(HotFireBallConfig.ATT_VX), VALIDATOR_DOUBLE, true);

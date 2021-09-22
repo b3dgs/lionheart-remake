@@ -21,10 +21,12 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -49,8 +51,8 @@ public final class Part2 implements Updatable, Renderable
     private static final int Z_PILLAR_INIT = 25;
     private static final int Z_PILLAR_INDEX_MULT = 13;
 
-    private static final double Z_DOOR_SPEED = 0.07;
-    private static final double Z_PILLAR_SPEED = 0.16;
+    private static final double Z_DOOR_SPEED = 0.08;
+    private static final double Z_PILLAR_SPEED = 0.2;
 
     private static final int PILLAR_AMPLITUDE = 10;
     private static final int PILLAR_AMPLITUDE_INDEX_MULT = 1;
@@ -58,8 +60,8 @@ public final class Part2 implements Updatable, Renderable
     private static final int PILLAR_SCALE_MIN = -20;
     private static final int PILLAR_SCALE_MAX = 500;
 
-    private static final double VALDYN_SPEED_X = -1.05;
-    private static final double VALDYN_SPEED_Y = -1.92;
+    private static final double VALDYN_SPEED_X = -1.25;
+    private static final double VALDYN_SPEED_Y = -2.3;
     private static final int VALDYN_MAX_X = 185;
     private static final int VALDYN_MAX_Y = 16;
 
@@ -70,36 +72,36 @@ public final class Part2 implements Updatable, Renderable
     private static final int EQUIP_HAND_X = 120;
     private static final int EQUIP_HAND_Y = 19;
 
-    private static final int RAGE_FLASH_COUNT = 24;
-    private static final int RAGE_FLASH_MOD = 6;
+    private static final int RAGE_FLASH_DELAY = 40;
+    private static final int RAGE_FLASH_COUNT = 4;
 
-    private static final double SPEED_CAVE_FADE_IN = 4;
+    private static final double SPEED_CAVE_FADE_IN = 3;
     private static final double SPEED_CAVE_FADE_OUT = 12;
     private static final double SPEED_EQUIP_FADE_IN = 12;
     private static final double SPEED_EQUIP_FADE_OUT = 12;
     private static final double SPEED_RAGE_FADE_IN = 8;
-    private static final double SPEED_RAGE_FADE_OUT = 6;
+    private static final double SPEED_RAGE_FADE_OUT = 8;
     private static final double SPEED_RAGE_START = 8;
     private static final double SPEED_RAGE_END = 4;
 
     private static final int TIME_DOOR_OPEN_MS = 47500;
-    private static final int TIME_DOOR_ENTER_MS = 49000;
-    private static final int TIME_CAVE_FADE_IN_MS = 50800;
+    private static final int TIME_DOOR_ENTER_MS = 48700;
+    private static final int TIME_CAVE_FADE_IN_MS = 50500;
     private static final int TIME_VALDYN_MOVE_MS = 66900;
     private static final int TIME_CAVE_FADE_OUT_MS = 71500;
     private static final int TIME_EQUIP_FADE_IN_MS = 72100;
-    private static final int TIME_SHOW_SWORD_MS = 74700;
-    private static final int TIME_EQUIP_SWORD_MS = 75300;
-    private static final int TIME_SHOW_FOOT_MS = 76400;
-    private static final int TIME_EQUIP_FOOT_MS = 77000;
-    private static final int TIME_SHOW_HAND_MS = 78200;
-    private static final int TIME_EQUIP_HAND_MS = 78700;
+    private static final int TIME_SHOW_SWORD_MS = 74800;
+    private static final int TIME_EQUIP_SWORD_MS = 75400;
+    private static final int TIME_SHOW_FOOT_MS = 76500;
+    private static final int TIME_EQUIP_FOOT_MS = 77100;
+    private static final int TIME_SHOW_HAND_MS = 78300;
+    private static final int TIME_EQUIP_HAND_MS = 78800;
     private static final int TIME_EQUIP_FADE_OUT_MS = 81000;
     private static final int TIME_RAGE_FADE_IN_MS = 81500;
     private static final int TIME_RAGE_START_MS = 83600;
-    private static final int TIME_RAGE_FLASH_MS = 84800;
+    private static final int TIME_RAGE_FLASH_MS = 84700;
     private static final int TIME_RAGE_END_MS = 85500;
-    private static final int TIME_RAGE_FADE_OUT_MS = 87500;
+    private static final int TIME_RAGE_FADE_OUT_MS = 86500;
 
     /**
      * Get media from filename.
@@ -130,9 +132,11 @@ public final class Part2 implements Updatable, Renderable
     private final Coord valdynCoord = new Coord(310, 240);
     private final double[] z = new double[2 + pillar.length];
     private final int lastPillarIndex = pillar.length + 1;
+    private final Tick flashTime = new Tick();
     private final Time time;
     private final int width;
     private final int height;
+    private final int rate;
     private final int bandHeight;
 
     private Updatable updaterCave = this::updateDoorInit;
@@ -148,7 +152,7 @@ public final class Part2 implements Updatable, Renderable
 
     private double alpha;
     private double alpha2;
-    private double alpha2old;
+    private int alpha2old;
     private int flash;
 
     /**
@@ -157,14 +161,16 @@ public final class Part2 implements Updatable, Renderable
      * @param time The time reference.
      * @param width The screen width.
      * @param height The screen height.
+     * @param rate The rate.
      */
-    public Part2(Time time, int width, int height)
+    public Part2(Time time, int width, int height, int rate)
     {
         super();
 
         this.time = time;
         this.width = width;
         this.height = height;
+        this.rate = rate;
         bandHeight = (int) (Math.floor(height - BAND_HEIGHT) / 2.0);
     }
 
@@ -198,10 +204,10 @@ public final class Part2 implements Updatable, Renderable
         valdyn2.load();
         valdyn2.setOrigin(Origin.MIDDLE);
 
-        final Animation animDoor = new Animation(Animation.DEFAULT_NAME, 1, 6, 0.15, false, false);
+        final Animation animDoor = new Animation(Animation.DEFAULT_NAME, 1, 6, 0.18, false, false);
         door.play(animDoor);
 
-        final Animation animEquip = new Animation(Animation.DEFAULT_NAME, 1, 3, 0.15, false, false);
+        final Animation animEquip = new Animation(Animation.DEFAULT_NAME, 1, 3, 0.18, false, false);
         equipFoot.play(animEquip);
         equipSword.play(animEquip);
         equipHand.play(animEquip);
@@ -249,12 +255,12 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateDoorEnter(double extrp)
     {
-        z[0] -= Z_DOOR_SPEED;
+        z[0] -= Z_DOOR_SPEED * extrp;
 
-        final double doorZ = UtilMath.clamp(1000 / z[0], 100, 800);
+        final double doorZ = UtilMath.clamp(1000.0 / z[0], 100.0, 800.0);
         door.stretch(doorZ, doorZ);
 
-        if (z[0] < 2)
+        if (z[0] < 2.0)
         {
             updaterCave = this::updateCaveEnter;
             rendererFade = this::renderFade;
@@ -270,7 +276,7 @@ public final class Part2 implements Updatable, Renderable
     {
         for (int i = 1; i < z.length; i++)
         {
-            z[i] -= Z_PILLAR_SPEED;
+            z[i] -= Z_PILLAR_SPEED * extrp;
         }
     }
 
@@ -318,7 +324,7 @@ public final class Part2 implements Updatable, Renderable
     {
         if (time.isAfter(TIME_CAVE_FADE_IN_MS))
         {
-            alpha = 0;
+            alpha = 255.0;
             updaterFade = this::updateFadeInCave;
             rendererFade = this::renderFade;
             rendererCave = this::renderCave;
@@ -332,11 +338,11 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateFadeInCave(double extrp)
     {
-        alpha += SPEED_CAVE_FADE_IN * extrp;
+        alpha -= SPEED_CAVE_FADE_IN * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateFadeOutInitCave;
             rendererFade = this::renderFade;
         }
@@ -363,11 +369,11 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateFadeOutCave(double extrp)
     {
-        alpha -= SPEED_CAVE_FADE_OUT * extrp;
+        alpha += SPEED_CAVE_FADE_OUT * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             updaterFade = this::updateFadeInEquipInit;
             rendererValdyn = RenderableVoid.getInstance();
         }
@@ -382,7 +388,7 @@ public final class Part2 implements Updatable, Renderable
     {
         if (time.isAfter(TIME_EQUIP_FADE_IN_MS))
         {
-            alpha = 0;
+            alpha = 255.0;
             updaterFade = this::updateFadeInEquip;
             rendererValdyn = RenderableVoid.getInstance();
             rendererEquip = this::renderEquip;
@@ -396,11 +402,11 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateFadeInEquip(double extrp)
     {
-        alpha += SPEED_EQUIP_FADE_IN * extrp;
+        alpha -= SPEED_EQUIP_FADE_IN * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateFadeOutEquipInit;
             rendererCave = RenderableVoid.getInstance();
             rendererValdyn = RenderableVoid.getInstance();
@@ -428,11 +434,11 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateFadeOutEquip(double extrp)
     {
-        alpha -= SPEED_EQUIP_FADE_OUT * extrp;
+        alpha += SPEED_EQUIP_FADE_OUT * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             updaterFade = this::updateFadeInRageInit;
             rendererEquip = RenderableVoid.getInstance();
             rendererFade = this::renderFade;
@@ -448,7 +454,7 @@ public final class Part2 implements Updatable, Renderable
     {
         if (time.isAfter(TIME_RAGE_FADE_IN_MS))
         {
-            alpha = 0;
+            alpha = 255.0;
             updaterFade = this::updateFadeInRage;
             rendererCave = RenderableVoid.getInstance();
             rendererEquip = RenderableVoid.getInstance();
@@ -464,11 +470,11 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateFadeInRage(double extrp)
     {
-        alpha += SPEED_RAGE_FADE_IN * extrp;
+        alpha -= SPEED_RAGE_FADE_IN * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateFadeOutRageInit;
         }
     }
@@ -493,11 +499,11 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateFadeOutRage(double extrp)
     {
-        alpha -= SPEED_RAGE_FADE_OUT * extrp;
+        alpha += SPEED_RAGE_FADE_OUT * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             updaterFade = UpdatableVoid.getInstance();
             rendererRage = RenderableVoid.getInstance();
         }
@@ -524,12 +530,12 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateRageStart(double extrp)
     {
-        alpha2old = alpha2;
+        alpha2old = getAlpha2();
         alpha2 += SPEED_RAGE_START * extrp;
 
-        if (alpha2 > 255)
+        if (getAlpha2() > 255)
         {
-            alpha2 = 255;
+            alpha2 = 255.0;
             updaterRage = this::updateRageFlashInit;
         }
     }
@@ -543,6 +549,7 @@ public final class Part2 implements Updatable, Renderable
     {
         if (time.isAfter(TIME_RAGE_FLASH_MS))
         {
+            flashTime.start();
             updaterRage = this::updateRageFlashStart;
         }
     }
@@ -554,11 +561,17 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateRageFlashStart(double extrp)
     {
-        flash++;
+        flashTime.update(extrp);
+        if (flashTime.elapsedTime(rate, RAGE_FLASH_DELAY))
+        {
+            flash++;
+            flashTime.restart();
+        }
 
-        if (flash > RAGE_FLASH_COUNT)
+        if (flash > RAGE_FLASH_COUNT * 2)
         {
             flash = 0;
+            flashTime.stop();
             updaterRage = this::updateRageEndInit;
         }
     }
@@ -583,12 +596,12 @@ public final class Part2 implements Updatable, Renderable
      */
     private void updateRageEnd(double extrp)
     {
-        alpha2old = alpha2;
+        alpha2old = getAlpha2();
         alpha2 -= SPEED_RAGE_END * extrp;
 
-        if (alpha2 < 0)
+        if (getAlpha2() < 0)
         {
-            alpha2 = 0;
+            alpha2 = 0.0;
             updaterRage = UpdatableVoid.getInstance();
         }
     }
@@ -670,7 +683,8 @@ public final class Part2 implements Updatable, Renderable
      */
     private void renderDoor(Graphic g)
     {
-        door.setLocation(Math.floor(width / 2.0) - door.getTileWidth() / 2, height / 2 - door.getTileHeight() / 2);
+        door.setLocation(Math.floor(width / 2.0) - door.getTileWidth() / 2.0,
+                         height / 2.0 - door.getTileHeight() / 2.0);
         door.render(g);
     }
 
@@ -683,20 +697,20 @@ public final class Part2 implements Updatable, Renderable
     {
         if (z[lastPillarIndex] > 0)
         {
-            final double caveZ = UtilMath.clamp(1000 / z[lastPillarIndex], 5, 100);
-            if (caveZ < 100)
+            final double caveZ = UtilMath.clamp(1000.0 / z[lastPillarIndex], 5.0, 100.0);
+            if (caveZ < 100.0)
             {
                 cave1.stretch(caveZ, caveZ);
             }
         }
-        cave1.setLocation(width / 2 - cave1.getWidth() / 2, height / 2 - cave1.getHeight() / 2);
+        cave1.setLocation(width / 2.0 - cave1.getWidth() / 2.0, height / 2.0 - cave1.getHeight() / 2.0);
         cave1.render(g);
 
         // Render pillars
         for (int i = pillar.length - 1; i >= 0; i--)
         {
             final double newPillarZ = z[1 + i];
-            if (newPillarZ > 0)
+            if (newPillarZ > 0.0)
             {
                 final double pillarZ = 1000.0 / newPillarZ;
                 final double offset;
@@ -710,8 +724,8 @@ public final class Part2 implements Updatable, Renderable
                 }
                 final double scale = UtilMath.clamp(pillarZ, PILLAR_SCALE_MIN, PILLAR_SCALE_MAX);
                 pillar[i].stretch(PILLAR_SCALE_BASE + scale, PILLAR_SCALE_BASE + scale);
-                pillar[i].setLocation(width / 2 - pillar[i].getWidth() / 2 + offset,
-                                      height / 2 - pillar[i].getHeight() / 2);
+                pillar[i].setLocation(width / 2.0 - pillar[i].getWidth() / 2.0 + offset,
+                                      height / 2.0 - pillar[i].getHeight() / 2.0);
                 pillar[i].render(g);
             }
         }
@@ -724,7 +738,7 @@ public final class Part2 implements Updatable, Renderable
      */
     private void renderValdyn(Graphic g)
     {
-        valdyn.setLocation((int) valdynCoord.getX(), (int) valdynCoord.getY() + bandHeight);
+        valdyn.setLocation(valdynCoord.getX(), valdynCoord.getY() + bandHeight);
         valdyn.render(g);
     }
 
@@ -735,7 +749,7 @@ public final class Part2 implements Updatable, Renderable
      */
     private void renderEquip(Graphic g)
     {
-        cave2.setLocation(width / 2, height / 2);
+        cave2.setLocation(width / 2.0, height / 2.0);
         cave2.render(g);
     }
 
@@ -785,7 +799,7 @@ public final class Part2 implements Updatable, Renderable
      */
     private void renderRage(Graphic g)
     {
-        valdyn0.setLocation(width / 2, height / 2);
+        valdyn0.setLocation(width / 2.0, height / 2.0);
         valdyn0.render(g);
     }
 
@@ -798,18 +812,38 @@ public final class Part2 implements Updatable, Renderable
     {
         renderRage(g);
 
-        if (Double.compare(alpha2old, alpha2) != 0)
+        if (alpha2old != alpha2)
         {
-            valdyn1.setAlpha((int) alpha2);
+            valdyn1.setAlpha(getAlpha2());
         }
-        valdyn1.setLocation(width / 2, height / 2);
+        valdyn1.setLocation(width / 2.0, height / 2.0);
         valdyn1.render(g);
 
-        if (!UtilMath.isBetween(flash % RAGE_FLASH_MOD, 0, RAGE_FLASH_MOD / 2 - 1))
+        if (flash % 2 == 1)
         {
-            valdyn2.setLocation(width / 2, height / 2);
+            valdyn2.setLocation(width / 2.0, height / 2.0);
             valdyn2.render(g);
         }
+    }
+
+    /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
+     * Get alpha2 value.
+     * 
+     * @return The alpha2 value.
+     */
+    private int getAlpha2()
+    {
+        return (int) Math.floor(alpha2);
     }
 
     /**
@@ -819,8 +853,13 @@ public final class Part2 implements Updatable, Renderable
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, width, height, true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, width, height, true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     /**

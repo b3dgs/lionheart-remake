@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -45,12 +46,14 @@ import com.b3dgs.lionheart.object.XmlSaver;
 @FeatureInterface
 public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable
 {
-    private static final double SPEED_MOVE = 0.5;
-    private static final double SPEED_CLOSE = -2.0;
+    private static final double SPEED_MOVE = 0.6;
+    private static final double SPEED_CLOSE = -2.4;
     private static final int MIN_Y = -6;
     private static final int MAX_Y = 80;
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private PillarConfig config;
     private Updatable updater;
@@ -72,6 +75,8 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
     public Pillar(Services services, Setup setup)
     {
         super(services, setup);
+
+        load(setup.getRoot());
     }
 
     /**
@@ -89,8 +94,10 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
      */
     private void updateDelay(double extrp)
     {
+        tick.start();
+
         tick.update(extrp);
-        if (tick.elapsed(config.getDelay()))
+        if (tick.elapsedTime(source.getRate(), config.getDelay()))
         {
             rasterable.setVisibility(true);
             collidable.setEnabled(true);
@@ -105,7 +112,7 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
      */
     private void updateMove(double extrp)
     {
-        y += SPEED_MOVE * side;
+        y += SPEED_MOVE * side * extrp;
         if (y > MAX_Y)
         {
             y = MAX_Y;
@@ -125,7 +132,7 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
      */
     private void updateClose(double extrp)
     {
-        y += SPEED_CLOSE;
+        y += SPEED_CLOSE * extrp;
         if (y < MIN_Y)
         {
             identifiable.destroy();
@@ -149,16 +156,16 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
     @Override
     public void load(XmlReader root)
     {
-        load(new PillarConfig(root));
+        if (setup.hasNode(PillarConfig.NODE_PILLARD))
+        {
+            load(new PillarConfig(root));
+        }
     }
 
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -171,10 +178,10 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
     @Override
     public void recycle()
     {
-        config = null;
         rasterable.setVisibility(false);
         collidable.setEnabled(false);
         updater = UpdatableVoid.getInstance();
+        tick.stop();
         side = 1;
     }
 }

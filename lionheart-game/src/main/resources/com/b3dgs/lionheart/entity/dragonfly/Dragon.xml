@@ -17,8 +17,8 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="patrol" start="1" end="8" speed="0.15" reversed="false" repeat="true"/>
-        <lionengine:animation name="attack" start="1" end="8" speed="0.15" reversed="false" repeat="true"/>
+        <lionengine:animation name="patrol" start="1" end="8" speed="0.18" reversed="false" repeat="true"/>
+        <lionengine:animation name="attack" start="1" end="8" speed="0.18" reversed="false" repeat="true"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -30,7 +30,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/dragonfly/Bullet1.xml" sfx="sfx/monster_dragonball.wav" ox="16" oy="16">
-            <lionengine:force velocity="1" sensibility="0" vx="2.5" vy="0.0"/>
+            <lionengine:force velocity="1" sensibility="0" vx="3.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
@@ -38,8 +38,8 @@
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shade horizontal="4" vertical="2"/>
     <model mirror="true"/>
-    <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
-    <patrol sh="0.25" sv="0.05" delay="500" amplitude="20" curve="true" mirror="false"/>
-    <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
-    <shooter fireDelay="70" firedDelay="0" svx="-1.0" svy="0.0"/>
+    <patrol sh="-0.85" sv="0.0" amplitude="112" mirror="false"/>
+    <patrol sh="0.3" sv="0.06" delay="8000" amplitude="20" curve="true" mirror="false"/>
+    <patrol sh="-0.85" sv="0.0" amplitude="0" mirror="false"/>
+    <shooter fireDelay="1000" firedDelay="0" svx="-1.2" svy="0.0"/>
 </lionengine:featurable>

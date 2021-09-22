@@ -11,11 +11,11 @@
     <lionengine:size width="96" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="walk" start="1" end="11" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="attack" start="12" end="14" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="fall" start="15" end="15" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="dead" start="14" end="16" speed="0.1" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="walk" start="1" end="11" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="attack" start="12" end="14" speed="0.3" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="15" end="15" speed="0.3" reversed="false" repeat="false"/>
+        <lionengine:animation name="dead" start="14" end="16" speed="0.12" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="-16" offsetY="8" width="48" height="32" mirror="false"/>
@@ -27,12 +27,12 @@
     </lionengine:categories>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher level="0">
-        <lionengine:launchable media="entity/spidercave3/Spider1.xml" ox="0" oy="16" delay="0">
+        <lionengine:launchable media="entity/spidercave2/Spider1.xml" ox="0" oy="16" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:launcher level="1">
-        <lionengine:launchable media="boss/spidercave3/Bowl.xml" ox="-48" oy="16" delay="0">
+        <lionengine:launchable media="boss/spidercave2/Bowl.xml" ox="-48" oy="16" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="-1.5" vy="2.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

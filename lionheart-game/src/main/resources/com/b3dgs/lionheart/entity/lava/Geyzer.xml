@@ -11,7 +11,7 @@
     <lionengine:size width="48" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="8" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="8" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="44" height="32" mirror="false"/>
@@ -19,6 +19,6 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <geyzer delayStart="100" delayDown="100" height="56"/>
+    <geyzer delayStart="1500" delayDown="1500" height="48"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

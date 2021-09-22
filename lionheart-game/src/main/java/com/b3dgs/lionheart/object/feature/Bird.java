@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.Sfx;
@@ -53,9 +54,15 @@ import com.b3dgs.lionheart.object.state.StatePatrol;
 @FeatureInterface
 public final class Bird extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final long TICK_GLUE = 200L;
+    private static final int IDLE_TIME_MS = 3000;
 
     private final Tick tick = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private DeviceController device;
+    private boolean hit;
+    private Force old;
 
     @FeatureGet private EntityModel model;
     @FeatureGet private Animatable animatable;
@@ -65,10 +72,6 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     @FeatureGet private Collidable collidable;
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Glue glue;
-
-    private DeviceController device;
-    private boolean hit;
-    private Force old;
 
     /**
      * Create feature.
@@ -86,12 +89,13 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     public void update(double extrp)
     {
         tick.update(extrp);
+
         if (hit && !hurtable.isHurting())
         {
             hit = false;
             stateHandler.changeState(StateIdle.class);
         }
-        if (tick.elapsed(TICK_GLUE))
+        if (tick.elapsedTime(source.getRate(), IDLE_TIME_MS))
         {
             stateHandler.changeState(StatePatrol.class);
             launchable.setVector(old);
@@ -108,7 +112,7 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
         {
             old = launchable.getDirection();
             launchable.setVector(null);
-            tick.restart();
+            tick.start();
             Sfx.MONSTER_HURT.play();
             hit = true;
             device = model.getInput();

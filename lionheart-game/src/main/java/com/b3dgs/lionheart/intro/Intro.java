@@ -51,7 +51,7 @@ public class Intro extends Sequence
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
     private static final int SPEED_FADE_IN = 4;
-    private static final int SPEED_FADE_OUT = 8;
+    private static final int SPEED_FADE_OUT = 10;
 
     private static final int TIME_PART2_MS = 47500;
     private static final int TIME_PART3_MS = 93800;
@@ -63,7 +63,7 @@ public class Intro extends Sequence
 
     private final Time time = new Time(getRate());
     private final Part1 part1;
-    private final Part2 part2 = new Part2(time, getWidth(), getHeight());
+    private final Part2 part2 = new Part2(time, getWidth(), getHeight(), getRate());
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
     private final AppInfo info;
     private final DeviceController deviceCursor;
@@ -74,7 +74,7 @@ public class Intro extends Sequence
     private Renderable rendererPart = this::renderPart1;
     private Renderable rendererFade = this::renderFade;
 
-    private double alpha;
+    private double alpha = 255.0;
 
     /**
      * Constructor.
@@ -83,7 +83,7 @@ public class Intro extends Sequence
      */
     public Intro(Context context)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH));
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
 
         part1 = new Part1(time, getWidth(), getHeight(), getWideFactor(context));
 
@@ -124,11 +124,11 @@ public class Intro extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateSkip;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -156,11 +156,11 @@ public class Intro extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             audio.stop();
             end(Menu.class);
         }
@@ -219,15 +219,29 @@ public class Intro extends Sequence
     }
 
     /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
      * Render fade.
      * 
      * @param g The graphic output.
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
-        g.setColor(ColorRgba.BLACK);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     @Override
@@ -237,8 +251,15 @@ public class Intro extends Sequence
         part2.load();
 
         load(Part3.class, time, audio);
+    }
+
+    @Override
+    protected void onLoaded(double extrp, Graphic g)
+    {
+        super.onLoaded(extrp, g);
 
         audio.play();
+        time.start();
     }
 
     @Override

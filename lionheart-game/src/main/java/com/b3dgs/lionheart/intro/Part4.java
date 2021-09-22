@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.game.feature.Services;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -44,7 +45,7 @@ import com.b3dgs.lionheart.menu.Menu;
  */
 public class Part4 extends Sequence
 {
-    private static final int FADE_SPEED = 8;
+    private static final int FADE_SPEED = 6;
 
     private static final int STORY0_INDEX = 0;
     private static final int STORY1_INDEX = 1;
@@ -53,8 +54,8 @@ public class Part4 extends Sequence
 
     private static final int TIME_START_MS = 114200;
     private static final int TIME_STORY1_MS = 130000;
-    private static final int TIME_STORY2_MS = 155200;
-    private static final int TIME_STORY3_MS = 180200;
+    private static final int TIME_STORY2_MS = 155300;
+    private static final int TIME_STORY3_MS = 180600;
     private static final int TIME_END_MS = 200200;
 
     /** Device controller reference. */
@@ -62,7 +63,7 @@ public class Part4 extends Sequence
     /** Alpha speed. */
     int alphaSpeed = FADE_SPEED;
 
-    private final Stories stories = new Stories();
+    private final Stories stories = new Stories(getWidth(), getHeight());
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
@@ -71,7 +72,7 @@ public class Part4 extends Sequence
     private Updatable updater = this::updateInit;
     private Renderable rendererFade = this::renderFade;
 
-    private double alpha;
+    private double alpha = 255.0;
 
     /**
      * Constructor.
@@ -82,7 +83,7 @@ public class Part4 extends Sequence
      */
     public Part4(Context context, Time time, Audio audio)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
@@ -123,18 +124,18 @@ public class Part4 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updater = this::updateStory1;
             rendererFade = RenderableVoid.getInstance();
         }
     }
 
     /**
-     * Update first story timing.
+     * Update first story delay.
      * 
      * @param extrp The extrapolation value.
      */
@@ -148,7 +149,7 @@ public class Part4 extends Sequence
     }
 
     /**
-     * Update second story timing.
+     * Update second story delay.
      * 
      * @param extrp The extrapolation value.
      */
@@ -162,7 +163,7 @@ public class Part4 extends Sequence
     }
 
     /**
-     * Update third story timing.
+     * Update third story delay.
      * 
      * @param extrp The extrapolation value.
      */
@@ -176,7 +177,7 @@ public class Part4 extends Sequence
     }
 
     /**
-     * Update start fading out timing.
+     * Update start fading out delay.
      * 
      * @param extrp The extrapolation value.
      */
@@ -196,11 +197,11 @@ public class Part4 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             audio.stop();
             end(Menu.class);
             updater = UpdatableVoid.getInstance();
@@ -220,14 +221,29 @@ public class Part4 extends Sequence
     }
 
     /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
      * Render fade.
      * 
      * @param g The graphic output.
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     @Override

@@ -30,7 +30,7 @@ public final class PillarConfig implements XmlSaver
     /** Pillar node name. */
     public static final String NODE_PILLARD = "pillar";
     /** Delay attribute name. */
-    public static final String ATT_DELAY = "delay";
+    public static final String ATT_DELAY_MS = "delay";
 
     /** Delay. */
     private final int delay;
@@ -47,7 +47,7 @@ public final class PillarConfig implements XmlSaver
 
         Check.notNull(root);
 
-        delay = root.getInteger(ATT_DELAY);
+        delay = root.getInteger(ATT_DELAY_MS);
     }
 
     /**
@@ -75,6 +75,6 @@ public final class PillarConfig implements XmlSaver
     @Override
     public void save(Xml root)
     {
-        root.writeInteger(ATT_DELAY, delay);
+        root.writeInteger(ATT_DELAY_MS, delay);
     }
 }

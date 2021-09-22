@@ -18,7 +18,8 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -27,9 +28,9 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StatePrepareJump extends State
 {
-    private static final long TICK = 50;
+    private static final long DELAY_MS = 1000;
 
-    private final Tick prepareTick = new Tick();
+    private final Tick tick = new Tick();
 
     /**
      * Create the state.
@@ -41,7 +42,8 @@ public final class StatePrepareJump extends State
     {
         super(model, animation);
 
-        addTransition(StateJump.class, () -> prepareTick.elapsed(TICK));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StateJump.class, () -> tick.elapsedTime(source.getRate(), DELAY_MS));
     }
 
     @Override
@@ -49,23 +51,18 @@ public final class StatePrepareJump extends State
     {
         super.enter();
 
-        prepareTick.restart();
+        movement.zero();
+        jump.zero();
+        jump.setVelocity(0.12);
+        body.setGravityMax(Constant.GRAVITY / 3);
+        tick.restart();
     }
 
     @Override
     public void update(double extrp)
     {
-        prepareTick.update(extrp);
-        movement.setDirection(DirectionNone.INSTANCE);
-        movement.setDestination(0.0, 0.0);
-        jump.setDirection(DirectionNone.INSTANCE);
-    }
+        super.update(extrp);
 
-    @Override
-    public void exit()
-    {
-        super.exit();
-
-        prepareTick.stop();
+        tick.update(extrp);
     }
 }

@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -60,10 +61,10 @@ import com.b3dgs.lionheart.object.feature.Trackable;
 // CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public class Part2 extends Sequence
 {
-    private static final int FADE_SPEED = 3;
+    private static final int FADE_SPEED = 5;
     private static final int X = 24;
     private static final int Y = 110;
-    private static final double BACKGROUND_SPEED = 1.0;
+    private static final double BACKGROUND_SPEED = 1.2;
 
     private static final String PART2_FOLDER = "part2";
     private static final String FOLDER_DRAGONFLY = "dragonfly";
@@ -97,7 +98,7 @@ public class Part2 extends Sequence
 
     private Renderable rendererFade = this::renderFade;
 
-    private double alpha;
+    private double alpha = 255.0;
 
     /**
      * Constructor.
@@ -109,7 +110,7 @@ public class Part2 extends Sequence
      */
     public Part2(Context context, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
@@ -123,7 +124,7 @@ public class Part2 extends Sequence
         services.add((CheatsProvider) () -> false);
         services.add(new CheckpointHandler(services));
         services.add(new MapTileWater(services));
-        services.add((LoadNextStage) (next, tickDelay, spawn) ->
+        services.add((LoadNextStage) (next, delayMs, spawn) ->
         {
             // Mock
         });
@@ -167,11 +168,11 @@ public class Part2 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateFadeOutInit;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -198,13 +199,23 @@ public class Part2 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             end();
         }
+    }
+
+    /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
     }
 
     /**
@@ -214,8 +225,13 @@ public class Part2 extends Sequence
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     @Override
@@ -230,10 +246,9 @@ public class Part2 extends Sequence
     public void update(double extrp)
     {
         time.update(extrp);
-        background.update(extrp, BACKGROUND_SPEED, 0, 0);
+        background.update(extrp, BACKGROUND_SPEED * extrp, 0, 0);
         handler.update(extrp);
         updaterFade.update(extrp);
-
         info.update(extrp);
 
         if (device.isFiredOnce(DeviceMapping.FORCE_EXIT))

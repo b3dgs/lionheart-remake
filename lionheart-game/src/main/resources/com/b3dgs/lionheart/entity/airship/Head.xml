@@ -11,12 +11,12 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="attack" start="1" end="5" speed="0.15" reversed="true" repeat="false"/>
+        <lionengine:animation name="attack" start="1" end="5" speed="0.18" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Bullet1b.xml" sfx="sfx/scenery_head.wav" ox="-18" oy="2">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
 </lionengine:featurable>

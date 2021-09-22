@@ -12,23 +12,23 @@
     <lionengine:size width="224" height="192"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="2" speed="0.4" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="2" speed="0.48" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="7" layerDisplay="0"/>
     <lionengine:launcher>
         <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="0">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="6">
+        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="100">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="12">
+        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="200">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="18">
+        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="300">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
-        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="24">
+        <lionengine:launchable media="boss/swamp/Bowl.xml" ox="0" oy="0" delay="400">
             <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>

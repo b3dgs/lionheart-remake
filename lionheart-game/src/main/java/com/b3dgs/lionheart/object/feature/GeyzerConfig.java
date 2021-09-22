@@ -30,11 +30,11 @@ public final class GeyzerConfig implements XmlSaver
     /** Config node name. */
     public static final String NODE_GEYZER = "geyzer";
     /** First delay attribute name. */
-    public static final String ATT_DELAY_FIRST = "delayFirst";
+    public static final String ATT_FIRST_DELAY_MS = "delayFirst";
     /** Start delay attribute name. */
-    public static final String ATT_DELAY_START = "delayStart";
+    public static final String ATT_START_DELAY_MS = "delayStart";
     /** Down delay attribute name. */
-    public static final String ATT_DELAY_DOWN = "delayDown";
+    public static final String ATT_DOWN_DELAY_MS = "delayDown";
     /** Height attribute name. */
     public static final String ATT_HEIGHT = "height";
 
@@ -90,9 +90,9 @@ public final class GeyzerConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_GEYZER);
-        delayFirst = node.getInteger(0, ATT_DELAY_FIRST);
-        delayStart = node.getInteger(ATT_DELAY_START);
-        delayDown = node.getInteger(ATT_DELAY_DOWN);
+        delayFirst = node.getInteger(0, ATT_FIRST_DELAY_MS);
+        delayStart = node.getInteger(ATT_START_DELAY_MS);
+        delayDown = node.getInteger(ATT_DOWN_DELAY_MS);
         height = node.getInteger(ATT_HEIGHT);
     }
 
@@ -140,9 +140,9 @@ public final class GeyzerConfig implements XmlSaver
     public void save(Xml root)
     {
         final Xml node = root.createChild(NODE_GEYZER);
-        node.writeInteger(ATT_DELAY_FIRST, delayFirst);
-        node.writeInteger(ATT_DELAY_START, delayStart);
-        node.writeInteger(ATT_DELAY_DOWN, delayDown);
+        node.writeInteger(ATT_FIRST_DELAY_MS, delayFirst);
+        node.writeInteger(ATT_START_DELAY_MS, delayStart);
+        node.writeInteger(ATT_DOWN_DELAY_MS, delayDown);
         node.writeInteger(ATT_HEIGHT, height);
     }
 
@@ -156,9 +156,9 @@ public final class GeyzerConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Geyzer [");
-        add(builder, ATT_DELAY_FIRST, delayFirst);
-        add(builder, ATT_DELAY_START, delayStart);
-        add(builder, ATT_DELAY_DOWN, delayDown);
+        add(builder, ATT_FIRST_DELAY_MS, delayFirst);
+        add(builder, ATT_START_DELAY_MS, delayStart);
+        add(builder, ATT_DOWN_DELAY_MS, delayDown);
         add(builder, ATT_HEIGHT, height);
         builder.append("]");
         return builder.toString();

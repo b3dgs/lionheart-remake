@@ -104,6 +104,12 @@ public enum StageAlternativeHard implements Media
     }
 
     @Override
+    public boolean isJar()
+    {
+        return file.isJar();
+    }
+
+    @Override
     public String getName()
     {
         return file.getName();

@@ -11,8 +11,8 @@
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="bite" start="1" end="4" speed="0.25" reversed="true" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="attack" start="1" end="4" speed="0.3" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="left_vertical" offsetX="-12" offsetY="0" width="1" height="20" mirror="false"/>

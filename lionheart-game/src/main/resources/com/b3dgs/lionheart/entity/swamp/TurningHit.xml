@@ -15,11 +15,11 @@
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.2" reversed="false" repeat="false">
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="ground" x="0" y="20" width="28" height="1"/>
         </lionengine:animation>
-        <lionengine:animation name="hurt" start="1" end="9" speed="0.2" reversed="false" repeat="false"/>
-        <lionengine:animation name="turn" start="2" end="9" speed="0.2" reversed="false" repeat="true">
+        <lionengine:animation name="hurt" start="1" end="9" speed="0.24" reversed="false" repeat="false"/>
+        <lionengine:animation name="turn" start="2" end="9" speed="0.24" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="body" x="0" y="10" width="28" height="16"/>
         </lionengine:animation>
     </lionengine:animations>
@@ -29,4 +29,5 @@
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="-1" persist="true"/>
     <shade horizontal="3" vertical="3"/>
+    <sheet hide="false"/>
 </lionengine:featurable>

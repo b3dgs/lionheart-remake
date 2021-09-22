@@ -57,6 +57,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListen
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
@@ -82,10 +83,10 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackGrip;
 public final class Hurtable extends FeatureModel
                             implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
-    private static final long HURT_RECOVER_ATTACK_TICK = 20L;
-    private static final long HURT_RECOVER_BODY_TICK = 120L;
-    private static final long HURT_FLICKER_TICK_DURATION = 120L;
-    private static final long HURT_FLICKER_TICK_SWITCH = 8;
+    private static final int HURT_RECOVER_ATTACK_DELAY_MS = 300;
+    private static final int HURT_RECOVER_BODY_DELAY_MS = 2000;
+    private static final int HURT_FLICKER_DURATION_MS = 2000;
+    private static final int HURT_FLICKER_SWITCH_DELAY_MS = 130;
     private static final int SPIKE_DAMAGES = 1;
 
     private final Force hurtForce = new Force();
@@ -93,16 +94,18 @@ public final class Hurtable extends FeatureModel
     private final Tick flicker = new Tick();
     private final SpriteAnimated shade;
     private final double hurtForceValue;
-    private final Spawner spawner = services.get(Spawner.class);
-    private final Viewer viewer = services.get(Viewer.class);
-    private final LoadNextStage stage = services.get(LoadNextStage.class);
-    private final MapTileWater mapWater = services.get(MapTileWater.class);
     private final Optional<Media> effect;
     private final OptionalInt frame;
     private final boolean persist;
     private final boolean fall;
     private final Sfx sfx;
     private final boolean boss;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Spawner spawner = services.get(Spawner.class);
+    private final Viewer viewer = services.get(Viewer.class);
+    private final LoadNextStage stage = services.get(LoadNextStage.class);
+    private final MapTileWater mapWater = services.get(MapTileWater.class);
 
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
@@ -156,8 +159,8 @@ public final class Hurtable extends FeatureModel
         }
 
         hurtForce.setDestination(0.0, 0.0);
-        hurtForce.setSensibility(0.01);
-        hurtForce.setVelocity(0.1);
+        hurtForce.setSensibility(0.5);
+        hurtForce.setVelocity(0.14);
         hurtForceValue = config.getBackward().orElse(0.0);
 
     }
@@ -235,7 +238,7 @@ public final class Hurtable extends FeatureModel
      */
     public boolean isHurting()
     {
-        return !recover.elapsed(HURT_RECOVER_ATTACK_TICK);
+        return !recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS);
     }
 
     /**
@@ -245,7 +248,7 @@ public final class Hurtable extends FeatureModel
      */
     public boolean isHurtingBody()
     {
-        return !recover.elapsed(HURT_RECOVER_BODY_TICK);
+        return !recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS);
     }
 
     /**
@@ -269,7 +272,7 @@ public final class Hurtable extends FeatureModel
     {
         if (enabled
             && collidable.getGroup() == Constant.COLL_GROUP_PLAYER
-            && recover.elapsed(HURT_RECOVER_ATTACK_TICK)
+            && recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS)
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
             && with.getName().startsWith(CollisionName.BODY)
             && by.getName().startsWith(Anim.ATTACK))
@@ -277,7 +280,7 @@ public final class Hurtable extends FeatureModel
             updateCollideAttack(collidable, by);
         }
         if (collidable.getGroup() != Constant.COLL_GROUP_PLAYER
-            && recover.elapsed(HURT_RECOVER_BODY_TICK)
+            && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
             && with.getName().startsWith(Anim.BODY)
             && by.getName().startsWith(Anim.ATTACK))
         {
@@ -305,7 +308,7 @@ public final class Hurtable extends FeatureModel
             {
                 oldGravity = body.getGravity();
                 oldGravityMax = body.getGravityMax();
-                body.setGravity(4.0);
+                body.setGravity(0.25);
                 body.setGravityMax(4.0);
                 tileCollidable.setEnabled(true);
                 this.collidable.setEnabled(false);
@@ -371,7 +374,7 @@ public final class Hurtable extends FeatureModel
      */
     private void updateTile(CollisionResult result, CollisionCategory category)
     {
-        if (recover.elapsed(HURT_RECOVER_BODY_TICK)
+        if (recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
             && (category.getAxis() == Axis.Y && result.contains(CollisionName.SPIKE)
                 || (category.getName().equals(CollisionName.KNEE_CENTER)
                     || category.getName().startsWith(CollisionName.KNEE_X_CENTER))
@@ -428,12 +431,12 @@ public final class Hurtable extends FeatureModel
      */
     private void updateFlicker(double extrp)
     {
-        flicker.update(extrp);
         if (!stateHandler.isState(StateHurt.class))
         {
-            rasterable.setVisibility(flicker.elapsed() % HURT_FLICKER_TICK_SWITCH < HURT_FLICKER_TICK_SWITCH / 2);
+            rasterable.setVisibility(flicker.elapsedTime(source.getRate())
+                                     % HURT_FLICKER_SWITCH_DELAY_MS < HURT_FLICKER_SWITCH_DELAY_MS / 2);
         }
-        if (flicker.elapsed(HURT_FLICKER_TICK_DURATION))
+        if (flicker.elapsedTime(source.getRate(), HURT_FLICKER_DURATION_MS))
         {
             flickerCurrent = UpdatableVoid.getInstance();
             rasterable.setVisibility(true);
@@ -488,8 +491,10 @@ public final class Hurtable extends FeatureModel
     @Override
     public void update(double extrp)
     {
-        hurtForce.update(extrp);
         recover.update(extrp);
+        flicker.update(extrp);
+
+        hurtForce.update(extrp);
         flickerCurrent.update(extrp);
         model.getMovement().addDirection(extrp, hurtForce);
 
@@ -536,6 +541,6 @@ public final class Hurtable extends FeatureModel
             body.setGravityMax(oldGravityMax);
         }
         recover.restart();
-        recover.set(HURT_RECOVER_BODY_TICK);
+        recover.set(HURT_RECOVER_BODY_DELAY_MS);
     }
 }

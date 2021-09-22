@@ -84,6 +84,11 @@ public final class Spider extends FeatureModel
     public Spider(Services services, Setup setup)
     {
         super(services, setup);
+
+        if (setup.hasNode(SpiderConfig.NODE_SPIDER))
+        {
+            config = new SpiderConfig(setup.getRoot());
+        }
     }
 
     @Override
@@ -150,10 +155,7 @@ public final class Spider extends FeatureModel
     @Override
     public void save(Xml root)
     {
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override
@@ -161,8 +163,8 @@ public final class Spider extends FeatureModel
     {
         super.prepare(provider);
 
-        body.setGravity(6.5);
-        body.setGravityMax(6.5);
+        body.setGravity(0.54);
+        body.setGravityMax(6.6);
     }
 
     @Override
@@ -176,14 +178,14 @@ public final class Spider extends FeatureModel
             if (stateHandler.isState(StatePatrolCeil.class))
             {
                 stateHandler.changeState(StateFall.class);
-                body.setGravity(4.5);
-                body.setGravityMax(4.5);
+                body.setGravity(0.45);
+                body.setGravityMax(5.4);
             }
             else if (enabled && !tracked)
             {
                 tracked = true;
-                body.setGravity(6.5);
-                body.setGravityMax(6.5);
+                body.setGravity(0.65);
+                body.setGravityMax(7.8);
                 stateHandler.changeState(StateJumpSpider.class);
 
                 if (distance > 0)

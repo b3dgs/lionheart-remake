@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.audio.Audio;
@@ -43,6 +44,7 @@ import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
@@ -69,7 +71,7 @@ import com.b3dgs.lionheart.constant.Folder;
 public class Part5 extends Sequence
 {
     private static final Animation OPEN = new Animation("open", 1, 8, 0.18, false, false);
-    private static final int FADE_SPEED = 6;
+    private static final int FADE_SPEED = 8;
 
     private static final String PART5_FOLDER = "part5";
     private static final String FILE_TRANSFORM1 = "Transform1.xml";
@@ -79,7 +81,7 @@ public class Part5 extends Sequence
 
     private static final int TRANSFORM_Y = 24;
     private static final int TRANSFORM_FLICK_COUNT = 5;
-    private static final int TRANSFORM_FLICK_DELAY_TICK = 16;
+    private static final int TRANSFORM_FLICK_DELAY_MS = 250;
     private static final int EYE_Y = 57;
 
     private static final int TIME_TRANSFORM1_MS = 141600;
@@ -161,15 +163,15 @@ public class Part5 extends Sequence
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
+    private final Tick tick = new Tick();
 
     private Updatable updaterFade = this::updateFadeIn;
     private Updatable updaterTransform = this::updateTransform1;
 
     private Renderable rendererFade = this::renderFade;
 
-    private double alpha;
-    private double alpha0b;
-    private int flick0c;
+    private double alpha = 255.0;
+    private double alphaTransform;
     private int flicked0c;
     private int effect;
 
@@ -183,7 +185,7 @@ public class Part5 extends Sequence
      */
     public Part5(Context context, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
@@ -212,11 +214,11 @@ public class Part5 extends Sequence
      */
     private void updateFadeIn(double extrp)
     {
-        alpha += alphaSpeed * extrp;
+        alpha -= alphaSpeed * extrp;
 
-        if (alpha > 255)
+        if (getAlpha() < 0)
         {
-            alpha = 255;
+            alpha = 0.0;
             updaterFade = this::updateFadeOutInit;
             rendererFade = RenderableVoid.getInstance();
         }
@@ -243,11 +245,11 @@ public class Part5 extends Sequence
      */
     private void updateFadeOut(double extrp)
     {
-        alpha -= alphaSpeed * extrp;
+        alpha += alphaSpeed * extrp;
 
-        if (alpha < 0)
+        if (getAlpha() > 255)
         {
-            alpha = 0;
+            alpha = 255.0;
             end();
             updaterFade = UpdatableVoid.getInstance();
         }
@@ -287,14 +289,14 @@ public class Part5 extends Sequence
      */
     private void updateTransformAlphaIn(double extrp)
     {
-        alpha0b += alphaSpeed * extrp;
+        alphaTransform += alphaSpeed * extrp;
 
-        if (alpha0b > 255)
+        if (alphaTransform > 255.0)
         {
-            alpha0b = 255;
+            alphaTransform = 255.0;
             updaterTransform = this::updateTransform2;
         }
-        transform0b.setAlpha((int) Math.floor(alpha0b));
+        transform0b.setAlpha((int) Math.floor(alphaTransform));
     }
 
     /**
@@ -391,6 +393,7 @@ public class Part5 extends Sequence
         if (time.isAfter(TIME_TRANSFORM_FLICKER_MS))
         {
             updaterTransform = this::updateTransformFlicker;
+            tick.restart();
         }
     }
 
@@ -401,11 +404,11 @@ public class Part5 extends Sequence
      */
     private void updateTransformFlicker(double extrp)
     {
-        flick0c++;
-        if (flick0c > TRANSFORM_FLICK_DELAY_TICK)
+        tick.update(extrp);
+        if (tick.elapsedTime(getRate(), TRANSFORM_FLICK_DELAY_MS))
         {
-            flick0c -= TRANSFORM_FLICK_DELAY_TICK;
             flicked0c++;
+            tick.restart();
         }
         if (flicked0c > TRANSFORM_FLICK_COUNT)
         {
@@ -447,14 +450,14 @@ public class Part5 extends Sequence
      */
     private void updateTransformAlphaOut(double extrp)
     {
-        alpha0b -= alphaSpeed * extrp;
+        alphaTransform -= alphaSpeed * extrp;
 
-        if (alpha0b < 0)
+        if (getAlphaTransform() < 0)
         {
-            alpha0b = 0;
+            alphaTransform = 0.0;
             updaterTransform = this::updateTransformOpenEyesInit;
         }
-        transform0b.setAlpha((int) Math.floor(alpha0b));
+        transform0b.setAlpha(getAlphaTransform());
     }
 
     /**
@@ -482,14 +485,39 @@ public class Part5 extends Sequence
     }
 
     /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
+     * Get alpha transform value.
+     * 
+     * @return The alpha transform value.
+     */
+    private int getAlphaTransform()
+    {
+        return (int) Math.floor(alphaTransform);
+    }
+
+    /**
      * Render fade effect.
      * 
      * @param g The graphic output.
      */
     private void renderFade(Graphic g)
     {
-        g.setColor(Constant.ALPHAS_BLACK[255 - (int) Math.floor(alpha)]);
-        g.drawRect(0, 0, getWidth(), getHeight(), true);
+        final int a = getAlpha();
+        if (a > 0)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[a]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
+        }
     }
 
     @Override
@@ -537,7 +565,7 @@ public class Part5 extends Sequence
         transform0a.setLocation(getWidth() / 2, TRANSFORM_Y);
         transform0a.render(g);
 
-        if (flick0c > TRANSFORM_FLICK_DELAY_TICK / 2 || flicked0c > TRANSFORM_FLICK_COUNT)
+        if (flicked0c % 2 == 1 || flicked0c > TRANSFORM_FLICK_COUNT)
         {
             transform0c.setLocation(getWidth() / 2, TRANSFORM_Y);
             transform0c.render(g);

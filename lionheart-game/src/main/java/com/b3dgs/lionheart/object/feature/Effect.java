@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.state.StateIdle;
 
@@ -48,11 +49,13 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
 {
     private static final String NODE_SFX_EXPLODE = "sfx_explode";
     private static final String ATT_COUNT = "count";
-    private static final int TICK_DELAY = 9;
+    private static final int DELAY_MS = 150;
 
-    private final Viewer viewer = services.get(Viewer.class);
     private final Tick tick = new Tick();
     private final int count;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Viewer viewer = services.get(Viewer.class);
 
     private int current;
 
@@ -93,7 +96,7 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (current < count && tick.elapsed(TICK_DELAY))
+        if (current < count && tick.elapsedTime(source.getRate(), DELAY_MS))
         {
             if (viewer.isViewable(transformable, 0, 0))
             {
@@ -110,6 +113,6 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
         stateHandler.changeState(StateIdle.class);
         current = 0;
         tick.restart();
-        tick.set(TICK_DELAY);
+        tick.set(DELAY_MS);
     }
 }

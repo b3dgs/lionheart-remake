@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.state.executioner;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.state.StateLast;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -27,7 +28,7 @@ import com.b3dgs.lionheart.object.State;
  */
 public final class StateExecutionerDefense extends State
 {
-    private static final int DEFENSE_TICK = 30;
+    private static final int DEFENSE_DELAY_MS = 500;
 
     private final Tick tick = new Tick();
 
@@ -41,7 +42,8 @@ public final class StateExecutionerDefense extends State
     {
         super(model, animation);
 
-        addTransition(StateLast.class, () -> tick.elapsed(DEFENSE_TICK));
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+        addTransition(StateLast.class, () -> tick.elapsedTime(source.getRate(), DEFENSE_DELAY_MS));
     }
 
     @Override

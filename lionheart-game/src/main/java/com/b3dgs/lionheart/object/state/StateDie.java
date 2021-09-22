@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -36,8 +37,8 @@ public final class StateDie extends State
     private static final double DIE_VY = 3.0;
     /** Vertical die acceleration. */
     private static final double DIE_AY = -0.15;
-    /** Stay in die state during this delay in tick. */
-    private static final long DIE_DELAY_TICK = 30L;
+    /** Stay in die state during this delay in milli. */
+    private static final long DIE_DELAY_MS = 500;
 
     private final Tick tick = new Tick();
     private final Stats stats = model.getFeature(Stats.class);
@@ -59,8 +60,10 @@ public final class StateDie extends State
     {
         super(model, animation);
 
+        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
         addTransition(StateDead.class,
-                      () -> tick.elapsed(DIE_DELAY_TICK) || x - transformable.getX() > DIE_HORIZONTAL_OFFSET_MAX);
+                      () -> tick.elapsedTime(source.getRate(), DIE_DELAY_MS)
+                            || x - transformable.getX() > DIE_HORIZONTAL_OFFSET_MAX);
     }
 
     @Override

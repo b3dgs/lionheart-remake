@@ -30,7 +30,7 @@ public final class HotFireBallConfig implements XmlSaver
     /** Hurtable node name. */
     public static final String NODE_HOTFIREBALL = "hotfireball";
     /** Delay attribute name. */
-    public static final String ATT_DELAY = "delay";
+    public static final String ATT_DELAY_MS = "delay";
     /** Count attribute name. */
     public static final String ATT_COUNT = "count";
     /** Level attribute name. */
@@ -97,7 +97,7 @@ public final class HotFireBallConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_HOTFIREBALL);
-        delay = node.getInteger(ATT_DELAY);
+        delay = node.getInteger(ATT_DELAY_MS);
         count = node.getInteger(ATT_COUNT);
         level = node.getInteger(ATT_LEVEL);
         vx = node.getDouble(ATT_VX);
@@ -158,7 +158,7 @@ public final class HotFireBallConfig implements XmlSaver
     public void save(Xml root)
     {
         final Xml node = root.createChild(NODE_HOTFIREBALL);
-        node.writeInteger(ATT_DELAY, delay);
+        node.writeInteger(ATT_DELAY_MS, delay);
         node.writeInteger(ATT_COUNT, count);
         node.writeInteger(ATT_LEVEL, level);
         node.writeDouble(ATT_VX, vx);
@@ -180,7 +180,7 @@ public final class HotFireBallConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("HotFireBall [");
-        add(builder, ATT_DELAY, delay);
+        add(builder, ATT_DELAY_MS, delay);
         add(builder, ATT_COUNT, count);
         add(builder, ATT_LEVEL, level);
         add(builder, ATT_VX, vx);

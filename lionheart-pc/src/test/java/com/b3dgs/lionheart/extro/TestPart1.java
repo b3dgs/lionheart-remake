@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.io.DeviceActionModel;
 import com.b3dgs.lionengine.io.DevicePush;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Time;
@@ -47,7 +48,7 @@ public final class TestPart1 extends Part1
      */
     TestPart1(Context context, DevicePush push, List<TickAction> actions)
     {
-        super(context, new Time(60), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
+        super(context, new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
 
         device.addFire(push, DeviceMapping.UP.getIndex(), new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
         device.addFire(push, DeviceMapping.DOWN.getIndex(), new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));

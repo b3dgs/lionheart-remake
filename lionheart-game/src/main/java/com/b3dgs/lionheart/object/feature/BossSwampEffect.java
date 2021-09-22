@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 
 /**
  * Boss Swamp 1 effect.
@@ -34,12 +35,14 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 public final class BossSwampEffect extends FeatureModel implements Recyclable
 {
     /** Fly effect speed. */
-    static final double EFFECT_SPEED = 0.2;
+    static final double EFFECT_SPEED = 0.24;
     /** Fly effect margin. */
     static final int EFFECT_MARGIN = 5;
 
     private final Tick effectTickX = new Tick();
     private final Tick effectTickY = new Tick();
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private double effectX;
     private double effectY;
@@ -88,12 +91,12 @@ public final class BossSwampEffect extends FeatureModel implements Recyclable
         effectTickX.update(extrp);
         effectTickY.update(extrp);
 
-        if (effectTickX.elapsed(10L) && UtilRandom.getRandomInteger(100) == 0)
+        if (effectTickX.elapsedTime(source.getRate(), 175) && UtilRandom.getRandomInteger(100) == 0)
         {
             effectX = -effectX;
             effectTickX.restart();
         }
-        if (effectTickY.elapsed(10L) && UtilRandom.getRandomInteger(100) == 0)
+        if (effectTickY.elapsedTime(source.getRate(), 175) && UtilRandom.getRandomInteger(100) == 0)
         {
             effectY = -effectY;
             effectTickY.restart();

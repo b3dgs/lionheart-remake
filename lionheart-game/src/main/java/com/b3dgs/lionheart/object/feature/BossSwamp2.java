@@ -50,6 +50,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.Music;
@@ -79,32 +80,37 @@ import com.b3dgs.lionheart.object.SetupEntity;
 @FeatureInterface
 public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
 {
-    private static final int END_TICK = 500;
+    private static final int END_DELAY_MS = 8000;
     private static final int PALLET_OFFSET = 2;
-    private static final double MOVE_BACK_X = 0.8;
+    private static final double MOVE_BACK_X = 1.0;
     private static final double MOVE_BACK_X_MARGIN = 64;
-    private static final double MOVE_LEFT_X = -4.0;
+    private static final double MOVE_LEFT_X = -4.8;
     private static final double GROUND_Y = 122;
     private static final double MIN_Y_MOVE_BACK = 200;
     private static final double MAX_Y = 388;
-    private static final int STAND_DELAY = 300;
+    private static final int STAND_DELAY_MS = 5000;
+    private static final int FLICKER_DELAY_MS = 15;
     private static final int FLICKER_MAX = 20;
-    private static final double MOVE_LEAVE_X = -4.0;
-    private static final int EXPLODE_DELAY = 5;
-    private static final double MOVE_DEAD_X = -0.2;
-    private static final double MOVE_DEAD_Y = -0.5;
-    private static final Animation FLY_ANIMATION = new Animation(Animation.DEFAULT_NAME, 1, 2, 0.4, false, true);
+    private static final double MOVE_LEAVE_X = -4.8;
+    private static final int EXPLODE_DELAY_MS = 80;
+    private static final double MOVE_DEAD_X = -0.24;
+    private static final double MOVE_DEAD_Y = -0.6;
+    private static final Animation FLY_ANIMATION = new Animation(Animation.DEFAULT_NAME, 1, 2, 0.48, false, true);
 
     private final Tick tick = new Tick();
+    private final Tick tickFlicker = new Tick();
+    private final SpriteAnimated fly = Drawable.loadSpriteAnimated(Medias.create(Folder.BOSS, "swamp", "Boss2fly.png"),
+                                                                   4,
+                                                                   2);
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Camera camera = services.get(Camera.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
-    private final SpriteAnimated fly = Drawable.loadSpriteAnimated(Medias.create(Folder.BOSS, "swamp", "Boss2fly.png"),
-                                                                   4,
-                                                                   2);
+
     private final Animation idle;
     private final Animation land;
     private final SpriteAnimated shade;
@@ -170,7 +176,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                         {
                             step = 10;
                             music.playMusic(Music.BOSS_WIN);
-                            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_TICK));
+                            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_DELAY_MS));
                             tick.restart();
                         }
                     }
@@ -178,7 +184,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
                 });
                 if (step == 8)
                 {
-                    tick.set(STAND_DELAY);
+                    tick.set(STAND_DELAY_MS);
                 }
             }
         };
@@ -327,7 +333,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private void takeOff(double extrp)
     {
         tick.update(extrp);
-        if (step == 6 && tick.elapsed(STAND_DELAY))
+        if (step == 6 && tick.elapsedTime(source.getRate(), STAND_DELAY_MS))
         {
             neck.setEnabled(listener);
             animatable.play(idle);
@@ -380,7 +386,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         }
 
         tick.update(extrp);
-        if (tick.elapsed(STAND_DELAY))
+        if (tick.elapsedTime(source.getRate(), STAND_DELAY_MS))
         {
             lastX = transformable.getX();
             moveX = MOVE_LEAVE_X;
@@ -421,7 +427,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         moveY = MOVE_DEAD_Y;
 
         tick.update(extrp);
-        if (tick.elapsed(EXPLODE_DELAY))
+        if (tick.elapsedTime(source.getRate(), EXPLODE_DELAY_MS))
         {
             spawnExplode();
             spawnExplode();
@@ -446,16 +452,25 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
 
     /**
      * Update hurt flicker effect.
+     * 
+     * @param extrp The extrapolation value.
      */
-    private void updateFlickerHurt()
+    private void updateFlickerHurt(double extrp)
     {
         rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * PALLET_OFFSET);
         if (flickerCount > 0)
         {
-            flickerCount++;
-            if (flickerCount > FLICKER_MAX)
+            tickFlicker.start();
+
+            tickFlicker.update(extrp);
+            if (tickFlicker.elapsedTime(source.getRate(), FLICKER_DELAY_MS))
             {
-                flickerCount = 0;
+                flickerCount++;
+                if (flickerCount > FLICKER_MAX)
+                {
+                    flickerCount = 0;
+                }
+                tickFlicker.stop();
             }
         }
     }
@@ -534,7 +549,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         neck.setLocation(transformable);
         neck.setFrameOffset(getFrameOffset());
 
-        updateFlickerHurt();
+        updateFlickerHurt(extrp);
     }
 
     @Override
@@ -565,7 +580,6 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         movedY = false;
         launcher.setLevel(0);
         step = 0;
-        tick.restart();
         collidable.setEnabled(true);
         animatable.play(idle);
         flyAnim.play(FLY_ANIMATION);

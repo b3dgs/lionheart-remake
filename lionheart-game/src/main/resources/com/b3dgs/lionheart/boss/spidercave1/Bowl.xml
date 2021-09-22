@@ -10,8 +10,8 @@
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="fall" start="1" end="3" speed="0.15" reversed="true" repeat="true"/>
-        <lionengine:animation name="hatch" start="4" end="6" speed="0.2" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="1" end="3" speed="0.18" reversed="true" repeat="true"/>
+        <lionengine:animation name="hatch" start="4" end="6" speed="0.24" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="8" height="14" mirror="false"/>

@@ -12,7 +12,7 @@
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="left_vertical" x="0" y="0" width="1" height="90"/>
         </lionengine:animation>
-        <lionengine:animation name="fall" start="1" end="80" speed="0.8" reversed="false" repeat="false">
+        <lionengine:animation name="fall" start="1" end="80" speed="0.95" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="left_vertical" number="1" x="0" y="0" width="1" height="79"/>
             <lionengine:collisionFramed prefix="left_vertical" number="2" x="0" y="0" width="1" height="78"/>
             <lionengine:collisionFramed prefix="left_vertical" number="3" x="0" y="0" width="1" height="77"/>

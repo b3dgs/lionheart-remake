@@ -33,9 +33,9 @@ public final class ShooterConfig implements XmlSaver
     /** Shooter node name. */
     public static final String NODE_SHOOTER = "shooter";
     /** Fire delay attribute name. */
-    public static final String ATT_FIRE_DELAY = "fireDelay";
+    public static final String ATT_FIRE_DELAY_MS = "fireDelay";
     /** Fired delay attribute name. */
-    public static final String ATT_FIRED_DELAY = "firedDelay";
+    public static final String ATT_FIRED_DELAY_MS = "firedDelay";
     /** Fire anim attribute name. */
     public static final String ATT_ANIM = "anim";
     /** Fire horizontal force start attribute name. */
@@ -119,8 +119,8 @@ public final class ShooterConfig implements XmlSaver
         Check.notNull(root);
 
         final XmlReader node = root.getChild(NODE_SHOOTER);
-        fireDelay = node.getInteger(ATT_FIRE_DELAY);
-        firedDelay = node.getInteger(ATT_FIRED_DELAY);
+        fireDelay = node.getInteger(ATT_FIRE_DELAY_MS);
+        firedDelay = node.getInteger(ATT_FIRED_DELAY_MS);
         anim = node.getInteger(0, ATT_ANIM);
         svx = node.getDouble(ATT_SVX);
         svy = node.getDouble(ATT_SVY);
@@ -213,8 +213,8 @@ public final class ShooterConfig implements XmlSaver
     public void save(Xml root)
     {
         final Xml node = root.createChild(NODE_SHOOTER);
-        node.writeInteger(ATT_FIRE_DELAY, fireDelay);
-        node.writeInteger(ATT_FIRED_DELAY, firedDelay);
+        node.writeInteger(ATT_FIRE_DELAY_MS, fireDelay);
+        node.writeInteger(ATT_FIRED_DELAY_MS, firedDelay);
         node.writeInteger(ATT_ANIM, anim);
         node.writeDouble(ATT_SVX, svx);
         node.writeDouble(ATT_SVY, svy);
@@ -251,8 +251,8 @@ public final class ShooterConfig implements XmlSaver
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Shooter [");
-        add(builder, ATT_FIRE_DELAY, fireDelay);
-        add(builder, ATT_FIRED_DELAY, firedDelay);
+        add(builder, ATT_FIRE_DELAY_MS, fireDelay);
+        add(builder, ATT_FIRED_DELAY_MS, firedDelay);
         add(builder, ATT_ANIM, anim);
         add(builder, ATT_SVX, svx);
         add(builder, ATT_SVY, svy);

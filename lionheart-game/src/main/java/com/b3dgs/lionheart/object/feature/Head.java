@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
+import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -40,11 +41,13 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Head extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRE_DELAY_TICK = 100;
+    private static final int FIRE_DELAY_MS = 1500;
 
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation fire;
+
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private int phase;
 
@@ -71,7 +74,8 @@ public final class Head extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         tick.update(extrp);
-        if (phase == 0 && tick.elapsed(FIRE_DELAY_TICK))
+
+        if (phase == 0 && tick.elapsedTime(source.getRate(), FIRE_DELAY_MS))
         {
             animatable.play(fire);
             phase = 1;

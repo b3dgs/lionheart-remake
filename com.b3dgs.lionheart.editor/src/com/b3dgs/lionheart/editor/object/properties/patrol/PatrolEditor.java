@@ -75,7 +75,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         coll = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_COLL), parent);
         proximity = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_PROXIMITY), VALIDATOR, true);
         animOffset = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_ANIMOFFSET), VALIDATOR, true);
-        delay = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_DELAY), VALIDATOR, true);
+        delay = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_DELAY_MS), VALIDATOR, true);
         curve = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_CURVE), parent);
 
         mirror.setOrientation(SWT.RIGHT_TO_LEFT);

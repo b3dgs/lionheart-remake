@@ -76,9 +76,9 @@ public final class EntityModel extends EntityModelHelper
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int PREFIX = State.class.getSimpleName().length();
 
-    private static final double DEFAULT_MOVEMENT_VELOCITY = 0.1;
-    private static final double DEFAULT_MOVEMENT_SENSIBILITY = 0.001;
-    private static final double DEFAULT_JUMP_VELOCITY = 0.18;
+    private static final double DEFAULT_MOVEMENT_VELOCITY = 0.12;
+    private static final double DEFAULT_MOVEMENT_SENSIBILITY = 0.1;
+    private static final double DEFAULT_JUMP_VELOCITY = 0.22;
     private static final double DEFAULT_JUMP_SENSIBILITY = 0.1;
 
     /**
@@ -128,6 +128,11 @@ public final class EntityModel extends EntityModelHelper
 
         final FramesConfig config = FramesConfig.imports(setup);
         frames = config.getHorizontal() * config.getVertical();
+
+        if (setup.hasNode(ModelConfig.NODE_MODEL))
+        {
+            this.config = new ModelConfig(setup.getRoot());
+        }
     }
 
     @Override
@@ -142,9 +147,7 @@ public final class EntityModel extends EntityModelHelper
                                                 .booleanValue();
 
             checker.setCheckerUpdate(() -> alwaysUpdate
-                                           || camera.isViewable(transformable,
-                                                                transformable.getWidth(),
-                                                                transformable.getHeight()));
+                                           || camera.isViewable(transformable, 0, transformable.getHeight()));
             checker.setCheckerRender(() -> camera.isViewable(transformable, 0, transformable.getHeight() * 2));
         }
 
@@ -154,8 +157,6 @@ public final class EntityModel extends EntityModelHelper
         jump.setVelocity(DEFAULT_JUMP_VELOCITY);
         jump.setSensibility(DEFAULT_JUMP_SENSIBILITY);
         jump.setDestination(0.0, 0.0);
-
-        body.setDesiredFps(source.getRate());
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
@@ -354,7 +355,10 @@ public final class EntityModel extends EntityModelHelper
     @Override
     public void load(XmlReader root)
     {
-        config = new ModelConfig(root);
+        if (root.hasNode(ModelConfig.NODE_MODEL))
+        {
+            config = new ModelConfig(root);
+        }
         mirrorable.mirror(config.getMirror().orElse(mirror).booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
     }
@@ -369,10 +373,7 @@ public final class EntityModel extends EntityModelHelper
         root.writeDouble(EntityConfig.ATT_TY,
                          transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
 
-        if (config != null)
-        {
-            config.save(root);
-        }
+        config.save(root);
     }
 
     @Override

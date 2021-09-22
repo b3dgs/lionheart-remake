@@ -13,7 +13,7 @@
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="10" speed="0.3" reversed="false" repeat="true"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -22,7 +22,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Laser.xml" sfx="sfx/monster_laserairship.wav" ox="0" oy="-80">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
@@ -30,4 +30,5 @@
     <stats health="3"/>
     <hurtable effect="effect/airship/ExplodeBig.xml"/>
     <shade horizontal="5" vertical="2"/>
+    <laser fireDelay="1500" stayDelay="1500"/>
 </lionengine:featurable>
