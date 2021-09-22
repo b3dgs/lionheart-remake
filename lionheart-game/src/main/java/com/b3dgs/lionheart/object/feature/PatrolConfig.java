@@ -50,6 +50,8 @@ public final class PatrolConfig implements XmlSaver
     public static final String ATT_COLL = "coll";
     /** Proximity attribute name. */
     public static final String ATT_PROXIMITY = "proximity";
+    /** Sight attribute name. */
+    public static final String ATT_SIGHT = "sight";
     /** Vertical animation offset attribute name. */
     public static final String ATT_ANIMOFFSET = "animOffset";
     /** Patrol delay offset attribute name. */
@@ -90,6 +92,8 @@ public final class PatrolConfig implements XmlSaver
     private final Optional<Boolean> coll;
     /** Perform movement update on proximity. */
     private final OptionalInt proximity;
+    /** Perform movement update on sight. */
+    private final OptionalInt sight;
     /** Vertical animation offset. */
     private final OptionalInt animOffset;
     /** Patrol delay. */
@@ -111,6 +115,7 @@ public final class PatrolConfig implements XmlSaver
         mirror = Optional.empty();
         coll = Optional.empty();
         proximity = OptionalInt.empty();
+        sight = OptionalInt.empty();
         animOffset = OptionalInt.empty();
         delay = OptionalInt.empty();
         curve = Optional.empty();
@@ -134,6 +139,7 @@ public final class PatrolConfig implements XmlSaver
         mirror = root.getBooleanOptional(ATT_MIRROR);
         coll = root.getBooleanOptional(ATT_COLL);
         proximity = root.getIntegerOptional(ATT_PROXIMITY);
+        sight = root.getIntegerOptional(ATT_SIGHT);
         animOffset = root.getIntegerOptional(ATT_ANIMOFFSET);
         delay = root.getIntegerOptional(ATT_DELAY_MS);
         curve = root.getBooleanOptional(ATT_CURVE);
@@ -149,6 +155,7 @@ public final class PatrolConfig implements XmlSaver
      * @param mirror The mirror flag.
      * @param coll The collide turn flag.
      * @param proximity The proximity value.
+     * @param sight The sight value.
      * @param animOffset The animation offset value.
      * @param delay The delay value.
      * @param curve The curve value.
@@ -160,6 +167,7 @@ public final class PatrolConfig implements XmlSaver
                         Optional<Boolean> mirror,
                         Optional<Boolean> coll,
                         OptionalInt proximity,
+                        OptionalInt sight,
                         OptionalInt animOffset,
                         OptionalInt delay,
                         Optional<Boolean> curve)
@@ -173,6 +181,7 @@ public final class PatrolConfig implements XmlSaver
         this.mirror = mirror;
         this.coll = coll;
         this.proximity = proximity;
+        this.sight = sight;
         this.animOffset = animOffset;
         this.delay = delay;
         this.curve = curve;
@@ -246,6 +255,16 @@ public final class PatrolConfig implements XmlSaver
     public OptionalInt getProximity()
     {
         return proximity;
+    }
+
+    /**
+     * Get the sight value.
+     * 
+     * @return The sight value.
+     */
+    public OptionalInt getSight()
+    {
+        return sight;
     }
 
     /**

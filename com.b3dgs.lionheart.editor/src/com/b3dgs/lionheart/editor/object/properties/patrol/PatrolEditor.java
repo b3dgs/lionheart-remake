@@ -49,6 +49,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
     private Button mirror;
     private Button coll;
     private TextWidget proximity;
+    private TextWidget sight;
     private TextWidget animOffset;
     private TextWidget delay;
     private Button curve;
@@ -74,6 +75,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         mirror = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_MIRROR), parent);
         coll = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_COLL), parent);
         proximity = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_PROXIMITY), VALIDATOR, true);
+        sight = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_SIGHT), VALIDATOR, true);
         animOffset = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_ANIMOFFSET), VALIDATOR, true);
         delay = new TextWidget(parent, UtilConversion.toTitleCase(PatrolConfig.ATT_DELAY_MS), VALIDATOR, true);
         curve = UtilButton.createCheck(UtilConversion.toTitleCase(PatrolConfig.ATT_CURVE), parent);
@@ -89,6 +91,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         mirror.setSelection(true);
         coll.setSelection(false);
         proximity.set(Constant.EMPTY_STRING);
+        sight.set(Constant.EMPTY_STRING);
         animOffset.set(Constant.EMPTY_STRING);
         delay.set(Constant.EMPTY_STRING);
         curve.setSelection(false);
@@ -100,6 +103,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
         mirror.setSelection(config.getMirror().orElse(Boolean.TRUE).booleanValue());
         config.getColl().ifPresent(b -> coll.setSelection(b.booleanValue()));
         config.getProximity().ifPresent(proximity::set);
+        config.getSight().ifPresent(sight::set);
         config.getAnimOffset().ifPresent(animOffset::set);
         config.getDelay().ifPresent(delay::set);
         config.getCurve().ifPresent(b -> curve.setSelection(b.booleanValue()));
@@ -124,6 +128,7 @@ public class PatrolEditor extends EditorAbstract<PatrolConfig>
                                               mirror.getSelection() ? Optional.empty() : Optional.of(Boolean.FALSE),
                                               get(coll),
                                               proximity.getValue(),
+                                              sight.getValue(),
                                               animOffset.getValue(),
                                               delay.getValue(),
                                               get(curve)));

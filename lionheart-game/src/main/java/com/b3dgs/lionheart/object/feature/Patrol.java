@@ -78,6 +78,7 @@ public final class Patrol extends FeatureModel
     private int offset;
     private boolean coll;
     private int proximity;
+    private int sight;
     private int animOffset;
     private int delay;
     private boolean curve;
@@ -151,6 +152,7 @@ public final class Patrol extends FeatureModel
         config.getProximity().ifPresent(p ->
         {
             proximity = p;
+            config.getSight().ifPresent(s -> sight = s);
             enabled = false;
         });
         config.getCurve().ifPresent(c -> curve = c.booleanValue());
@@ -340,7 +342,8 @@ public final class Patrol extends FeatureModel
         {
             if (Math.abs(transformable.getX() - target.getX()) < proximity)
             {
-                enabled = true;
+                System.out.println(target.getY() - transformable.getY());
+                enabled = sight == 0 || Math.abs(target.getY() - transformable.getY()) < sight;
             }
             else if (stats.getHealth() > 0)
             {
