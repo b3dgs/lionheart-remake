@@ -10,9 +10,6 @@
     <artifactId>lionheart-game</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart Game</name>
-    <properties>
-        <checkstyle.skip>true</checkstyle.skip>
-    </properties>
     <build>
         <resources>
             <resource>
