@@ -32,9 +32,9 @@ import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.TaskFuture;
 
 /**
- * Test correct {@link StageHard} loading.
+ * Test correct {@link StageAlternative} loading.
  */
-final class StageHardTest
+final class StageAlternativeTest
 {
     /**
      * Init engine.
@@ -69,12 +69,12 @@ final class StageHardTest
      * @param stage The stage value.
      */
     @ParameterizedTest
-    @EnumSource(StageHard.class)
-    void testStageHard(StageHard stage)
+    @EnumSource(StageAlternative.class)
+    void testStageAlternative(StageAlternative stage)
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
-                                             stage.exists() ? stage : Stage.values()[stage.ordinal()],
+                                             stage,
                                              Constant.INIT_STANDARD,
                                              Boolean.TRUE);
         task.await();

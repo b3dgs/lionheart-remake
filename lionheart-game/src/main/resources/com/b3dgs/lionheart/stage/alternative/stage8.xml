@@ -12,7 +12,7 @@
     <entities>
         <entity file="entity/tower/Spike1.xml" tx="12.0" ty="8.0"/>
         <entity file="entity/tower/Spike1.xml" tx="21.0" ty="13.0">
-            <spike delay="50"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="21.0" ty="18.0">
             <rotating extremity="SpikeBowl.xml" length="3" speed="2.5"/>
@@ -27,11 +27,11 @@
             <patrol amplitude="48" sh="-0.4"/>
         </entity>
         <entity file="entity/tower/Spike1.xml" tx="21.0" ty="28.0">
-            <spike delay="75"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/tower/Spike1.xml" tx="25.0" ty="33.0"/>
         <entity file="entity/tower/Spike1.xml" tx="19.0" ty="37.0">
-            <spike delay="150"/>
+            <spike delay="2500"/>
         </entity>
         <entity file="entity/tower/Crawling.xml" tx="25.0" ty="40.0">
             <patrol amplitude="48" sh="0.4"/>
@@ -47,10 +47,10 @@
         <entity file="entity/tower/Spike1.xml" tx="21.0" ty="63.0"/>
         <entity file="entity/tower/Face.xml" tx="11.0" ty="78.0">
             <model mirror="true"/>
-            <shooter anim="6" fireDelay="150" firedDelay="0" svx="1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="2500" firedDelay="0" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="78.0">
-            <shooter anim="6" fireDelay="1600" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="2500" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="25.0" ty="80.0">
             <rotating extremity="SpikeBowl.xml" length="2" speed="-2.0"/>
@@ -63,11 +63,11 @@
         </entity>
         <entity file="entity/tower/Face.xml" tx="11.0" ty="106.0">
             <model mirror="true"/>
-            <shooter anim="6" fireDelay="400" firedDelay="0" svx="1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="4000" firedDelay="0" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="90.0">
             <model mirror="false"/>
-            <shooter anim="6" fireDelay="150" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="2500" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Spike1.xml" tx="21.0" ty="98.0"/>
         <entity file="entity/tower/Crawling.xml" tx="29.0" ty="88.0">
@@ -78,7 +78,7 @@
         </entity>
         <entity file="entity/tower/Face.xml" tx="11.0" ty="112.0">
             <model mirror="true"/>
-            <shooter anim="6" fireDelay="400" firedDelay="0" svx="1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="4000" firedDelay="0" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Spike1.xml" tx="14.0" ty="117.0">
             <spike delay="50"/>
@@ -88,16 +88,16 @@
         </entity>
         <entity file="entity/tower/Face.xml" tx="11.0" ty="120.0">
             <model mirror="true"/>
-            <shooter anim="6" fireDelay="150" firedDelay="0" svx="1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="2500" firedDelay="0" svx="1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="120.0">
-            <shooter anim="6" fireDelay="1600" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/RotatingPlatform360.xml" tx="21.0" ty="125.0">
             <rotating extremity="Platform1.xml" length="4" speed="1.5"/>
         </entity>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="135.0">
-            <shooter anim="6" fireDelay="1600" firedDelay="0" svx="-1.0" svy="0.0"/>
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/tower/Crawling.xml" tx="13.0" ty="134.0">
             <patrol amplitude="32" sh="0.4"/>
