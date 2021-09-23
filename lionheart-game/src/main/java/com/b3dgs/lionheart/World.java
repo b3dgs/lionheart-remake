@@ -91,6 +91,8 @@ import com.b3dgs.lionheart.object.state.StateWin;
  */
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
+    private static final int MOUSE_HIDE_DELAY_MS = 1000;
+
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final CheckpointHandler checkpoint;
     private final Hud hud = services.create(Hud.class);
@@ -100,6 +102,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Cursor cursor;
 
     private final Tick tick = new Tick();
+    private final Tick tickMouse = new Tick();
     private final List<CheatMenu> menus = new ArrayList<>();
 
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -645,12 +648,29 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             pressed = deviceCursor.isFiredOnce(DeviceMapping.LEFT);
         }
-        else if (!fly && deviceCursor.isFiredOnce(DeviceMapping.RIGHT))
+        else if (!fly)
         {
-            cheatsMenu = true;
-            cursor.setInputDevice(null);
+            if (tickMouse.elapsedTime(source.getRate(), MOUSE_HIDE_DELAY_MS))
+            {
+                tickMouse.stop();
+                sequencer.setSystemCursorVisible(false);
+            }
+            else
+            {
+                if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
+                {
+                    tickMouse.restart();
+                    sequencer.setSystemCursorVisible(true);
+                }
+            }
+            if (deviceCursor.isFiredOnce(DeviceMapping.RIGHT))
+            {
+                cheatsMenu = true;
+                cursor.setInputDevice(null);
+                sequencer.setSystemCursorVisible(true);
 
-            Util.showMenu(camera, cursor, menus, 0, 0);
+                Util.showMenu(camera, cursor, menus, 0, 0);
+            }
         }
         else if (deviceCursor.isFiredOnce(DeviceMapping.RIGHT))
         {
@@ -854,6 +874,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         Sfx.cacheEnd();
 
+        tickMouse.stop();
         tick.restart();
     }
 
@@ -1018,6 +1039,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void update(double extrp)
     {
+        tickMouse.update(extrp);
         device.update(extrp);
         deviceCursor.update(extrp);
         cursor.update(extrp);

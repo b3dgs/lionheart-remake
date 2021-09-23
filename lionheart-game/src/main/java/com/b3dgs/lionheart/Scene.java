@@ -98,7 +98,7 @@ public class Scene extends SequenceGame<World>
 
         Sfx.cacheEnd();
         world.playMusic(music);
-        setSystemCursorVisible(true);
+        setSystemCursorVisible(false);
     }
 
     @Override
