@@ -342,7 +342,6 @@ public final class Patrol extends FeatureModel
         {
             if (Math.abs(transformable.getX() - target.getX()) < proximity)
             {
-                System.out.println(target.getY() - transformable.getY());
                 enabled = sight == 0 || Math.abs(target.getY() - transformable.getY()) < sight;
             }
             else if (stats.getHealth() > 0)
