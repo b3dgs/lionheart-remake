@@ -38,5 +38,4 @@
     <hurtable fall="true" effect="effect/tower/ExplodeBig.xml"/>
     <shade horizontal="3" vertical="2"/>
     <shooter fireDelay="1500" firedDelay="0" anim="6" svx="1.2" svy="0.0"/>
-    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
