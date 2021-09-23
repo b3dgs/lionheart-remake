@@ -61,6 +61,8 @@ import com.b3dgs.lionheart.constant.Folder;
 // CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
 public class Continue extends Sequence
 {
+    private static final int MOUSE_HIDE_DELAY_MS = 1000;
+
     private static final int INDEX_CONTINUE = 0;
     private static final int INDEX_YES = 1;
     private static final int INDEX_NO = 2;
@@ -104,6 +106,7 @@ public class Continue extends Sequence
     private final DeviceController device;
     private final AppInfo info;
     private final Tick tick = new Tick();
+    private final Tick tickMouse = new Tick();
 
     /** Horizontal factor. */
     private final double factorH = getWidth() / 640.0;
@@ -174,7 +177,7 @@ public class Continue extends Sequence
 
         data = create();
 
-        setSystemCursorVisible(true);
+        setSystemCursorVisible(false);
 
         timeLeft.start();
     }
@@ -327,6 +330,26 @@ public class Continue extends Sequence
     }
 
     /**
+     * Update move visibility on moved.
+     */
+    private void updateMoveVisibiltiy()
+    {
+        if (tickMouse.elapsedTime(getRate(), MOUSE_HIDE_DELAY_MS))
+        {
+            tickMouse.stop();
+            setSystemCursorVisible(false);
+        }
+        else
+        {
+            if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
+            {
+                tickMouse.restart();
+                setSystemCursorVisible(true);
+            }
+        }
+    }
+
+    /**
      * Render continue.
      * 
      * @param g The graphic output.
@@ -428,6 +451,9 @@ public class Continue extends Sequence
     @Override
     public void update(double extrp)
     {
+        tickMouse.update(extrp);
+        updateMoveVisibiltiy();
+
         timeLeft.update(extrp);
         device.update(extrp);
         deviceCursor.update(extrp);

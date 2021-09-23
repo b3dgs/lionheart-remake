@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -65,6 +66,8 @@ import com.b3dgs.lionheart.intro.Intro;
 // CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
 public class Menu extends Sequence
 {
+    private static final int MOUSE_HIDE_DELAY_MS = 1000;
+
     private static final int MIN_HEIGHT = 360;
     private static final int FADE_SPEED = 10;
     private static final int CENTER_X = 320;
@@ -104,6 +107,7 @@ public class Menu extends Sequence
     private final double factorH = getWidth() / 640.0;
     /** Main Y. */
     private final int mainY;
+    private final Tick tickMouse = new Tick();
     private final DeviceController deviceCursor;
     private final Cursor cursor;
     private final DevicePointer pointer;
@@ -135,6 +139,8 @@ public class Menu extends Sequence
     public Menu(Context context)
     {
         super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
+
+        setSystemCursorVisible(false);
 
         final Services services = new Services();
         services.add(context);
@@ -468,6 +474,26 @@ public class Menu extends Sequence
     }
 
     /**
+     * Update move visibility on moved.
+     */
+    private void updateMoveVisibiltiy()
+    {
+        if (tickMouse.elapsedTime(getRate(), MOUSE_HIDE_DELAY_MS))
+        {
+            tickMouse.stop();
+            setSystemCursorVisible(false);
+        }
+        else
+        {
+            if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
+            {
+                tickMouse.restart();
+                setSystemCursorVisible(true);
+            }
+        }
+    }
+
+    /**
      * Render the menus.
      * 
      * @param g The graphic output.
@@ -600,6 +626,9 @@ public class Menu extends Sequence
     @Override
     public void update(double extrp)
     {
+        tickMouse.update(extrp);
+        updateMoveVisibiltiy();
+
         device.update(extrp);
         deviceCursor.update(extrp);
         cursor.update(extrp);
