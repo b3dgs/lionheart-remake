@@ -56,7 +56,7 @@
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
-    <lionengine:body gravity="7.8" gravityMax="7.8"/>
+    <lionengine:body gravity="0.47" gravityMax="7.8"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="effect/tower/ExplodeBig.xml"/>

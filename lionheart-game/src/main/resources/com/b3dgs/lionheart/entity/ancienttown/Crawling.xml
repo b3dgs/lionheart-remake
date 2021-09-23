@@ -57,7 +57,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
-    <lionengine:body gravity="0.4" gravityMax="7.8"/>
+    <lionengine:body gravity="0.47" gravityMax="7.8"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable effect="effect/ancienttown/ExplodeBig.xml"/>
