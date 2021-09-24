@@ -50,7 +50,7 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class Part4 extends Sequence
 {
-    private static final int FADE_SPEED = 8;
+    private static final int FADE_SPEED = 5;
 
     private static final int STORY_1 = 3;
     private static final int STORY_2 = 4;
@@ -109,7 +109,7 @@ public class Part4 extends Sequence
      */
     public Part4(Context context, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.time = time;
         this.audio = audio;

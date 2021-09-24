@@ -71,7 +71,7 @@ import com.b3dgs.lionheart.constant.Folder;
 public class Part5 extends Sequence
 {
     private static final Animation OPEN = new Animation("open", 1, 8, 0.18, false, false);
-    private static final int FADE_SPEED = 8;
+    private static final int FADE_SPEED = 5;
 
     private static final String PART5_FOLDER = "part5";
     private static final String FILE_TRANSFORM1 = "Transform1.xml";
@@ -80,8 +80,8 @@ public class Part5 extends Sequence
     private static final String FILE_TRANSFORM4 = "Transform4.xml";
 
     private static final int TRANSFORM_Y = 24;
-    private static final int TRANSFORM_FLICK_COUNT = 5;
-    private static final int TRANSFORM_FLICK_DELAY_MS = 250;
+    private static final int TRANSFORM_FLICK_COUNT = 7;
+    private static final int TRANSFORM_FLICK_DELAY_MS = 150;
     private static final int EYE_Y = 57;
 
     private static final int TIME_TRANSFORM1_MS = 141600;

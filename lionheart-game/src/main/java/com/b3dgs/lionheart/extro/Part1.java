@@ -68,9 +68,9 @@ public class Part1 extends Sequence
     private static final int MIN_HEIGHT = 208;
     private static final int MAX_WIDTH = 400;
     private static final int MARGIN_WIDTH = 80;
-    private static final int SPAWN_EXPLODE_DELAY = 500;
-    private static final int SPAWN_EXPLODE_MEDIUM_DELAY = 80;
-    private static final int SPAWN_EXPLODE_FAST_DELAY = 15;
+    private static final int SPAWN_EXPLODE_DELAY_MS = 500;
+    private static final int SPAWN_EXPLODE_MEDIUM_DELAY_MS = 80;
+    private static final int SPAWN_EXPLODE_FAST_DELAY_MS = 15;
     private static final int FADE_SPEED = 5;
 
     private static final String PART1_FOLDER = "part1";
@@ -96,7 +96,7 @@ public class Part1 extends Sequence
     private static final double CITADEL_FALL_SPEED = 0.05;
     private static final double CITADEL_ACC_MAX = 3.5;
 
-    private static final int EXPLODE_Y_OFFSET = 8;
+    private static final int EXPLODE_Y_OFFSET = 12;
     private static final double EXPLODE_Y_SCALE = 0.6;
 
     private static final int TIME_EXPLODE_LOT_MS = 15300;
@@ -203,7 +203,6 @@ public class Part1 extends Sequence
      */
     private void spawnExplode(int delay)
     {
-        tickExplode.update(delay);
         if (tickExplode.elapsedTime(getRate(), delay))
         {
             tickExplode.restart();
@@ -365,10 +364,11 @@ public class Part1 extends Sequence
      */
     private void updateExplodeFew(double extrp)
     {
-        spawnExplode(SPAWN_EXPLODE_DELAY);
-        spawnExplode(SPAWN_EXPLODE_DELAY);
-        spawnExplode(SPAWN_EXPLODE_DELAY);
-        spawnExplode(SPAWN_EXPLODE_DELAY);
+        tickExplode.update(extrp);
+        spawnExplode(SPAWN_EXPLODE_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_DELAY_MS);
 
         if (time.isAfter(TIME_EXPLODE_LOT_MS))
         {
@@ -383,7 +383,8 @@ public class Part1 extends Sequence
      */
     private void updateExplodeLot(double extrp)
     {
-        spawnExplode(SPAWN_EXPLODE_FAST_DELAY);
+        tickExplode.update(extrp);
+        spawnExplode(SPAWN_EXPLODE_FAST_DELAY_MS);
 
         if (time.isAfter(TIME_CITADEL_FALL_MS))
         {
@@ -398,12 +399,13 @@ public class Part1 extends Sequence
      */
     private void updateExplodeMedium(double extrp)
     {
-        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
-        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
-        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
-        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
-        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
-        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY);
+        tickExplode.update(extrp);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY_MS);
+        spawnExplode(SPAWN_EXPLODE_MEDIUM_DELAY_MS);
 
         if (time.isAfter(TIME_EXPLODE_END_MS))
         {

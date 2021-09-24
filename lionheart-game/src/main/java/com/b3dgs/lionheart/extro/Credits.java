@@ -59,7 +59,7 @@ public class Credits extends Sequence
 {
     private static final ColorRgba COLOR = new ColorRgba(238, 238, 238);
     private static final double SCROLL_SPEED = 0.24;
-    private static final int FADE_SPEED = 10;
+    private static final int FADE_SPEED = 5;
 
     private static final String PART4_FOLDER = "part4";
     private static final String PART5_FOLDER = "part5";
@@ -110,7 +110,7 @@ public class Credits extends Sequence
      */
     public Credits(Context context, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         this.time = time;
         this.audio = audio;
