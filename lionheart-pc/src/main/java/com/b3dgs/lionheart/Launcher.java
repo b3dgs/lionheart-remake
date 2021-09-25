@@ -183,13 +183,15 @@ public final class Launcher
         final Settings settings = Settings.getInstance();
 
         LANG.set(settings.getLang());
-        try
+
+        if (Settings.getFile().exists())
         {
             WIDTH.set(settings.getResolution().getWidth());
             HEIGHT.set(settings.getResolution().getHeight());
             RATE.set(settings.getResolution().getRate());
+            WINDOWED.set(settings.getResolutionWindowed());
         }
-        catch (@SuppressWarnings("unused") final LionEngineException exception)
+        else
         {
             final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
                                                            .getDefaultScreenDevice()
@@ -197,8 +199,9 @@ public final class Launcher
             WIDTH.set(desktop.getWidth());
             HEIGHT.set(desktop.getHeight());
             RATE.set(desktop.getRefreshRate());
+            WINDOWED.set(false);
         }
-        WINDOWED.set(settings.getResolutionWindowed());
+
         RASTER.set(settings.getRaster());
         HUD.set(settings.getHudVisible());
         HUD_SWORD.set(settings.getHudSword());
