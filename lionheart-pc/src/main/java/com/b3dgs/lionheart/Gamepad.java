@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.libsdl.SDL;
 import org.libsdl.SDL_Error;
 
 import com.b3dgs.lionengine.Constant;
@@ -81,7 +82,7 @@ public class Gamepad implements DevicePush
                 {
                     arch = "64";
                 }
-                System.load(UtilStream.getCopy(Medias.create("libusb-1.0_" + arch + ".dll")).getAbsolutePath());
+                System.load(UtilStream.getCopy(Medias.create(arch, "libusb-1.0.dll")).getAbsolutePath());
             }
         }
         catch (final Throwable throwable) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
@@ -272,9 +273,8 @@ public class Gamepad implements DevicePush
                 controllers.clear();
                 for (int i = 0; i < array.size; i++)
                 {
-                    final Controller current = array.get(i);
                     final Integer index = Integer.valueOf(i);
-                    controllers.put(current.getName(), index);
+                    controllers.put(SDL.SDL_JoystickNameForIndex(i) + "#" + i, index);
                     init(index);
 
                     if (controller == null)
