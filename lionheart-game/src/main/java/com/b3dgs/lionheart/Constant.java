@@ -102,12 +102,12 @@ public final class Constant
     /** Init config lion hard. */
     public static final InitConfig INIT_LIONHARD = new InitConfig(3, 2, Difficulty.LIONHARD);
     /** Init config debug. */
-    public static final InitConfig INIT_DEBUG = new InitConfig(7,
-                                                               90,
-                                                               90,
-                                                               3,
+    public static final InitConfig INIT_DEBUG = new InitConfig(STATS_MAX_HEART - 1,
+                                                               STATS_MAX_TALISMENT - 1,
+                                                               STATS_MAX_LIFE - 1,
+                                                               STATS_MAX_SWORD - 1,
                                                                Boolean.TRUE,
-                                                               9,
+                                                               CREDITS,
                                                                Difficulty.NORMAL,
                                                                true,
                                                                Optional.empty());

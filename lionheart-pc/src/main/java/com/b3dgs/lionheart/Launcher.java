@@ -89,8 +89,14 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Program starts here.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public final class Launcher
 {
+    private static final String LANG_EN = "en";
+    private static final String LANG_FR = "fr";
+    private static final String LANG_DE = "de";
+    private static final String LANG_ES = "es";
+
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
     private static final Font FONT2 = new Font(Font.MONOSPACED, Font.PLAIN, 12);
     private static final Integer[] AVAILABLE_SCALE = new Integer[]
@@ -103,8 +109,9 @@ public final class Launcher
     };
     private static final double[] RATIO_VALUE = new double[]
     {
-        5.0
-      / 4.0, 4.0 / 3.0, 16.0 / 10.0, 16.0 / 9.0, 21.0 / 9.0
+        // @formatter:off
+        5.0 / 4.0, 4.0 / 3.0, 16.0 / 10.0, 16.0 / 9.0, 21.0 / 9.0
+        // @formatter:on
     };
     private static final Map<String, String> LANG_FULL = new HashMap<>();
     private static final Map<String, String> LANG_SHORT = new HashMap<>();
@@ -124,7 +131,7 @@ public final class Launcher
     private static final AtomicInteger SFX = new AtomicInteger();
     private static final AtomicInteger GAMEPAD = new AtomicInteger();
     private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
-    private static final AtomicReference<String> LANG = new AtomicReference<>("en");
+    private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_EN);
 
     private static final String FILENAME_ICON = "icon-256.png";
     private static final String FILENAME_LOGO = "logo.png";
@@ -170,50 +177,12 @@ public final class Launcher
 
     static
     {
-        LANG_FULL.put("en", "English");
-        LANG_FULL.put("fr", "Français");
-        LANG_FULL.put("de", "Deutsch");
-        LANG_FULL.put("es", "Español");
+        LANG_FULL.put(LANG_EN, "English");
+        LANG_FULL.put(LANG_FR, "Français");
+        LANG_FULL.put(LANG_DE, "Deutsch");
+        LANG_FULL.put(LANG_ES, "Español");
 
         LANG_FULL.forEach((k, v) -> LANG_SHORT.put(v, k));
-    }
-
-    private static void load()
-    {
-        final Settings settings = Settings.getInstance();
-
-        LANG.set(settings.getLang());
-
-        if (Settings.getFile().exists())
-        {
-            WIDTH.set(settings.getResolution().getWidth());
-            HEIGHT.set(settings.getResolution().getHeight());
-            RATE.set(settings.getResolution().getRate());
-            WINDOWED.set(settings.getResolutionWindowed());
-        }
-        else
-        {
-            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                                                           .getDefaultScreenDevice()
-                                                           .getDisplayMode();
-            WIDTH.set(desktop.getWidth());
-            HEIGHT.set(desktop.getHeight());
-            RATE.set(desktop.getRefreshRate());
-            WINDOWED.set(false);
-        }
-
-        RASTER.set(settings.getRaster());
-        HUD.set(settings.getHudVisible());
-        HUD_SWORD.set(settings.getHudSword());
-        ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
-                                (int) (Constant.ZOOM_MIN * 100),
-                                (int) (Constant.ZOOM_MAX * 100)));
-        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
-        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
-        FLAG_STRATEGY.set(UtilMath.clamp(settings.getFlagStrategy(), 0, ImageLoadStrategy.values().length));
-        FLAG_PARALLEL.set(settings.getFlagParallel());
-        FLAG_VSYNC.set(settings.getFlagVsync());
-        STAGES.set(settings.getStages());
     }
 
     /**
@@ -298,6 +267,44 @@ public final class Launcher
         run(frame, panel);
     }
 
+    private static void load()
+    {
+        final Settings settings = Settings.getInstance();
+
+        LANG.set(settings.getLang());
+
+        if (Settings.getFile().exists())
+        {
+            WIDTH.set(settings.getResolution().getWidth());
+            HEIGHT.set(settings.getResolution().getHeight());
+            RATE.set(settings.getResolution().getRate());
+            WINDOWED.set(settings.getResolutionWindowed());
+        }
+        else
+        {
+            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                           .getDefaultScreenDevice()
+                                                           .getDisplayMode();
+            WIDTH.set(desktop.getWidth());
+            HEIGHT.set(desktop.getHeight());
+            RATE.set(desktop.getRefreshRate());
+            WINDOWED.set(false);
+        }
+
+        RASTER.set(settings.getRaster());
+        HUD.set(settings.getHudVisible());
+        HUD_SWORD.set(settings.getHudSword());
+        ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
+                                (int) (Constant.ZOOM_MIN * 100),
+                                (int) (Constant.ZOOM_MAX * 100)));
+        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        FLAG_STRATEGY.set(UtilMath.clamp(settings.getFlagStrategy(), 0, ImageLoadStrategy.values().length));
+        FLAG_PARALLEL.set(settings.getFlagParallel());
+        FLAG_VSYNC.set(settings.getFlagVsync());
+        STAGES.set(settings.getStages());
+    }
+
     private static JFrame createFrame()
     {
         final JFrame frame = new JFrame(Constant.PROGRAM_NAME
@@ -330,7 +337,7 @@ public final class Launcher
         label.setFont(FONT);
         label.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        final List<String> langs = Arrays.asList("en", "fr", "de", "es")
+        final List<String> langs = Arrays.asList(LANG_EN, LANG_FR, LANG_DE, LANG_ES)
                                          .stream()
                                          .map(s -> LANG_FULL.getOrDefault(s, s))
                                          .collect(Collectors.toList());
@@ -562,76 +569,6 @@ public final class Launcher
         catch (@SuppressWarnings("unused") final NumberFormatException exception)
         {
             // Skip
-        }
-    }
-
-    private static class Res implements Comparable<Res>
-    {
-        private final int width;
-        private final int height;
-
-        /**
-         * Create a resolution.
-         * 
-         * @param width The width.
-         * @param height The height.
-         */
-        public Res(int width, int height)
-        {
-            super();
-
-            this.width = width;
-            this.height = height;
-        }
-
-        @Override
-        public int compareTo(Res other)
-        {
-            final int side;
-            if (height < other.height)
-            {
-                side = -1;
-            }
-            else if (height > other.height)
-            {
-                side = 1;
-            }
-            else
-            {
-                side = 0;
-            }
-            return side;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + width;
-            result = prime * result + height;
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object object)
-        {
-            if (this == object)
-            {
-                return true;
-            }
-            if (object == null || object.getClass() != getClass())
-            {
-                return false;
-            }
-            final Res other = (Res) object;
-            return width == other.width && height == other.height;
-        }
-
-        @Override
-        public String toString()
-        {
-            return new StringBuilder().append(width).append(" x ").append(height).toString();
         }
     }
 
@@ -1185,5 +1122,75 @@ public final class Launcher
     private Launcher()
     {
         throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
+    }
+
+    private static class Res implements Comparable<Res>
+    {
+        private final int width;
+        private final int height;
+
+        /**
+         * Create a resolution.
+         * 
+         * @param width The width.
+         * @param height The height.
+         */
+        public Res(int width, int height)
+        {
+            super();
+
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public int compareTo(Res other)
+        {
+            final int side;
+            if (height < other.height)
+            {
+                side = -1;
+            }
+            else if (height > other.height)
+            {
+                side = 1;
+            }
+            else
+            {
+                side = 0;
+            }
+            return side;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + width;
+            result = prime * result + height;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object object)
+        {
+            if (this == object)
+            {
+                return true;
+            }
+            if (object == null || object.getClass() != getClass())
+            {
+                return false;
+            }
+            final Res other = (Res) object;
+            return width == other.width && height == other.height;
+        }
+
+        @Override
+        public String toString()
+        {
+            return new StringBuilder().append(width).append(" x ").append(height).toString();
+        }
     }
 }

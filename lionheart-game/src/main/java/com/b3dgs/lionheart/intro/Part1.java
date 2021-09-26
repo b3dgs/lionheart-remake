@@ -56,8 +56,9 @@ public final class Part1 implements Updatable, Renderable
     private static final int SPRITE_BACKS_COUNT = 4;
     private static final int SPRITE_SCENERIES_COUNT = 6;
 
-    private static final double SPEED_CAMERA_BACK = 0.5;
-    private static final double SPEED_CAMERA_SCENERY = 1.0;
+    private static final double CAMERA_INIT_X = 16.0;
+    private static final double CAMERA_SPEED_BACK = 0.5;
+    private static final double CAMERA_SPEED_SCENERY = 1.0;
 
     private static final int BACKGROUND_X_MAX = 810;
 
@@ -159,8 +160,8 @@ public final class Part1 implements Updatable, Renderable
             sceneries[i].prepare();
         }
 
-        cameraBack.teleport(16.0, 0.0);
-        cameraScenery.teleport(16.0, 0.0);
+        cameraBack.teleport(CAMERA_INIT_X, 0.0);
+        cameraScenery.teleport(CAMERA_INIT_X, 0.0);
     }
 
     /**
@@ -183,8 +184,8 @@ public final class Part1 implements Updatable, Renderable
      */
     private void updateCameraMove(double extrp)
     {
-        cameraBack.moveLocation(extrp, SPEED_CAMERA_BACK, 0.0);
-        cameraScenery.moveLocation(extrp, SPEED_CAMERA_SCENERY, 0.0);
+        cameraBack.moveLocation(extrp, CAMERA_SPEED_BACK, 0.0);
+        cameraScenery.moveLocation(extrp, CAMERA_SPEED_SCENERY, 0.0);
 
         final double x = cameraScenery.getX();
         if (x > cameraMax)
@@ -237,15 +238,7 @@ public final class Part1 implements Updatable, Renderable
 
             if (alphaShade < 255.0)
             {
-                final int fade = alpha - (int) Math.floor(alphaShade);
-                if (alpha == 255)
-                {
-                    titleShade.setAlpha(fade);
-                }
-                else
-                {
-                    titleShade.setFade(fade, fade);
-                }
+                updateTitleShadeAlpha(alpha);
                 titleShade.setLocation(width / 2.0 - titleShade.getWidth() / 2.0, height / 2.0 - texts[1].getY());
                 titleShade.render(g);
             }
@@ -270,6 +263,24 @@ public final class Part1 implements Updatable, Renderable
             {
                 alphaShade = 255.0;
             }
+        }
+    }
+
+    /**
+     * Update title shade alpha.
+     * 
+     * @param alpha The alpha value.
+     */
+    private void updateTitleShadeAlpha(int alpha)
+    {
+        final int fade = alpha - (int) Math.floor(alphaShade);
+        if (alpha == 255)
+        {
+            titleShade.setAlpha(fade);
+        }
+        else
+        {
+            titleShade.setFade(fade, fade);
         }
     }
 

@@ -47,9 +47,11 @@ public class CheatMenu implements Routine, Surface
     private static final ColorRgba COLOR2 = new ColorRgba(118, 118, 118);
     private static final ColorRgba HOVER = new ColorRgba(170, 170, 170);
 
+    private static final int INT_RADIX = 10;
+
     private static boolean isInteger(String s)
     {
-        return isInteger(s, 10);
+        return isInteger(s, INT_RADIX);
     }
 
     private static boolean isInteger(String s, int radix)

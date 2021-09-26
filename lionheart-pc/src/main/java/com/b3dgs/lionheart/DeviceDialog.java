@@ -62,6 +62,7 @@ import com.b3dgs.lionengine.io.DeviceMapper;
 /**
  * Device dialog.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public class DeviceDialog extends JDialog
 {
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);

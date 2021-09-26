@@ -63,7 +63,7 @@ import com.b3dgs.lionheart.intro.Intro;
 /**
  * Menu implementation.
  */
-// CHECKSTYLE IGNORE LINE: DataAbstractionCoupling
+// CHECKSTYLE IGNORE LINE: DataAbstractionCoupling|FanOutComplexity
 public class Menu extends Sequence
 {
     private static final int MOUSE_HIDE_DELAY_MS = 1000;

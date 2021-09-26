@@ -89,9 +89,17 @@ import com.b3dgs.lionheart.object.state.StateWin;
 /**
  * World game representation.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
     private static final int MOUSE_HIDE_DELAY_MS = 1000;
+    private static final int EXTRO_DELAY_MS = 3000;
+    private static final int PARALLEL_LOAD_TIMEOUT_SEC = 30;
+    private static final int CURSOR_OX = -2;
+    private static final int CURSOR_OY = -2;
+    private static final int CHEATS_WIDTH = 90;
+    private static final int CHEATS_STAGE_WIDTH = 40;
+    private static final String MAP_BOTTOM = "_bottom";
 
     private final MapTileWater mapWater = services.create(MapTileWater.class);
     private final CheckpointHandler checkpoint;
@@ -147,7 +155,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                             .next()
                                                                             .getDevice()));
         cursor.addImage(0, Medias.create(Folder.SPRITE, "cursor.png"));
-        cursor.setRenderingOffset(-2, -2);
+        cursor.setRenderingOffset(CURSOR_OX, CURSOR_OY);
         cursor.load();
 
         createCheatsMenu();
@@ -209,9 +217,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void createCheatsMenu()
     {
-        final CheatMenu maxHeart = new CheatMenu(services, this::isPressed, 90, "Max Heart", this::onCheatsMaxHeart);
-        final CheatMenu maxLife = new CheatMenu(services, this::isPressed, 90, "Max Life", this::onCheatsMaxLife);
-        final CheatMenu freeFly = new CheatMenu(services, this::isPressed, 90, "Fly", this::onCheatsFly);
+        final int w = CHEATS_WIDTH;
+        final CheatMenu maxHeart = new CheatMenu(services, this::isPressed, w, "Max Heart", this::onCheatsMaxHeart);
+        final CheatMenu maxLife = new CheatMenu(services, this::isPressed, w, "Max Life", this::onCheatsMaxLife);
+        final CheatMenu freeFly = new CheatMenu(services, this::isPressed, w, "Fly", this::onCheatsFly);
 
         final int stagesCount = (int) Medias.create(Folder.STAGE, Settings.getInstance().getStages())
                                             .getMedias()
@@ -219,10 +228,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                             .filter(m -> !m.getName().endsWith(Constant.STAGE_HARD_SUFFIX))
                                             .count();
         final CheatMenu[] stages = new CheatMenu[stagesCount];
+        final int l = CHEATS_STAGE_WIDTH;
         for (int i = 0; i < stages.length; i++)
         {
             final int index = i;
-            stages[i] = new CheatMenu(services, this::isPressed, 40, String.valueOf(i + 1), () -> onCheatsStage(index));
+            stages[i] = new CheatMenu(services, this::isPressed, l, String.valueOf(i + 1), () -> onCheatsStage(index));
         }
 
         final CheatMenu stage = new CheatMenu(services, this::isPressed, 90, "Stage", null, stages);
@@ -239,7 +249,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private void onCheatsMaxLife()
     {
-        player.getFeature(Stats.class).apply(new TakeableConfig(null, null, 0, 0, 99, 0, false));
+        player.getFeature(Stats.class).apply(new TakeableConfig(null, null, 0, 0, Constant.STATS_MAX_LIFE, 0, false));
     }
 
     private void onCheatsFly()
@@ -280,6 +290,58 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     /**
+     * Load stage from configuration.
+     * 
+     * @param settings The settings reference.
+     * @param init The initial configuration.
+     * @param stage The stage configuration.
+     */
+    private void loadStage(Settings settings, InitConfig init, StageConfig stage)
+    {
+        if (settings.getRasterCheck())
+        {
+            Util.run(stage.getBackground());
+        }
+
+        loadMap(settings, stage);
+
+        final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
+                                                                       source,
+                                                                       settings.getBackgroundFlicker());
+        landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
+
+        createPlayerAndLoadCheckpoints(settings, init, stage);
+
+        if (settings.getRasterObject())
+        {
+            stage.getRasterFolder().ifPresent(r ->
+            {
+                final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
+                if (rasterMedia.exists())
+                {
+                    spawner.setRaster(rasterMedia);
+                }
+            });
+        }
+
+        final Featurable[] entities = createEntities(settings, stage);
+
+        if (settings.getFlagParallel())
+        {
+            executor.execute(() -> createEffectCache(stage));
+        }
+        else
+        {
+            createEffectCache(stage);
+        }
+
+        if (settings.getFlagParallel())
+        {
+            loadRasterEntities(settings, stage, entities);
+        }
+    }
+
+    /**
      * Load map from level.
      * 
      * @param settings The settings reference.
@@ -295,6 +357,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                         new MapTilePersisterOptimized());
         }
 
+        // CHECKSTYLE IGNORE LINE: AnonInnerLength
         map.getFeature(MapTilePersister.class).addListener(new MapTilePersisterListener()
         {
             @Override
@@ -354,8 +417,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void loadMapBottom(StageConfig config, Media media, Optional<String> raster)
     {
-        final Media bottomRip = Medias.create(media.getPath().replace(Extension.MAP, "_bottom" + Extension.IMAGE));
-        final Media bottom = Medias.create(media.getPath().replace(Extension.MAP, "_bottom" + Extension.MAP));
+        final Media bottomRip = Medias.create(media.getPath().replace(Extension.MAP, MAP_BOTTOM + Extension.IMAGE));
+        final Media bottom = Medias.create(media.getPath().replace(Extension.MAP, MAP_BOTTOM + Extension.MAP));
         if (bottom.exists() || bottomRip.exists())
         {
             if (!bottom.exists())
@@ -460,6 +523,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final String theme = stage.getBackground().getWorld().getFolder();
         final Optional<Coord> spawn = init.getSpawn();
         checkpoint.load(stage, featurable, spawn);
+        // CHECKSTYLE IGNORE LINE: AnonInnerLength
         checkpoint.addListener(new CheckpointListener()
         {
             @Override
@@ -505,16 +569,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
     }
 
-    private void loadRasterHero(StageConfig stage, Featurable featurable)
-    {
-        if (Settings.getInstance().getRasterHeroWater())
-        {
-            featurable.getFeature(Underwater.class)
-                      .loadRaster("raster/" + Folder.HERO + "/valdyn/",
-                                  ForegroundType.LAVA.equals(stage.getForeground().getType()));
-        }
-    }
-
     /**
      * Track player with camera.
      * 
@@ -527,6 +581,57 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         tracker.setOffset(0, trackerInitY);
         tracker.track(player);
         services.add(tracker);
+    }
+
+    /**
+     * Load player raster.
+     * 
+     * @param stage The stage configuration.
+     * @param featurable The hero reference.
+     */
+    private void loadRasterHero(StageConfig stage, Featurable featurable)
+    {
+        if (Settings.getInstance().getRasterHeroWater())
+        {
+            featurable.getFeature(Underwater.class)
+                      .loadRaster("raster/" + Folder.HERO + "/valdyn/",
+                                  ForegroundType.LAVA.equals(stage.getForeground().getType()));
+        }
+    }
+
+    /**
+     * Create entities from stage.
+     * 
+     * @param settings The settings reference.
+     * @param stage The stage config.
+     * @return The created entities.
+     */
+    private Featurable[] createEntities(Settings settings, StageConfig stage)
+    {
+        final Featurable[] entities;
+        if (settings.getFlagParallel())
+        {
+            final List<EntityConfig> config = stage.getEntities();
+            final int n = config.size();
+            entities = new Featurable[n];
+            for (int i = 0; i < n; i++)
+            {
+                entities[i] = createEntity(config.get(i), settings);
+            }
+        }
+        else
+        {
+            entities = null;
+            final List<EntityConfig> entityConfig = stage.getEntities();
+            final int n = entityConfig.size();
+            for (int i = 0; i < n; i++)
+            {
+                final Featurable featurable = createEntity(entityConfig.get(i), settings);
+                loadRasterEntity(stage, featurable, settings);
+                handler.add(featurable);
+            }
+        }
+        return entities;
     }
 
     /**
@@ -581,6 +686,105 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             });
         }
         return featurable;
+    }
+
+    private void loadRasterEntities(Settings settings, StageConfig stage, Featurable[] entities)
+    {
+        final int threads = Runtime.getRuntime().availableProcessors();
+        final int entitiesPerThread = (int) Math.floor(entities.length / (double) threads);
+        int start = 0;
+
+        final List<Future<Featurable[]>> tasks = new ArrayList<>(threads);
+        for (int i = 0; i < threads; i++)
+        {
+            final int end;
+            if (i < threads - 1)
+            {
+                end = start + entitiesPerThread;
+            }
+            else
+            {
+                end = entities.length;
+            }
+            tasks.add(loadRasterEntities(settings, stage, entities, start, end));
+            start += entitiesPerThread;
+        }
+
+        mergeEntitiesToHandler(tasks);
+    }
+
+    private Future<Featurable[]> loadRasterEntities(Settings settings,
+                                                    StageConfig stage,
+                                                    Featurable[] featurables,
+                                                    int start,
+                                                    int end)
+    {
+        return executor.submit(() ->
+        {
+            final int n = end - start;
+            final Featurable[] toAdd = new Featurable[n];
+            int i = 0;
+            for (i = 0; i < n; i++)
+            {
+                final int index = start + i;
+                toAdd[i] = loadRasterEntity(stage, featurables[index], settings);
+            }
+            return toAdd;
+        });
+    }
+
+    private void mergeEntitiesToHandler(List<Future<Featurable[]>> tasks)
+    {
+        final int n = tasks.size();
+        for (int i = 0; i < n; i++)
+        {
+            try
+            {
+                final Featurable[] toAdd = tasks.get(i).get();
+                for (int j = 0; j < toAdd.length; j++)
+                {
+                    handler.add(toAdd[j]);
+                    toAdd[j] = null;
+                }
+            }
+            catch (final InterruptedException exception)
+            {
+                Thread.currentThread().interrupt();
+                throw new LionEngineException(exception);
+            }
+            catch (final ExecutionException exception)
+            {
+                throw new LionEngineException(exception);
+            }
+        }
+    }
+
+    /**
+     * Create effect and cache.
+     * 
+     * @param stage The stage configuration.
+     */
+    private void createEffectCache(StageConfig stage)
+    {
+        final Spawner cacheSpawner = (media, x, y) ->
+        {
+            final Featurable f = factory.create(media);
+            f.getFeature(Transformable.class).teleport(x, y);
+
+            stage.getRasterFolder().ifPresent(raster ->
+            {
+                final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
+                if (rasterMedia.exists())
+                {
+                    f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
+                }
+            });
+            return f;
+        };
+
+        final String theme = stage.getBackground().getWorld().getFolder();
+        factory.createCache(cacheSpawner, Medias.create(Folder.EFFECT, theme), 4);
+        factory.createCache(cacheSpawner, Medias.create(Folder.PROJECTILE, theme), 6);
     }
 
     /**
@@ -725,7 +929,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void updateCheatsStages()
     {
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < Stage.values().length; i++)
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
@@ -743,7 +947,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             {
                 stopMusic();
                 sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
-            }, source.getRate(), 3000);
+            }, source.getRate(), EXTRO_DELAY_MS);
         }
     }
 
@@ -767,18 +971,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                               spawn);
     }
 
-    private Featurable[] createEntities(Settings settings, StageConfig stage)
-    {
-        final List<EntityConfig> entities = stage.getEntities();
-        final int n = entities.size();
-        final Featurable[] featurables = new Featurable[n];
-        for (int i = 0; i < n; i++)
-        {
-            featurables[i] = createEntity(entities.get(i), settings);
-        }
-        return featurables;
-    }
-
     /**
      * Load the stage from configuration.
      * 
@@ -797,63 +989,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             services.add(config);
 
             final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
-            if (settings.getRasterCheck())
-            {
-                Util.run(stage.getBackground());
-            }
-
-            loadMap(settings, stage);
-
-            final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
-                                                                           source,
-                                                                           settings.getBackgroundFlicker());
-            landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
-
-            createPlayerAndLoadCheckpoints(settings, init, stage);
-
-            if (settings.getRasterObject())
-            {
-                stage.getRasterFolder().ifPresent(r ->
-                {
-                    final Media rasterMedia = Medias.create(r, Constant.RASTER_FILE_TILE);
-                    if (rasterMedia.exists())
-                    {
-                        spawner.setRaster(rasterMedia);
-                    }
-                });
-            }
-
-            final Featurable[] entities;
-            if (settings.getFlagParallel())
-            {
-                entities = createEntities(settings, stage);
-            }
-            else
-            {
-                entities = null;
-                final List<EntityConfig> entityConfig = stage.getEntities();
-                final int n = entityConfig.size();
-                for (int i = 0; i < n; i++)
-                {
-                    final Featurable featurable = createEntity(entityConfig.get(i), settings);
-                    loadRasterEntity(stage, featurable, settings);
-                    handler.add(featurable);
-                }
-            }
-
-            if (settings.getFlagParallel())
-            {
-                executor.execute(() -> createEffectCache(stage));
-            }
-            else
-            {
-                createEffectCache(stage);
-            }
-
-            if (settings.getFlagParallel())
-            {
-                loadRasterEntities(settings, stage, entities);
-            }
+            loadStage(settings, init, stage);
         }
         finally
         {
@@ -861,7 +997,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         try
         {
-            executor.awaitTermination(30L, TimeUnit.SECONDS);
+            executor.awaitTermination(PARALLEL_LOAD_TIMEOUT_SEC, TimeUnit.SECONDS);
         }
         catch (final InterruptedException exception)
         {
@@ -876,100 +1012,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         tickMouse.stop();
         tick.restart();
-    }
-
-    private void createEffectCache(StageConfig stage)
-    {
-        final Spawner cacheSpawner = (media, x, y) ->
-        {
-            final Featurable f = factory.create(media);
-            f.getFeature(Transformable.class).teleport(x, y);
-
-            stage.getRasterFolder().ifPresent(raster ->
-            {
-                final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
-                if (rasterMedia.exists())
-                {
-                    f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
-                }
-            });
-            return f;
-        };
-
-        final String theme = stage.getBackground().getWorld().getFolder();
-        factory.createCache(cacheSpawner, Medias.create(Folder.EFFECT, theme), 4);
-        factory.createCache(cacheSpawner, Medias.create(Folder.PROJECTILE, theme), 6);
-    }
-
-    private void loadRasterEntities(Settings settings, StageConfig stage, Featurable[] entities)
-    {
-        final int threads = Runtime.getRuntime().availableProcessors();
-        final int entitiesPerThread = (int) Math.floor(entities.length / (double) threads);
-        int start = 0;
-
-        final List<Future<Featurable[]>> tasks = new ArrayList<>(threads);
-        for (int i = 0; i < threads; i++)
-        {
-            final int end;
-            if (i < threads - 1)
-            {
-                end = start + entitiesPerThread;
-            }
-            else
-            {
-                end = entities.length;
-            }
-            tasks.add(loadRasterEntities(settings, stage, entities, start, end));
-            start += entitiesPerThread;
-        }
-
-        mergeEntitiesToHandler(tasks);
-    }
-
-    private Future<Featurable[]> loadRasterEntities(Settings settings,
-                                                    StageConfig stage,
-                                                    Featurable[] featurables,
-                                                    int start,
-                                                    int end)
-    {
-        return executor.submit(() ->
-        {
-            final int n = end - start;
-            final Featurable[] toAdd = new Featurable[n];
-            int i = 0;
-            for (i = 0; i < n; i++)
-            {
-                final int index = start + i;
-                toAdd[i] = loadRasterEntity(stage, featurables[index], settings);
-            }
-            return toAdd;
-        });
-    }
-
-    private void mergeEntitiesToHandler(List<Future<Featurable[]>> tasks)
-    {
-        final int n = tasks.size();
-        for (int i = 0; i < n; i++)
-        {
-            try
-            {
-                final Featurable[] toAdd = tasks.get(i).get();
-                for (int j = 0; j < toAdd.length; j++)
-                {
-                    handler.add(toAdd[j]);
-                    toAdd[j] = null;
-                }
-            }
-            catch (final InterruptedException exception)
-            {
-                Thread.currentThread().interrupt();
-                throw new LionEngineException(exception);
-            }
-            catch (final ExecutionException exception)
-            {
-                throw new LionEngineException(exception);
-            }
-        }
     }
 
     @Override

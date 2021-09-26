@@ -214,9 +214,9 @@ public final class Util
         {
             final MapTilePersister mapPersister = map.getFeature(MapTilePersister.class);
             mapPersister.load(reading);
-            map.getFeature(MapTileCollision.class)
-               .loadCollisions(Medias.create(Folder.LEVEL, CollisionFormulaConfig.FILENAME),
-                               Medias.create(Folder.LEVEL, CollisionGroupConfig.FILENAME));
+            final MapTileCollision mapCollision = map.getFeature(MapTileCollision.class);
+            mapCollision.loadCollisions(Medias.create(Folder.LEVEL, CollisionFormulaConfig.FILENAME),
+                                        Medias.create(Folder.LEVEL, CollisionGroupConfig.FILENAME));
         }
         catch (final IOException exception)
         {
@@ -322,6 +322,14 @@ public final class Util
     }
 
     /**
+     * Private constructor.
+     */
+    private Util()
+    {
+        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
+    }
+
+    /**
      * Loop factory.
      */
     @FunctionalInterface
@@ -347,13 +355,5 @@ public final class Util
         {
             return create(original.getRate(), desired.getRate());
         }
-    }
-
-    /**
-     * Private constructor.
-     */
-    private Util()
-    {
-        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
     }
 }

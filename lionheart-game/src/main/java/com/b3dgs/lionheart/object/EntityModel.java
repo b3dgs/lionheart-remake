@@ -69,6 +69,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 /**
  * Entity model implementation.
  */
+// CHECKSTYLE IGNORE LINE: FanOutComplexity
 @FeatureInterface
 public final class EntityModel extends EntityModelHelper
                                implements XmlLoader, XmlSaver, Editable<ModelConfig>, Routine, Recyclable
