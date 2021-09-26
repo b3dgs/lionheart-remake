@@ -11,9 +11,9 @@
     <lionengine:size width="16" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="0.3" reversed="false" repeat="false"/>
         <lionengine:animation name="phase1" start="2" end="8" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="attack" start="8" end="32" speed="4.0" reversed="false" repeat="false">
+        <lionengine:animation name="attack" start="8" end="32" speed="5.0" reversed="false" repeat="false">
             <lionengine:collisionFramed number="2" x="0" y="0" width="6" height="1"/>
             <lionengine:collisionFramed number="3" x="0" y="0" width="6" height="2"/>
             <lionengine:collisionFramed number="4" x="0" y="0" width="6" height="3"/>
@@ -46,7 +46,7 @@
             <lionengine:collisionFramed number="31" x="0" y="0" width="6" height="30"/>
             <lionengine:collisionFramed number="32" x="0" y="0" width="6" height="31"/>
         </lionengine:animation>
-        <lionengine:animation name="phase3" start="2" end="32" speed="0.7" reversed="true" repeat="false"/>
+        <lionengine:animation name="phase3" start="2" end="32" speed="0.85" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>

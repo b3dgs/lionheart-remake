@@ -82,16 +82,16 @@
         <entity file="entity/spidercave1/Spider1.xml" tx="77.0" ty="13.0">
             <patrol sh="-0.35" amplitude="48" offset="24"/>
         </entity>
-        <entity file="entity/spidercave1/Spider1.xml" tx="84.0" ty="5.0">
+        <entity file="entity/spidercave1/Spider1.xml" tx="82.0" ty="5.0">
             <patrol sh="0.35" amplitude="64" offset="0"/>
         </entity>
-        <entity file="entity/spidercave1/Spider1.xml" tx="84.0" ty="5.0">
+        <entity file="entity/spidercave1/Spider1.xml" tx="82.0" ty="5.0">
             <patrol sh="0.35" amplitude="64" offset="8"/>
         </entity>
-        <entity file="entity/spidercave1/Spider1.xml" tx="84.0" ty="5.0">
+        <entity file="entity/spidercave1/Spider1.xml" tx="82.0" ty="5.0">
             <patrol sh="0.35" amplitude="64" offset="16"/>
         </entity>
-        <entity file="entity/spidercave1/Spider1.xml" tx="84.0" ty="5.0">
+        <entity file="entity/spidercave1/Spider1.xml" tx="82.0" ty="5.0">
             <patrol sh="0.35" amplitude="64" offset="24"/>
         </entity>
         <entity file="entity/spidercave1/Spider1.xml" tx="93.0" ty="8.0">

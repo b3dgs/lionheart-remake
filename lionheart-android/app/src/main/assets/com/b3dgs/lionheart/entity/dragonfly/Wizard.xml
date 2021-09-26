@@ -16,9 +16,9 @@
     <lionengine:size width="64" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="10" speed="0.15" reversed="false" repeat="true"/>
-        <lionengine:animation name="patrol" start="1" end="10" speed="0.15" reversed="false" repeat="true"/>
-        <lionengine:animation name="attack" start="11" end="20" speed="0.2" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="10" speed="0.18" reversed="false" repeat="true"/>
+        <lionengine:animation name="patrol" start="1" end="10" speed="0.18" reversed="false" repeat="true"/>
+        <lionengine:animation name="attack" start="11" end="20" speed="0.24" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -30,31 +30,31 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" sfx="sfx/monster_wizard.wav" ox="0" oy="46">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-2.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-1.1" vy="-2.0"/>
         </lionengine:launchable>
         <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="-2" oy="44">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.8" vy="-2.5"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-1.8" vy="-2.5"/>
         </lionengine:launchable>
         <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="44">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-2.5"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-1.1" vy="-2.5"/>
         </lionengine:launchable>
         <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="2" oy="44">
-            <lionengine:force velocity="1" sensibility="0" vx="-0.8" vy="-2.5"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-0.8" vy="-2.5"/>
         </lionengine:launchable>
         <lionengine:launchable media="projectile/dragonfly/Bullet2.xml" ox="0" oy="42">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.1" vy="-3.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-1.1" vy="-3.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="20"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shade horizontal="5" vertical="4"/>
-    <patrol sh="-0.7" sv="0.0" amplitude="192" mirror="false"/>
-    <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
-    <patrol sh="0.7" sv="-0.1" amplitude="128" mirror="false"/>
-    <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
-    <patrol sh="-0.7" sv="0.1" amplitude="64" mirror="false"/>
-    <patrol sh="0.25" sv="0.0" delay="100" mirror="false"/>
-    <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
-    <shooter fireDelay="60" firedDelay="0" svx="1.0" svy="1.0" anim="7"/>
+    <patrol sh="-0.85" sv="0.0" amplitude="192" mirror="false"/>
+    <patrol sh="0.3" sv="0.0" delay="1500" mirror="false"/>
+    <patrol sh="0.85" sv="-0.12" amplitude="128" mirror="false"/>
+    <patrol sh="0.3" sv="0.0" delay="1500" mirror="false"/>
+    <patrol sh="-0.85" sv="0.12" amplitude="64" mirror="false"/>
+    <patrol sh="0.3" sv="0.0" delay="1500" mirror="false"/>
+    <patrol sh="-0.85" sv="0.0" amplitude="0" mirror="false"/>
+    <shooter fireDelay="1000" firedDelay="0" svx="1.0" svy="1.0" anim="7"/>
 </lionengine:featurable>

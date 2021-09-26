@@ -23,7 +23,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Bullet2.xml" sfx="sfx/monster_canonairship.wav" ox="0" oy="4">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

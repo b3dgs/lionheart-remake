@@ -6,12 +6,12 @@
     <background type="SWAMP_DUSK"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="11.5" ty="4"/>
-        <checkpoint tx="147" ty="4"/>
-        <checkpoint tx="198" ty="9"/>
-        <checkpoint tx="293" ty="4"/>
-        <checkpoint tx="406" ty="8"/>
-        <checkpoint tx="463" ty="5" next="stage/original/stage2_hard.xml"/>
+        <checkpoint tx="11.5" ty="4.0"/>
+        <checkpoint tx="147.0" ty="4.0"/>
+        <checkpoint tx="198.0" ty="9.0"/>
+        <checkpoint tx="293.0" ty="4.0"/>
+        <checkpoint tx="406.0" ty="8.0"/>
+        <checkpoint tx="463.0" ty="5.0" next="stage/original/stage2_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/swamp/Talisment.xml" tx="74.0" ty="43.0"/>
@@ -136,7 +136,7 @@
         <entity file="entity/swamp/Talisment.xml" tx="100.0" ty="26.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="100.0" ty="25.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="36.5" ty="4.0">
-            <jumper tick="8"/>
+            <jumper delay="130"/>
             <patrol sh="-0.3" amplitude="224"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="63.5" ty="8.0">
@@ -155,7 +155,7 @@
             <patrol sh="-0.2" amplitude="64"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="185.5" ty="7.0">
-            <jumper tick="6"/>
+            <jumper delay="100" h="1.0"/>
             <patrol sh="-0.2" amplitude="144"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="214.5" ty="8.0">
@@ -165,10 +165,11 @@
             <patrol sh="0.2" amplitude="96"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="250.5" ty="26.0">
-            <jumper tick="4"/>
+            <jumper delay="70" h="1.1"/>
             <patrol sh="-0.2" amplitude="96"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="295.5" ty="16.0">
+            <jumper delay="70" h="1.05"/>
             <patrol sh="0.2" amplitude="96"/>
         </entity>
         <entity file="entity/swamp/Dino.xml" tx="77.0" ty="14.0">
@@ -189,9 +190,7 @@
         <entity file="entity/swamp/Bee.xml" tx="98.0" ty="28.0">
             <patrol sh="1.5" amplitude="80"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="132.0" ty="18.0">
-            <patrol sh="-0.5"/>
-        </entity>
+        <entity file="entity/swamp/Dino.xml" tx="132.0" ty="18.0"/>
         <entity file="entity/swamp/Bee.xml" tx="135.0" ty="22.0">
             <model mirror="true"/>
             <patrol sv="-1.5" amplitude="64" mirror="false"/>
@@ -231,7 +230,7 @@
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="359.0" ty="24.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="363.0" ty="22.0">
-            <spike delay="20"/>
+            <spike delay="300"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="375.0" ty="19.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="383.0" ty="17.0">
@@ -239,7 +238,7 @@
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="387.0" ty="16.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="391.0" ty="14.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Flower.xml" tx="416.5" ty="10.0"/>
         <entity file="entity/swamp/Flower.xml" tx="423.5" ty="10.0"/>

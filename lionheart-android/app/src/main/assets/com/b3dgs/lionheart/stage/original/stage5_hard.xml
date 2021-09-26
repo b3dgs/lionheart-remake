@@ -166,18 +166,20 @@
         <entity file="entity/swamp/Life.xml" tx="210.0" ty="18.0"/>
         <entity file="entity/swamp/Life.xml" tx="209.0" ty="18.0"/>
         <entity file="entity/swamp/Bee.xml" tx="186.0" ty="15.0">
-            <patrol sh="0.8" proximity="0"/>
+            <model mirror="false"/>
+            <patrol sh="0.8" proximity="128" sight="32" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="199.0" ty="18.0">
             <model mirror="true"/>
-            <patrol sh="-0.8" proximity="0"/>
+            <patrol sh="-0.8" proximity="128" sight="32" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="186.0" ty="21.0">
-            <patrol sh="0.8" proximity="0"/>
+            <model mirror="false"/>
+            <patrol sh="0.8" proximity="128" sight="32" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="199.0" ty="24.0">
             <model mirror="true"/>
-            <patrol sh="-0.8" proximity="0"/>
+            <patrol sh="-0.8" proximity="128" sight="32" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Talisment.xml" tx="191.0" ty="50.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="193.0" ty="50.0"/>
@@ -197,16 +199,16 @@
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="235.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="237.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="239.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="241.0" ty="26.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/swamp/TurningAuto.xml" tx="239.0" ty="29.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="243.0" ty="31.0">

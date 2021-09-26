@@ -8,7 +8,7 @@
     <lionengine:frames horizontal="5" vertical="1"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="5" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="5" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="7"/>

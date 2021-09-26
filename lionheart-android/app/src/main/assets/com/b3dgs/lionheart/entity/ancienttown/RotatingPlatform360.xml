@@ -14,6 +14,6 @@
     </lionengine:animations>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="1" layerDisplay="3"/>
-    <rotating extremity="Platform.xml" length="3" speed="2.0"/>
+    <rotating extremity="Platform.xml" length="3" speed="2.4"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

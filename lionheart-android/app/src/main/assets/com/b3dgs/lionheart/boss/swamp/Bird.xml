@@ -11,19 +11,19 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Patrol</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Bird</lionengine:feature>
     </lionengine:features>
-    <lionengine:surface image="Bird.png" icon="Bird_ico.png"/>
+    <lionengine:surface image="Bird.png"/>
     <lionengine:frames horizontal="10" vertical="6"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="patrol" start="1" end="10" speed="0.25" reversed="false" repeat="true">
+        <lionengine:animation name="patrol" start="1" end="10" speed="0.3" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="attack" x="0" y="22" width="16" height="5"/>
             <lionengine:collisionFramed prefix="body" x="0" y="22" width="16" height="5"/>
         </lionengine:animation>
-        <lionengine:animation name="idle" start="11" end="20" speed="0.25" reversed="false" repeat="true">
+        <lionengine:animation name="idle" start="11" end="20" speed="0.3" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="ground" x="0" y="24" width="16" height="1"/>
         </lionengine:animation>
-        <lionengine:animation name="hurt" start="1" end="10" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="10" speed="0.3" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="7" layerDisplay="6"/>

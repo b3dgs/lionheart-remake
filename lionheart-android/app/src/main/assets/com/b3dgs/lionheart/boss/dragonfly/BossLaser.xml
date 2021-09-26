@@ -10,7 +10,7 @@
     <lionengine:size width="256" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="24" speed="0.35" reversed="false" repeat="false">
+        <lionengine:animation name="idle" start="1" end="24" speed="0.42" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="attack" number="9" x="0" y="0" width="256" height="12"/>
             <lionengine:collisionFramed prefix="attack" number="10" x="0" y="0" width="256" height="12"/>
             <lionengine:collisionFramed prefix="attack" number="11" x="0" y="0" width="256" height="12"/>

@@ -70,7 +70,8 @@
         <entity file="entity/swamp/Talisment.xml" tx="159.0" ty="85.0"/>
         <entity file="entity/swamp/Life.xml" tx="156.5" ty="87.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="45.5" ty="23.0">
-            <patrol sh="0.3" amplitude="160"/>
+            <jumper delay="80" h="1.3"/>
+            <patrol sh="0.3" amplitude="192"/>
         </entity>
         <entity file="entity/swamp/TurningAuto.xml" tx="52.0" ty="23.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="46.0" ty="19.0"/>
@@ -164,40 +165,40 @@
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="325.0" ty="4.0">
-            <spike delay="20"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="327.0" ty="4.0">
-            <spike delay="40"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="329.0" ty="4.0">
-            <spike delay="60"/>
+            <spike delay="1500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="334.0" ty="4.0">
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="336.0" ty="4.0">
-            <spike delay="44"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="338.0" ty="4.0">
-            <spike delay="44"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="340.0" ty="4.0">
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="347.5" ty="5.0">
-            <spike delay="15"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="353.0" ty="4.0">
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="355.0" ty="4.0">
-            <spike delay="30"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="357.0" ty="4.0">
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="359.0" ty="4.0">
-            <spike delay="30"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="361.0" ty="4.0">
             <spike delay="0"/>
@@ -209,55 +210,55 @@
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="377.0" ty="4.0">
-            <spike delay="40"/>
+            <spike delay="750"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="378.0" ty="4.0">
-            <spike delay="40"/>
+            <spike delay="750"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="379.0" ty="4.0">
-            <spike delay="40"/>
+            <spike delay="750"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="380.0" ty="4.0">
-            <spike delay="80"/>
+            <spike delay="1500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="381.0" ty="4.0">
-            <spike delay="80"/>
+            <spike delay="1500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="399.0" ty="4.0">
             <spike delay="0"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="401.0" ty="4.0">
-            <spike delay="14"/>
+            <spike delay="250"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="403.0" ty="4.0">
-            <spike delay="28"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="405.0" ty="4.0">
-            <spike delay="42"/>
+            <spike delay="750"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="407.0" ty="4.0">
-            <spike delay="56"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="409.0" ty="4.0">
-            <spike delay="70"/>
+            <spike delay="1250"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="411.0" ty="4.0">
-            <spike delay="84"/>
+            <spike delay="1500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="413.0" ty="4.0">
-            <spike delay="98"/>
+            <spike delay="1750"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="415.0" ty="4.0">
-            <spike delay="112"/>
+            <spike delay="2000"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="417.0" ty="4.0">
-            <spike delay="126"/>
+            <spike delay="2250"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="419.0" ty="4.0">
-            <spike delay="140"/>
+            <spike delay="2500"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="421.0" ty="4.0">
-            <spike delay="154"/>
+            <spike delay="2750"/>
         </entity>
         <entity file="entity/swamp/PotionBig.xml" tx="422.0" ty="15.0"/>
         <entity file="entity/swamp/Life.xml" tx="411.0" ty="21.0"/>
@@ -299,20 +300,20 @@
         <entity file="entity/swamp/Flower.xml" tx="321.5" ty="70.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="328.0" ty="67.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="334.0" ty="70.0">
-            <spike delay="40"/>
+            <spike delay="600"/>
         </entity>
         <entity file="entity/swamp/PotionLittle.xml" tx="339.0" ty="70.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="355.5" ty="71.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="378.5" ty="80.5"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="355.5" ty="70.5"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="378.5" ty="80.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="370.0" ty="73.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="374.0" ty="74.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="379.0" ty="74.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="384.0" ty="74.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="389.0" ty="73.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="412.0" ty="81.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="432.0" ty="78.0"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="412.0" ty="80.0"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="432.0" ty="77.0"/>
         <entity file="entity/swamp/Life.xml" tx="436.0" ty="71.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="396.0" ty="89.0"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="396.0" ty="87.5"/>
         <entity file="entity/swamp/Flower.xml" tx="10.0" ty="68.0"/>
         <entity file="entity/swamp/Flower.xml" tx="25.0" ty="60.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="28.0" ty="53.0">
@@ -342,9 +343,7 @@
         <entity file="entity/swamp/Spike2.xml" tx="115.0" ty="25.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="119.0" ty="23.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="135.0" ty="21.0"/>
-        <entity file="entity/swamp/Dino.xml" tx="168.0" ty="11.0">
-            <patrol sh="-0.5"/>
-        </entity>
+        <entity file="entity/swamp/Dino.xml" tx="168.0" ty="11.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="169.0" ty="10.0"/>
         <entity file="entity/swamp/Bee.xml" tx="193.0" ty="12.0">
             <patrol sh="-1.0" sv="-0.5" amplitude="64"/>
@@ -356,9 +355,7 @@
         <entity file="entity/swamp/Crawling.xml" tx="243.0" ty="12.0">
             <patrol sh="-0.3" amplitude="80"/>
         </entity>
-        <entity file="entity/swamp/Dino.xml" tx="258.0" ty="25.0">
-            <patrol sh="-0.5"/>
-        </entity>
+        <entity file="entity/swamp/Dino.xml" tx="258.0" ty="25.0"/>
         <entity file="entity/swamp/Bee.xml" tx="298.0" ty="17.0">
             <model mirror="true"/>
             <patrol sh="-1.0" sv="0.5" proximity="96"/>

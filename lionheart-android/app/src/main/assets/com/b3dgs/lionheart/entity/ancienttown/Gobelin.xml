@@ -24,7 +24,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/ancienttown/Bullet4.xml" ox="0" oy="0">
-            <lionengine:force velocity="0.25" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="0.25" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>

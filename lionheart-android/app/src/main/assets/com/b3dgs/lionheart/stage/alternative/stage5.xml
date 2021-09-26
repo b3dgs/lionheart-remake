@@ -19,9 +19,6 @@
             <model mirror="true"/>
             <patrol amplitude="32" mirror="false" sv="0.6"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="139.0" ty="24.0">
-            <patrol amplitude="32" mirror="false" sv="0.4"/>
-        </entity>
         <entity file="entity/secret/Ghost1.xml" tx="145.0" ty="25.0">
             <patrol amplitude="32" mirror="false" sv="0.4"/>
         </entity>
@@ -31,7 +28,6 @@
         <entity file="entity/secret/Crawling.xml" tx="151.0" ty="45.0">
             <patrol amplitude="48" sh="-0.4"/>
         </entity>
-        <entity file="entity/secret/Ghost2.xml" tx="143.0" ty="39.0"/>
         <entity file="entity/secret/RotatingSpikeBowl360.xml" tx="142.0" ty="20.0">
             <rotating extremity="SpikeBowl.xml" length="4" speed="2.2"/>
         </entity>
@@ -64,11 +60,8 @@
             <patrol amplitude="48" sh="0.4"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="139.0" ty="32.0"/>
-        <entity file="entity/secret/Canon.xml" tx="138.0" ty="55.0">
-            <shooter anim="0" dvy="0.0" fireDelay="180" firedDelay="0" svx="1.5" svy="3.0"/>
-        </entity>
         <entity file="entity/secret/Canon.xml" tx="153.0" ty="35.0">
-            <shooter anim="0" dvy="0.0" fireDelay="250" firedDelay="0" svx="-1.5" svy="2.5"/>
+            <shooter anim="0" dvy="0.0" fireDelay="4000" firedDelay="0" svx="-1.5" svy="2.5"/>
         </entity>
         <entity file="entity/secret/RotatingPlatform360.xml" tx="170.0" ty="7.0">
             <rotating extremity="Platform1.xml" length="2" speed="2.0"/>
@@ -104,21 +97,13 @@
         </entity>
         <entity file="entity/secret/Spike2.xml" tx="186.0" ty="10.0"/>
         <entity file="entity/secret/Canon.xml" tx="197.0" ty="21.0">
-            <shooter anim="0" dvy="0.0" fireDelay="150" firedDelay="0" svx="1.5" svy="3.0"/>
-        </entity>
-        <entity file="entity/secret/Canon.xml" tx="206.0" ty="27.0">
-            <shooter anim="0" dvy="0.0" fireDelay="180" firedDelay="0" svx="-1.0" svy="1.5"/>
+            <shooter anim="0" dvy="0.0" fireDelay="2500" firedDelay="0" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="201.0" ty="11.0">
             <patrol amplitude="48" sh="0.4"/>
         </entity>
-        <entity file="entity/secret/Ghost2.xml" tx="194.0" ty="18.0"/>
         <entity file="entity/secret/Ghost2.xml" tx="207.0" ty="24.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="215.0" ty="5.0">
-            <model mirror="true"/>
-            <patrol mirror="false" proximity="0" sh="0.0" sv="0.0"/>
-        </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="221.0" ty="5.0">
             <model mirror="true"/>
             <patrol mirror="false" proximity="0" sh="0.0" sv="0.0"/>
         </entity>
@@ -131,10 +116,7 @@
         <entity file="entity/secret/Sword4.xml" tx="229.0" ty="8.0"/>
         <entity file="entity/secret/PotionBig.xml" tx="228.0" ty="8.0"/>
         <entity file="entity/secret/Canon.xml" tx="231.0" ty="17.0">
-            <shooter anim="0" dvy="0.0" fireDelay="200" firedDelay="0" svx="-2.0" svy="2.0"/>
-        </entity>
-        <entity file="entity/secret/Crawling.xml" tx="215.0" ty="23.0">
-            <patrol amplitude="48" sh="0.4"/>
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-2.0" svy="2.0"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="228.0" ty="23.0">
             <patrol amplitude="48" sh="0.4"/>
@@ -142,15 +124,11 @@
         <entity file="entity/secret/Crawling.xml" tx="218.0" ty="30.0">
             <patrol amplitude="48" sh="0.4"/>
         </entity>
-        <entity file="entity/secret/Spike2.xml" tx="208.0" ty="17.0"/>
+        <entity file="entity/secret/Spike2.xml" tx="210.0" ty="17.0"/>
         <entity file="entity/secret/Spike1.xml" tx="217.0" ty="23.0"/>
         <entity file="entity/secret/Spike1.xml" tx="230.0" ty="23.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="219.0" ty="18.0">
             <patrol amplitude="80" sh="-0.8"/>
-        </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="207.0" ty="18.0">
-            <model mirror="true"/>
-            <patrol amplitude="96" mirror="false" sv="0.7"/>
         </entity>
         <entity file="entity/secret/Talisment.xml" tx="226.0" ty="30.0"/>
         <entity file="entity/secret/Talisment.xml" tx="227.0" ty="30.0"/>
@@ -168,13 +146,10 @@
             <rotating extremity="SpikeBowl.xml" length="4" speed="2.2"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="242.0" ty="23.0">
-            <spike delay="50"/>
-        </entity>
-        <entity file="entity/secret/Spike1.xml" tx="241.0" ty="15.0">
-            <spike delay="75"/>
+            <spike delay="1000"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="248.0" ty="16.0">
-            <spike delay="100"/>
+            <spike delay="2000"/>
         </entity>
         <entity file="entity/secret/Ghost2.xml" tx="247.0" ty="22.0"/>
         <entity file="entity/secret/Talisment.xml" tx="262.0" ty="8.0"/>
@@ -192,20 +167,14 @@
         </entity>
         <entity file="entity/secret/Ghost2.xml" tx="291.0" ty="9.0"/>
         <entity file="entity/secret/Ghost2.xml" tx="281.0" ty="27.0"/>
-        <entity file="entity/secret/Spike1.xml" tx="279.0" ty="6.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="286.0" ty="17.0">
             <patrol amplitude="80" sh="1.0"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="292.0" ty="19.0">
             <patrol amplitude="80" sh="-1.0"/>
         </entity>
-        <entity file="entity/secret/Spike1.xml" tx="290.0" ty="23.0"/>
-        <entity file="entity/secret/Spike1.xml" tx="286.0" ty="21.0"/>
         <entity file="entity/secret/Crawling.xml" tx="292.0" ty="27.0">
             <patrol amplitude="48" sh="0.4"/>
-        </entity>
-        <entity file="entity/secret/Crawling.xml" tx="283.0" ty="31.0">
-            <patrol amplitude="48" sh="-0.4"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="271.0" ty="31.0">
             <patrol amplitude="48" sh="0.4"/>
@@ -240,9 +209,6 @@
         <entity file="entity/secret/Bird.xml" tx="166.0" ty="35.0">
             <patrol amplitude="48" mirror="false" sv="-0.7"/>
         </entity>
-        <entity file="entity/secret/Ghost1.xml" tx="19.0" ty="12.0">
-            <patrol proximity="96" sh="-0.7" sv="-0.6"/>
-        </entity>
         <entity file="entity/secret/Crawling.xml" tx="21.0" ty="8.0">
             <patrol amplitude="48" sh="-0.4"/>
         </entity>
@@ -250,9 +216,6 @@
             <patrol amplitude="48" sh="0.4"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="33.0" ty="10.0"/>
-        <entity file="entity/secret/Spike1.xml" tx="35.0" ty="10.0">
-            <spike delay="50"/>
-        </entity>
         <entity file="entity/secret/Talisment.xml" tx="33.0" ty="16.0"/>
         <entity file="entity/secret/Talisment.xml" tx="34.0" ty="16.0"/>
         <entity file="entity/secret/Ghost2.xml" tx="46.0" ty="28.0"/>
@@ -262,15 +225,12 @@
         <entity file="entity/secret/Talisment.xml" tx="59.0" ty="20.0"/>
         <entity file="entity/secret/PotionLittle.xml" tx="44.0" ty="18.0"/>
         <entity file="entity/secret/Canon.xml" tx="60.0" ty="13.0">
-            <shooter anim="0" dvy="0.0" fireDelay="180" firedDelay="0" svx="-1.0" svy="2.0"/>
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-1.0" svy="2.0"/>
         </entity>
         <entity file="entity/secret/Life.xml" tx="82.0" ty="0.0"/>
         <entity file="entity/secret/Talisment.xml" tx="70.0" ty="20.0"/>
         <entity file="entity/secret/Talisment.xml" tx="70.0" ty="19.0"/>
         <entity file="entity/secret/Talisment.xml" tx="70.0" ty="18.0"/>
-        <entity file="entity/secret/Canon.xml" tx="67.0" ty="14.0">
-            <shooter anim="0" dvy="0.0" fireDelay="180" firedDelay="0" svx="1.0" svy="3.0"/>
-        </entity>
         <entity file="entity/secret/RotatingPlatform360.xml" tx="76.0" ty="13.0">
             <rotating extremity="Platform1.xml" length="4" speed="2.0"/>
         </entity>
@@ -294,16 +254,11 @@
         <entity file="entity/secret/Talisment.xml" tx="103.0" ty="30.0"/>
         <entity file="entity/secret/Talisment.xml" tx="104.0" ty="31.0"/>
         <entity file="entity/secret/RotatingSpikeBowl360.xml" tx="118.0" ty="5.0">
-            <rotating extremity="SpikeBowl.xml" length="3" speed="-2.5"/>
+            <rotating extremity="SpikeBowl.xml" length="3" speed="-2.0"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="105.0" ty="11.0"/>
-        <entity file="entity/secret/Spike1.xml" tx="112.0" ty="11.0">
-            <spike delay="40"/>
-        </entity>
-        <entity file="entity/secret/Spike1.xml" tx="134.0" ty="6.0"/>
         <entity file="entity/secret/Spike1.xml" tx="128.0" ty="16.0"/>
         <entity file="entity/secret/Ghost2.xml" tx="133.0" ty="25.0"/>
-        <entity file="entity/secret/Ghost2.xml" tx="148.0" ty="10.0"/>
         <entity file="entity/secret/Crawling.xml" tx="130.0" ty="6.0">
             <patrol amplitude="48" sh="0.4"/>
         </entity>

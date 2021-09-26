@@ -15,11 +15,12 @@
     <lionengine:size width="16" height="16"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="jumpspider" start="1" end="1" speed="0.4" reversed="false" repeat="false"/>
-        <lionengine:animation name="patrol" start="1" end="5" speed="0.2" reversed="false" repeat="true"/>
-        <lionengine:animation name="patrolceil" start="6" end="10" speed="0.2" reversed="false" repeat="true"/>
-        <lionengine:animation name="fall" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="border" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="jumpspider" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="patrol" start="1" end="5" speed="0.23" reversed="false" repeat="true"/>
+        <lionengine:animation name="patrolceil" start="6" end="10" speed="0.23" reversed="false" repeat="true"/>
+        <lionengine:animation name="fall" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -43,6 +44,18 @@
             <lionengine:group>pillar</lionengine:group>
             <lionengine:group>pillar2</lionengine:group>
         </lionengine:category>
+        <lionengine:category name="leg_left" axis="Y" x="-2" y="0">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_right" axis="Y" x="2" y="0">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+        </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
@@ -50,5 +63,4 @@
     <stats health="1"/>
     <hurtable effect="effect/spidercave1/ExplodeLittle.xml"/>
     <shade horizontal="5" vertical="2"/>
-    <patrol sh="-0.35" amplitude="48" offset="0"/>
 </lionengine:featurable>

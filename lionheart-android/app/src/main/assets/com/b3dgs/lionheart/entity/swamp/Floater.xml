@@ -12,8 +12,8 @@
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
-        <lionengine:animation name="fall" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="ground" offsetX="0" offsetY="17" width="28" height="1" mirror="false"/>
@@ -21,7 +21,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
-    <lionengine:body gravity="1.0" gravityMax="7.0"/>
+    <lionengine:body gravity="0.072" gravityMax="8.5"/>
     <lionengine:collidable group="3" accepted="1"/>
-    <floater speedUp="1.0" speedDown="0.4"/>
+    <floater speedUp="1.2" speedDown="0.5"/>
 </lionengine:featurable>

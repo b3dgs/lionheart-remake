@@ -10,13 +10,13 @@
     <lionengine:size width="16" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="2" end="2" speed="0.3" reversed="true" repeat="true"/>
+        <lionengine:animation name="idle" start="2" end="2" speed="0.35" reversed="true" repeat="true"/>
     </lionengine:animations>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Dragon3.xml" ox="0" oy="0">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-0.8"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-1.0" vy="-0.8"/>
         </lionengine:launchable>
     </lionengine:launcher>
 </lionengine:featurable>

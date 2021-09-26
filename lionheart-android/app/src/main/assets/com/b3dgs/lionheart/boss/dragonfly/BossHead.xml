@@ -13,9 +13,9 @@
     <lionengine:size width="48" height="48"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="1" speed="0.2" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="attack" start="14" end="14" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="turn" start="1" end="12" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="turn" start="1" end="12" speed="0.3" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
@@ -25,10 +25,10 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:launcher>
         <lionengine:launchable media="boss/dragonfly/BossLaser.xml" ox="-122" oy="6">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
         <lionengine:launchable media="boss/dragonfly/BossLaser.xml" ox="-378" oy="6">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>

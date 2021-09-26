@@ -13,10 +13,10 @@
     <lionengine:size width="32" height="64"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="fishjump" start="1" end="3" speed="0.15" reversed="false" repeat="false"/>
-        <lionengine:animation name="fishattack" start="4" end="4" speed="0.15" reversed="false" repeat="false"/>
-        <lionengine:animation name="fishfall" start="5" end="6" speed="0.15" reversed="false" repeat="false"/>
-        <lionengine:animation name="hurt" start="1" end="1" speed="0.15" reversed="false" repeat="false"/>
+        <lionengine:animation name="fishjump" start="1" end="3" speed="0.18" reversed="false" repeat="false"/>
+        <lionengine:animation name="fishattack" start="4" end="4" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="fishfall" start="5" end="6" speed="0.18" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="8" width="24" height="52" mirror="false"/>
@@ -31,7 +31,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/tower/Bullet2.xml" sfx="sfx/monster_fish.wav" ox="0" oy="40">
-            <lionengine:force velocity="1" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>

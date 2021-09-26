@@ -14,10 +14,10 @@
     <lionengine:size width="7" height="7"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="fall" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="land" start="1" end="2" speed="0.25" reversed="false" repeat="true"/>
-        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="2" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="fall" start="1" end="2" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="land" start="1" end="2" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="-1" offsetY="3" width="3" height="3" mirror="false"/>

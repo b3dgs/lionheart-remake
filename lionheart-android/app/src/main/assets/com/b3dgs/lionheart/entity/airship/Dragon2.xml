@@ -15,7 +15,7 @@
     <lionengine:size width="16" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="patrol" start="1" end="14" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="patrol" start="1" end="14" speed="0.35" reversed="false" repeat="true"/>
         <lionengine:animation name="attack" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
@@ -27,11 +27,15 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/airship/Bullet2.xml" sfx="sfx/monster_dragon2.wav" ox="-4" oy="32">
-            <lionengine:force velocity="1" sensibility="0" vx="-1.0" vy="-1.0"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-1.0" vy="-1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="4"/>
     <hurtable effect="effect/airship/ExplodeLittle.xml"/>
     <shade horizontal="7" vertical="2"/>
+    <shooter fireDelay="1000" firedDelay="0" svx="0.5" svy="2.5"/>
+    <patrol sh="0.24" sv="0.0" delay="1000"/>
+    <patrol sh="1.8" sv="0.0" delay="1500"/>
+    <patrol sh="0.24" sv="0.0" delay="8000"/>
 </lionengine:featurable>

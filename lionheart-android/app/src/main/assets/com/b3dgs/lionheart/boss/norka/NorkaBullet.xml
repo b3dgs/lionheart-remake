@@ -27,7 +27,7 @@
     </lionengine:categories>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <lionengine:body gravity="1.5" gravityMax="4.0"/>
+    <lionengine:body gravity="0.11" gravityMax="4.8"/>
     <bulletBounceOnGround count="1" sfx="MONSTER_LAND"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

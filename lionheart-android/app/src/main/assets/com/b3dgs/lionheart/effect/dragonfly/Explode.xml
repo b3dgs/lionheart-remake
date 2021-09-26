@@ -11,7 +11,7 @@
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>MIDDLE</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="8" speed="0.4" reversed="false" repeat="false"/>
+        <lionengine:animation name="idle" start="1" end="8" speed="0.48" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="-32" width="32" height="32" mirror="false"/>

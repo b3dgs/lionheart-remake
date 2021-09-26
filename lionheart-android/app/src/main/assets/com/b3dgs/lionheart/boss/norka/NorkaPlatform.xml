@@ -13,7 +13,7 @@
     <lionengine:frames horizontal="3" vertical="4"/>
     <lionengine:size width="16" height="16"/>
     <lionengine:animations>
-        <lionengine:animation name="idle" start="1" end="3" speed="0.2" reversed="true" repeat="true"/>
+        <lionengine:animation name="idle" start="1" end="3" speed="0.24" reversed="true" repeat="true"/>
     </lionengine:animations>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:collisions>

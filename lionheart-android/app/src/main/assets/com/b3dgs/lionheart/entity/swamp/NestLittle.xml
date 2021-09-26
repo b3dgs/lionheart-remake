@@ -10,7 +10,7 @@
     </lionengine:features>
     <lionengine:surface image="surface/NestLittle.png"/>
     <lionengine:frames horizontal="1" vertical="1"/>
-    <lionengine:size width="48" height="48"/>
+    <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
@@ -33,7 +33,7 @@
     </lionengine:categories>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/swamp/FlyTrack.xml" sfx="sfx/projectile_fly.wav" ox="0" oy="0">
-            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+            <lionengine:force velocity="0.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
@@ -42,6 +42,6 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="2"/>
     <hurtable fall="true" effect="effect/swamp/ExplodeBig.xml"/>
-    <shooter fireDelay="200" firedDelay="0" svx="0" svy="0"/>
     <shade horizontal="1" vertical="1"/>
+    <shooter fireDelay="3000" firedDelay="0" svx="0" svy="0"/>
 </lionengine:featurable>

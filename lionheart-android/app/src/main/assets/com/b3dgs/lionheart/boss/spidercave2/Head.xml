@@ -12,8 +12,8 @@
     <lionengine:size width="36" height="36"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="none" start="1" end="1" speed="0.20" reversed="false" repeat="false"/>
-        <lionengine:animation name="open" start="1" end="6" speed="0.20" reversed="false" repeat="false"/>
+        <lionengine:animation name="none" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="open" start="1" end="6" speed="0.24" reversed="false" repeat="false"/>
         <lionengine:animation name="attack" start="11" end="11" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="hurt" start="6" end="6" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
@@ -23,7 +23,7 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <stats health="5"/>
+    <stats health="3"/>
     <hurtable frame="1" effect="effect/spidercave2/ExplodeBig.xml"/>
     <shade horizontal="1" vertical="1"/>
 </lionengine:featurable>

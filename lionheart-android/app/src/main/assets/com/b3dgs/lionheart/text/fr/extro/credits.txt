@@ -47,7 +47,7 @@ L11 Just want to hand out a big 'thank you' to all
 L11 dedicated LH supporters out there. I really
 L11 appreciate it and i hope to give something back
 L11 one day. Also would like to praise Pierre-Alexandre
-L11  for doing such a insanely good job and keeping it
+L11 for doing such a insanely good job and keeping it
 L11 all alive for old and new LH gamers! I'm always
 L11 looking back with lots of good thoughts and fun
 L11 developing LH in those days discovering my
@@ -114,6 +114,10 @@ L11 tous les aspects (dans les plus petits détails).
 L11 J'espère que vous l'aprécierez à nouveau, et
 L11 à bientôt dans de nouveaux projets !
 
+L11 Un grand merci à tous les membres de eab.abime.net
+L11 pour leurs soutiens et commentaires, ainsi qu'un
+L11 remerciement spécial à Retro-Nerd qui m'a bien
+L11 aidé pendant les beta tests !
 
 L11 N'oubliez pas mon site, www.b3dgs.com !
 

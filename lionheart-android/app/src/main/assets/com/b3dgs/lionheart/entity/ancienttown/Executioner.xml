@@ -15,7 +15,7 @@
     <lionengine:size width="64" height="80"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
-        <lionengine:animation name="patrol" start="1" end="8" speed="0.12" reversed="false" repeat="true">
+        <lionengine:animation name="patrol" start="1" end="8" speed="0.15" reversed="false" repeat="true">
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="24" height="60"/>
             <lionengine:collisionFramed prefix="attack" x="0" y="0" width="24" height="60"/>
         </lionengine:animation>
@@ -24,11 +24,11 @@
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="32" height="60"/>
             <lionengine:collisionFramed prefix="attack" x="0" y="0" width="32" height="60"/>
         </lionengine:animation>
-        <lionengine:animation name="executionerattack1" start="12" end="12" speed="0.10" reversed="false" repeat="false">
+        <lionengine:animation name="executionerattack1" start="12" end="12" speed="1.0" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="body" x="8" y="0" width="36" height="44"/>
             <lionengine:collisionFramed prefix="attack" x="8" y="0" width="36" height="40"/>
         </lionengine:animation>
-        <lionengine:animation name="executionerattack2" start="13" end="14" speed="0.15" reversed="false" repeat="false">
+        <lionengine:animation name="executionerattack2" start="13" end="14" speed="0.18" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="attack" x="8" y="0" width="36" height="40"/>
         </lionengine:animation>
         <lionengine:animation name="fall" start="15" end="15" speed="1.0" reversed="false" repeat="false"/>
@@ -42,10 +42,10 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="8"/>
-    <lionengine:body gravity="1.0" gravityMax="2.5"/>
+    <lionengine:body gravity="0.072" gravityMax="3.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="6"/>
-    <hurtable frame="1" backward="0.85" effect="effect/ancienttown/ExplodeBig.xml" sfx="MONSTER_EXECUTIONER_HURT"/>
+    <hurtable frame="1" backward="1.0" effect="effect/ancienttown/ExplodeBig.xml" sfx="MONSTER_EXECUTIONER_HURT"/>
     <shade horizontal="1" vertical="1"/>
-    <patrol sh="-0.3" sv="0.0" amplitude="128"/>
+    <patrol sh="-0.35" sv="0.0" amplitude="128"/>
 </lionengine:featurable>

@@ -27,7 +27,7 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/ancienttown/Bullet2.xml" sfx="sfx/monster_canon2.wav" ox="0" oy="16">
-            <lionengine:force velocity="0.05" sensibility="0.0" vx="1.0" vy="1.0"/>
+            <lionengine:force velocity="0.06" sensibility="0.0" vx="1.0" vy="1.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
@@ -35,5 +35,5 @@
     <stats health="3"/>
     <hurtable effect="effect/ancienttown/ExplodeBig.xml"/>
     <shade horizontal="1" vertical="1"/>
-    <shooter fireDelay="180" firedDelay="0" svx="1.5" svy="3.0" dvy="0.0"/>
+    <shooter fireDelay="3000" firedDelay="0" svx="1.5" svy="2.5" dvy="0.0"/>
 </lionengine:featurable>
