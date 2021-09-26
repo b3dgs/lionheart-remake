@@ -47,9 +47,9 @@ import com.b3dgs.lionheart.menu.Menu;
  */
 public class Intro extends Sequence
 {
-    private static final int MIN_HEIGHT = 180;
-    private static final int MAX_WIDTH = 400;
-    private static final int MARGIN_WIDTH = 80;
+    private static final int MIN_HEIGHT = 144;
+    private static final int MAX_WIDTH = 320;
+    private static final int MARGIN_WIDTH = 0;
     private static final int SPEED_FADE_IN = 4;
     private static final int SPEED_FADE_OUT = 10;
 

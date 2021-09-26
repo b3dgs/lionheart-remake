@@ -99,9 +99,8 @@ public final class Part1 implements Updatable, Renderable
     };
     private final Sprite[] backs = new Sprite[SPRITE_BACKS_COUNT];
     private final Sprite[] sceneries = new Sprite[SPRITE_SCENERIES_COUNT];
-    private final Sprite[] titleAlpha = new Sprite[256];
-    private final Sprite[] titleShadeAlpha = new Sprite[256];
-    private final Sprite[] titleShadeFade = new Sprite[256];
+    private final Sprite title = Drawable.loadSprite(get("title"));
+    private final Sprite titleShade = Drawable.loadSprite(get("title_shade"));
     private final Camera cameraBack = new Camera();
     private final Camera cameraScenery = new Camera();
     private final int width;
@@ -141,30 +140,11 @@ public final class Part1 implements Updatable, Renderable
      */
     public void load()
     {
-        final Sprite title = Drawable.loadSprite(get("title"));
         title.load();
         title.prepare();
 
-        for (int i = 0; i < titleAlpha.length; i++)
-        {
-            titleAlpha[i] = Drawable.loadSprite(title.getSurface());
-            titleAlpha[i].prepare();
-            titleAlpha[i].setAlpha(i);
-        }
-
-        final Sprite titleShade = Drawable.loadSprite(get("title_shade"));
         titleShade.load();
         titleShade.prepare();
-        for (int i = 0; i < titleShadeAlpha.length; i++)
-        {
-            titleShadeAlpha[i] = Drawable.loadSprite(titleShade.getSurface());
-            titleShadeAlpha[i].prepare();
-            titleShadeAlpha[i].setAlpha(i);
-
-            titleShadeFade[i] = Drawable.loadSprite(titleShade.getSurface());
-            titleShadeFade[i].prepare();
-            titleShadeFade[i].setFade(i, i);
-        }
 
         for (int i = 0; i < backs.length; i++)
         {
@@ -251,21 +231,20 @@ public final class Part1 implements Updatable, Renderable
             if (alpha == 255 || alpha < 255 && Double.compare(alphaShade, 255.0) == 0)
             {
                 updateTitleAlpha(alpha);
-                titleAlpha[alpha].setLocation(width / 2.0 - titleAlpha[alpha].getWidth() / 2.0,
-                                              height / 2.0 - texts[1].getY());
-                titleAlpha[alpha].render(g);
+                title.setLocation(width / 2.0 - title.getWidth() / 2.0, height / 2.0 - texts[1].getY());
+                title.render(g);
             }
 
             if (alphaShade < 255.0)
             {
-                final Sprite titleShade;
+                final int fade = alpha - (int) Math.floor(alphaShade);
                 if (alpha == 255)
                 {
-                    titleShade = titleShadeFade[alpha - (int) Math.floor(alphaShade)];
+                    titleShade.setAlpha(fade);
                 }
                 else
                 {
-                    titleShade = titleShadeAlpha[alpha];
+                    titleShade.setFade(fade, fade);
                 }
                 titleShade.setLocation(width / 2.0 - titleShade.getWidth() / 2.0, height / 2.0 - texts[1].getY());
                 titleShade.render(g);
@@ -304,6 +283,7 @@ public final class Part1 implements Updatable, Renderable
         if (alphaTitleOld != alpha)
         {
             alphaTitleOld = alpha;
+            title.setAlpha(alpha);
         }
     }
 

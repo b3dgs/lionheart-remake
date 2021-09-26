@@ -98,10 +98,10 @@ public final class Part2 implements Updatable, Renderable
     private static final int TIME_EQUIP_HAND_MS = 78800;
     private static final int TIME_EQUIP_FADE_OUT_MS = 81000;
     private static final int TIME_RAGE_FADE_IN_MS = 81500;
-    private static final int TIME_RAGE_START_MS = 83600;
-    private static final int TIME_RAGE_FLASH_MS = 84700;
-    private static final int TIME_RAGE_END_MS = 85500;
-    private static final int TIME_RAGE_FADE_OUT_MS = 86500;
+    private static final int TIME_RAGE_START_MS = 83300;
+    private static final int TIME_RAGE_FLASH_MS = 84800;
+    private static final int TIME_RAGE_END_MS = 85800;
+    private static final int TIME_RAGE_FADE_OUT_MS = 86800;
 
     /**
      * Get media from filename.
@@ -812,7 +812,7 @@ public final class Part2 implements Updatable, Renderable
     {
         renderRage(g);
 
-        if (alpha2old != alpha2)
+        if (alpha2old != getAlpha2())
         {
             valdyn1.setAlpha(getAlpha2());
         }

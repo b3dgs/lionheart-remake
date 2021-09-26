@@ -137,7 +137,7 @@ public final class Util
             final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
             final double ratio = (double) output.getWidth() / (double) output.getHeight();
             final int width = adjusted.getWidth() - (adjusted.getWidth() - maxWidth + marginWidth);
-            final int height = (int) Math.floor(width / ratio);
+            final int height = (int) Math.round(width / ratio);
 
             if (height < minHeight)
             {

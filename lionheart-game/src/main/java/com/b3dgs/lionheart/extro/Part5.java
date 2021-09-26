@@ -289,6 +289,7 @@ public class Part5 extends Sequence
      */
     private void updateTransformAlphaIn(double extrp)
     {
+        final int old = (int) Math.floor(alphaTransform);
         alphaTransform += alphaSpeed * extrp;
 
         if (alphaTransform > 255.0)
@@ -296,7 +297,10 @@ public class Part5 extends Sequence
             alphaTransform = 255.0;
             updaterTransform = this::updateTransform2;
         }
-        transform0b.setAlpha((int) Math.floor(alphaTransform));
+        if ((int) Math.floor(alphaTransform) != old)
+        {
+            transform0b.setAlpha((int) Math.floor(alphaTransform));
+        }
     }
 
     /**
@@ -450,6 +454,7 @@ public class Part5 extends Sequence
      */
     private void updateTransformAlphaOut(double extrp)
     {
+        final int old = (int) Math.floor(alphaTransform);
         alphaTransform -= alphaSpeed * extrp;
 
         if (getAlphaTransform() < 0)
@@ -457,7 +462,10 @@ public class Part5 extends Sequence
             alphaTransform = 0.0;
             updaterTransform = this::updateTransformOpenEyesInit;
         }
-        transform0b.setAlpha(getAlphaTransform());
+        if ((int) Math.floor(alphaTransform) != old)
+        {
+            transform0b.setAlpha(getAlphaTransform());
+        }
     }
 
     /**
