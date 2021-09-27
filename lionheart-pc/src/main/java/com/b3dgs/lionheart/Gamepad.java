@@ -24,7 +24,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.libsdl.SDL;
 import org.libsdl.SDL_Error;
 
 import com.b3dgs.lionengine.Constant;
@@ -274,7 +273,7 @@ public class Gamepad implements DevicePush
                 for (int i = 0; i < array.size; i++)
                 {
                     final Integer index = Integer.valueOf(i);
-                    controllers.put(SDL.SDL_JoystickNameForIndex(i) + "#" + i, index);
+                    controllers.put(array.get(i).getName(), index);
                     init(index);
 
                     if (controller == null)

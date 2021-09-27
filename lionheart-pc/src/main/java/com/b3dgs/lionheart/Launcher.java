@@ -70,6 +70,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
 
+import org.libsdl.SDL;
+
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
@@ -842,13 +844,22 @@ public final class Launcher
         parent.add(box);
     }
 
+    private static String getControllerKey(int i)
+    {
+        return SDL.SDL_JoystickNameForIndex(i) + "#" + i;
+    }
+
     private static void createGamepad(Container parent, Gamepad gamepad)
     {
         final JLabel label = new JLabel(LABEL_GAMEPAD);
         label.setFont(FONT);
         label.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        final JComboBox<Object> combo = new JComboBox<>(gamepad.findDevices().keySet().toArray());
+        final JComboBox<Object> combo = new JComboBox<>(gamepad.findDevices()
+                                                               .values()
+                                                               .stream()
+                                                               .map(Launcher::getControllerKey)
+                                                               .toArray());
         combo.setFont(FONT);
         combo.addItemListener(e -> GAMEPAD.set(combo.getSelectedIndex()));
 
