@@ -118,7 +118,7 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
     {
         final String group = mapGroup.getGroup(map.getTile(transformable,
                                                            map.getTileWidth() * side,
-                                                           (int) body.getGravity() + 1 + offset));
+                                                           (int) Math.ceil(body.getGravity()) - 5 + offset));
         return MapTileGroupModel.NO_GROUP_NAME.equals(group) || CollisionName.SPIKE.equals(group) || group == null;
     }
 
