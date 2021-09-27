@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.game.feature.Camera;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 
@@ -38,6 +39,7 @@ public final class StateGripSoar extends State
     private static final double SOAR_SPEED = 1.02;
 
     private final Camera camera;
+    private final MapTile map;
     private double offset;
     private double offset2;
     /** Handle frame vertical specific offset for rendering. */
@@ -57,6 +59,7 @@ public final class StateGripSoar extends State
         super(model, animation);
 
         camera = model.getCamera();
+        map = model.getMap();
         listener = (AnimatorFrameListener) frame ->
         {
             if (frame - animation.getFirst() < FRAME_5)
@@ -96,7 +99,8 @@ public final class StateGripSoar extends State
     {
         offset += SOAR_SPEED * extrp;
 
-        if (camera.getViewpointY(transformable.getY() + offset) < 155)
+        if (camera.getViewpointY(transformable.getY() + offset) < 155
+            && camera.getY() + camera.getHeight() < map.getHeight())
         {
             camera.setShake(0, (int) (offset - offset2));
         }
