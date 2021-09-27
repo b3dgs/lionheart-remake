@@ -20,6 +20,7 @@
             <patrol amplitude="32" mirror="false" sv="0.6"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="145.0" ty="25.0">
+            <model mirror="true"/>
             <patrol amplitude="32" mirror="false" sv="0.4"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="134.0" ty="35.0">
@@ -128,6 +129,7 @@
         <entity file="entity/secret/Spike1.xml" tx="217.0" ty="23.0"/>
         <entity file="entity/secret/Spike1.xml" tx="230.0" ty="23.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="219.0" ty="18.0">
+            <model mirror="true"/>
             <patrol amplitude="80" sh="-0.8"/>
         </entity>
         <entity file="entity/secret/Talisment.xml" tx="226.0" ty="30.0"/>
@@ -156,6 +158,7 @@
         <entity file="entity/secret/Talisment.xml" tx="263.0" ty="8.0"/>
         <entity file="entity/secret/PotionLittle.xml" tx="264.0" ty="8.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="259.0" ty="7.0">
+            <model mirror="true"/>
             <patrol mirror="false" proximity="0" sh="0.0" sv="0.0"/>
         </entity>
         <entity file="entity/secret/RotatingSpikeBowl360.xml" tx="264.0" ty="10.0">
@@ -168,9 +171,11 @@
         <entity file="entity/secret/Ghost2.xml" tx="291.0" ty="9.0"/>
         <entity file="entity/secret/Ghost2.xml" tx="281.0" ty="27.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="286.0" ty="17.0">
+            <model mirror="true"/>
             <patrol amplitude="80" sh="1.0"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="292.0" ty="19.0">
+            <model mirror="true"/>
             <patrol amplitude="80" sh="-1.0"/>
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="292.0" ty="27.0">
@@ -197,9 +202,11 @@
         <entity file="entity/secret/Talisment.xml" tx="285.0" ty="46.0"/>
         <entity file="entity/secret/Life.xml" tx="278.0" ty="48.0"/>
         <entity file="entity/secret/Ghost1.xml" tx="283.0" ty="44.0">
+            <model mirror="true"/>
             <patrol amplitude="64" mirror="false" sv="0.7"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="274.0" ty="42.0">
+            <model mirror="true"/>
             <patrol amplitude="64" mirror="false" sv="0.7"/>
         </entity>
         <entity file="entity/secret/Spike2.xml" tx="278.0" ty="41.0"/>
@@ -270,6 +277,9 @@
         </entity>
         <entity file="entity/secret/Crawling.xml" tx="153.0" ty="16.0">
             <patrol amplitude="48" sh="-0.4"/>
+        </entity>
+        <entity file="entity/secret/RotatingPlatformControlled.xml" tx="131.0" ty="44.0">
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="6" speed="0.06"/>
         </entity>
     </entities>
 </stage>

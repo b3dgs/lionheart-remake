@@ -144,7 +144,7 @@
             <shooter anim="0" fireDelay="3000" firedDelay="0" svx="0.0" svy="0.0"/>
         </entity>
         <entity file="entity/swamp/Flower.xml" tx="236.0" ty="15.0"/>
-        <entity file="entity/swamp/Bee.xml" tx="247.0" ty="3.0">
+        <entity file="entity/swamp/Bee.xml" tx="247.0" ty="7.0">
             <model mirror="true"/>
             <patrol amplitude="64" mirror="false" sv="-0.7"/>
         </entity>
