@@ -57,7 +57,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     private static final int DEFAULT_Y = 110;
     private static final int OFFSET_X = -24;
     private static final int OFFSET_Y = -50;
-    private static final double SPEED = 13.0 / 31.0;
+    private static final double SPEED = 0.5;
 
     private final Trackable target = services.get(Trackable.class);
     private final Stats playerStats = target.getFeature(Stats.class);

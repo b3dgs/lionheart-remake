@@ -188,7 +188,7 @@
         <entity file="entity/airship/Canon.xml" tx="716.0" ty="35.0"/>
         <entity file="entity/airship/Canon.xml" tx="705.0" ty="42.0"/>
         <entity file="entity/airship/Laser.xml" tx="707.5" ty="42.0">
-            <laser fireDelay="240" stayDelay="160"/>
+            <laser fireDelay="240" stayDelay="2500"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="702.0" ty="35.0"/>
         <entity file="entity/airship/Guard.xml" tx="683.0" ty="22.0"/>
@@ -208,15 +208,15 @@
             <model next="stage/original/stage12.xml"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="736.0" ty="21.0">
-            <catapult vx="-1.5" vy="6.0"/>
+            <catapult vx="-1.6" vy="8.0"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="583.0" ty="35.0">
             <model mirror="true"/>
-            <catapult vx="1.5" vy="8.0"/>
+            <catapult vx="1.8" vy="11.0"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="660.0" ty="55.0">
             <model mirror="true"/>
-            <catapult vx="1.7" vy="7.5"/>
+            <catapult vx="1.8" vy="10.0"/>
         </entity>
     </entities>
 </stage>

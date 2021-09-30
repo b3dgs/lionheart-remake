@@ -27,4 +27,5 @@
     <stats health="4"/>
     <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
     <shade horizontal="11" vertical="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

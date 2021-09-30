@@ -41,7 +41,7 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class Head extends FeatureModel implements Routine, Recyclable
 {
-    private static final int FIRE_DELAY_MS = 1500;
+    private static final int FIRE_DELAY_MS = 3000;
 
     private final Tick tick = new Tick();
     private final Animation idle;

@@ -24,6 +24,6 @@
             <lionengine:force velocity="0.012" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
-    <catapult vx="-1.5" vy="6.0"/>
+    <catapult vx="-1.6" vy="8.0"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

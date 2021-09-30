@@ -83,6 +83,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackGrip;
 public final class Hurtable extends FeatureModel
                             implements Routine, CollidableListener, TileCollidableListener, Recyclable
 {
+    private static final int NEXT_DELAY_MS = 5000;
     private static final int HURT_RECOVER_ATTACK_DELAY_MS = 300;
     private static final int HURT_RECOVER_BODY_DELAY_MS = 2000;
     private static final int HURT_FLICKER_DURATION_MS = 2000;
@@ -311,9 +312,10 @@ public final class Hurtable extends FeatureModel
                 body.setGravity(0.25);
                 body.setGravityMax(4.0);
                 tileCollidable.setEnabled(true);
-                this.collidable.setEnabled(false);
             }
             currentCollide = CollidableListenerVoid.getInstance();
+            model.getMovement().zero();
+            this.collidable.setEnabled(false);
         }
         if (model.getMovement().isDecreasingHorizontal())
         {
@@ -470,7 +472,7 @@ public final class Hurtable extends FeatureModel
             {
                 identifiable.destroy();
             }
-            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, 400));
+            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, NEXT_DELAY_MS));
         }
     }
 

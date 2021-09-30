@@ -96,14 +96,11 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
      */
     private void updateFire(double extrp)
     {
-        alive.start();
-
         alive.update(extrp);
         effect.update(extrp);
 
         if (stayDelay > 0 && alive.elapsedTime(source.getRate(), stayDelay))
         {
-            alive.stop();
             identifiable.destroy();
         }
         else if (effect.elapsedTime(source.getRate(), EFFECT_DELAY_MS))
@@ -128,7 +125,7 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
     public void recycle()
     {
         current = this::updateFire;
-        alive.stop();
+        alive.restart();
         effect.restart();
     }
 }

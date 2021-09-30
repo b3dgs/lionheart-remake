@@ -35,7 +35,7 @@
         </lionengine:category>
     </lionengine:categories>
     <lionengine:layerable layerRefresh="2" layerDisplay="5"/>
-    <lionengine:body gravity="0.9" gravityMax="12.0"/>
+    <lionengine:body gravity="0.1" gravityMax="18.0"/>
     <lionengine:collidable group="2" accepted="1"/>
     <hurtable frame="-1" effect="effect/airship/ExplodeBig.xml"/>
     <bulletDestroyOnGround collFromBottom="false"/>

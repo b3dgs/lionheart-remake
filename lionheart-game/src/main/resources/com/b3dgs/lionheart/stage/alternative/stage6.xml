@@ -85,9 +85,9 @@
         </entity>
         <entity file="entity/airship/PotionLittle.xml" tx="467.75" ty="10.25"/>
         <entity file="entity/airship/Head.xml" tx="566.0" ty="13.0"/>
-        <entity file="entity/airship/Gobelin.xml" tx="598.0" ty="15.0"/>
-        <entity file="entity/airship/Gobelin.xml" tx="605.0" ty="15.0"/>
-        <entity file="entity/airship/Gobelin.xml" tx="584.0" ty="15.0"/>
+        <entity file="entity/airship/Gobelin.xml" tx="598.0" ty="14.5"/>
+        <entity file="entity/airship/Gobelin.xml" tx="605.0" ty="14.5"/>
+        <entity file="entity/airship/Gobelin.xml" tx="584.0" ty="14.5"/>
         <entity file="entity/airship/Dragon3.xml" tx="619.0" ty="14.0"/>
         <entity file="entity/airship/Dragon3.xml" tx="638.0" ty="14.0"/>
         <entity file="entity/airship/Dragon3.xml" tx="642.0" ty="14.0"/>
@@ -95,13 +95,13 @@
         <entity file="entity/airship/Canon.xml" tx="591.0" ty="10.0"/>
         <entity file="entity/airship/Canon.xml" tx="616.0" ty="10.0"/>
         <entity file="entity/airship/Laser.xml" tx="646.0" ty="10.0">
-            <laser fireDelay="2000" stayDelay="100"/>
+            <laser fireDelay="2000" stayDelay="1500"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="657.0" ty="10.0">
-            <laser fireDelay="2500" stayDelay="100"/>
+            <laser fireDelay="2500" stayDelay="1500"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="665.0" ty="10.0">
-            <laser fireDelay="3000" stayDelay="160"/>
+            <laser fireDelay="3000" stayDelay="2500"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="729.0" ty="10.0">
             <laser fireDelay="1500" stayDelay="-1"/>
@@ -121,7 +121,7 @@
         </entity>
         <entity file="entity/airship/Canon.xml" tx="739.0" ty="10.0"/>
         <entity file="entity/airship/RotatingPlatformControlled.xml" tx="751.0" ty="12.0">
-            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="2" speed="0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="740.0" ty="24.0"/>
         <entity file="entity/airship/PotionBig.xml" tx="740.0" ty="19.0"/>
@@ -145,7 +145,7 @@
         <entity file="entity/airship/Guard.xml" tx="718.0" ty="22.0"/>
         <entity file="entity/airship/Canon.xml" tx="729.0" ty="30.0"/>
         <entity file="entity/airship/RotatingSpikeBowl360.xml" tx="719.0" ty="30.0">
-            <rotating amplitude="180" extremity="SpikeBowl.xml" length="3" speed="3.0"/>
+            <rotating amplitude="180" extremity="SpikeBowl.xml" length="3" speed="0.05"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="713.0" ty="35.0"/>
         <entity file="entity/airship/PotionLittle.xml" tx="724.0" ty="44.0"/>
@@ -246,7 +246,7 @@
         <entity file="entity/airship/PotionBig.xml" tx="606.0" ty="19.0"/>
         <entity file="entity/airship/Canon.xml" tx="613.0" ty="32.0"/>
         <entity file="entity/airship/Catapult.xml" tx="600.0" ty="29.0">
-            <catapult vx="-1.6" vy="6.0"/>
+            <catapult vx="-1.7" vy="8.0"/>
         </entity>
         <entity file="entity/airship/Guard.xml" tx="579.0" ty="38.0">
             <model next="stage/alternative/stage7.xml"/>
