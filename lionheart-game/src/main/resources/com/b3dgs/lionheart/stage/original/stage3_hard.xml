@@ -303,17 +303,17 @@
             <spike delay="600"/>
         </entity>
         <entity file="entity/swamp/PotionLittle.xml" tx="339.0" ty="70.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="355.5" ty="71.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="378.5" ty="80.5"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="355.5" ty="70.5"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="378.5" ty="80.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="370.0" ty="73.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="374.0" ty="74.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="379.0" ty="74.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="384.0" ty="74.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="389.0" ty="73.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="412.0" ty="81.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="432.0" ty="78.0"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="412.0" ty="80.0"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="432.0" ty="77.0"/>
         <entity file="entity/swamp/Life.xml" tx="436.0" ty="71.0"/>
-        <entity file="entity/swamp/NestLittle.xml" tx="396.0" ty="89.0"/>
+        <entity file="entity/swamp/NestLittle.xml" tx="396.0" ty="87.5"/>
         <entity file="entity/swamp/Flower.xml" tx="10.0" ty="68.0"/>
         <entity file="entity/swamp/Flower.xml" tx="25.0" ty="60.0"/>
         <entity file="entity/swamp/Crawling.xml" tx="28.0" ty="53.0">

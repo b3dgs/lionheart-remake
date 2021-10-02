@@ -17,17 +17,17 @@
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="2" layerDisplay="8"/>
-    <lionengine:launcher level="0" delay="400">
+    <lionengine:launcher level="0" delay="450">
         <lionengine:launchable media="projectile/dragonfly/Fireball.xml" ox="60" oy="60">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="6.0" vy="0.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
-    <lionengine:launcher level="1" delay="400">
+    <lionengine:launcher level="1" delay="450">
         <lionengine:launchable media="projectile/dragonfly/FireballUp.xml" ox="60" oy="60">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="6.0" vy="2.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
-    <lionengine:launcher level="2" delay="400">
+    <lionengine:launcher level="2" delay="450">
         <lionengine:launchable media="projectile/dragonfly/FireballDown.xml" ox="60" oy="60">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="6.0" vy="-2.0"/>
         </lionengine:launchable>
