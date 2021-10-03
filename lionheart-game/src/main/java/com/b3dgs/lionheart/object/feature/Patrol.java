@@ -260,6 +260,26 @@ public final class Patrol extends FeatureModel
     }
 
     /**
+     * Get horizontal patrol.
+     * 
+     * @return The horizontal patrol.
+     */
+    public double getSh()
+    {
+        return sh;
+    }
+
+    /**
+     * Get vertical patrol.
+     * 
+     * @return The vertical patrol.
+     */
+    public double getSv()
+    {
+        return sv;
+    }
+
+    /**
      * Change direction side.
      */
     private void changeDirection()

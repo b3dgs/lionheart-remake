@@ -91,7 +91,7 @@ public final class Constant
     /** Jump maximum height on hit. */
     public static final double JUMP_HIT = 5.5;
     /** Jump maximum height. */
-    public static final Direction JUMP_MAX = new Force(0.0, 5.7);
+    public static final Direction JUMP_MAX = new Force(0.0, 5.75);
     /** Jump spider height. */
     public static final Direction JUMP_SPIDER = new Force(0.0, 4.2);
 

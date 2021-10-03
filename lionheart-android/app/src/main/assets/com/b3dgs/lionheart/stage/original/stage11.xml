@@ -18,68 +18,68 @@
         <entity file="entity/airship/Road.xml" tx="0.0" ty="0.0"/>
         <entity file="entity/airship/Animal.xml" tx="12.0" ty="7.0"/>
         <entity file="entity/airship/Dragon2.xml" tx="48.0" ty="11.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.3" svy="2.5"/>
-            <patrol sh="0.2" sv="0.0" delay="70"/>
-            <patrol sh="1.5" sv="0.0" delay="90"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.3" svy="2.5"/>
+            <patrol sh="0.2" sv="0.0" delay="1000"/>
+            <patrol sh="1.5" sv="0.0" delay="1500"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/Dragon1.xml" tx="74.0" ty="10.0">
             <dragon1 firedCount="3"/>
         </entity>
         <entity file="entity/airship/Dragon2.xml" tx="110.0" ty="7.0">
-            <shooter fireDelay="70" firedDelay="0" svx="1.0" svy="0.2"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="1.0" svy="0.2"/>
             <patrol sh="0.2" sv="0.0"/>
         </entity>
         <entity file="entity/airship/PotionLittle.xml" tx="90.0" ty="10.5"/>
         <entity file="entity/airship/Dragon2.xml" tx="139.0" ty="11.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.3" svy="2.5"/>
-            <patrol sh="0.2" sv="0.0" delay="50"/>
-            <patrol sh="1.5" sv="0.0" delay="90"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.3" svy="2.5"/>
+            <patrol sh="0.2" sv="0.0" delay="1000"/>
+            <patrol sh="1.5" sv="0.0" delay="1500"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/Dragon1.xml" tx="169.0" ty="10.0">
             <dragon1 firedCount="5"/>
         </entity>
         <entity file="entity/airship/Dragon2.xml" tx="207.0" ty="10.0">
-            <shooter fireDelay="70" firedDelay="0" svx="1.0" svy="1.4"/>
-            <patrol sh="0.2" sv="0.0" delay="50"/>
-            <patrol sh="1.5" sv="0.0" delay="480"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="1.0" svy="1.4"/>
+            <patrol sh="0.2" sv="0.0" delay="1000"/>
+            <patrol sh="1.5" sv="0.0" delay="8000"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/Dragon2.xml" tx="207.0" ty="7.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.8" svy="1.4"/>
-            <patrol sh="0.2" sv="0.0" delay="50"/>
-            <patrol sh="1.5" sv="0.0" delay="520"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.8" svy="1.4"/>
+            <patrol sh="0.2" sv="0.0" delay="1000"/>
+            <patrol sh="1.5" sv="0.0" delay="8000"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/PotionLittle.xml" tx="276.0" ty="8.5"/>
         <entity file="entity/airship/Dragon1.xml" tx="286.0" ty="12.0">
             <dragon1 firedCount="8"/>
         </entity>
         <entity file="entity/airship/Dragon2.xml" tx="333.0" ty="9.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.8" svy="1.2"/>
-            <patrol sh="0.2" sv="0.0" delay="30"/>
-            <patrol sh="1.5" sv="0.0" delay="490"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.8" svy="1.2"/>
             <patrol sh="0.2" sv="0.0" delay="500"/>
+            <patrol sh="1.5" sv="0.0" delay="8000"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/Dragon2.xml" tx="335.0" ty="9.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.8" svy="1.2"/>
-            <patrol sh="0.2" sv="0.0" delay="25"/>
-            <patrol sh="1.5" sv="0.0" delay="493"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.8" svy="1.2"/>
+            <patrol sh="0.2" sv="0.0" delay="400"/>
+            <patrol sh="1.5" sv="0.0" delay="8000"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/Dragon2.xml" tx="337.0" ty="9.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.8" svy="1.2"/>
-            <patrol sh="0.2" sv="0.0" delay="20"/>
-            <patrol sh="1.5" sv="0.0" delay="496"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.8" svy="1.2"/>
+            <patrol sh="0.2" sv="0.0" delay="250"/>
+            <patrol sh="1.5" sv="0.0" delay="8000"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/PotionLittle.xml" tx="385.0" ty="11.25"/>
         <entity file="entity/airship/Dragon2.xml" tx="420.0" ty="10.0">
-            <shooter fireDelay="70" firedDelay="0" svx="0.5" svy="2.0"/>
-            <patrol sh="0.2" sv="0.0" delay="60"/>
-            <patrol sh="1.5" sv="0.0" delay="620"/>
-            <patrol sh="0.2" sv="0.0" delay="500"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="0.5" svy="2.0"/>
+            <patrol sh="0.2" sv="0.0" delay="1000"/>
+            <patrol sh="1.5" sv="0.0" delay="10000"/>
+            <patrol sh="0.2" sv="0.0" delay="8000"/>
         </entity>
         <entity file="entity/airship/Dragon1.xml" tx="437.0" ty="8.0">
             <dragon1 firedCount="6"/>
@@ -175,10 +175,10 @@
         <entity file="entity/airship/Canon.xml" tx="656.0" ty="10.0"/>
         <entity file="entity/airship/Canon.xml" tx="689.0" ty="10.0"/>
         <entity file="entity/airship/Laser.xml" tx="699.5" ty="10.0">
-            <laser fireDelay="2000" stayDelay="80"/>
+            <laser fireDelay="2000" stayDelay="1250"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="722.5" ty="10.0">
-            <laser fireDelay="2000" stayDelay="80"/>
+            <laser fireDelay="2000" stayDelay="1250"/>
         </entity>
         <entity file="entity/airship/Laser.xml" tx="729.5" ty="10.0">
             <laser fireDelay="1600" stayDelay="-1"/>
@@ -188,7 +188,7 @@
         <entity file="entity/airship/Canon.xml" tx="716.0" ty="35.0"/>
         <entity file="entity/airship/Canon.xml" tx="705.0" ty="42.0"/>
         <entity file="entity/airship/Laser.xml" tx="707.5" ty="42.0">
-            <laser fireDelay="240" stayDelay="2500"/>
+            <laser fireDelay="4000" stayDelay="2500"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="702.0" ty="35.0"/>
         <entity file="entity/airship/Guard.xml" tx="683.0" ty="22.0"/>
@@ -200,7 +200,7 @@
         <entity file="entity/airship/Canon.xml" tx="637.0" ty="78.0"/>
         <entity file="entity/airship/PotionLittle.xml" tx="632.0" ty="80.0"/>
         <entity file="entity/airship/Laser.xml" tx="650.5" ty="78.0">
-            <laser fireDelay="1600" stayDelay="90"/>
+            <laser fireDelay="1600" stayDelay="1500"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="704.0" ty="58.0"/>
         <entity file="entity/airship/Dragon3.xml" tx="710.0" ty="54.0"/>

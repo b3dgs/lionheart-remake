@@ -100,8 +100,6 @@ public final class LaserAirship extends FeatureModel
      */
     private void updatePrepare(double extrp)
     {
-        tick.start();
-
         tick.update(extrp);
         if (tick.elapsedTime(source.getRate(), config.getFireDelay()))
         {
@@ -241,6 +239,6 @@ public final class LaserAirship extends FeatureModel
         }
         current = this::updatePrepare;
         dotEndY = 0.0;
-        tick.stop();
+        tick.restart();
     }
 }

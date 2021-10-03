@@ -144,7 +144,7 @@
             <shooter anim="0" fireDelay="3000" firedDelay="0" svx="0.0" svy="0.0"/>
         </entity>
         <entity file="entity/swamp/Flower.xml" tx="236.0" ty="15.0"/>
-        <entity file="entity/swamp/Bee.xml" tx="247.0" ty="3.0">
+        <entity file="entity/swamp/Bee.xml" tx="247.0" ty="7.0">
             <model mirror="true"/>
             <patrol amplitude="64" mirror="false" sv="-0.7"/>
         </entity>
@@ -230,10 +230,10 @@
             <patrol amplitude="64" sh="0.7"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="436.0" ty="11.0">
-            <patrol amplitude="64" animOffset="12" sh="0.0" sv="1.0"/>
-            <patrol amplitude="80" animOffset="0" sh="-1.0" sv="0.0"/>
-            <patrol amplitude="80" animOffset="0" sh="1.0" sv="0.0"/>
-            <patrol amplitude="64" animOffset="12" sh="0.0" sv="-1.0"/>
+            <patrol amplitude="64" animOffset="12" sh="0.0" sv="0.9"/>
+            <patrol amplitude="80" animOffset="0" sh="-0.9" sv="0.0"/>
+            <patrol amplitude="80" animOffset="0" sh="0.9" sv="0.0"/>
+            <patrol amplitude="64" animOffset="12" sh="0.0" sv="-0.9"/>
         </entity>
         <entity file="entity/swamp/TurningHit.xml" tx="427.0" ty="15.0"/>
         <entity file="entity/swamp/Flower.xml" tx="430.0" ty="15.0"/>
@@ -328,18 +328,18 @@
         </entity>
         <entity file="entity/swamp/Floater.xml" tx="543.0" ty="2.0"/>
         <entity file="entity/swamp/Beetle.xml" tx="551.0" ty="9.0">
-            <patrol amplitude="160" animOffset="12" sv="1.0"/>
+            <patrol amplitude="160" animOffset="12" sv="0.9"/>
         </entity>
         <entity file="entity/swamp/Bird.xml" tx="548.0" ty="21.0">
             <patrol amplitude="32" mirror="false" sv="0.6"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="561.0" ty="11.0">
-            <patrol amplitude="80" animOffset="0" sh="1.0" sv="0.0"/>
-            <patrol amplitude="80" animOffset="0" sh="-1.0" sv="0.0"/>
+            <patrol amplitude="80" animOffset="0" sh="0.9" sv="0.0"/>
+            <patrol amplitude="80" animOffset="0" sh="-0.9" sv="0.0"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="571.0" ty="11.0">
-            <patrol amplitude="96" animOffset="12" sh="0.0" sv="-1.0"/>
-            <patrol amplitude="96" animOffset="12" sh="0.0" sv="1.0"/>
+            <patrol amplitude="96" animOffset="12" sh="0.0" sv="-0.9"/>
+            <patrol amplitude="96" animOffset="12" sh="0.0" sv="0.9"/>
         </entity>
         <entity file="entity/swamp/Floater.xml" tx="573.0" ty="2.0"/>
         <entity file="entity/swamp/Sheet.xml" tx="430.0" ty="3.0">

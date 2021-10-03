@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Transformable;
 
 /**
  * Dragon4 feature implementation.
@@ -34,10 +33,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 @FeatureInterface
 public final class Dragon4 extends FeatureModel implements Routine
 {
-    private static final double MIN_SHOOT_SPEED = 0.35;
-
     @FeatureGet private Shooter shooter;
-    @FeatureGet private Transformable transformable;
+    @FeatureGet private Patrol patrol;
 
     /**
      * Create feature.
@@ -54,7 +51,6 @@ public final class Dragon4 extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        shooter.setEnabled(Math.abs(transformable.getX() - transformable.getOldX()) < MIN_SHOOT_SPEED
-                           && Math.abs(transformable.getY() - transformable.getOldY()) < MIN_SHOOT_SPEED);
+        shooter.setEnabled(Double.compare(patrol.getSh(), 0.25) == 0 && patrol.getSv() < 0.1);
     }
 }

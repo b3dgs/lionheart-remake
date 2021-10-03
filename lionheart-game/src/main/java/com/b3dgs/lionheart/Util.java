@@ -24,13 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.game.Cursor;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -38,6 +41,12 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConf
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.graphic.ColorRgba;
+import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.ImageBuffer;
+import com.b3dgs.lionengine.graphic.Text;
+import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.engine.Loop;
 import com.b3dgs.lionengine.graphic.engine.LoopHybrid;
 import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
@@ -54,6 +63,9 @@ import com.b3dgs.lionheart.object.XmlLoader;
  */
 public final class Util
 {
+    private static final int MARGIN_X = 1;
+    private static final int MARGIN_Y = 5;
+
     private static volatile Consumer<BackgroundType> init;
 
     /**
@@ -126,15 +138,16 @@ public final class Util
      * @param minHeight The minimum height.
      * @param maxWidth The maximum width.
      * @param marginWidth The width margin.
+     * @param force The force resize flag.
      * @return The adjusted source resolution based on output wide.
      */
-    public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth)
+    public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth, boolean force)
     {
         final Resolution resolution;
-        final Resolution output = context.getConfig().getOutput();
-        if (Settings.getInstance().getResolutionResize())
+        final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
+        if (Settings.getInstance().getResolutionResize() || force)
         {
-            final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
+            final Resolution output = context.getConfig().getOutput();
             final double ratio = (double) output.getWidth() / (double) output.getHeight();
             final int width = adjusted.getWidth() - (adjusted.getWidth() - maxWidth + marginWidth);
             final int height = (int) Math.round(width / ratio);
@@ -150,9 +163,23 @@ public final class Util
         }
         else
         {
-            resolution = output;
+            resolution = adjusted;
         }
         return resolution;
+    }
+
+    /**
+     * Get resolution adapted to output from source.
+     * 
+     * @param context The context reference.
+     * @param minHeight The minimum height.
+     * @param maxWidth The maximum width.
+     * @param marginWidth The width margin.
+     * @return The adjusted source resolution based on output wide.
+     */
+    public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth)
+    {
+        return getResolution(context, minHeight, maxWidth, marginWidth, false);
     }
 
     /**
@@ -319,6 +346,90 @@ public final class Util
             }
             menus.get(i).spawn(x, y - 1);
         }
+    }
+
+    /**
+     * Generate sprint font from text.
+     * 
+     * @param font The font name.
+     * @param textSize The text size.
+     * @param style The text style.
+     * @param color The text color.
+     */
+    public static void generateFont(String font, int textSize, TextStyle style, ColorRgba color)
+    {
+        final Text text = Graphics.createText(font, textSize, style);
+        final int size = text.getSize() - 1;
+        text.setColor(color);
+
+        final char[] letters = getLetters();
+        final int[] mult = UtilMath.getClosestSquareMult(letters.length, letters.length);
+
+        final ImageBuffer buffer = Graphics.createImageBuffer((size + MARGIN_X) * mult[0], (size + MARGIN_Y) * mult[1]);
+        buffer.prepare();
+
+        final Graphic g = buffer.createGraphic();
+        drawAll(letters, size, mult[0], text, g);
+        g.dispose();
+
+        Graphics.saveImage(buffer, Medias.create("font.png"));
+    }
+
+    private static char[] getLetters()
+    {
+        final char[] letters = new char[102];
+
+        int i = 0;
+        i = addRange(letters, i, 'a', 'z');
+        i = addRange(letters, i, 'A', 'Z');
+        i = addRange(letters, i, '0', '9');
+        i = addList(letters, i, 'à', 'á', 'ç', 'è', 'é', 'ì', 'í', 'ñ', 'ó', 'ô', 'ö', 'ú', 'û', 'ü');
+        i = addList(letters, i, 'À', 'Á', 'Ç', 'È', 'É', 'Ì', 'Í', 'Ñ', 'Ó', 'Ô', 'Ö', 'Ú', 'Û', 'Ü');
+        i = addList(letters, i, ',', '?', '!', '.', '-', ':', '*', '/', '&', '(', ')', ' ');
+
+        return letters;
+    }
+
+    private static int addRange(char[] letters, int start, char first, char last)
+    {
+        int i = 0;
+        for (char c = first; c <= last; c++)
+        {
+            letters[start + i] = c;
+            i++;
+        }
+        return start + i;
+    }
+
+    private static int addList(char[] chars, int start, char... c)
+    {
+        System.arraycopy(c, 0, chars, start, c.length);
+        return start + c.length;
+    }
+
+    private static void drawAll(char[] letters, int size, int horizontals, Text text, Graphic g)
+    {
+        int x = 0;
+        int y = 0;
+        final Xml root = new Xml("lionengine:letters");
+        for (int i = 0; i < letters.length; i++)
+        {
+            final String s = String.valueOf(letters[i]);
+            text.draw(g, x * (size + MARGIN_X) + MARGIN_X, y * (size + MARGIN_Y) + MARGIN_Y, Align.LEFT, s);
+
+            final Xml node = root.createChild("lionengine:letter");
+            node.writeString("char", s);
+            node.writeInteger("width", text.getStringWidth(g, s) - 1);
+            node.writeInteger("height", 0);
+
+            x++;
+            if (x >= horizontals)
+            {
+                x = 0;
+                y++;
+            }
+        }
+        root.save(Medias.create("font.xml"));
     }
 
     /**

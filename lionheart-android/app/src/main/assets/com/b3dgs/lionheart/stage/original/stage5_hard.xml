@@ -44,7 +44,7 @@
         <entity file="entity/swamp/Talisment.xml" tx="89.0" ty="25.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="90.0" ty="25.0"/>
         <entity file="entity/swamp/Beetle.xml" tx="50.0" ty="22.0">
-            <patrol sh="-1.0" amplitude="140"/>
+            <patrol sh="-0.9" amplitude="140"/>
         </entity>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="16.0" ty="24.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="14.0" ty="24.0"/>
@@ -56,19 +56,19 @@
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="2.0" ty="24.0"/>
         <entity file="entity/swamp/CarnivorousPlant.xml" tx="1.0" ty="24.0"/>
         <entity file="entity/swamp/Beetle.xml" tx="20.0" ty="40.0">
-            <patrol sh="0.0" sv="-1.2" amplitude="80" animOffset="12"/>
-            <patrol sh="0.0" sv="1.0" amplitude="80" animOffset="12"/>
-            <patrol sh="1.2" sv="0.0" amplitude="608" animOffset="0"/>
-            <patrol sh="0.0" sv="-1.2" amplitude="80" animOffset="12"/>
-            <patrol sh="0.0" sv="1.2" amplitude="80" animOffset="12"/>
-            <patrol sh="-1.2" sv="0.0" amplitude="800" animOffset="0"/>
-            <patrol sh="0.0" sv="-1.2" amplitude="80" animOffset="12"/>
-            <patrol sh="0.0" sv="1.2" amplitude="80" animOffset="12"/>
-            <patrol sh="1.2" sv="0.0" amplitude="192" animOffset="0"/>
+            <patrol sh="0.0" sv="-0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="0.9" sv="0.0" amplitude="608" animOffset="0"/>
+            <patrol sh="0.0" sv="-0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="-0.9" sv="0.0" amplitude="800" animOffset="0"/>
+            <patrol sh="0.0" sv="-0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="0.9" sv="0.0" amplitude="192" animOffset="0"/>
         </entity>
         <entity file="entity/swamp/PotionLittle.xml" tx="2.0" ty="43.0"/>
         <entity file="entity/swamp/Bee.xml" tx="30.5" ty="48.0">
-            <patrol sh="-0.2" sv="-1.0" amplitude="64"/>
+            <patrol sh="-0.2" sv="-0.9" amplitude="64"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="36.0" ty="50.0">
             <patrol sh="-0.7" sv="-0.7" amplitude="48"/>
@@ -244,10 +244,10 @@
             <patrol sh="0.0" sv="0.6" amplitude="64" animOffset="12"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="314.0" ty="9.0">
-            <patrol sh="1.0" sv="0.0" amplitude="352" animOffset="0"/>
-            <patrol sh="0.0" sv="-1.0" amplitude="80" animOffset="12"/>
-            <patrol sh="0.0" sv="1.0" amplitude="80" animOffset="12"/>
-            <patrol sh="-1.0" sv="0.0" amplitude="352" animOffset="0"/>
+            <patrol sh="0.9" sv="0.0" amplitude="352" animOffset="0"/>
+            <patrol sh="0.0" sv="-0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="0.0" sv="0.9" amplitude="80" animOffset="12"/>
+            <patrol sh="-0.9" sv="0.0" amplitude="352" animOffset="0"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="345.0" ty="5.0">
             <patrol sv="0.4" amplitude="64" animOffset="12"/>
@@ -364,7 +364,7 @@
             <patrol sh="1.0" amplitude="80"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="562.0" ty="5.0">
-            <patrol sh="1.0" amplitude="120"/>
+            <patrol sh="0.9" amplitude="120"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="63.0" ty="18.0">
             <model mirror="true"/>

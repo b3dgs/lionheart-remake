@@ -56,7 +56,7 @@ public final class BulletDestroyOnCollide extends FeatureModel implements Routin
     @Override
     public void update(double extrp)
     {
-        if (!viewer.isViewable(transformable, 0, 0))
+        if (!viewer.isViewable(transformable, -16, 0))
         {
             identifiable.destroy();
         }
