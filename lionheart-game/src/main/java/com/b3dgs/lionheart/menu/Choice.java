@@ -19,9 +19,12 @@ package com.b3dgs.lionheart.menu;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Cursor;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Renderable;
-import com.b3dgs.lionengine.graphic.Text;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 
 /**
  * Represents a choice in the menu.
@@ -37,37 +40,45 @@ final class Choice implements Renderable
     /** Next menu pointer. */
     private final MenuType next;
     /** Text reference. */
-    private final Text text;
+    private final SpriteFont text;
     /** Choice name. */
     private final String name;
     /** Text align. */
     private final Align align;
+    /** Current text. */
+    private ImageBuffer current;
+    /** Buffer. */
+    private final ImageBuffer buffer;
+    /** Buffer hover. */
+    private final ImageBuffer bufferHover;
 
     /**
      * Constructor.
      * 
      * @param text The text reference.
+     * @param textHover The text hover reference.
      * @param name The choice name.
      * @param x The horizontal location.
      * @param y The vertical location.
      * @param align The text align.
      */
-    Choice(Text text, String name, int x, int y, Align align)
+    Choice(SpriteFont text, SpriteFont textHover, String name, int x, int y, Align align)
     {
-        this(text, name, x, y, align, null);
+        this(text, textHover, name, x, y, align, null);
     }
 
     /**
      * Constructor.
      * 
      * @param text The text reference.
+     * @param textHover The text hover reference.
      * @param name The choice name.
      * @param x The horizontal location.
      * @param y The vertical location.
      * @param align The text align.
      * @param next The next menu pointer.
      */
-    Choice(Text text, String name, int x, int y, Align align, MenuType next)
+    Choice(SpriteFont text, SpriteFont textHover, String name, int x, int y, Align align, MenuType next)
     {
         super();
 
@@ -77,6 +88,22 @@ final class Choice implements Renderable
         this.y = y;
         this.align = align;
         this.next = next;
+
+        buffer = Graphics.createImageBuffer(text.getTextWidth(name),
+                                            text.getTextHeight(name) + 4,
+                                            ColorRgba.TRANSPARENT);
+        buffer.prepare();
+        bufferHover = Graphics.createImageBuffer(buffer.getWidth(), buffer.getHeight() + 4, ColorRgba.TRANSPARENT);
+        bufferHover.prepare();
+
+        Graphic g = buffer.createGraphic();
+        text.draw(g, 0, 0, Align.LEFT, name);
+        g.dispose();
+        current = buffer;
+
+        g = bufferHover.createGraphic();
+        textHover.draw(g, 0, 0, Align.LEFT, name);
+        g.dispose();
     }
 
     /**
@@ -126,7 +153,18 @@ final class Choice implements Renderable
             x2 = x + 100;
         }
 
-        return UtilMath.isBetween(cursor.getScreenX(), x1, x2) && UtilMath.isBetween(cursor.getScreenY(), y, y + 20);
+        return UtilMath.isBetween(cursor.getScreenX(), x1, x2)
+               && UtilMath.isBetween(cursor.getScreenY(), y + 5, y + 25);
+    }
+
+    /**
+     * Set text hover flag.
+     * 
+     * @param hover <code>true</code> if hover, <code>false</code> else.
+     */
+    public void setHover(boolean hover)
+    {
+        current = hover ? bufferHover : buffer;
     }
 
     @Override
@@ -135,8 +173,12 @@ final class Choice implements Renderable
         int offsetX = 0;
         if (Align.LEFT == align)
         {
-            offsetX = Math.max(0, text.getStringWidth(g, name) - MAX_WIDTH);
+            offsetX = Math.max(0, text.getTextWidth(name) - MAX_WIDTH);
         }
-        text.draw(g, x - offsetX, y, align, name);
+        else if (Align.CENTER == align)
+        {
+            offsetX = text.getTextWidth(name) / 2;
+        }
+        g.drawImage(current, x - offsetX, y);
     }
 }

@@ -16,38 +16,27 @@
  */
 package com.b3dgs.lionheart.menu;
 
-import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Text;
 
 /**
  * Handle a group of choice, which represents the actions in a menu.
  */
 final class Data
 {
-    /** Text color. */
-    private static final ColorRgba COLOR_TEXT = new ColorRgba(136, 136, 136);
-    /** Text color on selection. */
-    private static final ColorRgba COLOR_OVER = new ColorRgba(255, 255, 255);
-
     /** Maximum number of choices. */
     final int choiceMax;
     /** Choices list. */
     final Choice[] choices;
-    /** Text reference. */
-    private final Text text;
 
     /**
      * Constructor.
      * 
-     * @param text The text reference.
      * @param choices The choices list.
      */
-    Data(Text text, Choice... choices)
+    Data(Choice... choices)
     {
         super();
 
-        this.text = text;
         choiceMax = choices.length - 1;
         this.choices = choices;
     }
@@ -62,14 +51,7 @@ final class Data
     {
         for (int i = 0; i <= choiceMax; i++)
         {
-            if (choice == i)
-            {
-                text.setColor(Data.COLOR_OVER);
-            }
-            else
-            {
-                text.setColor(Data.COLOR_TEXT);
-            }
+            choices[i].setHover(choice == i);
             choices[i].render(g);
         }
     }

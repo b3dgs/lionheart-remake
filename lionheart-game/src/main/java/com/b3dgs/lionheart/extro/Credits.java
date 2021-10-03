@@ -31,13 +31,11 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.RenderableVoid;
-import com.b3dgs.lionengine.graphic.Text;
-import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -57,7 +55,6 @@ import com.b3dgs.lionheart.menu.Menu;
  */
 public class Credits extends Sequence
 {
-    private static final ColorRgba COLOR = new ColorRgba(238, 238, 238);
     private static final double SCROLL_SPEED = 0.24;
     private static final int FADE_SPEED = 5;
 
@@ -82,7 +79,7 @@ public class Credits extends Sequence
     /** Alpha speed. */
     int alphaSpeed = FADE_SPEED;
 
-    private final List<Text> texts = new ArrayList<>();
+    private final List<SpriteFont> texts = new ArrayList<>();
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
     private final Sprite credits;
     private final Time time;
@@ -90,7 +87,7 @@ public class Credits extends Sequence
     private final boolean alternative;
     private final AppInfo info;
     private final int count;
-    private final Text lastText;
+    private final SpriteFont lastText;
     private final DeviceController deviceCursor;
 
     private Updatable updater = this::updateFadeIn;
@@ -181,26 +178,43 @@ public class Credits extends Sequence
     {
         int y = oldY;
         final int size = Integer.parseInt(line.substring(1, 3));
-        final Text text;
+        final int tw;
+        final int th;
+        if (size == 26)
+        {
+            tw = 26;
+            th = 30;
+        }
+        else if (size == 24)
+        {
+            tw = 24;
+            th = 28;
+        }
+        else if (size == 14)
+        {
+            tw = 14;
+            th = 18;
+        }
+        else
+        {
+            tw = 11;
+            th = 15;
+        }
+        final SpriteFont text = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font" + size + ".png"),
+                                                        Medias.create(Folder.SPRITE, "font" + size + ".xml"),
+                                                        tw,
+                                                        th);
+        text.load();
+        text.prepare();
 
         if (line.charAt(0) == TEXT_CENTER)
         {
-            text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, size, TextStyle.NORMAL);
             text.setAlign(Align.CENTER);
             text.setLocation(getWidth() / 2, y);
             y += size;
         }
         else
         {
-            if (size == TEXT_SIZE_SMALL)
-            {
-                text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, size, TextStyle.BOLD);
-            }
-            else
-            {
-                text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, size, TextStyle.NORMAL);
-            }
-
             y += size;
             text.setAlign(Align.LEFT);
 
@@ -220,7 +234,6 @@ public class Credits extends Sequence
             }
         }
         text.setText(line.substring(TEXT_BEGIN_INDEX));
-        text.setColor(COLOR);
         texts.add(text);
 
         return y;
@@ -266,12 +279,12 @@ public class Credits extends Sequence
      */
     private void updateScroll(double extrp)
     {
-        if (lastText.getLocationY() > getHeight() - TEXT_SCROLL_END_HEIGHT)
+        if (lastText.getY() > getHeight() - TEXT_SCROLL_END_HEIGHT)
         {
             for (int i = 0; i < count; i++)
             {
-                final Text text = texts.get(i);
-                text.setLocation(text.getLocationX(), text.getLocationY() - SCROLL_SPEED * extrp);
+                final SpriteFont text = texts.get(i);
+                text.setLocation(text.getX(), text.getY() - SCROLL_SPEED * extrp);
             }
         }
         else if (device.isFired(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
@@ -333,8 +346,8 @@ public class Credits extends Sequence
     {
         for (int i = textFirstToRender; i < count; i++)
         {
-            final Text text = texts.get(i);
-            final double y = text.getLocationY();
+            final SpriteFont text = texts.get(i);
+            final double y = text.getY();
             if (y < -text.getHeight())
             {
                 textFirstToRender = i;

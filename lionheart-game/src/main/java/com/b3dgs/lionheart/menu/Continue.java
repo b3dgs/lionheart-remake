@@ -34,12 +34,10 @@ import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Graphics;
-import com.b3dgs.lionengine.graphic.Text;
-import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -82,11 +80,18 @@ public class Continue extends Sequence
     private static final int VALDYN_FRAME_OFFSET_X = -8;
     private static final int VALDYN_OFFSET_Y = 242;
 
-    private static final ColorRgba COLOR_OPTION = new ColorRgba(170, 204, 238);
-    private static final ColorRgba COLOR_TITLE = new ColorRgba(255, 255, 255);
-
-    private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
-    private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private final SpriteFont textWhite = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu.png"),
+                                                                 Medias.create(Folder.SPRITE, "fontmenu.xml"),
+                                                                 26,
+                                                                 30);
+    private final SpriteFont textDark = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu_dark.png"),
+                                                                Medias.create(Folder.SPRITE, "fontmenu.xml"),
+                                                                26,
+                                                                30);
+    private final SpriteFont textBlue = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu_blue.png"),
+                                                                Medias.create(Folder.SPRITE, "fontmenu.xml"),
+                                                                26,
+                                                                30);
     private final List<String> continues = Util.readLines(Medias.create(Folder.TEXT,
                                                                         Settings.getInstance().getLang(),
                                                                         Folder.MENU,
@@ -166,6 +171,15 @@ public class Continue extends Sequence
         cursor.setSync(pointer);
         info = new AppInfo(this::getFps, services);
 
+        textWhite.load();
+        textWhite.prepare();
+
+        textDark.load();
+        textDark.prepare();
+
+        textBlue.load();
+        textBlue.prepare();
+
         mainY = (getHeight() + MAIN_Y_OFFSET) / 2;
 
         back.setOrigin(Origin.CENTER_TOP);
@@ -192,10 +206,10 @@ public class Continue extends Sequence
         final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(text, continues.get(INDEX_YES), x - 100, mainY + 188, Align.CENTER, null),
-            new Choice(text, continues.get(INDEX_NO), x + 100, mainY + 188, Align.CENTER, null),
+            new Choice(textDark, textWhite, continues.get(INDEX_YES), x - 100, mainY + 188, Align.CENTER, null),
+            new Choice(textDark, textWhite, continues.get(INDEX_NO), x + 100, mainY + 188, Align.CENTER, null),
         };
-        return new Data(text, choices);
+        return new Data(choices);
     }
 
     /**
@@ -360,27 +374,25 @@ public class Continue extends Sequence
         data.render(g, choice);
         valdyn.render(g);
 
-        textTitle.setColor(COLOR_TITLE);
-        textTitle.draw(g,
+        textWhite.draw(g,
                        (int) Math.round(CENTER_X * factorH),
                        mainY + TEXT_TIME_Y,
                        Align.CENTER,
                        continues.get(INDEX_CONTINUE));
         if (!tick.isStarted() && timeLeft.elapsedTime(getRate()) < TIME_MAX_MS)
         {
-            textTitle.draw(g,
+            textWhite.draw(g,
                            (int) Math.round(CENTER_X * factorH),
                            mainY + TEXT_VALUE_Y,
                            Align.CENTER,
                            "(" + formatTime() + ")");
         }
 
-        text.setColor(COLOR_OPTION);
-        text.draw(g,
-                  (int) Math.round(CENTER_X * factorH),
-                  mainY + TEXT_CREDITS_Y,
-                  Align.CENTER,
-                  continues.get(INDEX_CREDITS) + String.valueOf(init.getCredits()));
+        textBlue.draw(g,
+                      (int) Math.round(CENTER_X * factorH),
+                      mainY + TEXT_CREDITS_Y,
+                      Align.CENTER,
+                      continues.get(INDEX_CREDITS) + String.valueOf(init.getCredits()));
     }
 
     /**

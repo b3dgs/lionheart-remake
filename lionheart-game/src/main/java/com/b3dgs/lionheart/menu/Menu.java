@@ -37,10 +37,10 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
-import com.b3dgs.lionengine.graphic.Text;
-import com.b3dgs.lionengine.graphic.TextStyle;
+import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
@@ -80,10 +80,18 @@ public class Menu extends Sequence
         return Util.readLines(Medias.create(Folder.TEXT, settings.getLang(), Folder.MENU, file));
     }
 
-    private final ColorRgba colorOption = new ColorRgba(170, 204, 238);
-    private final ColorRgba colorTitle = new ColorRgba(255, 255, 255);
-    private final Text textTitle = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
-    private final Text text = Graphics.createText(com.b3dgs.lionengine.Constant.FONT_SERIF, 26, TextStyle.BOLD);
+    private final SpriteFont textWhite = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu.png"),
+                                                                 Medias.create(Folder.SPRITE, "fontmenu.xml"),
+                                                                 25,
+                                                                 29);
+    private final SpriteFont textDark = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu_dark.png"),
+                                                                Medias.create(Folder.SPRITE, "fontmenu.xml"),
+                                                                25,
+                                                                29);
+    private final SpriteFont textBlue = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu_blue.png"),
+                                                                Medias.create(Folder.SPRITE, "fontmenu.xml"),
+                                                                25,
+                                                                29);
     private final Settings settings = Settings.getInstance();
 
     private final List<String> main = getText(settings, "main.txt");
@@ -91,6 +99,10 @@ public class Menu extends Sequence
     private final List<String> optionsDifficulty = getText(settings, "difficulties.txt");
     private final List<String> optionsJoystick = getText(settings, "joystick.txt");
     private final List<String> optionsMusic = getText(settings, "music.txt");
+
+    private final ImageBuffer[] bufferOptions = new ImageBuffer[optionsDifficulty.size()
+                                                                + optionsJoystick.size()
+                                                                + optionsMusic.size()];
 
     /** Alpha step speed. */
     int alphaSpeed = FADE_SPEED;
@@ -138,7 +150,7 @@ public class Menu extends Sequence
      */
     public Menu(Context context)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
+        super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop());
 
         setSystemCursorVisible(false);
 
@@ -168,10 +180,36 @@ public class Menu extends Sequence
 
         info = new AppInfo(this::getFps, services);
 
+        textWhite.load();
+        textWhite.prepare();
+        textDark.load();
+        textDark.prepare();
+        textBlue.load();
+        textBlue.prepare();
+
         mainY = (getHeight() - MIN_HEIGHT) / 2;
 
         menusData[0] = createMain();
         menusData[1] = createOptions();
+
+        int i = 0;
+        i = cacheText(optionsDifficulty, i, bufferOptions, textBlue);
+        i = cacheText(optionsJoystick, i, bufferOptions, textBlue);
+        i = cacheText(optionsMusic, i, bufferOptions, textBlue);
+    }
+
+    private static int cacheText(List<String> texts, int index, ImageBuffer[] buffers, SpriteFont text)
+    {
+        int i;
+        for (i = 0; i < texts.size(); i++)
+        {
+            buffers[i + index] = Graphics.createImageBuffer(160, 40, ColorRgba.TRANSPARENT);
+            buffers[i + index].prepare();
+            final Graphic g = buffers[i + index].createGraphic();
+            text.draw(g, 0, 0, Align.LEFT, texts.get(i));
+            g.dispose();
+        }
+        return index + i;
     }
 
     /**
@@ -184,12 +222,12 @@ public class Menu extends Sequence
         final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(text, main.get(0), x, mainY + 120, Align.CENTER, MenuType.NEW),
-            new Choice(text, main.get(1), x, mainY + 154, Align.CENTER, MenuType.OPTIONS),
-            new Choice(text, main.get(2), x, mainY + 188, Align.CENTER, MenuType.INTRO),
-            new Choice(text, main.get(3), x, mainY + 238, Align.CENTER, MenuType.EXIT)
+            new Choice(textDark, textWhite, main.get(0), x, mainY + 117, Align.CENTER, MenuType.NEW),
+            new Choice(textDark, textWhite, main.get(1), x, mainY + 151, Align.CENTER, MenuType.OPTIONS),
+            new Choice(textDark, textWhite, main.get(2), x, mainY + 185, Align.CENTER, MenuType.INTRO),
+            new Choice(textDark, textWhite, main.get(3), x, mainY + 235, Align.CENTER, MenuType.EXIT)
         };
-        return new Data(text, choices);
+        return new Data(choices);
     }
 
     /**
@@ -202,12 +240,12 @@ public class Menu extends Sequence
         final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(text, options.get(0), x - 118, mainY + 128, Align.LEFT),
-            new Choice(text, options.get(1), x - 118, mainY + 164, Align.LEFT),
-            new Choice(text, options.get(2), x - 118, mainY + 200, Align.LEFT),
-            new Choice(text, options.get(3), x, mainY + 244, Align.CENTER, MenuType.MAIN)
+            new Choice(textDark, textWhite, options.get(0), x - 118, mainY + 125, Align.LEFT),
+            new Choice(textDark, textWhite, options.get(1), x - 118, mainY + 161, Align.LEFT),
+            new Choice(textDark, textWhite, options.get(2), x - 118, mainY + 197, Align.LEFT),
+            new Choice(textDark, textWhite, options.get(3), x, mainY + 241, Align.CENTER, MenuType.MAIN)
         };
-        return new Data(text, choices);
+        return new Data(choices);
     }
 
     /**
@@ -528,17 +566,15 @@ public class Menu extends Sequence
         menus[1].render(g);
         menusData[1].render(g, choice);
 
-        textTitle.setColor(colorTitle);
-        textTitle.draw(g,
+        textWhite.draw(g,
                        (int) Math.round(Menu.CENTER_X * factorH),
                        mainY + OPTIONS_TITLE_OFFSET_Y,
                        Align.CENTER,
                        main.get(1).toUpperCase(Locale.ENGLISH));
 
-        text.setColor(colorOption);
-        drawOptionText(g, 0, optionsDifficulty.get(difficulty));
-        drawOptionText(g, 1, optionsJoystick.get(joystick));
-        drawOptionText(g, 2, optionsMusic.get(music));
+        drawOptionText(g, 0, 0, difficulty);
+        drawOptionText(g, 1, optionsDifficulty.size(), joystick);
+        drawOptionText(g, 2, optionsDifficulty.size() + optionsJoystick.size(), music);
     }
 
     /**
@@ -546,15 +582,14 @@ public class Menu extends Sequence
      * 
      * @param g The graphic output.
      * @param index The option index.
-     * @param data The option text.
+     * @param start The option start.
+     * @param value The option value.
      */
-    private void drawOptionText(Graphic g, int index, String data)
+    private void drawOptionText(Graphic g, int index, int start, int value)
     {
-        text.draw(g,
-                  (int) Math.round(CENTER_X * factorH) + OPTIONS_TEXT_OFFSET_X,
-                  menusData[1].choices[index].getY(),
-                  Align.LEFT,
-                  data);
+        g.drawImage(bufferOptions[start + value],
+                    (int) Math.round(CENTER_X * factorH) + OPTIONS_TEXT_OFFSET_X,
+                    menusData[1].choices[index].getY());
     }
 
     /**

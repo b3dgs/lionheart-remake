@@ -25,14 +25,14 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Camera;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Renderable;
-import com.b3dgs.lionengine.graphic.Text;
-import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
-import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
@@ -48,8 +48,6 @@ public final class Part1 implements Updatable, Renderable
 
     private static final int BAND_HEIGHT = 144;
 
-    private static final int TEXT_SIZE = 24;
-    private static final String TEXT_FONT = com.b3dgs.lionengine.Constant.FONT_SERIF;
     private static final int TEXT_ALPHA_SPEED = 6;
     private static final int TEXT_LINE_HEIGHT = 22;
 
@@ -75,23 +73,15 @@ public final class Part1 implements Updatable, Renderable
         return Medias.create(Folder.INTRO, PART1_FOLDER, filename + ".png");
     }
 
-    private final Text text = Graphics.createText(TEXT_FONT, TEXT_SIZE, TextStyle.BOLD);
+    private final SpriteFont text = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontintro.png"),
+                                                            Medias.create(Folder.SPRITE, "fontintro.xml"),
+                                                            24,
+                                                            28);
     private final List<String> titles = Util.readLines(Medias.create(Folder.TEXT,
                                                                      Settings.getInstance().getLang(),
                                                                      Folder.INTRO,
                                                                      PART1_TEXT));
-    // @formatter:off
-    private final TextData[] texts = new TextData[]
-    {
-        new TextData(2350, 5200, 0, -40, 0, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS"),
-        new TextData(7000, 12100, 0, 56, 0, Align.CENTER),
-        new TextData(15100, 17800, -112, -64, -154, Align.LEFT, titles.get(0), "              Erwin Kloibhofer",
-                     "              Michael Bittner", "(remake) Pierre-Alexandre"),
-        new TextData(20100, 22800, -112, -42, -34, Align.LEFT, titles.get(1), "Henk Nieborg"),
-        new TextData(25300, 27800, -112, -42, -16, Align.LEFT, titles.get(2), "Erik Simon"),
-        new TextData(30400, 32800, -112, -42, -112, Align.LEFT, titles.get(3), "Matthias Steinwachs")
-    };
-    // @formatter:on
+    private final TextData[] texts;
     private final SceneryData[] sceneriesData = new SceneryData[]
     {
         new SceneryData(0, 32), new SceneryData(1, 410), new SceneryData(0, 620), new SceneryData(1, 745),
@@ -134,6 +124,22 @@ public final class Part1 implements Updatable, Renderable
         this.height = height;
         // CHECKSTYLE IGNORE LINE: MagicNumber
         cameraMax = 1941 - Math.ceil(158.4 * wide);
+
+        text.load();
+        text.prepare();
+
+        // @formatter:off
+        texts = new TextData[]
+        {
+            new TextData(2350, 5200, 0, -44, 0, Align.CENTER, "BYRON 3D GAMES STUDIO", "PRESENTS"),
+            new TextData(7000, 12100, 0, 56, 0, Align.CENTER),
+            new TextData(15100, 17800, -118, -68, -154, Align.LEFT, titles.get(0),
+                         "                Erwin Kloibhofer","                Michael Bittner", "(remake) Pierre-Alexandre"),
+            new TextData(20100, 22800, -112, -46, -34, Align.LEFT, titles.get(1), "Henk Nieborg"),
+            new TextData(25300, 27800, -112, -46, -16, Align.LEFT, titles.get(2), "Erik Simon"),
+            new TextData(30400, 32800, -112, -46, -112, Align.LEFT, titles.get(3), "Matthias Steinwachs")
+        };
+        // @formatter:on
     }
 
     /**
@@ -397,11 +403,9 @@ public final class Part1 implements Updatable, Renderable
     {
         private final int timeStartMs;
         private final int timeEndMs;
-        private final int x1;
         private final int y1;
-        private final int x2;
         private final String[] texts;
-        private final Align align;
+        private final ImageBuffer buffer;
 
         private double alpha;
         private double alphaOld;
@@ -423,11 +427,27 @@ public final class Part1 implements Updatable, Renderable
 
             this.timeStartMs = timeStartMs;
             this.timeEndMs = timeEndMs;
-            this.x1 = x1;
             this.y1 = y1;
-            this.x2 = x2;
-            this.align = align;
             this.texts = texts;
+
+            if (texts.length > 0)
+            {
+                buffer = Graphics.createImageBuffer(width, height, ColorRgba.TRANSPARENT);
+                buffer.prepare();
+
+                final Graphic g = buffer.createGraphic();
+                text.draw(g, width / 2 + x1, height / 2 + y1, align, texts[0]);
+
+                for (int i = 1; i < texts.length; i++)
+                {
+                    text.draw(g, width / 2 + x2, height / 2 + y1 + i * TEXT_LINE_HEIGHT, align, texts[i]);
+                }
+                g.dispose();
+            }
+            else
+            {
+                buffer = null;
+            }
         }
 
         /**
@@ -472,14 +492,9 @@ public final class Part1 implements Updatable, Renderable
             {
                 if (Double.compare(alphaOld, alpha) != 0)
                 {
-                    text.setColor(Constant.ALPHAS_WHITE[(int) alpha]);
+                    g.setAlpha((int) Math.floor(alpha));
                 }
-                text.draw(g, width / 2 + x1, height / 2 + y1, align, texts[0]);
-
-                for (int i = 1; i < texts.length; i++)
-                {
-                    text.draw(g, width / 2 + x2, height / 2 + y1 + i * TEXT_LINE_HEIGHT, align, texts[i]);
-                }
+                g.drawImage(buffer, 0, 0);
             }
         }
     }
