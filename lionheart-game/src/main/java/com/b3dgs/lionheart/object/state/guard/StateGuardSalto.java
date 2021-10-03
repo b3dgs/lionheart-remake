@@ -63,4 +63,14 @@ public final class StateGuardSalto extends State
         jump.setVelocity(0.05);
         body.resetGravity();
     }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        jump.zero();
+        movement.zero();
+        body.resetGravity();
+    }
 }

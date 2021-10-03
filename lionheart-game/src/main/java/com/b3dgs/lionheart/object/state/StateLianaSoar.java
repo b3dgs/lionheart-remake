@@ -27,7 +27,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Liana soar state implementation.
  */
-final class StateLianaSoar extends State
+public final class StateLianaSoar extends State
 {
     private static final int FRAME_6 = 6;
     private static final int FRAME_9 = 9;
