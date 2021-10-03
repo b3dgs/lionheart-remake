@@ -84,7 +84,7 @@
                             <mainClass>com.b3dgs.lionheart.Launcher</mainClass>
                         </manifest>
                     </archive>
-                    <excludes>com/b3dgs/lionheart/levels/**/stage*.png,com/b3dgs/lionheart/sfx/*.wav,com/b3dgs/lionheart/music/*.sc68</excludes>
+                    <excludes>com/b3dgs/lionheart/levels/**/stage*.png,com/b3dgs/lionheart/levels/**/swamp.png,com/b3dgs/lionheart/levels/**/spidercave1.png,com/b3dgs/lionheart/levels/**/spidercave2.png,com/b3dgs/lionheart/levels/**/ancienttown.png,com/b3dgs/lionheart/levels/**/lava.png,com/b3dgs/lionheart/levels/**/airship.png,com/b3dgs/lionheart/levels/**/dragonfly.png,com/b3dgs/lionheart/levels/**/tower.png,com/b3dgs/lionheart/levels/**/secret.png,com/b3dgs/lionheart/sfx/*.wav,com/b3dgs/lionheart/music/*.sc68</excludes>
                 </configuration>
             </plugin>
             <plugin>
