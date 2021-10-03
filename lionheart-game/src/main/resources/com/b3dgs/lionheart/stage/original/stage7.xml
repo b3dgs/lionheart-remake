@@ -23,19 +23,19 @@
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Canon3.xml" tx="11.0" ty="60.0">
-            <shooter fireDelay="5000" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
+            <shooter fireDelay="4000" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="12.0" ty="57.0">
-            <shooter fireDelay="5000" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
+            <shooter fireDelay="4500" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="17.0" ty="59.0">
             <shooter fireDelay="5000" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="23.0" ty="60.0">
-            <shooter fireDelay="4000" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
+            <shooter fireDelay="4250" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="28.0" ty="56.0">
-            <shooter fireDelay="4000" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
+            <shooter fireDelay="4750" firedDelay="0" anim="-1" svx="1.0" svy="1.0" track="true"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="23.0" ty="62.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="23.0" ty="63.0"/>

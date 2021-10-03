@@ -271,10 +271,10 @@
         <entity file="entity/swamp/Floater.xml" tx="239.0" ty="2.0"/>
         <entity file="entity/swamp/Floater.xml" tx="235.0" ty="2.0"/>
         <entity file="entity/swamp/Bee.xml" tx="363.0" ty="6.0">
-            <patrol sh="-1.2" sv="0.6" amplitude="192" mirror="false"/>
+            <patrol sh="-1.2" sv="0.6" amplitude="192"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="350.0" ty="12.5">
-            <patrol sh="1.2" sv="-0.6" amplitude="192" mirror="false"/>
+            <patrol sh="1.2" sv="-0.6" amplitude="192"/>
         </entity>
         <entity file="entity/swamp/Dragon.xml" tx="377.5" ty="6.0"/>
         <entity file="entity/swamp/Dragon.xml" tx="391.5" ty="7.0"/>
@@ -298,15 +298,12 @@
         <entity file="entity/swamp/Talisment.xml" tx="466.0" ty="18.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="467.0" ty="18.0"/>
         <entity file="entity/swamp/Bee.xml" tx="461.0" ty="18.0">
-            <model mirror="true"/>
             <patrol sh="-0.8" sv="-1.2" proximity="48"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="468.0" ty="14.0">
-            <model mirror="true"/>
             <patrol sh="-0.8" sv="-1.2" proximity="48"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="474.0" ty="10.0">
-            <model mirror="true"/>
             <patrol sh="-0.8" sv="-1.2" proximity="48"/>
         </entity>
         <entity file="entity/swamp/PotionLittle.xml" tx="490.0" ty="2.0"/>
@@ -334,13 +331,16 @@
         </entity>
         <entity file="entity/swamp/Dragon.xml" tx="498.5" ty="51.0"/>
         <entity file="entity/swamp/Bee.xml" tx="483.0" ty="51.0">
-            <patrol sh="1.0" proximity="192"/>
+            <model mirror="false"/>
+            <patrol sh="1.0" proximity="192" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="476.0" ty="51.0">
-            <patrol sh="1.0" proximity="192"/>
+            <model mirror="false"/>
+            <patrol sh="1.0" proximity="192" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="469.0" ty="51.0">
-            <patrol sh="1.0" proximity="192"/>
+            <model mirror="false"/>
+            <patrol sh="1.0" proximity="192" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Grasshopper.xml" tx="438.0" ty="53.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="425.0" ty="51.0"/>

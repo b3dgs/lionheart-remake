@@ -447,6 +447,10 @@ public class Menu extends Sequence
             menuNext = next;
             transition = TransitionType.OUT;
             stopAudio();
+            if (menuNext == MenuType.NEW || menuNext == MenuType.INTRO || menuNext == MenuType.EXIT)
+            {
+                setSystemCursorVisible(false);
+            }
         }
     }
 
@@ -521,7 +525,7 @@ public class Menu extends Sequence
             tickMouse.stop();
             setSystemCursorVisible(false);
         }
-        else
+        else if (transition == TransitionType.NONE)
         {
             if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
             {

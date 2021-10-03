@@ -33,6 +33,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.text.NumberFormat;
@@ -971,7 +972,7 @@ public final class Launcher
         parent.add(panel);
         panel.setBorder(BORDER);
         panel.add(play, constraints);
-        panel.add(editor, constraints);
+        // TODO panel.add(editor, constraints);
         panel.add(exit, constraints);
     }
 
@@ -1023,15 +1024,36 @@ public final class Launcher
      */
     private static void run(JFrame frame, JPanel panel)
     {
-        SwingUtilities.invokeLater(() ->
+        try
         {
-            frame.add(panel);
-            frame.setResizable(false);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            frame.toFront();
-        });
+            SwingUtilities.invokeAndWait(() ->
+            {
+                frame.add(panel);
+                frame.setResizable(false);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            });
+            new Thread(() ->
+            {
+                try
+                {
+                    Thread.sleep(250);
+                }
+                catch (@SuppressWarnings("unused") final InterruptedException exception)
+                {
+                    Thread.currentThread().interrupt();
+                }
+                SwingUtilities.invokeLater(() ->
+                {
+                    frame.toFront();
+                });
+            }).start();
+        }
+        catch (InvocationTargetException | InterruptedException exception)
+        {
+            Verbose.exception(exception);
+        }
     }
 
     private static void save()

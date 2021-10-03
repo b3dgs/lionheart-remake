@@ -144,7 +144,7 @@
         </entity>
         <entity file="entity/ancienttown/PotionBig.xml" tx="318.0" ty="40.0"/>
         <entity file="entity/ancienttown/Canon2.xml" tx="364.0" ty="37.0">
-            <shooter fireDelay="1000" firedDelay="0" svx="1.0" svy="1.8" dvy="0.0"/>
+            <shooter fireDelay="1000" firedDelay="0" svx="1.2" svy="1.8" dvy="0.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="368.0" ty="34.0">
             <shooter fireDelay="3000" firedDelay="300" anim="1" svx="1.2" svy="3.5" dvy="0.0"/>

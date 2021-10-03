@@ -188,7 +188,7 @@ final class Lava extends BackgroundAbstract
             for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
             {
                 final int x = backcolorA.getMainX() + i * sprite.getWidth();
-                final double y = backcolorA.getOffsetY() + backcolorA.getMainY();
+                final double y = backcolorA.getOffsetY() + backcolorA.getMainY() - 1;
                 sprite.setLocation(x, y);
                 sprite.render(g);
             }
