@@ -4,12 +4,15 @@
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
         <artifactId>lionheart-parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.1.0</version>
         <relativePath>../lionheart-parent/pom.xml</relativePath>
     </parent>
     <artifactId>lionheart-game</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart Game</name>
+    <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+    </properties>
     <build>
         <resources>
             <resource>

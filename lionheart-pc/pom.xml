@@ -4,13 +4,14 @@
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
         <artifactId>lionheart-parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.1.0</version>
         <relativePath>../lionheart-parent/pom.xml</relativePath>
     </parent>
     <artifactId>lionheart-pc</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart PC</name>
     <properties>
+        <checkstyle.skip>true</checkstyle.skip>
         <jna.version>5.8.0</jna.version>
         <sdl2gdx.version>1.0.4</sdl2gdx.version>
     </properties>

@@ -21,7 +21,7 @@ android {
         targetSdkVersion 30
         signingConfig signingConfigs.app
         ndk {
-            abiFilters 'armeabi-v7a'
+            // abiFilters 'armeabi-v7a'
         }
     }
     buildTypes {
@@ -35,8 +35,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     sourceSets {
@@ -46,10 +46,6 @@ android {
     }
 }
 
-repositories {
-    mavenLocal()
-}
-
 dependencies {
     implementation 'com.b3dgs:b3dgs-parent:2.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
@@ -57,5 +53,5 @@ dependencies {
     //noinspection GradleDependency
     implementation 'net.java.dev.jna:jna:5.4.0@aar'
     implementation 'com.b3dgs.lionengine:lionengine-audio-sc68:10.0.0-SNAPSHOT'
-    implementation 'com.b3dgs.lionheart:lionheart-game:1.0.0'
+    implementation 'com.b3dgs.lionheart:lionheart-game:1.1.0'
 }

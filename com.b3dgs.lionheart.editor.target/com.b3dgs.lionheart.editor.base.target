@@ -20,13 +20,13 @@
             <unit id="com.b3dgs.lionengine.core" version="10.0.0.SNAPSHOT"/>
             <unit id="com.b3dgs.lionengine.game" version="10.0.0.SNAPSHOT"/>
             <unit id="com.b3dgs.lionengine.helper" version="10.0.0.SNAPSHOT"/>
-            <unit id="com.b3dgs.lionengine.core.swt" version="10.0.0.202109282106"/>
-            <unit id="com.b3dgs.lionengine.editor" version="10.0.0.202109282106"/>
-            <unit id="com.b3dgs.lionengine.editor.map" version="10.0.0.202109282106"/>
-            <unit id="com.b3dgs.lionengine.editor.object" version="10.0.0.202109282106"/>
-            <unit id="com.b3dgs.lionengine.editor.animation" version="10.0.0.202109282106"/>
-            <unit id="com.b3dgs.lionengine.editor.collision" version="10.0.0.202109282106"/>
-            <unit id="com.b3dgs.lionengine.editor.pathfinding" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.core.swt" version="10.0.0.202110031251"/>
+            <unit id="com.b3dgs.lionengine.editor" version="10.0.0.202110031251"/>
+            <unit id="com.b3dgs.lionengine.editor.map" version="10.0.0.202110031251"/>
+            <unit id="com.b3dgs.lionengine.editor.object" version="10.0.0.202110031251"/>
+            <unit id="com.b3dgs.lionengine.editor.animation" version="10.0.0.202110031251"/>
+            <unit id="com.b3dgs.lionengine.editor.collision" version="10.0.0.202110031251"/>
+            <unit id="com.b3dgs.lionengine.editor.pathfinding" version="10.0.0.202110031251"/>
         </location>
     </locations>
 </target>
