@@ -164,6 +164,7 @@ public final class Launcher
     private static final String LABEL_GAMEPAD = "Gamepad:";
     private static final String LABEL_SETUP_DEVICE = "Setup ";
     private static final String LABEL_PLAY = "Play";
+    private static final String LABEL_EDITOR = "Editor";
     private static final String LABEL_EXIT = "Exit";
     private static final String LABEL_MADE = "Made with "
                                              + com.b3dgs.lionengine.Constant.ENGINE_NAME
@@ -937,6 +938,22 @@ public final class Launcher
             AppLionheart.run(gamepad);
         });
 
+        final JButton editor = new JButton(LABEL_EDITOR);
+        editor.setFont(FONT);
+        editor.addActionListener(event ->
+        {
+            save();
+            try
+            {
+                Runtime.getRuntime().exec("editor/Lionheart Remake Editor.exe");
+            }
+            catch (final IOException exception)
+            {
+                Verbose.exception(exception);
+            }
+            window.dispose();
+        });
+
         final JButton exit = new JButton(LABEL_EXIT);
         exit.setFont(FONT);
         exit.addActionListener(event ->
@@ -954,6 +971,7 @@ public final class Launcher
         parent.add(panel);
         panel.setBorder(BORDER);
         panel.add(play, constraints);
+        panel.add(editor, constraints);
         panel.add(exit, constraints);
     }
 
@@ -1012,6 +1030,7 @@ public final class Launcher
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            frame.toFront();
         });
     }
 
