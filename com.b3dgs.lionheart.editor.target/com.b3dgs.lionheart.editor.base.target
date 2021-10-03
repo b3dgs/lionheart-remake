@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 <target name="Lionheart Remake Editor Target Platform" sequenceNumber="24">
-<locations>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <unit id="org.eclipse.equinox.sdk.feature.group" version="3.21.0.v20201128-0731"/>
-        <unit id="org.eclipse.jdt.source.feature.group" version="3.18.600.v20201202-1800"/>
-        <unit id="org.eclipse.rcp.feature.group" version="4.18.0.v20201202-1800"/>
-        <unit id="org.eclipse.platform.ide" version="4.18.0.I20201202-1800"/>
-        <repository location="http://download.eclipse.org/eclipse/updates/4.18"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <unit id="org.eclipse.swtbot.eclipse.feature.group" version="3.0.0.202006031738"/>
-        <unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="3.0.0.202006031738"/>
-        <unit id="org.eclipse.swtbot.feature.group" version="3.0.0.202006031738"/>
-        <unit id="org.eclipse.swtbot.ide.feature.group" version="3.0.0.202006031738"/>
-        <repository location="http://download.eclipse.org/technology/swtbot/releases/3.0.0/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="file:/C:/Eclipse/projects/lionengine-editor/com.b3dgs.lionengine.editor.repository/target/repository/"/>
-        <unit id="com.b3dgs.lionengine.editor" version="10.0.0.202101212126"/>
-        <unit id="com.b3dgs.lionengine.editor.map" version="10.0.0.202101212126"/>
-        <unit id="com.b3dgs.lionengine.editor.object" version="10.0.0.202101212126"/>
-    </location>
-</locations>
+    <locations>
+        <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+            <unit id="org.eclipse.equinox.sdk.feature.group" version="3.15.0.v20180904-1442"/>
+            <unit id="org.eclipse.jdt.source.feature.group" version="3.15.0.v20180906-0745"/>
+            <unit id="org.eclipse.rcp.feature.group" version="4.9.0.v20180906-1121"/>
+            <repository location="https://download.eclipse.org/eclipse/updates/4.9/"/>
+        </location>
+        <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+            <unit id="org.eclipse.swtbot.eclipse.feature.group" version="3.1.0.202106041005"/>
+            <unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="3.1.0.202106041005"/>
+            <unit id="org.eclipse.swtbot.feature.group" version="3.1.0.202106041005"/>
+            <unit id="org.eclipse.swtbot.ide.feature.group" version="3.1.0.202106041005"/>
+            <repository location="http://download.eclipse.org/technology/swtbot/releases/3.1.0/"/>
+        </location>
+        <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+            <repository location="file:/C:/Eclipse/projects/lionengine-editor/com.b3dgs.lionengine.editor.repository/target/repository/"/>
+            <unit id="com.b3dgs.lionengine.core" version="10.0.0.SNAPSHOT"/>
+            <unit id="com.b3dgs.lionengine.game" version="10.0.0.SNAPSHOT"/>
+            <unit id="com.b3dgs.lionengine.helper" version="10.0.0.SNAPSHOT"/>
+            <unit id="com.b3dgs.lionengine.core.swt" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.editor" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.editor.map" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.editor.object" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.editor.animation" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.editor.collision" version="10.0.0.202109282106"/>
+            <unit id="com.b3dgs.lionengine.editor.pathfinding" version="10.0.0.202109282106"/>
+        </location>
+    </locations>
 </target>
