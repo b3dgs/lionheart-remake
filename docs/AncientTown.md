@@ -8,7 +8,7 @@
 
 |Dusk | Dawn | Day
 | --- | --- | ---
-|![Dusk](world/ancienttown/dusk.png)] | ![Dawn](world/ancienttown/dawn.png)] | ![Day](world/ancienttown/day.png)]
+|![Dusk](world/ancienttown/dusk.png) | ![Dawn](world/ancienttown/dawn.png) | ![Day](world/ancienttown/day.png)
 
 # Stages
 
