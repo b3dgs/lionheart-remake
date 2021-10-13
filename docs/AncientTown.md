@@ -1,6 +1,6 @@
 # Picture
 
-|![Picture](world/ancienttown/picture.png)]
+|![Picture](world/ancienttown/picture.png)
 | :---:
 |**Valdyn finally emerged from the swamps.<br/>In the distance he could see the ancient<br/>city on the border of Norka's country.**
 

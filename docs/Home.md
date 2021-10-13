@@ -1,10 +1,7 @@
-|[![LionheartRemake](https://github.com/b3dgs/lionheart-remake/blob/master/lionheart-game/src/main/resources/com/b3dgs/lionheart/intro/part1/title.png)](http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake)
-| :---: |
+|Table
+| :---:
 |[Presentation](#presentation)
 |[General features](#general-features)
-|[User Manual](https://github.com/b3dgs/lionheart-remake/wiki/UserManual)
-|[Guide](https://github.com/b3dgs/lionheart-remake/wiki/Guide)
-|[Screenshots](https://github.com/b3dgs/lionheart-remake/wiki/Screenshots)
 
 # Presentation
 
