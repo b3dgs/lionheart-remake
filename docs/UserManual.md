@@ -1,17 +1,15 @@
-***
-| Table |
-|:---:|
-| [Launcher](#launcher) |
-| [Controls](#controls) |
-| [Menu](#menu) |
-| [Options](#options) |
-| [Scene](#scene) |
-| [Credits](#credits) |
-| [Cheats](#cheats) |
-***
+Table
+:---:
+[Launcher](#launcher)
+[Controls](#controls)
+[Menu](#menu)
+[Options](#options)
+[Scene](#scene)
+[Credits](#credits)
+[Cheats](#cheats)
 
 # Launcher
-[[/manual/launcher.png]]
+![Launcher](manual/launcher.png)
 * Lang: List of game languages
 * Scale & Ratio: Based on original one, provide a perfect scaled resolution with custom ratio
 * Available: List of supported screen resolution
@@ -60,32 +58,32 @@
 
 # Menu
 ## Main
-[[/manual/main.png]]
+![Main](manual/main.png)
 * Change with vertical direction
 * Press fire to validate
 
-| Label | Description |
-| :---: | --- |
-| **Start game** | Will start a new game |
-| **Options** | Go to options menu |
-| **Introduction** | Launch introduction scene |
-| **Quit** | Terminate application |
+Label | Description
+:---: | ---
+**Start game** | Will start a new game
+**Options** | Go to options menu
+**Introduction** | Launch introduction scene
+**Quit** | Terminate application
 
 ## Options
-[[/manual/options.png]]
+![Options](manual/options.png)
 * Change with vertical direction
 * Choose option with horizontal direction
 * Press fire to validate on **Done**
 
-| Label | Description |
-| :---: | --- |
-| **Difficulty** | Change game difficulty (**Normal**: default, **Hard**: Alternative stages, **Lionhard**: Enemies with twice health) |
-| **Joystick** | Joystick configuration (**1 button**: jump with direction, **2 buttons**: jump with button) |
-| **Soundtest** | Press fire to play music |
-| **Done** | Go back main menu |
+Label | Description
+:---: | ---
+**Difficulty** | Change game difficulty (**Normal**: default, **Hard**: Alternative stages, **Lionhard**: Enemies with twice health)
+**Joystick** | Joystick configuration (**1 button**: jump with direction, **2 buttons**: jump with button)
+**Soundtest** | Press fire to play music
+**Done** | Go back main menu
 
 # Scene
-[[/manual/scene.png]]
+![Scene](manual/scene.png)
 1. Health
    * Bright red: remaining
    * Dark red: lost
@@ -100,14 +98,14 @@
 5. Monster
 
 # Credits
-[[/manual/credits.png]]
+![Credits](manual/credits.png)
 * Choose with horizontal direction
 * Press fire to validate
 
-| Label | Description |
-| :---: | --- |
-| **Yes** | Continue to last level lost |
-| **No** | Go to main menu |
+Label | Description
+:---: | ---
+**Yes** | Continue to last level lost
+**No** | Go to main menu
 
 # Cheats
 * Move mouse (cursor will be visible), and right click somewhere to popup cheats menu.
