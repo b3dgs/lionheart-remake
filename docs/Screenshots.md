@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="style.css">
+
 # Screenshots
 | Intro | [![img1](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro1_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro1.png) | [![img2](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro2_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro2.png) | [![img3](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro3_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro3.png) | [![img4](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro4_mini.png)](http://www.b3dgs.com/v7/projects/lionheart_remake/screens/1.0.0/intro4.png) | |
 | :---: | --- | --- | --- | --- | --- |
