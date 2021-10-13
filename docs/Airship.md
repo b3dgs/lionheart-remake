@@ -1,6 +1,6 @@
 # Picture
 |![Picture](world/airship/picture.png)
-:---:
+| :---:
 |**Valdyn found a riding animal to take him<br/>through the eerie forest. Far away, Norka's<br/>air-ship was approaching...**
 
 # Themes
@@ -11,7 +11,7 @@
 
 # Objects
 |Object|Name|Description
-:---: | --- | ---
+| :---: | --- | ---
 |![Animal](world/airship/animal.gif) | Animal | Riding animal
 |![Talisment](world/airship/talisment.gif) | Talisment | Increases talisment count
 |![PotionLittle](world/airship/potionlittle.gif) | Potion Little | Restore one health
