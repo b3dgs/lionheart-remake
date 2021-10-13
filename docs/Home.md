@@ -1,14 +1,12 @@
-***
-| [![Lionheart Remake](https://github.com/b3dgs/lionheart-remake/blob/master/lionheart-game/src/main/resources/com/b3dgs/lionheart/intro/part1/title.png)](http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake) |
-|:---:|
-| [Presentation](#presentation) |
-| [General features](#general-features) |
-| [User Manual](https://github.com/b3dgs/lionheart-remake/wiki/UserManual) |
-| [Guide](https://github.com/b3dgs/lionheart-remake/wiki/Guide) |
-| [Screenshots](https://github.com/b3dgs/lionheart-remake/wiki/Screenshots) |
-***
+|[![LionheartRemake](https://github.com/b3dgs/lionheart-remake/blob/master/lionheart-game/src/main/resources/com/b3dgs/lionheart/intro/part1/title.png)](http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake)
+| :---: |
+|[Presentation](#presentation)
+|[General features](#general-features)
+|[User Manual](https://github.com/b3dgs/lionheart-remake/wiki/UserManual)
+|[Guide](https://github.com/b3dgs/lionheart-remake/wiki/Guide)
+|[Screenshots](https://github.com/b3dgs/lionheart-remake/wiki/Screenshots)
 
-## Presentation
+# Presentation
 
 [Lionheart Remake](http://www.b3dgs.com/v7/page.php?lang=en&section=lionheart_remake) is a __platform game__, keeping as much as possible elements of the [__original game__ (1992)](http://hol.abime.net/894).
 The story is the same: You, a Cat-Man called Valdyn, got new capacity by The King, in order to destroy the growing threat of Norka, a monster wanting to destroy The Kingdom.
@@ -22,7 +20,7 @@ Each area has its own elements, monsters...
 
 **Note: This project is a use case for the [__LionEngine__](https://github.com/b3dgs/lionengine).**
 
-## General features
+# General features
 
 * #### __Background__
 >  * Introduction, Menu, Credits
