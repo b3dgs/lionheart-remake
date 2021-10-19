@@ -33,7 +33,7 @@ public final class Constant
     /** Application name. */
     public static final String PROGRAM_NAME = "Lionheart Remake";
     /** Application version. */
-    public static final Version PROGRAM_VERSION = Version.create(1, 1, 0);
+    public static final Version PROGRAM_VERSION = Version.create(1, 2, 0);
 
     /** Resolution. */
     public static final Resolution RESOLUTION = new Resolution(320, 240, 50);
