@@ -43,6 +43,7 @@ public class ModelEditor extends EditorAbstract<ModelConfig>
     private static final String VALIDATOR_DOUBLE = InputValidator.DOUBLE_MATCH;
 
     private Button mirror;
+    private Button fall;
     private TextWidget next;
     private TextWidget stx;
     private TextWidget sty;
@@ -62,11 +63,13 @@ public class ModelEditor extends EditorAbstract<ModelConfig>
     protected void createFields(Composite parent, ModelConfig config)
     {
         mirror = UtilButton.createCheck(UtilConversion.toTitleCase(ModelConfig.ATT_MIRROR), parent);
+        fall = UtilButton.createCheck(UtilConversion.toTitleCase(ModelConfig.ATT_FALL), parent);
         next = new TextWidget(parent, UtilConversion.toTitleCase(ModelConfig.ATT_NEXT), PATH_MATCH, true, true);
         stx = new TextWidget(parent, UtilConversion.toTitleCase(ModelConfig.ATT_SPAWN_TX), VALIDATOR_DOUBLE, true);
         sty = new TextWidget(parent, UtilConversion.toTitleCase(ModelConfig.ATT_SPAWN_TY), VALIDATOR_DOUBLE, true);
 
         mirror.setSelection(config.getMirror().orElse(Boolean.FALSE).booleanValue());
+        fall.setSelection(config.getFall().orElse(Boolean.TRUE).booleanValue());
         config.getNext().ifPresent(next::set);
         config.getNextSpawn().ifPresent(c ->
         {
@@ -87,6 +90,6 @@ public class ModelEditor extends EditorAbstract<ModelConfig>
         {
             spawn = Optional.empty();
         }
-        output = Optional.of(new ModelConfig(mirror.getSelection(), next.getValueText(), spawn));
+        output = Optional.of(new ModelConfig(mirror.getSelection(), fall.getSelection(), next.getValueText(), spawn));
     }
 }

@@ -33,6 +33,8 @@ public final class ModelConfig implements XmlSaver
     public static final String NODE_MODEL = "model";
     /** Mirror attribute name. */
     public static final String ATT_MIRROR = "mirror";
+    /** Fall attribute name. */
+    public static final String ATT_FALL = "fall";
     /** Next attribute name. */
     public static final String ATT_NEXT = "next";
     /** Spawn tile x attribute name. */
@@ -40,8 +42,8 @@ public final class ModelConfig implements XmlSaver
     /** Spawn tile y attribute name. */
     public static final String ATT_SPAWN_TY = "sty";
 
-    /** Mirror flag. */
     private final Optional<Boolean> mirror;
+    private final Optional<Boolean> fall;
     private final Optional<String> next;
     private final Optional<Coord> nextSpawn;
 
@@ -53,6 +55,7 @@ public final class ModelConfig implements XmlSaver
         super();
 
         mirror = Optional.empty();
+        fall = Optional.empty();
         next = Optional.empty();
         nextSpawn = Optional.empty();
     }
@@ -61,14 +64,16 @@ public final class ModelConfig implements XmlSaver
      * Create configuration.
      * 
      * @param mirror The mirror flag.
+     * @param fall The fall flag.
      * @param next The next stage.
      * @param nextSpawn The next spawn coord.
      */
-    public ModelConfig(boolean mirror, Optional<String> next, Optional<Coord> nextSpawn)
+    public ModelConfig(boolean mirror, boolean fall, Optional<String> next, Optional<Coord> nextSpawn)
     {
         super();
 
         this.mirror = Optional.of(Boolean.valueOf(mirror));
+        this.fall = Optional.of(Boolean.valueOf(mirror));
         this.next = next;
         this.nextSpawn = nextSpawn;
     }
@@ -85,6 +90,7 @@ public final class ModelConfig implements XmlSaver
         Check.notNull(root);
 
         mirror = root.getBooleanOptional(ATT_MIRROR, NODE_MODEL);
+        fall = root.getBooleanOptional(ATT_FALL, NODE_MODEL);
         next = root.getStringOptional(ATT_NEXT, NODE_MODEL);
         if (root.hasAttribute(ATT_SPAWN_TX, NODE_MODEL) && root.hasAttribute(ATT_SPAWN_TY, NODE_MODEL))
         {
@@ -105,6 +111,16 @@ public final class ModelConfig implements XmlSaver
     public Optional<Boolean> getMirror()
     {
         return mirror;
+    }
+
+    /**
+     * Get the fall flag.
+     * 
+     * @return The fall flag.
+     */
+    public Optional<Boolean> getFall()
+    {
+        return fall;
     }
 
     /**
@@ -137,6 +153,10 @@ public final class ModelConfig implements XmlSaver
             {
                 node.writeBoolean(ATT_MIRROR, m.booleanValue());
             });
+            fall.ifPresent(m ->
+            {
+                node.writeBoolean(ATT_FALL, m.booleanValue());
+            });
             next.ifPresent(n -> node.writeString(ATT_NEXT, n));
             nextSpawn.ifPresent(s ->
             {
@@ -167,6 +187,7 @@ public final class ModelConfig implements XmlSaver
         final StringBuilder builder = new StringBuilder();
         builder.append("Model [ ");
         add(builder, ATT_MIRROR, mirror);
+        add(builder, ATT_FALL, fall);
         addStr(builder, ATT_NEXT, next);
         nextSpawn.ifPresent(n ->
         {

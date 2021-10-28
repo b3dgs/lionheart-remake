@@ -28,6 +28,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Spider;
+import com.b3dgs.lionheart.object.feature.Turtle;
 import com.b3dgs.lionheart.object.state.attack.StateAttackFall;
 import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
 
@@ -49,7 +50,10 @@ public final class StateFall extends State
         super(model, animation);
 
         addTransition(StateLand.class, () -> !steep.is() && collideY.get() && !model.hasFeature(Patrol.class));
-        addTransition(StatePatrol.class, () -> !steep.is() && collideY.get() && model.hasFeature(Patrol.class));
+        addTransition(StatePatrol.class,
+                      () -> !steep.is()
+                            && (collideY.get() || !model.getConfig().getFall().orElse(Boolean.TRUE).booleanValue())
+                            && model.hasFeature(Patrol.class));
         addTransition(StateSlide.class, () -> steep.is() && !isGoHorizontal());
         addTransition(StateSlideSlow.class,
                       () -> steep.is() && (is(Mirror.NONE) && isGoRight() || is(Mirror.HORIZONTAL) && isGoLeft()));
@@ -94,7 +98,10 @@ public final class StateFall extends State
             mirrorable.mirror(Mirror.NONE);
         }
 
-        if (model.hasFeature(Patrol.class) && !model.hasFeature(Spider.class) && viewer.isViewable(transformable, 0, 0))
+        if (model.hasFeature(Patrol.class)
+            && !model.hasFeature(Spider.class)
+            && !model.hasFeature(Turtle.class)
+            && viewer.isViewable(transformable, 0, 0))
         {
             Sfx.MONSTER_LAND.play();
         }

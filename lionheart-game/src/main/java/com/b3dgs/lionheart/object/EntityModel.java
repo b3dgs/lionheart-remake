@@ -170,7 +170,7 @@ public final class EntityModel extends EntityModelHelper
      */
     public void setNext(Optional<String> next, Optional<Coord> nextSpawn)
     {
-        config = new ModelConfig(false, next, nextSpawn);
+        config = new ModelConfig(false, true, next, nextSpawn);
     }
 
     /**

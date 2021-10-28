@@ -49,9 +49,11 @@ public final class StatePatrol extends State
         addTransition(StateJumpSpider.class, () -> model.hasFeature(Spider.class) && collideX.get());
         addTransition(StateTurn.class, () -> turn);
         addTransition(StateFall.class,
-                      () -> model.hasGravity()
+                      () -> model.getConfig().getFall().orElse(Boolean.TRUE).booleanValue()
+                            && model.hasGravity()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
-                            && !collideY.get());
+                            && !collideY.get()
+                            && body.getGravityMax() > 0);
     }
 
     @Override

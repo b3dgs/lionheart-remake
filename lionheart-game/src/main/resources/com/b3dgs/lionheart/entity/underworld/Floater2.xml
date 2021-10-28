@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Glue</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Floater</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="surface/Floater2.png"/>
+    <lionengine:frames horizontal="3" vertical="1" offsetY="0"/>
+    <lionengine:size width="48" height="16"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="3" speed="0.15" reversed="true" repeat="true"/>
+        <lionengine:animation name="fall" start="1" end="3" speed="0.15" reversed="true" repeat="true"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="ground" offsetX="0" offsetY="7" width="28" height="1" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
+    <lionengine:body gravity="0.072" gravityMax="8.5"/>
+    <lionengine:collidable group="3" accepted="1"/>
+    <floater speedUp="1.2" speedDown="0.5"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>

@@ -32,7 +32,6 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.geom.Geom;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.constant.Anim;
@@ -70,7 +69,6 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @FeatureGet private EntityModel model;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Glue glue;
-    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
@@ -88,6 +86,14 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         max = setup.getInteger(0, ATT_MAX, NODE);
         waterLevel = setup.getBoolean(true, ATT_WATER_LEVEL, NODE);
         hit = setup.getBoolean(false, ATT_HIT, NODE);
+    }
+
+    /**
+     * Stop glue.
+     */
+    public void stop()
+    {
+        glue.setTransformY(null);
     }
 
     @Override

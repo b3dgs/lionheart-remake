@@ -155,7 +155,10 @@ public final class Spider extends FeatureModel
     @Override
     public void save(Xml root)
     {
-        config.save(root);
+        if (config != null)
+        {
+            config.save(root);
+        }
     }
 
     @Override
