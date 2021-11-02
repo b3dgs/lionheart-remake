@@ -31,6 +31,8 @@ public enum BackgroundType
     SWAMP_DAY(WorldType.SWAMP, ThemeType.DAY),
     /** Swamp cold. */
     SWAMP_COLD(WorldType.SWAMP, ThemeType.COLD),
+    /** Underworld. */
+    UNDERWORLD(WorldType.UNDERWORLD, ThemeType.UNDERWORLD),
     /** Spider cave 1. */
     SPIDERCAVE1(WorldType.SPIDERCAVE1, null),
     /** Spider cave 2. */

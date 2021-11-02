@@ -31,6 +31,8 @@ public enum WorldType
 {
     /** Swamp world. */
     SWAMP,
+    /** Under world. */
+    UNDERWORLD,
     /** Spider cave 1 world. */
     SPIDERCAVE1,
     /** Spider cave 2 world. */

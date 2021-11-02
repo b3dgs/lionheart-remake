@@ -37,6 +37,8 @@ public enum ThemeType
     HOT,
     /** Secret. */
     SECRET,
+    /** Underworld. */
+    UNDERWORLD,
     /** Airship. */
     AIRSHIP,
     /** Dragonfly. */
