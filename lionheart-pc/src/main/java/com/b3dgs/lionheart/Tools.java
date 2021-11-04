@@ -104,6 +104,10 @@ public final class Tools
         medias.addAll(Medias.create(Folder.LIMB, type.getWorld().getFolder()).getMedias());
         medias.addAll(Medias.create(Folder.PROJECTILE, type.getWorld().getFolder()).getMedias());
         medias.addAll(Medias.create(Folder.EFFECT, type.getWorld().getFolder()).getMedias());
+        if (BackgroundType.UNDERWORLD.equals(type))
+        {
+            medias.addAll(Medias.create(Folder.BOSS, type.getWorld().getFolder()).getMedias());
+        }
 
         for (final Media media : medias)
         {

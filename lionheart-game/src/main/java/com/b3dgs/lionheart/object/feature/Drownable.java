@@ -42,7 +42,7 @@ import com.b3dgs.lionheart.object.state.StateDrowned;
 @FeatureInterface
 public final class Drownable extends FeatureModel implements Routine, Recyclable
 {
-    private static final int DROWN_OFFSET_Y = 8;
+    private static final int DROWN_OFFSET_Y = 4;
 
     private final MapTileWater water = services.get(MapTileWater.class);
     private final CheatsProvider cheats = services.get(CheatsProvider.class);

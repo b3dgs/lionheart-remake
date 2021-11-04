@@ -26,6 +26,10 @@
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.0" b="15.0" type="LINEAR"/>
     </lionengine:formula>
+    <lionengine:formula name="ground7">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="0.0" b="7.0" type="LINEAR"/>
+    </lionengine:formula>
     <lionengine:formula name="horizontal">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="0.0" b="1.0" type="LINEAR"/>
@@ -86,6 +90,22 @@
     <lionengine:formula name="incline_left">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
         <lionengine:function a="1.0" b="0.0" type="LINEAR"/>
+    </lionengine:formula>
+    <lionengine:formula name="incline7_1_right">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="-1.0" b="8.0" type="LINEAR"/>
+    </lionengine:formula>
+    <lionengine:formula name="incline7_2_right">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="-1.0" b="24.0" type="LINEAR"/>
+    </lionengine:formula>
+    <lionengine:formula name="incline7_1_left">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="1.0" b="-8.0" type="LINEAR"/>
+    </lionengine:formula>
+    <lionengine:formula name="incline7_2_left">
+        <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>
+        <lionengine:function a="1.0" b="8.0" type="LINEAR"/>
     </lionengine:formula>
     <lionengine:formula name="steep_0_left">
         <lionengine:range maxX="16" maxY="0" minX="0" minY="0" output="Y"/>

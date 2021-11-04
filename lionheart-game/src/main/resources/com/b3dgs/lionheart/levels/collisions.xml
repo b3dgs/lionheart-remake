@@ -12,6 +12,9 @@
     <lionengine:collision group="ground15">
         <lionengine:formula>ground15</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="ground7">
+        <lionengine:formula>ground7</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="horizontal">
         <lionengine:formula>horizontal</lionengine:formula>
     </lionengine:collision>
@@ -99,6 +102,18 @@
     </lionengine:collision>
     <lionengine:collision group="incline_right">
         <lionengine:formula>incline_right</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="incline7_1_left">
+        <lionengine:formula>incline7_1_left</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="incline7_2_left">
+        <lionengine:formula>incline7_2_left</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="incline7_1_right">
+        <lionengine:formula>incline7_1_right</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="incline7_2_right">
+        <lionengine:formula>incline7_2_right</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="steep_0_left">
         <lionengine:formula>steep_0_left</lionengine:formula>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/secret.sc68"/>
+    <map file="levels/underworld/stage_uw2.lvl"/>
+    <raster folder="raster/underworld/underworld/"/>
+    <background type="UNDERWORLD"/>
+    <foreground type="WATER" waterDepth="48" waterDepthSpeed="0.013" waterOffset="32"/>
+    <checkpoints>
+        <checkpoint tx="4.0" ty="7.0"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/underworld/Floater2.xml" tx="10.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="16.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="22.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="29.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="41.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="47.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="52.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="56.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="60.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="66.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="71.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="76.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="87.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="94.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="100.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="106.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="111.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="116.0" ty="5.0"/>
+        <entity file="entity/underworld/Turtle.xml" tx="26.0" ty="6.0"/>
+        <entity file="entity/underworld/Turtle.xml" tx="45.0" ty="6.0"/>
+        <entity file="entity/underworld/Turtle.xml" tx="69.0" ty="6.0"/>
+        <entity file="entity/underworld/Turtle.xml" tx="90.0" ty="6.0"/>
+        <entity file="entity/underworld/Turtle.xml" tx="97.0" ty="6.0"/>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="34.0" ty="7.0">
+            <spider follow="false"/>
+        </entity>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="80.0" ty="7.0">
+            <spider follow="false"/>
+        </entity>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="119.0" ty="7.0"/>
+        <entity file="entity/underworld/PotionLittle.xml" tx="55.0" ty="10.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="110.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="109.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="86.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="85.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="57.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="56.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="28.0" ty="1.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="29.0" ty="1.0"/>
+    </entities>
+</stage>

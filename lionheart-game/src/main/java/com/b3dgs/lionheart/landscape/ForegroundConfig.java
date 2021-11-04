@@ -34,6 +34,8 @@ public final class ForegroundConfig
     public static final String ATT_FOREGROUND_TYPE = "type";
     /** Water depth attribute name. */
     public static final String ATT_WATER_DEPTH = "waterDepth";
+    /** Water depth speed attribute name. */
+    public static final String ATT_WATER_DEPTH_SPEED = "waterDepthSpeed";
     /** Water offset attribute name. */
     public static final String ATT_WATER_OFFSET = "waterOffset";
     /** Water speed attribute name. */
@@ -65,6 +67,8 @@ public final class ForegroundConfig
     private final OptionalInt waterDepth;
     /** Water offset value. */
     private final OptionalInt waterOffset;
+    /** Water depth speed. */
+    private final OptionalDouble waterDepthSpeed;
     /** Water speed value. */
     private final OptionalDouble waterSpeed;
     /** Water effect value. */
@@ -89,6 +93,7 @@ public final class ForegroundConfig
         type = root.getEnum(ForegroundType.class, ATT_FOREGROUND_TYPE, NODE_FOREGROUND);
         waterDepth = root.getIntegerOptional(ATT_WATER_DEPTH, NODE_FOREGROUND);
         waterOffset = root.getIntegerOptional(ATT_WATER_OFFSET, NODE_FOREGROUND);
+        waterDepthSpeed = root.getDoubleOptional(ATT_WATER_DEPTH_SPEED, NODE_FOREGROUND);
         waterSpeed = root.getDoubleOptional(ATT_WATER_SPEED, NODE_FOREGROUND);
         waterEffect = root.getBoolean(true, ATT_WATER_EFFECT, NODE_FOREGROUND);
         waterRaise = root.getInteger(0, ATT_WATER_RAISE, NODE_FOREGROUND);
@@ -113,6 +118,16 @@ public final class ForegroundConfig
     public OptionalInt getWaterDepth()
     {
         return waterDepth;
+    }
+
+    /**
+     * Get the water depth speed.
+     * 
+     * @return The water depth speed.
+     */
+    public OptionalDouble getWaterDepthSpeed()
+    {
+        return waterDepthSpeed;
     }
 
     /**

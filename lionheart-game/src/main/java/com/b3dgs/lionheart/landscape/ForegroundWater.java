@@ -40,6 +40,7 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class ForegroundWater extends BackgroundAbstract implements Foreground
 {
     private static final double DEFAULT_ANIM_SPEED = 0.3;
+    private static final double DEFAULT_DEPTH_SPEED = 0.024;
 
     private static final int WATER_LINES = 4;
     private static final int WATER_LINES_FACTOR = 3;
@@ -67,7 +68,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     /** Water depth offset. */
     private final double depthOffset;
     /** Water speed. */
-    private final double speed = 0.024;
+    private final double speed;
     /** Water anim speed. */
     private final double animSpeed;
     /** Water effect flag. */
@@ -114,6 +115,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         this.source = source;
 
         depth = config.getWaterDepth().orElse(0);
+        speed = config.getWaterDepthSpeed().orElse(DEFAULT_DEPTH_SPEED);
         depthOffset = config.getWaterOffset().orElse(0);
         animSpeed = config.getWaterSpeed().orElse(DEFAULT_ANIM_SPEED);
         effect = config.getWaterEffect();
@@ -328,7 +330,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         /** Position y. */
         private int py;
         /** Anim flicker. */
-        private boolean animFlick;
+        private boolean animFlick = true;
 
         /**
          * Constructor.
@@ -446,7 +448,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
                     }
                 }
             }
-            if (tickFlick.elapsedTime(source.getRate(), ANIM_FLICKER_DELAY_MS))
+            if (ANIM_FLICKER_DELAY_MS > 0 && tickFlick.elapsedTime(source.getRate(), ANIM_FLICKER_DELAY_MS))
             {
                 animFlick = !animFlick;
                 tickFlick.restart();
