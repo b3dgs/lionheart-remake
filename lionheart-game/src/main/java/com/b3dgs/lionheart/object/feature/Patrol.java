@@ -297,6 +297,14 @@ public final class Patrol extends FeatureModel
     @Override
     public void load(XmlReader root)
     {
+        sh = 0;
+        sv = 0;
+        amplitude = 0;
+        offset = 0;
+        coll = false;
+        animOffset = 0;
+
+        currentIndex = -1;
         if (patrols.size() > 0)
         {
             loadNextPatrol();
@@ -337,6 +345,11 @@ public final class Patrol extends FeatureModel
         mirrorable.update(1.0);
 
         rasterable.setAnimOffset(animOffset);
+
+        if (patrols.size() > 0)
+        {
+            loadNextPatrol();
+        }
     }
 
     @Override
