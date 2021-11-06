@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Underwater</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.BossUnderworld</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Boss.png"/>
+    <lionengine:frames horizontal="5" vertical="2"/>
+    <lionengine:size width="32" height="80"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="10" speed="0.25" reversed="false" repeat="true"/>
+        <lionengine:animation name="hurt" start="1" end="1" speed="0.25" reversed="false" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="body" offsetX="0" offsetY="0" width="24" height="64" mirror="false"/>
+        <lionengine:collision name="attack" offsetX="0" offsetY="0" width="24" height="64" mirror="false"/>
+    </lionengine:collisions>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:rasterable extern="true"/>
+    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:launcher level="0">
+        <lionengine:launchable media="entity/underworld/Turtle.xml" sfx="sfx/monster_frog.wav" ox="-208" oy="224" delay="0">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/underworld/Turtle.xml" sfx="sfx/monster_frog.wav" ox="-112" oy="224" delay="1000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="entity/underworld/Turtle.xml" sfx="sfx/monster_frog.wav" ox="80" oy="224" delay="2000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="1">
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="1000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="2000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="3000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="4000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="5000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="6000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="7000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="2">
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="1000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="1100">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="1200">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="3000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="3100">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="3200">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="5000">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="5100">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+        <lionengine:launchable media="boss/underworld/Bubble.xml" sfx="sfx/projectile_flower.wav" ox="0" oy="30" delay="5200">
+            <lionengine:force velocity="0" sensibility="0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:collidable group="2" accepted="1"/>
+    <stats health="20"/>
+    <hurtable effect="effect/underworld/ExplodeBig.xml" sfx="BOSS3_HURT"/>
+    <shade horizontal="5" vertical="2"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>
