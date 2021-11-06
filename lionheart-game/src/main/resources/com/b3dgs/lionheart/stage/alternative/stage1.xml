@@ -15,7 +15,7 @@
         <checkpoint next="stage/alternative/stage2.xml" tx="560.0" ty="28.0"/>
         <checkpoint tx="599.0" ty="8.0"/>
     </checkpoints>
-    <boss tx="609" ty="8.1" tsx="613" tsy="-7" next="stage/alternative/stage3.xml"/>
+    <boss tx="609" ty="8.1" tsx="613" tsy="-7" next="stage/alternative/stage10.xml"/>
     <entities>
         <entity file="entity/swamp/Talisment.xml" tx="519.0" ty="48.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="519.0" ty="50.0"/>
