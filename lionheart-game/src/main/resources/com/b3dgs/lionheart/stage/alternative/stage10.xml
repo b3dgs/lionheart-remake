@@ -6,7 +6,10 @@
     <background type="UNDERWORLD"/>
     <foreground type="WATER" waterDepth="160" waterDepthSpeed="0.004" waterOffset="64"/>
     <checkpoints>
-        <checkpoint tx="6.0" ty="28.0"/>
+        <checkpoint tx="6.0" ty="26.5"/>
+        <checkpoint tx="73.0" ty="26.5"/>
+        <checkpoint tx="173.0" ty="26.5"/>
+        <checkpoint next="stage/alternative/stage11.xml" tx="243.0" ty="26.5"/>
     </checkpoints>
     <entities>
         <entity file="entity/underworld/Talisment.xml" tx="16.0" ty="36.0"/>

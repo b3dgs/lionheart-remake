@@ -7,6 +7,8 @@
     <foreground type="WATER" waterDepth="48" waterDepthSpeed="0.013" waterOffset="32"/>
     <checkpoints>
         <checkpoint tx="4.0" ty="7.0"/>
+        <checkpoint tx="81.0" ty="7.0"/>
+        <checkpoint next="stage/alternative/stage12.xml" tx="122.0" ty="14.0"/>
     </checkpoints>
     <entities>
         <entity file="entity/underworld/Floater2.xml" tx="10.0" ty="5.0"/>
