@@ -280,14 +280,7 @@ public final class Part1 implements Updatable, Renderable
     private void updateTitleShadeAlpha(int alpha)
     {
         final int fade = alpha - (int) Math.floor(alphaShade);
-        if (alpha == 255)
-        {
-            titleShade.setAlpha(fade);
-        }
-        else
-        {
-            titleShade.setFade(fade, fade);
-        }
+        titleShade.setAlpha(fade);
     }
 
     /**
