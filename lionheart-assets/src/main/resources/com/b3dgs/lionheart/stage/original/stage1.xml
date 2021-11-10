@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage pic="sprite/pic1.png" text="swamp.txt">
     <music file="music/swamp.sc68"/>
-    <map file="levels/swamp/stage1.lvl"/>
+    <map file="level/swamp/vanilla/stage1.lvl"/>
     <raster folder="raster/swamp/dusk/"/>
     <background type="SWAMP_DUSK"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>

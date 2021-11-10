@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic4.png" text="airship.txt">
     <music file="music/airship.sc68"/>
-    <map file="levels/airship/stage_airship.lvl"/>
+    <map file="level/airship/alternative/stage.lvl"/>
     <background type="AIRSHIP_COLD"/>
     <foreground type="AIRSHIP"/>
     <checkpoints>

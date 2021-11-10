@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic6.png" text="tower.txt">
     <music file="music/tower.sc68"/>
-    <map file="levels/tower/stage_tower.lvl"/>
+    <map file="level/tower/alternative/stage.lvl"/>
     <raster folder="raster/tower/tower/"/>
     <background type="TOWER_COLD"/>
     <foreground raise="2448" type="WATER" waterDepth="8" waterOffset="32"/>

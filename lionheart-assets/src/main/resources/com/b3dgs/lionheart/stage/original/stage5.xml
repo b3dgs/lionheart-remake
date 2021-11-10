@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
     <music file="music/swamp.sc68"/>
-    <map file="levels/swamp/stage5.lvl"/>
+    <map file="level/swamp/vanilla/stage3.lvl"/>
     <raster folder="raster/swamp/day/"/>
     <background type="SWAMP_DAY"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>

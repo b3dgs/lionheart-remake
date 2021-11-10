@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic1.png" text="swamp.txt">
     <music file="music/swamp2.sc68"/>
-    <map file="levels/swamp/stage_swamp.lvl"/>
+    <map file="level/swamp/alternative/stage.lvl"/>
     <raster folder="raster/swamp/cold"/>
     <background type="SWAMP_COLD"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>

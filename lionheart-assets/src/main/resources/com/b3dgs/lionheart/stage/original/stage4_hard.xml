@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
     <music file="music/spidercave.sc68"/>
-    <map file="levels/spidercave2/stage4_hard.lvl"/>
+    <map file="level/spidercave2/vanilla/stage_hard.lvl"/>
     <background type="SPIDERCAVE2"/>
     <foreground type="NONE"/>
     <checkpoints>

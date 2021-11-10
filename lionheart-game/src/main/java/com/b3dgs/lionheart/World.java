@@ -401,7 +401,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                 config.getLinesPerRaster(),
                                                 config.getRasterLineOffset()));
         }
-        map.loadSheets(Medias.create(media.getParentPath(), TileSheetsConfig.FILENAME));
+        map.loadSheets(Medias.create(Folder.LEVEL,
+                                     config.getBackground().getWorld().getFolder(),
+                                     TileSheetsConfig.FILENAME));
         Util.loadMapTiles(map, media);
         loadMapBottom(config, media, raster);
 
@@ -431,7 +433,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             mapBottom.addFeature(new MapTileCollisionModel());
             mapBottom.addFeature(new LayerableModel(4, 5));
             final MapTileViewer mapViewer = mapBottom.addFeatureAndGet(new MapTileViewerModel(services));
-            mapBottom.loadSheets(Medias.create(media.getParentPath(), TileSheetsConfig.FILENAME));
+            mapBottom.loadSheets(Medias.create(Folder.LEVEL,
+                                               config.getBackground().getWorld().getFolder(),
+                                               TileSheetsConfig.FILENAME));
             Util.loadMapTiles(mapBottom, bottom);
 
             raster.ifPresent(r ->

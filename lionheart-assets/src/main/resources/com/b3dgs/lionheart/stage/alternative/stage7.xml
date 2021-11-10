@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic5.png" text="dragonfly.txt">
     <music file="music/dragonfly.sc68"/>
-    <map file="levels/dragonfly/stage12.lvl"/>
+    <map file="level/dragonfly/vanilla/stage.lvl"/>
     <raster folder="raster/dragonfly/cold/"/>
     <background type="DRAGONFLY_COLD"/>
     <foreground type="NONE"/>

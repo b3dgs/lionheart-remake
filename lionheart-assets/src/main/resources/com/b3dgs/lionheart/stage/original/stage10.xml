@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
     <music file="music/secret.sc68"/>
-    <map file="levels/secret/stage10.lvl"/>
+    <map file="level/secret/vanilla/stage.lvl"/>
     <raster folder="raster/secret/secret/"/>
     <background type="SECRET"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>

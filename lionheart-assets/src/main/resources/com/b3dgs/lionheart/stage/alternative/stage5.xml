@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/secret.sc68"/>
-    <map file="levels/secret/stage_secret.lvl"/>
+    <map file="level/secret/alternative/stage.lvl"/>
     <raster folder="raster/secret/secret/"/>
     <background type="SECRET_COLD"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>

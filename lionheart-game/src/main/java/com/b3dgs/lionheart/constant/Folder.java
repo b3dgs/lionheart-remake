@@ -46,7 +46,7 @@ public final class Folder
     /** Projectile folder. */
     public static final String PROJECTILE = "projectile";
     /** Level folder. */
-    public static final String LEVEL = "levels";
+    public static final String LEVEL = "level";
     /** Stage folder. */
     public static final String STAGE = "stage";
     /** Stage original folder. */

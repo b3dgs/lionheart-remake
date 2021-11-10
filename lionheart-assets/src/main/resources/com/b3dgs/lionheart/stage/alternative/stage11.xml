@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/secret.sc68"/>
-    <map file="levels/underworld/stage_uw2.lvl"/>
+    <map file="level/underworld/alternative/stage2.lvl"/>
     <raster folder="raster/underworld/underworld/"/>
     <background type="UNDERWORLD"/>
     <foreground type="WATER" waterDepth="48" waterDepthSpeed="0.013" waterOffset="32"/>

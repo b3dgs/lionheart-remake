@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
     <music file="music/ancienttown.sc68"/>
-    <map file="levels/ancienttown/stage7.lvl"/>
+    <map file="level/ancienttown/vanilla/stage2.lvl"/>
     <raster folder="raster/ancienttown/dawn/"/>
     <background type="ANCIENTTOWN_DAWN"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>

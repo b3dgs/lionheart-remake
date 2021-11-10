@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic2.png" text="ancienttown.txt">
     <music file="music/ancienttown.sc68"/>
-    <map file="levels/ancienttown/stage_ancienttown.lvl"/>
+    <map file="level/ancienttown/alternative/stage.lvl"/>
     <raster folder="raster/ancienttown/cold/"/>
     <background type="ANCIENTTOWN_COLD"/>
     <foreground type="WATER" waterDepth="32" waterOffset="64"/>

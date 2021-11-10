@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
     <music file="music/dragonfly.sc68"/>
-    <map file="levels/dragonfly/stage12.lvl"/>
+    <map file="level/dragonfly/vanilla/stage.lvl"/>
     <raster folder="raster/dragonfly/dragonfly/"/>
     <background type="DRAGONFLY"/>
     <foreground type="NONE"/>

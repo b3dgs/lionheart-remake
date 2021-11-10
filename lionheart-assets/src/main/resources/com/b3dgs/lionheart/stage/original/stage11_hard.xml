@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage pic="sprite/pic4.png" text="airship.txt">
     <music file="music/airship.sc68"/>
-    <map file="levels/airship/stage11.lvl"/>
+    <map file="level/airship/vanilla/stage.lvl"/>
     <background type="AIRSHIP"/>
     <foreground type="AIRSHIP"/>
     <checkpoints>

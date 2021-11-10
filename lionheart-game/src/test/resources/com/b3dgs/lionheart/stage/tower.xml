@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage>
     <music file="music/tower.sc68"/>
-    <map file="levels/tower/tower.lvl"/>
+    <map file="level/tower/tower.lvl"/>
     <raster folder="raster/tower/tower/"/>
     <background type="TOWER"/>
     <foreground type="WATER" waterDepth="4" waterOffset="48"/>
