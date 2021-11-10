@@ -97,6 +97,7 @@
         <profile>
             <id>pc</id>
             <modules>
+                <module>../lionheart-assets</module>
                 <module>../lionheart-raster</module>
                 <module>../lionheart-game</module>
                 <module>../lionheart-pc</module>
