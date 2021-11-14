@@ -1,0 +1,37 @@
+Elige el idioma del juego.
+Idiomas de juego disponibles.
+Factor de escala de resolución basado en la resolución original del juego.
+Factor de escala seleccionado.
+Relación aplicada a la resolución escalada, 4/3 es la relación original del juego.
+Proporción seleccionada.
+Ancho y alto de resolución actual.
+Ancho y alto de resolución actual.
+Elija la velocidad de la pantalla.
+Tasa de pantalla actual.
+Lista de resolución de pantalla completa admitida por monitor actual.
+Resolución seleccionada.
+Resolución seleccionada.
+Marcado se mostrará en modo de ventana, desmarcado en pantalla completa.
+Seleccione el volumen de la música.
+Volumen de música actual.
+Seleccione el volumen del fx del montículo.
+Volumen actual de efectos de sonido.
+Elija el conjunto de etapas (original, otras son etapas personalizadas)
+Conjunto de escenarios seleccionados.
+Modo de estrategia de carga de imágenes.
+Estrategia de carga seleccionada.
+Marcado para habilitar la carga paralela (predeterminado), desmarcado para la carga secuencial.
+Marcado para habilitar VSync, desmarcado para deshabilitar (predeterminado).
+Marcado para habilitar el efecto de trama (predeterminado), desmarcado para deshabilitar el efecto.
+Marcado para mostrar HUD (predeterminado), desmarcado para ocultar.
+Marcado para mostrar el nivel de espada, desmarcado para ocultar (predeterminado).
+Establecer vista truncada original.
+Establecer la vista normalizada de remake.
+Seleccione el efecto de vista de zoom.
+Valor de vista de zoom seleccionado.
+Valor de vista de zoom seleccionado.
+Elija gamepad.
+Gamepad seleccionado.
+Guarde la configuración y juegue.
+Ejecuta el editor de juegos.
+Guarde la configuración y salga del lanzador.

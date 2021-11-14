@@ -1,0 +1,19 @@
+Idioma:
+Aumento:
+Proporción:
+Resolución:
+Disponible:
+Ventana:
+Música:
+   Sfx:
+Niveles:
+Visible:
+Espada:
+Zoom:
+Avanzado
+Controlador:
+Configurar teclado
+Configurar controlador
+Jugar
+Editor
+Salida

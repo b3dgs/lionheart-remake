@@ -34,6 +34,8 @@ public final class Constant
     public static final String PROGRAM_NAME = "Lionheart Remake";
     /** Application version. */
     public static final Version PROGRAM_VERSION = Version.create(1, 2, 0);
+    /** Application website. */
+    public static final String PROGRAM_WEBSITE = "https://lionheart.b3dgs.com";
 
     /** Resolution. */
     public static final Resolution RESOLUTION = new Resolution(320, 240, 50);

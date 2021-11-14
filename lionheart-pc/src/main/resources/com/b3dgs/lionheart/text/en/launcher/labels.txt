@@ -1,0 +1,19 @@
+Language:
+Scale:
+Ratio:
+Resolution:
+Available:
+Windowed:
+Music:
+  Sfx:
+Stages:
+Visible:
+Sword:
+Zoom:
+Advanced
+Gamepad:
+Setup Keyboard
+Setup Gamepad
+Play
+Editor
+Exit

@@ -1,0 +1,19 @@
+Langue:
+Agrandissement:
+Ratio:
+Résolution:
+Disponible:
+Fenêtré:
+Musique:
+   Son:
+Niveaux:
+Visible:
+Épée:
+Zoom:
+Avancé
+Manette:
+Configurer le clavier
+Configurer la manette
+Jouer
+Éditeur
+Quitter

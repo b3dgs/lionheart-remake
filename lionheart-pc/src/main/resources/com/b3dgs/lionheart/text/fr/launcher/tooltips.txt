@@ -1,0 +1,37 @@
+Choisir la langue du jeu.
+Langues de jeu disponibles.
+Facteur d'échelle de résolution basé sur la résolution originale du jeu.
+Facteur d'échelle sélectionné.
+Ratio appliqué à la résolution, 4/3 est le ratio de jeu d'origine.
+Rapport d'écran sélectionné.
+Largeur et hauteur de la résolution actuelle.
+Largeur et hauteur de la résolution actuelle.
+Choisir le taux de rafraichissement d'écran.
+Taux de rafraichissement d'écran actuel.
+Liste des résolutions plein écran prises en charge par le moniteur.
+Résolution sélectionnée.
+Résolution sélectionnée.
+Coché pour le mode fenêtré, décoché pour le plein écran.
+Sélectionner le volume de la musique.
+Volume de la musique.
+Sélectionner le volume d'effets sonore.
+Volume d'effet sonore.
+Choisir les niveaux (original pour la version d'origine, les autres sont des niveaux personnalisés)
+Lot de niveaux sélectionné.
+Mode stratégie de chargement d'images.
+Stratégie de chargement sélectionnée.
+Coché pour activer le chargement parallèle (par défaut), décoché pour le chargement séquentiel.
+Coché pour activer VSync, décoché pour désactiver (par défaut).
+Coché pour activer l'effet raster (par défaut), décoché pour désactiver l'effet.
+Coché pour afficher le HUD (par défaut), décoché pour masquer.
+Coché pour afficher le niveau de l'épée, décoché pour masquer (par défaut).
+Définir la vue tronquée d'origine.
+Définir la vue normalisée de remake.
+Ajuster l'effet de vue.
+Valeur de vue sélectionnée.
+Valeur de vue sélectionnée.
+Choisir la manette de jeu.
+Manette de jeu sélectionnée.
+Enregistrer la configuration et jouer au jeu.
+Exécuter l'éditeur de jeu.
+Enregistrer la configuration et quitter le lanceur. 

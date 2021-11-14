@@ -1,0 +1,19 @@
+Sprache:
+Skalierung:
+Seitenverhältnis
+Auflösung:
+Erhältlich:
+Fenster Modus:
+Musik:
+   Sfx:
+Ebenen:
+Sichtbar:
+Schwert:
+Zoomen:
+Erweiterte Einstellungen
+Gamepad:
+Tastatur einrichten
+Gamepad einrichten
+Spiel
+Editor
+Beenden

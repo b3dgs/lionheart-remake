@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
@@ -48,6 +49,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -56,6 +58,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,6 +79,7 @@ import org.libsdl.SDL;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
@@ -95,12 +99,10 @@ import com.b3dgs.lionheart.constant.Folder;
 // CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 public final class Launcher
 {
-    private static final String LANG_EN = "en";
-    private static final String LANG_FR = "fr";
-    private static final String LANG_DE = "de";
-    private static final String LANG_ES = "es";
+    private static final String LANG_DEFAULT = "en";
 
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
+    private static final Font FONT1 = new Font(Font.MONOSPACED, Font.PLAIN, 16);
     private static final Font FONT2 = new Font(Font.MONOSPACED, Font.PLAIN, 12);
     private static final Integer[] AVAILABLE_SCALE = new Integer[]
     {
@@ -134,10 +136,16 @@ public final class Launcher
     private static final AtomicInteger SFX = new AtomicInteger();
     private static final AtomicInteger GAMEPAD = new AtomicInteger();
     private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
-    private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_EN);
+    private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_DEFAULT);
 
+    private static final String FOLDER_LAUNCHER = "launcher";
+    private static final String FILENAME_LANG = "langs.txt";
+    private static final String FILENAME_STAGE = "stages.txt";
+    private static final String FILENAME_LABELS = "labels.txt";
+    private static final String FILENAME_TOOLTIPS = "tooltips.txt";
     private static final String FILENAME_ICON = "icon-256.png";
     private static final String FILENAME_LOGO = "logo.png";
+    private static final String FILENAME_LOGO_HOVER = "logo_hover.png";
     private static final String SETTINGS_SEPARATOR = "=";
 
     private static final String LABEL_LANG = "Lang:";
@@ -179,15 +187,8 @@ public final class Launcher
     private static final Border BORDER_SPLASH = BorderFactory.createEmptyBorder(10, 10, 10, 10);
     private static final Border BORDER = BorderFactory.createEmptyBorder(3, 10, 3, 10);
 
-    static
-    {
-        LANG_FULL.put(LANG_EN, "English");
-        LANG_FULL.put(LANG_FR, "Français");
-        LANG_FULL.put(LANG_DE, "Deutsch");
-        LANG_FULL.put(LANG_ES, "Español");
-
-        LANG_FULL.forEach((k, v) -> LANG_SHORT.put(v, k));
-    }
+    private static final List<Consumer<String>> LABELS = new ArrayList<>();
+    private static final List<JComponent> TIPS = new ArrayList<>();
 
     /**
      * Main function.
@@ -197,7 +198,12 @@ public final class Launcher
      */
     public static void main(String[] args) throws IOException // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
+        UIManager.put("ToolTip.font", FONT1);
+
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+
+        loadLangs();
+
         Settings.load();
 
         final String input = Settings.getInstance().getInput();
@@ -210,7 +216,7 @@ public final class Launcher
         final Gamepad gamepad = new Gamepad();
 
         setThemeSystem();
-        load();
+        loadPref();
 
         final JFrame frame = createFrame();
 
@@ -225,11 +231,45 @@ public final class Launcher
         box.add(box2);
 
         final JLabel splash = new JLabel();
-        splash.setIcon(new ImageIcon(Launcher.class.getResource(FILENAME_LOGO)));
+        final ImageIcon logo = new ImageIcon(Launcher.class.getResource(FILENAME_LOGO));
+        final ImageIcon logoHover = new ImageIcon(Launcher.class.getResource(FILENAME_LOGO_HOVER));
+        splash.setIcon(logo);
+        splash.setToolTipText(Constant.PROGRAM_WEBSITE);
         splash.setBorder(BORDER_SPLASH);
+        splash.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseEntered(MouseEvent event)
+            {
+                splash.setIcon(logoHover);
+                splash.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent event)
+            {
+                splash.setIcon(logo);
+                splash.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent event)
+            {
+                try
+                {
+                    final Desktop desktop = Desktop.getDesktop();
+                    final URI oURL = new URI(Constant.PROGRAM_WEBSITE);
+                    desktop.browse(oURL);
+                }
+                catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
+                {
+                    Verbose.exception(exception);
+                }
+            }
+        });
         box2.add(splash);
 
-        createLang(box);
+        createLang(box, frame);
         createScale(box);
         createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
@@ -251,6 +291,7 @@ public final class Launcher
             frame.pack();
             frame.setLocationRelativeTo(null);
         });
+        LABELS.add(show::setText);
 
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -268,10 +309,12 @@ public final class Launcher
         createButtons(box, frame, gamepad);
         createCopyright(frame);
 
+        loadToolTips(LANG_DEFAULT);
+
         run(frame, panel);
     }
 
-    private static void load()
+    private static void loadPref()
     {
         final Settings settings = Settings.getInstance();
 
@@ -309,6 +352,46 @@ public final class Launcher
         STAGES.set(settings.getStages());
     }
 
+    private static void loadLangs()
+    {
+        for (final String lang : Util.readLines(Medias.create(Folder.TEXT, FILENAME_LANG)))
+        {
+            final String[] data = lang.split(com.b3dgs.lionengine.Constant.SPACE);
+            LANG_FULL.put(data[0], data[1]);
+            LANG_SHORT.put(data[1], data[0]);
+        }
+    }
+
+    private static void loadLabels(String lang)
+    {
+        Media media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_LABELS);
+        if (!media.exists())
+        {
+            media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_LABELS);
+        }
+        final List<String> labels = Util.readLines(media);
+        final int n = Math.min(labels.size(), LABELS.size());
+        for (int i = 0; i < n; i++)
+        {
+            LABELS.get(i).accept(labels.get(i));
+        }
+    }
+
+    private static void loadToolTips(String lang)
+    {
+        Media media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_TOOLTIPS);
+        if (!media.exists())
+        {
+            media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_TOOLTIPS);
+        }
+        final List<String> tips = Util.readLines(media);
+        final int n = Math.min(tips.size(), TIPS.size());
+        for (int i = 0; i < n; i++)
+        {
+            TIPS.get(i).setToolTipText(tips.get(i));
+        }
+    }
+
     private static JFrame createFrame()
     {
         final JFrame frame = new JFrame(Constant.PROGRAM_NAME
@@ -335,24 +418,34 @@ public final class Launcher
         return frame;
     }
 
-    private static Container createLang(Container parent)
+    private static Container createLang(Container parent, JFrame frame)
     {
         final JLabel label = new JLabel(LABEL_LANG);
         label.setFont(FONT);
         label.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(label::setText);
+        TIPS.add(label);
 
-        final List<String> langs = Arrays.asList(LANG_EN, LANG_FR, LANG_DE, LANG_ES)
+        final List<String> langs = Medias.create(Folder.TEXT)
+                                         .getMedias()
                                          .stream()
-                                         .map(s -> LANG_FULL.getOrDefault(s, s))
+                                         .map(s -> LANG_FULL.getOrDefault(s.getName(), s.getName()))
+                                         .sorted()
                                          .collect(Collectors.toList());
         final JComboBox<String> combo = new JComboBox<>(langs.toArray(new String[langs.size()]));
         combo.setFont(FONT);
         combo.addItemListener(e ->
         {
             final String k = combo.getItemAt(combo.getSelectedIndex());
-            LANG.set(LANG_SHORT.getOrDefault(k, k));
+            final String lang = LANG_SHORT.getOrDefault(k, k);
+            LANG.set(lang);
+            loadLabels(lang);
+            loadToolTips(lang);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
         });
         combo.setSelectedItem(LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
+        TIPS.add(combo);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -390,23 +483,31 @@ public final class Launcher
         final JLabel labelScale = new JLabel(LABEL_SCALE);
         labelScale.setFont(FONT);
         labelScale.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(labelScale::setText);
+        TIPS.add(labelScale);
 
         final JComboBox<Integer> comboScale = new JComboBox<>(AVAILABLE_SCALE);
         comboScale.setFont(FONT);
         comboScale.setEnabled(WINDOWED.get());
+        TIPS.add(comboScale);
 
         final JLabel labelRatio = new JLabel(LABEL_RATIO);
         labelRatio.setFont(FONT);
         labelRatio.setHorizontalAlignment(SwingConstants.RIGHT);
         labelRatio.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        LABELS.add(labelRatio::setText);
+        TIPS.add(labelRatio);
 
         final JComboBox<String> comboRatio = new JComboBox<>(AVAILABLE_RATIO);
         comboRatio.setFont(FONT);
         comboRatio.setEnabled(WINDOWED.get());
+        TIPS.add(comboRatio);
 
         final JLabel labelResolution = new JLabel(LABEL_RESOLUTION);
         labelResolution.setFont(FONT);
         labelResolution.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(labelResolution::setText);
+        TIPS.add(labelResolution);
 
         final NumberFormat format = NumberFormat.getIntegerInstance(Locale.ENGLISH);
         format.setGroupingUsed(false);
@@ -452,6 +553,7 @@ public final class Launcher
 
         final JLabel labelX = new JLabel(" x ");
         labelX.setFont(FONT);
+        TIPS.add(labelX);
 
         final JFormattedTextField height = new JFormattedTextField(formatter);
         height.setFont(FONT);
@@ -490,6 +592,7 @@ public final class Launcher
 
         final JLabel labelA = new JLabel(" @ ");
         labelA.setFont(FONT);
+        TIPS.add(labelA);
 
         final JComboBox<Integer> comboRate = new JComboBox<>();
         comboRate.setFont(FONT);
@@ -510,6 +613,7 @@ public final class Launcher
             }
         });
         comboRate.setSelectedItem(Integer.valueOf(RATE.get()));
+        TIPS.add(comboRate);
 
         final JLabel labelHz = new JLabel("Hz");
         labelHz.setFont(FONT);
@@ -526,6 +630,7 @@ public final class Launcher
 
         final JComboBox<Res> comboRes = createResolutionsAvailable(box, width, height);
         comboRes.setSelectedItem(new Res(WIDTH.get(), HEIGHT.get()));
+        TIPS.add(comboRes);
         parent.add(box);
 
         final Box boxResolution = Box.createHorizontalBox();
@@ -584,6 +689,8 @@ public final class Launcher
         labelResolution.setFont(FONT);
         labelResolution.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
         labelResolution.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(labelResolution::setText);
+        TIPS.add(labelResolution);
 
         final List<Res> res = Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
                                                                .getDefaultScreenDevice()
@@ -597,6 +704,7 @@ public final class Launcher
         final JComboBox<Res> comboResolution;
         comboResolution = new JComboBox<>(res.toArray(new Res[res.size()]));
         comboResolution.setFont(FONT);
+        TIPS.add(comboResolution);
         comboResolution.addItemListener(e ->
         {
             final Res r = comboResolution.getItemAt(comboResolution.getSelectedIndex());
@@ -648,6 +756,8 @@ public final class Launcher
             width.setEditable(checkWindowed.isSelected());
             height.setEditable(checkWindowed.isSelected());
         });
+        LABELS.add(checkWindowed::setText);
+        TIPS.add(checkWindowed);
 
         parent.add(checkWindowed);
     }
@@ -676,11 +786,13 @@ public final class Launcher
 
         final JLabel label = new JLabel(LABEL_FLAG_STRATEGY);
         label.setFont(FONT);
+        TIPS.add(label);
 
         final JComboBox<ImageLoadStrategy> combo = new JComboBox<>(ImageLoadStrategy.values());
         combo.setFont(FONT);
         combo.setSelectedIndex(FLAG_STRATEGY.get());
         combo.addItemListener(e -> FLAG_STRATEGY.set(combo.getSelectedIndex()));
+        TIPS.add(combo);
 
         final JCheckBox parallel = new JCheckBox(LABEL_FLAG_PARALLEL);
         parallel.setFont(FONT);
@@ -688,6 +800,7 @@ public final class Launcher
         parallel.setSelected(FLAG_PARALLEL.get());
         parallel.addChangeListener(e -> FLAG_PARALLEL.set(parallel.isSelected()));
         parallel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        TIPS.add(parallel);
 
         final JCheckBox vsync = new JCheckBox(LABEL_FLAG_VSYNC);
         vsync.setFont(FONT);
@@ -695,6 +808,7 @@ public final class Launcher
         vsync.setSelected(FLAG_VSYNC.get());
         vsync.addChangeListener(e -> FLAG_VSYNC.set(vsync.isSelected()));
         vsync.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        TIPS.add(vsync);
 
         flags.add(label);
         flags.add(combo);
@@ -714,6 +828,7 @@ public final class Launcher
         raster.setSelected(RASTER.get());
         raster.addChangeListener(e -> RASTER.set(raster.isSelected()));
         raster.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        TIPS.add(raster);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -735,6 +850,8 @@ public final class Launcher
         hud.setHorizontalTextPosition(SwingConstants.LEADING);
         hud.setSelected(HUD.get());
         hud.addChangeListener(e -> HUD.set(hud.isSelected()));
+        LABELS.add(hud::setText);
+        TIPS.add(hud);
 
         final JCheckBox sword = new JCheckBox(LABEL_HUD_SWORD);
         sword.setFont(FONT);
@@ -742,6 +859,8 @@ public final class Launcher
         sword.setSelected(HUD_SWORD.get());
         sword.addChangeListener(e -> HUD_SWORD.set(sword.isSelected()));
         sword.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        LABELS.add(sword::setText);
+        TIPS.add(sword);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BorderFactory.createTitledBorder(LABEL_HUD));
@@ -758,15 +877,18 @@ public final class Launcher
 
         final JButton original = new JButton(LABEL_ORIGINAL);
         original.setFont(FONT);
+        TIPS.add(original);
 
         final JButton remake = new JButton(LABEL_REMAKE);
         remake.setFont(FONT);
+        TIPS.add(remake);
 
         final JSlider slider = createSlider(box,
                                             LABEL_ZOOM,
                                             ZOOM,
                                             (int) (Constant.ZOOM_MIN * 100),
                                             (int) (Constant.ZOOM_MAX * 100));
+        TIPS.add(slider);
 
         original.addActionListener(event ->
         {
@@ -788,9 +910,12 @@ public final class Launcher
     {
         final JLabel label = new JLabel(title);
         label.setFont(FONT);
+        LABELS.add(label::setText);
+        TIPS.add(label);
 
         final JSlider slider = new JSlider(min, max, value.get());
         slider.setFont(FONT);
+        TIPS.add(slider);
 
         final JLabel result = new JLabel(String.valueOf(getPercent(slider.getValue())));
         result.setFont(FONT);
@@ -831,13 +956,16 @@ public final class Launcher
         final JLabel label = new JLabel(LABEL_STAGES);
         label.setFont(FONT);
         label.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(label::setText);
+        TIPS.add(label);
 
-        final List<String> stages = Arrays.asList("original", "alternative");
+        final List<String> stages = Util.readLines(Medias.create(Folder.STAGE, FILENAME_STAGE));
 
         final JComboBox<String> combo = new JComboBox<>(stages.toArray(new String[stages.size()]));
         combo.setFont(FONT);
         combo.setSelectedItem(STAGES.get());
         combo.addItemListener(e -> STAGES.set(combo.getItemAt(combo.getSelectedIndex())));
+        TIPS.add(combo);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -856,6 +984,8 @@ public final class Launcher
         final JLabel label = new JLabel(LABEL_GAMEPAD);
         label.setFont(FONT);
         label.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(label::setText);
+        TIPS.add(label);
 
         final JComboBox<Object> combo = new JComboBox<>(gamepad.findDevices()
                                                                .values()
@@ -864,6 +994,7 @@ public final class Launcher
                                                                .toArray());
         combo.setFont(FONT);
         combo.addItemListener(e -> GAMEPAD.set(combo.getSelectedIndex()));
+        TIPS.add(combo);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -905,6 +1036,7 @@ public final class Launcher
                     }
                 });
             });
+            LABELS.add(setup::setText);
             panel.add(setup, constraints);
         }
     }
@@ -938,6 +1070,8 @@ public final class Launcher
             window.dispose();
             AppLionheart.run(gamepad);
         });
+        LABELS.add(play::setText);
+        TIPS.add(play);
 
         final JButton editor = new JButton(LABEL_EDITOR);
         editor.setFont(FONT);
@@ -954,6 +1088,8 @@ public final class Launcher
             }
             window.dispose();
         });
+        LABELS.add(editor::setText);
+        TIPS.add(editor);
 
         final JButton exit = new JButton(LABEL_EXIT);
         exit.setFont(FONT);
@@ -963,6 +1099,8 @@ public final class Launcher
             gamepad.close();
             window.dispose();
         });
+        LABELS.add(exit::setText);
+        TIPS.add(exit);
 
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -972,7 +1110,7 @@ public final class Launcher
         parent.add(panel);
         panel.setBorder(BORDER);
         panel.add(play, constraints);
-        // TODO panel.add(editor, constraints);
+        panel.add(editor, constraints);
         panel.add(exit, constraints);
     }
 

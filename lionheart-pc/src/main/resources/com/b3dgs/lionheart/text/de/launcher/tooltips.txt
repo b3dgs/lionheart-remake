@@ -1,0 +1,37 @@
+Wählen Sie die Spielsprache.
+Verfügbare Spielsprachen.
+Skalierungsfaktor der Auflösung basierend auf der ursprünglichen Spielauflösung.
+Ausgewählter Skalierungsfaktor.
+Seitenverhältnis angewendet auf skalierte Auflösung, 4/3 ist das ursprüngliche Seitenverhältnis.
+Ausgewähltes Seitenverhältnis.
+Breite und Höhe der aktuellen Auflösung.
+Breite und Höhe der aktuellen Auflösung.
+Wählen Sie die Bildschirmrate.
+Aktuelle Bildschirmrate.
+Liste der unterstützten Vollbildauflösungen des aktuell verwendeten Monitors.
+Ausgewählte Auflösung.
+Ausgewählte Auflösung.
+Aktiviert wird im Fenstermodus angezeigt, deaktiviert im Vollbildmodus.
+Wählen Sie die Musiklautstärke.
+Aktuelle Musiklautstärke.
+Wählen Sie die Lautstärke der Sound FX.
+Aktuelle Sound-FX Lautstärke.
+Wähle Level Set (Original oder benutzerdefinierte Level).
+Ausgewähltes Level Set.
+Strategiemodus zum Laden von Bildern.
+Ausgewählte Ladestrategie.
+Aktiviert, um paralleles Laden zu aktivieren (Standard), nicht markiert für sequentielles Laden.
+Aktiviert, um VSync zu aktivieren, deaktiviert, um VSync zu deaktivieren (Standard).
+Aktiviert, um den Rastereffekt zu aktivieren (Standard), deaktiviert, um den Effekt zu deaktivieren.
+Aktiviert, um das HUD anzuzeigen (Standard), deaktiviert, um es auszublenden.
+Aktiviert, um das Schwertniveau anzuzeigen, deaktiviert, um es auszublenden (Standard).
+Stellen Sie die ursprüngliche abgeschnittene Ansicht ein.
+Stellen Sie die normalisierte Ansicht für das Remake ein.
+Wählen Sie den Zoomansichtseffekt.
+Ausgewählter Zoomansichtswert.
+Ausgewählter Zoomansichtswert.
+Wähle Gamepad.
+Ausgewähltes Gamepad.
+Konfiguration speichern und Spiel spielen.
+Spiele-Editor ausführen.
+Konfiguration speichern und Launcher beenden.
