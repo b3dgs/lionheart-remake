@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic4.png" text="airship.txt">
     <music file="music/airship.sc68"/>
-    <map file="level/airship/alternative/stage.lvl"/>
+    <map file="level/airship/veteran/stage.lvl"/>
     <background type="AIRSHIP_COLD"/>
     <foreground type="AIRSHIP"/>
     <checkpoints>
@@ -249,7 +249,7 @@
             <catapult vx="-1.7" vy="8.0"/>
         </entity>
         <entity file="entity/airship/Guard.xml" tx="579.0" ty="38.0">
-            <model next="stage/alternative/stage7.xml"/>
+            <model next="stage/veteran/stage10.xml"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="592.0" ty="32.0"/>
         <entity file="entity/airship/Talisment.xml" tx="603.0" ty="39.0"/>

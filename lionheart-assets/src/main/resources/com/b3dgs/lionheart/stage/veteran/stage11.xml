@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic6.png" text="tower.txt">
     <music file="music/tower.sc68"/>
-    <map file="level/tower/alternative/stage.lvl"/>
+    <map file="level/tower/veteran/stage.lvl"/>
     <raster folder="raster/tower/tower/"/>
     <background type="TOWER_COLD"/>
     <foreground raise="2448" type="WATER" waterDepth="8" waterOffset="32"/>
     <checkpoints>
         <checkpoint tx="26.0" ty="4.0"/>
-        <checkpoint next="stage/alternative/stage9.xml" tx="27.0" ty="140.0"/>
+        <checkpoint next="stage/veteran/stage12.xml" tx="27.0" ty="140.0"/>
     </checkpoints>
     <entities>
         <entity file="entity/tower/Spike1.xml" tx="12.0" ty="8.0"/>

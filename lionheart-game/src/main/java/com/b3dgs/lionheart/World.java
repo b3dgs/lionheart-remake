@@ -353,6 +353,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         if (!media.exists())
         {
             MapTileHelper.importAndSave(Medias.create(media.getPath().replace(Extension.MAP, Extension.IMAGE)),
+                                        Medias.create(Folder.LEVEL,
+                                                      config.getBackground().getWorld().getFolder(),
+                                                      TileSheetsConfig.FILENAME),
                                         media,
                                         new MapTilePersisterOptimized());
         }

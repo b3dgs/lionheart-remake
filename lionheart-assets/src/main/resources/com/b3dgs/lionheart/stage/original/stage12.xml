@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage pic="sprite/pic5.png" text="dragonfly.txt">
     <music file="music/dragonfly.sc68"/>
-    <map file="level/dragonfly/vanilla/stage.lvl"/>
+    <map file="level/dragonfly/original/stage.lvl"/>
     <raster folder="raster/dragonfly/dragonfly/"/>
     <background type="DRAGONFLY"/>
     <foreground type="NONE"/>

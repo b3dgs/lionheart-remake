@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic5.png" text="dragonfly.txt">
     <music file="music/dragonfly.sc68"/>
-    <map file="level/dragonfly/vanilla/stage.lvl"/>
+    <map file="level/dragonfly/original/stage.lvl"/>
     <raster folder="raster/dragonfly/cold/"/>
     <background type="DRAGONFLY_COLD"/>
     <foreground type="NONE"/>
@@ -18,7 +18,7 @@
         <checkpoint tx="660" ty="7"/>
         <checkpoint tx="684" ty="7"/>
     </checkpoints>
-    <boss tx="725" ty="12" tsx="752" tsy="6" next="stage/alternative/stage8.xml"/>
+    <boss tx="725" ty="12" tsx="752" tsy="6" next="stage/veteran/stage11.xml"/>
     <entities>
         <entity file="entity/dragonfly/Dragonflyer.xml" tx="415" ty="11.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="444.0" ty="2.0"/>

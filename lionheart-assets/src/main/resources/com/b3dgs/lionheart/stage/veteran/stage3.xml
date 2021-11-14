@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic7.png" text="underworld.txt">
     <music file="music/secret.sc68"/>
-    <map file="level/underworld/alternative/stage1.lvl"/>
+    <map file="level/underworld/veteran/stage1.lvl"/>
     <raster folder="raster/underworld/underworld/"/>
     <background type="UNDERWORLD"/>
     <foreground type="WATER" waterDepth="160" waterDepthSpeed="0.004" waterOffset="64"/>
@@ -9,7 +9,7 @@
         <checkpoint tx="6.0" ty="26.5"/>
         <checkpoint tx="73.0" ty="26.5"/>
         <checkpoint tx="173.0" ty="26.5"/>
-        <checkpoint next="stage/alternative/stage11.xml" tx="243.0" ty="26.5"/>
+        <checkpoint next="stage/veteran/stage4.xml" tx="243.0" ty="26.5"/>
     </checkpoints>
     <entities>
         <entity file="entity/underworld/Talisment.xml" tx="16.0" ty="36.0"/>
@@ -63,7 +63,7 @@
         <entity file="entity/underworld/Fish.xml" tx="35.0" ty="20.0">
             <patrol amplitude="80" offset="0" sh="0.4"/>
         </entity>
-         <entity file="entity/underworld/Turtle.xml" tx="40.0" ty="20.0">
+        <entity file="entity/underworld/Turtle.xml" tx="40.0" ty="20.0">
             <patrol amplitude="80" offset="0" sh="0.4"/>
         </entity>
         <entity file="entity/underworld/SeaUrchin.xml" tx="51.0" ty="30.0">
