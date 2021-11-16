@@ -40,6 +40,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
+import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
@@ -217,7 +218,7 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
     {
         super.prepare(provider);
 
-        if (Settings.getInstance().getRasterObject())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
             launcher.addListener(l -> l.ifIs(Underwater.class, u -> u.loadRaster("raster/underworld/underworld/")));
         }

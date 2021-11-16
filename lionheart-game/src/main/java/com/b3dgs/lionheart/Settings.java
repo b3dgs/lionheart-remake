@@ -67,19 +67,9 @@ public final class Settings
     /** Raster key. */
     public static final String RASTER = "raster";
     /** Raster enabled key. */
-    public static final String RASTER_ENABLED = RASTER + ".enabled";
+    public static final String RASTER_TYPE = RASTER + ".type";
     /** Raster check key. */
     public static final String RASTER_CHECK = RASTER + ".check";
-    /** Raster map key. */
-    public static final String RASTER_MAP = RASTER + ".map";
-    /** Raster map water key. */
-    public static final String RASTER_MAP_WATER = RASTER + ".map.water";
-    /** Raster object key. */
-    public static final String RASTER_OBJECT = RASTER + ".object";
-    /** Raster object water key. */
-    public static final String RASTER_OBJECT_WATER = RASTER + ".object.water";
-    /** Raster hero water key. */
-    public static final String RASTER_HERO_WATER = RASTER + ".hero.water";
 
     /** Hud key. */
     public static final String HUD = "hud";
@@ -339,9 +329,9 @@ public final class Settings
      * 
      * @return The raster flag.
      */
-    public boolean getRaster()
+    public RasterType getRaster()
     {
-        return getBoolean(RASTER_ENABLED, true);
+        return getEnum(RASTER_TYPE, RasterType.DIRECT, RasterType.class);
     }
 
     /**
@@ -351,57 +341,7 @@ public final class Settings
      */
     public boolean getRasterCheck()
     {
-        return getRaster() && getBoolean(RASTER_CHECK, false);
-    }
-
-    /**
-     * Get raster map flag.
-     * 
-     * @return The raster map flag.
-     */
-    public boolean getRasterMap()
-    {
-        return getRaster() && getBoolean(RASTER_MAP, true);
-    }
-
-    /**
-     * Get raster map water flag.
-     * 
-     * @return The raster map water flag.
-     */
-    public boolean getRasterMapWater()
-    {
-        return getRaster() && getBoolean(RASTER_MAP_WATER, true);
-    }
-
-    /**
-     * Get raster object flag.
-     * 
-     * @return The raster object flag.
-     */
-    public boolean getRasterObject()
-    {
-        return getRaster() && getBoolean(RASTER_OBJECT, true);
-    }
-
-    /**
-     * Get raster object water flag.
-     * 
-     * @return The raster object water flag.
-     */
-    public boolean getRasterObjectWater()
-    {
-        return getRaster() && getBoolean(RASTER_OBJECT_WATER, true);
-    }
-
-    /**
-     * Get raster hero water.
-     * 
-     * @return The raster hero water flag.
-     */
-    public boolean getRasterHeroWater()
-    {
-        return getRaster() && getBoolean(RASTER_HERO_WATER, true);
+        return RasterType.CACHE == getRaster() && getBoolean(RASTER_CHECK, false);
     }
 
     /**
@@ -568,6 +508,27 @@ public final class Settings
             return Double.parseDouble(properties.getProperty(key, String.valueOf(def)));
         }
         catch (final NumberFormatException exception)
+        {
+            Verbose.exception(exception);
+            return def;
+        }
+    }
+
+    /**
+     * Get double from key.
+     * 
+     * @param key The key name.
+     * @param def The default value.
+     * @param clazz The enum type.
+     * @return The value read.
+     */
+    private <E extends Enum<E>> E getEnum(String key, E def, Class<E> clazz)
+    {
+        try
+        {
+            return Enum.valueOf(clazz, properties.getProperty(key, String.valueOf(def.name())));
+        }
+        catch (final IllegalArgumentException exception)
         {
             Verbose.exception(exception);
             return def;

@@ -35,6 +35,7 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
+import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.Cursor;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -63,6 +64,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
@@ -128,6 +130,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private boolean cheatsMenu;
     private boolean fly;
     private boolean pressed;
+    private Action rasterRenderer = () ->
+    {
+        // Nothing to do
+    };
 
     /**
      * Create the world.
@@ -298,6 +304,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void loadStage(Settings settings, InitConfig init, StageConfig stage)
     {
+        if (RasterType.DIRECT == Settings.getInstance().getRaster())
+        {
+            loadRasterDirect(stage);
+        }
+
         if (settings.getRasterCheck())
         {
             Util.run(stage.getBackground());
@@ -312,7 +323,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         createPlayerAndLoadCheckpoints(settings, init, stage);
 
-        if (settings.getRasterObject())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
             stage.getRasterFolder().ifPresent(r ->
             {
@@ -335,10 +346,53 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             createEffectCache(stage);
         }
 
-        if (settings.getFlagParallel())
+        if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
         {
             loadRasterEntities(settings, stage, entities);
         }
+    }
+
+    /**
+     * Load raster direct colors.
+     * 
+     * @param stage The stage reference.
+     */
+    private void loadRasterDirect(StageConfig stage)
+    {
+        rasterbar.clearRasterbarColor();
+
+        stage.getRasterFolder().ifPresent(r ->
+        {
+            final Media rasterTiles = Medias.create(r, "tiles2.png");
+            if (rasterTiles.exists())
+            {
+                rasterbar.addRasterbarColor(Graphics.getImageBuffer(rasterTiles));
+            }
+
+            final Media rasterWater = Medias.create(r, "water2.png");
+            if (rasterWater.exists())
+            {
+                rasterbar.addRasterbarColor(Graphics.getImageBuffer(rasterWater));
+            }
+
+            final String raster;
+            if (ForegroundType.LAVA.equals(stage.getForeground().getType()))
+            {
+                rasterbar.setRasterbarOffset(-37, 1);
+                raster = "lava2.png";
+            }
+            else
+            {
+                rasterbar.setRasterbarOffset(-24, 16);
+                raster = "water2.png";
+            }
+            final Media rasterHero = Medias.create(Folder.RASTER, "hero", "valdyn", raster);
+            if (rasterHero.exists())
+            {
+                rasterbar.addRasterbarColor(Graphics.getImageBuffer(rasterHero));
+            }
+        });
+        rasterRenderer = rasterbar::renderRasterbar;
     }
 
     /**
@@ -397,7 +451,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         });
 
         final Optional<String> raster = config.getRasterFolder();
-        if (Settings.getInstance().getRasterMap())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
             raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
                                      .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
@@ -444,7 +498,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             raster.ifPresent(r ->
             {
                 final MapTileRastered mapRaster = mapBottom.addFeatureAndGet(new MapTileRasteredModel());
-                if (mapRaster.loadSheets() && Settings.getInstance().getRasterMap())
+                if (mapRaster.loadSheets() && RasterType.CACHE == Settings.getInstance().getRaster())
                 {
                     mapViewer.clear();
                     mapViewer.addRenderer(mapRaster);
@@ -473,7 +527,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void loadWaterRaster(StageConfig config, Optional<String> raster, MapTile map, boolean bottom)
     {
-        if (Settings.getInstance().getRasterMapWater())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
             final ForegroundType foreground = config.getForeground().getType();
             if (foreground == ForegroundType.WATER || foreground == ForegroundType.LAVA)
@@ -566,13 +620,16 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         trackPlayer(featurable);
 
-        if (settings.getFlagParallel())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
-            executor.execute(() -> loadRasterHero(stage, featurable));
-        }
-        else
-        {
-            loadRasterHero(stage, featurable);
+            if (settings.getFlagParallel())
+            {
+                executor.execute(() -> loadRasterHero(stage, featurable));
+            }
+            else
+            {
+                loadRasterHero(stage, featurable);
+            }
         }
     }
 
@@ -598,12 +655,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private void loadRasterHero(StageConfig stage, Featurable featurable)
     {
-        if (Settings.getInstance().getRasterHeroWater())
-        {
-            featurable.getFeature(Underwater.class)
-                      .loadRaster("raster/" + Folder.HERO + "/valdyn/",
-                                  ForegroundType.LAVA.equals(stage.getForeground().getType()));
-        }
+        featurable.getFeature(Underwater.class)
+                  .loadRaster("raster/" + Folder.HERO + "/valdyn/",
+                              ForegroundType.LAVA.equals(stage.getForeground().getType()));
     }
 
     /**
@@ -634,7 +688,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             for (int i = 0; i < n; i++)
             {
                 final Featurable featurable = createEntity(entityConfig.get(i), settings);
-                loadRasterEntity(stage, featurable, settings);
+                if (RasterType.CACHE == Settings.getInstance().getRaster())
+                {
+                    loadRasterEntity(stage, featurable, settings);
+                }
                 handler.add(featurable);
             }
         }
@@ -671,27 +728,22 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     private Featurable loadRasterEntity(StageConfig stage, Featurable featurable, Settings settings)
     {
-        stage.getRasterFolder().ifPresent(r ->
+        stage.getRasterFolder().ifPresent(raster ->
         {
-            featurable.ifIs(Underwater.class, underwater -> underwater.loadRaster(r));
-            featurable.ifIs(BulletBounceOnGround.class, bullet -> bullet.loadRaster(r));
-        });
-        if (settings.getRasterObject())
-        {
-            stage.getRasterFolder().ifPresent(raster ->
+            featurable.ifIs(Underwater.class, underwater -> underwater.loadRaster(raster));
+            featurable.ifIs(BulletBounceOnGround.class, bullet -> bullet.loadRaster(raster));
+
+            final Media media = Medias.create(raster, Constant.RASTER_FILE_TILE);
+            if (media.exists())
             {
-                final Media media = Medias.create(raster, Constant.RASTER_FILE_TILE);
-                if (media.exists())
-                {
-                    featurable.ifIs(Rasterable.class,
-                                    r -> r.setRaster(true,
-                                                     media,
-                                                     map.getTileHeight(),
-                                                     stage.getLinesPerRaster(),
-                                                     stage.getRasterLineOffset()));
-                }
-            });
-        }
+                featurable.ifIs(Rasterable.class,
+                                r -> r.setRaster(true,
+                                                 media,
+                                                 map.getTileHeight(),
+                                                 stage.getLinesPerRaster(),
+                                                 stage.getRasterLineOffset()));
+            }
+        });
         return featurable;
     }
 
@@ -1111,6 +1163,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
         }
         hud.update(extrp);
+        rasterbar.setRasterbarY((int) camera.getY(), mapWater.getCurrent() - 2);
 
         for (int i = 0; i < menus.size(); i++)
         {
@@ -1140,6 +1193,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         landscape.renderBackground(g);
         super.render(g);
+        rasterRenderer.execute();
         landscape.renderForeground(g);
         hud.render(g);
 

@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
+import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
@@ -84,7 +85,7 @@ public final class Grasshopper extends FeatureModel implements Routine
                 return move;
             }
         });
-        if (Settings.getInstance().getRasterObject())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
             launcher.addListener(l -> l.ifIs(Rasterable.class,
                                              r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));

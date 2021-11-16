@@ -37,6 +37,8 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.RasterType;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
@@ -92,7 +94,10 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
                                       88 + i * 80,
                                       0)
                                .getFeature(Identifiable.class);
-            pillar[i].getFeature(Underwater.class).loadRaster("raster/norka/norka/");
+            if (RasterType.CACHE == Settings.getInstance().getRaster())
+            {
+                pillar[i].getFeature(Underwater.class).loadRaster("raster/norka/norka/");
+            }
             pillar[i].getFeature(Pillar.class).load(new PillarConfig(1650 + i * 1650));
         }
     }

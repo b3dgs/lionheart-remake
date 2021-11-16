@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Editable;
@@ -244,7 +245,7 @@ public final class Shooter extends FeatureModel
         final MapTile map = services.get(MapTile.class);
         launcher.addListener(l ->
         {
-            if (Settings.getInstance().getRasterObject())
+            if (RasterType.CACHE == Settings.getInstance().getRaster())
             {
                 l.ifIs(Rasterable.class,
                        r -> r.getMedia().ifPresent(media -> r.setRaster(true, media, map.getTileHeight())));

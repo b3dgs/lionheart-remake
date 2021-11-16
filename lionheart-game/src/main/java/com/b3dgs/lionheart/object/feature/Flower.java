@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
@@ -163,7 +164,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
                 rasterable.setFrameOffsets(-19, 0);
             }
         });
-        if (Settings.getInstance().getRasterObject())
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
         {
             launcher.addListener(l -> l.ifIs(Rasterable.class,
                                              r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));

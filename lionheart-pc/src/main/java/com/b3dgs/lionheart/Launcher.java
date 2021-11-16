@@ -128,7 +128,7 @@ public final class Launcher
     private static final AtomicInteger FLAG_STRATEGY = new AtomicInteger();
     private static final AtomicBoolean FLAG_PARALLEL = new AtomicBoolean();
     private static final AtomicBoolean FLAG_VSYNC = new AtomicBoolean();
-    private static final AtomicBoolean RASTER = new AtomicBoolean();
+    private static final AtomicReference<RasterType> RASTER = new AtomicReference<>();
     private static final AtomicBoolean HUD = new AtomicBoolean();
     private static final AtomicBoolean HUD_SWORD = new AtomicBoolean();
     private static final AtomicInteger ZOOM = new AtomicInteger();
@@ -822,12 +822,15 @@ public final class Launcher
 
     private static void createMiscs(Container parent)
     {
-        final JCheckBox raster = new JCheckBox(LABEL_RASTER);
+        final JLabel raster = new JLabel(LABEL_RASTER);
         raster.setFont(FONT);
         raster.setHorizontalTextPosition(SwingConstants.LEADING);
-        raster.setSelected(RASTER.get());
-        raster.addChangeListener(e -> RASTER.set(raster.isSelected()));
-        raster.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+
+        final JComboBox<RasterType> comboRaster;
+        comboRaster = new JComboBox<>(RasterType.values());
+        comboRaster.setFont(FONT);
+        comboRaster.setSelectedItem(RASTER.get());
+        comboRaster.addItemListener(e -> RASTER.set(comboRaster.getItemAt(comboRaster.getSelectedIndex())));
         TIPS.add(raster);
 
         final Box box = Box.createHorizontalBox();
@@ -836,6 +839,7 @@ public final class Launcher
         final Box misc = Box.createHorizontalBox();
         misc.setBorder(BorderFactory.createTitledBorder(LABEL_MISC));
         misc.add(raster);
+        misc.add(comboRaster);
 
         box.add(misc);
         createHud(box);
@@ -1226,9 +1230,9 @@ public final class Launcher
                     {
                         writeFormatted(output, data, RATE.get());
                     }
-                    else if (line.contains(Settings.RASTER_ENABLED))
+                    else if (line.contains(Settings.RASTER_TYPE))
                     {
-                        writeFormatted(output, data, RASTER.get());
+                        writeFormatted(output, data, RASTER.get().name());
                     }
                     else if (line.contains(Settings.HUD_VISIBLE))
                     {

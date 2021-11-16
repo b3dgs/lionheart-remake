@@ -20,6 +20,8 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -28,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -35,9 +38,10 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.graphic.Graphic;
+import com.b3dgs.lionengine.graphic.Renderable;
+import com.b3dgs.lionengine.graphic.RenderableVoid;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.MapTileWater;
-import com.b3dgs.lionheart.Settings;
 
 /**
  * Floater feature implementation.
@@ -46,7 +50,7 @@ import com.b3dgs.lionheart.Settings;
  * </p>
  */
 @FeatureInterface
-public final class Underwater extends FeatureModel implements Routine
+public final class Underwater extends FeatureModel implements Routine, Recyclable
 {
     private static final String NODE = "underwater";
 
@@ -54,6 +58,8 @@ public final class Underwater extends FeatureModel implements Routine
     private final SetupSurfaceRastered setup;
 
     private Rasterable rasterableWater;
+    private Updatable updater;
+    private Renderable renderer;
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
@@ -91,12 +97,42 @@ public final class Underwater extends FeatureModel implements Routine
      */
     public void loadRaster(String raster, boolean lava)
     {
-        if (Settings.getInstance().getRasterObjectWater())
+        rasterableWater.setRaster(false,
+                                  Medias.create(raster, lava ? Constant.RASTER_FILE_LAVA : Constant.RASTER_FILE_WATER),
+                                  transformable.getHeight());
+
+        updater = this::updateRaster;
+        renderer = this::renderRaster;
+    }
+
+    /**
+     * Update raster.
+     * 
+     * @param extrp The extrapolation value.
+     */
+    private void updateRaster(double extrp)
+    {
+        if (Double.compare(transformable.getY(), water.getCurrent()) <= 0)
         {
-            rasterableWater.setRaster(false,
-                                      Medias.create(raster,
-                                                    lava ? Constant.RASTER_FILE_LAVA : Constant.RASTER_FILE_WATER),
-                                      transformable.getHeight());
+            rasterableWater.setVisibility(rasterable.isVisible());
+            rasterableWater.update(extrp);
+        }
+        else
+        {
+            rasterableWater.setVisibility(false);
+        }
+    }
+
+    /**
+     * Render raster.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderRaster(Graphic g)
+    {
+        if (rasterableWater.getRasterIndex(0) > 0)
+        {
+            rasterableWater.render(g);
         }
     }
 
@@ -151,23 +187,19 @@ public final class Underwater extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (Double.compare(transformable.getY(), water.getCurrent()) <= 0)
-        {
-            rasterableWater.setVisibility(rasterable.isVisible());
-            rasterableWater.update(extrp);
-        }
-        else
-        {
-            rasterableWater.setVisibility(false);
-        }
+        updater.update(extrp);
     }
 
     @Override
     public void render(Graphic g)
     {
-        if (rasterableWater.getRasterIndex(0) > 0)
-        {
-            rasterableWater.render(g);
-        }
+        renderer.render(g);
+    }
+
+    @Override
+    public void recycle()
+    {
+        updater = UpdatableVoid.getInstance();
+        renderer = RenderableVoid.getInstance();
     }
 }
