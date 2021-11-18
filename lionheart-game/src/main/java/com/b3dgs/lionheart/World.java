@@ -670,7 +670,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private Featurable[] createEntities(Settings settings, StageConfig stage)
     {
         final Featurable[] entities;
-        if (settings.getFlagParallel())
+        if (settings.getFlagParallel() && RasterType.CACHE == Settings.getInstance().getRaster())
         {
             final List<EntityConfig> config = stage.getEntities();
             final int n = config.size();
@@ -830,14 +830,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final Featurable f = factory.create(media);
             f.getFeature(Transformable.class).teleport(x, y);
 
-            stage.getRasterFolder().ifPresent(raster ->
+            if (RasterType.CACHE == Settings.getInstance().getRaster())
             {
-                final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
-                if (rasterMedia.exists())
+                stage.getRasterFolder().ifPresent(raster ->
                 {
-                    f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
-                }
-            });
+                    final Media rasterMedia = Medias.create(raster, Constant.RASTER_FILE_TILE);
+                    if (rasterMedia.exists())
+                    {
+                        f.ifIs(Rasterable.class, r -> r.setRaster(true, rasterMedia, map.getTileHeight()));
+                    }
+                });
+            }
             return f;
         };
 
