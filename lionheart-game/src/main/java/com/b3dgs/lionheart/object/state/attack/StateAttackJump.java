@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.StateCrouch;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateGripIdle;
 import com.b3dgs.lionheart.object.state.StateLianaIdle;
@@ -77,6 +78,7 @@ public final class StateAttackJump extends State
         addTransition(StateLianaIdle.class,
                       () -> !grip.get() && liana.is() && !liana.isLeft() && !liana.isRight() && !isGoDown());
         addTransition(StateAttackFall.class, () -> isGoDown() && isFire() && is(AnimState.FINISHED) && !collideY.get());
+        addTransition(StateCrouch.class, () -> collideY.get() && isGoDown());
     }
 
     @Override
