@@ -12,6 +12,8 @@ Liste des résolutions plein écran prises en charge par le moniteur.
 Résolution sélectionnée.
 Résolution sélectionnée.
 Coché pour le mode fenêtré, décoché pour le plein écran.
+Liste des filtres disposibles.
+Filtre sélectionné.
 Sélectionner le volume de la musique.
 Volume de la musique.
 Sélectionner le volume d'effets sonore.

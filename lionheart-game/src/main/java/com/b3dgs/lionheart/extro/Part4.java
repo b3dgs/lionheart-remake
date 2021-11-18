@@ -135,6 +135,7 @@ public class Part4 extends Sequence
         }
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     /**

@@ -140,6 +140,7 @@ public final class ScenePicture extends Sequence
         text.setOrigin(Origin.TOP_LEFT);
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     /**

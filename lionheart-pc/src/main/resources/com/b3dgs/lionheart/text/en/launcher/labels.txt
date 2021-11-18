@@ -4,6 +4,7 @@ Ratio:
 Resolution:
 Available:
 Windowed:
+Filter:
 Music:
   Sfx:
 Stages:

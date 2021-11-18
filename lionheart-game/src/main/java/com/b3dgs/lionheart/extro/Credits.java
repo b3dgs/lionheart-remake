@@ -142,6 +142,7 @@ public class Credits extends Sequence
         lastText = texts.get(count - 1);
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     @Override

@@ -145,6 +145,7 @@ public class Part2 extends Sequence
         load(Part3.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     /**

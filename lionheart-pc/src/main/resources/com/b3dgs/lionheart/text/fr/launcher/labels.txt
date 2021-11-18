@@ -4,6 +4,7 @@ Ratio:
 Résolution:
 Disponible:
 Fenêtré:
+Filtre:
 Musique:
    Son:
 Niveaux:

@@ -205,6 +205,7 @@ public class Part5 extends Sequence
         load(Credits.class, time, audio, alternative);
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     /**

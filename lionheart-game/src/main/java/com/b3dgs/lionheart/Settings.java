@@ -64,6 +64,9 @@ public final class Settings
     /** Volume sfx. */
     public static final String VOLUME_SFX = VOLUME + ".sfx";
 
+    /** Filter key. */
+    public static final String FILTER = "filter";
+
     /** Raster key. */
     public static final String RASTER = "raster";
     /** Raster enabled key. */
@@ -322,6 +325,16 @@ public final class Settings
     public int getVolumeSfx()
     {
         return (int) (getVolumeMaster() / 100.0 * getInt(VOLUME_SFX, com.b3dgs.lionengine.Constant.HUNDRED));
+    }
+
+    /**
+     * Get filter flag.
+     * 
+     * @return The filter flag.
+     */
+    public FilterType getFilter()
+    {
+        return getEnum(FILTER, FilterType.NONE, FilterType.class);
     }
 
     /**

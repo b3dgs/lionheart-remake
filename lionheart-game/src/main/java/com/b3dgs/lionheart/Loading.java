@@ -55,6 +55,7 @@ public final class Loading extends Sequence
         max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     @Override

@@ -196,6 +196,8 @@ public class Menu extends Sequence
         i = cacheText(optionsDifficulty, i, bufferOptions, textBlue);
         i = cacheText(optionsJoystick, i, bufferOptions, textBlue);
         i = cacheText(optionsMusic, i, bufferOptions, textBlue);
+
+        Util.setFilter(this);
     }
 
     private static int cacheText(List<String> texts, int index, ImageBuffer[] buffers, SpriteFont text)

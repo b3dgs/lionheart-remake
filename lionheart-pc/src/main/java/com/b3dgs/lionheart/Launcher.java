@@ -137,6 +137,7 @@ public final class Launcher
     private static final AtomicInteger GAMEPAD = new AtomicInteger();
     private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
     private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_DEFAULT);
+    private static final AtomicReference<FilterType> FILTER = new AtomicReference<>(FilterType.NONE);
 
     private static final String FOLDER_LAUNCHER = "launcher";
     private static final String FILENAME_LANG = "langs.txt";
@@ -149,6 +150,7 @@ public final class Launcher
     private static final String SETTINGS_SEPARATOR = "=";
 
     private static final String LABEL_LANG = "Lang:";
+    private static final String LABEL_FILTER = "Filter:";
     private static final String LABEL_ZOOM = "Zoom:";
     private static final String LABEL_ORIGINAL = "Original";
     private static final String LABEL_REMAKE = "Remake";
@@ -271,6 +273,7 @@ public final class Launcher
 
         createLang(box, frame);
         createScale(box);
+        createFilter(box);
         createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createStages(box);
@@ -338,6 +341,7 @@ public final class Launcher
             WINDOWED.set(false);
         }
 
+        FILTER.set(settings.getFilter());
         RASTER.set(settings.getRaster());
         HUD.set(settings.getHudVisible());
         HUD_SWORD.set(settings.getHudSword());
@@ -774,6 +778,29 @@ public final class Launcher
             }
         }
         return 0;
+    }
+
+    private static Container createFilter(Container parent)
+    {
+        final JLabel label = new JLabel(LABEL_FILTER);
+        label.setFont(FONT);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(label::setText);
+        TIPS.add(label);
+
+        final JComboBox<FilterType> combo = new JComboBox<>(FilterType.values());
+        combo.setFont(FONT);
+        combo.addItemListener(e -> FILTER.set(combo.getItemAt(combo.getSelectedIndex())));
+        combo.setSelectedItem(FILTER.get());
+        TIPS.add(combo);
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        box.add(label);
+        box.add(combo);
+        parent.add(box);
+
+        return combo;
     }
 
     private static void createFlags(Container parent)
@@ -1229,6 +1256,10 @@ public final class Launcher
                     else if (line.contains(Settings.RESOLUTION_RATE))
                     {
                         writeFormatted(output, data, RATE.get());
+                    }
+                    else if (line.contains(Settings.FILTER))
+                    {
+                        writeFormatted(output, data, FILTER.get().name());
                     }
                     else if (line.contains(Settings.RASTER_TYPE))
                     {

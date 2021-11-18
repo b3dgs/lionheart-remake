@@ -12,6 +12,8 @@ Lista de resolución de pantalla completa admitida por monitor actual.
 Resolución seleccionada.
 Resolución seleccionada.
 Marcado se mostrará en modo de ventana, desmarcado en pantalla completa.
+Lista de filtros disponibles.
+Filtro seleccionado.
 Seleccione el volumen de la música.
 Volumen de música actual.
 Seleccione el volumen del fx del montículo.

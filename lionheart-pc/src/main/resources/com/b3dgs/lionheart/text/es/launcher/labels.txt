@@ -4,6 +4,7 @@ Proporción:
 Resolución:
 Disponible:
 Ventana:
+Filtrar:
 Música:
    Sfx:
 Niveles:

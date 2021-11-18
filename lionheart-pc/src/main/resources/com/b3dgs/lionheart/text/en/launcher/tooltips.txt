@@ -12,6 +12,8 @@ List of supported fullscreen resolution by current monitor.
 Selected resolution.
 Selected resolution.
 Checked will display in windowed mode, unchecked in fullscreen.
+List of available filters.
+Selected filter.
 Select music volume.
 Current music volume.
 Select mound fx volume.

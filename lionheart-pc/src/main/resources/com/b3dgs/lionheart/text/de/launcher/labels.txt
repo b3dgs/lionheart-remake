@@ -4,6 +4,7 @@ Seitenverhältnis
 Auflösung:
 Erhältlich:
 Fenster Modus:
+Filter:
 Musik:
    Sfx:
 Ebenen:

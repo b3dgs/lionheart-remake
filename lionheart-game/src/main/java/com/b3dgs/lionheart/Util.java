@@ -50,6 +50,11 @@ import com.b3dgs.lionengine.graphic.TextStyle;
 import com.b3dgs.lionengine.graphic.engine.Loop;
 import com.b3dgs.lionengine.graphic.engine.LoopHybrid;
 import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
+import com.b3dgs.lionengine.graphic.engine.Sequence;
+import com.b3dgs.lionengine.graphic.filter.FilterBlur;
+import com.b3dgs.lionengine.graphic.filter.FilterHq2x;
+import com.b3dgs.lionengine.graphic.scanline.ScanlineCrt;
+import com.b3dgs.lionengine.graphic.scanline.ScanlineHorizontal;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
@@ -109,6 +114,35 @@ public final class Util
             factory = LoopHybrid::new;
         }
         return factory.create(Constant.RESOLUTION, settings.getResolution());
+    }
+
+    /**
+     * Set scene filter.
+     * 
+     * @param sequence The sequence reference.
+     */
+    public static void setFilter(Sequence sequence)
+    {
+        final Settings settings = Settings.getInstance();
+        final FilterType filter = settings.getFilter();
+        if (FilterType.BLUR == filter)
+        {
+            final FilterBlur blur = new FilterBlur();
+            blur.setRadius(1.25f);
+            sequence.setFilter(blur);
+        }
+        else if (FilterType.HQ2X == filter)
+        {
+            sequence.setFilter(new FilterHq2x());
+        }
+        else if (FilterType.SCANLINE == filter)
+        {
+            sequence.setScanline(ScanlineHorizontal.getInstance(Constant.RESOLUTION, 2.5));
+        }
+        else if (FilterType.CRT == filter)
+        {
+            sequence.setScanline(ScanlineCrt.getInstance(Constant.RESOLUTION, 2.5));
+        }
     }
 
     /**

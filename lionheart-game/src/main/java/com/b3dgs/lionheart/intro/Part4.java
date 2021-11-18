@@ -100,6 +100,7 @@ public class Part4 extends Sequence
         info = new AppInfo(this::getFps, services);
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     /**

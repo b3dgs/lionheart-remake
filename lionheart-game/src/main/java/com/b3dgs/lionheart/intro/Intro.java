@@ -102,6 +102,7 @@ public class Intro extends Sequence
         audio.setVolume(Settings.getInstance().getVolumeMusic());
 
         setSystemCursorVisible(false);
+        Util.setFilter(this);
     }
 
     /**
