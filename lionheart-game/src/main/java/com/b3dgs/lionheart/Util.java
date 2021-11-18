@@ -142,6 +142,9 @@ public final class Util
         else if (FilterType.CRT == filter)
         {
             sequence.setScanline(ScanlineCrt.getInstance(Constant.RESOLUTION, 2.5));
+            final FilterBlur blur = new FilterBlur();
+            blur.setRadius(1.3f);
+            sequence.setFilter(blur);
         }
     }
 
