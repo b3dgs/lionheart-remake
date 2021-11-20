@@ -81,6 +81,7 @@ import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
@@ -100,6 +101,7 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class Launcher
 {
     private static final String LANG_DEFAULT = "en";
+    private static final String RELEASES_LINK = "https://github.com/b3dgs/lionheart-remake/releases";
 
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
     private static final Font FONT1 = new Font(Font.MONOSPACED, Font.PLAIN, 16);
@@ -1109,13 +1111,30 @@ public final class Launcher
         editor.addActionListener(event ->
         {
             save();
-            try
+            final String path = "editor/Lionheart Remake Editor.exe";
+            if (UtilFile.exists(path))
             {
-                Runtime.getRuntime().exec("editor/Lionheart Remake Editor.exe");
+                try
+                {
+                    Runtime.getRuntime().exec(path);
+                }
+                catch (final IOException exception)
+                {
+                    Verbose.exception(exception);
+                }
             }
-            catch (final IOException exception)
+            else
             {
-                Verbose.exception(exception);
+                try
+                {
+                    final Desktop desktop = Desktop.getDesktop();
+                    final URI oURL = new URI(RELEASES_LINK);
+                    desktop.browse(oURL);
+                }
+                catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
+                {
+                    Verbose.exception(exception);
+                }
             }
             window.dispose();
         });
