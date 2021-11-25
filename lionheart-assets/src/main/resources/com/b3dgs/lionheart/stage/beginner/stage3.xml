@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic7.png" text="underworld.txt">
+    <music file="music/secret.sc68"/>
+    <map file="level/underworld/beginner/stage1.lvl"/>
+    <raster folder="raster/underworld/underworld/"/>
+    <background type="UNDERWORLD"/>
+    <foreground type="WATER" waterDepth="110" waterDepthSpeed="0.004" waterOffset="64"/>
+    <checkpoints>
+        <checkpoint tx="5.0" ty="19.0"/>
+        <checkpoint tx="73.0" ty="19.0"/>
+        <checkpoint tx="119.0" ty="19.0"/>
+        <checkpoint next="stage/beginner/stage4.xml" tx="161.0" ty="19.0"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="16.0" ty="21.0"/>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="38.0" ty="21.0"/>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="51.0" ty="22.0">
+            <patrol amplitude="48" offset="4" sh="0.2"/>
+            <spider follow="false"/>
+        </entity>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="66.0" ty="22.0">
+            <patrol amplitude="16" offset="4" sh="0.2"/>
+            <spider follow="false"/>
+        </entity>
+        <entity file="entity/underworld/Turtle.xml" tx="98.0" ty="10.0">
+            <patrol amplitude="48" sh="-0.4"/>
+        </entity>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="129.0" ty="22.0">
+            <patrol amplitude="32" offset="4" sh="0.2"/>
+            <spider follow="false"/>
+        </entity>
+        <entity file="entity/underworld/SeaUrchin.xml" tx="146.0" ty="19.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="14.0" ty="26.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="16.0" ty="26.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="18.0" ty="26.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="39.0" ty="27.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="42.0" ty="28.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="45.0" ty="27.0"/>
+        <entity file="entity/underworld/Life.xml" tx="48.0" ty="26.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="62.0" ty="25.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="64.0" ty="25.0"/>
+        <entity file="entity/underworld/Talisment.xml" tx="69.0" ty="25.0"/>
+        <entity file="entity/underworld/PotionBig.xml" tx="71.0" ty="20.0"/>
+        <entity file="entity/underworld/PotionLittle.xml" tx="121.0" ty="24.0"/>
+    </entities>
+</stage>
