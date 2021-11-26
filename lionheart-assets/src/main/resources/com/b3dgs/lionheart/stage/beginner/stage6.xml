@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic2.png" text="ancienttown.txt">
+    <music file="music/ancienttown.sc68"/>
+    <map file="level/ancienttown/beginner/stage.lvl"/>
+    <raster folder="raster/ancienttown/dawn/"/>
+    <background type="ANCIENTTOWN_DAY"/>
+    <foreground type="WATER" waterDepth="32" waterOffset="32"/>
+    <checkpoints>
+        <checkpoint tx="3.0" ty="9.0"/>
+        <checkpoint tx="72.0" ty="22.0"/>
+        <checkpoint tx="137.0" ty="7.0"/>
+        <checkpoint tx="179.0" ty="14.0"/>
+        <checkpoint tx="203.0" ty="35.0"/>
+        <checkpoint tx="260.0" ty="10.0"/>
+        <checkpoint tx="285.0" ty="13.0"/>
+        <checkpoint tx="324.0" ty="13.0"/>
+        <checkpoint next="stage/beginner/stage7.xml" tx="371.0" ty="11.0"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/ancienttown/Bee.xml" tx="12.0" ty="10.0">
+            <model mirror="true"/>
+            <patrol amplitude="48" mirror="false" sv="0.8"/>
+        </entity>
+        <entity file="entity/ancienttown/Bird.xml" tx="19.0" ty="16.0">
+            <patrol amplitude="48" mirror="false" sv="0.4"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon1.xml" tx="25.0" ty="14.0">
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.2" svy="3.2"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon2.xml" tx="48.0" ty="14.0">
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-1.0" svy="2.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="68.0" ty="27.0">
+            <shooter anim="-1" fireDelay="3000" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Crawling.xml" tx="33.0" ty="10.0">
+            <patrol amplitude="64" sh="0.3"/>
+        </entity>
+        <entity file="entity/ancienttown/Crawling.xml" tx="55.0" ty="10.0">
+            <patrol amplitude="64" sh="0.3"/>
+        </entity>
+        <entity file="entity/ancienttown/Talisment.xml" tx="70.0" ty="10.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="71.0" ty="12.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="74.0" ty="10.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="73.0" ty="12.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="72.0" ty="14.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="57.0" ty="12.0"/>
+        <entity file="entity/ancienttown/PotionBig.xml" tx="52.0" ty="13.0"/>
+        <entity file="entity/ancienttown/Executioner.xml" tx="37.0" ty="26.0">
+            <patrol amplitude="128" sh="-0.35" sv="0.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Talisment.xml" tx="21.0" ty="33.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="22.0" ty="33.0"/>
+        <entity file="entity/ancienttown/TurningCube.xml" tx="51.0" ty="22.0">
+            <patrol amplitude="64" mirror="false" sh="0.0" sv="0.5"/>
+            <patrol amplitude="64" mirror="false" sh="0.5" sv="0.0"/>
+            <patrol amplitude="64" mirror="false" sh="0.0" sv="-0.5"/>
+            <patrol amplitude="64" mirror="false" sh="-0.5" sv="0.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon2.xml" tx="62.0" ty="27.0">
+            <shooter anim="0" dvy="0.0" fireDelay="2500" firedDelay="0" svx="-1.0" svy="2.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Talisment.xml" tx="62.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="63.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="64.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="65.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="66.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="67.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="68.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="69.0" ty="31.0"/>
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="69.0" ty="23.0"/>
+        <entity file="entity/ancienttown/Bee.xml" tx="76.0" ty="23.0">
+            <model mirror="true"/>
+            <patrol amplitude="48" mirror="false" sv="0.6"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="64.0" ty="20.0">
+            <model mirror="true"/>
+            <patrol amplitude="64" sh="0.5"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon1.xml" tx="83.0" ty="17.0">
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.0" svy="3.8"/>
+        </entity>
+        <entity file="entity/ancienttown/Talisment.xml" tx="86.0" ty="29.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="87.0" ty="30.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="87.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="90.0" ty="31.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="90.0" ty="30.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="91.0" ty="29.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="85.0" ty="29.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="92.0" ty="29.0"/>
+        <entity file="entity/ancienttown/PotionBig.xml" tx="88.0" ty="34.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="89.0" ty="33.0"/>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="85.0" ty="8.0"/>
+        <entity file="entity/ancienttown/Canon3.xml" tx="102.0" ty="12.0">
+            <shooter anim="-1" fireDelay="3000" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Crawling.xml" tx="104.0" ty="8.0">
+            <patrol amplitude="64" sh="0.25"/>
+        </entity>
+        <entity file="entity/ancienttown/Crawling.xml" tx="116.0" ty="8.0">
+            <patrol amplitude="80" sh="0.35"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="95.0" ty="10.0">
+            <model mirror="true"/>
+            <patrol amplitude="64" mirror="false" sv="0.6"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingFireball.xml" tx="122.0" ty="12.0">
+            <rotating extremity="FireBall.xml" length="2" ring="FireBall.xml" speed="1.5"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingFireball.xml" tx="127.0" ty="12.0">
+            <rotating extremity="FireBall.xml" length="2" ring="FireBall.xml" speed="-2.0"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingFireball.xml" tx="132.0" ty="12.0">
+            <rotating extremity="FireBall.xml" length="2" ring="FireBall.xml" speed="2.5"/>
+        </entity>
+        <entity file="entity/ancienttown/TurningCube.xml" tx="160.0" ty="9.0">
+            <patrol amplitude="176" mirror="false" sh="-0.5" sv="0.0"/>
+            <patrol amplitude="176" mirror="false" sh="0.5" sv="0.0"/>
+        </entity>
+        <entity file="entity/ancienttown/PotionBig.xml" tx="167.0" ty="13.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="168.0" ty="8.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="169.0" ty="8.0"/>
+        <entity file="entity/ancienttown/Crawling.xml" tx="166.0" ty="8.0">
+            <patrol amplitude="48" sh="0.3"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon1.xml" tx="184.0" ty="15.0">
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.4" svy="3.6"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="182.0" ty="23.0">
+            <shooter anim="-1" fireDelay="3000" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="190.0" ty="28.0">
+            <shooter anim="-1" fireDelay="3000" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/CarnivorousPlant.xml" tx="192.0" ty="15.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="192.0" ty="34.0"/>
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="186.0" ty="43.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="185.0" ty="43.0"/>
+        <entity file="entity/ancienttown/RotatingFireball.xml" tx="213.0" ty="31.0">
+            <rotating extremity="FireBall.xml" length="3" ring="FireBall.xml" speed="2.4"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingFireball.xml" tx="223.0" ty="26.0">
+            <rotating extremity="FireBall.xml" length="3" ring="FireBall.xml" speed="-2.6"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingFireball.xml" tx="241.0" ty="16.0">
+            <rotating extremity="FireBall.xml" length="3" ring="FireBall.xml" speed="-2.5"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="237.0" ty="22.0">
+            <model mirror="true"/>
+            <patrol amplitude="48" mirror="false" sv="0.8"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="288.0" ty="15.0">
+            <model mirror="true"/>
+            <patrol amplitude="48" mirror="false" sv="0.8"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingSpikeBowl180.xml" tx="305.0" ty="20.0">
+            <rotating amplitude="90" extremity="SpikeBowl.xml" length="3" speed="0.05"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingSpikeBowl180.xml" tx="317.0" ty="20.0">
+            <rotating amplitude="90" extremity="SpikeBowl.xml" length="3" speed="-0.04"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingSpikeBowl360.xml" tx="311.0" ty="12.0">
+            <rotating extremity="SpikeBowl.xml" length="3" speed="2.2"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="347.0" ty="7.0">
+            <model mirror="true"/>
+            <patrol amplitude="48" mirror="false" sv="0.8"/>
+        </entity>
+        <entity file="entity/ancienttown/Sword3.xml" tx="288.0" ty="39.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="289.0" ty="38.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="286.0" ty="39.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="285.0" ty="37.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="291.0" ty="39.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="292.0" ty="37.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="287.0" ty="35.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="290.0" ty="35.0"/>
+        <entity file="entity/ancienttown/RotatingPlatform360.xml" tx="308.0" ty="28.0">
+            <rotating extremity="Platform.xml" length="4" speed="1.0"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingPlatformControlled.xml" tx="303.0" ty="36.0">
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="3" speed="0.04"/>
+        </entity>
+        <entity file="entity/ancienttown/Canon3.xml" tx="315.0" ty="29.0">
+            <shooter anim="0" fireDelay="6000" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
+        </entity>
+        <entity file="entity/ancienttown/Floater.xml" tx="82.0" ty="4.0"/>
+        <entity file="entity/ancienttown/Floater.xml" tx="86.0" ty="4.0"/>
+        <entity file="entity/ancienttown/Sword2.xml" tx="83.0" ty="2.0"/>
+        <entity file="entity/ancienttown/Canon2.xml" tx="360.0" ty="13.0">
+            <shooter anim="0" dvy="0.0" fireDelay="2000" firedDelay="0" svx="-1.2" svy="3.0"/>
+        </entity>
+        <entity file="entity/ancienttown/Bee.xml" tx="371.0" ty="13.0">
+            <model mirror="true"/>
+            <patrol mirror="false" proximity="48" sh="-0.5"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingPlatform180.xml" tx="269.0" ty="14.0">
+            <rotating amplitude="60" extremity="Platform.xml" length="5" speed="0.01"/>
+        </entity>
+        <entity file="entity/ancienttown/RotatingPlatform360.xml" tx="278.0" ty="8.0">
+            <rotating extremity="Platform.xml" length="2" speed="1.5"/>
+        </entity>
+        <entity file="entity/ancienttown/Talisment.xml" tx="282.0" ty="17.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="286.0" ty="16.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="287.0" ty="16.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="290.0" ty="18.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="256.0" ty="14.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="260.0" ty="13.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="261.0" ty="13.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="135.0" ty="10.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="136.0" ty="10.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="139.0" ty="12.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="101.0" ty="17.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="105.0" ty="16.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="106.0" ty="16.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="109.0" ty="18.0"/>
+        <entity file="entity/ancienttown/PotionLittle.xml" tx="103.0" ty="19.0"/>
+        <entity file="entity/ancienttown/Life.xml" tx="266.0" ty="17.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="265.0" ty="17.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="266.0" ty="18.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="267.0" ty="17.0"/>
+        <entity file="entity/ancienttown/Bird.xml" tx="194.0" ty="37.0">
+            <patrol amplitude="16" mirror="false" sv="0.4"/>
+        </entity>
+        <entity file="entity/ancienttown/Bird.xml" tx="196.0" ty="37.0">
+            <patrol amplitude="16" mirror="false" sv="0.3"/>
+        </entity>
+        <entity file="entity/ancienttown/Bird.xml" tx="198.0" ty="37.0">
+            <patrol amplitude="16" mirror="false" sv="0.35"/>
+        </entity>
+    </entities>
+</stage>
