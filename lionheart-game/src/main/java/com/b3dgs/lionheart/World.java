@@ -581,7 +581,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         services.add(featurable.getFeature(Trackable.class));
         handler.add(featurable);
 
-        final String theme = stage.getBackground().getWorld().getFolder();
+        final WorldType world = stage.getBackground().getWorld();
         final Optional<Coord> spawn = init.getSpawn();
         checkpoint.load(stage, featurable, spawn);
         // CHECKSTYLE IGNORE LINE: AnonInnerLength
@@ -596,14 +596,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             @Override
             public void notifyReachedBoss(double x, double y)
             {
-                if (WorldType.SWAMP.getFolder().equals(theme))
+                if (WorldType.SWAMP == world)
                 {
                     camera.setLimitLeft((int) camera.getX());
                     trackerY = 1.0;
                 }
-                spawn(Medias.create(Folder.BOSS, theme, "Boss.xml"), x, y).getFeature(EntityModel.class)
-                                                                          .setNext(stage.getBossNext(),
-                                                                                   Optional.empty());
+                else if (WorldType.LAVA == world)
+                {
+                    rasterbar.clearRasterbarColor();
+                }
+                spawn(Medias.create(Folder.BOSS, world.getFolder(), "Boss.xml"), x, y).getFeature(EntityModel.class)
+                                                                                      .setNext(stage.getBossNext(),
+                                                                                               Optional.empty());
                 playMusic(Music.BOSS);
             }
         });
