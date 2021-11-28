@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/secret.sc68"/>
+    <map file="level/secret/beginner/stage.lvl"/>
+    <raster folder="raster/secret/secret/"/>
+    <background type="SECRET"/>
+    <foreground type="WATER" waterDepth="8" waterOffset="24"/>
+    <checkpoints>
+        <checkpoint tx="6.0" ty="13.0"/>
+        <checkpoint tx="57.0" ty="10.0"/>
+        <checkpoint tx="106.0" ty="10.0"/>
+        <checkpoint tx="151.0" ty="3.0"/>
+        <checkpoint next="stage/beginner/stage7.xml" stx="181.0" sty="3.0" tx="219.0" ty="15.0"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/secret/Amulet.xml" tx="226.0" ty="5.0">
+            <model next="stage/beginner/stage4.xml" stx="181.0" sty="3.0"/>
+        </entity>
+    </entities>
+</stage>
