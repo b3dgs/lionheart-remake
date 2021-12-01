@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic6.png" text="tower.txt">
+    <music file="music/tower.sc68"/>
+    <map file="level/tower/beginner/stage.lvl"/>
+    <raster folder="raster/tower/tower/"/>
+    <background type="TOWER"/>
+    <foreground raise="2448" type="WATER" waterDepth="8" waterOffset="32"/>
+    <checkpoints>
+        <checkpoint tx="26.0" ty="4.0"/>
+        <checkpoint next="stage/beginner/stage12.xml" tx="27.0" ty="140.0"/>
+    </checkpoints>
+    <entities>
+        <entity file="entity/tower/RotatingPlatform180.xml" tx="21.0" ty="8.0">
+            <rotating amplitude="50" extremity="Platform1.xml" length="2" speed="0.05"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="14.0" ty="25.0">
+            <patrol amplitude="64" sh="0.3"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="26.0" ty="40.0">
+            <patrol amplitude="64" sh="0.3"/>
+        </entity>
+        <entity file="entity/tower/Crawling.xml" tx="15.0" ty="49.0">
+            <patrol amplitude="64" sh="0.3"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="56.0">
+            <model fall="true" mirror="true"/>
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="1.2" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="66.0">
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="-1.2" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Fish.xml" tx="15.0" ty="72.0"/>
+        <entity file="entity/tower/Fish.xml" tx="28.0" ty="69.0"/>
+        <entity file="entity/tower/PotionLittle.xml" tx="11.0" ty="74.0"/>
+        <entity file="entity/tower/PotionLittle.xml" tx="31.0" ty="74.0"/>
+        <entity file="entity/tower/PotionLittle.xml" tx="31.0" ty="53.0"/>
+        <entity file="entity/tower/Spike1.xml" tx="25.0" ty="93.0"/>
+        <entity file="entity/tower/Spike1.xml" tx="21.0" ty="113.0"/>
+        <entity file="entity/tower/RotatingSpikeBowl360.xml" tx="25.0" ty="80.0">
+            <rotating extremity="SpikeBowl.xml" length="3" speed="2.0"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatform360.xml" tx="23.0" ty="108.0">
+            <rotating extremity="Platform1.xml" length="3" speed="1.5"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="97.0">
+            <model fall="true" mirror="true"/>
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="1.2" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="31.0" ty="119.0">
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="-1.2" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/Face.xml" tx="11.0" ty="119.0">
+            <model fall="true" mirror="true"/>
+            <shooter anim="6" fireDelay="1500" firedDelay="0" svx="1.2" svy="0.0"/>
+        </entity>
+        <entity file="entity/tower/PotionLittle.xml" tx="11.0" ty="109.0"/>
+        <entity file="entity/tower/RotatingPlatform180.xml" tx="21.0" ty="132.0">
+            <rotating amplitude="90" extremity="Platform1.xml" length="3" speed="0.05"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatform180.xml" tx="21.0" ty="125.0">
+            <rotating amplitude="60" extremity="Platform1.xml" length="3" speed="0.04"/>
+        </entity>
+        <entity file="entity/tower/RotatingSpikeBowl180.xml" tx="21.0" ty="139.0">
+            <rotating amplitude="60" extremity="SpikeBowl.xml" length="4" speed="0.02"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatform180.xml" tx="24.0" ty="52.0">
+            <rotating amplitude="60" extremity="Platform1.xml" length="2" speed="0.04"/>
+        </entity>
+        <entity file="entity/tower/RotatingPlatform180.xml" tx="23.0" ty="73.0">
+            <rotating amplitude="70" extremity="Platform1.xml" length="2" speed="0.05"/>
+        </entity>
+    </entities>
+</stage>
