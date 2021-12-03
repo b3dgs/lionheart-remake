@@ -19,6 +19,8 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Xml;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -37,11 +39,15 @@ import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
+import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
+import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
 
@@ -49,17 +55,21 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
  * Animal feature implementation.
  */
 @FeatureInterface
-public final class Animal extends FeatureModel implements Routine, CollidableListener
+public final class Animal extends FeatureModel
+                          implements XmlLoader, XmlSaver, Editable<AnimalConfig>, Routine, CollidableListener
 {
     private static final double SPEED_GROUND = 3.0;
     private static final double SPEED_BOAT = 0.6;
+    private static final int CAMERA_MAP_LIMIT_MARGIN_WIDTH = 8;
 
-    private final Trackable target = services.get(Trackable.class);
-    private final Rasterable playerSprite = target.getFeature(Rasterable.class);
-    private final StateHandler playerState = target.getFeature(StateHandler.class);
+    private final Trackable target;
+    private final Rasterable playerSprite;
+    private final StateHandler playerState;
     private final Camera camera = services.get(Camera.class);
-    private final CameraTracker tracker = services.get(CameraTracker.class);
+    private final CameraTracker tracker = services.getOptional(CameraTracker.class).orElse(null);
+    private final MapTile map = services.get(MapTile.class);
 
+    private AnimalConfig config;
     private int offsetY;
     private double cameraHeight;
     private boolean on;
@@ -78,6 +88,20 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     public Animal(Services services, Setup setup)
     {
         super(services, setup);
+
+        target = services.getOptional(Trackable.class).orElse(null);
+        if (target != null)
+        {
+            playerSprite = target.getFeature(Rasterable.class);
+            playerState = target.getFeature(StateHandler.class);
+        }
+        else
+        {
+            playerSprite = null;
+            playerState = null;
+        }
+
+        load(setup.getRoot());
     }
 
     @Override
@@ -85,17 +109,20 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     {
         super.prepare(provider);
 
-        target.getFeature(TileCollidable.class).addListener((result, category) -> off());
-
-        final Collidable collidable = target.getFeature(Collidable.class);
-        collidable.addListener((c, with, by) ->
+        if (target != null)
         {
-            if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND))
+            target.getFeature(TileCollidable.class).addListener((result, category) -> off());
+
+            final Collidable collidable = target.getFeature(Collidable.class);
+            collidable.addListener((c, with, by) ->
             {
-                off();
-            }
-        });
-        start(collidable, 76);
+                if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND))
+                {
+                    off();
+                }
+            });
+            start(collidable, 76);
+        }
     }
 
     /**
@@ -131,19 +158,46 @@ public final class Animal extends FeatureModel implements Routine, CollidableLis
     }
 
     @Override
+    public AnimalConfig getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    public void setConfig(AnimalConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        if (root.hasNode(AnimalConfig.NODE_ANIMAL))
+        {
+            config = new AnimalConfig(root);
+        }
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        config.save(root);
+    }
+
+    @Override
     public void update(double extrp)
     {
         if (on)
         {
             double speed;
-            if (camera.getX() < 8824 - camera.getWidth())
+            if (camera.getX() < config.getBoat() - camera.getWidth())
             {
                 speed = SPEED_GROUND;
                 cameraHeight = 0;
             }
             else
             {
-                if (camera.getX() < 12168 - camera.getWidth())
+                if (camera.getX() < map.getWidth() - CAMERA_MAP_LIMIT_MARGIN_WIDTH - camera.getWidth())
                 {
                     speed = SPEED_BOAT;
                 }

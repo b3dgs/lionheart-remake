@@ -112,6 +112,13 @@
             properties="enable,disable"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="com.b3dgs.lionheart.editor.object.properties.animal.AnimalPropertyTester"
+            id="com.b3dgs.lionheart.editor.part.properties.animal.tester"
+            namespace="com.b3dgs.lionheart.editor.part.properties.animal.tester"
+            properties="enable,disable"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -267,6 +274,20 @@
          <test
                forcePluginActivation="true"
                property="com.b3dgs.lionheart.editor.part.properties.model.tester.disable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.animal.enable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.animal.tester.enable">
+         </test>
+      </definition>
+      <definition
+            id="com.b3dgs.lionheart.editor.part.properties.animal.disable">
+         <test
+               forcePluginActivation="true"
+               property="com.b3dgs.lionheart.editor.part.properties.animal.tester.disable">
          </test>
       </definition>
    </extension>
