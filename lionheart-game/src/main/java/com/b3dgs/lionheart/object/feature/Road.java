@@ -20,6 +20,8 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilFolder;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Xml;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.background.BackgroundElement;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -31,15 +33,20 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.Editable;
+import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
  * Road feature implementation.
  */
 @FeatureInterface
-public final class Road extends FeatureModel implements Routine
+public final class Road extends FeatureModel implements XmlLoader, XmlSaver, Editable<RoadConfig>, Routine
 {
     private final Camera camera = services.get(Camera.class);
     private final BackgroundElement road;
+
+    private RoadConfig config;
 
     /**
      * Create feature.
@@ -61,6 +68,34 @@ public final class Road extends FeatureModel implements Routine
     }
 
     @Override
+    public RoadConfig getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    public void setConfig(RoadConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
+    public void load(XmlReader root)
+    {
+        if (root.hasNode(RoadConfig.NODE_ROAD))
+        {
+            config = new RoadConfig(root);
+        }
+        road.setOffsetX(config.getOffset());
+    }
+
+    @Override
+    public void save(Xml root)
+    {
+        config.save(root);
+    }
+
+    @Override
     public void update(double extrp)
     {
         road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 3 * extrp, 0.0, road.getRenderable().getWidth()));
@@ -69,7 +104,7 @@ public final class Road extends FeatureModel implements Routine
     @Override
     public void render(Graphic g)
     {
-        if (camera.getX() > 8291)
+        if (camera.getX() > config.getStart())
         {
             final Sprite sprite0 = (Sprite) road.getRenderable();
             final int w0 = (int) Math.ceil(camera.getWidth() / (double) sprite0.getWidth());

@@ -78,6 +78,7 @@ import com.b3dgs.lionheart.editor.object.properties.jumper.JumperPart;
 import com.b3dgs.lionheart.editor.object.properties.laserairship.LaserAirshipPart;
 import com.b3dgs.lionheart.editor.object.properties.model.ModelPart;
 import com.b3dgs.lionheart.editor.object.properties.patrol.PatrolPart;
+import com.b3dgs.lionheart.editor.object.properties.road.RoadPart;
 import com.b3dgs.lionheart.editor.object.properties.rotating.RotatingPart;
 import com.b3dgs.lionheart.editor.object.properties.sheet.SheetPart;
 import com.b3dgs.lionheart.editor.object.properties.shooter.ShooterPart;
@@ -92,6 +93,7 @@ import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.LaserAirship;
 import com.b3dgs.lionheart.object.feature.Patrols;
+import com.b3dgs.lionheart.object.feature.Road;
 import com.b3dgs.lionheart.object.feature.Rotating;
 import com.b3dgs.lionheart.object.feature.Sheet;
 import com.b3dgs.lionheart.object.feature.Shooter;
@@ -186,6 +188,7 @@ public class ApplicationConfiguration
             properties.put(Dragon1.class, UtilPart.getPart(Dragon1Part.ID, Dragon1Part.class));
             properties.put(Jumper.class, UtilPart.getPart(JumperPart.ID, JumperPart.class));
             properties.put(Animal.class, UtilPart.getPart(AnimalPart.ID, AnimalPart.class));
+            properties.put(Road.class, UtilPart.getPart(RoadPart.ID, RoadPart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
@@ -205,6 +208,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(Dragon1Part.ID).setVisible(false);
             UtilPart.getMPart(JumperPart.ID).setVisible(false);
             UtilPart.getMPart(AnimalPart.ID).setVisible(false);
+            UtilPart.getMPart(RoadPart.ID).setVisible(false);
 
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
             UtilPart.getPart(WorldPart.ID, WorldPart.class).focus();
