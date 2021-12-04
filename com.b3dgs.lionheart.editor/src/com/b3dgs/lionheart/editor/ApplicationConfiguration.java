@@ -70,6 +70,7 @@ import com.b3dgs.lionheart.MapTilePersisterOptimized;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
 import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
+import com.b3dgs.lionheart.editor.object.properties.animal.AnimalPart;
 import com.b3dgs.lionheart.editor.object.properties.dragon1.Dragon1Part;
 import com.b3dgs.lionheart.editor.object.properties.geyzer.GeyzerPart;
 import com.b3dgs.lionheart.editor.object.properties.hotfireball.HotFireBallPart;
@@ -84,6 +85,7 @@ import com.b3dgs.lionheart.editor.object.properties.spider.SpiderPart;
 import com.b3dgs.lionheart.editor.object.properties.spike.SpikePart;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlSaver;
+import com.b3dgs.lionheart.object.feature.Animal;
 import com.b3dgs.lionheart.object.feature.Dragon1;
 import com.b3dgs.lionheart.object.feature.Geyzer;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
@@ -183,6 +185,7 @@ public class ApplicationConfiguration
             properties.put(Rotating.class, UtilPart.getPart(RotatingPart.ID, RotatingPart.class));
             properties.put(Dragon1.class, UtilPart.getPart(Dragon1Part.ID, Dragon1Part.class));
             properties.put(Jumper.class, UtilPart.getPart(JumperPart.ID, JumperPart.class));
+            properties.put(Animal.class, UtilPart.getPart(AnimalPart.ID, AnimalPart.class));
 
             services.get(WorldInteractionObject.class).addListener(this::loadProperties);
         }
@@ -201,6 +204,7 @@ public class ApplicationConfiguration
             UtilPart.getMPart(RotatingPart.ID).setVisible(false);
             UtilPart.getMPart(Dragon1Part.ID).setVisible(false);
             UtilPart.getMPart(JumperPart.ID).setVisible(false);
+            UtilPart.getMPart(AnimalPart.ID).setVisible(false);
 
             featurable.getFeatures().forEach(AppStartupCompleteEventHandler.this::loadProperty);
             UtilPart.getPart(WorldPart.ID, WorldPart.class).focus();

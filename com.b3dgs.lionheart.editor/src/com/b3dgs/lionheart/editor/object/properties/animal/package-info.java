@@ -16,6 +16,6 @@
  */
 
 /**
- * Geyzer properties package.
+ * Animal properties package.
  */
 package com.b3dgs.lionheart.editor.object.properties.animal;
