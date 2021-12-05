@@ -14,8 +14,12 @@
         <checkpoint tx="697" ty="60"/>
     </checkpoints>
     <entities>
-        <entity file="entity/airship/Road.xml" tx="0.0" ty="0.0"/>
-        <entity file="entity/airship/Animal.xml" tx="12.0" ty="7.0"/>
+        <entity file="entity/airship/Road.xml" tx="0.0" ty="0.0">
+            <road start="8291" offset="0"/>
+        </entity>
+        <entity file="entity/airship/Animal.xml" tx="12.0" ty="7.0">
+            <animal boat="8816"/>
+        </entity>
         <entity file="entity/airship/Dragon2.xml" tx="48.0" ty="11.0">
             <shooter fireDelay="1000" firedDelay="0" svx="0.3" svy="2.5"/>
             <patrol sh="0.2" sv="0.0" delay="1000"/>
