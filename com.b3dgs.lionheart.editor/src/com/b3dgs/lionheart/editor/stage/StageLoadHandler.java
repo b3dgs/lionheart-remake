@@ -70,7 +70,9 @@ public final class StageLoadHandler
         UtilPart.getPart(CheckpointPart.ID, CheckpointPart.class).load(stage);
         UtilPart.getPart(StagePart.ID, StagePart.class).load(stage);
 
-        map.loadSheets(Medias.create(stage.getMapFile().getParentPath(), TileSheetsConfig.FILENAME));
+        map.loadSheets(Medias.create(Folder.LEVEL,
+                                     stage.getBackground().getWorld().getFolder(),
+                                     TileSheetsConfig.FILENAME));
         try (FileReading reading = new FileReading(stage.getMapFile()))
         {
             mapPersister.load(reading);

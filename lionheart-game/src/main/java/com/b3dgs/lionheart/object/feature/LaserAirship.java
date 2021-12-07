@@ -188,24 +188,27 @@ public final class LaserAirship extends FeatureModel
     {
         super.prepare(provider);
 
-        identifiable.addListener(id ->
+        if (!Settings.isEditor())
         {
-            dotStart.getFeature(Identifiable.class).destroy();
-            dotEnd.getFeature(Identifiable.class).destroy();
-            if (laser != null)
+            identifiable.addListener(id ->
             {
-                laser.destroy();
-            }
-        });
-        launcher.addListener(l ->
-        {
-            if (laser != null)
+                dotStart.getFeature(Identifiable.class).destroy();
+                dotEnd.getFeature(Identifiable.class).destroy();
+                if (laser != null)
+                {
+                    laser.destroy();
+                }
+            });
+            launcher.addListener(l ->
             {
-                laser.destroy();
-                laser = l.getFeature(Identifiable.class);
-            }
-            l.getFeature(Laser.class).load(config.getStayDelay(), identifiable);
-        });
+                if (laser != null)
+                {
+                    laser.destroy();
+                    laser = l.getFeature(Identifiable.class);
+                }
+                l.getFeature(Laser.class).load(config.getStayDelay(), identifiable);
+            });
+        }
     }
 
     @Override
