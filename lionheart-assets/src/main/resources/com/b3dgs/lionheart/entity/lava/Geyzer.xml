@@ -19,6 +19,6 @@
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="1" layerDisplay="7"/>
     <lionengine:collidable group="2" accepted="1"/>
-    <geyzer delayStart="1500" delayDown="1500" height="48"/>
+    <geyzer delayStart="1500" delayDown="1000" height="52"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
