@@ -60,11 +60,13 @@
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-assets</artifactId>
             <version>${project.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-raster</artifactId>
             <version>${project.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>uk.co.electronstudio.sdl2gdx</groupId>
@@ -90,7 +92,6 @@
                             <mainClass>com.b3dgs.lionheart.Launcher</mainClass>
                         </manifest>
                     </archive>
-                    <excludes>com/b3dgs/lionheart/levels/**/stage*.png,com/b3dgs/lionheart/levels/**/swamp.png,com/b3dgs/lionheart/levels/**/spidercave1.png,com/b3dgs/lionheart/levels/**/spidercave2.png,com/b3dgs/lionheart/levels/**/ancienttown.png,com/b3dgs/lionheart/levels/**/lava.png,com/b3dgs/lionheart/levels/**/airship.png,com/b3dgs/lionheart/levels/**/dragonfly.png,com/b3dgs/lionheart/levels/**/tower.png,com/b3dgs/lionheart/levels/**/secret.png,com/b3dgs/lionheart/sfx/*.wav,com/b3dgs/lionheart/music/*.sc68</excludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -116,7 +117,7 @@
                                 com/badlogic/gdx/Net**,com/badlogic/gdx/Graphics**,com/badlogic/gdx/Application**,com/badlogic/gdx/Audio**,com/badlogic/gdx/Input**,com/badlogic/gdx/Screen**,com/badlogic/gdx/Files**,com/badlogic/gdx/Game**,com/badlogic/gdx/Lifecycle**,com/badlogic/gdx/Preferences**,com/badlogic/gdx/Version**,
                                 com/badlogic/gdx/jnigen/resources/,com/badlogic/gdx/jnigen/test/,com/badlogic/gdx/utils/async/,com/badlogic/gdx/utils/compression/,com/badlogic/gdx/utils/reflect/,com/badlogic/gdx/utils/viewport/,
                                 com/badlogic/gdx/utils/arial*,com/badlogic/gdx/utils/B*,com/badlogic/gdx/utils/C*,com/badlogic/gdx/utils/D*,com/badlogic/gdx/utils/E*,com/badlogic/gdx/utils/F*,com/badlogic/gdx/utils/H*,com/badlogic/gdx/utils/J*,com/badlogic/gdx/utils/K*,com/badlogic/gdx/utils/L*,com/badlogic/gdx/utils/M*,com/badlogic/gdx/utils/N*,com/badlogic/gdx/utils/O*,com/badlogic/gdx/utils/P*,com/badlogic/gdx/utils/Q*,com/badlogic/gdx/utils/R*,com/badlogic/gdx/utils/S*,com/badlogic/gdx/utils/T*,com/badlogic/gdx/utils/U*,com/badlogic/gdx/utils/V*,com/badlogic/gdx/utils/W*,com/badlogic/gdx/utils/X*,com/badlogic/gdx/utils/Y*,com/badlogic/gdx/utils/Z*,
-                                com/github/,uk/co/electronstudio/sdl2gdx/tests/ 
+                                com/github/,uk/co/electronstudio/sdl2gdx/tests/, com/badlogic/gdx/controllers/desktop/, com/badlogic/gdx/controllers/lwjgl3/, com/badlogic/gdx/jnigen/BuildExecutorFixed.class.class, com/badlogic/gdx/jnigen/BuildExecutorFixed$1.class, 
                             </excludes>
                         </configuration>
                     </execution>

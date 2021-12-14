@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/spidercave.sc68"/>
-    <map file="level/spidercave3/veteran/stage.lvl"/>
+    <map file="level/spidercave3/original/stage.lvl"/>
     <background type="SPIDERCAVE3"/>
     <foreground type="NONE"/>
     <checkpoints>

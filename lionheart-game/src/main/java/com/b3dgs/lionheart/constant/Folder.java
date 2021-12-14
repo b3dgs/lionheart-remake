@@ -51,8 +51,8 @@ public final class Folder
     public static final String STAGE = "stage";
     /** Stage original folder. */
     public static final String ORIGINAL = "original";
-    /** Stage alternative folder. */
-    public static final String ALTERNATIVE = "alternative";
+    /** Stage veteran folder. */
+    public static final String VETERAN = "veteran";
     /** Text folder. */
     public static final String TEXT = "text";
     /** Sfx folder. */

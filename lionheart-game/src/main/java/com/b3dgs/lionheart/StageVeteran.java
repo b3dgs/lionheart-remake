@@ -29,9 +29,9 @@ import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
- * List of alternative stages.
+ * List of veteran stages.
  */
-public enum StageAlternative implements Media
+public enum StageVeteran implements Media
 {
     /** Swamp stage. */
     STAGE1,
@@ -52,7 +52,7 @@ public enum StageAlternative implements Media
 
     /** Level file. */
     private final Media file = Medias.create(Folder.STAGE,
-                                             Folder.ALTERNATIVE,
+                                             Folder.VETERAN,
                                              name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 
     @Override
