@@ -16,6 +16,6 @@
  */
 
 /**
- * Geyzer properties package.
+ * Model properties package.
  */
 package com.b3dgs.lionheart.editor.object.properties.model;

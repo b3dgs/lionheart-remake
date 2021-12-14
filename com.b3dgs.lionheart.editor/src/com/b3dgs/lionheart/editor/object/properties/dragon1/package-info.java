@@ -16,6 +16,6 @@
  */
 
 /**
- * Geyzer properties package.
+ * Dragon1 properties package.
  */
 package com.b3dgs.lionheart.editor.object.properties.dragon1;

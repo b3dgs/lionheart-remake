@@ -16,6 +16,6 @@
  */
 
 /**
- * Spider properties package.
+ * Sheet properties package.
  */
 package com.b3dgs.lionheart.editor.object.properties.sheet;
