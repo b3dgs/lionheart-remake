@@ -13,7 +13,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
-        <lionengine:animation name="fall" start="2" end="16" speed="0.6" reversed="false" repeat="false"/>
+        <lionengine:animation name="fall" start="2" end="16" speed="0.5" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="ground" offsetX="0" offsetY="16" width="16" height="1" mirror="false"/>
