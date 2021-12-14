@@ -32,7 +32,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
-import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.TaskFuture;
@@ -55,7 +54,7 @@ final class EntitiesTest
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, EntitiesTest.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
-        Tools.generateWorldRaster(world);
+        Settings.load();
         Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
 
         final Media stage = Medias.create(Folder.STAGE,
@@ -89,12 +88,12 @@ final class EntitiesTest
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, EntitiesTest.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
+        Settings.load();
         Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
 
         final Media stage = Medias.create(Folder.STAGE, world);
         if (stage.exists())
         {
-            Tools.generateWorldRaster(StageConfig.imports(new Configurer(stage)).getBackground());
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
                                                  stage,
@@ -121,12 +120,12 @@ final class EntitiesTest
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, EntitiesTest.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
+        Settings.load();
         Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
 
         final Media stage = Medias.create(Folder.STAGE, world);
         if (stage.exists())
         {
-            Tools.generateWorldRaster(StageConfig.imports(new Configurer(stage)).getBackground());
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
                                                  stage,
