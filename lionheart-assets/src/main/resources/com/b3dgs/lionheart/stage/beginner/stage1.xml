@@ -13,18 +13,18 @@
         <checkpoint tx="208.0" ty="41.0"/>
         <checkpoint tx="249.0" ty="19.0"/>
         <checkpoint tx="294.0" ty="3.0"/>
-        <checkpoint tx="325.0" ty="17.0"/>
+        <checkpoint next="stage/beginner/stage2.xml" tx="323.0" ty="6.0"/>
+        <checkpoint tx="327.0" ty="17.0"/>
     </checkpoints>
-    <boss tx="366" ty="8.1" tsx="370" tsy="-7" next="stage/beginner/stage2.xml"/>
     <entities>
         <entity file="entity/swamp/Crawling.xml" tx="23.0" ty="4.0">
             <patrol amplitude="64" sh="0.3"/>
         </entity>
         <entity file="entity/swamp/Dino.xml" tx="68.0" ty="14.0">
-            <patrol sh="-0.5"/>
+            <patrol sh="-0.4"/>
         </entity>
         <entity file="entity/swamp/Dino.xml" tx="54.0" ty="10.0">
-            <patrol sh="-0.5"/>
+            <patrol sh="-0.4"/>
         </entity>
         <entity file="entity/swamp/Talisment.xml" tx="51.0" ty="11.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="49.0" ty="13.0"/>
@@ -60,11 +60,11 @@
         <entity file="entity/swamp/Talisment.xml" tx="91.0" ty="24.0"/>
         <entity file="entity/swamp/Bee.xml" tx="55.0" ty="31.0">
             <model mirror="true"/>
-            <patrol amplitude="48" mirror="false" sv="0.7"/>
+            <patrol amplitude="48" mirror="false" sv="0.5"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="89.0" ty="16.0">
             <model mirror="true"/>
-            <patrol amplitude="48" mirror="false" sv="0.8"/>
+            <patrol amplitude="48" mirror="false" sv="0.6"/>
         </entity>
         <entity file="entity/swamp/Spike2.xml" tx="108.0" ty="18.0">
             <spike delay="0"/>
@@ -88,7 +88,7 @@
         <entity file="entity/swamp/Life.xml" tx="138.0" ty="31.0"/>
         <entity file="entity/swamp/PotionLittle.xml" tx="136.0" ty="30.0"/>
         <entity file="entity/swamp/Dino.xml" tx="153.0" ty="27.0">
-            <patrol sh="-0.5"/>
+            <patrol sh="-0.4"/>
         </entity>
         <entity file="entity/swamp/Crawling.xml" tx="166.0" ty="26.0">
             <patrol amplitude="64" sh="0.3"/>
@@ -137,11 +137,7 @@
         <entity file="entity/swamp/Talisment.xml" tx="164.0" ty="3.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="160.0" ty="3.0"/>
         <entity file="entity/swamp/Life.xml" tx="188.0" ty="14.0"/>
-        <entity file="entity/swamp/Bee.xml" tx="218.0" ty="43.0">
-            <model mirror="true"/>
-            <patrol mirror="false" proximity="0"/>
-        </entity>
-        <entity file="entity/swamp/Bee.xml" tx="226.0" ty="39.0">
+        <entity file="entity/swamp/Bee.xml" tx="225.0" ty="40.0">
             <model mirror="true"/>
             <patrol mirror="false" proximity="0"/>
         </entity>
@@ -170,12 +166,12 @@
         <entity file="entity/swamp/Talisment.xml" tx="285.0" ty="32.0"/>
         <entity file="entity/swamp/Talisment.xml" tx="286.0" ty="33.0"/>
         <entity file="entity/swamp/Bee.xml" tx="274.0" ty="33.0">
-            <model mirror="true"/>
-            <patrol amplitude="48" mirror="false" sv="0.8"/>
+            <model fall="false" mirror="false"/>
+            <patrol amplitude="32" mirror="false" sv="0.5"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="281.0" ty="32.0">
-            <model mirror="true"/>
-            <patrol amplitude="48" mirror="false" sv="0.8"/>
+            <model fall="false" mirror="false"/>
+            <patrol amplitude="48" mirror="false" sv="0.4"/>
         </entity>
         <entity file="entity/swamp/Floater.xml" tx="253.0" ty="2.0"/>
         <entity file="entity/swamp/Floater.xml" tx="248.0" ty="2.0"/>
@@ -223,20 +219,13 @@
         <entity file="entity/swamp/Life.xml" tx="333.0" ty="35.0"/>
         <entity file="entity/swamp/PotionBig.xml" tx="333.0" ty="31.0"/>
         <entity file="entity/swamp/PotionLittle.xml" tx="296.0" ty="30.0"/>
-        <entity file="entity/swamp/PotionLittle.xml" tx="318.0" ty="21.0"/>
         <entity file="entity/swamp/Flower.xml" tx="328.0" ty="22.0"/>
         <entity file="entity/swamp/Spike2.xml" tx="329.0" ty="18.0">
             <spike delay="0"/>
         </entity>
-        <entity file="entity/swamp/Talisment.xml" tx="314.0" ty="4.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="315.0" ty="4.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="319.0" ty="3.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="320.0" ty="3.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="322.0" ty="6.0"/>
-        <entity file="entity/swamp/Talisment.xml" tx="323.0" ty="6.0"/>
-        <entity file="entity/swamp/Life.xml" tx="324.0" ty="10.0"/>
         <entity file="entity/swamp/Beetle.xml" tx="338.0" ty="5.0">
             <patrol amplitude="48" sh="0.5"/>
         </entity>
+        <entity file="entity/swamp/PotionLittle.xml" tx="310.0" ty="17.0"/>
     </entities>
 </stage>

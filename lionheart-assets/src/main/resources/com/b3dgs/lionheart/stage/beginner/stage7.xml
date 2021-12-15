@@ -6,7 +6,7 @@
     <background type="LAVA"/>
     <foreground type="LAVA" waterDepth="2" waterEffect="false" waterOffset="30" waterSpeed="0.1"/>
     <checkpoints>
-        <checkpoint tx="5.0" ty="12.0"/>
+        <checkpoint tx="5.0" ty="11.0"/>
         <checkpoint tx="35.0" ty="3.0"/>
         <checkpoint tx="72.0" ty="16.0"/>
         <checkpoint next="stage/beginner/stage8.xml" tx="181.0" ty="3.0"/>

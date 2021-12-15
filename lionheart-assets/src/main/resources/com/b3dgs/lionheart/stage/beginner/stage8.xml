@@ -9,12 +9,173 @@
         <checkpoint tx="6.0" ty="13.0"/>
         <checkpoint tx="57.0" ty="10.0"/>
         <checkpoint tx="106.0" ty="10.0"/>
-        <checkpoint tx="151.0" ty="3.0"/>
-        <checkpoint next="stage/beginner/stage7.xml" stx="181.0" sty="3.0" tx="219.0" ty="15.0"/>
+        <checkpoint next="stage/beginner/stage7.xml" stx="181.0" sty="3.0" tx="220.0" ty="15.0"/>
     </checkpoints>
     <entities>
-        <entity file="entity/secret/Amulet.xml" tx="226.0" ty="5.0">
-            <model next="stage/beginner/stage4.xml" stx="181.0" sty="3.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="221.0" ty="8.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="221.0" ty="7.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="221.0" ty="6.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="222.0" ty="5.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="223.0" ty="5.0"/>
+        <entity file="entity/secret/PotionLittle.xml" tx="160.0" ty="19.0"/>
+        <entity file="entity/secret/PotionLittle.xml" tx="130.0" ty="22.0"/>
+        <entity file="entity/secret/Life.xml" tx="118.0" ty="26.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="120.0" ty="27.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="121.0" ty="26.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="120.0" ty="25.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="121.0" ty="24.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="120.0" ty="23.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="122.0" ty="27.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="123.0" ty="26.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="122.0" ty="25.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="123.0" ty="24.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="122.0" ty="23.0"/>
+        <entity file="entity/secret/Spike2.xml" tx="114.0" ty="7.0"/>
+        <entity file="entity/secret/Spike2.xml" tx="121.0" ty="7.0">
+            <spike delay="200"/>
         </entity>
+        <entity file="entity/secret/Spike2.xml" tx="128.0" ty="7.0">
+            <spike delay="300"/>
+        </entity>
+        <entity file="entity/secret/Crawling.xml" tx="119.0" ty="14.0">
+            <patrol amplitude="96" sh="0.3"/>
+        </entity>
+        <entity file="entity/secret/Bird.xml" tx="94.0" ty="13.0">
+            <patrol amplitude="48" mirror="false" sv="0.6"/>
+        </entity>
+        <entity file="entity/secret/Bird.xml" tx="98.0" ty="16.0">
+            <patrol amplitude="32" mirror="false" sv="0.5"/>
+        </entity>
+        <entity file="entity/secret/Talisment.xml" tx="160.0" ty="47.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="162.0" ty="47.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="167.0" ty="47.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="169.0" ty="47.0"/>
+        <entity file="entity/secret/Canon.xml" tx="160.0" ty="40.0">
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="1.2" svy="3.6"/>
+        </entity>
+        <entity file="entity/secret/RotatingSpikeBowl180.xml" tx="41.0" ty="19.0">
+            <rotating amplitude="60" extremity="SpikeBowl.xml" length="7" speed="0.03"/>
+        </entity>
+        <entity file="entity/secret/Amulet.xml" tx="226.0" ty="5.0">
+            <model next="stage/beginner/stage7.xml" stx="181.0" sty="3.0"/>
+        </entity>
+        <entity file="entity/secret/Ghost1.xml" tx="21.0" ty="19.0">
+            <model mirror="true"/>
+            <patrol proximity="96" sh="-0.5" sv="-0.4"/>
+        </entity>
+        <entity file="entity/secret/Canon.xml" tx="47.0" ty="18.0">
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-1.8" svy="2.0"/>
+        </entity>
+        <entity file="entity/secret/Crawling.xml" tx="60.0" ty="11.0">
+            <patrol amplitude="48" sh="0.3"/>
+        </entity>
+        <entity file="entity/secret/Crawling.xml" tx="82.0" ty="11.0">
+            <patrol amplitude="64" sh="0.3"/>
+        </entity>
+        <entity file="entity/secret/Talisment.xml" tx="56.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="58.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="60.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="62.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="64.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="66.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="68.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="75.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="77.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="79.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="81.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="83.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="85.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="87.0" ty="30.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="69.0" ty="27.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="74.0" ty="27.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="70.0" ty="28.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="73.0" ty="28.0"/>
+        <entity file="entity/secret/PotionLittle.xml" tx="71.0" ty="27.0"/>
+        <entity file="entity/secret/PotionLittle.xml" tx="72.0" ty="27.0"/>
+        <entity file="entity/secret/Spike1.xml" tx="76.0" ty="21.0"/>
+        <entity file="entity/secret/Spike1.xml" tx="67.0" ty="21.0"/>
+        <entity file="entity/secret/Ghost2.xml" tx="72.0" ty="32.0"/>
+        <entity file="entity/secret/Ghost1.xml" tx="73.0" ty="16.0">
+            <model fall="true" mirror="true"/>
+            <patrol/>
+        </entity>
+        <entity file="entity/secret/Canon.xml" tx="109.0" ty="13.0">
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-1.8" svy="3.6"/>
+        </entity>
+        <entity file="entity/secret/Life.xml" tx="109.0" ty="22.0"/>
+        <entity file="entity/secret/RotatingSpikeBowl180.xml" tx="96.0" ty="20.0">
+            <rotating amplitude="60" extremity="SpikeBowl.xml" length="7" speed="0.02"/>
+        </entity>
+        <entity file="entity/secret/Ghost2.xml" tx="126.0" ty="19.0"/>
+        <entity file="entity/secret/Spike1.xml" tx="138.0" ty="19.0">
+            <spike delay="400"/>
+        </entity>
+        <entity file="entity/secret/Spike1.xml" tx="146.0" ty="16.0">
+            <spike delay="200"/>
+        </entity>
+        <entity file="entity/secret/Spike1.xml" tx="132.0" ty="12.0"/>
+        <entity file="entity/secret/Spike1.xml" tx="144.0" ty="6.0">
+            <spike delay="600"/>
+        </entity>
+        <entity file="entity/secret/Talisment.xml" tx="150.0" ty="1.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="151.0" ty="1.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="154.0" ty="1.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="155.0" ty="1.0"/>
+        <entity file="entity/secret/Crawling.xml" tx="170.0" ty="14.0">
+            <patrol amplitude="48" sh="0.3"/>
+        </entity>
+        <entity file="entity/secret/Crawling.xml" tx="161.0" ty="28.0">
+            <patrol amplitude="96" sh="0.3"/>
+        </entity>
+        <entity file="entity/secret/RotatingPlatform180.xml" tx="169.0" ty="37.0">
+            <rotating amplitude="50" extremity="Platform1.xml" length="7" speed="0.02"/>
+        </entity>
+        <entity file="entity/secret/Life.xml" tx="172.0" ty="42.0"/>
+        <entity file="entity/secret/PotionBig.xml" tx="171.0" ty="43.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="167.0" ty="42.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="168.0" ty="43.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="169.0" ty="42.0"/>
+        <entity file="entity/secret/Sword4.xml" tx="180.0" ty="6.0"/>
+        <entity file="entity/secret/Bird.xml" tx="165.0" ty="43.0">
+            <patrol amplitude="16" mirror="false" sv="0.5"/>
+        </entity>
+        <entity file="entity/secret/Canon.xml" tx="199.0" ty="16.0">
+            <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-1.8" svy="2.5"/>
+        </entity>
+        <entity file="entity/secret/Spike1.xml" tx="189.0" ty="16.0">
+            <spike delay="100"/>
+        </entity>
+        <entity file="entity/secret/Spike1.xml" tx="184.0" ty="16.0">
+            <spike delay="200"/>
+        </entity>
+        <entity file="entity/secret/Spike1.xml" tx="179.0" ty="16.0"/>
+        <entity file="entity/secret/Crawling.xml" tx="188.0" ty="26.0">
+            <patrol amplitude="64" sh="-0.3"/>
+        </entity>
+        <entity file="entity/secret/Ghost1.xml" tx="184.0" ty="8.0">
+            <model fall="false" mirror="false"/>
+            <patrol proximity="32" sight="32" sh="0.6" sv="-0.5"/>
+        </entity>
+        <entity file="entity/secret/Ghost2.xml" tx="211.0" ty="21.0"/>
+        <entity file="entity/secret/Ghost2.xml" tx="220.0" ty="8.0"/>
+        <entity file="entity/secret/RotatingSpikeBowl360.xml" tx="208.0" ty="11.0">
+            <rotating extremity="SpikeBowl.xml" length="4" speed="2.0"/>
+        </entity>
+        <entity file="entity/secret/Talisment.xml" tx="204.0" ty="10.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="203.0" ty="10.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="202.0" ty="9.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="202.0" ty="8.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="202.0" ty="7.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="203.0" ty="6.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="204.0" ty="5.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="211.0" ty="10.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="212.0" ty="9.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="213.0" ty="8.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="213.0" ty="7.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="212.0" ty="6.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="211.0" ty="5.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="223.0" ty="10.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="222.0" ty="10.0"/>
+        <entity file="entity/secret/Talisment.xml" tx="221.0" ty="9.0"/>
     </entities>
 </stage>

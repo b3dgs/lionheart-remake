@@ -6,10 +6,10 @@
     <background type="UNDERWORLD"/>
     <foreground type="WATER" waterDepth="110" waterDepthSpeed="0.004" waterOffset="64"/>
     <checkpoints>
-        <checkpoint tx="5.0" ty="19.0"/>
-        <checkpoint tx="73.0" ty="19.0"/>
-        <checkpoint tx="119.0" ty="19.0"/>
-        <checkpoint next="stage/beginner/stage4.xml" tx="161.0" ty="19.0"/>
+        <checkpoint tx="5.0" ty="18.5"/>
+        <checkpoint tx="73.0" ty="18.5"/>
+        <checkpoint tx="119.0" ty="18.5"/>
+        <checkpoint next="stage/beginner/stage4.xml" tx="161.0" ty="18.5"/>
     </checkpoints>
     <entities>
         <entity file="entity/underworld/SeaUrchin.xml" tx="16.0" ty="21.0"/>
