@@ -30,6 +30,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
@@ -77,6 +79,22 @@ public class DeviceDialog extends JDialog
     private static final String LABEL_SAVE = "Save";
     private static final String LABEL_EXIT = "Exit";
 
+    /**
+     * Prepare custom input file.
+     */
+    public static void prepareInputCustom()
+    {
+        try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
+             OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
+        {
+            UtilStream.copy(input, output);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
     private static String getName(DeviceMapper mapping)
     {
         return String.format("%" + DEVICE_NAME_SPACE_MAX + "s", mapping);
@@ -87,7 +105,7 @@ public class DeviceDialog extends JDialog
     /** Text to code mapper. */
     private final Map<String, Integer> textToCode = new HashMap<>();
     /** Custom input. */
-    private final Media inputCustom = Medias.create(Settings.getInstance().getInput());
+    private final Media inputCustom = Medias.create(Constant.INPUT_FILE_DEFAULT);
     /** Controller. */
     private final AssignController controller;
 
@@ -235,8 +253,7 @@ public class DeviceDialog extends JDialog
     {
         if (!inputCustom.exists())
         {
-            final File file = UtilStream.getCopy(Medias.create(Constant.INPUT_FILE_DEFAULT));
-            file.renameTo(new File(file.getPath().replace(file.getName(), Constant.INPUT_FILE_CUSTOM)));
+            prepareInputCustom();
         }
         final Collection<DeviceControllerConfig> configs = DeviceControllerConfig.imports(new Services(), inputCustom);
         for (final DeviceControllerConfig config : configs)
@@ -261,7 +278,9 @@ public class DeviceDialog extends JDialog
     private void save()
     {
         final Map<DeviceMapper, Set<Integer>> written = new HashMap<>();
-        final File file = UtilStream.getCopy(inputCustom);
+        prepareInputCustom();
+
+        final File file = inputCustom.getFile();
         try
         {
             boolean started = false;

@@ -54,7 +54,6 @@ final class MenuTest
             EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
             AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         }
-        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
     }
 
     /**

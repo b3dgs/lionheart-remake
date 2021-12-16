@@ -117,7 +117,7 @@ public class StoriesTest
             final Services services = new Services();
             services.add(context);
             services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-            device = DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput()));
+            device = DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT));
         }
 
         @Override

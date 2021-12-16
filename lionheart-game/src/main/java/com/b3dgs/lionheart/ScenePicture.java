@@ -124,9 +124,9 @@ public final class ScenePicture extends Sequence
         services.add(context);
         services.add(source);
         device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Settings.getInstance().getInput())));
+                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
 
-        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
 
         info = new AppInfo(this::getFps, services);

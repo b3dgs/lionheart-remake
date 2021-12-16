@@ -129,10 +129,10 @@ public class Credits extends Sequence
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Settings.getInstance().getInput())));
+                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
         device.setVisible(false);
 
-        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
 
         info = new AppInfo(this::getFps, services);

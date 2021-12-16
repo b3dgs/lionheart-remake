@@ -42,7 +42,6 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
-import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
@@ -162,9 +161,9 @@ public class Part3 extends Sequence
         services.add(context);
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Settings.getInstance().getInput())));
+                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
 
-        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CUSTOR);
+        final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
 
         info = new AppInfo(this::getFps, services);

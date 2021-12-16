@@ -49,11 +49,6 @@ public final class Constant
     /** Debug collisions flag. */
     public static final boolean DEBUG_COLLISIONS = false;
 
-    /** Keyboard device. */
-    public static final String DEVICE_KEYBOARD = "Keyboard";
-    /** Mouse device. */
-    public static final String DEVICE_MOUSE = "Mouse";
-
     /** Collision group player. */
     public static final Integer COLL_GROUP_PLAYER = Integer.valueOf(1);
     /** Collision group enemies. */
@@ -128,10 +123,8 @@ public final class Constant
 
     /** Input default. */
     public static final String INPUT_FILE_DEFAULT = "input.xml";
-    /** Input custom. */
-    public static final String INPUT_FILE_CUSTOM = "input_custom.xml";
     /** Input cursor. */
-    public static final String INPUT_FILE_CUSTOR = "input_cursor.xml";
+    public static final String INPUT_FILE_CURSOR = "input_cursor.xml";
 
     /** Minimum zoom. */
     public static final double ZOOM_MIN = 0.8;

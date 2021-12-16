@@ -34,6 +34,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -209,13 +211,7 @@ public final class Launcher
         loadLangs();
 
         Settings.load();
-
-        final String input = Settings.getInstance().getInput();
-        if (!Medias.create(input).exists())
-        {
-            final File file = UtilStream.getCopy(Medias.create(Constant.INPUT_FILE_DEFAULT));
-            file.renameTo(new File(file.getPath().replace(file.getName(), input)));
-        }
+        DeviceDialog.prepareInputCustom();
 
         final Gamepad gamepad = new Gamepad();
 
@@ -1046,7 +1042,7 @@ public final class Launcher
         parent.add(panel);
         panel.setBorder(BORDER);
         final Collection<DeviceControllerConfig> configs;
-        configs = DeviceControllerConfig.imports(new Services(), Medias.create(Settings.getInstance().getInput()));
+        configs = DeviceControllerConfig.imports(new Services(), Medias.create(Constant.INPUT_FILE_DEFAULT));
 
         for (final DeviceControllerConfig config : configs)
         {
@@ -1244,10 +1240,25 @@ public final class Launcher
         }
     }
 
+    private static void prepareSettings()
+    {
+        try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
+             OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
+        {
+            UtilStream.copy(input, output);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
     private static void save()
     {
         Settings.loadDefault();
-        final File file = UtilStream.getCopy(Medias.create(Settings.FILENAME));
+        prepareSettings();
+
+        final File file = Medias.create(Settings.FILENAME).getFile();
         try
         {
             final List<String> lines = Files.readAllLines(file.toPath());

@@ -55,7 +55,6 @@ final class EntitiesTest
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, EntitiesTest.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         Settings.load();
-        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
 
         final Media stage = Medias.create(Folder.STAGE,
                                           world.name().toLowerCase(Locale.ENGLISH) + Factory.FILE_DATA_DOT_EXTENSION);
@@ -89,7 +88,6 @@ final class EntitiesTest
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, EntitiesTest.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         Settings.load();
-        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
 
         final Media stage = Medias.create(Folder.STAGE, world);
         if (stage.exists())
@@ -121,7 +119,6 @@ final class EntitiesTest
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, EntitiesTest.class);
         AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         Settings.load();
-        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
 
         final Media stage = Medias.create(Folder.STAGE, world);
         if (stage.exists())

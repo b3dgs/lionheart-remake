@@ -58,7 +58,6 @@ public class StoriesTest
             EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
             AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         }
-        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
     }
 
     /**
@@ -120,7 +119,7 @@ public class StoriesTest
             final Services services = new Services();
             services.add(context);
             services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
-            device = DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput()));
+            device = DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT));
         }
 
         @Override

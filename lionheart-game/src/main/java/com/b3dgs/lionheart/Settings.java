@@ -41,9 +41,6 @@ public final class Settings
     /** Language key. */
     public static final String LANG = "lang";
 
-    /** Input key. */
-    public static final String INPUT = "input";
-
     /** Resolution key. */
     public static final String RESOLUTION = "resolution";
     /** Resolution windowed. */
@@ -101,9 +98,6 @@ public final class Settings
     /** New stages flag. */
     public static final String STAGES = "stages";
 
-    /** Temp file. */
-    private static final File FILE = new File(new File(System.getProperty("java.io.tmpdir"), Constant.PROGRAM_NAME),
-                                              FILENAME);
     /** Single instance. */
     private static final Settings INSTANCE = new Settings();
     /** Default language. */
@@ -116,14 +110,15 @@ public final class Settings
      */
     public static void load()
     {
+        final File file = getFile();
         if (!checkVersion())
         {
-            FILE.delete();
+            file.delete();
         }
 
-        if (FILE.exists())
+        if (file.exists())
         {
-            try (InputStream input = new FileInputStream(FILE))
+            try (InputStream input = new FileInputStream(file))
             {
                 INSTANCE.load(input);
             }
@@ -190,7 +185,7 @@ public final class Settings
      */
     public static File getFile()
     {
-        return FILE;
+        return Medias.create(FILENAME).getFile();
     }
 
     /**
@@ -201,7 +196,7 @@ public final class Settings
     private static boolean checkVersion()
     {
         final Settings settings = new Settings();
-        try (InputStream input = new FileInputStream(FILE))
+        try (InputStream input = new FileInputStream(getFile()))
         {
             settings.load(input);
             return settings.getVersion().equals(Constant.PROGRAM_VERSION.toString());
@@ -253,16 +248,6 @@ public final class Settings
     public String getLang()
     {
         return properties.getProperty(LANG, DEFAULT_LANG);
-    }
-
-    /**
-     * Get input.
-     * 
-     * @return The input.
-     */
-    public String getInput()
-    {
-        return properties.getProperty(INPUT, Constant.INPUT_FILE_DEFAULT);
     }
 
     /**
@@ -445,16 +430,6 @@ public final class Settings
     public void setLang(String lang)
     {
         properties.setProperty(LANG, lang);
-    }
-
-    /**
-     * Set input.
-     * 
-     * @param input The input value.
-     */
-    public void setInput(String input)
-    {
-        properties.setProperty(INPUT, input);
     }
 
     /**

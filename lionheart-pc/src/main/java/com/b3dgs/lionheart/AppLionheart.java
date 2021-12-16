@@ -16,7 +16,6 @@
  */
 package com.b3dgs.lionheart;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +25,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
@@ -50,11 +48,10 @@ public final class AppLionheart
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
 
         Settings.load();
-        final String input = Settings.getInstance().getInput();
-        if (!Medias.create(input).exists())
+        final Media mediaInput = Medias.create(Constant.INPUT_FILE_DEFAULT);
+        if (!mediaInput.exists())
         {
-            final File file = UtilStream.getCopy(Medias.create(Constant.INPUT_FILE_DEFAULT));
-            file.renameTo(new File(file.getPath().replace(file.getName(), input)));
+            DeviceDialog.prepareInputCustom();
         }
 
         run(new Gamepad());

@@ -44,7 +44,6 @@ final class StageHardTest
     {
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
         Settings.load();
-        Settings.getInstance().setInput(Constant.INPUT_FILE_DEFAULT);
     }
 
     /**

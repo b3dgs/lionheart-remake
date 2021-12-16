@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
@@ -57,7 +58,7 @@ public final class Extro extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        services.add(DeviceControllerConfig.create(services, Medias.create(Settings.getInstance().getInput())))
+        services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)))
                 .setVisible(false);
 
         load(Part1.class, time, audio, alternative);
