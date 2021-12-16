@@ -182,8 +182,7 @@ public class Part1 extends Sequence
         services.add(new MapTileHelper(services));
         services.add((CheatsProvider) () -> false);
         services.add(new CheckpointHandler(services));
-        device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());

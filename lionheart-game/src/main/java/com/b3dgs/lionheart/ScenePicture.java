@@ -123,8 +123,7 @@ public final class ScenePicture extends Sequence
         final Services services = new Services();
         services.add(context);
         services.add(source);
-        device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
 
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);

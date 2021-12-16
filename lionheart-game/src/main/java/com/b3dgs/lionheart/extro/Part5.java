@@ -193,8 +193,7 @@ public class Part5 extends Sequence
         camera.setView(0, 0, getWidth(), getHeight(), getHeight());
 
         services.add(context);
-        device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
         info = new AppInfo(this::getFps, services);
 
         handler.addComponent(new ComponentRefreshable());

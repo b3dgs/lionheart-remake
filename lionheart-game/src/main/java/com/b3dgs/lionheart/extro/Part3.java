@@ -82,8 +82,7 @@ public class Part3 extends Sequence
 
         final Services services = new Services();
         services.add(context);
-        device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         info = new AppInfo(this::getFps, services);
 

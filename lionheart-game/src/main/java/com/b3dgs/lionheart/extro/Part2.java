@@ -127,8 +127,7 @@ public class Part2 extends Sequence
         {
             // Mock
         });
-        device = services.add(DeviceControllerConfig.create(services,
-                                                            Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
