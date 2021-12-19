@@ -20,6 +20,7 @@
     </lionengine:animations>
     <lionengine:collisions>
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="32" height="32" mirror="false"/>
+        <lionengine:collision name="body" offsetX="0" offsetY="0" width="48" height="32" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:layerable layerRefresh="3" layerDisplay="7"/>
@@ -30,9 +31,13 @@
         <lionengine:launchable media="boss/dragonfly/BossLaser.xml" ox="-378" oy="6">
             <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
         </lionengine:launchable>
+        <lionengine:launchable media="boss/dragonfly/BossLaser.xml" ox="-634" oy="6">
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="0.0" vy="0.0"/>
+        </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <shade horizontal="7" vertical="2"/>
-    <stats health="1"/>
+    <stats health="-1"/>
+    <hurtable backward="1.6"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

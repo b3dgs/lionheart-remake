@@ -53,6 +53,7 @@ import com.b3dgs.lionengine.helper.EntityModelHelper;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.EntityConfig;
+import com.b3dgs.lionheart.object.feature.BossDragonflyHead;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Guard;
@@ -184,6 +185,7 @@ public final class EntityModel extends EntityModelHelper
             && !hasFeature(BulletBounceOnGround.class)
             && !hasFeature(Guard.class)
             && !hasFeature(Floater.class)
+            && !hasFeature(BossDragonflyHead.class)
             && !state.isState(StateHurt.class)
             && !state.isState(StateSlide.class)
             && !state.isState(StateLianaSlide.class)

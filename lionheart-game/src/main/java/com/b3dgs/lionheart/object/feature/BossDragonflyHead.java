@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -59,7 +60,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private static final int MAX_Y = 64;
     private static final int FIRE_DELAY_MS = 1500;
     private static final int FIRED_DELAY_MS = 1000;
-    private static final double TRACK_SPEED = 1.25;
+    private static final double TRACK_SPEED = 1.2;
 
     private final Transformable[] limbs = new Transformable[6];
     private final Tick tick = new Tick();
@@ -82,6 +83,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     @FeatureGet private Launcher launcher;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
+    @FeatureGet private Hurtable hurtable;
+    @FeatureGet private Mirrorable mirrorable;
 
     /**
      * Create feature.
@@ -99,8 +102,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
         attack = config.getAnimation(Anim.ATTACK);
         turn = config.getAnimation(Anim.TURN);
 
-        force.setVelocity(0.2);
-        force.setSensibility(0.2);
+        force.setVelocity(0.15);
+        force.setSensibility(0.15);
     }
 
     /**
@@ -121,7 +124,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
 
         if (animatable.getFrame() == 1
             && tick.elapsedTime(source.getRate(), FIRE_DELAY_MS)
-            && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4) < 8)
+            && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4) < 8
+            && target.getX() < transformable.getX())
         {
             launcher.fire();
             animatable.play(attack);
@@ -142,7 +146,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
                 animatable.setFrame(turn.getLast());
                 mirror = false;
             }
-            else if (!mirror && transformable.getX() < target.getX())
+            else if ((!mirror || animatable.getFrameAnim() == 1 && animatable.is(AnimState.FINISHED))
+                     && transformable.getX() < target.getX())
             {
                 animatable.play(turn);
                 mirror = true;
@@ -251,14 +256,17 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
             if (f > 7 && f < 14)
             {
                 rasterable.setFrameOffsets(-13, 0);
+                hurtable.setShadeOffset(-13, 0);
             }
             else if (f == 14)
             {
                 rasterable.setFrameOffsets(0, 7);
+                hurtable.setShadeOffset(0, 7);
             }
             else
             {
                 rasterable.setFrameOffsets(0, 0);
+                hurtable.setShadeOffset(0, 0);
             }
         });
         launcher.addListener(l ->
