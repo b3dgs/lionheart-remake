@@ -20,6 +20,8 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilFolder;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.background.BackgroundAbstract;
@@ -89,6 +91,8 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     private double raise;
     /** Water raise max. */
     private double raiseMax;
+    /** Raise updater. */
+    private Updatable raiseUpdater = this::updateRaise;
     /** Max width. */
     private final int widthMax;
     /** Water current line. */
@@ -147,12 +151,16 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         raiseMax = max;
     }
 
-    @Override
-    public void update(double extrp)
+    /**
+     * Stop water raise.
+     */
+    public void stopRaise()
     {
-        tick.update(extrp);
-        tickFlick.update(extrp);
+        raiseUpdater = UpdatableVoid.getInstance();
+    }
 
+    private void updateRaise(double extrp)
+    {
         if (raise < raiseMax)
         {
             raise += RAISE_SPEED * extrp;
@@ -169,6 +177,14 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         {
             raise = raiseMax;
         }
+    }
+
+    @Override
+    public void update(double extrp)
+    {
+        tick.update(extrp);
+        tickFlick.update(extrp);
+        raiseUpdater.update(extrp);
     }
 
     @Override
@@ -198,6 +214,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     public void reset()
     {
         raise = 0;
+        raiseUpdater = this::updateRaise;
     }
 
     @Override
@@ -412,7 +429,10 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
             offsetY = y;
 
             height = UtilMath.wrapDouble(height + water.getSpeed() * extrp, 0, Constant.ANGLE_MAX);
-            water.setHeight(Math.cos(height) * water.getDepth());
+            if (raiseUpdater != UpdatableVoid.getInstance())
+            {
+                water.setHeight(Math.cos(height) * water.getDepth());
+            }
             if (enabled)
             {
                 mapWater.setWaterHeight((int) water.getHeight());

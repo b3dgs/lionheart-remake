@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
@@ -34,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
@@ -43,7 +45,10 @@ import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.landscape.ForegroundWater;
 
 /**
  * Boss Underworld feature implementation.
@@ -73,6 +78,8 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
+    private final Spawner spawner = services.get(Spawner.class);
+    private final ForegroundWater water = services.get(ForegroundWater.class);
 
     private final Tick tick = new Tick();
     private final Animation idle;
@@ -223,6 +230,22 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
             launcher.addListener(l -> l.ifIs(Underwater.class, u -> u.loadRaster("raster/underworld/underworld/")));
         }
         identifiable.addListener(id -> music.playMusic(Music.BOSS_WIN));
+        stats.addListener(new StatsListener()
+        {
+            @Override
+            public void notifyNextSword(int level)
+            {
+                // Nothing to do
+            }
+
+            @Override
+            public void notifyDead()
+            {
+                water.stopRaise();
+                spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 208, 4);
+                spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 240, 4);
+            }
+        });
     }
 
     @Override

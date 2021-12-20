@@ -27,4 +27,9 @@ public interface StatsListener
      * @param level The new sword level.
      */
     void notifyNextSword(int level);
+
+    /**
+     * Notify dead.
+     */
+    void notifyDead();
 }

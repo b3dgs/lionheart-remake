@@ -164,7 +164,16 @@ public final class Stats extends FeatureModel implements Recyclable
     public boolean applyDamages(int damages)
     {
         health.decrease(damages);
-        return health.isEmpty();
+        final boolean dead = health.isEmpty();
+        if (dead)
+        {
+            final int n = listeners.size();
+            for (int i = 0; i < n; i++)
+            {
+                listeners.get(i).notifyDead();
+            }
+        }
+        return dead;
     }
 
     /**
