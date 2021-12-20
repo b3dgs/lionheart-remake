@@ -31,5 +31,5 @@
     <stats health="4"/>
     <hurtable effect="effect/airship/ExplodeBig.xml"/>
     <shade horizontal="7" vertical="2"/>
-    <dragon1 firedCount="3"/>
+    <dragon1 firedCount="5"/>
 </lionengine:featurable>
