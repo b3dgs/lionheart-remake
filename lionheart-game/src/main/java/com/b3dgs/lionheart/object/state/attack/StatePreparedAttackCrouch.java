@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
  * Prepared attack crouch state implementation.
@@ -39,6 +40,7 @@ final class StatePreparedAttackCrouch extends State
         addTransition(StateUnprepareAttackCrouch.class, () -> !isFire());
         addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
         addTransition(StateAttackTop.class, () -> isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateWin.class, this::hasWin);
     }
 
     @Override

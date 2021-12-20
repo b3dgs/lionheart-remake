@@ -55,6 +55,7 @@ public final class StateLand extends State
                       () -> !hasWin()
                             && !collideY.get()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0);
+        addTransition(StateWin.class, this::hasWin);
     }
 
     @Override

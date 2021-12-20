@@ -66,6 +66,7 @@ public final class StateWalk extends State
                       () -> model.hasGravity()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
                             && !collideY.get());
+        addTransition(StateWin.class, this::hasWin);
     }
 
     private boolean isWalkingSlowEnough()

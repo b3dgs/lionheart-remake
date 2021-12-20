@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
  * Prepared attack state implementation.
@@ -41,6 +42,7 @@ final class StatePreparedAttack extends State
         addTransition(StateAttackTop.class, () -> isFire() && isGoUpOnce());
         addTransition(StatePreparedAttackCrouch.class, this::isGoDown);
         addTransition(StateUnprepareAttack.class, () -> !isFire());
+        addTransition(StateWin.class, this::hasWin);
     }
 
     private boolean canAttackHorizontal()

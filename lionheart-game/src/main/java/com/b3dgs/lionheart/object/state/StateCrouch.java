@@ -41,6 +41,7 @@ public final class StateCrouch extends State
         addTransition(StatePrepareAttackCrouch.class, this::isFire);
         addTransition(StateFall.class,
                       () -> !collideY.get() && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
+        addTransition(StateWin.class, this::hasWin);
     }
 
     @Override
