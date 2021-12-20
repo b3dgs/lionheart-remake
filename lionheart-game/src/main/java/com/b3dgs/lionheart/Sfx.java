@@ -128,6 +128,8 @@ public enum Sfx
     PROJECTILE_FLY,
     /** Projectile canon 2 bounce. */
     PROJECTILE_BULLET2,
+    /** Projectile rock. */
+    PROJECTILE_ROCK,
     /** Boss 1 hurt. */
     BOSS1_HURT,
     /** Boss 1 bowl. */
