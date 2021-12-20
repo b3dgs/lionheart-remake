@@ -55,6 +55,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private static final int MOVE_DOWN_DELAY_MS = 800;
     private static final int START_ATTACK_DELAY_MS = 500;
     private static final int END_ATTACK_DELAY_MS = 1500;
+    private static final int END_ATTACKED_DELAY_MS = 700;
 
     private static final int ATTACK_DISTANCE_MAX = 96;
     private static final double MOVE_X_SPEED = 1.2;
@@ -270,6 +271,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
             animatable.setFrame(attack.getLast());
             animatable.setAnimSpeed(-attack.getSpeed());
             current = this::updateEndAttack;
+            tick.restart();
         }
     }
 
@@ -282,7 +284,9 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         transformable.teleportY(MOVE_DOWN_Y);
         body.resetGravity();
-        if (animatable.is(AnimState.FINISHED))
+
+        tick.update(extrp);
+        if (animatable.is(AnimState.FINISHED) || tick.elapsedTime(source.getRate(), END_ATTACKED_DELAY_MS))
         {
             animatable.play(idle);
             current = this::updateTrack;
