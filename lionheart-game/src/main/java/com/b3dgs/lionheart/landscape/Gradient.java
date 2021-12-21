@@ -31,7 +31,7 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 final class Gradient extends BackgroundAbstract
 {
-    private static final int OFFSET_Y = 72;
+    private static final int OFFSET_Y = 82;
 
     private final Backdrop backdrop;
 
