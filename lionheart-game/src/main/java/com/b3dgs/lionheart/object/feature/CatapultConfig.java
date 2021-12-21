@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
@@ -79,5 +80,21 @@ public final class CatapultConfig implements XmlSaver
         final Xml node = root.createChild(NODE_CATAPULT);
         node.writeDouble(ATT_VX, vx);
         node.writeDouble(ATT_VY, vy);
+    }
+
+    private static void add(StringBuilder builder, String name, double value)
+    {
+        builder.append(name).append(Constant.DOUBLE_DOT).append(value).append(Constant.SPACE);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Catapult [ ");
+        add(builder, ATT_VX, vx);
+        add(builder, ATT_VY, vy);
+        builder.append("]");
+        return builder.toString();
     }
 }

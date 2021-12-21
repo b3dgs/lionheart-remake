@@ -179,7 +179,7 @@ public final class HotFireBallConfig implements XmlSaver
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("HotFireBall [");
+        builder.append("HotFireBall [ ");
         add(builder, ATT_DELAY_MS, delay);
         add(builder, ATT_COUNT, count);
         add(builder, ATT_LEVEL, level);

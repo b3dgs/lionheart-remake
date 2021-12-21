@@ -100,7 +100,7 @@ public final class SpikeConfig implements XmlSaver
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Spike [");
+        builder.append("Spike [ ");
         add(builder, ATT_DELAY_MS, delay);
         builder.append("]");
         return builder.toString();

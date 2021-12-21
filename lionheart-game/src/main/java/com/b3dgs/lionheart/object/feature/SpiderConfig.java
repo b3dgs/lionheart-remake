@@ -96,7 +96,7 @@ public final class SpiderConfig implements XmlSaver
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Spider [");
+        builder.append("Spider [ ");
         add(builder, ATT_FOLLOW, follow);
         builder.append("]");
         return builder.toString();

@@ -337,7 +337,7 @@ public final class PatrolConfig implements XmlSaver
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Patrol [");
+        builder.append("Patrol [ ");
         add(builder, ATT_VX, sh);
         add(builder, ATT_VY, sv);
         add(builder, ATT_AMPLITUDE, amplitude);

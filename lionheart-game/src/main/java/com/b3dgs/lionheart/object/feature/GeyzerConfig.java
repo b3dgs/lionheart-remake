@@ -155,7 +155,7 @@ public final class GeyzerConfig implements XmlSaver
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Geyzer [");
+        builder.append("Geyzer [ ");
         add(builder, ATT_FIRST_DELAY_MS, delayFirst);
         add(builder, ATT_START_DELAY_MS, delayStart);
         add(builder, ATT_DOWN_DELAY_MS, delayDown);
