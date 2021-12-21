@@ -37,6 +37,9 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.RasterableModel;
@@ -60,8 +63,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * Bounce bullet on hit ground.
  */
 @FeatureInterface
-public final class BulletBounceOnGround extends FeatureModel
-                                        implements XmlLoader, XmlSaver, Routine, Recyclable, TileCollidableListener
+public final class BulletBounceOnGround extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable,
+                                        TileCollidableListener, CollidableListener
 {
     private static final String NODE = "bulletBounceOnGround";
     private static final String ATT_SFX = "sfx";
@@ -209,6 +212,11 @@ public final class BulletBounceOnGround extends FeatureModel
                 jump.setDirection(bounceX, bounce);
 
                 bounced++;
+
+                if (bounced >= count)
+                {
+                    tileCollidable.setEnabled(false);
+                }
             }
         }
         else if (category.getName().startsWith(CollisionName.KNEE))
@@ -229,6 +237,15 @@ public final class BulletBounceOnGround extends FeatureModel
             final double vx = direction.getDirectionHorizontal();
             direction.setDirection(-vx, direction.getDirectionVertical());
             direction.setDestination(-vx, 0.0);
+        }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
+        {
+            ifIs(Launchable.class, l -> l.getDirection().zeroHorizontal());
         }
     }
 

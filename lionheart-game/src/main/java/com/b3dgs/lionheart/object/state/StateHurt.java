@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Executioner;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.feature.Patrol;
@@ -142,7 +143,7 @@ public final class StateHurt extends State
     {
         tick.update(extrp);
         updater.update(extrp);
-        if (!model.hasFeature(Patrol.class))
+        if (!model.hasFeature(Patrol.class) && !model.hasFeature(BulletBounceOnGround.class))
         {
             body.resetGravity();
         }
