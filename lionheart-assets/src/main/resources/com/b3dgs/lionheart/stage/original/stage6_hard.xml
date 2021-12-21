@@ -67,12 +67,15 @@
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="75.0" ty="24.0">
             <model mirror="true"/>
+            <patrol sv="0.0" proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="80.0" ty="23.0">
             <model mirror="true"/>
+            <patrol sv="0.0" proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/Bee.xml" tx="85.0" ty="22.0">
             <model mirror="true"/>
+            <patrol sv="0.0" proximity="-1"/>
         </entity>
         <entity file="entity/ancienttown/TurningCube.xml" tx="73.0" ty="21.0">
             <patrol sh="1.2" sv="0.0" amplitude="256" mirror="false"/>
