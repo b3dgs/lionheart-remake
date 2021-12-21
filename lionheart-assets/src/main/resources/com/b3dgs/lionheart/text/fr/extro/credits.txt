@@ -101,7 +101,6 @@ L11 its done when its done...
 
 L24 Pierre-Alexandre
 L14 ----------------------------
-
 L11 Et oui, une fois encore j'ai fait un autre remake
 L11 de mon jeu d'enfance, Lionheart. Je pense que
 L11 c'est déjà la 4ème édition, mais cette fois elle
@@ -117,7 +116,7 @@ L11 à bientôt dans de nouveaux projets !
 L11 Un grand merci à tous les membres de eab.abime.net
 L11 pour leurs soutiens et commentaires, ainsi qu'un
 L11 remerciement spécial à Retro-Nerd qui m'a bien
-L11 aidé pendant les beta tests !
+L11 aidé pendant les beta tests et pour la traduction !
 
 L11 N'oubliez pas mon site, www.b3dgs.com !
 

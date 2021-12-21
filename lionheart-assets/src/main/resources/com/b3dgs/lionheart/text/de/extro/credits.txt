@@ -101,7 +101,6 @@ L11 its done when its done...
 
 L24 Pierre-Alexandre
 L14 ----------------------------
-
 L11 Well, once again I made another remake of my
 L11 childhood game, Lionheart. I think it is the 4th
 L11 remake, but this one is now working on both PC
@@ -117,7 +116,7 @@ L11 see you for another project !
 L11 Thanks a lot to all eab.abime.net members for
 L11 their support and feedback, and a special
 L11 thanks to Retro-Nerd who helped me a lot
-L11 during beta phases !
+L11 during beta phases and translations !
 
 L11 Vergesst meine Webseite nicht, www.b3dgs.com !
 
