@@ -85,13 +85,17 @@ public final class Frog extends FeatureModel implements Routine, Recyclable
     {
         tick.update(extrp);
 
-        if (phase == 0 && transformable.getX() < viewer.getX() - transformable.getWidth())
+        if (phase == 0 && transformable.getX() > viewer.getX())
+        {
+            phase = 1;
+        }
+        else if (phase == 1 && transformable.getX() < viewer.getX() - transformable.getWidth())
         {
             rasterable.setVisibility(true);
             tick.stop();
-            phase = 1;
+            phase = 2;
         }
-        else if (phase == 1)
+        else if (phase == 2)
         {
             transformable.moveLocationX(extrp, SPEED);
             if (transformable.getX() > viewer.getX())
@@ -104,10 +108,10 @@ public final class Frog extends FeatureModel implements Routine, Recyclable
                 collidable.setEnabled(true);
                 animatable.play(turn);
                 Sfx.MONSTER_FROG.play();
-                phase = 2;
+                phase = 3;
             }
         }
-        else if (phase == 2)
+        else if (phase == 3)
         {
             transformable.moveLocationX(extrp, SPEED);
             if (transformable.getX() > viewer.getX() + viewer.getWidth() + transformable.getWidth())
