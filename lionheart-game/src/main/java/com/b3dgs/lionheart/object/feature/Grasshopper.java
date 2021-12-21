@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.FeatureProvider;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -50,6 +51,7 @@ public final class Grasshopper extends FeatureModel implements Routine
 {
     private final MapTile map = services.get(MapTile.class);
     private final Trackable target = services.get(Trackable.class);
+    private final Camera camera = services.get(Camera.class);
 
     private double move;
 
@@ -95,28 +97,31 @@ public final class Grasshopper extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (target.getX() - transformable.getX() > 100)
+        if (camera.isViewable(transformable, 64, 16))
         {
-            move = 1.0;
-        }
-        else if (target.getX() - transformable.getX() < -112)
-        {
-            move = -1.0;
-        }
-        else if (!handler.isState(StateJump.class) && !handler.isState(StateFall.class))
-        {
-            move = 0.0;
-
-            if (transformable.getX() > target.getX())
+            if (target.getX() - transformable.getX() > 100)
             {
-                mirrorable.mirror(Mirror.HORIZONTAL);
+                move = 1.0;
             }
-            else
+            else if (target.getX() - transformable.getX() < -112)
             {
-                mirrorable.mirror(Mirror.NONE);
+                move = -1.0;
             }
+            else if (!handler.isState(StateJump.class) && !handler.isState(StateFall.class))
+            {
+                move = 0.0;
 
-            launcher.fire();
+                if (transformable.getX() > target.getX())
+                {
+                    mirrorable.mirror(Mirror.HORIZONTAL);
+                }
+                else
+                {
+                    mirrorable.mirror(Mirror.NONE);
+                }
+
+                launcher.fire();
+            }
         }
     }
 }
