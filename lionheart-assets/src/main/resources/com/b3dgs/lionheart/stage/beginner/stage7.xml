@@ -134,5 +134,7 @@
         <entity file="entity/lava/Talisment.xml" tx="375.0" ty="33.0"/>
         <entity file="entity/lava/Talisment.xml" tx="375.0" ty="34.0"/>
         <entity file="entity/lava/Talisment.xml" tx="375.0" ty="31.0"/>
+        <entity file="entity/lava/Talisment.xml" tx="348.0" ty="32.0"/>
+        <entity file="entity/lava/Talisment.xml" tx="348.0" ty="34.0"/>
     </entities>
 </stage>

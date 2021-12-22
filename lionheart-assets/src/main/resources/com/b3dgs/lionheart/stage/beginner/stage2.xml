@@ -14,6 +14,8 @@
         <entity file="boss/spidercave1/Boss.xml" tx="63.0" ty="17.5"/>
         <entity file="boss/spidercave2/Boss.xml" tx="147.0" ty="11.5"/>
         <entity file="entity/spidercave2/Life.xml" tx="3.0" ty="20.0"/>
+        <entity file="entity/spidercave1/Talisment.xml" tx="4.0" ty="24.0"/>
+        <entity file="entity/spidercave1/Talisment.xml" tx="6.0" ty="24.0"/>
         <entity file="entity/spidercave2/Spider1.xml" tx="8.0" ty="17.0"/>
         <entity file="entity/spidercave2/Talisment.xml" tx="13.0" ty="20.0"/>
         <entity file="entity/spidercave2/Talisment.xml" tx="14.0" ty="24.0"/>

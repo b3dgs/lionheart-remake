@@ -227,5 +227,10 @@
         <entity file="entity/ancienttown/Bird.xml" tx="198.0" ty="37.0">
             <patrol amplitude="16" mirror="false" sv="0.35"/>
         </entity>
+        <entity file="entity/ancienttown/Talisment.xml" tx="304.0" ty="41.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="305.0" ty="42.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="306.0" ty="43.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="346.0" ty="2.0"/>
+        <entity file="entity/ancienttown/Talisment.xml" tx="348.0" ty="2.0"/>
     </entities>
 </stage>

@@ -17,17 +17,17 @@
         <entity file="entity/underworld/Floater1.xml" tx="27.0" ty="6.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="35.0" ty="6.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="38.0" ty="6.0"/>
-        <entity file="entity/underworld/Floater2.xml" tx="43.0" ty="6.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="42.0" ty="6.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="50.0" ty="6.0"/>
-        <entity file="entity/underworld/Floater2.xml" tx="53.0" ty="6.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="54.0" ty="6.0"/>
         <entity file="entity/underworld/Life.xml" tx="33.0" ty="11.0"/>
         <entity file="entity/underworld/Talisment.xml" tx="34.0" ty="1.0"/>
         <entity file="entity/underworld/Talisment.xml" tx="35.0" ty="1.0"/>
         <entity file="entity/underworld/Talisment.xml" tx="12.0" ty="1.0"/>
         <entity file="entity/underworld/Talisment.xml" tx="13.0" ty="1.0"/>
         <entity file="entity/underworld/PotionLittle.xml" tx="18.0" ty="11.0"/>
-        <entity file="entity/underworld/Turtle.xml" tx="23.0" ty="7.0">
-            <patrol amplitude="64" sh="-0.4"/>
+        <entity file="entity/underworld/Turtle.xml" tx="44.0" ty="7.0">
+            <patrol amplitude="32" sh="0.4"/>
         </entity>
         <entity file="entity/underworld/SeaUrchin.xml" tx="16.0" ty="7.0"/>
         <entity file="entity/underworld/SeaUrchin.xml" tx="56.0" ty="7.0"/>
