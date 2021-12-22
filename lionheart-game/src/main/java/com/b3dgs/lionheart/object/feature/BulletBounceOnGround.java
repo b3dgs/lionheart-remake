@@ -213,7 +213,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
 
                 bounced++;
 
-                if (bounced >= count)
+                if (count > 0 && bounced >= count)
                 {
                     tileCollidable.setEnabled(false);
                 }
