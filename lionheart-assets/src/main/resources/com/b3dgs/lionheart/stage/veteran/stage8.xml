@@ -15,7 +15,7 @@
     </checkpoints>
     <entities>
         <entity file="entity/secret/Amulet.xml" tx="298.0" ty="32.0">
-            <model next="stage/veteran/stage4.xml" stx="662.0" sty="3.0"/>
+            <model next="stage/veteran/stage7.xml" stx="662.0" sty="3.0"/>
         </entity>
         <entity file="entity/secret/Bird.xml" tx="166.0" ty="35.0">
             <patrol amplitude="48" mirror="false" sv="-0.7"/>
