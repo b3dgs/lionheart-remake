@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.state;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -28,6 +30,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
  */
 public final class StateIdleDragon extends State
 {
+    private final AtomicBoolean unlock = new AtomicBoolean();
+
     /**
      * Create the state.
      * 
@@ -39,7 +43,11 @@ public final class StateIdleDragon extends State
         super(model, animation);
 
         addTransition(StateAttackDragon.class, this::isFireOnce);
-        addTransition(StateJump.class, () -> isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateJump.class, () ->
+        {
+            unlock.set(isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+            return unlock.get();
+        });
     }
 
     @Override
@@ -59,5 +67,10 @@ public final class StateIdleDragon extends State
         super.exit();
 
         rasterable.setFrameOffsets(0, 0);
+        if (unlock.get())
+        {
+            jump.setDirection(Constant.JUMP_MAX);
+            jump.setDirectionMaximum(Constant.JUMP_MAX);
+        }
     }
 }
