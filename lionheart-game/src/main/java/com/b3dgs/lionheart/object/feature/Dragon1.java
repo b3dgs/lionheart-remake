@@ -55,7 +55,7 @@ public final class Dragon1 extends FeatureModel
 {
     private static final double SPEED_X = 1.45;
     private static final double SPEED_Y = 0.85;
-    private static final int START_DELAY_MS = 1500;
+    private static final int START_DELAY_MS = 2000;
     private static final int FIRED_DELAY_MS = 800;
     private static final int HEIGHT_LIMIT = 400;
 

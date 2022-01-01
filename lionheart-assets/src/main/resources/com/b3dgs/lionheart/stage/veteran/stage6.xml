@@ -75,13 +75,13 @@
         </entity>
         <entity file="entity/ancienttown/PotionLittle.xml" tx="191.0" ty="30.0"/>
         <entity file="entity/ancienttown/Canon1.xml" tx="234.0" ty="11.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="251.0" ty="11.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="276.0" ty="11.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="197.0" ty="30.0">
             <shooter anim="-1" fireDelay="3300" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
@@ -105,7 +105,7 @@
             <shooter anim="0" dvy="0.0" fireDelay="3500" firedDelay="0" svx="-1.5" svy="2.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="267.0" ty="19.0">
-            <shooter anim="0" dvy="0.0" fireDelay="220" firedDelay="0" svx="-1.5" svy="2.0"/>
+            <shooter anim="0" dvy="0.0" fireDelay="3500" firedDelay="0" svx="-1.5" svy="2.0"/>
         </entity>
         <entity file="entity/ancienttown/Executioner.xml" tx="297.0" ty="14.0">
             <patrol amplitude="128" sh="-0.3" sv="0.0"/>
@@ -212,10 +212,10 @@
             <patrol amplitude="96" sh="0.4"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="321.0" ty="11.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="339.0" ty="11.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/RotatingFireball.xml" tx="352.0" ty="10.0">
             <rotating extremity="FireBall.xml" length="3" ring="FireBall.xml" speed="-2.5"/>
@@ -271,7 +271,7 @@
         <entity file="entity/ancienttown/Talisment.xml" tx="333.0" ty="37.0"/>
         <entity file="entity/ancienttown/PotionBig.xml" tx="393.0" ty="11.0"/>
         <entity file="entity/ancienttown/Canon1.xml" tx="333.0" ty="26.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="335.0" ty="30.0">
             <shooter anim="-1" fireDelay="3300" firedDelay="0" svx="1.0" svy="1.0" track="true"/>
@@ -299,13 +299,13 @@
         <entity file="entity/ancienttown/Talisment.xml" tx="408.0" ty="38.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="411.0" ty="40.0"/>
         <entity file="entity/ancienttown/Canon1.xml" tx="414.0" ty="36.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="421.0" ty="42.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="425.0" ty="40.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="447.0" ty="39.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="448.0" ty="39.0"/>
@@ -346,21 +346,21 @@
             <patrol amplitude="64" mirror="false" sh="0.0" sv="-0.8"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="462.0" ty="53.0">
-            <shooter anim="0" dvy="0.0" fireDelay="150" firedDelay="0" svx="-1.0" svy="2.0"/>
+            <shooter anim="0" dvy="0.0" fireDelay="2500" firedDelay="0" svx="-1.0" svy="2.0"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="488.0" ty="63.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="489.0" ty="63.0"/>
         <entity file="entity/ancienttown/Canon1.xml" tx="489.0" ty="51.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.5" svy="3.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="492.0" ty="42.0">
-            <shooter anim="1" dvy="0.0" fireDelay="150" firedDelay="300" svx="1.0" svy="4.0"/>
+            <shooter anim="1" dvy="0.0" fireDelay="2500" firedDelay="300" svx="1.0" svy="4.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="487.0" ty="31.0">
             <shooter anim="1" dvy="0.0" fireDelay="2000" firedDelay="300" svx="1.0" svy="4.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="492.0" ty="54.0">
-            <shooter anim="0" dvy="0.0" fireDelay="150" firedDelay="0" svx="-0.5" svy="1.0"/>
+            <shooter anim="0" dvy="0.0" fireDelay="2500" firedDelay="0" svx="-0.5" svy="1.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="484.0" ty="41.0">
             <shooter anim="0" dvy="0.0" fireDelay="2000" firedDelay="0" svx="1.0" svy="2.0"/>

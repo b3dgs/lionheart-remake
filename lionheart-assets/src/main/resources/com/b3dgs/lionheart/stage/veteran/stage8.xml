@@ -32,7 +32,7 @@
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="33.0" ty="10.0"/>
         <entity file="entity/secret/Spike1.xml" tx="35.0" ty="10.0">
-            <spike delay="50"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/secret/Talisment.xml" tx="33.0" ty="16.0"/>
         <entity file="entity/secret/Talisment.xml" tx="34.0" ty="16.0"/>
@@ -79,7 +79,7 @@
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="105.0" ty="11.0"/>
         <entity file="entity/secret/Spike1.xml" tx="112.0" ty="11.0">
-            <spike delay="40"/>
+            <spike delay="500"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="134.0" ty="6.0"/>
         <entity file="entity/secret/Spike1.xml" tx="128.0" ty="16.0"/>
@@ -192,7 +192,7 @@
         </entity>
         <entity file="entity/secret/Spike2.xml" tx="186.0" ty="10.0"/>
         <entity file="entity/secret/Canon.xml" tx="197.0" ty="21.0">
-            <shooter anim="0" dvy="0.0" fireDelay="150" firedDelay="0" svx="1.5" svy="3.0"/>
+            <shooter anim="0" dvy="0.0" fireDelay="2500" firedDelay="0" svx="1.5" svy="3.0"/>
         </entity>
         <entity file="entity/secret/Canon.xml" tx="206.0" ty="27.0">
             <shooter anim="0" dvy="0.0" fireDelay="3000" firedDelay="0" svx="-1.0" svy="1.5"/>
@@ -257,13 +257,13 @@
             <rotating extremity="SpikeBowl.xml" length="4" speed="2.2"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="242.0" ty="23.0">
-            <spike delay="50"/>
+            <spike delay="800"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="241.0" ty="15.0">
-            <spike delay="75"/>
+            <spike delay="1200"/>
         </entity>
         <entity file="entity/secret/Spike1.xml" tx="248.0" ty="16.0">
-            <spike delay="100"/>
+            <spike delay="1400"/>
         </entity>
         <entity file="entity/secret/Ghost2.xml" tx="247.0" ty="22.0"/>
         <entity file="entity/secret/Talisment.xml" tx="262.0" ty="8.0"/>
