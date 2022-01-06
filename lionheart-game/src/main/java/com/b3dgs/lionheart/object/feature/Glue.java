@@ -176,6 +176,10 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
                 start();
             }
         }
+        else if (with.getName().startsWith(CollisionName.BODY) && by.getName().startsWith(Anim.ATTACK_FALL))
+        {
+            other = null;
+        }
     }
 
     @Override

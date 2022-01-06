@@ -24,7 +24,7 @@
         <lionengine:collision name="body" offsetX="0" offsetY="0" width="28" height="32" mirror="false"/>
     </lionengine:collisions>
     <lionengine:rasterable extern="true"/>
-    <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
+    <lionengine:layerable layerRefresh="4" layerDisplay="6"/>
     <lionengine:launcher>
         <lionengine:launchable media="projectile/ancienttown/Bullet2.xml" sfx="sfx/monster_canon2.wav" ox="0" oy="16">
             <lionengine:force velocity="0.06" sensibility="0.0" vx="1.0" vy="1.0"/>
