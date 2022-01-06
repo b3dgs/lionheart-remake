@@ -36,6 +36,12 @@
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
+            <lionengine:group>steep_vertical</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
