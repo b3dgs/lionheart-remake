@@ -46,4 +46,5 @@
     </lionengine:launcher>
     <lionengine:collidable group="3" accepted="1"/>
     <shade horizontal="1" vertical="1"/>
+    <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
