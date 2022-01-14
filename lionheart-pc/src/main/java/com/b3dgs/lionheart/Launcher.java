@@ -630,7 +630,7 @@ public final class Launcher
         box.add(labelRatio);
         box.add(comboRatio);
 
-        final JComboBox<Res> comboRes = createResolutionsAvailable(box, width, height);
+        final JComboBox<Res> comboRes = createResolutionsAvailable(box, width, height, comboRate);
         comboRes.setSelectedItem(new Res(WIDTH.get(), HEIGHT.get()));
         TIPS.add(comboRes);
         parent.add(box);
@@ -685,7 +685,8 @@ public final class Launcher
 
     private static JComboBox<Res> createResolutionsAvailable(Container parent,
                                                              JFormattedTextField width,
-                                                             JFormattedTextField height)
+                                                             JFormattedTextField height,
+                                                             JComboBox<Integer> comboRate)
     {
         final JLabel labelResolution = new JLabel(LABEL_AVAILABLE);
         labelResolution.setFont(FONT);
@@ -712,6 +713,7 @@ public final class Launcher
             final Res r = comboResolution.getItemAt(comboResolution.getSelectedIndex());
             width.setText(String.valueOf(r.width));
             height.setText(String.valueOf(r.height));
+            RATE.set(((Integer) comboRate.getSelectedItem()).intValue());
         });
 
         parent.add(labelResolution);
