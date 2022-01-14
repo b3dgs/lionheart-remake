@@ -43,7 +43,7 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
     /** Max attack distance. */
     public static final double ATTACK_DISTANCE_MAX = 56.0;
     /** Max move. */
-    private static final int MOVE_MAX = 176;
+    private static final int MOVE_MAX = 144;
     /** Min move. */
     private static final int MOVE_MIN = 32;
 

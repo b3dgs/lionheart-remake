@@ -149,6 +149,8 @@ public final class Patrol extends FeatureModel
             delay = o;
             tick.start();
         });
+        proximity = 0;
+        enabled = true;
         config.getProximity().ifPresent(p ->
         {
             proximity = p;
