@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.extro;
 import java.util.List;
 
 import com.b3dgs.lionengine.Context;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.TickAction;
 import com.b3dgs.lionengine.UtilMath;
@@ -70,5 +71,14 @@ public final class TestCredits extends Credits
         i = UtilMath.clamp(i + 1, 0, actions.size() - 1);
 
         super.update(extrp);
+    }
+
+    @Override
+    public void onTerminated(boolean hasNextSequence)
+    {
+        if (!hasNextSequence)
+        {
+            Engine.terminate();
+        }
     }
 }
