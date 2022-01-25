@@ -12,22 +12,29 @@
     </checkpoints>
     <entities>
         <entity file="entity/underworld/Floater2.xml" tx="10.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="13.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="16.0" ty="5.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="22.0" ty="5.0"/>
-        <entity file="entity/underworld/Floater1.xml" tx="29.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="26.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="31.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="41.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="44.0" ty="5.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="47.0" ty="5.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="52.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="56.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="60.0" ty="5.0"/>
-        <entity file="entity/underworld/Floater2.xml" tx="66.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="65.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="68.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="71.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="76.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="83.0" ty="5.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="87.0" ty="5.0"/>
         <entity file="entity/underworld/Floater1.xml" tx="94.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="100.0" ty="5.0"/>
-        <entity file="entity/underworld/Floater1.xml" tx="106.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="104.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater1.xml" tx="108.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="111.0" ty="5.0"/>
+        <entity file="entity/underworld/Floater2.xml" tx="114.0" ty="5.0"/>
         <entity file="entity/underworld/Floater2.xml" tx="116.0" ty="5.0"/>
         <entity file="entity/underworld/Turtle.xml" tx="26.0" ty="6.0"/>
         <entity file="entity/underworld/Turtle.xml" tx="45.0" ty="6.0"/>
