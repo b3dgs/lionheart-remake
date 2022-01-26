@@ -1104,12 +1104,12 @@ public final class Launcher
         LABELS.add(play::setText);
         TIPS.add(play);
 
+        final String path = "editor/Lionheart Remake Editor.exe";
         final JButton editor = new JButton(LABEL_EDITOR);
         editor.setFont(FONT);
         editor.addActionListener(event ->
         {
             save();
-            final String path = "editor/Lionheart Remake Editor.exe";
             if (UtilFile.exists(path))
             {
                 try
@@ -1136,6 +1136,7 @@ public final class Launcher
             }
             window.dispose();
         });
+        editor.setVisible(UtilFile.exists(path));
         LABELS.add(editor::setText);
         TIPS.add(editor);
 
