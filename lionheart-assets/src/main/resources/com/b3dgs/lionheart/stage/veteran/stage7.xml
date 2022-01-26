@@ -80,7 +80,6 @@
         <entity file="entity/lava/Talisment.xml" tx="212.0" ty="39.0"/>
         <entity file="entity/lava/Talisment.xml" tx="212.0" ty="38.0"/>
         <entity file="entity/lava/Talisment.xml" tx="213.0" ty="37.0"/>
-        <entity file="entity/lava/Talisment.xml" tx="213.0" ty="41.0"/>
         <entity file="entity/lava/Life.xml" tx="236.0" ty="17.0"/>
         <entity file="entity/lava/PotionBig.xml" tx="237.0" ty="18.0"/>
         <entity file="entity/lava/Talisment.xml" tx="235.0" ty="9.0"/>
