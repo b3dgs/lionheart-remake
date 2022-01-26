@@ -191,7 +191,7 @@ public final class Util
 
             if (height < minHeight)
             {
-                resolution = new Resolution((int) Math.floor(minHeight * ratio), minHeight, adjusted.getRate());
+                resolution = new Resolution((int) Math.ceil(minHeight * ratio), minHeight, adjusted.getRate());
             }
             else
             {
