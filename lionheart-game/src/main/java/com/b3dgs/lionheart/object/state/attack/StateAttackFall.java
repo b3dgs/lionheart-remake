@@ -160,7 +160,10 @@ public final class StateAttackFall extends State
     {
         super.exit();
 
-        body.resetGravity();
+        if (isFire())
+        {
+            body.resetGravity();
+        }
         movement.setVelocity(oldVelocity);
     }
 }
