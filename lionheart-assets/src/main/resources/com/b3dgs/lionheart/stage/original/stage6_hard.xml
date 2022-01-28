@@ -142,7 +142,7 @@
             <patrol sh="-0.7" sv="0.0" amplitude="64" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="62.0" ty="43.0">
-            <shooter fireDelay="2000" firedDelay="0" svx="-2.5" svy="2.0" dvy="0.0"/>
+            <shooter fireDelay="2000" firedDelay="0" svx="-2.5" svy="2.5" dvy="0.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="75.0" ty="47.0">
             <shooter fireDelay="3500" firedDelay="0" svx="-1.2" svy="2.0" dvy="0.0"/>
@@ -246,7 +246,7 @@
             <patrol sv="1.0" amplitude="80" mirror="false"/>
         </entity>
         <entity file="entity/ancienttown/Canon2.xml" tx="101.0" ty="102.0">
-            <shooter fireDelay="1500" firedDelay="0" svx="1.1" svy="2.0" dvy="0.0"/>
+            <shooter fireDelay="1500" firedDelay="0" svx="1.2" svy="2.1" dvy="0.0"/>
         </entity>
         <entity file="entity/ancienttown/Canon3.xml" tx="158.0" ty="58.0">
             <shooter fireDelay="3000" firedDelay="0" anim="-1" svx="1.2" svy="1.2" track="true"/>

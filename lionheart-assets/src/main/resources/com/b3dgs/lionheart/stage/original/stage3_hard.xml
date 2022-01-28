@@ -120,13 +120,13 @@
             <patrol sh="-0.8" amplitude="96"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="222.0" ty="12.0">
-            <patrol sv="0.8" amplitude="80" animOffset="12"/>
+            <patrol sv="0.6" amplitude="80" animOffset="12"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="226.0" ty="12.0">
-            <patrol sv="0.9" amplitude="80" animOffset="12"/>
+            <patrol sv="0.8" amplitude="80" animOffset="12"/>
         </entity>
         <entity file="entity/swamp/Beetle.xml" tx="230.0" ty="12.0">
-            <patrol sv="0.9" amplitude="80" animOffset="12"/>
+            <patrol sv="1.0" amplitude="80" animOffset="12"/>
         </entity>
         <entity file="entity/swamp/Sheet.xml" tx="233.0" ty="17.0">
             <model mirror="true"/>

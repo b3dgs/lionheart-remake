@@ -438,8 +438,8 @@
         </entity>
         <entity file="entity/swamp/Grasshopper.xml" tx="314.0" ty="33.0"/>
         <entity file="entity/swamp/Bee.xml" tx="317.0" ty="7.0">
-            <model mirror="true"/>
-            <patrol sh="0.5" proximity="80"/>
+            <model mirror="false"/>
+            <patrol sh="0.5" proximity="80" mirror="false"/>
         </entity>
         <entity file="entity/swamp/Bee.xml" tx="328.0" ty="7.0">
             <model mirror="true"/>
