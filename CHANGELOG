@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2022-01-29
+### Added
+- Underworld theme added with new stages, objects and boss
+- New beginner stages added to play without headache
+- New beginner difficulty (more starting health and life)
+- Basic CRT filter added (without shader)
+- Direct raster implemented (no need cached files, overall size reduced)
+- Catapult Rock projectile sfx
+- More default key configuration
+- Launcher tool tips
+- Launcher logo click go to website
+- Editor run from Launcher
+
+### Changed
+- Resources moved from Jar to external directory
+
+### Fixed
+- Menu select sfx may not be heard
+- Norka bullet bowl missing body collision with backward
+- Norka Boss2 stuck if hit on attack end
+- Dragonfly boss head body collision with backward on hurt
+- Swamp Dragon does not respawn once offscreen
+- Rotating objects layer display invalid
+- Swamp Bee missing steep collision on fallen
+- Grasshopper launch even if not on sight
+- Object Body and Ground collision overlapped with AttackFall
+- MeltingPlatform animation speed
+- Geyzer default delay and height
+- AttackJump transition on vertical collide when moving down
+- Double jump when hurt on AttackFall
+- Missing StateWin transitions
+- Canon Secret ground collision offset invalid
+- Unreachable Talisment at Veteran Lava stage
+- Invalid area Veteran Airship stage
+- Invalid map objects delay
+- Projectile Secret Bullet invalid vertical collision
+- Original Hard Stages corrections
+- Missing Veteran AncientTown stage tile
+- Editor do not save correct rate if changed from resolution list
+- Resolution scaling not pixel perfect
+- Frog spawn even if camera starts after location
+- Music on arm64-v8
+- Linux libsdl2gdx64 udev missing dependency warning
+
 ## [1.1.0] - 2021-10-03
 ### Added
 - Game launcher configuration

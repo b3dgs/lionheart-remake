@@ -13,16 +13,16 @@ android {
             storePassword property('keystore.storepassword')
         }
     }
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '30.0.3'
     defaultConfig {
         applicationId "com.b3dgs.lionheart"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 31
         signingConfig signingConfigs.app
-        ndk {
+        // ndk {
             // abiFilters 'armeabi-v7a'
-        }
+        // }
     }
     buildTypes {
         release {
@@ -41,8 +41,13 @@ android {
 
     sourceSets {
         main {
+            assets.srcDirs = ['src/main/assets/', '../../lionheart-assets/src/main/resources/', '../../lionheart-raster/src/main/resources/']
             jniLibs.srcDir 'jniLibs'
         }
+    }
+
+    aaptOptions {
+        ignoreAssetsPattern "stage.png:stage1.png:stage2.png:stage3.png:stage_hard.png:stage1_hard.png:stage2_hard.png:stage3_hard.png"
     }
 }
 
@@ -53,5 +58,5 @@ dependencies {
     //noinspection GradleDependency
     implementation 'net.java.dev.jna:jna:5.4.0@aar'
     implementation 'com.b3dgs.lionengine:lionengine-audio-sc68:10.0.0-SNAPSHOT'
-    implementation 'com.b3dgs.lionheart:lionheart-game:1.1.0'
+    implementation 'com.b3dgs.lionheart:lionheart-game:1.2.0'
 }
