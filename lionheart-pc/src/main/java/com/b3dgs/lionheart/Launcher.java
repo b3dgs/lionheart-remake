@@ -310,7 +310,9 @@ public final class Launcher
         createButtons(box, frame, gamepad);
         createCopyright(frame);
 
-        loadToolTips(LANG_DEFAULT);
+        final String lang = Settings.getInstance().getLang();
+        loadLabels(lang);
+        loadToolTips(lang);
 
         run(frame, panel);
     }
