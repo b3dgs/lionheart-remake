@@ -468,7 +468,8 @@ public class Menu extends Sequence
             case MAIN:
                 break;
             case NEW:
-                final String suffix = difficulty > 0 ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
+                final boolean hard = difficulty > Difficulty.NORMAL.ordinal();
+                final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
                 Media stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1" + suffix + ".xml");
                 if (!stage.exists())
                 {
@@ -502,6 +503,9 @@ public class Menu extends Sequence
         final Difficulty value = Difficulty.from(difficulty);
         switch (value)
         {
+            case BEGINNER:
+                init = Constant.INIT_BEGINNER;
+                break;
             case NORMAL:
                 init = Constant.INIT_STANDARD;
                 break;

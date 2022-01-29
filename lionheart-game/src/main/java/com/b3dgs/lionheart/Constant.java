@@ -92,6 +92,8 @@ public final class Constant
     /** Jump spider height. */
     public static final Direction JUMP_SPIDER = new Force(0.0, 4.2);
 
+    /** Init config easy. */
+    public static final InitConfig INIT_BEGINNER = new InitConfig(5, 3, Difficulty.NORMAL);
     /** Init config normal/hard. */
     public static final InitConfig INIT_STANDARD = new InitConfig(4, 2, Difficulty.NORMAL);
     /** Init config hard. */

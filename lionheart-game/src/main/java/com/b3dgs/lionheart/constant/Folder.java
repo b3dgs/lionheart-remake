@@ -53,6 +53,8 @@ public final class Folder
     public static final String ORIGINAL = "original";
     /** Stage veteran folder. */
     public static final String VETERAN = "veteran";
+    /** Stage beginner folder. */
+    public static final String BEGINNER = "beginner";
     /** Text folder. */
     public static final String TEXT = "text";
     /** Sfx folder. */

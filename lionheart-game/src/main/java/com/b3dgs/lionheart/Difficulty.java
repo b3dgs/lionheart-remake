@@ -21,6 +21,8 @@ package com.b3dgs.lionheart;
  */
 public enum Difficulty
 {
+    /** Beginner. */
+    BEGINNER,
     /** Normal. */
     NORMAL,
     /** Hard. */
@@ -39,9 +41,13 @@ public enum Difficulty
         final Difficulty value;
         if (difficulty == 0)
         {
-            value = NORMAL;
+            value = BEGINNER;
         }
         else if (difficulty == 1)
+        {
+            value = NORMAL;
+        }
+        else if (difficulty == 2)
         {
             value = HARD;
         }

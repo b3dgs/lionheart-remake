@@ -29,31 +29,39 @@ import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
- * List of hard veteran stages.
+ * List of beginner stages.
  */
-public enum StageVeteranHard implements Media
+public enum StageBeginner implements Media
 {
     /** Swamp stage. */
     STAGE1,
     /** Spider cave stage. */
     STAGE2,
-    /** Ancient town stage. */
+    /** Underworld 1 stage. */
     STAGE3,
-    /** Lava stage. */
+    /** Underworld 2 stage. */
     STAGE4,
-    /** Secret stage. */
+    /** Underworld 3 stage. */
     STAGE5,
-    /** Airship stage. */
+    /** Ancient Town stage. */
     STAGE6,
-    /** Dragonfly stage. */
+    /** Lava stage. */
     STAGE7,
+    /** Secret stage. */
+    STAGE8,
+    /** Airship stage. */
+    STAGE9,
+    /** Dragonfly stage. */
+    STAGE10,
     /** Tower stage. */
-    STAGE8;
+    STAGE11,
+    /** Norka stage. */
+    STAGE12;
 
     /** Level file. */
     private final Media file = Medias.create(Folder.STAGE,
-                                             Folder.VETERAN,
-                                             name().toLowerCase(Locale.ENGLISH) + "_hard" + Extension.STAGE);
+                                             Folder.BEGINNER,
+                                             name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 
     @Override
     public String getPath()

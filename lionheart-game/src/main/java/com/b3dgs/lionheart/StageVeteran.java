@@ -37,18 +37,26 @@ public enum StageVeteran implements Media
     STAGE1,
     /** Spider cave stage. */
     STAGE2,
-    /** Ancient town stage. */
+    /** Underworld 1 stage. */
     STAGE3,
-    /** Lava stage. */
+    /** Underworld 2 stage. */
     STAGE4,
-    /** Secret stage. */
+    /** Underworld 3 stage. */
     STAGE5,
-    /** Airship stage. */
+    /** Ancient Town stage. */
     STAGE6,
-    /** Dragonfly stage. */
+    /** Lava stage. */
     STAGE7,
+    /** Secret stage. */
+    STAGE8,
+    /** Airship stage. */
+    STAGE9,
+    /** Dragonfly stage. */
+    STAGE10,
     /** Tower stage. */
-    STAGE8;
+    STAGE11,
+    /** Norka stage. */
+    STAGE12;
 
     /** Level file. */
     private final Media file = Medias.create(Folder.STAGE,
