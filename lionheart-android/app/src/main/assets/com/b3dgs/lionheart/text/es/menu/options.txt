@@ -1,4 +1,0 @@
-Dificultad
-Controlador 
-Música 
-Hecho

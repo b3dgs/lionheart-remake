@@ -1,4 +1,0 @@
-Start game
-Options
-Introduction
-Quit

@@ -1,4 +1,0 @@
-CONTINUER ?
-OUI
-NON
-CRÉDITS: 

@@ -1,4 +1,0 @@
-Difficulty
-Joystick
-Soundtest
-Done

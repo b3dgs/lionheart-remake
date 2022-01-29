@@ -1,4 +1,0 @@
-CONTINUE ?
-YES
-NO
-CREDITS: 

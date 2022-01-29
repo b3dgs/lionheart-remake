@@ -1,3 +1,0 @@
-PAUSE
-OK  TO
-QUIT ?

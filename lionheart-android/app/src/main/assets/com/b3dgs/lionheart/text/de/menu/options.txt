@@ -1,4 +1,0 @@
-Schwierigkeit
-Joystick
-Soundtest
-Fertig
