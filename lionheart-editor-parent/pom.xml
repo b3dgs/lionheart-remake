@@ -30,6 +30,7 @@
     <properties>
         <radial.base-package>com.b3dgs.lionheart.editor</radial.base-package>
         <sonar-branch>lionheart-editor-1.2.0</sonar-branch>
+        <jdk.version>11</jdk.version>
     </properties>
     <dependencies>
         <dependency>
