@@ -109,6 +109,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final ScreenShaker shaker = services.create(ScreenShaker.class);
     private final DeviceController device;
     private final DeviceController deviceCursor;
+    private final DevicePointer pointer;
     private final Cursor cursor;
 
     private final Tick tick = new Tick();
@@ -151,14 +152,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
 
+        pointer = (DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
+                                                                       .iterator()
+                                                                       .next()
+                                                                       .getDevice());
+
         cursor = services.create(Cursor.class);
         cursor.setArea(0, 0, camera.getWidth(), camera.getHeight());
         cursor.setViewer(camera);
         cursor.setVisible(false);
-        cursor.setSync((DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)
-                                                                            .iterator()
-                                                                            .next()
-                                                                            .getDevice()));
+        cursor.setSync(pointer);
+        cursor.setLock(pointer);
         cursor.addImage(0, Medias.create(Folder.SPRITE, "cursor.png"));
         cursor.setRenderingOffset(CURSOR_OX, CURSOR_OY);
         cursor.load();
@@ -263,6 +267,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         fly = !fly;
         unlockPlayer(fly);
         cursor.setInputDevice(deviceCursor);
+        cursor.setSync(null);
         sequencer.setSystemCursorVisible(false);
     }
 
@@ -946,6 +951,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             fly = false;
             unlockPlayer(fly);
             cursor.setInputDevice(null);
+            cursor.setSync(pointer);
             sequencer.setSystemCursorVisible(true);
         }
     }
@@ -962,11 +968,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             if (fly)
             {
                 cursor.setInputDevice(deviceCursor);
+                cursor.setSync(null);
                 sequencer.setSystemCursorVisible(false);
             }
             else
             {
                 cursor.setInputDevice(null);
+                cursor.setSync(pointer);
                 sequencer.setSystemCursorVisible(true);
             }
         }
