@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.b3dgs.lionheart.editor</groupId>
     <artifactId>lionheart-editor-parent</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Lionheart Remake Editor</name>
     <description>Lionheart Remake Editor</description>
@@ -29,7 +29,7 @@
     </ciManagement>
     <properties>
         <radial.base-package>com.b3dgs.lionheart.editor</radial.base-package>
-        <sonar-branch>lionheart-editor-1.2.0</sonar-branch>
+        <sonar-branch>lionheart-editor-1.3.0</sonar-branch>
         <jdk.version>11</jdk.version>
     </properties>
     <dependencies>
