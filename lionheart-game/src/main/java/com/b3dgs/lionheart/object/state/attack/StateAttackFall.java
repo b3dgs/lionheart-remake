@@ -119,7 +119,8 @@ public final class StateAttackFall extends State
     {
         super.onCollided(collidable, with, by);
 
-        if (!collideSword.get()
+        if (collidable.getAccepted().contains(this.collidable.getGroup())
+            && !collideSword.get()
             && by.getName().startsWith(CollisionName.BODY)
             && with.getName().startsWith(Anim.ATTACK_FALL))
         {

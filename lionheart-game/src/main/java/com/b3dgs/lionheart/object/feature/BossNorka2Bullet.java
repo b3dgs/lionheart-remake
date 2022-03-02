@@ -63,7 +63,10 @@ public final class BossNorka2Bullet extends FeatureModel implements Recyclable, 
             collidable.getFeature(Hurtable.class).hurt();
             hurtable.kill(true);
         }
-        if (!reverted && with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK_FALL))
+        if (!reverted
+            && with.getName().startsWith(Anim.BODY)
+            && by.getName().startsWith(Anim.ATTACK)
+            && !by.getName().endsWith(Anim.ATTACK))
         {
             final double sh = launchable.getDirection().getDirectionHorizontal();
             final double sv = launchable.getDirection().getDirectionVertical();
