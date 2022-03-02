@@ -110,15 +110,6 @@ public final class Stats extends FeatureModel implements Recyclable
     }
 
     /**
-     * Set max heart.
-     */
-    public void maxHeart()
-    {
-        health.setMax(Constant.STATS_MAX_HEART);
-        fillHealth();
-    }
-
-    /**
      * Apply config.
      * 
      * @param config The config to apply.
@@ -182,6 +173,22 @@ public final class Stats extends FeatureModel implements Recyclable
     public void win()
     {
         win = true;
+    }
+
+    /**
+     * Add one heart.
+     */
+    public void increaseMaxHealth()
+    {
+        health.setMax(Math.min(health.getMax() + 1, Constant.STATS_MAX_HEART));
+    }
+
+    /**
+     * Remove one heart.
+     */
+    public void decreaseMaxHealth()
+    {
+        health.setMax(Math.max(1, health.getMax() - 1));
     }
 
     /**

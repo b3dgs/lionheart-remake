@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.b3dgs.lionengine.Align;
@@ -35,12 +36,14 @@ import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.game.Cursor;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionFormulaConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionGroupConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
@@ -59,6 +62,7 @@ import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.object.XmlLoader;
+import com.b3dgs.lionheart.object.feature.Stats;
 
 /**
  * Static utility functions.
@@ -308,20 +312,21 @@ public final class Util
     /**
      * Get stage by difficulty.
      * 
+     * @param stages The stages set.
      * @param difficulty The difficulty.
      * @param index The stage index.
      * @return The stage media.
      */
-    public static Media getStage(Difficulty difficulty, int index)
+    public static Media getStage(String stages, Difficulty difficulty, int index)
     {
         final Media stage = Medias.create(Folder.STAGE,
-                                          Settings.getInstance().getStages(),
+                                          stages,
                                           Constant.STAGE_PREFIX + index + Constant.STAGE_HARD_SUFFIX);
         if (!Difficulty.NORMAL.equals(difficulty) && stage.exists())
         {
             return stage;
         }
-        return Medias.create(Folder.STAGE, Settings.getInstance().getStages(), Constant.STAGE_PREFIX + index + ".xml");
+        return Medias.create(Folder.STAGE, stages, Constant.STAGE_PREFIX + index + ".xml");
     }
 
     /**
@@ -410,6 +415,32 @@ public final class Util
         g.dispose();
 
         Graphics.saveImage(buffer, Medias.create("font.png"));
+    }
+
+    /**
+     * Get init configuration.
+     * 
+     * @param player The player reference.
+     * @param difficulty The current difficulty
+     * @param cheats The current cheats.
+     * @param spawn The next spawn.
+     * @return The init configuration.
+     */
+    public static InitConfig getInitConfig(FeatureProvider player,
+                                           Difficulty difficulty,
+                                           boolean cheats,
+                                           Optional<Coord> spawn)
+    {
+        final Stats stats = player.getFeature(Stats.class);
+        return new InitConfig(stats.getHealthMax(),
+                              stats.getTalisment(),
+                              stats.getLife(),
+                              stats.getSword(),
+                              stats.hasAmulet(),
+                              stats.getCredits(),
+                              difficulty,
+                              cheats,
+                              spawn);
     }
 
     private static char[] getLetters()

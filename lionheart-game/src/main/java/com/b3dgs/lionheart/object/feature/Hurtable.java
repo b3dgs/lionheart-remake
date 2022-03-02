@@ -115,6 +115,7 @@ public final class Hurtable extends FeatureModel
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
     private boolean enabled;
+    private boolean invincibility;
     private double oldGravity;
     private double oldGravityMax;
     private boolean shading;
@@ -174,8 +175,11 @@ public final class Hurtable extends FeatureModel
      */
     public void hurt()
     {
-        stateHandler.changeState(StateHurt.class);
-        recover.restart();
+        if (!invincibility)
+        {
+            stateHandler.changeState(StateHurt.class);
+            recover.restart();
+        }
     }
 
     /**
@@ -183,16 +187,19 @@ public final class Hurtable extends FeatureModel
      */
     public void hurtDamages()
     {
-        if (stats.applyDamages(1))
+        if (!invincibility)
         {
-            stateHandler.changeState(StateDie.class);
-        }
-        else
-        {
-            stateHandler.changeState(StateHurt.class);
-            Sfx.VALDYN_HURT.play();
-            recover.restart();
-            hurtJump();
+            if (stats.applyDamages(1))
+            {
+                stateHandler.changeState(StateDie.class);
+            }
+            else
+            {
+                stateHandler.changeState(StateHurt.class);
+                Sfx.VALDYN_HURT.play();
+                recover.restart();
+                hurtJump();
+            }
         }
     }
 
@@ -204,6 +211,16 @@ public final class Hurtable extends FeatureModel
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
+    }
+
+    /**
+     * Set invincibility flag.
+     * 
+     * @param invincibility <code>true</code> if invincibility, <code>false</code> else.
+     */
+    public void setInvincibility(boolean invincibility)
+    {
+        this.invincibility = invincibility;
     }
 
     /**
@@ -283,7 +300,8 @@ public final class Hurtable extends FeatureModel
         {
             updateCollideAttack(collidable, by);
         }
-        if (collidable.getGroup() != Constant.COLL_GROUP_PLAYER
+        if (!invincibility
+            && collidable.getGroup() != Constant.COLL_GROUP_PLAYER
             && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
             && with.getName().startsWith(Anim.BODY)
             && by.getName().startsWith(Anim.ATTACK))
@@ -382,7 +400,8 @@ public final class Hurtable extends FeatureModel
      */
     private void updateTile(CollisionResult result, CollisionCategory category)
     {
-        if (recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
+        if (!invincibility
+            && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
             && (category.getAxis() == Axis.Y && result.contains(CollisionName.SPIKE)
                 || (category.getName().equals(CollisionName.KNEE_CENTER)
                     || category.getName().startsWith(CollisionName.KNEE_X_CENTER))

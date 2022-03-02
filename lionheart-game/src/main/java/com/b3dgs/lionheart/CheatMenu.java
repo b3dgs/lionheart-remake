@@ -87,6 +87,7 @@ public class CheatMenu implements Routine, Surface
     private final Viewer viewer;
     private final Cursor cursor;
     private final Action action;
+    private final List<CheatMenu> menus;
     private final List<CheatMenu> sub;
     private final BooleanSupplier isPressed;
 
@@ -99,6 +100,7 @@ public class CheatMenu implements Routine, Surface
      * Create menu.
      * 
      * @param services The services reference.
+     * @param menus The menus list.
      * @param isPressed The pressed checker.
      * @param width The button width.
      * @param text The text value.
@@ -106,6 +108,7 @@ public class CheatMenu implements Routine, Surface
      * @param sub The sub menus.
      */
     public CheatMenu(Services services,
+                     List<CheatMenu> menus,
                      BooleanSupplier isPressed,
                      int width,
                      String text,
@@ -114,6 +117,7 @@ public class CheatMenu implements Routine, Surface
     {
         super();
 
+        this.menus = menus;
         this.isPressed = isPressed;
         this.action = action;
         this.sub = Arrays.asList(sub);
@@ -242,6 +246,19 @@ public class CheatMenu implements Routine, Surface
             if (inside)
             {
                 hover = true;
+                if (!sub.isEmpty())
+                {
+                    for (final CheatMenu menu : menus)
+                    {
+                        if (menu != this)
+                        {
+                            for (final CheatMenu s : menu.sub)
+                            {
+                                s.hide();
+                            }
+                        }
+                    }
+                }
                 if (sub.isEmpty())
                 {
                     if (action != null && isPressed.getAsBoolean())
