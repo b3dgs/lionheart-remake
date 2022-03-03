@@ -1,4 +1,5 @@
 Empezar juego
+Continuar
 Opciones
 Introducción
 Salida

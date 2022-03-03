@@ -67,7 +67,6 @@ public final class ScenePicture extends Sequence
                                                                                  this::getHeight,
                                                                                  this::getRate);
     private final Image text;
-    private final Media stage;
     private final InitConfig init;
     private final Sprite picture;
     private final DeviceController device;
@@ -85,37 +84,34 @@ public final class ScenePicture extends Sequence
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage media.
      * @param init The init config.
      * @param pic The associated picture.
      * @param narrative The associated narrative text.
      * @throws LionEngineException If invalid argument.
      */
-    public ScenePicture(Context context, Media stage, InitConfig init, Media pic, String narrative)
+    public ScenePicture(Context context, InitConfig init, Media pic, String narrative)
     {
-        this(context, stage, init, pic, narrative, Boolean.FALSE);
+        this(context, init, pic, narrative, Boolean.FALSE);
     }
 
     /**
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage media.
      * @param init The init config.
      * @param pic The associated picture.
      * @param narrative The associated narrative text.
      * @param auto <code>true</code> for auto skip, <code>false</code> for manual.
      * @throws LionEngineException If invalid argument.
      */
-    ScenePicture(Context context, Media stage, InitConfig init, Media pic, String narrative, Boolean auto)
+    ScenePicture(Context context, InitConfig init, Media pic, String narrative, Boolean auto)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
-        this.stage = stage;
         this.init = init;
         this.auto = auto;
 
-        if (!stage.exists())
+        if (!init.getStage().exists())
         {
             speed = 255;
         }
@@ -206,9 +202,9 @@ public final class ScenePicture extends Sequence
     {
         if (!tick.isStarted())
         {
-            if (stage.exists())
+            if (init.getStage().exists())
             {
-                load(Scene.class, stage, init);
+                load(Scene.class, init);
             }
             tick.start();
         }

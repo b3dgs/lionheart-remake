@@ -1,4 +1,5 @@
 Start game
+Continue
 Options
 Introduction
 Quit

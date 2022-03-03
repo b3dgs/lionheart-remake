@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import java.util.Optional;
 
 import com.b3dgs.lionengine.Check;
+import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.geom.Coord;
 
 /**
@@ -26,6 +27,8 @@ import com.b3dgs.lionengine.geom.Coord;
  */
 public final class InitConfig
 {
+    /** Stage. */
+    private final Media stage;
     /** Health max. */
     private final int healthMax;
     /** Talisment value. */
@@ -48,18 +51,20 @@ public final class InitConfig
     /**
      * Create first config.
      * 
+     * @param stage The stage to play.
      * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
      * @param difficulty The difficulty.
      */
-    public InitConfig(int healthMax, int life, Difficulty difficulty)
+    public InitConfig(Media stage, int healthMax, int life, Difficulty difficulty)
     {
-        this(healthMax, 0, life, 0, Boolean.FALSE, Constant.CREDITS, difficulty, false, Optional.empty());
+        this(stage, healthMax, 0, life, 0, Boolean.FALSE, Constant.CREDITS, difficulty, false, Optional.empty());
     }
 
     /**
      * Create inherited config.
      * 
+     * @param stage The stage to play.
      * @param healthMax The health (between 0 and {@link Constant#STATS_MAX_HEALTH} included).
      * @param talisment The Talisment modifier (between 0 and {@link Constant#STATS_MAX_TALISMENT} included).
      * @param life The life (between 0 and {@link Constant#STATS_MAX_LIFE} included).
@@ -70,7 +75,8 @@ public final class InitConfig
      * @param cheats The cheats flag.
      * @param spawn The spawn tile.
      */
-    public InitConfig(int healthMax,
+    public InitConfig(Media stage,
+                      int healthMax,
                       int talisment,
                       int life,
                       int sword,
@@ -81,6 +87,8 @@ public final class InitConfig
                       Optional<Coord> spawn)
     {
         super();
+
+        Check.notNull(stage);
 
         Check.superiorOrEqual(healthMax, 0);
         Check.inferiorOrEqual(healthMax, Constant.STATS_MAX_HEALTH);
@@ -96,6 +104,7 @@ public final class InitConfig
 
         Check.superiorOrEqual(credits, 0);
 
+        this.stage = stage;
         this.healthMax = healthMax;
         this.talisment = talisment;
         this.life = life;
@@ -105,6 +114,16 @@ public final class InitConfig
         this.difficulty = difficulty;
         this.cheats = cheats;
         this.spawn = spawn;
+    }
+
+    /**
+     * Get the stage.
+     * 
+     * @return The associated stage.
+     */
+    public Media getStage()
+    {
+        return stage;
     }
 
     /**

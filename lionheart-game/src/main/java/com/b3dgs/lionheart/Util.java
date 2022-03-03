@@ -31,6 +31,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.Viewer;
@@ -59,6 +60,7 @@ import com.b3dgs.lionengine.graphic.filter.FilterHq2x;
 import com.b3dgs.lionengine.graphic.scanline.ScanlineCrt;
 import com.b3dgs.lionengine.graphic.scanline.ScanlineHorizontal;
 import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -420,19 +422,22 @@ public final class Util
     /**
      * Get init configuration.
      * 
+     * @param stage The associated stage.
      * @param player The player reference.
      * @param difficulty The current difficulty
      * @param cheats The current cheats.
      * @param spawn The next spawn.
      * @return The init configuration.
      */
-    public static InitConfig getInitConfig(FeatureProvider player,
+    public static InitConfig getInitConfig(Media stage,
+                                           FeatureProvider player,
                                            Difficulty difficulty,
                                            boolean cheats,
                                            Optional<Coord> spawn)
     {
         final Stats stats = player.getFeature(Stats.class);
-        return new InitConfig(stats.getHealthMax(),
+        return new InitConfig(stage,
+                              stats.getHealthMax(),
                               stats.getTalisment(),
                               stats.getLife(),
                               stats.getSword(),
@@ -441,6 +446,54 @@ public final class Util
                               difficulty,
                               cheats,
                               spawn);
+    }
+
+    /**
+     * Save progress.
+     * 
+     * @param config The current config.
+     */
+    public static void saveProgress(InitConfig config)
+    {
+        try (FileWriting file = new FileWriting(Medias.create(Constant.FILE_PROGRESS)))
+        {
+            file.writeString(config.getStage().getPath());
+            file.writeByte(UtilConversion.fromUnsignedByte(config.getHealthMax()));
+            file.writeByte(UtilConversion.fromUnsignedByte(config.getTalisment()));
+            file.writeByte(UtilConversion.fromUnsignedByte(config.getLife()));
+            file.writeByte(UtilConversion.fromUnsignedByte(config.getSword()));
+            file.writeBoolean(config.isAmulet().booleanValue());
+            file.writeByte(UtilConversion.fromUnsignedByte(config.getCredits()));
+            file.writeString(config.getDifficulty().name());
+            file.writeBoolean(config.isCheats());
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
+    /**
+     * Load progress from file.
+     * 
+     * @return The progress loaded.
+     * @throws IOException If error.
+     */
+    public static InitConfig loadProgress() throws IOException
+    {
+        try (FileReading file = new FileReading(Medias.create(Constant.FILE_PROGRESS)))
+        {
+            return new InitConfig(Medias.create(file.readString()),
+                                  UtilConversion.toUnsignedByte(file.readByte()),
+                                  UtilConversion.toUnsignedByte(file.readByte()),
+                                  UtilConversion.toUnsignedByte(file.readByte()),
+                                  UtilConversion.toUnsignedByte(file.readByte()),
+                                  Boolean.valueOf(file.readBoolean()),
+                                  UtilConversion.toUnsignedByte(file.readByte()),
+                                  Difficulty.valueOf(file.readString()),
+                                  file.readBoolean(),
+                                  Optional.empty());
+        }
     }
 
     private static char[] getLetters()

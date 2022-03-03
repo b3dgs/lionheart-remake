@@ -87,9 +87,7 @@ public final class Loading extends Sequence
         {
             if (Constant.DEBUG)
             {
-                end(Scene.class,
-                    Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml"),
-                    Constant.INIT_DEBUG);
+                end(Scene.class, Constant.INIT_DEBUG);
             }
             else
             {

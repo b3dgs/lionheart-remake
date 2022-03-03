@@ -269,8 +269,8 @@ public class Continue extends Sequence
             if (choice == 0)
             {
                 end(Scene.class,
-                    stage,
-                    new InitConfig(init.getHealthMax(),
+                    new InitConfig(stage,
+                                   init.getHealthMax(),
                                    0,
                                    2,
                                    init.getSword(),

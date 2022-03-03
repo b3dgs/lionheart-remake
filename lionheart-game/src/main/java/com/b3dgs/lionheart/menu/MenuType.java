@@ -25,6 +25,8 @@ enum MenuType
     MAIN,
     /** New game. */
     NEW,
+    /** Continue game. */
+    CONTINUE,
     /** Options menu. */
     OPTIONS,
     /** Intro. */

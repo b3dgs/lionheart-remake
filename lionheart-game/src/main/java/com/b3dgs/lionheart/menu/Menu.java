@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.menu;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +29,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
@@ -52,6 +54,7 @@ import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Difficulty;
 import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.SceneBlack;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
@@ -222,13 +225,28 @@ public class Menu extends Sequence
     private Data createMain()
     {
         final int x = (int) Math.round(CENTER_X * factorH);
-        final Choice[] choices = new Choice[]
+        final Choice[] choices;
+        if (Medias.create(Constant.FILE_PROGRESS).exists())
         {
-            new Choice(textDark, textWhite, main.get(0), x, mainY + 117, Align.CENTER, MenuType.NEW),
-            new Choice(textDark, textWhite, main.get(1), x, mainY + 151, Align.CENTER, MenuType.OPTIONS),
-            new Choice(textDark, textWhite, main.get(2), x, mainY + 185, Align.CENTER, MenuType.INTRO),
-            new Choice(textDark, textWhite, main.get(3), x, mainY + 235, Align.CENTER, MenuType.EXIT)
-        };
+            choices = new Choice[]
+            {
+                new Choice(textDark, textWhite, main.get(0), x, mainY + 100, Align.CENTER, MenuType.NEW),
+                new Choice(textDark, textWhite, main.get(1), x, mainY + 132, Align.CENTER, MenuType.CONTINUE),
+                new Choice(textDark, textWhite, main.get(2), x, mainY + 164, Align.CENTER, MenuType.OPTIONS),
+                new Choice(textDark, textWhite, main.get(3), x, mainY + 194, Align.CENTER, MenuType.INTRO),
+                new Choice(textDark, textWhite, main.get(4), x, mainY + 235, Align.CENTER, MenuType.EXIT)
+            };
+        }
+        else
+        {
+            choices = new Choice[]
+            {
+                new Choice(textDark, textWhite, main.get(0), x, mainY + 117, Align.CENTER, MenuType.NEW),
+                new Choice(textDark, textWhite, main.get(2), x, mainY + 151, Align.CENTER, MenuType.OPTIONS),
+                new Choice(textDark, textWhite, main.get(3), x, mainY + 185, Align.CENTER, MenuType.INTRO),
+                new Choice(textDark, textWhite, main.get(4), x, mainY + 235, Align.CENTER, MenuType.EXIT)
+            };
+        }
         return new Data(choices);
     }
 
@@ -467,16 +485,19 @@ public class Menu extends Sequence
         {
             case MAIN:
                 break;
-            case NEW:
-                final boolean hard = difficulty > Difficulty.NORMAL.ordinal();
-                final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
-                Media stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1" + suffix + ".xml");
-                if (!stage.exists())
+            case CONTINUE:
+                try
                 {
-                    stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1.xml");
+                    end(SceneBlack.class, Util.loadProgress());
                 }
-                final StageConfig config = StageConfig.imports(new Configurer(stage));
-                end(ScenePicture.class, stage, getInitConfig(), config.getPic().get(), config.getText().get());
+                catch (final IOException exception)
+                {
+                    Verbose.exception(exception);
+                    startNewGame();
+                }
+                break;
+            case NEW:
+                startNewGame();
                 break;
             case OPTIONS:
                 handleOptions();
@@ -492,28 +513,42 @@ public class Menu extends Sequence
         }
     }
 
+    private void startNewGame()
+    {
+        final boolean hard = difficulty > Difficulty.NORMAL.ordinal();
+        final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
+        Media stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1" + suffix + ".xml");
+        if (!stage.exists())
+        {
+            stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1.xml");
+        }
+        final StageConfig config = StageConfig.imports(new Configurer(stage));
+        end(ScenePicture.class, getInitConfig(stage), config.getPic().get(), config.getText().get());
+    }
+
     /**
      * Get init config based on difficulty.
      * 
+     * @param stage The init stage.
      * @return The init config.
      */
-    private InitConfig getInitConfig()
+    private InitConfig getInitConfig(Media stage)
     {
         final InitConfig init;
         final Difficulty value = Difficulty.from(difficulty);
         switch (value)
         {
             case BEGINNER:
-                init = Constant.INIT_BEGINNER;
+                init = new InitConfig(stage, 5, 3, Difficulty.NORMAL);
                 break;
             case NORMAL:
-                init = Constant.INIT_STANDARD;
+                init = new InitConfig(stage, 4, 2, Difficulty.NORMAL);
                 break;
             case HARD:
-                init = Constant.INIT_HARD;
+                init = new InitConfig(stage, 3, 2, Difficulty.HARD);
                 break;
             case LIONHARD:
-                init = Constant.INIT_LIONHARD;
+                init = new InitConfig(stage, 3, 2, Difficulty.LIONHARD);
                 break;
             default:
                 throw new LionEngineException(value);
@@ -558,6 +593,7 @@ public class Menu extends Sequence
                 renderOptions(g);
                 break;
             case NEW:
+            case CONTINUE:
             case INTRO:
             case EXIT:
                 break;

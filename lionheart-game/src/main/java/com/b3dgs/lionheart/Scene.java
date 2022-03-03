@@ -32,7 +32,6 @@ import com.b3dgs.lionengine.io.DeviceController;
 public class Scene extends SequenceGame<World>
 {
     private final AppInfo info = new AppInfo(this::getFps, services);
-    private final Media stage;
     private final Media music;
     private final InitConfig init;
     private final Boolean exit;
@@ -41,35 +40,33 @@ public class Scene extends SequenceGame<World>
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage run.
      * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    public Scene(Context context, Media stage, InitConfig init)
+    public Scene(Context context, InitConfig init)
     {
-        this(context, stage, init, Boolean.FALSE);
+        this(context, init, Boolean.FALSE);
     }
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage run.
      * @param init The initial config.
      * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
      * @throws LionEngineException If invalid argument.
      */
-    Scene(Context context, Media stage, InitConfig init, Boolean exit)
+    Scene(Context context, InitConfig init, Boolean exit)
     {
         super(context, Util.getResolution(Constant.RESOLUTION_GAME, context), Util.getLoop(), World::new);
 
-        this.stage = stage;
         this.init = init;
         this.exit = exit;
-        music = StageConfig.imports(new Configurer(stage)).getMusic();
+        music = StageConfig.imports(new Configurer(init.getStage())).getMusic();
         services.add(init.getDifficulty());
 
         Util.setFilter(this);
+        Util.saveProgress(init);
     }
 
     @Override
@@ -77,7 +74,7 @@ public class Scene extends SequenceGame<World>
     {
         try
         {
-            world.load(stage, init);
+            world.load(init);
         }
         catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
         {

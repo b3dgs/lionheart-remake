@@ -18,7 +18,6 @@ package com.b3dgs.lionheart;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
@@ -29,22 +28,19 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
  */
 public final class SceneBlack extends Sequence
 {
-    private final Media stage;
     private final InitConfig init;
 
     /**
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage run.
      * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    public SceneBlack(Context context, Media stage, InitConfig init)
+    public SceneBlack(Context context, InitConfig init)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), new LoopUnlocked());
 
-        this.stage = stage;
         this.init = init;
 
         setSystemCursorVisible(false);
@@ -59,14 +55,14 @@ public final class SceneBlack extends Sequence
     @Override
     public void update(double extrp)
     {
-        final StageConfig config = StageConfig.imports(new Configurer(stage));
+        final StageConfig config = StageConfig.imports(new Configurer(init.getStage()));
         if (config.getPic().isPresent() && !init.getSpawn().isPresent())
         {
-            end(ScenePicture.class, stage, init, config.getPic().get(), config.getText().get());
+            end(ScenePicture.class, init, config.getPic().get(), config.getText().get());
         }
         else
         {
-            end(Scene.class, stage, init);
+            end(Scene.class, init);
         }
     }
 

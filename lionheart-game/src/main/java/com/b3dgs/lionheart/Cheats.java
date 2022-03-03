@@ -296,8 +296,11 @@ public class Cheats implements Updatable, Renderable
     private void onStage(String stages, int index)
     {
         sequencer.end(SceneBlack.class,
-                      Util.getStage(stages, difficulty, index + 1),
-                      Util.getInitConfig(player, difficulty, cheats, Optional.empty()));
+                      Util.getInitConfig(Util.getStage(stages, difficulty, index + 1),
+                                         player,
+                                         difficulty,
+                                         cheats,
+                                         Optional.empty()));
     }
 
     /**
@@ -438,8 +441,7 @@ public class Cheats implements Updatable, Renderable
                 if (stage.exists())
                 {
                     sequencer.end(SceneBlack.class,
-                                  stage,
-                                  Util.getInitConfig(player, difficulty, cheats, Optional.empty()));
+                                  Util.getInitConfig(stage, player, difficulty, cheats, Optional.empty()));
                 }
             }
         }

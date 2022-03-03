@@ -170,10 +170,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * 
      * @param settings The settings reference.
      * @param init The initial configuration.
-     * @param stage The stage configuration.
      */
-    private void loadStage(Settings settings, InitConfig init, StageConfig stage)
+    private void loadStage(Settings settings, InitConfig init)
     {
+        final StageConfig stage = services.add(StageConfig.imports(new Configurer(init.getStage())));
+
         if (RasterType.DIRECT == Settings.getInstance().getRaster())
         {
             loadRasterDirect(stage);
@@ -726,10 +727,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Load the stage from configuration.
      * 
-     * @param config The stage configuration.
      * @param init The initial configuration.
      */
-    public void load(Media config, InitConfig init)
+    public void load(InitConfig init)
     {
         try
         {
@@ -737,10 +737,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             difficulty = init.getDifficulty();
 
             final Settings settings = Settings.getInstance();
-            services.add(config);
+            services.add(init.getStage());
 
-            final StageConfig stage = services.add(StageConfig.imports(new Configurer(config)));
-            loadStage(settings, init, stage);
+            loadStage(settings, init);
 
             cheats.init(player, difficulty, init.isCheats());
         }
@@ -775,15 +774,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.addAction(() ->
             {
                 sequencer.end(SceneBlack.class,
-                              Medias.create(next),
-                              Util.getInitConfig(player, difficulty, cheats.isEnabled(), spawn));
+                              Util.getInitConfig(Medias.create(next), player, difficulty, cheats.isEnabled(), spawn));
             }, source.getRate(), delayMs);
         }
         else
         {
             sequencer.end(SceneBlack.class,
-                          Medias.create(next),
-                          Util.getInitConfig(player, difficulty, cheats.isEnabled(), spawn));
+                          Util.getInitConfig(Medias.create(next), player, difficulty, cheats.isEnabled(), spawn));
         }
     }
 

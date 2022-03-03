@@ -67,8 +67,8 @@ public final class StateRespawn extends State
             if (stats.getCredits() > 0)
             {
                 sequencer.end(Continue.class,
-                              model.getServices().get(Media.class),
-                              new InitConfig(stats.getHealthMax(),
+                              new InitConfig(model.getServices().get(Media.class),
+                                             stats.getHealthMax(),
                                              stats.getTalisment(),
                                              stats.getLife(),
                                              stats.getSword(),

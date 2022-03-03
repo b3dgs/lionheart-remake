@@ -19,11 +19,14 @@ package com.b3dgs.lionheart;
 import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.graphic.ColorRgba;
+import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Game constants.
@@ -92,16 +95,11 @@ public final class Constant
     /** Jump spider height. */
     public static final Direction JUMP_SPIDER = new Force(0.0, 4.2);
 
-    /** Init config easy. */
-    public static final InitConfig INIT_BEGINNER = new InitConfig(5, 3, Difficulty.NORMAL);
-    /** Init config normal/hard. */
-    public static final InitConfig INIT_STANDARD = new InitConfig(4, 2, Difficulty.NORMAL);
-    /** Init config hard. */
-    public static final InitConfig INIT_HARD = new InitConfig(3, 2, Difficulty.HARD);
-    /** Init config lion hard. */
-    public static final InitConfig INIT_LIONHARD = new InitConfig(3, 2, Difficulty.LIONHARD);
+    /** Init stage. */
+    public static final Media STAGE1 = Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml");
     /** Init config debug. */
-    public static final InitConfig INIT_DEBUG = new InitConfig(STATS_MAX_HEART - 1,
+    public static final InitConfig INIT_DEBUG = new InitConfig(STAGE1,
+                                                               STATS_MAX_HEART - 1,
                                                                STATS_MAX_TALISMENT - 1,
                                                                STATS_MAX_LIFE - 1,
                                                                STATS_MAX_SWORD - 1,
@@ -127,6 +125,9 @@ public final class Constant
     public static final String INPUT_FILE_DEFAULT = "input.xml";
     /** Input cursor. */
     public static final String INPUT_FILE_CURSOR = "input_cursor.xml";
+
+    /** Progress file. */
+    public static final String FILE_PROGRESS = "progress.lhr";
 
     /** Minimum zoom. */
     public static final double ZOOM_MIN = 0.8;
