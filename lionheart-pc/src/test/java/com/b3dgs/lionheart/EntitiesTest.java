@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.OptionalInt;
 
 import org.junit.jupiter.api.Tag;
@@ -58,12 +59,21 @@ final class EntitiesTest
 
         final Media stage = Medias.create(Folder.STAGE,
                                           world.name().toLowerCase(Locale.ENGLISH) + Factory.FILE_DATA_DOT_EXTENSION);
+        System.out.println(stage);
         if (stage.exists())
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
-                                                 stage,
-                                                 Constant.INIT_DEBUG);
+                                                 new InitConfig(stage,
+                                                                1,
+                                                                1,
+                                                                1,
+                                                                1,
+                                                                Boolean.TRUE,
+                                                                1,
+                                                                Difficulty.NORMAL,
+                                                                false,
+                                                                Optional.empty()));
             task.await();
         }
         else
@@ -94,8 +104,16 @@ final class EntitiesTest
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
-                                                 stage,
-                                                 Constant.INIT_DEBUG);
+                                                 new InitConfig(stage,
+                                                                1,
+                                                                1,
+                                                                1,
+                                                                1,
+                                                                Boolean.TRUE,
+                                                                1,
+                                                                Difficulty.NORMAL,
+                                                                false,
+                                                                Optional.empty()));
             task.await();
         }
         else
@@ -125,8 +143,16 @@ final class EntitiesTest
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
-                                                 stage,
-                                                 Constant.INIT_DEBUG,
+                                                 new InitConfig(stage,
+                                                                1,
+                                                                1,
+                                                                1,
+                                                                1,
+                                                                Boolean.TRUE,
+                                                                1,
+                                                                Difficulty.NORMAL,
+                                                                false,
+                                                                Optional.empty()),
                                                  OptionalInt.of(400));
             task.await();
         }

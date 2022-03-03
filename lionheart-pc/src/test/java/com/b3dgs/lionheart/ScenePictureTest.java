@@ -67,8 +67,7 @@ final class ScenePictureTest
         Settings.getInstance().setLang(lang);
         Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
-                     Medias.create("none"),
-                     Constant.INIT_STANDARD,
+                     Constant.INIT_DEBUG,
                      Medias.create(Folder.SPRITE, pic + ".png"),
                      text + ".txt")
               .await();
@@ -94,8 +93,7 @@ final class ScenePictureTest
         Settings.getInstance().setLang(lang);
         Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
-                     Medias.create("none"),
-                     Constant.INIT_STANDARD,
+                     Constant.INIT_DEBUG,
                      Medias.create(Folder.SPRITE, pic + ".png"),
                      text + ".txt",
                      Boolean.TRUE)

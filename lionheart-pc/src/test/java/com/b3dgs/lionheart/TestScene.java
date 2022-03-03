@@ -20,7 +20,6 @@ import java.util.OptionalInt;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.awt.Mouse;
 import com.b3dgs.lionengine.awt.MouseAwt;
@@ -36,27 +35,25 @@ public final class TestScene extends Scene
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage run.
      * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    TestScene(Context context, Media stage, InitConfig init)
+    TestScene(Context context, InitConfig init)
     {
-        this(context, stage, init, OptionalInt.empty());
+        this(context, init, OptionalInt.empty());
     }
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param stage The stage run.
      * @param init The initial config.
      * @param delay The exit delay.
      * @throws LionEngineException If invalid argument.
      */
-    TestScene(Context context, Media stage, InitConfig init, OptionalInt delay)
+    TestScene(Context context, InitConfig init, OptionalInt delay)
     {
-        super(context, stage, init, Boolean.FALSE);
+        super(context, init, Boolean.FALSE);
 
         getInputDevice(Mouse.class).addActionPressed(MouseAwt.LEFT, () -> end(null));
         delay.ifPresent(d -> tick.addAction(() -> end(null), d));

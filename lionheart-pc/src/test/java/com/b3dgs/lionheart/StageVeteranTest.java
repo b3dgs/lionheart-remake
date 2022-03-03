@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,8 +71,16 @@ final class StageVeteranTest
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
-                                             stage,
-                                             Constant.INIT_STANDARD,
+                                             new InitConfig(stage,
+                                                            1,
+                                                            1,
+                                                            1,
+                                                            1,
+                                                            Boolean.TRUE,
+                                                            1,
+                                                            Difficulty.NORMAL,
+                                                            false,
+                                                            Optional.empty()),
                                              Boolean.TRUE);
         task.await();
     }
