@@ -59,7 +59,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
 
     private static final int ATTACK_DISTANCE_MAX = 96;
     private static final double MOVE_X_SPEED = 1.2;
-    private static final double MOVE_Y_SPEED = 4.8;
+    private static final double MOVE_Y_SPEED = 4.5;
     private static final int MOVE_DOWN_Y = 80;
 
     private final Tick tick = new Tick();
@@ -76,6 +76,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private Updatable current;
     private int side;
     private boolean forceJump;
+    private boolean launch;
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
@@ -248,7 +249,17 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
         tick.update(extrp);
         if (tick.elapsedTime(source.getRate(), START_ATTACK_DELAY_MS) && animatable.is(AnimState.FINISHED))
         {
-            launcher.fire(target);
+            if (target.getY() - transformable.getY() > 0)
+            {
+                launcher.setLevel(0);
+                launcher.fire(target);
+            }
+            else
+            {
+                launcher.setLevel(launch ? 2 : 1);
+                launcher.fire();
+            }
+            launch = !launch;
             current = this::updateEndAttackDelay;
             tick.restart();
         }
@@ -304,6 +315,7 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     {
         current = this::updateMoveDown;
         forceJump = false;
+        launch = false;
         tick.restart();
     }
 }

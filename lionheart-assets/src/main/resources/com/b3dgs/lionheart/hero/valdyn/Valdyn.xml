@@ -132,9 +132,9 @@
             <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1"/>
         </lionengine:animation>
         <lionengine:animation name="attacktop" start="93" end="95" speed="0.42" reversed="true" repeat="false">
-            <lionengine:collisionFramed number="1" x="-15" y="64" width="12" height="4"/>
-            <lionengine:collisionFramed number="2" x="0" y="50" width="20" height="20"/>
-            <lionengine:collisionFramed number="3" x="20" y="50" width="20" height="16"/>
+            <lionengine:collisionFramed number="1" x="-15" y="60" width="12" height="8"/>
+            <lionengine:collisionFramed number="2" x="0" y="46" width="20" height="24"/>
+            <lionengine:collisionFramed number="3" x="20" y="46" width="20" height="20"/>
             <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1"/>
             <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1"/>

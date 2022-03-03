@@ -26,9 +26,19 @@
         <lionengine:collision name="attack" offsetX="0" offsetY="0" width="24" height="56" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
-    <lionengine:launcher>
+    <lionengine:launcher level="0">
         <lionengine:launchable media="boss/norka/Boss2Bullet.xml" sfx="sfx/boss_daemon_fire.wav" ox="0" oy="36">
-            <lionengine:force velocity="1.0" sensibility="0.0" vx="1.8" vy="1.8"/>
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="2.2" vy="2.0"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="1">
+        <lionengine:launchable media="boss/norka/Boss2Bullet.xml" sfx="sfx/boss_daemon_fire.wav" ox="0" oy="36">
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-2.2" vy="0.02"/>
+        </lionengine:launchable>
+    </lionengine:launcher>
+    <lionengine:launcher level="2">
+        <lionengine:launchable media="boss/norka/Boss2Bullet.xml" sfx="sfx/boss_daemon_fire.wav" ox="0" oy="36">
+            <lionengine:force velocity="1.0" sensibility="0.0" vx="-2.2" vy="-0.3"/>
         </lionengine:launchable>
     </lionengine:launcher>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateNone</lionengine:state>
