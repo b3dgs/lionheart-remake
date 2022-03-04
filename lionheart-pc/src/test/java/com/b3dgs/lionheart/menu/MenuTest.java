@@ -26,6 +26,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.Engine;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.TickAction;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
@@ -68,6 +69,7 @@ final class MenuTest
     })
     void testMenu(String lang)
     {
+        Medias.create(Constant.FILE_PROGRESS).getFile().delete();
         Settings.getInstance().setLang(lang);
 
         final DevicePushMock push = new DevicePushMock();

@@ -59,7 +59,6 @@ final class EntitiesTest
 
         final Media stage = Medias.create(Folder.STAGE,
                                           world.name().toLowerCase(Locale.ENGLISH) + Factory.FILE_DATA_DOT_EXTENSION);
-        System.out.println(stage);
         if (stage.exists())
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
