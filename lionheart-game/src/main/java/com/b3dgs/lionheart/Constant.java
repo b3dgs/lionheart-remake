@@ -16,17 +16,12 @@
  */
 package com.b3dgs.lionheart;
 
-import java.util.Optional;
-
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Version;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.graphic.ColorRgba;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Game constants.
@@ -94,20 +89,6 @@ public final class Constant
     public static final Direction JUMP_MAX = new Force(0.0, 5.75);
     /** Jump spider height. */
     public static final Direction JUMP_SPIDER = new Force(0.0, 4.2);
-
-    /** Init stage. */
-    public static final Media STAGE1 = Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml");
-    /** Init config debug. */
-    public static final InitConfig INIT_DEBUG = new InitConfig(STAGE1,
-                                                               STATS_MAX_HEART - 1,
-                                                               STATS_MAX_TALISMENT - 1,
-                                                               STATS_MAX_LIFE - 1,
-                                                               STATS_MAX_SWORD - 1,
-                                                               Boolean.TRUE,
-                                                               CREDITS,
-                                                               Difficulty.NORMAL,
-                                                               true,
-                                                               Optional.empty());
 
     /** Stage prefix. */
     public static final String STAGE_PREFIX = "stage";

@@ -441,7 +441,7 @@ public final class Util
                               stats.getTalisment(),
                               stats.getLife(),
                               stats.getSword(),
-                              stats.hasAmulet(),
+                              stats.hasAmulet().booleanValue(),
                               stats.getCredits(),
                               difficulty,
                               cheats,
@@ -462,7 +462,7 @@ public final class Util
             file.writeByte(UtilConversion.fromUnsignedByte(config.getTalisment()));
             file.writeByte(UtilConversion.fromUnsignedByte(config.getLife()));
             file.writeByte(UtilConversion.fromUnsignedByte(config.getSword()));
-            file.writeBoolean(config.isAmulet().booleanValue());
+            file.writeBoolean(config.isAmulet());
             file.writeByte(UtilConversion.fromUnsignedByte(config.getCredits()));
             file.writeString(config.getDifficulty().name());
             file.writeBoolean(config.isCheats());
@@ -488,7 +488,7 @@ public final class Util
                                   UtilConversion.toUnsignedByte(file.readByte()),
                                   UtilConversion.toUnsignedByte(file.readByte()),
                                   UtilConversion.toUnsignedByte(file.readByte()),
-                                  Boolean.valueOf(file.readBoolean()),
+                                  file.readBoolean(),
                                   UtilConversion.toUnsignedByte(file.readByte()),
                                   Difficulty.valueOf(file.readString()),
                                   file.readBoolean(),

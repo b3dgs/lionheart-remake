@@ -78,7 +78,7 @@ final class StageBeginnerTest
                                                             1,
                                                             1,
                                                             1,
-                                                            Boolean.TRUE,
+                                                            true,
                                                             1,
                                                             Difficulty.NORMAL,
                                                             false,

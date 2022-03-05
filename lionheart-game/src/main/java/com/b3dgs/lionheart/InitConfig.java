@@ -38,7 +38,7 @@ public final class InitConfig
     /** Sword level. */
     private final int sword;
     /** Amulet flag. */
-    private final Boolean amulet;
+    private final boolean amulet;
     /** Remaining credits. */
     private final int credits;
     /** Difficulty. */
@@ -58,7 +58,7 @@ public final class InitConfig
      */
     public InitConfig(Media stage, int healthMax, int life, Difficulty difficulty)
     {
-        this(stage, healthMax, 0, life, 0, Boolean.FALSE, Constant.CREDITS, difficulty, false, Optional.empty());
+        this(stage, healthMax, 0, life, 0, false, Constant.CREDITS, difficulty, false, Optional.empty());
     }
 
     /**
@@ -80,7 +80,7 @@ public final class InitConfig
                       int talisment,
                       int life,
                       int sword,
-                      Boolean amulet,
+                      boolean amulet,
                       int credits,
                       Difficulty difficulty,
                       boolean cheats,
@@ -181,7 +181,7 @@ public final class InitConfig
      * 
      * @return <code>true</code> if amulet, <code>false</code> else.
      */
-    public Boolean isAmulet()
+    public boolean isAmulet()
     {
         return amulet;
     }

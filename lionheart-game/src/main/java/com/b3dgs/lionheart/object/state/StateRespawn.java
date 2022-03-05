@@ -72,7 +72,7 @@ public final class StateRespawn extends State
                                              stats.getTalisment(),
                                              stats.getLife(),
                                              stats.getSword(),
-                                             stats.hasAmulet(),
+                                             stats.hasAmulet().booleanValue(),
                                              stats.getCredits() - 1,
                                              difficulty,
                                              false,

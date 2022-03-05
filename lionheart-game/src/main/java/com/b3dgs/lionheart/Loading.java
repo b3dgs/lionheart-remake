@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
@@ -87,7 +89,17 @@ public final class Loading extends Sequence
         {
             if (Constant.DEBUG)
             {
-                end(Scene.class, Constant.INIT_DEBUG);
+                end(Scene.class,
+                    new InitConfig(Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml"),
+                                   Constant.STATS_MAX_HEART - 1,
+                                   Constant.STATS_MAX_TALISMENT - 1,
+                                   Constant.STATS_MAX_LIFE - 1,
+                                   Constant.STATS_MAX_SWORD - 1,
+                                   true,
+                                   Constant.CREDITS,
+                                   Difficulty.NORMAL,
+                                   true,
+                                   Optional.empty()));
             }
             else
             {

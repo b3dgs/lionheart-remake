@@ -76,7 +76,7 @@ final class StageHardTest
                                                             1,
                                                             1,
                                                             1,
-                                                            Boolean.TRUE,
+                                                            true,
                                                             1,
                                                             Difficulty.HARD,
                                                             false,

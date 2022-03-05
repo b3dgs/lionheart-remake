@@ -185,7 +185,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         final StageConfig stage = services.add(StageConfig.imports(new Configurer(init.getStage())));
 
-        if (RasterType.DIRECT == Settings.getInstance().getRaster())
+        if (RasterType.DIRECT == settings.getRaster())
         {
             loadRasterDirect(stage);
         }
@@ -204,7 +204,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         createPlayerAndLoadCheckpoints(settings, init, stage);
 
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        if (RasterType.CACHE == settings.getRaster())
         {
             stage.getRasterFolder().ifPresent(r ->
             {
@@ -220,14 +220,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         if (settings.getFlagParallel())
         {
-            executor.execute(() -> createEffectCache(stage));
+            executor.execute(() -> createEffectCache(settings, stage));
         }
         else
         {
-            createEffectCache(stage);
+            createEffectCache(settings, stage);
         }
 
-        if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
+        if (RasterType.CACHE == settings.getRaster() && settings.getFlagParallel())
         {
             loadRasterEntities(settings, stage, entities);
         }
@@ -267,7 +267,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 rasterbar.setRasterbarOffset(-24, 16);
                 raster = "water2.png";
             }
-            final Media rasterHero = Medias.create(Folder.RASTER, "hero", "valdyn", raster);
+            final Media rasterHero = Medias.create(Folder.RASTER, Folder.HERO, "valdyn", raster);
             if (rasterHero.exists())
             {
                 rasterbar.addRasterbarColor(Graphics.getImageBuffer(rasterHero));
@@ -323,16 +323,16 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECT, "swamp", "Liana.xml"), tile);
+                spawn(Medias.create(Folder.EFFECT, WorldType.SWAMP.getFolder(), "Liana.xml"), tile);
             }
             else if (CollisionName.BLOCK.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECT, "ancienttown", "Block.xml"), tile);
+                spawn(Medias.create(Folder.EFFECT, WorldType.ANCIENTTOWN.getFolder(), "Block.xml"), tile);
             }
         });
 
         final Optional<String> raster = config.getRasterFolder();
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        if (RasterType.CACHE == settings.getRaster())
         {
             raster.ifPresent(r -> map.getFeature(MapTileRastered.class)
                                      .setRaster(Medias.create(r, Constant.RASTER_FILE_TILE),
@@ -343,7 +343,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                      config.getBackground().getWorld().getFolder(),
                                      TileSheetsConfig.FILENAME));
         Util.loadMapTiles(map, media);
-        loadMapBottom(config, media, raster);
+        loadMapBottom(settings, config, media, raster);
 
         createMapCollisionDebug();
     }
@@ -351,11 +351,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Load map bottom part.
      * 
+     * @param settings The settings reference.
      * @param config The stage config.
      * @param media The media reference.
      * @param raster The raster reference.
      */
-    private void loadMapBottom(StageConfig config, Media media, Optional<String> raster)
+    private void loadMapBottom(Settings settings, StageConfig config, Media media, Optional<String> raster)
     {
         final Media bottomRip = Medias.create(media.getPath().replace(Extension.MAP, MAP_BOTTOM + Extension.IMAGE));
         final Media bottom = Medias.create(media.getPath().replace(Extension.MAP, MAP_BOTTOM + Extension.MAP));
@@ -379,7 +380,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             raster.ifPresent(r ->
             {
                 final MapTileRastered mapRaster = mapBottom.addFeatureAndGet(new MapTileRasteredModel());
-                if (mapRaster.loadSheets() && RasterType.CACHE == Settings.getInstance().getRaster())
+                if (mapRaster.loadSheets() && RasterType.CACHE == settings.getRaster())
                 {
                     mapViewer.clear();
                     mapViewer.addRenderer(mapRaster);
@@ -390,25 +391,30 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             });
 
             handler.add(mapBottom);
-            loadWaterRaster(config, raster, mapBottom, true);
+            loadWaterRaster(settings, config, raster, mapBottom, true);
         }
         else
         {
-            loadWaterRaster(config, raster, map, false);
+            loadWaterRaster(settings, config, raster, map, false);
         }
     }
 
     /**
      * Load raster data.
      * 
+     * @param settings The settings reference.
      * @param config The stage configuration.
      * @param raster The raster folder.
      * @param map The map tile reference.
      * @param bottom The bottom flag.
      */
-    private void loadWaterRaster(StageConfig config, Optional<String> raster, MapTile map, boolean bottom)
+    private void loadWaterRaster(Settings settings,
+                                 StageConfig config,
+                                 Optional<String> raster,
+                                 MapTile map,
+                                 boolean bottom)
     {
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        if (RasterType.CACHE == settings.getRaster())
         {
             final ForegroundType foreground = config.getForeground().getType();
             if (foreground == ForegroundType.WATER || foreground == ForegroundType.LAVA)
@@ -505,7 +511,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         trackPlayer(featurable);
 
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        if (RasterType.CACHE == settings.getRaster())
         {
             if (settings.getFlagParallel())
             {
@@ -555,7 +561,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private Featurable[] createEntities(Settings settings, StageConfig stage)
     {
         final Featurable[] entities;
-        if (settings.getFlagParallel() && RasterType.CACHE == Settings.getInstance().getRaster())
+        if (settings.getFlagParallel() && RasterType.CACHE == settings.getRaster())
         {
             final List<EntityConfig> config = stage.getEntities();
             final int n = config.size();
@@ -573,7 +579,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             for (int i = 0; i < n; i++)
             {
                 final Featurable featurable = createEntity(entityConfig.get(i), settings);
-                if (RasterType.CACHE == Settings.getInstance().getRaster())
+                if (RasterType.CACHE == settings.getRaster())
                 {
                     loadRasterEntity(stage, featurable, settings);
                 }
@@ -706,16 +712,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Create effect and cache.
      * 
+     * @param settings The settings reference.
      * @param stage The stage configuration.
      */
-    private void createEffectCache(StageConfig stage)
+    private void createEffectCache(Settings settings, StageConfig stage)
     {
         final Spawner cacheSpawner = (media, x, y) ->
         {
             final Featurable f = factory.create(media);
             f.getFeature(Transformable.class).teleport(x, y);
 
-            if (RasterType.CACHE == Settings.getInstance().getRaster())
+            if (RasterType.CACHE == settings.getRaster())
             {
                 stage.getRasterFolder().ifPresent(raster ->
                 {
@@ -848,13 +855,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         try
         {
+            if (debug)
+            {
+                Medias.create(Constant.FILE_SNAPSHOT).getFile().delete();
+            }
+
             hud.load();
             difficulty = init.getDifficulty();
 
-            final Settings settings = Settings.getInstance();
             services.add(init.getStage());
 
-            loadStage(settings, init);
+            loadStage(Settings.getInstance(), init);
 
             cheats.init(player, difficulty, init.isCheats());
         }
