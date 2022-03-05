@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +29,11 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.InitConfig;
+import com.b3dgs.lionheart.object.Snapshotable;
 
 /**
  * Stats feature implementation.
@@ -41,7 +45,7 @@ import com.b3dgs.lionheart.InitConfig;
  * </ol>
  */
 @FeatureInterface
-public final class Stats extends FeatureModel implements Recyclable
+public final class Stats extends FeatureModel implements Snapshotable, Recyclable
 {
     private final List<StatsListener> listeners = new ArrayList<>();
     private final Alterable health = new Alterable(Constant.STATS_MAX_HEALTH);
@@ -50,7 +54,7 @@ public final class Stats extends FeatureModel implements Recyclable
     private final Damages damages = new Damages(1, 1);
     private final StatsConfig config;
     private int sword;
-    private Boolean amulet;
+    private boolean amulet;
     private int credits;
     private boolean win;
 
@@ -129,7 +133,7 @@ public final class Stats extends FeatureModel implements Recyclable
         life.increase(config.getLife());
         if (config.isAmulet())
         {
-            amulet = Boolean.TRUE;
+            amulet = true;
         }
 
         final int nextSword = config.getSword();
@@ -284,7 +288,7 @@ public final class Stats extends FeatureModel implements Recyclable
      */
     public Boolean hasAmulet()
     {
-        return amulet;
+        return Boolean.valueOf(amulet);
     }
 
     /**
@@ -295,6 +299,34 @@ public final class Stats extends FeatureModel implements Recyclable
     public boolean hasWin()
     {
         return win;
+    }
+
+    @Override
+    public void save(FileWriting file) throws IOException
+    {
+        file.writeInteger(health.getMax());
+        file.writeInteger(health.getCurrent());
+        file.writeInteger(talisment.getCurrent());
+        file.writeInteger(life.getCurrent());
+        file.writeInteger(sword);
+        file.writeBoolean(amulet);
+        file.writeInteger(credits);
+        file.writeBoolean(win);
+    }
+
+    @Override
+    public void load(FileReading file) throws IOException
+    {
+        health.setMax(file.readInteger());
+        health.set(file.readInteger());
+        talisment.set(file.readInteger());
+        life.set(file.readInteger());
+        sword = file.readInteger();
+        amulet = file.readBoolean();
+        credits = file.readInteger();
+        win = file.readBoolean();
+
+        damages.setDamages(sword + 1, sword + 1);
     }
 
     @Override

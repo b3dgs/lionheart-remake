@@ -128,6 +128,8 @@ public final class Constant
 
     /** Progress file. */
     public static final String FILE_PROGRESS = "progress.lhr";
+    /** Quick save and load file. */
+    public static final String FILE_SNAPSHOT = "snapshot.lhr";
 
     /** Minimum zoom. */
     public static final double ZOOM_MIN = 0.8;

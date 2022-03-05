@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,9 @@ import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
+import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.Featurable;
+import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -63,9 +66,12 @@ import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.helper.EntityInputController;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
@@ -73,6 +79,7 @@ import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.feature.Trackable;
@@ -98,6 +105,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
     private final Thread musicTask;
+    private final boolean debug;
     private Audio music;
 
     private Landscape landscape;
@@ -119,6 +127,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     World(Services services)
     {
         super(services);
+
+        debug = Settings.getInstance().getFlagDebug();
 
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
         device.setVisible(false);
@@ -724,6 +734,111 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         factory.createCache(cacheSpawner, Medias.create(Folder.PROJECTILE, theme), 6);
     }
 
+    private void quickSave()
+    {
+        try (FileWriting file = new FileWriting(Medias.create(Constant.FILE_SNAPSHOT)))
+        {
+            int n = 0;
+            for (final Featurable featurable : handler.values())
+            {
+                if (featurable.hasFeature(EntityInputController.class))
+                {
+                    services.remove(player.getFeature(Trackable.class));
+                }
+                if (featurable.hasFeature(EntityModel.class))
+                {
+                    n++;
+                }
+            }
+            file.writeInteger(n);
+
+            saveSnapshotables(file);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
+    private void saveSnapshotables(FileWriting file) throws IOException
+    {
+        for (final Featurable featurable : handler.values())
+        {
+            if (featurable.hasFeature(EntityModel.class))
+            {
+                file.writeString(featurable.getMedia().getPath());
+                for (final Feature feature : featurable.getFeatures())
+                {
+                    if (feature instanceof Snapshotable)
+                    {
+                        ((Snapshotable) feature).save(file);
+                    }
+                }
+            }
+        }
+    }
+
+    private void quickLoad()
+    {
+        final Media media = Medias.create(Constant.FILE_SNAPSHOT);
+        if (media.exists())
+        {
+            try (FileReading file = new FileReading(media))
+            {
+                removeSnapshotables();
+
+                final int n = file.readInteger();
+                for (int i = 0; i < n; i++)
+                {
+                    loadSnapshotable(file);
+                }
+                handler.updateAdd();
+            }
+            catch (final IOException exception)
+            {
+                Verbose.exception(exception);
+            }
+        }
+    }
+
+    private void removeSnapshotables()
+    {
+        handler.updateAdd();
+        for (final Featurable featurable : handler.values())
+        {
+            for (final Feature feature : featurable.getFeatures())
+            {
+                if (feature instanceof Snapshotable)
+                {
+                    featurable.getFeature(Identifiable.class).destroy();
+                    break;
+                }
+            }
+        }
+        handler.updateRemove();
+    }
+
+    private void loadSnapshotable(FileReading file) throws IOException
+    {
+        final Featurable featurable = factory.create(Medias.create(file.readString()));
+        if (featurable.hasFeature(EntityInputController.class))
+        {
+            hud.setFeaturable(featurable);
+            player = featurable.getFeature(StateHandler.class);
+            trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
+            tracker.setOffset(0, trackerInitY);
+            tracker.track(player.getFeature(Transformable.class));
+        }
+        for (final Feature feature : featurable.getFeatures())
+        {
+            if (feature instanceof Snapshotable)
+            {
+                ((Snapshotable) feature).load(file);
+            }
+        }
+        handler.add(featurable);
+    }
+
     /**
      * Load the stage from configuration.
      * 
@@ -851,6 +966,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         hud.update(extrp);
         rasterbar.setRasterbarY((int) camera.getY(), mapWater.getCurrent() - 2);
+
+        if (debug)
+        {
+            if (device.isFiredOnce(DeviceMapping.QUICK_SAVE))
+            {
+                quickSave();
+            }
+            if (device.isFiredOnce(DeviceMapping.QUICK_LOAD))
+            {
+                quickLoad();
+            }
+        }
     }
 
     @Override

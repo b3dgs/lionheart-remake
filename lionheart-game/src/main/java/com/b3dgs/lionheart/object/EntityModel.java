@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -50,6 +51,8 @@ import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.EntityConfig;
@@ -73,7 +76,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
 // CHECKSTYLE IGNORE LINE: FanOutComplexity
 @FeatureInterface
 public final class EntityModel extends EntityModelHelper
-                               implements XmlLoader, XmlSaver, Editable<ModelConfig>, Routine, Recyclable
+                               implements Snapshotable, XmlLoader, XmlSaver, Editable<ModelConfig>, Routine, Recyclable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int PREFIX = State.class.getSimpleName().length();
@@ -135,6 +138,25 @@ public final class EntityModel extends EntityModelHelper
         {
             this.config = new ModelConfig(setup.getRoot());
         }
+    }
+
+    @Override
+    public void save(FileWriting file) throws IOException
+    {
+        file.writeDouble(transformable.getX());
+        file.writeDouble(transformable.getY());
+        file.writeDouble(movement.getDirectionHorizontal());
+        file.writeDouble(movement.getDirectionVertical());
+        file.writeDouble(jump.getDirectionHorizontal());
+        file.writeDouble(jump.getDirectionVertical());
+    }
+
+    @Override
+    public void load(FileReading file) throws IOException
+    {
+        transformable.teleport(file.readDouble(), file.readDouble());
+        movement.setDirection(file.readDouble(), file.readDouble());
+        jump.setDirection(file.readDouble(), file.readDouble());
     }
 
     @Override

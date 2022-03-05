@@ -16,18 +16,28 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.io.IOException;
+
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.game.Force;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.launchable.Launchable;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionheart.object.Snapshotable;
 
 /**
  * Destroy bullet on collide with player.
  */
 @FeatureInterface
-public final class BulletDestroyOnPlayer extends FeatureModel
+public final class BulletDestroyOnPlayer extends FeatureModel implements Snapshotable
 {
+    @FeatureGet private Launchable launchable;
+
     /**
      * Create feature.
      * 
@@ -38,5 +48,23 @@ public final class BulletDestroyOnPlayer extends FeatureModel
     public BulletDestroyOnPlayer(Services services, Setup setup)
     {
         super(services, setup);
+    }
+
+    @Override
+    public void save(FileWriting file) throws IOException
+    {
+        final Force force = launchable.getDirection();
+        file.writeDouble(force.getDirectionHorizontal());
+        file.writeDouble(force.getDirectionVertical());
+        file.writeDouble(force.getVelocity());
+        file.writeDouble(force.getSensibility());
+    }
+
+    @Override
+    public void load(FileReading file) throws IOException
+    {
+        final Force force = new Force(file.readDouble(), file.readDouble(), file.readDouble(), file.readDouble());
+        force.setDestination(force.getDirectionHorizontal(), force.getDirectionVertical());
+        launchable.setVector(force);
     }
 }

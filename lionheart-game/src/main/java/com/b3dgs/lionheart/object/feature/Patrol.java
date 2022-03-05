@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.io.IOException;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
@@ -45,9 +47,12 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
+import com.b3dgs.lionengine.io.FileReading;
+import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
+import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -62,8 +67,8 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </p>
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel
-                          implements XmlLoader, Routine, TileCollidableListener, CollidableListener, Recyclable
+public final class Patrol extends FeatureModel implements Snapshotable, XmlLoader, Routine, TileCollidableListener,
+                          CollidableListener, Recyclable
 {
     private final Tick tick = new Tick();
     private final AnimationConfig anim;
@@ -294,6 +299,56 @@ public final class Patrol extends FeatureModel
         {
             applyMirror();
         }
+    }
+
+    @Override
+    public void save(FileWriting file) throws IOException
+    {
+        file.writeDouble(tick.elapsed());
+        file.writeInteger(currentIndex);
+        file.writeDouble(sh);
+        file.writeDouble(sv);
+        file.writeInteger(amplitude);
+        file.writeInteger(offset);
+        file.writeBoolean(coll);
+        file.writeInteger(proximity);
+        file.writeInteger(sight);
+        file.writeInteger(animOffset);
+        file.writeInteger(delay);
+        file.writeBoolean(curve);
+        file.writeInteger(skip);
+        file.writeDouble(startX);
+        file.writeDouble(startY);
+        file.writeDouble(curveAngle);
+        file.writeBoolean(first);
+        file.writeDouble(idle);
+    }
+
+    @Override
+    public void load(FileReading file) throws IOException
+    {
+        tick.set(file.readDouble());
+        currentIndex = file.readInteger();
+        sh = file.readDouble();
+        sv = file.readDouble();
+        amplitude = file.readInteger();
+        offset = file.readInteger();
+        coll = file.readBoolean();
+        proximity = file.readInteger();
+        sight = file.readInteger();
+        animOffset = file.readInteger();
+        delay = file.readInteger();
+        curve = file.readBoolean();
+        skip = file.readInteger();
+        startX = file.readDouble();
+        startY = file.readDouble();
+        curveAngle = file.readDouble();
+        first = file.readBoolean();
+        idle = file.readDouble();
+
+        checkAmplitude();
+        applyMirror();
+        rasterable.setAnimOffset(animOffset);
     }
 
     @Override

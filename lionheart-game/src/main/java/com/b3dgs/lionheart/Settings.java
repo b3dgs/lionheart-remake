@@ -94,6 +94,8 @@ public final class Settings
     public static final String FLAG_PARALLEL = FLAG + ".parallel";
     /** Flag sync value. */
     public static final String FLAG_VSYNC = FLAG + ".vsync";
+    /** Flag debug value. */
+    public static final String FLAG_DEBUG = FLAG + ".debug";
 
     /** New stages flag. */
     public static final String STAGES = "stages";
@@ -410,6 +412,16 @@ public final class Settings
     public boolean getFlagParallel()
     {
         return getBoolean(FLAG_PARALLEL, true);
+    }
+
+    /**
+     * Get flag debug value.
+     * 
+     * @return The flag debug value.
+     */
+    public boolean getFlagDebug()
+    {
+        return getBoolean(FLAG_DEBUG, false);
     }
 
     /**

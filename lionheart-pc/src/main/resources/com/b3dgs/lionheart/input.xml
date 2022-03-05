@@ -44,6 +44,8 @@
         <lionengine:fire index="K3" positive="51"/>
         <lionengine:fire index="K4" positive="52"/>
         <lionengine:fire index="K5" positive="53"/>
+        <lionengine:fire index="QUICK_SAVE" positive="111"/>
+        <lionengine:fire index="QUICK_LOAD" positive="106"/>
     </lionengine:device>
     <lionengine:device class="com.b3dgs.lionheart.Gamepad">
         <lionengine:horizontal positive="14" negative="13"/>

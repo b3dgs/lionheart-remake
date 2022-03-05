@@ -73,6 +73,10 @@ public enum DeviceMapping implements DeviceMapper
     K4,
     /** Extro. */
     K5,
+    /** Quick save. */
+    QUICK_SAVE,
+    /** Quick load. */
+    QUICK_LOAD,
     /** Force exit. */
     FORCE_EXIT;
 
