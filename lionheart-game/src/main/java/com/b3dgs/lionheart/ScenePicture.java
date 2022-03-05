@@ -46,13 +46,18 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public final class ScenePicture extends Sequence
 {
+    /** Init fade speed. */
+    static final int FADE_SPEED = 8;
+
     private static final int PIC_Y = 17;
     private static final int TEXT_Y = 186;
     private static final int PUSH_Y = 225;
     private static final int PUSH_BUTTON_DELAY_MS = 500;
-    private static final int FADE_SPEED = 8;
     private static final int TEXT_HEIGHT_NORMAL = 36;
     private static final int TEXT_HEIGHT_MAX = 40;
+
+    /** Default fade speed. */
+    static int fadeSpeed = FADE_SPEED;
 
     private final String pushButton = Util.readLines(Medias.create(Folder.TEXT,
                                                                    Settings.getInstance().getLang(),
@@ -76,7 +81,7 @@ public final class ScenePicture extends Sequence
 
     private double fadePic = 255.0;
     private double fadeText = 255.0;
-    private int speed = FADE_SPEED;
+    private int speed = fadeSpeed;
     private int picYoffset;
     private boolean showPush;
 
@@ -110,11 +115,6 @@ public final class ScenePicture extends Sequence
 
         this.init = init;
         this.auto = auto;
-
-        if (!init.getStage().exists())
-        {
-            speed = 255;
-        }
 
         final Services services = new Services();
         services.add(context);

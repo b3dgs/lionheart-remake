@@ -65,10 +65,11 @@ final class ScenePictureTest
     }, delimiter = ':')
     void testPicturesManual(String lang, String pic, String text)
     {
+        ScenePicture.fadeSpeed = 255;
         Settings.getInstance().setLang(lang);
         Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
-                     new InitConfig(Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml"),
+                     new InitConfig(Medias.create("void.xml"),
                                     Constant.STATS_MAX_HEART - 1,
                                     Constant.STATS_MAX_TALISMENT - 1,
                                     Constant.STATS_MAX_LIFE - 1,
@@ -81,6 +82,7 @@ final class ScenePictureTest
                      Medias.create(Folder.SPRITE, pic + ".png"),
                      text + ".txt")
               .await();
+        ScenePicture.fadeSpeed = ScenePicture.FADE_SPEED;
     }
 
     /**
@@ -100,10 +102,11 @@ final class ScenePictureTest
     }, delimiter = ':')
     void testPictures(String lang, String pic, String text)
     {
+        ScenePicture.fadeSpeed = 255;
         Settings.getInstance().setLang(lang);
         Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
-                     new InitConfig(Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml"),
+                     new InitConfig(Medias.create("void.xml"),
                                     Constant.STATS_MAX_HEART - 1,
                                     Constant.STATS_MAX_TALISMENT - 1,
                                     Constant.STATS_MAX_LIFE - 1,
@@ -117,5 +120,6 @@ final class ScenePictureTest
                      text + ".txt",
                      Boolean.TRUE)
               .await();
+        ScenePicture.fadeSpeed = ScenePicture.FADE_SPEED;
     }
 }
