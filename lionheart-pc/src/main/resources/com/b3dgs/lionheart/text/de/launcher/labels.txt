@@ -5,6 +5,7 @@ Auflösung:
 Erhältlich:
 Fenster Modus:
 Filter:
+Spielweise:
 Musik:
    Sfx:
 Ebenen:

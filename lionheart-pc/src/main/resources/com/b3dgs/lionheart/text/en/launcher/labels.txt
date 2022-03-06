@@ -5,6 +5,7 @@ Resolution:
 Available:
 Windowed:
 Filter:
+Gameplay:
 Music:
   Sfx:
 Stages:

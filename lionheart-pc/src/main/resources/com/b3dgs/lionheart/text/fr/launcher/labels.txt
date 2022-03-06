@@ -5,6 +5,7 @@ Résolution:
 Disponible:
 Fenêtré:
 Filtre:
+Jouabilité:
 Musique:
    Son:
 Niveaux:

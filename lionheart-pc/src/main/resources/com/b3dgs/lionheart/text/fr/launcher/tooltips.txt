@@ -14,6 +14,8 @@ Résolution sélectionnée.
 Coché pour le mode fenêtré, décoché pour le plein écran.
 Liste des filtres disposibles.
 Filtre sélectionné.
+Liste des type de jouabilité.
+Jouabilité sélectionnée.
 Sélectionner le volume de la musique.
 Volume de la musique.
 Sélectionner le volume d'effets sonore.

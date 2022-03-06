@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Horizontal attack state implementation.
  */
-final class StateAttackHorizontal extends State
+public final class StateAttackHorizontal extends State
 {
     /**
      * Create the state.

@@ -14,6 +14,8 @@ Ausgewählte Auflösung.
 Aktiviert wird im Fenstermodus angezeigt, deaktiviert im Vollbildmodus.
 Liste der verfügbaren Filter.
 Ausgewählter Filter.
+Liste der verfügbaren Spielweise.
+Ausgewählter Spielweise.
 Wählen Sie die Musiklautstärke.
 Aktuelle Musiklautstärke.
 Wählen Sie die Lautstärke der Sound FX.

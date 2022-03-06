@@ -26,7 +26,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Crouch horizontal attack state implementation.
  */
-final class StateAttackCrouchHorizontal extends State
+public final class StateAttackCrouchHorizontal extends State
 {
     /**
      * Create the state.

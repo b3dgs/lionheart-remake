@@ -14,6 +14,8 @@ Selected resolution.
 Checked will display in windowed mode, unchecked in fullscreen.
 List of available filters.
 Selected filter.
+List of available gameplays.
+Selected gameplay.
 Select music volume.
 Current music volume.
 Select mound fx volume.

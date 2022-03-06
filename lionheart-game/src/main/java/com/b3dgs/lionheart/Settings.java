@@ -64,6 +64,9 @@ public final class Settings
     /** Filter key. */
     public static final String FILTER = "filter";
 
+    /** Gameplay value. */
+    public static final String GAMEPLAY = "gameplay";
+
     /** Raster key. */
     public static final String RASTER = "raster";
     /** Raster enabled key. */
@@ -315,13 +318,23 @@ public final class Settings
     }
 
     /**
-     * Get filter flag.
+     * Get filter type.
      * 
-     * @return The filter flag.
+     * @return The filter type.
      */
     public FilterType getFilter()
     {
         return getEnum(FILTER, FilterType.NONE, FilterType.class);
+    }
+
+    /**
+     * Get gameplay type.
+     * 
+     * @return The gameplay type.
+     */
+    public GameplayType getGameplay()
+    {
+        return getEnum(GAMEPLAY, GameplayType.ORIGINAL, GameplayType.class);
     }
 
     /**

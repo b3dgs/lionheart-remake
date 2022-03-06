@@ -18,8 +18,11 @@ package com.b3dgs.lionheart.object.state;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionheart.GameplayType;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.attack.StateAttackCrouchHorizontal;
 import com.b3dgs.lionheart.object.state.attack.StatePrepareAttackCrouch;
 
 /**
@@ -38,10 +41,18 @@ public final class StateCrouch extends State
         super(model, animation);
 
         addTransition(StateIdle.class, () -> !isGoDown());
-        addTransition(StatePrepareAttackCrouch.class, this::isFire);
         addTransition(StateFall.class,
                       () -> !collideY.get() && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
         addTransition(StateWin.class, this::hasWin);
+
+        if (Settings.getInstance().getGameplay() == GameplayType.ORIGINAL)
+        {
+            addTransition(StatePrepareAttackCrouch.class, this::isFire);
+        }
+        else
+        {
+            addTransition(StateAttackCrouchHorizontal.class, this::isFire);
+        }
     }
 
     @Override

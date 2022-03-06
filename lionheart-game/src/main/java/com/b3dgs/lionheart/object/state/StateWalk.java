@@ -24,9 +24,12 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameplayType;
+import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.state.attack.StateAttackHorizontal;
 import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 
 /**
@@ -61,12 +64,20 @@ public final class StateWalk extends State
                             || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoDown);
         addTransition(StateJump.class, () -> (isGoUpOnce() || isFire(DeviceMapping.UP)));
-        addTransition(StatePrepareAttack.class, this::isFire);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
                             && !collideY.get());
         addTransition(StateWin.class, this::hasWin);
+
+        if (Settings.getInstance().getGameplay() == GameplayType.ORIGINAL)
+        {
+            addTransition(StatePrepareAttack.class, this::isFire);
+        }
+        else
+        {
+            addTransition(StateAttackHorizontal.class, this::isFire);
+        }
     }
 
     private boolean isWalkingSlowEnough()

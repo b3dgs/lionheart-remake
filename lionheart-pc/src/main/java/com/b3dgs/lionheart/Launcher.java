@@ -142,6 +142,7 @@ public final class Launcher
     private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
     private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_DEFAULT);
     private static final AtomicReference<FilterType> FILTER = new AtomicReference<>(FilterType.NONE);
+    private static final AtomicReference<GameplayType> GAMEPLAY = new AtomicReference<>(GameplayType.ORIGINAL);
 
     private static final String FOLDER_LAUNCHER = "launcher";
     private static final String FILENAME_LANG = "langs.txt";
@@ -175,6 +176,7 @@ public final class Launcher
     private static final String LABEL_HUD = "Hud";
     private static final String LABEL_HUD_VISIBLE = "Visible:";
     private static final String LABEL_HUD_SWORD = "Sword:";
+    private static final String LABEL_GAMEPLAY = "Gameplay:";
     private static final String LABEL_STAGES = "Stages:";
     private static final String LABEL_GAMEPAD = "Gamepad:";
     private static final String LABEL_SETUP_DEVICE = "Setup ";
@@ -272,6 +274,7 @@ public final class Launcher
         createLang(box, frame);
         createScale(box);
         createFilter(box);
+        createGameplay(box);
         createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createStages(box);
@@ -342,6 +345,7 @@ public final class Launcher
         }
 
         FILTER.set(settings.getFilter());
+        GAMEPLAY.set(settings.getGameplay());
         RASTER.set(settings.getRaster());
         HUD.set(settings.getHudVisible());
         HUD_SWORD.set(settings.getHudSword());
@@ -794,6 +798,29 @@ public final class Launcher
         combo.setFont(FONT);
         combo.addItemListener(e -> FILTER.set(combo.getItemAt(combo.getSelectedIndex())));
         combo.setSelectedItem(FILTER.get());
+        TIPS.add(combo);
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        box.add(label);
+        box.add(combo);
+        parent.add(box);
+
+        return combo;
+    }
+
+    private static Container createGameplay(Container parent)
+    {
+        final JLabel label = new JLabel(LABEL_GAMEPLAY);
+        label.setFont(FONT);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+        LABELS.add(label::setText);
+        TIPS.add(label);
+
+        final JComboBox<GameplayType> combo = new JComboBox<>(GameplayType.values());
+        combo.setFont(FONT);
+        combo.addItemListener(e -> GAMEPLAY.set(combo.getItemAt(combo.getSelectedIndex())));
+        combo.setSelectedItem(GAMEPLAY.get());
         TIPS.add(combo);
 
         final Box box = Box.createHorizontalBox();
@@ -1295,6 +1322,10 @@ public final class Launcher
                     else if (line.contains(Settings.FILTER))
                     {
                         writeFormatted(output, data, FILTER.get().name());
+                    }
+                    else if (line.contains(Settings.GAMEPLAY))
+                    {
+                        writeFormatted(output, data, GAMEPLAY.get().name());
                     }
                     else if (line.contains(Settings.RASTER_TYPE))
                     {
