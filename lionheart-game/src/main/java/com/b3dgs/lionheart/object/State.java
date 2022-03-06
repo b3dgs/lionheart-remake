@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -65,6 +66,8 @@ public abstract class State extends StateHelper<EntityModel>
     protected final GameplayLiana liana = new GameplayLiana();
     /** Tile collidable listener. */
     private final TileCollidableListener listenerTileCollidable;
+    /** Collidable listener. */
+    private final CollidableListener collidableListener = this::onCollided;
     /** Win flag. */
     private final BooleanSupplier win;
 
@@ -306,7 +309,7 @@ public abstract class State extends StateHelper<EntityModel>
     {
         animatable.play(animation);
         tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(this::onCollided);
+        collidable.addListener(collidableListener);
         collideX.set(false);
         collideXright.set(false);
         collideXleft.set(false);
@@ -331,7 +334,7 @@ public abstract class State extends StateHelper<EntityModel>
     public void exit()
     {
         tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(this::onCollided);
+        collidable.removeListener(collidableListener);
     }
 
     @Override
