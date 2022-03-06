@@ -10,4 +10,17 @@
     <artifactId>lionheart-assets</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart Assets</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>com/b3dgs/lionheart/level/**/stage**.png</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
