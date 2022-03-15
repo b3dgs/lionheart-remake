@@ -117,6 +117,9 @@ public final class CollisionName
     /** Collision block prefix. */
     public static final String BLOCK = "block";
 
+    /** Collision sigh. */
+    public static final String COLL_SIGH = "sigh";
+
     /**
      * Private constructor.
      */

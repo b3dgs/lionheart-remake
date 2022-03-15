@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -65,6 +66,7 @@ public class Intro extends Sequence
     private final Part1 part1;
     private final Part2 part2 = new Part2(time, getWidth(), getHeight(), getRate());
     private final Audio audio = AudioFactory.loadAudio(Music.INTRO);
+    private final Network network;
     private final AppInfo info;
     private final DeviceController deviceCursor;
 
@@ -80,11 +82,13 @@ public class Intro extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param network The network type (must not be <code>null</code>).
      */
-    public Intro(Context context)
+    public Intro(Context context, Network network)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
 
+        this.network = network;
         part1 = new Part1(time, getWidth(), getHeight(), getWideFactor(context));
 
         final Services services = new Services();
@@ -162,7 +166,7 @@ public class Intro extends Sequence
         {
             alpha = 255.0;
             audio.stop();
-            end(Menu.class);
+            end(Menu.class, network);
         }
     }
 
@@ -250,7 +254,7 @@ public class Intro extends Sequence
         part1.load();
         part2.load();
 
-        load(Part3.class, time, audio);
+        load(Part3.class, network, time, audio);
     }
 
     @Override

@@ -477,8 +477,11 @@ public class Cheats implements Updatable, Renderable
 
         updatePause();
         updateQuit();
-        updateOriginal();
-        updateMenu();
+        if (player != null)
+        {
+            updateOriginal();
+            updateMenu();
+        }
 
         for (int i = 0; i < menus.size(); i++)
         {

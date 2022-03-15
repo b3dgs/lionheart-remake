@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -63,6 +64,7 @@ public class Part4 extends Sequence
     int alphaSpeed = FADE_SPEED;
 
     private final Stories stories = new Stories(getWidth(), getHeight());
+    private final Network network;
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
@@ -77,13 +79,15 @@ public class Part4 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param network The network type (must not be <code>null</code>).
      * @param time The time reference.
      * @param audio The audio reference.
      */
-    public Part4(Context context, Time time, Audio audio)
+    public Part4(Context context, Network network, Time time, Audio audio)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
+        this.network = network;
         this.time = time;
         this.audio = audio;
 
@@ -202,7 +206,7 @@ public class Part4 extends Sequence
         {
             alpha = 255.0;
             audio.stop();
-            end(Menu.class);
+            end(Menu.class, network);
             updater = UpdatableVoid.getInstance();
         }
     }

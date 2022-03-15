@@ -27,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.libsdl.SDL_Error;
 
 import com.b3dgs.lionengine.Constant;
+import com.b3dgs.lionengine.InputDeviceListener;
+import com.b3dgs.lionengine.ListenableModel;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilStream;
@@ -92,6 +94,8 @@ public class Gamepad implements DevicePush
 
     /** Current manager, or <code>null</code>. */
     private final SDL2ControllerManager manager = getFailsafe();
+    /** Push listener. */
+    private final ListenableModel<InputDeviceListener> listeners = new ListenableModel<>();
     /** Controllers mapping by name and index. */
     private final Map<String, Integer> controllers = new ConcurrentHashMap<>();
     /** Press flags. */
@@ -146,6 +150,12 @@ public class Gamepad implements DevicePush
                         final Integer code = Integer.valueOf(buttonCode);
                         last.put(index, code);
                         press.get(index).add(code);
+
+                        final int n = listeners.size();
+                        for (int i = 0; i < n; i++)
+                        {
+                            listeners.get(i).onDeviceChanged(code, true);
+                        }
                     }
                     return false;
                 }
@@ -159,6 +169,12 @@ public class Gamepad implements DevicePush
                         final Integer code = Integer.valueOf(buttonCode);
                         last.remove(index, code);
                         press.get(index).remove(code);
+
+                        final int n = listeners.size();
+                        for (int i = 0; i < n; i++)
+                        {
+                            listeners.get(i).onDeviceChanged(code, false);
+                        }
                     }
                     return false;
                 }
@@ -329,6 +345,18 @@ public class Gamepad implements DevicePush
             return data.contains(index);
         }
         return false;
+    }
+
+    @Override
+    public void addListener(InputDeviceListener listener)
+    {
+        listeners.addListener(listener);
+    }
+
+    @Override
+    public void removeListener(InputDeviceListener listener)
+    {
+        listeners.removeListener(listener);
     }
 
     @Override

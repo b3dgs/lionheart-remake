@@ -34,6 +34,9 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
@@ -43,6 +46,7 @@ import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.state.StateDecay;
 
 /**
@@ -53,7 +57,7 @@ import com.b3dgs.lionheart.object.state.StateDecay;
  * </ol>
  */
 @FeatureInterface
-public final class Flower extends FeatureModel implements Routine, Recyclable
+public final class Flower extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
     private static final int FIRE_DELAY_MS = 3300;
     private static final double FIRE_SPEED = 0.6;
@@ -64,8 +68,8 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final MapTile map = services.get(MapTile.class);
-    private final Trackable target = services.get(Trackable.class);
 
+    private Trackable target;
     private Updatable current;
 
     @FeatureGet private Transformable transformable;
@@ -100,8 +104,11 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
     {
         if (stats.getHealth() > 0)
         {
-            updateFrame();
-            updateFire(extrp);
+            if (target != null)
+            {
+                updateFrame();
+                updateFire(extrp);
+            }
         }
         else
         {
@@ -175,6 +182,16 @@ public final class Flower extends FeatureModel implements Routine, Recyclable
     public void update(double extrp)
     {
         current.update(extrp);
+        target = null;
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
+        {
+            target = collidable.getFeature(Trackable.class);
+        }
     }
 
     @Override

@@ -232,20 +232,29 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     @Override
     public void update(double extrp)
     {
-        updateNext();
-        checkerBoss.update(extrp);
-
-        final int start = last + 1;
-        for (int i = start; i < count; i++)
+        if (player != null)
         {
-            final Checkpoint checkpoint = checkpoints.get(i);
-            if (UtilMath.getDistance(map.getInTileX(player),
-                                     map.getInTileY(player),
-                                     checkpoint.getTx(),
-                                     checkpoint.getTy()) < CHECKPOINT_DISTANCE_TILE
-                && map.getInTileX(player) > checkpoint.getTx())
+            updateNext();
+        }
+        if (checkerBoss != null)
+        {
+            checkerBoss.update(extrp);
+        }
+
+        if (player != null)
+        {
+            final int start = last + 1;
+            for (int i = start; i < count; i++)
             {
-                last = i;
+                final Checkpoint checkpoint = checkpoints.get(i);
+                if (UtilMath.getDistance(map.getInTileX(player),
+                                         map.getInTileY(player),
+                                         checkpoint.getTx(),
+                                         checkpoint.getTy()) < CHECKPOINT_DISTANCE_TILE
+                    && map.getInTileX(player) > checkpoint.getTx())
+                {
+                    last = i;
+                }
             }
         }
     }

@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -127,6 +128,7 @@ public class Part3 extends Sequence
     private final Coord dragonCoord = new Coord(176.0, -44.0);
 
     private final Camera camera = new Camera();
+    private final Network network;
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
@@ -147,13 +149,15 @@ public class Part3 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param network The network type (must not be <code>null</code>).
      * @param time The time reference.
      * @param audio The audio reference.
      */
-    public Part3(Context context, Time time, Audio audio)
+    public Part3(Context context, Network network, Time time, Audio audio)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH, true), Util.getLoop());
 
+        this.network = network;
         this.time = time;
         this.audio = audio;
 
@@ -167,7 +171,7 @@ public class Part3 extends Sequence
 
         info = new AppInfo(this::getFps, services);
 
-        load(Part4.class, time, audio);
+        load(Part4.class, network, time, audio);
 
         camera.setView(0, (getHeight() - scene.getHeight()) / 2, getWidth(), getHeight(), getHeight());
 
@@ -436,7 +440,7 @@ public class Part3 extends Sequence
             if (skip)
             {
                 audio.stop();
-                end(Menu.class);
+                end(Menu.class, network);
             }
             else
             {

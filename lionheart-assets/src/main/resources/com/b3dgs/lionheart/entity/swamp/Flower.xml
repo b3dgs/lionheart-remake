@@ -26,6 +26,9 @@
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
         <lionengine:animation name="decay" start="9" end="9" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
+    <lionengine:collisions>
+        <lionengine:collision name="sigh" offsetX="0" offsetY="-208" width="480" height="240" mirror="false"/>
+    </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="3"/>

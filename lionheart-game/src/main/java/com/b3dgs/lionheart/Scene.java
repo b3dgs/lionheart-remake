@@ -16,22 +16,28 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.IOException;
+
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Zooming;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.network.Network;
 
 /**
  * Game scene implementation.
  */
 public class Scene extends SequenceGame<World>
 {
-    private final AppInfo info = new AppInfo(this::getFps, services);
+    private final AppInfo info;
     private final Media music;
     private final InitConfig init;
     private final Boolean exit;
@@ -40,33 +46,56 @@ public class Scene extends SequenceGame<World>
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
+     * @param network The network type (must not be <code>null</code>).
      * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    public Scene(Context context, InitConfig init)
+    public Scene(Context context, Network network, InitConfig init)
     {
-        this(context, init, Boolean.FALSE);
+        this(context, network, init, Boolean.FALSE);
     }
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
+     * @param network The network type (must not be <code>null</code>).
      * @param init The initial config.
      * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
      * @throws LionEngineException If invalid argument.
      */
-    Scene(Context context, InitConfig init, Boolean exit)
+    Scene(Context context, Network network, InitConfig init, Boolean exit)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION_GAME, context), Util.getLoop(), World::new);
+        super(context,
+              Util.getResolution(Constant.RESOLUTION_GAME, context),
+              Util.getLoop(),
+              s -> new World(s, network));
 
         this.init = init;
         this.exit = exit;
+
         music = StageConfig.imports(new Configurer(init.getStage())).getMusic();
+
+        services.add(network);
         services.add(init.getDifficulty());
 
         Util.setFilter(this);
         Util.saveProgress(init);
+
+        final DeviceController device;
+        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        device.setVisible(false);
+
+        info = new AppInfo(this::getFps, services);
+
+        try
+        {
+            world.prepareNetwork();
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
     }
 
     @Override

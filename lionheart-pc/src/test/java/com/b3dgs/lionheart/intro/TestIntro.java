@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.TickAction;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.io.DeviceActionModel;
 import com.b3dgs.lionengine.io.DevicePush;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.DeviceMapping;
 
 /**
@@ -44,7 +45,7 @@ public final class TestIntro extends Intro
      */
     TestIntro(Context context, DevicePush push, List<TickAction> actions)
     {
-        super(context);
+        super(context, Network.NONE);
 
         device.addFire(push, DeviceMapping.UP.getIndex(), new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
         device.addFire(push, DeviceMapping.DOWN.getIndex(), new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));

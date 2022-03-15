@@ -23,6 +23,8 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
+import com.b3dgs.lionengine.network.Network;
+import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Difficulty;
@@ -43,6 +45,7 @@ public final class StateRespawn extends State
     private final CheckpointHandler checkpoint = model.getCheckpoint();
     private final Landscape landscape = model.getServices().get(Landscape.class);
     private final Difficulty difficulty = model.getServices().get(Difficulty.class);
+    private final Network network = model.getServices().get(Network.class);
     private final boolean cheats = model.getServices().get(CheatsProvider.class).getCheats();
 
     /**
@@ -61,7 +64,7 @@ public final class StateRespawn extends State
     @Override
     public void enter()
     {
-        if (stats.getLife() == 0)
+        if (network.is(NetworkType.NONE) && stats.getLife() == 0)
         {
             final Sequencer sequencer = model.getServices().get(Sequencer.class);
             if (stats.getCredits() > 0)

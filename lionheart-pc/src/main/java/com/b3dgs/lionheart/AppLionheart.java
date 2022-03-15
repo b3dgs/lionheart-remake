@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
+import com.b3dgs.lionengine.network.Network;
 
 /**
  * Program starts here.
@@ -54,15 +55,16 @@ public final class AppLionheart
             DeviceDialog.prepareInputCustom();
         }
 
-        run(new Gamepad());
+        run(Network.from(args), new Gamepad());
     }
 
     /**
      * Run game.
      * 
+     * @param network The network type.
      * @param gamepad The gamepad handler.
      */
-    static void run(Gamepad gamepad)
+    static void run(Network network, Gamepad gamepad)
     {
         AudioFactory.addFormat(new WavFormat());
         AudioFactory.addFormat(Sc68Format.getFailsafe());
@@ -82,7 +84,8 @@ public final class AppLionheart
                                Medias.create("icon-64.png"),
                                Medias.create("icon-128.png"),
                                Medias.create("icon-256.png")),
-                     Loading.class);
+                     Loading.class,
+                     network);
     }
 
     /**

@@ -39,3 +39,5 @@ Ausgewähltes Gamepad.
 Konfiguration speichern und Spiel spielen.
 Spiele-Editor ausführen.
 Konfiguration speichern und Launcher beenden.
+Start game server.
+Join existing server.

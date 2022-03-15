@@ -19,3 +19,5 @@ Setup Gamepad
 Play
 Editor
 Exit
+Start Server
+Join Game

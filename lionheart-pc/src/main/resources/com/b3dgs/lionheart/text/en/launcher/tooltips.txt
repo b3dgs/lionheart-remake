@@ -39,3 +39,5 @@ Selected gamepad.
 Save configuration and play game.
 Run game editor.
 Save configuration and exit launcher.
+Start game server.
+Join existing server.

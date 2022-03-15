@@ -17,22 +17,30 @@
 package com.b3dgs.lionheart.object.feature;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.Damages;
+import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
+import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.InitConfig;
+import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.Snapshotable;
 
 /**
@@ -45,7 +53,7 @@ import com.b3dgs.lionheart.object.Snapshotable;
  * </ol>
  */
 @FeatureInterface
-public final class Stats extends FeatureModel implements Snapshotable, Recyclable
+public final class Stats extends FeatureModel implements Snapshotable, Recyclable, Syncable
 {
     private final List<StatsListener> listeners = new ArrayList<>();
     private final Alterable health = new Alterable(Constant.STATS_MAX_HEALTH);
@@ -57,6 +65,8 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
     private boolean amulet;
     private int credits;
     private boolean win;
+
+    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
@@ -120,33 +130,37 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public void apply(TakeableConfig config)
     {
-        health.increase(config.getHealth());
-        if (talisment.isFull())
+        if (networkable.isServerHandled())
         {
-            talisment.reset();
-            health.setMax(UtilMath.clamp(health.getMax() + 1, 1, Constant.STATS_MAX_HEART));
-        }
-        else
-        {
-            talisment.increase(config.getTalisment());
-        }
-        life.increase(config.getLife());
-        if (config.isAmulet())
-        {
-            amulet = true;
-        }
-
-        final int nextSword = config.getSword();
-        if (nextSword > 0 && sword != nextSword)
-        {
-            sword = nextSword;
-            damages.setDamages(sword + 1, sword + 1);
-
-            final int n = listeners.size();
-            for (int i = 0; i < n; i++)
+            health.increase(config.getHealth());
+            if (talisment.isFull())
             {
-                listeners.get(i).notifyNextSword(sword);
+                talisment.reset();
+                health.setMax(UtilMath.clamp(health.getMax() + 1, 1, Constant.STATS_MAX_HEART));
             }
+            else
+            {
+                talisment.increase(config.getTalisment());
+            }
+            life.increase(config.getLife());
+            if (config.isAmulet())
+            {
+                amulet = true;
+            }
+
+            final int nextSword = config.getSword();
+            if (nextSword > 0 && sword != nextSword)
+            {
+                sword = nextSword;
+                damages.setDamages(sword + 1, sword + 1);
+
+                final int n = listeners.size();
+                for (int i = 0; i < n; i++)
+                {
+                    listeners.get(i).notifyNextSword(sword);
+                }
+            }
+            syncApply(config);
         }
     }
 
@@ -158,17 +172,13 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public boolean applyDamages(int damages)
     {
-        health.decrease(damages);
-        final boolean dead = health.isEmpty();
-        if (dead)
+        if (networkable.isServerHandled())
         {
-            final int n = listeners.size();
-            for (int i = 0; i < n; i++)
-            {
-                listeners.get(i).notifyDead();
-            }
+            applyDamagesInternal(damages);
+            syncHurt(damages);
+            return health.isEmpty();
         }
-        return dead;
+        return false;
     }
 
     /**
@@ -301,6 +311,52 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
         return win;
     }
 
+    /**
+     * Apply damages.
+     * 
+     * @param damages The damages to apply.
+     */
+    private void applyDamagesInternal(int damages)
+    {
+        health.decrease(damages);
+        final boolean dead = health.isEmpty();
+        if (dead)
+        {
+            final int n = listeners.size();
+            for (int i = 0; i < n; i++)
+            {
+                listeners.get(i).notifyDead();
+            }
+        }
+    }
+
+    private void syncApply(TakeableConfig config)
+    {
+        final String str = config.getEffect().getPath();
+        final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
+        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES * 2 + buffer.capacity() + 8);
+        data.putInt(getSyncId());
+        data.put(UtilConversion.fromUnsignedByte(0));
+        data.putInt(str.length());
+        data.put(buffer);
+        data.put(UtilConversion.fromUnsignedByte(config.getSfx().ordinal()));
+        data.put(UtilConversion.fromUnsignedByte(config.getHealth()));
+        data.put(UtilConversion.fromUnsignedByte(config.getTalisment()));
+        data.put(UtilConversion.fromUnsignedByte(config.getLife()));
+        data.put(UtilConversion.fromUnsignedByte(config.getSword()));
+        data.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(config.isAmulet())));
+        networkable.send(data);
+    }
+
+    private void syncHurt(int damages)
+    {
+        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2);
+        data.putInt(getSyncId());
+        data.put(UtilConversion.fromUnsignedByte(1));
+        data.put(UtilConversion.fromUnsignedByte(damages));
+        networkable.send(data);
+    }
+
     @Override
     public void save(FileWriting file) throws IOException
     {
@@ -327,6 +383,27 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
         win = file.readBoolean();
 
         damages.setDamages(sword + 1, sword + 1);
+    }
+
+    @Override
+    public void onReceived(Packet packet)
+    {
+        final int type = UtilConversion.toUnsignedByte(packet.readByte());
+        if (type == 0)
+        {
+            final TakeableConfig config = new TakeableConfig(packet.readMedia(),
+                                                             Sfx.values()[packet.readByte()].name(),
+                                                             packet.readByte(),
+                                                             packet.readByte(),
+                                                             packet.readByte(),
+                                                             packet.readByte(),
+                                                             packet.readBool());
+            apply(config);
+        }
+        else if (type == 1)
+        {
+            applyDamagesInternal(packet.readByte());
+        }
     }
 
     @Override

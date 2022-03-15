@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -34,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -61,6 +63,7 @@ public final class Shooter extends FeatureModel
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
+    private final Camera camera = services.get(Camera.class);
 
     private ShooterConfig config;
     private Updatable updater;
@@ -68,6 +71,7 @@ public final class Shooter extends FeatureModel
 
     @FeatureGet private Launcher launcher;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Transformable transformable;
     @FeatureGet private Stats stats;
 
     /**
@@ -231,7 +235,7 @@ public final class Shooter extends FeatureModel
     @Override
     public void update(double extrp)
     {
-        if (stats.getHealth() > 0)
+        if (camera.isViewable(transformable, 0, 0) && stats.getHealth() > 0)
         {
             updater.update(extrp);
         }

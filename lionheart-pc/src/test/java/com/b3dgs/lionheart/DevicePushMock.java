@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.b3dgs.lionengine.InputDeviceListener;
 import com.b3dgs.lionengine.io.DevicePush;
 
 /**
@@ -88,5 +89,17 @@ public final class DevicePushMock implements DevicePush
     public Integer getPushed()
     {
         return last;
+    }
+
+    @Override
+    public void addListener(InputDeviceListener listener)
+    {
+        // Mock
+    }
+
+    @Override
+    public void removeListener(InputDeviceListener listener)
+    {
+        // Mock
     }
 }

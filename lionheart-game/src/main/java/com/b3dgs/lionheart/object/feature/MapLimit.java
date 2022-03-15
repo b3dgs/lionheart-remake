@@ -24,6 +24,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -42,6 +43,7 @@ public final class MapLimit extends FeatureModel implements Routine
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
+    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
@@ -58,20 +60,23 @@ public final class MapLimit extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (transformable.getX() < 2)
+        if (networkable.isOwner())
         {
-            transformable.teleportX(2);
-            model.getMovement().zero();
-        }
-        else if (transformable.getX() > map.getWidth() - map.getTileWidth())
-        {
-            transformable.teleportX(map.getWidth() - map.getTileWidth());
-            model.getMovement().zero();
-        }
-        if (transformable.getX() < viewer.getX())
-        {
-            transformable.teleportX(viewer.getX());
-            model.getMovement().zero();
+            if (transformable.getX() < 2)
+            {
+                transformable.teleportX(2);
+                model.getMovement().zero();
+            }
+            else if (transformable.getX() > map.getWidth() - map.getTileWidth())
+            {
+                transformable.teleportX(map.getWidth() - map.getTileWidth());
+                model.getMovement().zero();
+            }
+            if (transformable.getX() < viewer.getX())
+            {
+                transformable.teleportX(viewer.getX());
+                model.getMovement().zero();
+            }
         }
     }
 }

@@ -3,8 +3,8 @@
     <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
     <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
     <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionengine.game.feature.networkable.NetworkedDevice</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
-        <lionengine:feature>com.b3dgs.lionengine.helper.EntityInputController</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Drownable</lionengine:feature>
@@ -423,5 +423,6 @@
     <lionengine:layerable layerRefresh="3" layerDisplay="9"/>
     <lionengine:body gravity="0.54" gravityMax="7.8"/>
     <lionengine:collidable group="1" accepted="2%3"/>
+    <alwaysUpdate>true</alwaysUpdate>
     <underwater>raster/hero/valdyn/</underwater>
 </lionengine:featurable>

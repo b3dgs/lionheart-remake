@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -25,6 +26,7 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -47,6 +49,8 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListenerVoid;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
+import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
@@ -58,6 +62,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
@@ -84,7 +89,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackGrip;
  */
 @FeatureInterface
 public final class Hurtable extends FeatureModel
-                            implements Routine, CollidableListener, TileCollidableListener, Recyclable
+                            implements Routine, CollidableListener, TileCollidableListener, Recyclable, Syncable
 {
     private static final int NEXT_DELAY_MS = 5000;
     private static final int HURT_RECOVER_ATTACK_DELAY_MS = 300;
@@ -131,6 +136,7 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private Stats stats;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
@@ -499,6 +505,18 @@ public final class Hurtable extends FeatureModel
             }
             model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, NEXT_DELAY_MS));
         }
+        syncKill(force);
+    }
+
+    private void syncKill(boolean force)
+    {
+        if (networkable.isOwner())
+        {
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 1);
+            buffer.putInt(getSyncId());
+            buffer.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(force)));
+            networkable.send(buffer);
+        }
     }
 
     @Override
@@ -540,6 +558,12 @@ public final class Hurtable extends FeatureModel
             shade.setLocation(viewer, transformable);
             shade.render(g);
         }
+    }
+
+    @Override
+    public void onReceived(Packet packet)
+    {
+        kill(packet.readBool());
     }
 
     @Override

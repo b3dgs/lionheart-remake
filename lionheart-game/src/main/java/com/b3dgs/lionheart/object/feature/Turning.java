@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Animatable;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -29,6 +30,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
@@ -62,6 +64,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     private final Tick tick = new Tick();
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Camera camera = services.get(Camera.class);
 
     private Updatable check;
     private double curve;
@@ -69,6 +72,7 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Animatable animatable;
+    @FeatureGet private Transformable transformable;
     @FeatureGet private Glue glue;
 
     /**
@@ -122,7 +126,10 @@ public class Turning extends FeatureModel implements Routine, Recyclable
             glue.start();
             glue.setTransformY(this::computeCurve);
             tick.stop();
-            Sfx.SCENERY_TURNING.play();
+            if (camera.isViewable(transformable, 0, 0))
+            {
+                Sfx.SCENERY_TURNING.play();
+            }
             check = this::updateShake;
         }
     }

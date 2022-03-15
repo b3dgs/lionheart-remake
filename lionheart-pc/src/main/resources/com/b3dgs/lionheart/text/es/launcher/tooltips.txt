@@ -39,3 +39,5 @@ Gamepad seleccionado.
 Guarde la configuración y juegue.
 Ejecuta el editor de juegos.
 Guarde la configuración y salga del lanzador.
+Start game server.
+Join existing server.

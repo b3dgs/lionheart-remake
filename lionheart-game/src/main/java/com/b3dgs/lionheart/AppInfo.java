@@ -109,7 +109,6 @@ public class AppInfo implements Updatable, Renderable
     @Override
     public void update(double extrp)
     {
-        device.update(extrp);
         show = device.isFired(DeviceMapping.TAB);
 
         final int current = fps.getAsInt();

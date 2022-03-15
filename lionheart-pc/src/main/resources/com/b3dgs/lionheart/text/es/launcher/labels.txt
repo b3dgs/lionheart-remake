@@ -19,3 +19,5 @@ Configurar controlador
 Jugar
 Editor
 Salida
+Start Server
+Join Game

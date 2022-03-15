@@ -19,3 +19,5 @@ Configurer la manette
 Jouer
 Éditeur
 Quitter
+Lancer serveur
+Joindre une partie

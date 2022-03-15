@@ -46,6 +46,9 @@ import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.networkable.ComponentNetwork;
+import com.b3dgs.lionengine.game.feature.networkable.IdentifiableCreate;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -65,13 +68,23 @@ import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
-import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityInputController;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.network.Channel;
+import com.b3dgs.lionengine.network.ChannelBuffer;
+import com.b3dgs.lionengine.network.Data;
+import com.b3dgs.lionengine.network.Network;
+import com.b3dgs.lionengine.network.NetworkType;
+import com.b3dgs.lionengine.network.UtilNetwork;
+import com.b3dgs.lionengine.network.client.Client;
+import com.b3dgs.lionengine.network.client.ClientUdp;
+import com.b3dgs.lionengine.network.server.Server;
+import com.b3dgs.lionengine.network.server.ServerListener;
+import com.b3dgs.lionengine.network.server.ServerUdp;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
@@ -95,18 +108,19 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private static final String MAP_BOTTOM = "_bottom";
 
     private final MapTileWater mapWater = services.create(MapTileWater.class);
-    private final CheckpointHandler checkpoint;
     private final Hud hud = services.create(Hud.class);
-    private final DeviceController device;
-
     private final Tick tick = new Tick();
-    private final Cheats cheats;
 
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
     private final Thread musicTask;
     private final boolean debug;
+    private final Network network;
+
+    private CheckpointHandler checkpoint;
+    private Cheats cheats;
     private Audio music;
+    private DeviceController device;
 
     private Landscape landscape;
     private int trackerInitY;
@@ -122,16 +136,15 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * Create the world.
      * 
      * @param services The services reference (must not be <code>null</code>).
+     * @param network The network type (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    World(Services services)
+    World(Services services, Network network)
     {
         super(services);
 
+        this.network = network;
         debug = Settings.getInstance().getFlagDebug();
-
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
-        device.setVisible(false);
 
         services.add(new MusicPlayer()
         {
@@ -147,10 +160,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 World.this.stopMusic();
             }
         });
-
-        cheats = new Cheats(services, tick);
-
-        checkpoint = services.create(CheckpointHandler.class);
 
         map.addFeature(new LayerableModel(4, 2));
         map.addFeature(new MapTilePersisterOptimized(), true);
@@ -173,6 +182,84 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
         }, "Musics");
         musicTask.start();
+    }
+
+    /**
+     * Prepare network.
+     * 
+     * @throws IOException If network error.
+     */
+    void prepareNetwork() throws IOException
+    {
+        cheats = new Cheats(services, tick);
+        checkpoint = services.create(CheckpointHandler.class);
+        device = services.get(DeviceController.class);
+
+        if (network.is(NetworkType.SERVER))
+        {
+            final Channel channel = services.create(ChannelBuffer.class);
+            final Server server = services.add(new ServerUdp(channel));
+            server.start(network.getIp().get(), network.getPort().getAsInt());
+            handler.addComponent(new ComponentNetwork(services));
+
+            server.addListener(new ServerListener()
+            {
+                @Override
+                public void notifyServerStarted(String ip, int port)
+                {
+                    // Nothing
+                }
+
+                @Override
+                public void notifyClientConnected(String ip, int port, int id)
+                {
+                    for (final Featurable featurable : handler.values())
+                    {
+                        if (featurable.hasFeature(EntityModel.class)
+                            && featurable.getFeature(Networkable.class).isOwner())
+                        {
+                            try
+                            {
+                                server.send(new IdentifiableCreate(UtilNetwork.SERVER_ID,
+                                                                   UtilNetwork.SERVER_ID,
+                                                                   featurable.getFeature(Networkable.class).getDataId(),
+                                                                   featurable.getMedia()),
+                                            Integer.valueOf(id));
+                                server.send(new Data(UtilNetwork.SERVER_ID,
+                                                     featurable.getFeature(Networkable.class).getDataId(),
+                                                     featurable.getFeature(EntityModel.class).networkInit(),
+                                                     false),
+                                            Integer.valueOf(id));
+                            }
+                            catch (final IOException exception)
+                            {
+                                Verbose.exception(exception);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void notifyClientDisconnected(String ip, int port, int id)
+                {
+                    for (final Featurable featurable : handler.values())
+                    {
+                        if (featurable.hasFeature(EntityModel.class)
+                            && featurable.getFeature(Networkable.class).getClientId().intValue() == id)
+                        {
+                            handler.remove(featurable);
+                        }
+                    }
+                }
+            });
+        }
+        else if (network.is(NetworkType.CLIENT))
+        {
+            final Channel channel = services.create(ChannelBuffer.class);
+            final Client client = services.add(new ClientUdp(channel));
+            client.connect(network.getIp().get(), network.getPort().getAsInt());
+            handler.addComponent(new ComponentNetwork(services));
+        }
     }
 
     /**
@@ -202,7 +289,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                        settings.getBackgroundFlicker());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
-        createPlayerAndLoadCheckpoints(settings, init, stage);
+        if (!network.is(NetworkType.SERVER))
+        {
+            createPlayerAndLoadCheckpoints(settings, init, stage);
+        }
 
         if (RasterType.CACHE == settings.getRaster())
         {
@@ -215,21 +305,23 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 }
             });
         }
-
-        final Featurable[] entities = createEntities(settings, stage);
-
-        if (settings.getFlagParallel())
+        if (!network.is(NetworkType.CLIENT))
         {
-            executor.execute(() -> createEffectCache(settings, stage));
-        }
-        else
-        {
-            createEffectCache(settings, stage);
-        }
+            final Featurable[] entities = createEntities(settings, stage);
 
-        if (RasterType.CACHE == settings.getRaster() && settings.getFlagParallel())
-        {
-            loadRasterEntities(settings, stage, entities);
+            if (settings.getFlagParallel())
+            {
+                executor.execute(() -> createEffectCache(settings, stage));
+            }
+            else
+            {
+                createEffectCache(settings, stage);
+            }
+
+            if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
+            {
+                loadRasterEntities(settings, stage, entities);
+            }
         }
     }
 
@@ -462,6 +554,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private void createPlayerAndLoadCheckpoints(Settings settings, InitConfig init, StageConfig stage)
     {
         final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
+
+        featurable.getFeature(EntityModel.class).setInput(device);
         featurable.getFeature(Stats.class).apply(init);
         player = featurable.getFeature(StateHandler.class);
         hud.setFeaturable(featurable);
@@ -960,6 +1054,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void update(double extrp)
     {
+        if (network.is(NetworkType.SERVER))
+        {
+            camera.setIntervals(0, 0);
+            camera.moveLocation(extrp, device.getHorizontalDirection() * 4, device.getVerticalDirection() * 4);
+        }
+
         device.update(extrp);
         cheats.update(extrp);
 
@@ -999,7 +1099,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         rasterRenderer.execute();
         landscape.renderForeground(g);
         hud.render(g);
-
         cheats.render(g);
     }
 

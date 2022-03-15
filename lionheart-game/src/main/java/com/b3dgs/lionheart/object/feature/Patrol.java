@@ -17,12 +17,14 @@
 package com.b3dgs.lionheart.object.feature;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
@@ -39,6 +41,8 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
+import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
@@ -49,6 +53,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -68,13 +73,13 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  */
 @FeatureInterface
 public final class Patrol extends FeatureModel implements Snapshotable, XmlLoader, Routine, TileCollidableListener,
-                          CollidableListener, Recyclable
+                          CollidableListener, Recyclable, Syncable
 {
+    private final Tick tickSync = new Tick();
     private final Tick tick = new Tick();
     private final AnimationConfig anim;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Trackable target = services.get(Trackable.class);
 
     private int currentIndex;
     private double sh;
@@ -93,6 +98,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     private double startY;
     private double curveAngle;
 
+    private Trackable target;
     private Updatable checker;
     private boolean enabled = true;
     private boolean first = true;
@@ -106,6 +112,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Stats stats;
     @FeatureGet private Patrols patrols;
+    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
@@ -257,6 +264,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
                         startY = transformable.getY();
                     }
                     skip = 0;
+                    sync();
                 }
                 if (amplitude < 0 && !stateHandler.isState(StateTurn.class))
                 {
@@ -430,7 +438,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         }
         if (!enabled)
         {
-            if (Math.abs(transformable.getX() - target.getX()) < proximity)
+            if (target != null && Math.abs(transformable.getX() - target.getX()) < proximity)
             {
                 enabled = sight == 0 || Math.abs(target.getY() - transformable.getY()) < sight;
             }
@@ -449,6 +457,35 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         {
             checker.update(extrp);
         }
+
+        tickSync.update(extrp);
+        if (tickSync.elapsedTime(source.getRate(), 500))
+        {
+            sync();
+        }
+        target = null;
+    }
+
+    private void sync()
+    {
+        if (networkable.isOwner())
+        {
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES * 5 + Double.BYTES * 6 + 1);
+            buffer.putInt(getSyncId());
+            buffer.putInt(currentIndex);
+            buffer.putDouble(sh);
+            buffer.putDouble(sv);
+            buffer.putInt(amplitude);
+            buffer.putInt(offset);
+            buffer.putInt(animOffset);
+            buffer.put(UtilConversion.fromUnsignedByte(mirrorable.getMirror().ordinal()));
+            buffer.putDouble(startX);
+            buffer.putDouble(startY);
+            buffer.putDouble(transformable.getX());
+            buffer.putDouble(transformable.getY());
+            networkable.send(buffer);
+            tickSync.restart();
+        }
     }
 
     @Override
@@ -460,6 +497,10 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
             sh = -sh;
             transformable.teleportX(transformable.getOldX() + sh);
             changeDirection();
+        }
+        if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
+        {
+            target = collidable.getFeature(Trackable.class);
         }
     }
 
@@ -482,6 +523,23 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     }
 
     @Override
+    public void onReceived(Packet packet)
+    {
+        currentIndex = packet.readInt();
+        sh = packet.readDouble();
+        sv = packet.readDouble();
+        amplitude = packet.readInt();
+        offset = packet.readInt();
+        animOffset = packet.readInt();
+        mirrorable.mirror(Mirror.values()[UtilConversion.toUnsignedByte(packet.readByte())]);
+        startX = packet.readDouble();
+        startY = packet.readDouble();
+        transformable.teleport(packet.readDouble(), packet.readDouble());
+
+        rasterable.setAnimOffset(animOffset);
+    }
+
+    @Override
     public void recycle()
     {
         currentIndex = -1;
@@ -493,5 +551,6 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         idle = 0.0;
         skip = 0;
         stateHandler.changeState(StatePatrol.class);
+        tickSync.restart();
     }
 }

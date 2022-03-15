@@ -38,4 +38,6 @@ Choisir la manette de jeu.
 Manette de jeu sélectionnée.
 Enregistrer la configuration et jouer au jeu.
 Exécuter l'éditeur de jeu.
-Enregistrer la configuration et quitter le lanceur. 
+Enregistrer la configuration et quitter le lanceur.
+Lancer le serveur de jeu.
+Joindre un serveur existant.

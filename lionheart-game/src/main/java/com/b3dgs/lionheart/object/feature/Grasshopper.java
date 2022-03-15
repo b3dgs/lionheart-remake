@@ -28,6 +28,9 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
@@ -35,6 +38,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionheart.RasterType;
 import com.b3dgs.lionheart.Settings;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -47,12 +51,12 @@ import com.b3dgs.lionheart.object.state.StateJump;
  * </ol>
  */
 @FeatureInterface
-public final class Grasshopper extends FeatureModel implements Routine
+public final class Grasshopper extends FeatureModel implements Routine, CollidableListener
 {
     private final MapTile map = services.get(MapTile.class);
-    private final Trackable target = services.get(Trackable.class);
     private final Camera camera = services.get(Camera.class);
 
+    private Trackable target;
     private double move;
 
     @FeatureGet private Transformable transformable;
@@ -97,7 +101,7 @@ public final class Grasshopper extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (camera.isViewable(transformable, 64, 16))
+        if (target != null && camera.isViewable(transformable, 64, 16))
         {
             if (target.getX() - transformable.getX() > 100)
             {
@@ -122,6 +126,16 @@ public final class Grasshopper extends FeatureModel implements Routine
 
                 launcher.fire();
             }
+        }
+        target = null;
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
+        {
+            target = collidable.getFeature(Trackable.class);
         }
     }
 }

@@ -17,12 +17,17 @@
 package com.b3dgs.lionheart.object;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Optional;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.UtilConversion;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -44,15 +49,23 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.body.BodyConfig;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
+import com.b3dgs.lionengine.game.feature.networkable.NetworkedDevice;
+import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
+import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionengine.network.Network;
+import com.b3dgs.lionengine.network.NetworkType;
+import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.EntityConfig;
@@ -75,8 +88,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
  */
 // CHECKSTYLE IGNORE LINE: FanOutComplexity
 @FeatureInterface
-public final class EntityModel extends EntityModelHelper
-                               implements Snapshotable, XmlLoader, XmlSaver, Editable<ModelConfig>, Routine, Recyclable
+public final class EntityModel extends EntityModelHelper implements Snapshotable, XmlLoader, XmlSaver,
+                               Editable<ModelConfig>, Routine, Recyclable, Syncable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int PREFIX = State.class.getSimpleName().length();
@@ -103,8 +116,10 @@ public final class EntityModel extends EntityModelHelper
     private final MapTile map = services.get(MapTile.class);
     private final CheckpointHandler checkpoint = services.getOptional(CheckpointHandler.class).orElse(null);
     private final CameraTracker tracker = services.getOptional(CameraTracker.class).orElse(null);
+    private final ClassLoader loader = services.getOptional(ClassLoader.class).orElse(getClass().getClassLoader());
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
+    private final Network network = services.get(Network.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
@@ -112,6 +127,8 @@ public final class EntityModel extends EntityModelHelper
 
     private ModelConfig config = new ModelConfig();
     private boolean jumpOnHurt = true;
+    private NetworkedDevice networkedDevice;
+    private DeviceController deviceNetwork;
 
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
@@ -119,6 +136,7 @@ public final class EntityModel extends EntityModelHelper
     @FeatureGet private Collidable collidable;
     @FeatureGet private StateHandler state;
     @FeatureGet private Identifiable identifiable;
+    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
@@ -167,11 +185,14 @@ public final class EntityModel extends EntityModelHelper
         if (services.getOptional(Trackable.class).isPresent())
         {
             final EntityChecker checker = provider.getFeature(EntityChecker.class);
-            final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
-                                                .booleanValue();
 
-            checker.setCheckerUpdate(() -> alwaysUpdate
-                                           || camera.isViewable(transformable, 0, transformable.getHeight()));
+            if (network.is(NetworkType.NONE))
+            {
+                final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
+                                                    .booleanValue();
+                checker.setCheckerUpdate(() -> alwaysUpdate
+                                               || camera.isViewable(transformable, 0, transformable.getHeight()));
+            }
             checker.setCheckerRender(() -> camera.isViewable(transformable, 0, transformable.getHeight() * 2));
         }
 
@@ -183,6 +204,64 @@ public final class EntityModel extends EntityModelHelper
         jump.setDestination(0.0, 0.0);
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
+
+        state.addListener((old, next) ->
+        {
+            if (networkable.isClient() && !next.equals(old))
+            {
+                final String str = next.getName();
+                final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
+                final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2 + buffer.capacity() + Double.BYTES * 2);
+                data.putInt(getSyncId());
+                data.put(UtilConversion.fromUnsignedByte(0));
+                data.putInt(str.length());
+                data.put(buffer);
+                data.putDouble(transformable.getX());
+                data.putDouble(transformable.getY());
+                networkable.send(data);
+            }
+        });
+
+        transformable.teleport(100, 100);
+
+        if (provider.hasFeature(NetworkedDevice.class))
+        {
+            networkedDevice = provider.getFeature(NetworkedDevice.class);
+        }
+    }
+
+    /**
+     * Init network.
+     * 
+     * @return The message content.
+     */
+    public ByteBuffer networkInit()
+    {
+        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2 + Double.BYTES * 2);
+        data.putInt(getSyncId());
+        data.put(UtilConversion.fromUnsignedByte(1));
+        data.putDouble(transformable.getX());
+        data.putDouble(transformable.getY());
+        return data;
+    }
+
+    @Override
+    public void onConnected()
+    {
+        if (networkedDevice != null)
+        {
+            if (!networkable.isOwner() || networkable.isServer())
+            {
+                final Services s = new Services();
+                s.add(networkedDevice.getVirtual());
+                deviceNetwork = DeviceControllerConfig.create(s, Medias.create("input_network.xml"));
+                setInput(deviceNetwork);
+            }
+            else
+            {
+                networkedDevice.set(services.get(DeviceController.class));
+            }
+        }
     }
 
     /**
@@ -231,6 +310,11 @@ public final class EntityModel extends EntityModelHelper
     @Override
     public void update(double extrp)
     {
+        if (deviceNetwork != null)
+        {
+            deviceNetwork.update(extrp);
+        }
+
         jump.update(extrp);
         movement.update(extrp);
         transformable.moveLocation(extrp, body, movement, jump);
@@ -399,6 +483,36 @@ public final class EntityModel extends EntityModelHelper
                          transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
 
         config.save(root);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void onReceived(Packet packet)
+    {
+        if (!networkable.isOwner())
+        {
+            final ByteBuffer buffer = packet.buffer();
+            final int type = UtilConversion.toUnsignedByte(buffer.get());
+            if (type == 0)
+            {
+                final byte[] str = new byte[buffer.getInt()];
+                buffer.get(str);
+                final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
+                try
+                {
+                    state.changeState((Class<? extends State>) loader.loadClass(name));
+                }
+                catch (final ClassNotFoundException exception)
+                {
+                    Verbose.exception(exception);
+                }
+                transformable.teleport(buffer.getDouble(), buffer.getDouble());
+            }
+            else if (type == 1)
+            {
+                transformable.teleport(buffer.getDouble(), buffer.getDouble());
+            }
+        }
     }
 
     @Override

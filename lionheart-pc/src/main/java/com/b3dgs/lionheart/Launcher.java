@@ -64,6 +64,7 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
@@ -94,6 +95,8 @@ import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.network.Network;
+import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -183,6 +186,8 @@ public final class Launcher
     private static final String LABEL_PLAY = "Play";
     private static final String LABEL_EDITOR = "Editor";
     private static final String LABEL_EXIT = "Exit";
+    private static final String LABEL_START_SERVER = "Start Server";
+    private static final String LABEL_JOIN_GAME = "Join Game";
     private static final String LABEL_MADE = "Made with "
                                              + com.b3dgs.lionengine.Constant.ENGINE_NAME
                                              + com.b3dgs.lionengine.Constant.SPACE
@@ -311,6 +316,7 @@ public final class Launcher
         createGamepad(box, gamepad);
         createSetups(box, frame, gamepad);
         createButtons(box, frame, gamepad);
+        createNetwork(box, frame, gamepad);
         createCopyright(frame);
 
         final String lang = Settings.getInstance().getLang();
@@ -1128,7 +1134,7 @@ public final class Launcher
             gamepad.select(GAMEPAD.get());
             save();
             window.dispose();
-            AppLionheart.run(gamepad);
+            AppLionheart.run(new Network(NetworkType.NONE), gamepad);
         });
         LABELS.add(play::setText);
         TIPS.add(play);
@@ -1190,6 +1196,50 @@ public final class Launcher
         panel.add(play, constraints);
         panel.add(editor, constraints);
         panel.add(exit, constraints);
+    }
+
+    private static void createNetwork(Container parent, Window window, Gamepad gamepad)
+    {
+        final JButton startServer = new JButton(LABEL_START_SERVER);
+        startServer.setFont(FONT);
+        startServer.addActionListener(event ->
+        {
+            gamepad.select(GAMEPAD.get());
+            save();
+            window.dispose();
+            AppLionheart.run(new Network(NetworkType.SERVER), gamepad);
+        });
+        LABELS.add(startServer::setText);
+        TIPS.add(startServer);
+
+        final JButton joinGame = new JButton(LABEL_JOIN_GAME);
+        joinGame.setFont(FONT);
+        joinGame.addActionListener(event ->
+        {
+            final String ip = JOptionPane.showInputDialog(parent,
+                                                          "IP",
+                                                          startServer.getText(),
+                                                          JOptionPane.QUESTION_MESSAGE);
+            if (ip != null)
+            {
+                gamepad.select(GAMEPAD.get());
+                save();
+                window.dispose();
+                AppLionheart.run(new Network(NetworkType.CLIENT, ip, 9999), gamepad);
+            }
+        });
+        LABELS.add(joinGame::setText);
+        TIPS.add(joinGame);
+
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
+
+        final JPanel panel = new JPanel(new GridBagLayout());
+        parent.add(panel);
+        panel.setBorder(BORDER);
+        panel.add(startServer, constraints);
+        panel.add(joinGame, constraints);
     }
 
     private static void createCopyright(Container parent)
