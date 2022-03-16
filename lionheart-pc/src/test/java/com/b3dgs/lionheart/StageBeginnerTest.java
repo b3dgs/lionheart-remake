@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.TaskFuture;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -73,6 +74,7 @@ final class StageBeginnerTest
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
+                                             Network.NONE,
                                              new InitConfig(Medias.create(Folder.STAGE, "beginner", "stage1.xml"),
                                                             1,
                                                             1,

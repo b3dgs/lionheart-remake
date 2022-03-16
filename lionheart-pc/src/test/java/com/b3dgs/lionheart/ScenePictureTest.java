@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -69,6 +70,7 @@ final class ScenePictureTest
         Settings.getInstance().setLang(lang);
         Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
+                     Network.NONE,
                      new InitConfig(Medias.create("void.xml"),
                                     Constant.STATS_MAX_HEART - 1,
                                     Constant.STATS_MAX_TALISMENT - 1,
@@ -106,6 +108,7 @@ final class ScenePictureTest
         Settings.getInstance().setLang(lang);
         Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
+                     Network.NONE,
                      new InitConfig(Medias.create("void.xml"),
                                     Constant.STATS_MAX_HEART - 1,
                                     Constant.STATS_MAX_TALISMENT - 1,
