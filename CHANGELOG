@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - In progress
+### Added
+- Support to stage progress save and load
+- Alternative player attack gameplay with more trivial feeling
+- More cheats and access to all stages set
+
+### Fixed
+- Norka first boss body collision missing on attack
+- Norka second boss wrong collision and bullet hit
+- Sfx audio bad rendering and latency on Linux
+- Antivirus detections on "Lionheart Remake.exe" launcher
+- Memory leak on State changes
+
 ## [1.2.0] - 2022-01-29
 ### Added
 - Underworld theme added with new stages, objects and boss
