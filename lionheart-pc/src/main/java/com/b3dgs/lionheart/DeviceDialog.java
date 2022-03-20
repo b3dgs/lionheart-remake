@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -51,6 +52,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
 import com.b3dgs.lionengine.Media;
@@ -69,12 +71,13 @@ public class DeviceDialog extends JDialog
 {
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
 
-    private static final int DIALOG_WIDTH = 640;
-    private static final int DIALOG_HEIGHT = 480;
+    private static final int DIALOG_WIDTH = 1024;
+    private static final int DIALOG_HEIGHT = 768;
     private static final int DEVICE_NAME_SPACE_MAX = 10;
     private static final String STR_EQUAL_QUOTE = "=\"";
 
     private static final String LABEL_ADD = "Add";
+    private static final String LABEL_REMOVE = "Remove";
     private static final String LABEL_ASSIGN = "assign...";
     private static final String LABEL_SAVE = "Save";
     private static final String LABEL_EXIT = "Exit";
@@ -124,7 +127,6 @@ public class DeviceDialog extends JDialog
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
 
         load();
 
@@ -140,7 +142,15 @@ public class DeviceDialog extends JDialog
         createButtons();
     }
 
-    private JTextField createTextField(Box box, DeviceMapper mapping)
+    @Override
+    public void pack()
+    {
+        super.pack();
+        setPreferredSize(new Dimension(Math.min(getWidth() + 32, DIALOG_WIDTH), Math.min(getHeight(), DIALOG_HEIGHT)));
+        super.pack();
+    }
+
+    private JTextField createTextField(Box box, DeviceMapper mapping, AtomicBoolean removeEnabled)
     {
         final JTextField field = new JTextField();
         field.setFont(FONT);
@@ -151,14 +161,17 @@ public class DeviceDialog extends JDialog
             @Override
             public void mousePressed(MouseEvent e)
             {
-                final Set<Integer> codes = data.computeIfAbsent(mapping, m -> new HashSet<>());
-                if (e.getButton() == MouseEvent.BUTTON1)
+                if (!removeEnabled.get())
                 {
-                    codeAssign(field, codes);
-                }
-                else
-                {
-                    codeRemove(box, mapping, field, codes);
+                    final Set<Integer> codes = data.computeIfAbsent(mapping, m -> new HashSet<>());
+                    if (e.getButton() == MouseEvent.BUTTON1)
+                    {
+                        codeAssign(field, codes);
+                    }
+                    else
+                    {
+                        codeRemove(box, mapping, field, codes);
+                    }
                 }
             }
         });
@@ -203,20 +216,46 @@ public class DeviceDialog extends JDialog
         label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         box.add(label);
 
+        final AtomicBoolean removeEnabled = new AtomicBoolean();
+        final JToggleButton remove = new JToggleButton(LABEL_REMOVE);
+        remove.setFont(FONT);
+        remove.addActionListener(e ->
+        {
+            removeEnabled.set(!removeEnabled.get());
+        });
+
         final JButton add = new JButton(LABEL_ADD);
         add.setFont(FONT);
         add.addActionListener(e ->
         {
-            final JTextField field = createTextField(box, mapping);
+            remove.setSelected(false);
+            removeEnabled.set(false);
+
+            final JTextField field = createTextField(box, mapping, removeEnabled);
             field.setText(LABEL_ASSIGN);
             box.revalidate();
         });
         box.add(add);
 
+        box.add(remove);
+
         for (final Integer code : Optional.ofNullable(data.get(mapping)).orElse(Collections.emptySet()))
         {
-            final JTextField field = createTextField(box, mapping);
+            final JTextField field = createTextField(box, mapping, removeEnabled);
             field.setText(controller.getText(code.intValue()));
+            field.addMouseListener(new MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(MouseEvent event)
+                {
+                    if (removeEnabled.get())
+                    {
+                        removeEnabled.set(false);
+                        remove.setSelected(false);
+                        codeRemove(box, mapping, field, data.computeIfAbsent(mapping, m -> new HashSet<>()));
+                    }
+                }
+            });
         }
     }
 
