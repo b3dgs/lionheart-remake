@@ -994,12 +994,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.addAction(() ->
             {
                 sequencer.end(SceneBlack.class,
+                              services.get(Network.class),
                               Util.getInitConfig(Medias.create(next), player, difficulty, cheats.isEnabled(), spawn));
             }, source.getRate(), delayMs);
         }
         else
         {
             sequencer.end(SceneBlack.class,
+                          services.get(Network.class),
                           Util.getInitConfig(Medias.create(next), player, difficulty, cheats.isEnabled(), spawn));
         }
     }

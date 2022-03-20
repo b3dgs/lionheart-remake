@@ -70,6 +70,7 @@ public final class StateRespawn extends State
             if (stats.getCredits() > 0)
             {
                 sequencer.end(Continue.class,
+                              model.getServices().get(Network.class),
                               new InitConfig(model.getServices().get(Media.class),
                                              stats.getHealthMax(),
                                              stats.getTalisment(),
@@ -83,7 +84,7 @@ public final class StateRespawn extends State
             }
             else
             {
-                sequencer.end(Menu.class);
+                sequencer.end(Menu.class, model.getServices().get(Network.class));
             }
         }
         else

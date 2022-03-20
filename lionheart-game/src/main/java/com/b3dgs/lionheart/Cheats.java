@@ -41,6 +41,7 @@ import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DevicePointer;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
 import com.b3dgs.lionheart.menu.Menu;
@@ -255,7 +256,7 @@ public class Cheats implements Updatable, Renderable
         {
             if (paused)
             {
-                sequencer.end(Menu.class);
+                sequencer.end(Menu.class, services.get(Network.class));
             }
             paused = !paused;
             hud.setExit(paused);
@@ -296,6 +297,7 @@ public class Cheats implements Updatable, Renderable
     private void onStage(String stages, int index)
     {
         sequencer.end(SceneBlack.class,
+                      services.get(Network.class),
                       Util.getInitConfig(Util.getStage(stages, difficulty, index + 1),
                                          player,
                                          difficulty,
@@ -441,6 +443,7 @@ public class Cheats implements Updatable, Renderable
                 if (stage.exists())
                 {
                     sequencer.end(SceneBlack.class,
+                                  services.get(Network.class),
                                   Util.getInitConfig(stage, player, difficulty, cheats, Optional.empty()));
                 }
             }

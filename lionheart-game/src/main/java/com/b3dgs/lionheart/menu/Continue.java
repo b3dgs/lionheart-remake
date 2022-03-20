@@ -43,6 +43,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DevicePointer;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
@@ -124,6 +125,7 @@ public class Continue extends Sequence
     private final DeviceController deviceCursor;
     private final Cursor cursor;
     private final DevicePointer pointer;
+    private final Network network;
 
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
@@ -136,13 +138,15 @@ public class Continue extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param network The network reference.
      * @param stage The current stage.
      * @param init The init config.
      */
-    public Continue(Context context, Media stage, InitConfig init)
+    public Continue(Context context, Network network, Media stage, InitConfig init)
     {
         super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
 
+        this.network = network;
         this.stage = stage;
         this.init = init;
 
@@ -269,6 +273,7 @@ public class Continue extends Sequence
             if (choice == 0)
             {
                 end(Scene.class,
+                    network,
                     new InitConfig(stage,
                                    init.getHealthMax(),
                                    0,
@@ -282,7 +287,7 @@ public class Continue extends Sequence
             }
             else
             {
-                end(Menu.class);
+                end(Menu.class, network);
             }
         }
     }
