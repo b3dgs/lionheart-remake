@@ -128,7 +128,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Network network = services.getOptional(Network.class).orElse(Network.NONE);
-    private final Map<Integer, String> clients = services.get(ConcurrentHashMap.class);
+    private final Map<Integer, String> clients = services.getOptional(ConcurrentHashMap.class).orElse(null);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
