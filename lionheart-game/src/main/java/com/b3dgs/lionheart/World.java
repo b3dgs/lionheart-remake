@@ -19,8 +19,10 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,6 +30,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
@@ -66,8 +69,10 @@ import com.b3dgs.lionengine.game.feature.tile.map.raster.MapTileRasteredModel;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewer;
 import com.b3dgs.lionengine.game.feature.tile.map.viewer.MapTileViewerModel;
 import com.b3dgs.lionengine.geom.Coord;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
+import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.helper.EntityInputController;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
@@ -81,6 +86,7 @@ import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionengine.network.UtilNetwork;
 import com.b3dgs.lionengine.network.client.Client;
+import com.b3dgs.lionengine.network.client.ClientListener;
 import com.b3dgs.lionengine.network.client.ClientUdp;
 import com.b3dgs.lionengine.network.server.Server;
 import com.b3dgs.lionengine.network.server.ServerListener;
@@ -113,6 +119,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
+    private final Map<Integer, String> clients = services.add(new ConcurrentHashMap<>());
+    private final Text text;
     private final Thread musicTask;
     private final boolean debug;
     private final Network network;
@@ -142,6 +150,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     World(Services services, Network network)
     {
         super(services);
+
+        final int size = Math.max(9,
+                                  9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.getHeight()));
+        text = Graphics.createText(size);
+        text.setColor(ColorRgba.WHITE);
 
         this.network = network;
         debug = Settings.getInstance().getFlagDebug();
@@ -211,7 +224,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 }
 
                 @Override
-                public void notifyClientConnected(String ip, int port, int id)
+                public void notifyClientConnected(String ip, int port, Integer id)
                 {
                     for (final Featurable featurable : handler.values())
                     {
@@ -224,12 +237,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                    UtilNetwork.SERVER_ID,
                                                                    featurable.getFeature(Networkable.class).getDataId(),
                                                                    featurable.getMedia()),
-                                            Integer.valueOf(id));
+                                            id);
                                 server.send(new Data(UtilNetwork.SERVER_ID,
                                                      featurable.getFeature(Networkable.class).getDataId(),
                                                      featurable.getFeature(EntityModel.class).networkInit(),
                                                      false),
-                                            Integer.valueOf(id));
+                                            id);
                             }
                             catch (final IOException exception)
                             {
@@ -237,19 +250,27 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                             }
                         }
                     }
+                    clients.put(id, ip);
                 }
 
                 @Override
-                public void notifyClientDisconnected(String ip, int port, int id)
+                public void notifyClientDisconnected(String ip, int port, Integer id)
                 {
                     for (final Featurable featurable : handler.values())
                     {
                         if (featurable.hasFeature(EntityModel.class)
-                            && featurable.getFeature(Networkable.class).getClientId().intValue() == id)
+                            && featurable.getFeature(Networkable.class).getClientId().equals(id))
                         {
                             handler.remove(featurable);
                         }
                     }
+                    clients.remove(id);
+                }
+
+                @Override
+                public void notifyClientNamed(Integer id, String name)
+                {
+                    clients.put(id, name);
                 }
             });
         }
@@ -257,7 +278,22 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             final Channel channel = services.create(ChannelBuffer.class);
             final Client client = services.add(new ClientUdp(channel));
+            client.addListener(new ClientListener()
+            {
+                @Override
+                public void notifyConnected(String ip, int port, Integer id)
+                {
+                    clients.put(id, network.getName().get());
+                }
+
+                @Override
+                public void notifyClientNamed(Integer id, String name)
+                {
+                    clients.put(id, name);
+                }
+            });
             client.connect(network.getIp().get(), network.getPort().getAsInt());
+            client.setName(network.getName().get());
             handler.addComponent(new ComponentNetwork(services));
         }
     }
@@ -1101,6 +1137,16 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         rasterRenderer.execute();
         landscape.renderForeground(g);
         hud.render(g);
+
+        if (device.isFired(DeviceMapping.TAB))
+        {
+            int y = 20;
+            for (final String name : clients.values())
+            {
+                text.draw(g, 2, y, Align.LEFT, name);
+                y += text.getHeight();
+            }
+        }
         cheats.render(g);
     }
 
