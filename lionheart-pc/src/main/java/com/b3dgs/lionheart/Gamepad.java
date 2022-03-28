@@ -154,7 +154,7 @@ public class Gamepad implements DevicePush
                         final int n = listeners.size();
                         for (int i = 0; i < n; i++)
                         {
-                            listeners.get(i).onDeviceChanged(code, true);
+                            listeners.get(i).onDeviceChanged(code, (char) buttonCode, true);
                         }
                     }
                     return false;
@@ -173,7 +173,7 @@ public class Gamepad implements DevicePush
                         final int n = listeners.size();
                         for (int i = 0; i < n; i++)
                         {
-                            listeners.get(i).onDeviceChanged(code, false);
+                            listeners.get(i).onDeviceChanged(code, (char) buttonCode, false);
                         }
                     }
                     return false;

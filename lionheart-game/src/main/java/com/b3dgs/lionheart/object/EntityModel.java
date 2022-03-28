@@ -20,11 +20,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
-import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
@@ -59,9 +56,6 @@ import com.b3dgs.lionengine.game.feature.state.State;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.geom.Coord;
-import com.b3dgs.lionengine.graphic.Graphic;
-import com.b3dgs.lionengine.graphic.Graphics;
-import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
@@ -105,8 +99,6 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     private static final double DEFAULT_JUMP_VELOCITY = 0.22;
     private static final double DEFAULT_JUMP_SENSIBILITY = 0.1;
 
-    private static final Text TEXT = Graphics.createText(9);
-
     /**
      * Get animation name from state class.
      * 
@@ -128,7 +120,6 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Network network = services.getOptional(Network.class).orElse(Network.NONE);
-    private final Map<Integer, String> clients = services.getOptional(ConcurrentHashMap.class).orElse(null);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
@@ -335,25 +326,6 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
             || transformable.getY() > map.getHeight() + source.getHeight())
         {
             identifiable.destroy();
-        }
-    }
-
-    @Override
-    public void render(Graphic g)
-    {
-        if (!networkable.isOwner())
-        {
-            final String name = clients.get(networkable.getClientId());
-            if (name != null)
-            {
-                TEXT.draw(g,
-                          (int) Math.round(camera.getViewpointX(transformable.getX())),
-                          (int) Math.round(camera.getViewpointY(transformable.getY())
-                                           - transformable.getHeight()
-                                           - TEXT.getSize()),
-                          Align.CENTER,
-                          name);
-            }
         }
     }
 

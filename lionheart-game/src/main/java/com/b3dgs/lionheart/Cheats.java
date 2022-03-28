@@ -78,6 +78,7 @@ public class Cheats implements Updatable, Renderable
     private final Hud hud;
     private final ScreenShaker shaker;
     private final MusicPlayer music;
+    private final ChatHandler chat;
 
     private Difficulty difficulty;
     private StateHandler player;
@@ -105,6 +106,7 @@ public class Cheats implements Updatable, Renderable
         device = services.get(DeviceController.class);
         hud = services.get(Hud.class);
         music = services.get(MusicPlayer.class);
+        chat = services.get(ChatHandler.class);
 
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
@@ -478,8 +480,11 @@ public class Cheats implements Updatable, Renderable
         cursor.update(extrp);
         shaker.update(extrp);
 
-        updatePause();
-        updateQuit();
+        if (!chat.isTyping())
+        {
+            updatePause();
+            updateQuit();
+        }
         if (player != null)
         {
             updateOriginal();

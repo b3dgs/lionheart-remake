@@ -204,6 +204,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      */
     void prepareNetwork() throws IOException
     {
+        final Featurable chatHandler = factory.create(Medias.create("ChatHandler.xml"));
+        handler.add(chatHandler);
+        services.add(chatHandler.getFeature(ChatHandler.class));
+
         cheats = new Cheats(services, tick);
         checkpoint = services.create(CheckpointHandler.class);
         device = services.get(DeviceController.class);
