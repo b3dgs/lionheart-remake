@@ -42,6 +42,7 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DevicePointer;
 import com.b3dgs.lionengine.network.Network;
+import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
 import com.b3dgs.lionheart.menu.Menu;
@@ -78,7 +79,7 @@ public class Cheats implements Updatable, Renderable
     private final Hud hud;
     private final ScreenShaker shaker;
     private final MusicPlayer music;
-    private final ChatHandler chat;
+    private final Network network;
 
     private Difficulty difficulty;
     private StateHandler player;
@@ -106,7 +107,7 @@ public class Cheats implements Updatable, Renderable
         device = services.get(DeviceController.class);
         hud = services.get(Hud.class);
         music = services.get(MusicPlayer.class);
-        chat = services.get(ChatHandler.class);
+        network = services.get(Network.class);
 
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
@@ -127,7 +128,10 @@ public class Cheats implements Updatable, Renderable
         cursor.setRenderingOffset(CURSOR_OX, CURSOR_OY);
         cursor.load();
 
-        createMenu();
+        if (network.is(NetworkType.NONE))
+        {
+            createMenu();
+        }
 
         services.add(new CheatsProvider()
         {
@@ -242,7 +246,7 @@ public class Cheats implements Updatable, Renderable
      */
     private void updatePause()
     {
-        if (device.isFiredOnce(DeviceMapping.PAUSE))
+        if (network.is(NetworkType.NONE) && device.isFiredOnce(DeviceMapping.PAUSE))
         {
             paused = !paused;
             hud.setPaused(paused);
@@ -256,12 +260,19 @@ public class Cheats implements Updatable, Renderable
     {
         if (device.isFiredOnce(DeviceMapping.QUIT))
         {
-            if (paused)
+            if (network.is(NetworkType.NONE))
             {
-                sequencer.end(Menu.class, services.get(Network.class));
+                if (paused)
+                {
+                    sequencer.end(Menu.class, services.get(Network.class));
+                }
+                paused = !paused;
+                hud.setExit(paused);
             }
-            paused = !paused;
-            hud.setExit(paused);
+            else
+            {
+                sequencer.end();
+            }
         }
     }
 
@@ -480,12 +491,10 @@ public class Cheats implements Updatable, Renderable
         cursor.update(extrp);
         shaker.update(extrp);
 
-        if (!chat.isTyping())
-        {
-            updatePause();
-            updateQuit();
-        }
-        if (player != null)
+        updatePause();
+        updateQuit();
+
+        if (network.is(NetworkType.NONE) && player != null)
         {
             updateOriginal();
             updateMenu();

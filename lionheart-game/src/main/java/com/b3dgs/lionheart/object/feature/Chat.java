@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -60,10 +61,10 @@ public class Chat extends FeatureModel implements Syncable
     {
         final int length = message.length();
         final ByteBuffer nameBuffer = StandardCharsets.UTF_8.encode(message);
-        final ByteBuffer buffer = ByteBuffer.allocate(1 + Integer.BYTES * 2 + length);
+        final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 1 + length);
 
         buffer.putInt(getSyncId());
-        buffer.putInt(length);
+        buffer.put(UtilConversion.fromUnsignedByte(length));
         buffer.put(nameBuffer);
         networkable.send(buffer);
     }

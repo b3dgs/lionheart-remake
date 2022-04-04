@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
@@ -24,6 +25,7 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -41,6 +43,10 @@ public class Scene extends SequenceGame<World>
     private final Media music;
     private final InitConfig init;
     private final Boolean exit;
+    private final AtomicReference<Action> closer = new AtomicReference<>(() ->
+    {
+        // Void
+    });
 
     /**
      * Create the scene.
@@ -90,7 +96,7 @@ public class Scene extends SequenceGame<World>
 
         try
         {
-            world.prepareNetwork();
+            world.prepareNetwork(closer);
         }
         catch (final IOException exception)
         {
@@ -164,5 +170,6 @@ public class Scene extends SequenceGame<World>
         super.onTerminated(hasNextSequence);
 
         world.stopMusic();
+        closer.get().execute();
     }
 }

@@ -332,17 +332,7 @@ public final class Hurtable extends FeatureModel
         }
         if (stats.getHealthMax() > 0 && stats.applyDamages(damages))
         {
-            if (fall)
-            {
-                oldGravity = body.getGravity();
-                oldGravityMax = body.getGravityMax();
-                body.setGravity(0.25);
-                body.setGravityMax(4.0);
-                tileCollidable.setEnabled(true);
-            }
-            currentCollide = CollidableListenerVoid.getInstance();
-            model.getMovement().zero();
-            this.collidable.setEnabled(false);
+            onKilled();
         }
         if (model.getMovement().isDecreasingHorizontal())
         {
@@ -359,6 +349,23 @@ public final class Hurtable extends FeatureModel
             getFeature(Patrol.class).stop();
         }
         hurt();
+    }
+
+    private void onKilled()
+    {
+        if (fall)
+        {
+            oldGravity = body.getGravity();
+            oldGravityMax = body.getGravityMax();
+            body.setGravity(0.25);
+            body.setGravityMax(4.0);
+            tileCollidable.setEnabled(true);
+        }
+        currentCollide = CollidableListenerVoid.getInstance();
+        model.getMovement().zero();
+        collidable.setEnabled(false);
+
+        syncOnKilled();
     }
 
     /**
@@ -505,15 +512,28 @@ public final class Hurtable extends FeatureModel
             }
             model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, NEXT_DELAY_MS));
         }
+
         syncKill(force);
+    }
+
+    private void syncOnKilled()
+    {
+        if (networkable.isOwner())
+        {
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 1);
+            buffer.putInt(getSyncId());
+            buffer.put(UtilConversion.fromUnsignedByte(0));
+            networkable.send(buffer);
+        }
     }
 
     private void syncKill(boolean force)
     {
         if (networkable.isOwner())
         {
-            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 1);
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 2);
             buffer.putInt(getSyncId());
+            buffer.put(UtilConversion.fromUnsignedByte(1));
             buffer.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(force)));
             networkable.send(buffer);
         }
@@ -563,7 +583,19 @@ public final class Hurtable extends FeatureModel
     @Override
     public void onReceived(Packet packet)
     {
-        kill(packet.readBool());
+        final int id = UtilConversion.toUnsignedByte(packet.readByte());
+        if (id == 0)
+        {
+            onKilled();
+            if (hasFeature(Patrol.class))
+            {
+                getFeature(Patrol.class).stop();
+            }
+        }
+        else if (id == 1)
+        {
+            kill(packet.readBool());
+        }
     }
 
     @Override

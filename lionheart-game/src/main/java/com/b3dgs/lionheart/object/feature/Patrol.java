@@ -470,19 +470,19 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     {
         if (networkable.isOwner())
         {
-            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES * 5 + Double.BYTES * 6 + 1);
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES * 4 + Float.BYTES * 6 + 2);
             buffer.putInt(getSyncId());
-            buffer.putInt(currentIndex);
-            buffer.putDouble(sh);
-            buffer.putDouble(sv);
+            buffer.put(UtilConversion.fromUnsignedByte(currentIndex));
+            buffer.putFloat((float) sh);
+            buffer.putFloat((float) sv);
             buffer.putInt(amplitude);
             buffer.putInt(offset);
             buffer.putInt(animOffset);
             buffer.put(UtilConversion.fromUnsignedByte(mirrorable.getMirror().ordinal()));
-            buffer.putDouble(startX);
-            buffer.putDouble(startY);
-            buffer.putDouble(transformable.getX());
-            buffer.putDouble(transformable.getY());
+            buffer.putFloat((float) startX);
+            buffer.putFloat((float) startY);
+            buffer.putFloat((float) transformable.getX());
+            buffer.putFloat((float) transformable.getY());
             networkable.send(buffer);
             tickSync.restart();
         }
@@ -525,16 +525,16 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     @Override
     public void onReceived(Packet packet)
     {
-        currentIndex = packet.readInt();
-        sh = packet.readDouble();
-        sv = packet.readDouble();
+        currentIndex = UtilConversion.toUnsignedByte(packet.readByte());
+        sh = packet.readFloat();
+        sv = packet.readFloat();
         amplitude = packet.readInt();
         offset = packet.readInt();
         animOffset = packet.readInt();
         mirrorable.mirror(Mirror.values()[UtilConversion.toUnsignedByte(packet.readByte())]);
-        startX = packet.readDouble();
-        startY = packet.readDouble();
-        transformable.teleport(packet.readDouble(), packet.readDouble());
+        startX = packet.readFloat();
+        startY = packet.readFloat();
+        transformable.teleport(packet.readFloat(), packet.readFloat());
 
         rasterable.setAnimOffset(animOffset);
     }

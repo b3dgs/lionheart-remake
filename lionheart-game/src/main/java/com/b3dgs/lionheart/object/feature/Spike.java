@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import java.nio.ByteBuffer;
+
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
@@ -35,7 +37,10 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.networkable.Networkable;
+import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Editable;
@@ -49,7 +54,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </p>
  */
 @FeatureInterface
-public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Editable<SpikeConfig>, Routine, Recyclable
+public final class Spike extends FeatureModel
+                         implements XmlLoader, XmlSaver, Editable<SpikeConfig>, Routine, Recyclable, Syncable
 {
     private static final int PHASE1_DELAY_MS = 500;
     private static final int PHASE2_DELAY_MS = 500;
@@ -70,6 +76,7 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
     @FeatureGet private Animatable animatable;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
@@ -105,6 +112,8 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
             tick.restart();
             animatable.play(rise);
             updater = this::updateAttackPrepared;
+
+            syncStart();
         }
     }
 
@@ -185,6 +194,13 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
         }
     }
 
+    private void syncStart()
+    {
+        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES);
+        data.putInt(getSyncId());
+        networkable.send(data);
+    }
+
     @Override
     public SpikeConfig getConfig()
     {
@@ -232,6 +248,14 @@ public final class Spike extends FeatureModel implements XmlLoader, XmlSaver, Ed
     public void update(double extrp)
     {
         updater.update(extrp);
+    }
+
+    @Override
+    public void onReceived(Packet packet)
+    {
+        tick.restart();
+        animatable.play(rise);
+        updater = this::updateAttackPrepared;
     }
 
     @Override

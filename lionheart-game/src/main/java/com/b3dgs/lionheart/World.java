@@ -29,6 +29,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
@@ -200,9 +201,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     /**
      * Prepare network.
      * 
+     * @param closer The closer action.
      * @throws IOException If network error.
      */
-    void prepareNetwork() throws IOException
+    void prepareNetwork(AtomicReference<Action> closer) throws IOException
     {
         final Featurable chatHandler = factory.create(Medias.create("ChatHandler.xml"));
         handler.add(chatHandler);
@@ -216,6 +218,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             final Channel channel = services.create(ChannelBuffer.class);
             final Server server = services.add(new ServerUdp(channel));
+            closer.set(server::stop);
             server.start(network.getIp().get(), network.getPort().getAsInt());
             handler.addComponent(new ComponentNetwork(services));
 
@@ -282,6 +285,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             final Channel channel = services.create(ChannelBuffer.class);
             final Client client = services.add(new ClientUdp(channel));
+            closer.set(client::disconnect);
             client.addListener(new ClientListener()
             {
                 @Override

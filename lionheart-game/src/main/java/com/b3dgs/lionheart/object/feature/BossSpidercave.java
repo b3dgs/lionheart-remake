@@ -74,7 +74,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     private final Updatable updater;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Trackable target = services.get(Trackable.class);
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
     private final Spawner spawner = services.get(Spawner.class);
 
     private Featurable head;
@@ -251,7 +251,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                                               transformable.getY() + headOffsetY + 6);
                 headCollidable.setEnabled(headAnim.getFrame() == 6);
 
-                if (target.getX() > transformable.getX())
+                if (target != null && target.getX() > transformable.getX())
                 {
                     target.teleportX(transformable.getX());
                 }

@@ -211,13 +211,16 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
             {
                 final String str = next.getName();
                 final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
-                final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2 + buffer.capacity() + Double.BYTES * 2);
+                final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2 + Float.BYTES * 5 + buffer.capacity());
                 data.putInt(getSyncId());
                 data.put(UtilConversion.fromUnsignedByte(0));
-                data.putInt(str.length());
+                data.putFloat((float) transformable.getX());
+                data.putFloat((float) transformable.getY());
+                data.putFloat((float) body.getDirectionVertical());
+                data.putFloat((float) movement.getDirectionHorizontal());
+                data.putFloat((float) jump.getDirectionVertical());
+                data.put(UtilConversion.fromUnsignedByte(str.length()));
                 data.put(buffer);
-                data.putDouble(transformable.getX());
-                data.putDouble(transformable.getY());
                 networkable.send(data);
             }
         });
@@ -237,11 +240,14 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
      */
     public ByteBuffer networkInit()
     {
-        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2 + Double.BYTES * 2);
+        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 1 + Float.BYTES * 5);
         data.putInt(getSyncId());
-        data.put(UtilConversion.fromUnsignedByte(1));
-        data.putDouble(transformable.getX());
-        data.putDouble(transformable.getY());
+        data.put(UtilConversion.fromUnsignedByte(0));
+        data.putFloat((float) transformable.getX());
+        data.putFloat((float) transformable.getY());
+        data.putFloat((float) body.getDirectionVertical());
+        data.putFloat((float) movement.getDirectionHorizontal());
+        data.putFloat((float) jump.getDirectionVertical());
         return data;
     }
 
@@ -489,28 +495,27 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     @Override
     public void onReceived(Packet packet)
     {
-        if (!networkable.isOwner())
+        final ByteBuffer buffer = packet.buffer();
+        final int type = UtilConversion.toUnsignedByte(buffer.get());
+
+        transformable.teleport(buffer.getFloat(), buffer.getFloat());
+        body.setForce(buffer.getFloat());
+        movement.setDirection(buffer.getFloat(), movement.getDirectionVertical());
+        jump.setDirection(jump.getDirectionHorizontal(), jump.getDirectionVertical());
+
+        if (type == 1)
         {
-            final ByteBuffer buffer = packet.buffer();
-            final int type = UtilConversion.toUnsignedByte(buffer.get());
-            if (type == 0)
+            final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
+            buffer.get(str);
+            final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
+            try
             {
-                final byte[] str = new byte[buffer.getInt()];
-                buffer.get(str);
-                final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
-                try
-                {
-                    state.changeState((Class<? extends State>) loader.loadClass(name));
-                }
-                catch (final ClassNotFoundException exception)
-                {
-                    Verbose.exception(exception);
-                }
-                transformable.teleport(buffer.getDouble(), buffer.getDouble());
+                state.changeState((Class<? extends State>) loader.loadClass(name));
+                state.postUpdate();
             }
-            else if (type == 1)
+            catch (final ClassNotFoundException exception)
             {
-                transformable.teleport(buffer.getDouble(), buffer.getDouble());
+                Verbose.exception(exception);
             }
         }
     }

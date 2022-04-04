@@ -173,42 +173,45 @@ public final class Spider extends FeatureModel
     @Override
     public void update(double extrp)
     {
-        if (distance < 0
-            || UtilMath.getDistance(target, transformable) < distance
-            || stateHandler.isState(StatePatrolCeil.class)
-               && Math.abs(target.getX() - transformable.getX()) < FALL_DISTANCE)
+        if (target != null)
         {
-            if (stateHandler.isState(StatePatrolCeil.class))
+            if (distance < 0
+                || UtilMath.getDistance(target, transformable) < distance
+                || stateHandler.isState(StatePatrolCeil.class)
+                   && Math.abs(target.getX() - transformable.getX()) < FALL_DISTANCE)
             {
-                stateHandler.changeState(StateFall.class);
-                body.setGravity(0.45);
-                body.setGravityMax(5.4);
-            }
-            else if (enabled && !tracked)
-            {
-                tracked = true;
-                body.setGravity(0.65);
-                body.setGravityMax(7.8);
-                stateHandler.changeState(StateJumpSpider.class);
-
-                if (distance > 0)
+                if (stateHandler.isState(StatePatrolCeil.class))
                 {
-                    Sfx.MONSTER_SPIDER.play();
+                    stateHandler.changeState(StateFall.class);
+                    body.setGravity(0.45);
+                    body.setGravityMax(5.4);
+                }
+                else if (enabled && !tracked)
+                {
+                    tracked = true;
+                    body.setGravity(0.65);
+                    body.setGravityMax(7.8);
+                    stateHandler.changeState(StateJumpSpider.class);
+
+                    if (distance > 0)
+                    {
+                        Sfx.MONSTER_SPIDER.play();
+                    }
                 }
             }
-        }
 
-        if (tracked && stateHandler.isState(StatePatrol.class))
-        {
-            if (target.getX() > transformable.getX())
+            if (tracked && stateHandler.isState(StatePatrol.class))
             {
-                move = TRACK_SPEED;
-                mirrorable.mirror(Mirror.NONE);
-            }
-            else if (target.getX() < transformable.getX())
-            {
-                move = -TRACK_SPEED;
-                mirrorable.mirror(Mirror.HORIZONTAL);
+                if (target.getX() > transformable.getX())
+                {
+                    move = TRACK_SPEED;
+                    mirrorable.mirror(Mirror.NONE);
+                }
+                else if (target.getX() < transformable.getX())
+                {
+                    move = -TRACK_SPEED;
+                    mirrorable.mirror(Mirror.HORIZONTAL);
+                }
             }
         }
     }

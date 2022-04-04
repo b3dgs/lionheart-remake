@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
+import com.b3dgs.lionengine.graphic.engine.Sequencable;
 import com.b3dgs.lionengine.network.Network;
 
 /**
@@ -66,6 +67,18 @@ public final class AppLionheart
      */
     static void run(Network network, Gamepad gamepad)
     {
+        run(gamepad, Loading.class, network);
+    }
+
+    /**
+     * Run game.
+     * 
+     * @param gamepad The gamepad handler.
+     * @param sequencable The the next sequence to start (must not be <code>null</code>).
+     * @param arguments The sequence arguments list if needed by its constructor.
+     */
+    static void run(Gamepad gamepad, Class<? extends Sequencable> sequencable, Object... arguments)
+    {
         AudioFactory.addFormat(new WavFormat());
         AudioFactory.addFormat(Sc68Format.getFailsafe());
 
@@ -84,8 +97,8 @@ public final class AppLionheart
                                Medias.create("icon-64.png"),
                                Medias.create("icon-128.png"),
                                Medias.create("icon-256.png")),
-                     Loading.class,
-                     network);
+                     sequencable,
+                     arguments);
     }
 
     /**

@@ -172,7 +172,7 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public boolean applyDamages(int damages)
     {
-        if (networkable.isServerHandled())
+        if (networkable.isServerHandled() || networkable.isServer())
         {
             applyDamagesInternal(damages);
             syncHurt(damages);
@@ -334,10 +334,10 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
     {
         final String str = config.getEffect().getPath();
         final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
-        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES * 2 + buffer.capacity() + 8);
+        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + buffer.capacity() + 8);
         data.putInt(getSyncId());
         data.put(UtilConversion.fromUnsignedByte(0));
-        data.putInt(str.length());
+        data.put(UtilConversion.fromUnsignedByte(str.length()));
         data.put(buffer);
         data.put(UtilConversion.fromUnsignedByte(config.getSfx().ordinal()));
         data.put(UtilConversion.fromUnsignedByte(config.getHealth()));

@@ -60,23 +60,20 @@ public final class MapLimit extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
-        if (networkable.isOwner())
+        if (transformable.getX() < 2)
         {
-            if (transformable.getX() < 2)
-            {
-                transformable.teleportX(2);
-                model.getMovement().zero();
-            }
-            else if (transformable.getX() > map.getWidth() - map.getTileWidth())
-            {
-                transformable.teleportX(map.getWidth() - map.getTileWidth());
-                model.getMovement().zero();
-            }
-            if (transformable.getX() < viewer.getX())
-            {
-                transformable.teleportX(viewer.getX());
-                model.getMovement().zero();
-            }
+            transformable.teleportX(2);
+            model.getMovement().zero();
+        }
+        else if (transformable.getX() > map.getWidth() - map.getTileWidth())
+        {
+            transformable.teleportX(map.getWidth() - map.getTileWidth());
+            model.getMovement().zero();
+        }
+        if (networkable.isOwner() && transformable.getX() < viewer.getX())
+        {
+            transformable.teleportX(viewer.getX());
+            model.getMovement().zero();
         }
     }
 }
