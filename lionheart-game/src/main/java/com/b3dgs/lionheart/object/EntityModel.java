@@ -39,6 +39,8 @@ import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.Identifiable;
+import com.b3dgs.lionengine.game.feature.Layerable;
+import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
@@ -75,9 +77,11 @@ import com.b3dgs.lionheart.object.feature.Floater;
 import com.b3dgs.lionheart.object.feature.Guard;
 import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Trackable;
+import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateHurt;
 import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.StateIdleDragon;
+import com.b3dgs.lionheart.object.state.StateJump;
 import com.b3dgs.lionheart.object.state.StateLianaSlide;
 import com.b3dgs.lionheart.object.state.StateSlide;
 import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
@@ -205,50 +209,34 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
 
-        state.addListener((old, next) ->
-        {
-            if (networkable.isClient() && !next.equals(old))
-            {
-                final String str = next.getName();
-                final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
-                final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2 + Float.BYTES * 5 + buffer.capacity());
-                data.putInt(getSyncId());
-                data.put(UtilConversion.fromUnsignedByte(0));
-                data.putFloat((float) transformable.getX());
-                data.putFloat((float) transformable.getY());
-                data.putFloat((float) body.getDirectionVertical());
-                data.putFloat((float) movement.getDirectionHorizontal());
-                data.putFloat((float) jump.getDirectionVertical());
-                data.put(UtilConversion.fromUnsignedByte(str.length()));
-                data.put(buffer);
-                networkable.send(data);
-            }
-        });
-
-        transformable.teleport(100, 100);
-
         if (provider.hasFeature(NetworkedDevice.class))
         {
             networkedDevice = provider.getFeature(NetworkedDevice.class);
         }
+
+        state.addListener(this::syncState);
     }
 
-    /**
-     * Init network.
-     * 
-     * @return The message content.
-     */
-    public ByteBuffer networkInit()
+    private void syncState(Class<? extends State> old, Class<? extends State> next)
     {
-        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 1 + Float.BYTES * 5);
-        data.putInt(getSyncId());
-        data.put(UtilConversion.fromUnsignedByte(0));
-        data.putFloat((float) transformable.getX());
-        data.putFloat((float) transformable.getY());
-        data.putFloat((float) body.getDirectionVertical());
-        data.putFloat((float) movement.getDirectionHorizontal());
-        data.putFloat((float) jump.getDirectionVertical());
-        return data;
+        if (networkable.isServerHandleClient()
+            && !next.equals(old)
+            && !next.equals(StateJump.class)
+            && !next.equals(StateFall.class))
+        {
+            final String str = next.getName();
+            final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + Float.BYTES * 5 + 1 + buffer.capacity());
+            data.putInt(getSyncId());
+            data.putFloat((float) transformable.getX());
+            data.putFloat((float) transformable.getY());
+            data.putFloat((float) body.getDirectionVertical());
+            data.putFloat((float) movement.getDirectionHorizontal());
+            data.putFloat((float) jump.getDirectionVertical());
+            data.put(UtilConversion.fromUnsignedByte(str.length()));
+            data.put(buffer);
+            networkable.send(data);
+        }
     }
 
     @Override
@@ -256,16 +244,21 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     {
         if (networkedDevice != null)
         {
-            if (!networkable.isOwner() || networkable.isServer())
+            if (networkable.isClient())
+            {
+                setInput(services.get(DeviceController.class));
+                networkedDevice.set(services.get(DeviceController.class));
+
+                tracker.addFeature(new LayerableModel(getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
+                tracker.setOffset(0, getFeature(Transformable.class).getHeight() / 2 + 8);
+                tracker.track(this);
+            }
+            else
             {
                 final Services s = new Services();
                 s.add(networkedDevice.getVirtual());
                 deviceNetwork = DeviceControllerConfig.create(s, Medias.create("input_network.xml"));
                 setInput(deviceNetwork);
-            }
-            else
-            {
-                networkedDevice.set(services.get(DeviceController.class));
             }
         }
     }
@@ -496,27 +489,23 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     public void onReceived(Packet packet)
     {
         final ByteBuffer buffer = packet.buffer();
-        final int type = UtilConversion.toUnsignedByte(buffer.get());
 
         transformable.teleport(buffer.getFloat(), buffer.getFloat());
         body.setForce(buffer.getFloat());
         movement.setDirection(buffer.getFloat(), movement.getDirectionVertical());
-        jump.setDirection(jump.getDirectionHorizontal(), jump.getDirectionVertical());
+        jump.setDirection(jump.getDirectionHorizontal(), buffer.getFloat());
 
-        if (type == 1)
+        final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
+        buffer.get(str);
+        final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
+        try
         {
-            final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
-            buffer.get(str);
-            final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
-            try
-            {
-                state.changeState((Class<? extends State>) loader.loadClass(name));
-                state.postUpdate();
-            }
-            catch (final ClassNotFoundException exception)
-            {
-                Verbose.exception(exception);
-            }
+            state.changeState((Class<? extends State>) loader.loadClass(name));
+            state.postUpdate();
+        }
+        catch (final ClassNotFoundException exception)
+        {
+            Verbose.exception(exception);
         }
     }
 

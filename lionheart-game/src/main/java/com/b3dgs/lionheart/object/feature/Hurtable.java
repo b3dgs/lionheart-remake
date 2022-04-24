@@ -583,7 +583,7 @@ public final class Hurtable extends FeatureModel
     @Override
     public void onReceived(Packet packet)
     {
-        final int id = UtilConversion.toUnsignedByte(packet.readByte());
+        final int id = packet.readByteUnsigned();
         if (id == 0)
         {
             onKilled();

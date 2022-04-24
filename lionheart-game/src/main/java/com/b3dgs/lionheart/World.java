@@ -53,6 +53,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.networkable.ComponentNetwork;
 import com.b3dgs.lionengine.game.feature.networkable.IdentifiableCreate;
 import com.b3dgs.lionengine.game.feature.networkable.Networkable;
+import com.b3dgs.lionengine.game.feature.networkable.NetworkedDevice;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -82,7 +83,6 @@ import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionengine.network.Channel;
 import com.b3dgs.lionengine.network.ChannelBuffer;
-import com.b3dgs.lionengine.network.Data;
 import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionengine.network.UtilNetwork;
@@ -102,7 +102,6 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
-import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.feature.Underwater;
 
 /**
@@ -160,6 +159,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         this.network = network;
         debug = Settings.getInstance().getFlagDebug();
 
+        services.add(tracker);
         services.add(new MusicPlayer()
         {
             @Override
@@ -202,9 +202,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * Prepare network.
      * 
      * @param closer The closer action.
+     * @param init The init config.
      * @throws IOException If network error.
      */
-    void prepareNetwork(AtomicReference<Action> closer) throws IOException
+    void prepareNetwork(AtomicReference<Action> closer, InitConfig init) throws IOException
     {
         final Featurable chatHandler = factory.create(Medias.create("ChatHandler.xml"));
         handler.add(chatHandler);
@@ -235,27 +236,30 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 {
                     for (final Featurable featurable : handler.values())
                     {
-                        if (featurable.hasFeature(EntityModel.class)
-                            && featurable.getFeature(Networkable.class).isOwner())
+                        if (featurable.hasFeature(EntityModel.class) && !featurable.hasFeature(NetworkedDevice.class))
                         {
                             try
                             {
-                                server.send(new IdentifiableCreate(UtilNetwork.SERVER_ID,
-                                                                   UtilNetwork.SERVER_ID,
-                                                                   featurable.getFeature(Networkable.class).getDataId(),
-                                                                   featurable.getMedia()),
-                                            id);
-                                server.send(new Data(UtilNetwork.SERVER_ID,
-                                                     featurable.getFeature(Networkable.class).getDataId(),
-                                                     featurable.getFeature(EntityModel.class).networkInit(),
-                                                     false),
-                                            id);
+                                server.send(new IdentifiableCreate(UtilNetwork.SERVER_ID, featurable), id);
                             }
                             catch (final IOException exception)
                             {
                                 Verbose.exception(exception);
                             }
                         }
+                    }
+                    final Featurable player = createPlayerAndLoadCheckpoints(Settings.getInstance(),
+                                                                             init,
+                                                                             StageConfig.imports(new Configurer(init.getStage())));
+                    player.ifIs(Networkable.class, n -> n.setClientId(id));
+
+                    try
+                    {
+                        server.send(new IdentifiableCreate(id, player), id);
+                    }
+                    catch (final IOException exception)
+                    {
+                        Verbose.exception(exception);
                     }
                     clients.put(id, ip);
                 }
@@ -291,6 +295,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 @Override
                 public void notifyConnected(String ip, int port, Integer id)
                 {
+                    network.setClientId(id);
                     clients.put(id, network.getName().get());
                 }
 
@@ -335,7 +340,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         if (!network.is(NetworkType.SERVER))
         {
-            createPlayerAndLoadCheckpoints(settings, init, stage);
+            // createPlayerAndLoadCheckpoints(settings, init, stage);
         }
 
         if (RasterType.CACHE == settings.getRaster())
@@ -594,16 +599,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * @param settings The settings reference.
      * @param init The initial configuration.
      * @param stage The stage reference.
+     * @return The created player.
      */
-    private void createPlayerAndLoadCheckpoints(Settings settings, InitConfig init, StageConfig stage)
+    private Featurable createPlayerAndLoadCheckpoints(Settings settings, InitConfig init, StageConfig stage)
     {
         final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
-
-        featurable.getFeature(EntityModel.class).setInput(device);
-        featurable.getFeature(Stats.class).apply(init);
-        player = featurable.getFeature(StateHandler.class);
-        hud.setFeaturable(featurable);
-        services.add(featurable.getFeature(Trackable.class));
+        if (network.is(NetworkType.NONE))
+        {
+            featurable.getFeature(EntityModel.class).setInput(device);
+            featurable.getFeature(Stats.class).apply(init);
+            player = featurable.getFeature(StateHandler.class);
+            hud.setFeaturable(featurable);
+        }
         handler.add(featurable);
 
         final WorldType world = stage.getBackground().getWorld();
@@ -647,7 +654,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final Coord coord = checkpoint.getCurrent(transformable);
             transformable.teleport(coord.getX(), coord.getY());
         }
-        trackPlayer(featurable);
+        if (network.is(NetworkType.CLIENT))
+        {
+            trackPlayer(featurable);
+        }
 
         if (RasterType.CACHE == settings.getRaster())
         {
@@ -660,6 +670,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 loadRasterHero(stage, featurable);
             }
         }
+        return featurable;
     }
 
     /**
@@ -673,7 +684,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
         tracker.setOffset(0, trackerInitY);
         tracker.track(player);
-        services.add(tracker);
     }
 
     /**
@@ -886,10 +896,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             int n = 0;
             for (final Featurable featurable : handler.values())
             {
-                if (featurable.hasFeature(EntityInputController.class))
-                {
-                    services.remove(player.getFeature(Trackable.class));
-                }
                 if (featurable.hasFeature(EntityModel.class))
                 {
                     n++;
@@ -972,7 +978,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             player = featurable.getFeature(StateHandler.class);
             trackerInitY = player.getFeature(Transformable.class).getHeight() / 2 + 8;
             tracker.setOffset(0, trackerInitY);
-            tracker.track(player.getFeature(Transformable.class));
+            tracker.track(player);
         }
         for (final Feature feature : featurable.getFeatures())
         {

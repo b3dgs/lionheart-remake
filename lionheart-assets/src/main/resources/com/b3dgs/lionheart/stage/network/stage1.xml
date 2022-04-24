@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/swamp.sc68"/>
+    <map file="level/swamp/beginner/stage.lvl"/>
+    <raster folder="raster/swamp/day"/>
+    <background type="SWAMP_DAWN"/>
+    <foreground type="WATER" waterDepth="8" waterOffset="24"/>
+    <checkpoints>
+        <checkpoint tx="5.0" ty="3.0"/>
+    </checkpoints>
+    <entities>
+    </entities>
+</stage>

@@ -525,13 +525,13 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     @Override
     public void onReceived(Packet packet)
     {
-        currentIndex = UtilConversion.toUnsignedByte(packet.readByte());
+        currentIndex = packet.readByteUnsigned();
         sh = packet.readFloat();
         sv = packet.readFloat();
         amplitude = packet.readInt();
         offset = packet.readInt();
         animOffset = packet.readInt();
-        mirrorable.mirror(Mirror.values()[UtilConversion.toUnsignedByte(packet.readByte())]);
+        mirrorable.mirror(Mirror.values()[packet.readByteUnsigned()]);
         startX = packet.readFloat();
         startY = packet.readFloat();
         transformable.teleport(packet.readFloat(), packet.readFloat());

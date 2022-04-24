@@ -130,7 +130,7 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public void apply(TakeableConfig config)
     {
-        if (networkable.isServerHandled())
+        if (networkable.isServer())
         {
             health.increase(config.getHealth());
             if (talisment.isFull())
@@ -172,7 +172,7 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public boolean applyDamages(int damages)
     {
-        if (networkable.isServerHandled() || networkable.isServer())
+        if (networkable.isServer())
         {
             applyDamagesInternal(damages);
             syncHurt(damages);
@@ -388,21 +388,21 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
     @Override
     public void onReceived(Packet packet)
     {
-        final int type = UtilConversion.toUnsignedByte(packet.readByte());
+        final int type = packet.readByteUnsigned();
         if (type == 0)
         {
             final TakeableConfig config = new TakeableConfig(packet.readMedia(),
-                                                             Sfx.values()[packet.readByte()].name(),
-                                                             packet.readByte(),
-                                                             packet.readByte(),
-                                                             packet.readByte(),
-                                                             packet.readByte(),
+                                                             Sfx.values()[packet.readByteUnsigned()].name(),
+                                                             packet.readByteUnsigned(),
+                                                             packet.readByteUnsigned(),
+                                                             packet.readByteUnsigned(),
+                                                             packet.readByteUnsigned(),
                                                              packet.readBool());
             apply(config);
         }
         else if (type == 1)
         {
-            applyDamagesInternal(packet.readByte());
+            applyDamagesInternal(packet.readByteUnsigned());
         }
     }
 

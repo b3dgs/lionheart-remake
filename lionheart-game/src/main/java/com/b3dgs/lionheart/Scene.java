@@ -96,7 +96,7 @@ public class Scene extends SequenceGame<World>
 
         try
         {
-            world.prepareNetwork(closer);
+            world.prepareNetwork(closer, init);
         }
         catch (final IOException exception)
         {
