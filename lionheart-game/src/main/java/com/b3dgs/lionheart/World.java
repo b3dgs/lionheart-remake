@@ -102,6 +102,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
+import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.feature.Underwater;
 
 /**
@@ -338,9 +339,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                        settings.getBackgroundFlicker());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
-        if (!network.is(NetworkType.SERVER))
+        if (network.is(NetworkType.NONE))
         {
-            // createPlayerAndLoadCheckpoints(settings, init, stage);
+            services.add(createPlayerAndLoadCheckpoints(settings, init, stage).getFeature(Trackable.class));
         }
 
         if (RasterType.CACHE == settings.getRaster())
