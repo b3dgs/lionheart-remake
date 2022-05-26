@@ -176,7 +176,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
                     final int n = listenable.size();
                     for (int j = 0; j < n; j++)
                     {
-                        listenable.get(j).notifyNextStage(nextStage.get(), checkpoint.getSpawn());
+                        listenable.get(j).notifyReachStage(nextStage.get(), checkpoint.getSpawn());
                     }
                 }
             }
@@ -196,7 +196,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
             final int n = listenable.size();
             for (int i = 0; i < n; i++)
             {
-                listenable.get(i).notifyReachedBoss(spawn.getX(), spawn.getY());
+                listenable.get(i).notifyReachBoss(spawn.getX(), spawn.getY());
             }
             checkerBoss = UpdatableVoid.getInstance();
             bossFound = true;
@@ -254,6 +254,12 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
                     && map.getInTileX(player) > checkpoint.getTx())
                 {
                     last = i;
+
+                    final int n = listenable.size();
+                    for (final int j = 0; i < n; i++)
+                    {
+                        listenable.get(j).notifyReachCheckpoint(checkpoint);
+                    }
                 }
             }
         }

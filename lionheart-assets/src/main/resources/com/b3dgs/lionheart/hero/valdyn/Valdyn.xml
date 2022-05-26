@@ -13,6 +13,7 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.MapLimit</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Trackable</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.ClientsList</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.PlayerNetwork</lionengine:feature>
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Chat</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="Valdyn.png"/>

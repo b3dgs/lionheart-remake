@@ -621,13 +621,19 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         checkpoint.addListener(new CheckpointListener()
         {
             @Override
-            public void notifyNextStage(String next, Optional<Coord> spawn)
+            public void notifyReachCheckpoint(Checkpoint checkpoint)
+            {
+                // Nothing to do
+            }
+
+            @Override
+            public void notifyReachStage(String next, Optional<Coord> spawn)
             {
                 loadNextStage(next, 0, spawn);
             }
 
             @Override
-            public void notifyReachedBoss(double x, double y)
+            public void notifyReachBoss(double x, double y)
             {
                 if (WorldType.SWAMP == world)
                 {
@@ -655,7 +661,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final Coord coord = checkpoint.getCurrent(transformable);
             transformable.teleport(coord.getX(), coord.getY());
         }
-        if (network.is(NetworkType.CLIENT))
+        if (!network.is(NetworkType.SERVER))
         {
             trackPlayer(featurable);
         }

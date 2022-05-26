@@ -26,12 +26,19 @@ import com.b3dgs.lionengine.geom.Coord;
 public interface CheckpointListener
 {
     /**
+     * Called on next checkpoint reached.
+     * 
+     * @param checkpoint The checkpoint reached.
+     */
+    void notifyReachCheckpoint(Checkpoint checkpoint);
+
+    /**
      * Called on next stage reached.
      * 
      * @param next The next stage.
      * @param spawn The next spawn.
      */
-    void notifyNextStage(String next, Optional<Coord> spawn);
+    void notifyReachStage(String next, Optional<Coord> spawn);
 
     /**
      * Called on boss reached.
@@ -39,5 +46,5 @@ public interface CheckpointListener
      * @param x The horizontal location.
      * @param y The vertical location.
      */
-    void notifyReachedBoss(double x, double y);
+    void notifyReachBoss(double x, double y);
 }

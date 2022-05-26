@@ -63,6 +63,7 @@ import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.EntityModelHelper;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
 import com.b3dgs.lionengine.network.Network;
@@ -217,6 +218,9 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         state.addListener(this::syncState);
     }
 
+    private static final int TYPE_CONTROL = 0;
+    private static final int TYPE_STATE = TYPE_CONTROL + 1;
+
     private void syncState(Class<? extends State> old, Class<? extends State> next)
     {
         if (networkable.isServerHandleClient()
@@ -226,8 +230,9 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             final String str = next.getName();
             final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
-            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + Float.BYTES * 5 + 1 + buffer.capacity());
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + Float.BYTES * 5 + 2 + buffer.capacity());
             data.putInt(getSyncId());
+            data.put(UtilConversion.fromUnsignedByte(TYPE_STATE));
             data.putFloat((float) transformable.getX());
             data.putFloat((float) transformable.getY());
             data.putFloat((float) body.getDirectionVertical());
@@ -239,21 +244,44 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         }
     }
 
+    /**
+     * Give player control.
+     */
+    public void giveClientControl()
+    {
+        if (networkable.isServerHandleClient())
+        {
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 1);
+            data.putInt(getSyncId());
+            data.put(UtilConversion.fromUnsignedByte(TYPE_CONTROL));
+            networkable.send(data);
+        }
+        else if (networkable.isClient())
+        {
+            setInput(services.get(DeviceController.class));
+            networkedDevice.set(services.get(DeviceController.class));
+
+            tracker.addFeature(new LayerableModel(getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
+            tracker.setOffset(0, getFeature(Transformable.class).getHeight() / 2 + 8);
+            tracker.track(this);
+        }
+    }
+
+    /**
+     * Remove client control.
+     */
+    public void removeClientControl()
+    {
+        networkedDevice.remove(services.get(DeviceController.class));
+        setInput(DeviceControllerVoid.getInstance());
+    }
+
     @Override
     public void onConnected()
     {
         if (networkedDevice != null)
         {
-            if (networkable.isClient())
-            {
-                setInput(services.get(DeviceController.class));
-                networkedDevice.set(services.get(DeviceController.class));
-
-                tracker.addFeature(new LayerableModel(getFeature(Layerable.class).getLayerRefresh().intValue() + 1));
-                tracker.setOffset(0, getFeature(Transformable.class).getHeight() / 2 + 8);
-                tracker.track(this);
-            }
-            else
+            if (!networkable.isClient())
             {
                 final Services s = new Services();
                 s.add(networkedDevice.getVirtual());
@@ -490,22 +518,30 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     {
         final ByteBuffer buffer = packet.buffer();
 
-        transformable.teleport(buffer.getFloat(), buffer.getFloat());
-        body.setForce(buffer.getFloat());
-        movement.setDirection(buffer.getFloat(), movement.getDirectionVertical());
-        jump.setDirection(jump.getDirectionHorizontal(), buffer.getFloat());
-
-        final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
-        buffer.get(str);
-        final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
-        try
+        final int type = packet.readByteUnsigned();
+        if (type == TYPE_CONTROL)
         {
-            state.changeState((Class<? extends State>) loader.loadClass(name));
-            state.postUpdate();
+            giveClientControl();
         }
-        catch (final ClassNotFoundException exception)
+        else if (type == TYPE_STATE)
         {
-            Verbose.exception(exception);
+            transformable.teleport(buffer.getFloat(), buffer.getFloat());
+            body.setForce(buffer.getFloat());
+            movement.setDirection(buffer.getFloat(), movement.getDirectionVertical());
+            jump.setDirection(jump.getDirectionHorizontal(), buffer.getFloat());
+
+            final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
+            buffer.get(str);
+            final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
+            try
+            {
+                state.changeState((Class<? extends State>) loader.loadClass(name));
+                state.postUpdate();
+            }
+            catch (final ClassNotFoundException exception)
+            {
+                Verbose.exception(exception);
+            }
         }
     }
 
