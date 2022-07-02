@@ -19,9 +19,13 @@ package com.b3dgs.lionheart.object.feature;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.b3dgs.lionengine.Align;
+import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Timing;
@@ -43,6 +47,7 @@ import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteDigit;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.network.Packet;
@@ -73,10 +78,14 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
 
     private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_NUMBERS));
     private final SpriteDigit numberTime = Drawable.loadSpriteDigit(number, 8, 16, 8);
+    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
+                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
+                                                            12,
+                                                            12);
     private final Tick time = new Tick();
     private final Timing timeSync = new Timing();
     private final Map<Integer, Boolean> clientsReady = new HashMap<>();
-    private final Map<Integer, Double> reachTime = new HashMap<>();
+    private final Map<Integer, Integer> reachTime = new TreeMap<>();
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final DeviceController device = services.get(DeviceController.class);
@@ -101,7 +110,9 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
 
         number.prepare();
         numberTime.prepare();
-        numberTime.setLocation(TIME_X, TIME_Y);
+
+        font.load();
+        font.prepare();
     }
 
     /**
@@ -157,19 +168,20 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         final Integer id = transformable.getFeature(Networkable.class).getClientId();
         if (!reachTime.containsKey(id))
         {
-            reachTime.put(id, Double.valueOf(time.elapsed()));
+            reachTime.put(id, Integer.valueOf((int) time.elapsed()));
 
-            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES * 2 + 1 + Double.BYTES);
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES * 3 + 1);
             buffer.putInt(getSyncId());
             buffer.put(UtilConversion.fromUnsignedByte(TYPE_REACH));
-            buffer.putInt(transformable.getFeature(Networkable.class).getDataId());
-            buffer.putDouble(time.elapsed());
+            buffer.putInt(id.intValue());
+            buffer.putInt(reachTime.get(id).intValue());
             networkable.send(buffer);
         }
     }
 
     private void updateNumberTime()
     {
+        numberTime.setLocation(TIME_X, TIME_Y);
         if (started)
         {
             numberTime.setValue(time.elapsedTime(source.getRate()));
@@ -252,7 +264,25 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
     @Override
     public void render(Graphic g)
     {
-        numberTime.render(g);
+        if (reachTime.containsKey(networkable.getClientId()))
+        {
+            int i = 0;
+            for (final Entry<Integer, Integer> client : reachTime.entrySet())
+            {
+                final int y = i * numberTime.getHeight();
+                font.draw(g, 0, y, Align.LEFT, clients.get(client.getKey()));
+                numberTime.setLocation(50, y);
+
+                final double frameTime = Constant.ONE_SECOND_IN_MILLI / source.getRate();
+                numberTime.setValue((int) StrictMath.floor(client.getValue().intValue() * frameTime));
+                numberTime.render(g);
+                i++;
+            }
+        }
+        else
+        {
+            numberTime.render(g);
+        }
     }
 
     @Override
@@ -293,12 +323,14 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         }
         else if (type == TYPE_REACH)
         {
-            if (packet.readInt() == model.getFeature(Networkable.class).getDataId())
+            final Integer id = Integer.valueOf(packet.readInt());
+            final int reach = packet.readInt();
+            if (id.equals(networkable.getClientId()))
             {
                 time.stop();
-                time.set(packet.readDouble());
-                reachTime.putIfAbsent(packet.getClientId(), Double.valueOf(time.elapsed()));
+                time.set(reach);
             }
+            reachTime.putIfAbsent(id, Integer.valueOf(reach));
         }
     }
 
