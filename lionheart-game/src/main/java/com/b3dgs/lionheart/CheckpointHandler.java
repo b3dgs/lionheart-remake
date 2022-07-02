@@ -26,7 +26,6 @@ import com.b3dgs.lionengine.ListenableModel;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -75,13 +74,15 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     private final List<Checkpoint> nexts = new ArrayList<>();
     private final ListenableModel<CheckpointListener> listenable = new ListenableModel<>();
+    private final List<Transformable> player = new ArrayList<>();
+    private final List<Transformable> toAdd = new ArrayList<>();
+    private final List<Transformable> toRemove = new ArrayList<>();
 
     private final MapTile map;
     private final CheatsProvider cheats;
 
     private int nextsCount;
     private Updatable checkerBoss;
-    private Transformable player;
     private int last;
     private int count;
     private Optional<Coord> boss;
@@ -101,15 +102,33 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     }
 
     /**
+     * Register player for checkpoint tracking.
+     * 
+     * @param transformable The player to register.
+     */
+    public void register(Transformable transformable)
+    {
+        toAdd.add(transformable);
+    }
+
+    /**
+     * Unregister player for checkpoint tracking.
+     * 
+     * @param transformable The player to unregister.
+     */
+    public void unregister(Transformable transformable)
+    {
+        toRemove.add(transformable);
+    }
+
+    /**
      * Load checkpoints.
      * 
      * @param config The configuration reference.
-     * @param player The player reference.
      * @param spawn The spawn tile.
      */
-    public void load(StageConfig config, Featurable player, Optional<Coord> spawn)
+    public void load(StageConfig config, Optional<Coord> spawn)
     {
-        this.player = player.getFeature(Transformable.class);
         last = 0;
         checkpoints.clear();
 
@@ -157,16 +176,35 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     }
 
     /**
-     * Check next stage reached.
+     * Update add remove register.
      */
-    private void updateNext()
+    private void updateAddRemove()
+    {
+        if (!toRemove.isEmpty())
+        {
+            player.removeAll(toRemove);
+            toRemove.clear();
+        }
+        if (!toAdd.isEmpty())
+        {
+            player.addAll(toAdd);
+            toAdd.clear();
+        }
+    }
+
+    /**
+     * Check next stage reached.
+     * 
+     * @param transformable The transformable reference.
+     */
+    private void updateNext(Transformable transformable)
     {
         for (int i = 0; i < nextsCount; i++)
         {
             final Checkpoint checkpoint = nexts.get(i);
             if (!cheats.isFly()
-                && UtilMath.getDistance(map.getInTileX(player),
-                                        map.getInTileY(player),
+                && UtilMath.getDistance(map.getInTileX(transformable),
+                                        map.getInTileY(transformable),
                                         checkpoint.getTx(),
                                         checkpoint.getTy()) < END_DISTANCE_TILE)
             {
@@ -191,15 +229,43 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      */
     private void updateBoss(Coord boss, Coord spawn)
     {
-        if (!cheats.isFly() && UtilMath.getDistance(player, boss) < BOSS_DISTANCE)
+        final int n = player.size();
+        for (int i = 0; i < n; i++)
         {
-            final int n = listenable.size();
-            for (int i = 0; i < n; i++)
+            final Transformable transformable = player.get(i);
+            if (!cheats.isFly() && UtilMath.getDistance(transformable, boss) < BOSS_DISTANCE)
             {
-                listenable.get(i).notifyReachBoss(spawn.getX(), spawn.getY());
+                final int k = listenable.size();
+                for (int j = 0; j < k; j++)
+                {
+                    listenable.get(j).notifyReachBoss(spawn.getX(), spawn.getY());
+                }
+                checkerBoss = UpdatableVoid.getInstance();
+                bossFound = true;
             }
-            checkerBoss = UpdatableVoid.getInstance();
-            bossFound = true;
+        }
+    }
+
+    private void update(Transformable transformable)
+    {
+        final int start = player.size() == 1 ? last + 1 : 0;
+        for (int i = start; i < count; i++)
+        {
+            final Checkpoint checkpoint = checkpoints.get(i);
+            if (UtilMath.getDistance(map.getInTileX(transformable),
+                                     map.getInTileY(transformable),
+                                     checkpoint.getTx(),
+                                     checkpoint.getTy()) < CHECKPOINT_DISTANCE_TILE
+                && map.getInTileX(transformable) > checkpoint.getTx())
+            {
+                last = i;
+
+                final int n = listenable.size();
+                for (int j = 0; j < n; j++)
+                {
+                    listenable.get(j).notifyReachCheckpoint(transformable, checkpoint);
+                }
+            }
         }
     }
 
@@ -232,36 +298,18 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     @Override
     public void update(double extrp)
     {
-        if (player != null)
-        {
-            updateNext();
-        }
+        updateAddRemove();
+
         if (checkerBoss != null)
         {
             checkerBoss.update(extrp);
         }
-
-        if (player != null)
+        final int n = player.size();
+        for (int i = 0; i < n; i++)
         {
-            final int start = last + 1;
-            for (int i = start; i < count; i++)
-            {
-                final Checkpoint checkpoint = checkpoints.get(i);
-                if (UtilMath.getDistance(map.getInTileX(player),
-                                         map.getInTileY(player),
-                                         checkpoint.getTx(),
-                                         checkpoint.getTy()) < CHECKPOINT_DISTANCE_TILE
-                    && map.getInTileX(player) > checkpoint.getTx())
-                {
-                    last = i;
-
-                    final int n = listenable.size();
-                    for (final int j = 0; i < n; i++)
-                    {
-                        listenable.get(j).notifyReachCheckpoint(checkpoint);
-                    }
-                }
-            }
+            final Transformable transformable = player.get(i);
+            updateNext(transformable);
+            update(transformable);
         }
     }
 }

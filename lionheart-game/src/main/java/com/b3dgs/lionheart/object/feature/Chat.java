@@ -33,6 +33,7 @@ import com.b3dgs.lionengine.game.feature.networkable.Networkable;
 import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.ChatHandler;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Chat representation allowing to exchange messages.
@@ -44,6 +45,7 @@ public class Chat extends FeatureModel implements Syncable
     private final ChatHandler chat = services.get(ChatHandler.class);
 
     @FeatureGet private Networkable networkable;
+    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.
@@ -75,6 +77,10 @@ public class Chat extends FeatureModel implements Syncable
         if (networkable.isOwner())
         {
             chat.setConsumer(this::sendMessage);
+        }
+        if (networkable.isClient())
+        {
+            services.get(PlayerNetwork.class).setModel(model);
         }
     }
 

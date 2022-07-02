@@ -125,8 +125,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Thread musicTask;
     private final boolean debug;
     private final Network network;
+    private final NetworkGameType type;
 
-    private CheckpointHandler checkpoint;
+    private CheckpointHandler checkpoints;
     private Cheats cheats;
     private Audio music;
     private DeviceController device;
@@ -146,9 +147,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param network The network type (must not be <code>null</code>).
+     * @param type The game type (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    World(Services services, Network network)
+    World(Services services, Network network, NetworkGameType type)
     {
         super(services);
 
@@ -158,6 +160,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         text.setColor(ColorRgba.WHITE);
 
         this.network = network;
+        this.type = type;
         debug = Settings.getInstance().getFlagDebug();
 
         services.add(tracker);
@@ -181,22 +184,24 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
 
-        musicTask = new Thread(() ->
-        {
-            while (!Thread.currentThread().isInterrupted())
-            {
-                try
-                {
-                    musicToPlay.take().run();
-                }
-                catch (@SuppressWarnings("unused") final InterruptedException exception)
-                {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
-            }
-        }, "Musics");
+        musicTask = new Thread(this::playNextMusicTask, "Musics");
         musicTask.start();
+    }
+
+    private void playNextMusicTask()
+    {
+        while (!Thread.currentThread().isInterrupted())
+        {
+            try
+            {
+                musicToPlay.take().run();
+            }
+            catch (@SuppressWarnings("unused") final InterruptedException exception)
+            {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
     }
 
     /**
@@ -213,7 +218,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         services.add(chatHandler.getFeature(ChatHandler.class));
 
         cheats = new Cheats(services, tick);
-        checkpoint = services.create(CheckpointHandler.class);
+        checkpoints = services.create(CheckpointHandler.class);
         device = services.get(DeviceController.class);
 
         if (network.is(NetworkType.SERVER))
@@ -224,92 +229,121 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             server.start(network.getIp().get(), network.getPort().getAsInt());
             handler.addComponent(new ComponentNetwork(services));
 
-            server.addListener(new ServerListener()
-            {
-                @Override
-                public void notifyServerStarted(String ip, int port)
-                {
-                    // Nothing
-                }
+            final Featurable serverHandler = factory.create(Medias.create("ServerHandler.xml"));
+            handler.add(serverHandler);
 
-                @Override
-                public void notifyClientConnected(String ip, int port, Integer id)
-                {
-                    for (final Featurable featurable : handler.values())
-                    {
-                        if (featurable.hasFeature(EntityModel.class) && !featurable.hasFeature(NetworkedDevice.class))
-                        {
-                            try
-                            {
-                                server.send(new IdentifiableCreate(UtilNetwork.SERVER_ID, featurable), id);
-                            }
-                            catch (final IOException exception)
-                            {
-                                Verbose.exception(exception);
-                            }
-                        }
-                    }
-                    final Featurable player = createPlayerAndLoadCheckpoints(Settings.getInstance(),
-                                                                             init,
-                                                                             StageConfig.imports(new Configurer(init.getStage())));
-                    player.ifIs(Networkable.class, n -> n.setClientId(id));
-
-                    try
-                    {
-                        server.send(new IdentifiableCreate(id, player), id);
-                    }
-                    catch (final IOException exception)
-                    {
-                        Verbose.exception(exception);
-                    }
-                    clients.put(id, ip);
-                }
-
-                @Override
-                public void notifyClientDisconnected(String ip, int port, Integer id)
-                {
-                    for (final Featurable featurable : handler.values())
-                    {
-                        if (featurable.hasFeature(EntityModel.class)
-                            && featurable.getFeature(Networkable.class).getClientId().equals(id))
-                        {
-                            handler.remove(featurable);
-                        }
-                    }
-                    clients.remove(id);
-                }
-
-                @Override
-                public void notifyClientNamed(Integer id, String name)
-                {
-                    clients.put(id, name);
-                }
-            });
+            addServerListener(init, server, serverHandler);
         }
         else if (network.is(NetworkType.CLIENT))
         {
             final Channel channel = services.create(ChannelBuffer.class);
             final Client client = services.add(new ClientUdp(channel));
             closer.set(client::disconnect);
-            client.addListener(new ClientListener()
-            {
-                @Override
-                public void notifyConnected(String ip, int port, Integer id)
-                {
-                    network.setClientId(id);
-                    clients.put(id, network.getName().get());
-                }
-
-                @Override
-                public void notifyClientNamed(Integer id, String name)
-                {
-                    clients.put(id, name);
-                }
-            });
+            addClientListener(client);
             client.connect(network.getIp().get(), network.getPort().getAsInt());
             client.setName(network.getName().get());
             handler.addComponent(new ComponentNetwork(services));
         }
+    }
+
+    private void addServerListener(InitConfig init, Server server, Featurable serverHandler)
+    {
+        server.addListener(new ServerListener()
+        {
+            @Override
+            public void notifyServerStarted(String ip, int port)
+            {
+                // Nothing
+            }
+
+            @Override
+            public void notifyClientConnected(String ip, int port, Integer id)
+            {
+                onClientConnected(init, server, ip, id, serverHandler);
+            }
+
+            @Override
+            public void notifyClientDisconnected(String ip, int port, Integer id)
+            {
+                onClientDisconnected(id);
+            }
+
+            @Override
+            public void notifyClientNamed(Integer id, String name)
+            {
+                clients.put(id, name);
+            }
+        });
+    }
+
+    private void onClientConnected(InitConfig init, Server server, String ip, Integer id, Featurable serverHandler)
+    {
+        for (final Featurable featurable : handler.values())
+        {
+            if (featurable.hasFeature(EntityModel.class) && !featurable.hasFeature(NetworkedDevice.class))
+            {
+                try
+                {
+                    server.send(new IdentifiableCreate(UtilNetwork.SERVER_ID, featurable), id);
+                }
+                catch (final IOException exception)
+                {
+                    Verbose.exception(exception);
+                }
+            }
+        }
+
+        serverCreatePlayer(init, server, id, serverHandler);
+        clients.put(id, ip);
+    }
+
+    private void serverCreatePlayer(InitConfig init, Server server, Integer id, Featurable serverHandler)
+    {
+        final Featurable player = createPlayer(Settings.getInstance(),
+                                               init,
+                                               StageConfig.imports(new Configurer(init.getStage())));
+        player.ifIs(Networkable.class, n -> n.setClientId(id));
+        try
+        {
+            server.send(new IdentifiableCreate(id, serverHandler), id);
+            server.send(new IdentifiableCreate(id, player), id);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
+    private void onClientDisconnected(Integer id)
+    {
+        for (final Featurable featurable : handler.values())
+        {
+            if (featurable.hasFeature(EntityModel.class)
+                && featurable.getFeature(Networkable.class).getClientId().equals(id))
+            {
+                handler.remove(featurable);
+            }
+        }
+        clients.remove(id);
+    }
+
+    private void addClientListener(Client client)
+    {
+        client.addListener(new ClientListener()
+        {
+            @Override
+            public void notifyConnected(String ip, int port, Integer id)
+            {
+                network.setClientId(id);
+                clients.put(id, network.getName().get());
+            }
+
+            @Override
+            public void notifyClientNamed(Integer id, String name)
+            {
+                clients.put(id, name);
+            }
+        });
     }
 
     /**
@@ -339,10 +373,52 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                        settings.getBackgroundFlicker());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
+        final Optional<Coord> spawn = init.getSpawn();
+        checkpoints.load(stage, spawn);
+
         if (network.is(NetworkType.NONE))
         {
-            services.add(createPlayerAndLoadCheckpoints(settings, init, stage).getFeature(Trackable.class));
+            services.add(createPlayer(settings, init, stage).getFeature(Trackable.class));
         }
+
+        final WorldType world = stage.getBackground().getWorld();
+        // CHECKSTYLE IGNORE LINE: AnonInnerLength
+        checkpoints.addListener(new CheckpointListener()
+        {
+            @Override
+            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint)
+            {
+                player.getFeature(EntityModel.class).removeClientControl();
+                if (type == NetworkGameType.SPEEDRUN)
+                {
+                    checkpoints.unregister(player);
+                }
+            }
+
+            @Override
+            public void notifyReachStage(String next, Optional<Coord> spawn)
+            {
+                loadNextStage(next, 0, spawn);
+            }
+
+            @Override
+            public void notifyReachBoss(double x, double y)
+            {
+                if (WorldType.SWAMP == world)
+                {
+                    camera.setLimitLeft((int) camera.getX());
+                    trackerY = 1.0;
+                }
+                else if (WorldType.LAVA == world)
+                {
+                    rasterbar.clearRasterbarColor();
+                }
+                spawn(Medias.create(Folder.BOSS, world.getFolder(), "Boss.xml"), x, y).getFeature(EntityModel.class)
+                                                                                      .setNext(stage.getBossNext(),
+                                                                                               Optional.empty());
+                playMusic(Music.BOSS);
+            }
+        });
 
         if (RasterType.CACHE == settings.getRaster())
         {
@@ -602,9 +678,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * @param stage The stage reference.
      * @return The created player.
      */
-    private Featurable createPlayerAndLoadCheckpoints(Settings settings, InitConfig init, StageConfig stage)
+    private Featurable createPlayer(Settings settings, InitConfig init, StageConfig stage)
     {
         final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
+        handler.add(featurable);
+
         if (network.is(NetworkType.NONE))
         {
             featurable.getFeature(EntityModel.class).setInput(device);
@@ -612,53 +690,18 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             player = featurable.getFeature(StateHandler.class);
             hud.setFeaturable(featurable);
         }
-        handler.add(featurable);
 
-        final WorldType world = stage.getBackground().getWorld();
         final Optional<Coord> spawn = init.getSpawn();
-        checkpoint.load(stage, featurable, spawn);
-        // CHECKSTYLE IGNORE LINE: AnonInnerLength
-        checkpoint.addListener(new CheckpointListener()
-        {
-            @Override
-            public void notifyReachCheckpoint(Checkpoint checkpoint)
-            {
-                // Nothing to do
-            }
-
-            @Override
-            public void notifyReachStage(String next, Optional<Coord> spawn)
-            {
-                loadNextStage(next, 0, spawn);
-            }
-
-            @Override
-            public void notifyReachBoss(double x, double y)
-            {
-                if (WorldType.SWAMP == world)
-                {
-                    camera.setLimitLeft((int) camera.getX());
-                    trackerY = 1.0;
-                }
-                else if (WorldType.LAVA == world)
-                {
-                    rasterbar.clearRasterbarColor();
-                }
-                spawn(Medias.create(Folder.BOSS, world.getFolder(), "Boss.xml"), x, y).getFeature(EntityModel.class)
-                                                                                      .setNext(stage.getBossNext(),
-                                                                                               Optional.empty());
-                playMusic(Music.BOSS);
-            }
-        });
-
         final Transformable transformable = featurable.getFeature(Transformable.class);
+        checkpoints.register(transformable);
+
         if (spawn.isPresent())
         {
             transformable.teleport(spawn.get().getX() * map.getTileWidth(), spawn.get().getY() * map.getTileHeight());
         }
         else
         {
-            final Coord coord = checkpoint.getCurrent(transformable);
+            final Coord coord = checkpoints.getCurrent(transformable);
             transformable.teleport(coord.getX(), coord.getY());
         }
         if (!network.is(NetworkType.SERVER))
@@ -1126,7 +1169,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         {
             tick.update(extrp);
             super.update(extrp);
-            checkpoint.update(extrp);
+            checkpoints.update(extrp);
             landscape.update(extrp, camera);
             if (trackerY > 0)
             {

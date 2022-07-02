@@ -42,6 +42,7 @@ public final class Loading extends Sequence
     private final BackgroundType[] backgrounds = BackgroundType.values();
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
     private final Network network;
+    private final NetworkGameType type;
     private final int max;
 
     private int current = -1;
@@ -51,13 +52,15 @@ public final class Loading extends Sequence
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param network The network type (must not be <code>null</code>).
+     * @param type The game type (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    public Loading(Context context, Network network)
+    public Loading(Context context, Network network, NetworkGameType type)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), new LoopUnlocked());
 
         this.network = network;
+        this.type = type;
         max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
@@ -95,6 +98,7 @@ public final class Loading extends Sequence
             {
                 end(Scene.class,
                     network,
+                    type,
                     new InitConfig(Medias.create(Folder.STAGE, Settings.getInstance().getStages(), "stage1.xml"),
                                    Constant.STATS_MAX_HEART - 1,
                                    Constant.STATS_MAX_TALISMENT - 1,
@@ -108,7 +112,7 @@ public final class Loading extends Sequence
             }
             else
             {
-                end(Intro.class, network);
+                end(Intro.class, network, type);
             }
         }
     }

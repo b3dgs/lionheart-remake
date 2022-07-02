@@ -80,6 +80,7 @@ import com.b3dgs.lionheart.object.feature.Patrol;
 import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.state.StateFall;
 import com.b3dgs.lionheart.object.state.StateHurt;
+import com.b3dgs.lionheart.object.state.StateIdle;
 import com.b3dgs.lionheart.object.state.StateIdleAnimal;
 import com.b3dgs.lionheart.object.state.StateIdleDragon;
 import com.b3dgs.lionheart.object.state.StateJump;
@@ -220,6 +221,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
 
     private static final int TYPE_CONTROL = 0;
     private static final int TYPE_STATE = TYPE_CONTROL + 1;
+    private static final int TYPE_STOP = TYPE_STATE + 1;
 
     private void syncState(Class<? extends State> old, Class<? extends State> next)
     {
@@ -274,6 +276,17 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     {
         networkedDevice.remove(services.get(DeviceController.class));
         setInput(DeviceControllerVoid.getInstance());
+        movement.zero();
+        jump.zero();
+        state.changeState(StateIdle.class);
+
+        if (network.is(NetworkType.SERVER))
+        {
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 1);
+            data.putInt(getSyncId());
+            data.put(UtilConversion.fromUnsignedByte(TYPE_STOP));
+            networkable.send(data);
+        }
     }
 
     @Override
@@ -542,6 +555,10 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
             {
                 Verbose.exception(exception);
             }
+        }
+        else if (type == TYPE_STOP)
+        {
+            removeClientControl();
         }
     }
 

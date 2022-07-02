@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Optional;
 
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.geom.Coord;
 
 /**
@@ -28,9 +29,10 @@ public interface CheckpointListener
     /**
      * Called on next checkpoint reached.
      * 
+     * @param player The player reference.
      * @param checkpoint The checkpoint reached.
      */
-    void notifyReachCheckpoint(Checkpoint checkpoint);
+    void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint);
 
     /**
      * Called on next stage reached.

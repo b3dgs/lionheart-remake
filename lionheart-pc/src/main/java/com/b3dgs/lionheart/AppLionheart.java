@@ -56,18 +56,19 @@ public final class AppLionheart
             DeviceDialog.prepareInputCustom();
         }
 
-        run(Network.from(args), new Gamepad());
+        run(Network.from(args), NetworkGameType.valueOf(args[4]), new Gamepad());
     }
 
     /**
      * Run game.
      * 
      * @param network The network type.
+     * @param type The game type.
      * @param gamepad The gamepad handler.
      */
-    static void run(Network network, Gamepad gamepad)
+    static void run(Network network, NetworkGameType type, Gamepad gamepad)
     {
-        run(gamepad, Loading.class, network);
+        run(gamepad, Loading.class, network, type);
     }
 
     /**

@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
@@ -33,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.networkable.Networkable;
 import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.geom.Coord;
@@ -56,7 +58,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Recyclable
 {
-    private static final int TIME_START_DELAY = 2000;
+    private static final int TIME_START_DELAY = 1000;
     private static final int TIMING_SYNC_DELAY_MS = 1000;
 
     private static final int TYPE_READY = 0;
@@ -73,17 +75,19 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
     private final SpriteDigit numberTime = Drawable.loadSpriteDigit(number, 8, 16, 8);
     private final Tick time = new Tick();
     private final Timing timeSync = new Timing();
+    private final Map<Integer, Boolean> clientsReady = new HashMap<>();
     private final Map<Integer, Double> reachTime = new HashMap<>();
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final DeviceController device = services.get(DeviceController.class);
     private final CheckpointHandler checkpoint = services.get(CheckpointHandler.class);
+    private final Map<Integer, String> clients = services.get(ConcurrentHashMap.class);
 
     @FeatureGet private Networkable networkable;
-    @FeatureGet private EntityModel model;
 
     private boolean ready;
     private boolean started;
+    private EntityModel model;
 
     /**
      * Create feature.
@@ -98,6 +102,16 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         number.prepare();
         numberTime.prepare();
         numberTime.setLocation(TIME_X, TIME_Y);
+    }
+
+    /**
+     * Set associated player model.
+     * 
+     * @param model The model reference.
+     */
+    public void setModel(EntityModel model)
+    {
+        this.model = model;
     }
 
     /**
@@ -138,13 +152,20 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         networkable.send(buffer);
     }
 
-    private void syncReach()
+    private void syncReach(Transformable transformable)
     {
-        final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 1 + Double.BYTES);
-        buffer.putInt(getSyncId());
-        buffer.put(UtilConversion.fromUnsignedByte(TYPE_REACH));
-        buffer.putDouble(time.elapsed());
-        networkable.send(buffer);
+        final Integer id = transformable.getFeature(Networkable.class).getClientId();
+        if (!reachTime.containsKey(id))
+        {
+            reachTime.put(id, Double.valueOf(time.elapsed()));
+
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES * 2 + 1 + Double.BYTES);
+            buffer.putInt(getSyncId());
+            buffer.put(UtilConversion.fromUnsignedByte(TYPE_REACH));
+            buffer.putInt(transformable.getFeature(Networkable.class).getDataId());
+            buffer.putDouble(time.elapsed());
+            networkable.send(buffer);
+        }
     }
 
     private void updateNumberTime()
@@ -159,14 +180,53 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         }
     }
 
+    private boolean isAllReady()
+    {
+        for (final Integer id : clients.keySet())
+        {
+            if (!Boolean.TRUE.equals(clientsReady.get(id)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        checkpoint.addListener(new CheckpointListener()
+        {
+            @Override
+            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint)
+            {
+                syncReach(player);
+            }
+
+            @Override
+            public void notifyReachStage(String next, Optional<Coord> spawn)
+            {
+                // Nothing to do
+            }
+
+            @Override
+            public void notifyReachBoss(double x, double y)
+            {
+                // Nothing to do
+            }
+        });
+    }
+
     @Override
     public void update(double extrp)
     {
-        time.update(extrp);
-        updateNumberTime();
-
-        if (networkable.isServerHandleClient())
+        if (networkable.isServer())
         {
+            time.update(extrp);
+            updateNumberTime();
+
             if (!started && time.elapsedTime(source.getRate(), TIME_START_DELAY))
             {
                 setStarted();
@@ -179,6 +239,9 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         }
         else if (networkable.isClient())
         {
+            time.update(extrp);
+            updateNumberTime();
+
             if (!ready && device.isFired())
             {
                 setReady();
@@ -193,14 +256,26 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
     }
 
     @Override
+    public void onConnected()
+    {
+        if (networkable.isClient())
+        {
+            services.add(this);
+        }
+    }
+
+    @Override
     public void onReceived(Packet packet)
     {
         final int type = packet.readByteUnsigned();
         if (type == TYPE_READY)
         {
-            // TODO ensures everybody is ready
-            time.start();
-            timeSync.start();
+            clientsReady.put(packet.getClientSourceId(), Boolean.TRUE);
+            if (networkable.isServer() && isAllReady())
+            {
+                time.start();
+                timeSync.start();
+            }
         }
         else if (type == TYPE_STARTED)
         {
@@ -218,46 +293,12 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         }
         else if (type == TYPE_REACH)
         {
-            final double elapsed = time.elapsed();
-            reachTime.putIfAbsent(packet.getClientId(), Double.valueOf(elapsed));
-
-            if (packet.getClientId().equals(networkable.getClientId()))
+            if (packet.readInt() == model.getFeature(Networkable.class).getDataId())
             {
                 time.stop();
                 time.set(packet.readDouble());
-                model.removeClientControl();
+                reachTime.putIfAbsent(packet.getClientId(), Double.valueOf(time.elapsed()));
             }
-        }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        if (networkable.isServerHandleClient())
-        {
-            checkpoint.addListener(new CheckpointListener()
-            {
-                @Override
-                public void notifyReachCheckpoint(Checkpoint checkpoint)
-                {
-                    syncReach();
-                    model.removeClientControl();
-                }
-
-                @Override
-                public void notifyReachStage(String next, Optional<Coord> spawn)
-                {
-                    // Nothing to do
-                }
-
-                @Override
-                public void notifyReachBoss(double x, double y)
-                {
-                    // Nothing to do
-                }
-            });
         }
     }
 

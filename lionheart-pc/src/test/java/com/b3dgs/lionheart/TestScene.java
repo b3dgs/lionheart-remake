@@ -54,7 +54,7 @@ public final class TestScene extends Scene
      */
     TestScene(Context context, InitConfig init, OptionalInt delay)
     {
-        super(context, Network.NONE, init, Boolean.FALSE);
+        super(context, Network.NONE, NetworkGameType.COOP, init, Boolean.FALSE);
 
         getInputDevice(Mouse.class).addActionPressed(MouseAwt.LEFT, () -> end(null));
         delay.ifPresent(d -> tick.addAction(() -> end(null), d));

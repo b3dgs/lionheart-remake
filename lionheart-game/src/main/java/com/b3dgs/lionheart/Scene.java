@@ -53,12 +53,13 @@ public class Scene extends SequenceGame<World>
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param network The network type (must not be <code>null</code>).
+     * @param type The game type (must not be <code>null</code>).
      * @param init The initial config.
      * @throws LionEngineException If invalid argument.
      */
-    public Scene(Context context, Network network, InitConfig init)
+    public Scene(Context context, Network network, NetworkGameType type, InitConfig init)
     {
-        this(context, network, init, Boolean.FALSE);
+        this(context, network, type, init, Boolean.FALSE);
     }
 
     /**
@@ -66,16 +67,17 @@ public class Scene extends SequenceGame<World>
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param network The network type (must not be <code>null</code>).
+     * @param type The game type (must not be <code>null</code>).
      * @param init The initial config.
      * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
      * @throws LionEngineException If invalid argument.
      */
-    Scene(Context context, Network network, InitConfig init, Boolean exit)
+    Scene(Context context, Network network, NetworkGameType type, InitConfig init, Boolean exit)
     {
         super(context,
               Util.getResolution(Constant.RESOLUTION_GAME, context),
               Util.getLoop(),
-              s -> new World(s, network));
+              s -> new World(s, network, type));
 
         this.init = init;
         this.exit = exit;
