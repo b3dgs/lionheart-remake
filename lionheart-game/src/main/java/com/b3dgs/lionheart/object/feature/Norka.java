@@ -200,7 +200,7 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
     {
         phase.update(extrp);
 
-        if (target.getY() < water.getHeight() - 4 && !playerHurtable.isHurtingBody())
+        if (target.getY() < water.getTotalHeight() - 4 && !playerHurtable.isHurtingBody())
         {
             playerHurtable.hurtDamages();
         }

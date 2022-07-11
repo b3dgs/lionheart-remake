@@ -237,7 +237,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
      */
     public void setHeight(double height)
     {
-        this.height = height;
+        secondary.height = height;
     }
 
     /**
@@ -246,6 +246,16 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
      * @return The height.
      */
     public double getHeight()
+    {
+        return secondary.height;
+    }
+
+    /**
+     * Get the total height.
+     * 
+     * @return The total height.
+     */
+    public double getTotalHeight()
     {
         return height + depth + depthOffset + raise;
     }
@@ -309,13 +319,13 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         {
             final Sprite sprite = (Sprite) data.getRenderable();
             final int w = (int) Math.ceil(screenWidth / (double) sprite.getWidth());
-            final int y = (int) (screenHeight + data.getOffsetY() - water.getHeight() + 4);
+            final int y = (int) (screenHeight + data.getOffsetY() - water.getTotalHeight() + 4);
 
             if (y >= -sprite.getHeight() && y < screenHeight)
             {
                 for (int j = 0; j < w; j++)
                 {
-                    for (int k = 0; k < water.getHeight() / sprite.getHeight(); k++)
+                    for (int k = 0; k < water.getTotalHeight() / sprite.getHeight(); k++)
                     {
                         sprite.setLocation(sprite.getWidth() * j, y + k * sprite.getHeight());
                         sprite.render(g);
@@ -373,8 +383,8 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
          */
         private void waterEffect(Graphic g)
         {
-            final int y = screenHeight + py - (int) water.getHeight() + 6;
-            final int max = Math.max(0, (int) Math.floor(water.getHeight() / (WATER_LINES * 3)));
+            final int y = screenHeight + py - (int) water.getTotalHeight() + 6;
+            final int max = Math.max(0, (int) Math.floor(water.getTotalHeight() / (WATER_LINES * 3)));
 
             for (int l = 0; l < WATER_LINES + max; l++)
             {
@@ -431,11 +441,11 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
             height = UtilMath.wrapDouble(height + water.getSpeed() * extrp, 0, Constant.ANGLE_MAX);
             if (raiseUpdater != UpdatableVoid.getInstance())
             {
-                water.setHeight(Math.cos(height) * water.getDepth());
+                water.height = Math.cos(height) * water.getDepth();
             }
             if (enabled)
             {
-                mapWater.setWaterHeight((int) water.getHeight());
+                mapWater.setWaterHeight((int) water.getTotalHeight());
             }
             else
             {
@@ -450,7 +460,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         {
             // w number of renders used to fill screen
             int w = (int) Math.ceil(screenWidth / (double) anim.getWidth());
-            int y = (int) (screenHeight + offsetY - water.getHeight());
+            int y = (int) (screenHeight + offsetY - water.getTotalHeight());
 
             // animation rendering
             if (animFlick)

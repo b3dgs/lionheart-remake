@@ -55,6 +55,7 @@ import com.b3dgs.lionheart.Checkpoint;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.CheckpointListener;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.landscape.ForegroundWater;
 import com.b3dgs.lionheart.object.EntityModel;
 
 /**
@@ -65,11 +66,13 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
 {
     private static final int TIME_START_DELAY = 1000;
     private static final int TIMING_SYNC_DELAY_MS = 1000;
+    private static final int TIMING_SYNC_WATER_DELAY_MS = 1000;
 
     private static final int TYPE_READY = 0;
     private static final int TYPE_STARTED = TYPE_READY + 1;
     private static final int TYPE_TIME = TYPE_STARTED + 1;
     private static final int TYPE_REACH = TYPE_TIME + 1;
+    private static final int TYPE_WATER = TYPE_REACH + 1;
 
     private static final int TIME_X = 0;
     private static final int TIME_Y = 0;
@@ -84,6 +87,7 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
                                                             12);
     private final Tick time = new Tick();
     private final Timing timeSync = new Timing();
+    private final Timing timeWater = new Timing();
     private final Map<Integer, Boolean> clientsReady = new HashMap<>();
     private final Map<Integer, Integer> reachTime = new TreeMap<>();
 
@@ -179,6 +183,19 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         }
     }
 
+    private void syncWater()
+    {
+        final ForegroundWater water = services.getOptional(ForegroundWater.class).orElse(null);
+        if (water != null)
+        {
+            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + Double.BYTES + 1);
+            buffer.putInt(getSyncId());
+            buffer.put(UtilConversion.fromUnsignedByte(TYPE_WATER));
+            buffer.putDouble(water.getHeight());
+            networkable.send(buffer);
+        }
+    }
+
     private void updateNumberTime()
     {
         numberTime.setLocation(TIME_X, TIME_Y);
@@ -247,6 +264,12 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
             {
                 syncTime();
                 timeSync.restart();
+            }
+
+            if (timeWater.elapsed(TIMING_SYNC_WATER_DELAY_MS))
+            {
+                syncWater();
+                timeWater.restart();
             }
         }
         else if (networkable.isClient())
@@ -332,6 +355,10 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
             }
             reachTime.putIfAbsent(id, Integer.valueOf(reach));
         }
+        else if (type == TYPE_WATER)
+        {
+            services.get(ForegroundWater.class).setHeight(packet.readDouble());
+        }
     }
 
     @Override
@@ -341,5 +368,6 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         started = false;
         time.stop();
         timeSync.stop();
+        timeWater.restart();
     }
 }
