@@ -52,6 +52,31 @@ public class Scene extends SequenceGame<World>
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
+     * @param init The initial config.
+     * @throws LionEngineException If invalid argument.
+     */
+    public Scene(Context context, InitConfig init)
+    {
+        this(context, Network.NONE, NetworkGameType.SPEEDRUN, init, Boolean.FALSE);
+    }
+
+    /**
+     * Create the scene.
+     * 
+     * @param context The context reference (must not be <code>null</code>).
+     * @param init The initial config.
+     * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
+     * @throws LionEngineException If invalid argument.
+     */
+    public Scene(Context context, InitConfig init, Boolean exit)
+    {
+        this(context, Network.NONE, NetworkGameType.SPEEDRUN, init, exit);
+    }
+
+    /**
+     * Create the scene.
+     * 
+     * @param context The context reference (must not be <code>null</code>).
      * @param network The network type (must not be <code>null</code>).
      * @param type The game type (must not be <code>null</code>).
      * @param init The initial config.

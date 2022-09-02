@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.awt.Mouse;
 import com.b3dgs.lionengine.awt.MouseAwt;
-import com.b3dgs.lionengine.network.Network;
 
 /**
  * Test scene implementation.
@@ -54,7 +53,7 @@ public final class TestScene extends Scene
      */
     TestScene(Context context, InitConfig init, OptionalInt delay)
     {
-        super(context, Network.NONE, NetworkGameType.COOP, init, Boolean.FALSE);
+        super(context, init);
 
         getInputDevice(Mouse.class).addActionPressed(MouseAwt.LEFT, () -> end(null));
         delay.ifPresent(d -> tick.addAction(() -> end(null), d));

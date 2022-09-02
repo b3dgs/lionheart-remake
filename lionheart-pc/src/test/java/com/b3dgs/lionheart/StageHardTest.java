@@ -31,7 +31,6 @@ import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.TaskFuture;
-import com.b3dgs.lionengine.network.Network;
 
 /**
  * Test correct {@link StageHard} loading.
@@ -72,7 +71,6 @@ final class StageHardTest
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
-                                             Network.NONE,
                                              new InitConfig(stage.exists() ? stage : Stage.values()[stage.ordinal()],
                                                             1,
                                                             1,
