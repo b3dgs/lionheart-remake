@@ -55,6 +55,12 @@ public final class Folder
     public static final String VETERAN = "veteran";
     /** Stage beginner folder. */
     public static final String BEGINNER = "beginner";
+    /** Stage speedrun folder. */
+    public static final String SPEEDRUN = "speedrun";
+    /** Stage battle folder. */
+    public static final String BATTLE = "battle";
+    /** Stage coop folder. */
+    public static final String COOP = "coop";
     /** Text folder. */
     public static final String TEXT = "text";
     /** Sfx folder. */

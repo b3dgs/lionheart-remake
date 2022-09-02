@@ -17,6 +17,8 @@
 package com.b3dgs.lionheart;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
@@ -226,6 +229,16 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final Channel channel = services.create(ChannelBuffer.class);
             final Server server = services.add(new ServerUdp(channel));
             closer.set(server::stop);
+            server.setInfoSupplier(() ->
+            {
+                final ByteBuffer buffer = ByteBuffer.allocate(4 + init.getStage().getPath().length());
+                buffer.put(UtilNetwork.toByte(type));
+                buffer.put(UtilConversion.fromUnsignedByte(init.getStage().getPath().length()));
+                buffer.put(StandardCharsets.UTF_8.encode(init.getStage().getPath()));
+                buffer.put(UtilConversion.fromUnsignedByte(init.getHealthMax()));
+                buffer.put(UtilConversion.fromUnsignedByte(init.getLife()));
+                return buffer;
+            });
             server.start(network.getIp().get(), network.getPort().getAsInt());
             handler.addComponent(new ComponentNetwork(services));
 

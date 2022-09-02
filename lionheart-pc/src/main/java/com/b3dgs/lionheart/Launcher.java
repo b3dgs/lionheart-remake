@@ -37,7 +37,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.URI;
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -84,6 +91,7 @@ import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
@@ -95,8 +103,11 @@ import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.network.MessageType;
 import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionengine.network.NetworkType;
+import com.b3dgs.lionengine.network.UtilNetwork;
+import com.b3dgs.lionengine.network.client.InfoGet;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -448,7 +459,7 @@ public final class Launcher
                                          .collect(Collectors.toList());
         final JComboBox<String> combo = new JComboBox<>(langs.toArray(new String[langs.size()]));
         combo.setFont(FONT);
-        combo.addItemListener(e ->
+        combo.addActionListener(e ->
         {
             final String k = combo.getItemAt(combo.getSelectedIndex());
             final String lang = LANG_SHORT.getOrDefault(k, k);
@@ -619,7 +630,7 @@ public final class Launcher
         {
             getNativeRates().forEach(comboRate::addItem);
         }
-        comboRate.addItemListener(e ->
+        comboRate.addActionListener(e ->
         {
             if (comboRate.getSelectedIndex() > -1)
             {
@@ -632,8 +643,8 @@ public final class Launcher
         final JLabel labelHz = new JLabel("Hz");
         labelHz.setFont(FONT);
 
-        comboScale.addItemListener(e -> updateResolution(comboScale, comboRatio, width, height));
-        comboRatio.addItemListener(e -> updateResolution(comboScale, comboRatio, width, height));
+        comboScale.addActionListener(e -> updateResolution(comboScale, comboRatio, width, height));
+        comboRatio.addActionListener(e -> updateResolution(comboScale, comboRatio, width, height));
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -683,7 +694,7 @@ public final class Launcher
         return rates.stream().distinct().sorted().collect(Collectors.toList());
     }
 
-    private static void updateField(AtomicInteger field, JFormattedTextField text)
+    static void updateField(AtomicInteger field, JFormattedTextField text)
     {
         try
         {
@@ -720,7 +731,7 @@ public final class Launcher
         comboResolution = new JComboBox<>(res.toArray(new Res[res.size()]));
         comboResolution.setFont(FONT);
         TIPS.add(comboResolution);
-        comboResolution.addItemListener(e ->
+        comboResolution.addActionListener(e ->
         {
             final Res r = comboResolution.getItemAt(comboResolution.getSelectedIndex());
             width.setText(String.valueOf(r.width));
@@ -802,7 +813,7 @@ public final class Launcher
 
         final JComboBox<FilterType> combo = new JComboBox<>(FilterType.values());
         combo.setFont(FONT);
-        combo.addItemListener(e -> FILTER.set(combo.getItemAt(combo.getSelectedIndex())));
+        combo.addActionListener(e -> FILTER.set(combo.getItemAt(combo.getSelectedIndex())));
         combo.setSelectedItem(FILTER.get());
         TIPS.add(combo);
 
@@ -825,7 +836,7 @@ public final class Launcher
 
         final JComboBox<GameplayType> combo = new JComboBox<>(GameplayType.values());
         combo.setFont(FONT);
-        combo.addItemListener(e -> GAMEPLAY.set(combo.getItemAt(combo.getSelectedIndex())));
+        combo.addActionListener(e -> GAMEPLAY.set(combo.getItemAt(combo.getSelectedIndex())));
         combo.setSelectedItem(GAMEPLAY.get());
         TIPS.add(combo);
 
@@ -853,7 +864,7 @@ public final class Launcher
         final JComboBox<ImageLoadStrategy> combo = new JComboBox<>(ImageLoadStrategy.values());
         combo.setFont(FONT);
         combo.setSelectedIndex(FLAG_STRATEGY.get());
-        combo.addItemListener(e -> FLAG_STRATEGY.set(combo.getSelectedIndex()));
+        combo.addActionListener(e -> FLAG_STRATEGY.set(combo.getSelectedIndex()));
         TIPS.add(combo);
 
         final JCheckBox parallel = new JCheckBox(LABEL_FLAG_PARALLEL);
@@ -892,7 +903,7 @@ public final class Launcher
         comboRaster = new JComboBox<>(RasterType.values());
         comboRaster.setFont(FONT);
         comboRaster.setSelectedItem(RASTER.get());
-        comboRaster.addItemListener(e -> RASTER.set(comboRaster.getItemAt(comboRaster.getSelectedIndex())));
+        comboRaster.addActionListener(e -> RASTER.set(comboRaster.getItemAt(comboRaster.getSelectedIndex())));
         TIPS.add(raster);
 
         final Box box = Box.createHorizontalBox();
@@ -1030,7 +1041,7 @@ public final class Launcher
         final JComboBox<String> combo = new JComboBox<>(stages.toArray(new String[stages.size()]));
         combo.setFont(FONT);
         combo.setSelectedItem(STAGES.get());
-        combo.addItemListener(e -> STAGES.set(combo.getItemAt(combo.getSelectedIndex())));
+        combo.addActionListener(e -> STAGES.set(combo.getItemAt(combo.getSelectedIndex())));
         TIPS.add(combo);
 
         final Box box = Box.createHorizontalBox();
@@ -1059,7 +1070,7 @@ public final class Launcher
                                                                .map(Launcher::getControllerKey)
                                                                .toArray());
         combo.setFont(FONT);
-        combo.addItemListener(e -> GAMEPAD.set(combo.getSelectedIndex()));
+        combo.addActionListener(e -> GAMEPAD.set(combo.getSelectedIndex()));
         TIPS.add(combo);
 
         final Box box = Box.createHorizontalBox();
@@ -1134,7 +1145,7 @@ public final class Launcher
             gamepad.select(GAMEPAD.get());
             save();
             window.dispose();
-            AppLionheart.run(new Network(NetworkType.NONE), gamepad);
+            AppLionheart.run(new Network(NetworkType.NONE), NetworkGameType.COOP, gamepad);
         });
         LABELS.add(play::setText);
         TIPS.add(play);
@@ -1204,10 +1215,15 @@ public final class Launcher
         startServer.setFont(FONT);
         startServer.addActionListener(event ->
         {
-            gamepad.select(GAMEPAD.get());
-            save();
-            window.dispose();
-            AppLionheart.run(new Network(NetworkType.SERVER), gamepad);
+            final ServerDialog dialog = new ServerDialog(window);
+            dialog.setVisible(true);
+
+            final NetworkStageData data = new NetworkStageData(dialog.getGameType(),
+                                                               dialog.getStage(),
+                                                               dialog.getHealth(),
+                                                               dialog.getLife());
+
+            run(window, new Network(NetworkType.SERVER, "127.0.0.1", 1000), gamepad, data);
         });
         LABELS.add(startServer::setText);
         TIPS.add(startServer);
@@ -1218,14 +1234,22 @@ public final class Launcher
         {
             final String ip = JOptionPane.showInputDialog(parent,
                                                           "IP",
-                                                          startServer.getText(),
+                                                          joinGame.getText(),
                                                           JOptionPane.QUESTION_MESSAGE);
-            if (ip != null)
+            final String name = JOptionPane.showInputDialog(parent,
+                                                            "NAME",
+                                                            joinGame.getText(),
+                                                            JOptionPane.QUESTION_MESSAGE);
+            if (ip != null && name != null)
             {
-                gamepad.select(GAMEPAD.get());
-                save();
-                window.dispose();
-                AppLionheart.run(new Network(NetworkType.CLIENT, ip, 9999), gamepad);
+                try
+                {
+                    run(window, new Network(NetworkType.CLIENT, ip, 1000, name), gamepad, getGameType(ip, 1000));
+                }
+                catch (final IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
         });
         LABELS.add(joinGame::setText);
@@ -1240,6 +1264,66 @@ public final class Launcher
         panel.setBorder(BORDER);
         panel.add(startServer, constraints);
         panel.add(joinGame, constraints);
+    }
+
+    private static NetworkStageData getGameType(String ip, int port) throws IOException
+    {
+        try
+        {
+            final InetAddress address = InetAddress.getByName(ip);
+            final DatagramSocket socket = new DatagramSocket();
+
+            final ByteBuffer buffer = ByteBuffer.allocate(1);
+            buffer.put(UtilNetwork.toByte(MessageType.INFO));
+            final ByteBuffer send = UtilNetwork.createPacket(buffer);
+            socket.send(new DatagramPacket(send.array(), send.capacity(), address, port));
+
+            final ByteBuffer info = InfoGet.decode(socket);
+            final NetworkGameType type = NetworkGameType.values()[UtilConversion.toUnsignedByte(info.get())];
+            final int size = UtilConversion.toUnsignedByte(info.get());
+            final byte[] stageBuffer = new byte[size];
+            info.get(stageBuffer);
+
+            final String stage = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stageBuffer)).toString();
+            final int health = UtilConversion.toUnsignedByte(info.get());
+            final int life = UtilConversion.toUnsignedByte(info.get());
+
+            return new NetworkStageData(type, Medias.create(stage), health, life);
+        }
+        catch (final UnknownHostException | SocketException exception)
+        {
+            throw new IOException(exception);
+        }
+    }
+
+    private static class NetworkStageData
+    {
+        private final NetworkGameType type;
+        private final Media stage;
+        private final int health;
+        private final int life;
+
+        private NetworkStageData(NetworkGameType type, Media stage, int health, int life)
+        {
+            super();
+
+            this.type = type;
+            this.stage = stage;
+            this.health = health;
+            this.life = life;
+        }
+    }
+
+    private static void run(Window window, Network network, Gamepad gamepad, NetworkStageData data)
+    {
+        gamepad.select(GAMEPAD.get());
+        save();
+        window.dispose();
+        AppLionheart.run(gamepad,
+                         Scene.class,
+                         network,
+                         data.type,
+                         new InitConfig(data.stage, data.health, data.life, Difficulty.NORMAL));
     }
 
     private static void createCopyright(Container parent)
