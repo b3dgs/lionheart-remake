@@ -37,22 +37,29 @@ public final class FactoryLandscape
     /** The vertical factor. */
     private final double scaleV;
     /** Background flickering flag. */
-    private final boolean flicker;
+    private final boolean flickerBackground;
+    /** Foreground flickering flag. */
+    private final boolean flickerForeground;
 
     /**
      * Constructor.
      * 
      * @param source The resolution source reference.
      * @param services The services reference.
-     * @param flicker The flicker flag.
+     * @param flickerBackground The flicker flag.
+     * @param flickerForeground The flicker flag.
      */
-    public FactoryLandscape(Services services, SourceResolutionProvider source, boolean flicker)
+    public FactoryLandscape(Services services,
+                            SourceResolutionProvider source,
+                            boolean flickerBackground,
+                            boolean flickerForeground)
     {
         super();
 
         this.services = services;
         this.source = source;
-        this.flicker = flicker;
+        this.flickerBackground = flickerBackground;
+        this.flickerForeground = flickerForeground;
         scaleH = 1.0;
         scaleV = 1.0;
     }
@@ -82,7 +89,8 @@ public final class FactoryLandscape
             foreground = services.add(new ForegroundWater(services,
                                                           source,
                                                           foregroundType.getTheme(),
-                                                          foregroundConfig));
+                                                          foregroundConfig,
+                                                          flickerForeground));
         }
         return new Landscape(background, foreground);
     }
@@ -101,7 +109,7 @@ public final class FactoryLandscape
         switch (world)
         {
             case SWAMP:
-                background = new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
                 break;
             case SPIDERCAVE1:
             case SPIDERCAVE2:
@@ -111,27 +119,27 @@ public final class FactoryLandscape
                 break;
             case ANCIENTTOWN:
                 // CHECKSTYLE IGNORE LINE: MagicNumber
-                background = new Gradient(1800, 470, source, backgroundType, flicker);
+                background = new Gradient(1800, 470, source, backgroundType, flickerBackground);
                 break;
             case LAVA:
-                background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
                 break;
             case SECRET:
                 // CHECKSTYLE IGNORE LINE: MagicNumber
-                background = new Gradient(1600, 384, source, backgroundType, flicker);
+                background = new Gradient(1600, 384, source, backgroundType, flickerBackground);
                 break;
             case AIRSHIP:
-                background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
                 break;
             case DRAGONFLY:
-                background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
                 break;
             case TOWER:
                 // CHECKSTYLE IGNORE LINE: MagicNumber
-                background = new Gradient(2448, 676, source, backgroundType, flicker);
+                background = new Gradient(2448, 676, source, backgroundType, flickerBackground);
                 break;
             case NORKA:
-                background = new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flicker);
+                background = new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
                 break;
             default:
                 throw new LionEngineException(backgroundType);

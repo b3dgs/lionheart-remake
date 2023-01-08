@@ -11,6 +11,8 @@ Música:
 Niveles:
 Visible:
 Espada:
+Fondo:
+Primer plano:
 Zoom:
 Avanzado
 Controlador:

@@ -29,6 +29,8 @@ Marcado para habilitar VSync, desmarcado para deshabilitar (predeterminado).
 Marcado para habilitar el efecto de trama (predeterminado), desmarcado para deshabilitar el efecto.
 Marcado para mostrar HUD (predeterminado), desmarcado para ocultar.
 Marcado para mostrar el nivel de espada, desmarcado para ocultar (predeterminado).
+Establecer parpadeo de fondo.
+Establecer parpadeo de primer plano.
 Establecer vista truncada original.
 Establecer la vista normalizada de remake.
 Seleccione el efecto de vista de zoom.

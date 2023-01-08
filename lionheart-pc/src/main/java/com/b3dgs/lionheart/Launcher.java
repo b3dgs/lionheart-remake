@@ -149,6 +149,8 @@ public final class Launcher
     private static final AtomicReference<RasterType> RASTER = new AtomicReference<>();
     private static final AtomicBoolean HUD = new AtomicBoolean();
     private static final AtomicBoolean HUD_SWORD = new AtomicBoolean();
+    private static final AtomicBoolean FLICKER_BACKGROUND = new AtomicBoolean();
+    private static final AtomicBoolean FLICKER_FOREGROUND = new AtomicBoolean();
     private static final AtomicInteger ZOOM = new AtomicInteger();
     private static final AtomicInteger MUSIC = new AtomicInteger();
     private static final AtomicInteger SFX = new AtomicInteger();
@@ -190,6 +192,9 @@ public final class Launcher
     private static final String LABEL_HUD = "Hud";
     private static final String LABEL_HUD_VISIBLE = "Visible:";
     private static final String LABEL_HUD_SWORD = "Sword:";
+    private static final String LABEL_FLICKER = "Flicker";
+    private static final String LABEL_FLICKER_BACKGROUND = "Background:";
+    private static final String LABEL_FLICKER_FOREGROUND = "Foreground:";
     private static final String LABEL_GAMEPLAY = "Gameplay:";
     private static final String LABEL_STAGES = "Stages:";
     private static final String LABEL_GAMEPAD = "Gamepad:";
@@ -298,6 +303,7 @@ public final class Launcher
         final Box advanced = Box.createVerticalBox();
         createFlags(advanced);
         createMiscs(advanced);
+        createFlicker(advanced);
         createZoom(advanced);
         advanced.setVisible(false);
 
@@ -366,6 +372,8 @@ public final class Launcher
         RASTER.set(settings.getRaster());
         HUD.set(settings.getHudVisible());
         HUD_SWORD.set(settings.getHudSword());
+        FLICKER_BACKGROUND.set(settings.getFlickerBackground());
+        FLICKER_FOREGROUND.set(settings.getFlickerForeground());
         ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
                                 (int) (Constant.ZOOM_MIN * 100),
                                 (int) (Constant.ZOOM_MAX * 100)));
@@ -694,6 +702,12 @@ public final class Launcher
         return rates.stream().distinct().sorted().collect(Collectors.toList());
     }
 
+    /**
+     * Update field.
+     * 
+     * @param field The field.
+     * @param text The text.
+     */
     static void updateField(AtomicInteger field, JFormattedTextField text)
     {
         try
@@ -943,6 +957,33 @@ public final class Launcher
         box.setBorder(BorderFactory.createTitledBorder(LABEL_HUD));
         box.add(hud);
         box.add(sword);
+
+        parent.add(box);
+    }
+
+    private static void createFlicker(Container parent)
+    {
+        final JCheckBox background = new JCheckBox(LABEL_FLICKER_BACKGROUND);
+        background.setFont(FONT);
+        background.setHorizontalTextPosition(SwingConstants.LEADING);
+        background.setSelected(FLICKER_BACKGROUND.get());
+        background.addChangeListener(e -> FLICKER_BACKGROUND.set(background.isSelected()));
+        LABELS.add(background::setText);
+        TIPS.add(background);
+
+        final JCheckBox foreground = new JCheckBox(LABEL_FLICKER_FOREGROUND);
+        foreground.setFont(FONT);
+        foreground.setHorizontalTextPosition(SwingConstants.LEADING);
+        foreground.setSelected(FLICKER_FOREGROUND.get());
+        foreground.addChangeListener(e -> FLICKER_FOREGROUND.set(foreground.isSelected()));
+        foreground.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        LABELS.add(foreground::setText);
+        TIPS.add(foreground);
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BorderFactory.createTitledBorder(LABEL_FLICKER));
+        box.add(background);
+        box.add(foreground);
 
         parent.add(box);
     }
@@ -1472,6 +1513,14 @@ public final class Launcher
                     else if (line.contains(Settings.HUD_SWORD))
                     {
                         writeFormatted(output, data, HUD_SWORD.get());
+                    }
+                    else if (line.contains(Settings.FLICKER_BACKGROUND))
+                    {
+                        writeFormatted(output, data, FLICKER_BACKGROUND.get());
+                    }
+                    else if (line.contains(Settings.FLICKER_FOREGROUND))
+                    {
+                        writeFormatted(output, data, FLICKER_FOREGROUND.get());
                     }
                     else if (line.contains(Settings.ZOOM))
                     {

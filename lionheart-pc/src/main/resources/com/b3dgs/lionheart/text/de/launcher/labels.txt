@@ -11,6 +11,8 @@ Musik:
 Ebenen:
 Sichtbar:
 Schwert:
+Hintergrund:
+Vordergrund:
 Zoomen:
 Erweiterte Einstellungen
 Gamepad:

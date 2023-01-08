@@ -11,6 +11,8 @@ Music:
 Stages:
 Visible:
 Sword:
+Background:
+Foreground:
 Zoom:
 Advanced
 Gamepad:

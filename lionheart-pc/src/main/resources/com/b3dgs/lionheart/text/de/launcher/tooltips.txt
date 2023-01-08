@@ -29,6 +29,8 @@ Aktiviert, um VSync zu aktivieren, deaktiviert, um VSync zu deaktivieren (Standa
 Aktiviert, um den Rastereffekt zu aktivieren (Standard), deaktiviert, um den Effekt zu deaktivieren.
 Aktiviert, um das HUD anzuzeigen (Standard), deaktiviert, um es auszublenden.
 Aktiviert, um das Schwertniveau anzuzeigen, deaktiviert, um es auszublenden (Standard).
+Hintergrundflackern einstellen.
+Vordergrundflackern einstellen.
 Stellen Sie die ursprüngliche abgeschnittene Ansicht ein.
 Stellen Sie die normalisierte Ansicht für das Remake ein.
 Wählen Sie den Zoomansichtseffekt.

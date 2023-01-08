@@ -383,7 +383,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         final FactoryLandscape factoryLandscape = new FactoryLandscape(services,
                                                                        source,
-                                                                       settings.getBackgroundFlicker());
+                                                                       settings.getFlickerBackground(),
+                                                                       settings.getFlickerForeground());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
         final Optional<Coord> spawn = init.getSpawn();

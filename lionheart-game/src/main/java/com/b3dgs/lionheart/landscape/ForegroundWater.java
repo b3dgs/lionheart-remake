@@ -111,8 +111,13 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
      * @param source The resolution source reference.
      * @param theme The theme name.
      * @param config The configuration.
+     * @param foregroundFlicker The flicker flag.
      */
-    ForegroundWater(Services services, SourceResolutionProvider source, String theme, ForegroundConfig config)
+    ForegroundWater(Services services,
+                    SourceResolutionProvider source,
+                    String theme,
+                    ForegroundConfig config,
+                    boolean foregroundFlicker)
     {
         super(theme, 0, 0);
 
@@ -137,8 +142,11 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         add(primary);
         add(secondary);
 
+        if (foregroundFlicker)
+        {
+            tickFlick.start();
+        }
         tick.start();
-        tickFlick.start();
     }
 
     /**

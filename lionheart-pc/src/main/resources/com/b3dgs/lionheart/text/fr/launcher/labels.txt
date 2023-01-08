@@ -11,6 +11,8 @@ Musique:
 Niveaux:
 Visible:
 Épée:
+Arrière plan:
+Premier plan:
 Zoom:
 Avancé
 Manette:

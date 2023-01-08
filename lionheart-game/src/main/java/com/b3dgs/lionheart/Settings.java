@@ -81,10 +81,12 @@ public final class Settings
     /** Hud sword key. */
     public static final String HUD_SWORD = HUD + ".sword";
 
-    /** Background key. */
-    public static final String BACKGROUND = "background";
-    /** Background flicker key. */
-    public static final String BACKGROUND_FLICKER = BACKGROUND + ".flicker";
+    /** Flicker key. */
+    public static final String FLICKER = "flicker";
+    /** Flicker background key. */
+    public static final String FLICKER_BACKGROUND = FLICKER + ".background";
+    /** Flicker foreground key. */
+    public static final String FLICKER_FOREGROUND = FLICKER + ".foreground";
 
     /** Zoom value. */
     public static final String ZOOM = "zoom";
@@ -378,13 +380,23 @@ public final class Settings
     }
 
     /**
-     * Get background flicker value.
+     * Get flicker background value.
      * 
-     * @return The background flicker value.
+     * @return The flicker background value.
      */
-    public boolean getBackgroundFlicker()
+    public boolean getFlickerBackground()
     {
-        return getBoolean(BACKGROUND_FLICKER, false);
+        return getBoolean(FLICKER_BACKGROUND, false);
+    }
+
+    /**
+     * Get flicker foreground value.
+     * 
+     * @return The flicker foreground value.
+     */
+    public boolean getFlickerForeground()
+    {
+        return getBoolean(FLICKER_FOREGROUND, false);
     }
 
     /**

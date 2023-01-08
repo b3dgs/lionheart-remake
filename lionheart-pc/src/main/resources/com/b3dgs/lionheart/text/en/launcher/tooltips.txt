@@ -29,6 +29,8 @@ Checked to enabled VSync, unchecked to disable (default).
 Checked to enable raster effect (default), unchecked to disable effect.
 Checked to display HUD (default), unchecked to hide.
 Checked to show sword level, unchecked to hide (default).
+Set background flickering.
+Set foreground flickering.
 Set original truncated view.
 Set remake normalized view.
 Select zoom view effect.
