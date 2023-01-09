@@ -2,9 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     packagingOptions {
-        exclude '**/lionheart/**'
+        jniLibs {
+            excludes += ['**/lionheart/**']
+        }
+        resources {
+            excludes += ['**/lionheart/**']
+        }
     }
-    
+
     signingConfigs {
         app {
             storeFile file(property('keystore'))
@@ -45,10 +50,10 @@ android {
             jniLibs.srcDir 'jniLibs'
         }
     }
-
-    aaptOptions {
-        ignoreAssetsPattern "stage.png:stage1.png:stage2.png:stage3.png:stage_hard.png:stage1_hard.png:stage2_hard.png:stage3_hard.png"
+    androidResources {
+        ignoreAssetsPattern 'stage.png:stage1.png:stage2.png:stage3.png:stage_hard.png:stage1_hard.png:stage2_hard.png:stage3_hard.png'
     }
+    namespace 'com.b3dgs.lionheart'
 }
 
 dependencies {
@@ -56,7 +61,7 @@ dependencies {
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core-android:10.0.0-SNAPSHOT'
     //noinspection GradleDependency
-    implementation 'net.java.dev.jna:jna:5.4.0@aar'
+    implementation 'net.java.dev.jna:jna:5.12.1@aar'
     implementation 'com.b3dgs.lionengine:lionengine-audio-sc68:10.0.0-SNAPSHOT'
-    implementation 'com.b3dgs.lionheart:lionheart-game:1.2.0'
+    implementation 'com.b3dgs.lionheart:lionheart-game:1.3.0-SNAPSHOT'
 }

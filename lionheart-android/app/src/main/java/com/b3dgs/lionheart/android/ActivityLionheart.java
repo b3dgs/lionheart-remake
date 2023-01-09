@@ -25,8 +25,10 @@ import com.b3dgs.lionengine.android.graphic.ScreenAndroid;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.graphic.engine.Loader;
+import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Loading;
+import com.b3dgs.lionheart.NetworkGameType;
 import com.b3dgs.lionheart.Settings;
 
 /**
@@ -53,6 +55,6 @@ public final class ActivityLionheart extends ActivityGame
         final Settings settings = Settings.getInstance();
         AudioFactory.setVolume(settings.getVolumeMaster());
 
-        Loader.start(Config.fullscreen(settings.getResolution()), Loading.class);
+        Loader.start(Config.fullscreen(settings.getResolution()), Loading.class, Network.NONE, NetworkGameType.SPEEDRUN);
     }
 }

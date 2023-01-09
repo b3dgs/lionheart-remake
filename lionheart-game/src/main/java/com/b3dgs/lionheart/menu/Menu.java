@@ -147,6 +147,8 @@ public class Menu extends Sequence
     private MenuType menuNext;
     /** Music player. */
     private Audio audio;
+    private boolean movedHorizontal;
+    private boolean movedVertical;
 
     /**
      * Constructor.
@@ -319,13 +321,20 @@ public class Menu extends Sequence
      */
     private int changeOption(int option, int min, int max)
     {
-        int value = option;
-        if (device.isFiredOnce(DeviceMapping.LEFT))
+        if (device.getHorizontalDirection() == 0)
         {
+            movedHorizontal = false;
+        }
+
+        int value = option;
+        if (!movedHorizontal && (device.getHorizontalDirection() < 0 || device.isFiredOnce(DeviceMapping.LEFT)))
+        {
+            movedHorizontal = true;
             value--;
         }
-        if (device.isFiredOnce(DeviceMapping.RIGHT))
+        if (!movedHorizontal && (device.getHorizontalDirection() > 0 || device.isFiredOnce(DeviceMapping.RIGHT)))
         {
+            movedHorizontal = true;
             value++;
         }
         value = UtilMath.clamp(value, min, max);
@@ -440,17 +449,24 @@ public class Menu extends Sequence
     private void updateMenuNavigation(int menuId)
     {
         final int choiceOld = choice;
-        if (device.isFiredOnce(DeviceMapping.UP))
+        if (device.getVerticalDirection() == 0)
+        {
+            movedVertical = false;
+        }
+
+        if (!movedVertical && (device.getVerticalDirection() > 0 || device.isFiredOnce(DeviceMapping.UP)))
         {
             choice--;
             cursor.setVisible(false);
             cursor.setLocation(0, 0);
+            movedVertical = true;
         }
-        if (device.isFiredOnce(DeviceMapping.DOWN))
+        if (!movedVertical && (device.getVerticalDirection() < 0 || device.isFiredOnce(DeviceMapping.DOWN)))
         {
             choice++;
             cursor.setVisible(false);
             cursor.setLocation(0, 0);
+            movedVertical = true;
         }
         if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
         {
