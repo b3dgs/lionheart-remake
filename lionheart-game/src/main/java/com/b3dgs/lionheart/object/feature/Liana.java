@@ -17,7 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
@@ -174,7 +174,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                     final Tile top2 = map.getTile(tile.getInTileX(), tile.getInTileY() + 2);
                     final Tile bottom = map.getTile(tile.getInTileX(), tile.getInTileY() - 1);
                     final Tile bottom2 = map.getTile(tile.getInTileX(), tile.getInTileY() - 2);
-                    final Collection<Tile> toUpdate = new ArrayList<>();
+                    final List<Tile> toUpdate = new ArrayList<>();
                     final boolean ground;
                     int number;
 
@@ -235,8 +235,11 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                         toUpdate.add(tile);
                     }
 
-                    for (final Tile current : toUpdate)
+                    final int n = toUpdate.size();
+                    for (int i = 0; i < n; i++)
                     {
+                        final Tile current = toUpdate.get(i);
+
                         final Tile t = map.getTile(current.getInTileX(), current.getInTileY() + 1);
                         final Tile b = map.getTile(current.getInTileX(), current.getInTileY() - 1);
 
