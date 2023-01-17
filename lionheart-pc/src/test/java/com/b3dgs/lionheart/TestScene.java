@@ -35,25 +35,25 @@ public final class TestScene extends Scene
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param init The initial config.
+     * @param config The config reference.
      * @throws LionEngineException If invalid argument.
      */
-    TestScene(Context context, InitConfig init)
+    TestScene(Context context, GameConfig config)
     {
-        this(context, init, OptionalInt.empty());
+        this(context, config, OptionalInt.empty());
     }
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param init The initial config.
+     * @param config The config reference.
      * @param delay The exit delay.
      * @throws LionEngineException If invalid argument.
      */
-    TestScene(Context context, InitConfig init, OptionalInt delay)
+    TestScene(Context context, GameConfig config, OptionalInt delay)
     {
-        super(context, init);
+        super(context, config);
 
         getInputDevice(Mouse.class).addActionPressed(MouseAwt.LEFT, () -> end(null));
         delay.ifPresent(d -> tick.addAction(() -> end(null), d));

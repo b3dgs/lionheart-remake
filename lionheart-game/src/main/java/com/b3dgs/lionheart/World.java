@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.SplitType;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
@@ -46,6 +47,8 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.feature.Camera;
+import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Layerable;
@@ -78,6 +81,7 @@ import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Text;
+import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityInputController;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionengine.helper.WorldHelper;
@@ -123,17 +127,28 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
+    private final List<Featurable> players = new ArrayList<>();
     private final Map<Integer, String> clients = services.add(new ConcurrentHashMap<>());
     private final Text text;
     private final Thread musicTask;
     private final boolean debug;
-    private final Network network;
-    private final NetworkGameType type;
+    private final GameConfig game;
+
+    private final Camera[] splitCamera;
+    private final CameraTracker[] splitTracker;
+    private final DeviceController[] splitDevice;
+    private final Hud[] splitHud;
+    private final int[] splitTrackerInitY;
+    private final double[] splitTrackerY;
+    private final CheckpointHandler[] splitCheckpoints;
+    private final Landscape[] splitLandscape;
 
     private CheckpointHandler checkpoints;
     private Cheats cheats;
     private Audio music;
     private DeviceController device;
+    private boolean server;
+    private boolean client;
 
     private Landscape landscape;
     private int trackerInitY;
@@ -149,11 +164,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * Create the world.
      * 
      * @param services The services reference (must not be <code>null</code>).
-     * @param network The network type (must not be <code>null</code>).
-     * @param type The game type (must not be <code>null</code>).
+     * @param game The game reference (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    World(Services services, Network network, NetworkGameType type)
+    World(Services services, GameConfig game)
     {
         super(services);
 
@@ -162,8 +176,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         text = Graphics.createText(size);
         text.setColor(ColorRgba.WHITE);
 
-        this.network = network;
-        this.type = type;
+        this.game = game;
         debug = Settings.getInstance().getFlagDebug();
 
         services.add(tracker);
@@ -189,6 +202,43 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         musicTask = new Thread(this::playNextMusicTask, "Musics");
         musicTask.start();
+
+        final int n = game.getSplit() != SplitType.NONE ? game.getPlayers() - 1 : 0;
+        splitCamera = new Camera[n];
+        splitTracker = new CameraTracker[n];
+        splitDevice = new DeviceController[game.getPlayers()];
+        splitHud = new Hud[n];
+        splitTrackerInitY = new int[n];
+        splitTrackerY = new double[n];
+        splitCheckpoints = new CheckpointHandler[n];
+        splitLandscape = new Landscape[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            splitCamera[i] = new Camera();
+            splitCamera[i].setView(0, 0, source.getWidth(), source.getHeight(), source.getHeight());
+            splitHud[i] = new Hud(source, splitCamera[i]);
+            splitTrackerInitY[i] = 0;
+            splitTrackerY[i] = 0.0;
+        }
+    }
+
+    private static int countSplit(SplitType split)
+    {
+        final int n;
+        if (split == SplitType.FOUR)
+        {
+            n = 3;
+        }
+        else if (split == SplitType.TWO_HORIZONTAL || split == SplitType.TWO_VERTICAL)
+        {
+            n = 1;
+        }
+        else
+        {
+            n = 0;
+        }
+        return n;
     }
 
     private void playNextMusicTask()
@@ -208,31 +258,43 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     }
 
     /**
+     * Prepare world.
+     */
+    void prepare()
+    {
+        cheats = new Cheats(services, tick);
+        checkpoints = services.create(CheckpointHandler.class);
+        device = services.get(DeviceController.class);
+    }
+
+    /**
      * Prepare network.
      * 
+     * @param network The network used.
      * @param closer The closer action.
      * @param init The init config.
      * @throws IOException If network error.
      */
-    void prepareNetwork(AtomicReference<Action> closer, InitConfig init) throws IOException
+    void prepareNetwork(Network network, AtomicReference<Action> closer, InitConfig init) throws IOException
     {
-        final Featurable chatHandler = factory.create(Medias.create("ChatHandler.xml"));
-        handler.add(chatHandler);
-        services.add(chatHandler.getFeature(ChatHandler.class));
-
-        cheats = new Cheats(services, tick);
-        checkpoints = services.create(CheckpointHandler.class);
-        device = services.get(DeviceController.class);
+        if (!network.is(NetworkType.NONE))
+        {
+            final Featurable chatHandler = factory.create(Medias.create("ChatHandler.xml"));
+            handler.add(chatHandler);
+            services.add(chatHandler.getFeature(ChatHandler.class));
+        }
 
         if (network.is(NetworkType.SERVER))
         {
+            server = true;
+
             final Channel channel = services.create(ChannelBuffer.class);
             final Server server = services.add(new ServerUdp(channel));
             closer.set(server::stop);
             server.setInfoSupplier(() ->
             {
                 final ByteBuffer buffer = ByteBuffer.allocate(4 + init.getStage().getPath().length());
-                buffer.put(UtilNetwork.toByte(type));
+                buffer.put(UtilNetwork.toByte(game.getType()));
                 buffer.put(UtilConversion.fromUnsignedByte(init.getStage().getPath().length()));
                 buffer.put(StandardCharsets.UTF_8.encode(init.getStage().getPath()));
                 buffer.put(UtilConversion.fromUnsignedByte(init.getHealthMax()));
@@ -249,10 +311,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         else if (network.is(NetworkType.CLIENT))
         {
+            client = true;
+
             final Channel channel = services.create(ChannelBuffer.class);
             final Client client = services.add(new ClientUdp(channel));
             closer.set(client::disconnect);
-            addClientListener(client);
+            addClientListener(network, client);
             client.connect(network.getIp().get(), network.getPort().getAsInt());
             client.setName(network.getName().get());
             handler.addComponent(new ComponentNetwork(services));
@@ -340,7 +404,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         clients.remove(id);
     }
 
-    private void addClientListener(Client client)
+    private void addClientListener(Network network, Client client)
     {
         client.addListener(new ClientListener()
         {
@@ -387,12 +451,53 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                                        settings.getFlickerForeground());
         landscape = services.add(factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground()));
 
+        for (int i = 0; i < splitLandscape.length; i++)
+        {
+            splitLandscape[i] = factoryLandscape.createLandscape(stage.getBackground(), stage.getForeground());
+        }
+
         final Optional<Coord> spawn = init.getSpawn();
         checkpoints.load(stage, spawn);
 
-        if (network.is(NetworkType.NONE))
+        for (int i = 0; i < splitCheckpoints.length; i++)
+        {
+            splitCheckpoints[i] = new CheckpointHandler(services);
+            splitCheckpoints[i].load(stage, spawn);
+        }
+
+        players.clear();
+        if (!server && !client)
         {
             services.add(createPlayer(settings, init, stage).getFeature(Trackable.class));
+        }
+
+        for (int i = 0; i < splitCamera.length; i++)
+        {
+            splitTracker[i] = new CameraTracker(splitCamera[i]);
+            camera.setInternal(i + 1, splitCamera[i]);
+
+            final Featurable player = createPlayerSplit(settings, init, stage);
+            player.getFeature(EntityModel.class).setCamera(splitCamera[i]);
+            player.getFeature(EntityModel.class).setTracker(splitTracker[i]);
+            splitHud[i].setFeaturable(player);
+
+            splitTracker[i].addFeature(new LayerableModel(player.getFeature(Layerable.class)
+                                                                .getLayerRefresh()
+                                                                .intValue()
+                                                          + 1));
+            splitTrackerInitY[i] = player.getFeature(Transformable.class).getHeight() / 2 + 8;
+            splitTracker[i].setOffset(0, splitTrackerInitY[i]);
+            splitTracker[i].track(player);
+
+            handler.add(splitTracker[i]);
+        }
+
+        for (int i = 1; i < players.size(); i++)
+        {
+            splitDevice[i - 1] = DeviceControllerConfig.create(services,
+                                                               Medias.create(Constant.INPUT_FILE_DEFAULT),
+                                                               game.getControl(i));
+            players.get(i).getFeature(EntityModel.class).setInput(splitDevice[i]);
         }
 
         final WorldType world = stage.getBackground().getWorld();
@@ -400,11 +505,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         checkpoints.addListener(new CheckpointListener()
         {
             @Override
-            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint)
+            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint, int index)
             {
-                player.getFeature(EntityModel.class).removeClientControl();
-                if (type == NetworkGameType.SPEEDRUN)
+                if (index > 0 && game.getType() == GameType.SPEEDRUN)
                 {
+                    player.getFeature(EntityModel.class).removeClientControl();
                     checkpoints.unregister(player);
                 }
             }
@@ -445,7 +550,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 }
             });
         }
-        if (!network.is(NetworkType.CLIENT))
+        if (!client)
         {
             final Featurable[] entities = createEntities(settings, stage);
 
@@ -695,11 +800,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private Featurable createPlayer(Settings settings, InitConfig init, StageConfig stage)
     {
         final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
+        players.add(featurable);
         handler.add(featurable);
 
-        if (network.is(NetworkType.NONE))
+        if (!server && !client)
         {
             featurable.getFeature(EntityModel.class).setInput(device);
+            featurable.getFeature(EntityModel.class).setCamera(camera);
+            featurable.getFeature(EntityModel.class).setTracker(tracker);
             featurable.getFeature(Stats.class).apply(init);
             player = featurable.getFeature(StateHandler.class);
             hud.setFeaturable(featurable);
@@ -718,7 +826,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             final Coord coord = checkpoints.getCurrent(transformable);
             transformable.teleport(coord.getX(), coord.getY());
         }
-        if (!network.is(NetworkType.SERVER))
+        if (!server)
         {
             trackPlayer(featurable);
         }
@@ -761,6 +869,50 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         featurable.getFeature(Underwater.class)
                   .loadRaster("raster/" + Folder.HERO + "/valdyn/",
                               ForegroundType.LAVA.equals(stage.getForeground().getType()));
+    }
+
+    /**
+     * Create player in split case and track with camera.
+     * 
+     * @param settings The settings reference.
+     * @param init The initial configuration.
+     * @param stage The stage reference.
+     * @return The created player.
+     */
+    private Featurable createPlayerSplit(Settings settings, InitConfig init, StageConfig stage)
+    {
+        final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
+        players.add(featurable);
+        handler.add(featurable);
+
+        featurable.getFeature(Stats.class).apply(init);
+
+        final Optional<Coord> spawn = init.getSpawn();
+        final Transformable transformable = featurable.getFeature(Transformable.class);
+        checkpoints.register(transformable);
+
+        if (spawn.isPresent())
+        {
+            transformable.teleport(spawn.get().getX() * map.getTileWidth(), spawn.get().getY() * map.getTileHeight());
+        }
+        else
+        {
+            final Coord coord = checkpoints.getCurrent(transformable);
+            transformable.teleport(coord.getX(), coord.getY());
+        }
+
+        if (RasterType.CACHE == settings.getRaster())
+        {
+            if (settings.getFlagParallel())
+            {
+                executor.execute(() -> loadRasterHero(stage, featurable));
+            }
+            else
+            {
+                loadRasterHero(stage, featurable);
+            }
+        }
+        return featurable;
     }
 
     /**
@@ -1069,6 +1221,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
 
             hud.load();
+            for (int i = 0; i < splitHud.length; i++)
+            {
+                splitHud[i].load();
+            }
             difficulty = init.getDifficulty();
 
             services.add(init.getStage());
@@ -1108,15 +1264,21 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.addAction(() ->
             {
                 sequencer.end(SceneBlack.class,
-                              services.get(Network.class),
-                              Util.getInitConfig(Medias.create(next), player, difficulty, cheats.isEnabled(), spawn));
+                              game.with(Util.getInitConfig(Medias.create(next),
+                                                           player,
+                                                           difficulty,
+                                                           cheats.isEnabled(),
+                                                           spawn)));
             }, source.getRate(), delayMs);
         }
         else
         {
             sequencer.end(SceneBlack.class,
-                          services.get(Network.class),
-                          Util.getInitConfig(Medias.create(next), player, difficulty, cheats.isEnabled(), spawn));
+                          game.with(Util.getInitConfig(Medias.create(next),
+                                                       player,
+                                                       difficulty,
+                                                       cheats.isEnabled(),
+                                                       spawn)));
         }
     }
 
@@ -1170,13 +1332,24 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void update(double extrp)
     {
-        if (network.is(NetworkType.SERVER))
+        if (server)
         {
             camera.setIntervals(0, 0);
             camera.moveLocation(extrp, device.getHorizontalDirection() * 4, device.getVerticalDirection() * 4);
         }
 
-        device.update(extrp);
+        if (game.getPlayers() > 1)
+        {
+            for (int i = 0; i < splitDevice.length; i++)
+            {
+                splitDevice[i].update(extrp);
+            }
+        }
+        else
+        {
+            device.update(extrp);
+        }
+
         cheats.update(extrp);
 
         if (!cheats.isPaused())
@@ -1184,14 +1357,31 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.update(extrp);
             super.update(extrp);
             checkpoints.update(extrp);
+
             landscape.update(extrp, camera);
+
             if (trackerY > 0)
             {
                 trackerY = UtilMath.clamp(trackerY += 0.5 * extrp, 0.0, 21.0);
                 tracker.setOffset(0, trackerInitY + (int) Math.floor(trackerY));
             }
+            for (int i = 0; i < splitLandscape.length; i++)
+            {
+                splitCheckpoints[i].update(extrp);
+                splitLandscape[i].update(extrp, splitCamera[i]);
+
+                if (splitTrackerY[i] > 0)
+                {
+                    splitTrackerY[i] = UtilMath.clamp(splitTrackerY[i] += 0.5 * extrp, 0.0, 21.0);
+                    splitTracker[i].setOffset(0, splitTrackerInitY[i] + (int) Math.floor(splitTrackerY[i]));
+                }
+                splitHud[i].update(extrp);
+                sequencer.setSplit(i + 1);
+                rasterbar.setRasterbarY((int) splitCamera[i].getY(), mapWater.getCurrent() - 2);
+            }
         }
         hud.update(extrp);
+        sequencer.setSplit(0);
         rasterbar.setRasterbarY((int) camera.getY(), mapWater.getCurrent() - 2);
 
         if (debug)
@@ -1228,6 +1418,34 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         cheats.render(g);
     }
 
+    /**
+     * Render dedicated split.
+     * 
+     * @param g The graphic output.
+     * @param split The split index.
+     */
+    public void render(Graphic g, int split)
+    {
+        if (split < game.getPlayers() - 1)
+        {
+            camera.setSplit(split + 1);
+            sequencer.setSplit(split + 1);
+
+            splitLandscape[split].renderBackground(g);
+            super.render(g);
+            rasterRenderer.execute();
+            splitLandscape[split].renderForeground(g);
+            splitHud[split].render(g);
+
+            camera.setSplit(0);
+            sequencer.setSplit(0);
+        }
+        else
+        {
+            g.clear(0, 0, source.getWidth(), source.getHeight());
+        }
+    }
+
     @Override
     public void onResolutionChanged(int width, int height)
     {
@@ -1236,5 +1454,13 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         cheats.onResolutionChanged(width, height);
         landscape.setScreenSize(width, height);
         hud.setScreenSize(width, height);
+
+        for (int i = 0; i < splitCamera.length; i++)
+        {
+            splitCamera[i].setView(0, 0, width, height, height);
+            splitCamera[i].setLimits(map);
+            splitLandscape[i].setScreenSize(width, height);
+            splitHud[i].setScreenSize(width, height);
+        }
     }
 }

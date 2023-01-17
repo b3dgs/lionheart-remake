@@ -15,11 +15,8 @@ Hintergrund:
 Vordergrund:
 Zoomen:
 Erweiterte Einstellungen
-Gamepad:
-Tastatur einrichten
-Gamepad einrichten
-Spiel
+Steuert
+Einzelspieler
+Mehrspieler
 Editor
-Beenden
-Start Server
-Join Game
+Ausgang

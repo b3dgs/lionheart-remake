@@ -120,6 +120,7 @@ public final class Hurtable extends FeatureModel
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
     private boolean enabled;
+    private boolean shield;
     private boolean invincibility;
     private double oldGravity;
     private double oldGravityMax;
@@ -220,6 +221,16 @@ public final class Hurtable extends FeatureModel
     }
 
     /**
+     * Set the shield flag.
+     * 
+     * @param shield The shield flag.
+     */
+    public void setShield(boolean shield)
+    {
+        this.shield = shield;
+    }
+
+    /**
      * Set invincibility flag.
      * 
      * @param invincibility <code>true</code> if invincibility, <code>false</code> else.
@@ -298,6 +309,7 @@ public final class Hurtable extends FeatureModel
     private void updateCollide(Collidable collidable, Collision with, Collision by)
     {
         if (enabled
+            && !shield
             && collidable.getGroup() == Constant.COLL_GROUP_PLAYER
             && recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS)
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
@@ -364,8 +376,6 @@ public final class Hurtable extends FeatureModel
         currentCollide = CollidableListenerVoid.getInstance();
         model.getMovement().zero();
         collidable.setEnabled(false);
-
-        syncOnKilled();
     }
 
     /**
@@ -516,24 +526,12 @@ public final class Hurtable extends FeatureModel
         syncKill(force);
     }
 
-    private void syncOnKilled()
+    private void syncKill(boolean force)
     {
         if (networkable.isOwner())
         {
             final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 1);
             buffer.putInt(getSyncId());
-            buffer.put(UtilConversion.fromUnsignedByte(0));
-            networkable.send(buffer);
-        }
-    }
-
-    private void syncKill(boolean force)
-    {
-        if (networkable.isOwner())
-        {
-            final ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES + 2);
-            buffer.putInt(getSyncId());
-            buffer.put(UtilConversion.fromUnsignedByte(1));
             buffer.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(force)));
             networkable.send(buffer);
         }
@@ -583,19 +581,7 @@ public final class Hurtable extends FeatureModel
     @Override
     public void onReceived(Packet packet)
     {
-        final int id = packet.readByteUnsigned();
-        if (id == 0)
-        {
-            onKilled();
-            if (hasFeature(Patrol.class))
-            {
-                getFeature(Patrol.class).stop();
-            }
-        }
-        else if (id == 1)
-        {
-            kill(packet.readBool());
-        }
+        kill(packet.readBool());
     }
 
     @Override

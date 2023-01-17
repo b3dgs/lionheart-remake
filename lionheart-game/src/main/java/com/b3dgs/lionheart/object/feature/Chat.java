@@ -42,7 +42,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 public class Chat extends FeatureModel implements Syncable
 {
     private final Map<Integer, String> clients = services.get(ConcurrentHashMap.class);
-    private final ChatHandler chat = services.get(ChatHandler.class);
+    private final ChatHandler chat = services.getOptional(ChatHandler.class).orElse(null);
 
     @FeatureGet private Networkable networkable;
     @FeatureGet private EntityModel model;

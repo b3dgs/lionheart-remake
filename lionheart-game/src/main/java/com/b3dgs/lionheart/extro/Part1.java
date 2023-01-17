@@ -54,6 +54,7 @@ import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Folder;
@@ -174,6 +175,7 @@ public class Part1 extends Sequence
         this.audio = audio;
 
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
+        services.add(new GameConfig());
         final Camera camera = services.create(Camera.class);
         camera.setView(0, 0, getWidth(), getHeight(), getHeight());
 

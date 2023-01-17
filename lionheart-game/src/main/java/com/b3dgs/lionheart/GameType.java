@@ -17,10 +17,12 @@
 package com.b3dgs.lionheart;
 
 /**
- * List of network game types.
+ * List of game types.
  */
-public enum NetworkGameType
+public enum GameType
 {
+    /** Original solo game. */
+    ORIGINAL,
     /** Stage without destroyable objects. Reach end first to win. */
     SPEEDRUN,
     /** Players fight on fixed area. Set health and life count. Last stand win. */

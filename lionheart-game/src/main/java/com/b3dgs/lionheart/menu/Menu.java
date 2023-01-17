@@ -48,11 +48,11 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DevicePointer;
-import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Difficulty;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.SceneBlack;
@@ -124,7 +124,7 @@ public class Menu extends Sequence
     /** Main Y. */
     private final int mainY;
     private final Tick tickMouse = new Tick();
-    private final Network network;
+    private final GameConfig config;
     private final DeviceController deviceCursor;
     private final Cursor cursor;
     private final DevicePointer pointer;
@@ -154,13 +154,13 @@ public class Menu extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
-     * @param network The network type (must not be <code>null</code>).
+     * @param config The config reference (must not be <code>null</code>).
      */
-    public Menu(Context context, Network network)
+    public Menu(Context context, GameConfig config)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop());
 
-        this.network = network;
+        this.config = config;
         setSystemCursorVisible(false);
 
         final Services services = new Services();
@@ -508,7 +508,7 @@ public class Menu extends Sequence
             case CONTINUE:
                 try
                 {
-                    end(SceneBlack.class, network, Util.loadProgress());
+                    end(SceneBlack.class, config, Util.loadProgress());
                 }
                 catch (final IOException exception)
                 {
@@ -523,7 +523,7 @@ public class Menu extends Sequence
                 handleOptions();
                 break;
             case INTRO:
-                end(Intro.class, network);
+                end(Intro.class, config);
                 break;
             case EXIT:
                 end();
@@ -542,8 +542,11 @@ public class Menu extends Sequence
         {
             stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1.xml");
         }
-        final StageConfig config = StageConfig.imports(new Configurer(stage));
-        end(ScenePicture.class, network, getInitConfig(stage), config.getPic().get(), config.getText().get());
+        final StageConfig stageConfig = StageConfig.imports(new Configurer(stage));
+        end(ScenePicture.class,
+            config.with(getInitConfig(stage)),
+            stageConfig.getPic().get(),
+            stageConfig.getText().get());
     }
 
     /**

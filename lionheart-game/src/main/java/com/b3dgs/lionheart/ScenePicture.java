@@ -39,7 +39,6 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
-import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -73,8 +72,7 @@ public final class ScenePicture extends Sequence
                                                                                  this::getHeight,
                                                                                  this::getRate);
     private final Image text;
-    private final Network network;
-    private final InitConfig init;
+    private final GameConfig config;
     private final Sprite picture;
     private final DeviceController device;
     private final DeviceController deviceCursor;
@@ -91,34 +89,31 @@ public final class ScenePicture extends Sequence
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param network The network type (must not be <code>null</code>).
-     * @param init The init config.
+     * @param config The config reference (must not be <code>null</code>).
      * @param pic The associated picture.
      * @param narrative The associated narrative text.
      * @throws LionEngineException If invalid argument.
      */
-    public ScenePicture(Context context, Network network, InitConfig init, Media pic, String narrative)
+    public ScenePicture(Context context, GameConfig config, Media pic, String narrative)
     {
-        this(context, network, init, pic, narrative, Boolean.FALSE);
+        this(context, config, pic, narrative, Boolean.FALSE);
     }
 
     /**
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param network The network type (must not be <code>null</code>).
-     * @param init The init config.
+     * @param config The config reference (must not be <code>null</code>).
      * @param pic The associated picture.
      * @param narrative The associated narrative text.
      * @param auto <code>true</code> for auto skip, <code>false</code> for manual.
      * @throws LionEngineException If invalid argument.
      */
-    ScenePicture(Context context, Network network, InitConfig init, Media pic, String narrative, Boolean auto)
+    ScenePicture(Context context, GameConfig config, Media pic, String narrative, Boolean auto)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
-        this.network = network;
-        this.init = init;
+        this.config = config;
         this.auto = auto;
 
         final Services services = new Services();
@@ -207,9 +202,9 @@ public final class ScenePicture extends Sequence
     {
         if (!tick.isStarted())
         {
-            if (init.getStage().exists())
+            if (config.getInit().getStage().exists())
             {
-                load(Scene.class, network, init);
+                load(Scene.class, config);
             }
             tick.start();
         }

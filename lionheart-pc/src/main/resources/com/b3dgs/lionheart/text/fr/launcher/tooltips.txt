@@ -36,10 +36,8 @@ Définir la vue normalisée de remake.
 Ajuster l'effet de vue.
 Valeur de vue sélectionnée.
 Valeur de vue sélectionnée.
-Choisir la manette de jeu.
-Manette de jeu sélectionnée.
-Enregistrer la configuration et jouer au jeu.
+Configuration des contrôles.
+Enregistrer la configuration et démarrer le mode solo.
+Enregistrer la configuration et démarrer le multijoueur.
 Exécuter l'éditeur de jeu.
 Enregistrer la configuration et quitter le lanceur.
-Lancer le serveur de jeu.
-Joindre un serveur existant.

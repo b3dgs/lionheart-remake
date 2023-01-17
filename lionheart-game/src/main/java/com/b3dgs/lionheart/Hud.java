@@ -130,6 +130,21 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     /**
+     * Create hud.
+     * 
+     * @param source The source reference (must not be <code>null</code>).
+     * @param viewer The viewer reference (must not be <code>null</code>).
+     * @throws LionEngineException If invalid argument.
+     */
+    public Hud(SourceResolutionProvider source, Viewer viewer)
+    {
+        super();
+
+        this.source = source;
+        this.viewer = viewer;
+    }
+
+    /**
      * Called when the resolution changed.
      * 
      * @param width The new width.

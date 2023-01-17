@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:input mapping="com.b3dgs.lionheart.DeviceMapping" xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/input.xsd">
-    <lionengine:device class="com.b3dgs.lionengine.io.DevicePushVirtual">
+    <lionengine:device index="0" class="com.b3dgs.lionengine.io.DevicePushVirtual" name="Virtual">
         <lionengine:horizontal positive="39" negative="37"/>
         <lionengine:vertical positive="38" negative="40"/>
         <lionengine:horizontal positive="68" negative="81"/>

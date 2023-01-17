@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
@@ -27,6 +28,8 @@ import com.b3dgs.lionheart.object.state.StateWin;
  */
 final class StatePreparedAttackCrouch extends State
 {
+    private final Hurtable hurtable;
+
     /**
      * Create the state.
      * 
@@ -36,6 +39,8 @@ final class StatePreparedAttackCrouch extends State
     StatePreparedAttackCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
+
+        hurtable = model.getFeature(Hurtable.class);
 
         addTransition(StateUnprepareAttackCrouch.class, () -> !isFire());
         addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
@@ -49,6 +54,7 @@ final class StatePreparedAttackCrouch extends State
         super.enter();
 
         movement.zero();
+        hurtable.setShield(true);
     }
 
     @Override
@@ -57,5 +63,13 @@ final class StatePreparedAttackCrouch extends State
         super.update(extrp);
 
         movement.zero();
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        hurtable.setShield(false);
     }
 }

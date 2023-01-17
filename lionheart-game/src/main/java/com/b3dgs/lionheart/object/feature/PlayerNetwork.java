@@ -229,7 +229,7 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
         checkpoint.addListener(new CheckpointListener()
         {
             @Override
-            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint)
+            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint, int index)
             {
                 syncReach(player);
             }

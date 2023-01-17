@@ -172,13 +172,13 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public boolean applyDamages(int damages)
     {
-        if (networkable.isServer())
+        if (networkable.isClient())
         {
-            applyDamagesInternal(damages);
-            syncHurt(damages);
-            return health.isEmpty();
+            return false;
         }
-        return false;
+        applyDamagesInternal(damages);
+        syncHurt(damages);
+        return health.isEmpty();
     }
 
     /**

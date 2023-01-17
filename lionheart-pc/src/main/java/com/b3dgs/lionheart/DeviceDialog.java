@@ -27,22 +27,11 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -52,14 +41,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
-import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilStream;
-import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceMapper;
 
@@ -74,61 +57,43 @@ public class DeviceDialog extends JDialog
     private static final int DIALOG_WIDTH = 1024;
     private static final int DIALOG_HEIGHT = 768;
     private static final int DEVICE_NAME_SPACE_MAX = 10;
-    private static final String STR_EQUAL_QUOTE = "=\"";
 
-    private static final String LABEL_ADD = "Add";
-    private static final String LABEL_REMOVE = "Remove";
-    private static final String LABEL_ASSIGN = "assign...";
-    private static final String LABEL_SAVE = "Save";
+    private static final String LABEL_ASSIGN = "";
     private static final String LABEL_EXIT = "Exit";
-
-    /**
-     * Prepare custom input file.
-     */
-    public static void prepareInputCustom()
-    {
-        try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
-             OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
-        {
-            UtilStream.copy(input, output);
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
-        }
-    }
 
     private static String getName(DeviceMapper mapping)
     {
         return String.format("%" + DEVICE_NAME_SPACE_MAX + "s", mapping);
     }
 
-    /** Stored by device, by mapping and their codes. */
-    private final Map<DeviceMapper, Set<Integer>> data = new HashMap<>();
+    /** Store by mapping and their code. */
+    private final Map<DeviceMapper, Integer> data = new HashMap<>();
     /** Text to code mapper. */
     private final Map<String, Integer> textToCode = new HashMap<>();
-    /** Custom input. */
-    private final Media inputCustom = Medias.create(Constant.INPUT_FILE_DEFAULT);
     /** Controller. */
     private final AssignController controller;
+    /** Config. */
+    private final DeviceControllerConfig config;
 
     /**
      * Create dialog.
      * 
      * @param owner The owner reference.
      * @param controller The controller.
+     * @param config The config reference.
      */
-    public DeviceDialog(Window owner, AssignController controller)
+    public DeviceDialog(Window owner, AssignController controller, DeviceControllerConfig config)
     {
         super(owner, controller.getName(), Dialog.ModalityType.DOCUMENT_MODAL);
 
         this.controller = controller;
+        this.config = config;
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         setLayout(new BorderLayout());
 
-        load();
+        load(config);
 
         final JPanel panel = new JPanel(new GridLayout(0, 1));
         for (final DeviceMapper mapping : DeviceMapping.values())
@@ -142,6 +107,52 @@ public class DeviceDialog extends JDialog
         createButtons();
     }
 
+    /**
+     * Compute result.
+     * 
+     * @return The computed result.
+     */
+    public DeviceControllerConfig getResult()
+    {
+        final Map<Integer, Set<Integer>> fires = new HashMap<>();
+        for (final Entry<DeviceMapper, Integer> entry : data.entrySet())
+        {
+            final HashSet<Integer> f = new HashSet<>();
+            f.add(entry.getValue());
+            fires.put(entry.getKey().getIndex(), f);
+        }
+        final DeviceControllerConfig result = new DeviceControllerConfig(config.getName(),
+                                                                         config.getIndex(),
+                                                                         config.getId(),
+                                                                         config.getDevice(),
+                                                                         config.isDisabled(),
+                                                                         config.getHorizontal(),
+                                                                         config.getVertical(),
+                                                                         fires);
+        return result;
+    }
+
+    private void load(DeviceControllerConfig config)
+    {
+        final String name = controller.getName();
+        if (name.equals(config.getDevice().getSimpleName()))
+        {
+            final DeviceMapping[] values = DeviceMapping.values();
+            for (final Entry<Integer, Set<Integer>> entry : config.getFire().entrySet())
+            {
+                if (!entry.getValue().isEmpty())
+                {
+                    data.put(values[entry.getKey().intValue()], entry.getValue().iterator().next());
+                }
+
+                for (final Integer code : entry.getValue())
+                {
+                    textToCode.put(controller.getText(code.intValue()), code);
+                }
+            }
+        }
+    }
+
     @Override
     public void pack()
     {
@@ -150,7 +161,7 @@ public class DeviceDialog extends JDialog
         super.pack();
     }
 
-    private JTextField createTextField(Box box, DeviceMapper mapping, AtomicBoolean removeEnabled)
+    private JTextField createTextField(Box box, DeviceMapper mapping)
     {
         final JTextField field = new JTextField();
         field.setFont(FONT);
@@ -161,17 +172,13 @@ public class DeviceDialog extends JDialog
             @Override
             public void mousePressed(MouseEvent e)
             {
-                if (!removeEnabled.get())
+                if (e.getButton() == MouseEvent.BUTTON1)
                 {
-                    final Set<Integer> codes = data.computeIfAbsent(mapping, m -> new HashSet<>());
-                    if (e.getButton() == MouseEvent.BUTTON1)
-                    {
-                        codeAssign(field, codes);
-                    }
-                    else
-                    {
-                        codeRemove(box, mapping, field, codes);
-                    }
+                    codeAssign(field, mapping);
+                }
+                else
+                {
+                    data.remove(mapping);
                 }
             }
         });
@@ -179,7 +186,7 @@ public class DeviceDialog extends JDialog
         return field;
     }
 
-    private void codeAssign(JTextField field, Set<Integer> codes)
+    private void codeAssign(JTextField field, DeviceMapper mapping)
     {
         final ActionGetter dialog = new ActionGetter(DeviceDialog.this, controller.getName());
         controller.awaitAssign(dialog);
@@ -191,19 +198,7 @@ public class DeviceDialog extends JDialog
         field.setText(controller.getText(code));
 
         textToCode.put(field.getText(), Integer.valueOf(code));
-        codes.add(Integer.valueOf(code));
-    }
-
-    private void codeRemove(Box box, DeviceMapper mapping, JTextField field, Set<Integer> codes)
-    {
-        codes.remove(textToCode.get(field.getText()));
-        if (codes.isEmpty())
-        {
-            data.remove(mapping);
-        }
-        box.remove(field);
-        box.revalidate();
-        box.repaint();
+        data.put(mapping, Integer.valueOf(code));
     }
 
     private void createInput(Container parent, DeviceMapper mapping, AssignController controller)
@@ -216,59 +211,23 @@ public class DeviceDialog extends JDialog
         label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         box.add(label);
 
-        final AtomicBoolean removeEnabled = new AtomicBoolean();
-        final JToggleButton remove = new JToggleButton(LABEL_REMOVE);
-        remove.setFont(FONT);
-        remove.addActionListener(e ->
+        final Integer code = data.get(mapping);
+
+        final JTextField field = createTextField(box, mapping);
+        field.setText(code != null ? controller.getText(code.intValue()) : LABEL_ASSIGN);
+        field.addMouseListener(new MouseAdapter()
         {
-            removeEnabled.set(!removeEnabled.get());
-        });
-
-        final JButton add = new JButton(LABEL_ADD);
-        add.setFont(FONT);
-        add.addActionListener(e ->
-        {
-            remove.setSelected(false);
-            removeEnabled.set(false);
-
-            final JTextField field = createTextField(box, mapping, removeEnabled);
-            field.setText(LABEL_ASSIGN);
-            box.revalidate();
-        });
-        box.add(add);
-
-        box.add(remove);
-
-        for (final Integer code : Optional.ofNullable(data.get(mapping)).orElse(Collections.emptySet()))
-        {
-            final JTextField field = createTextField(box, mapping, removeEnabled);
-            field.setText(controller.getText(code.intValue()));
-            field.addMouseListener(new MouseAdapter()
+            @Override
+            public void mouseClicked(MouseEvent event)
             {
-                @Override
-                public void mouseClicked(MouseEvent event)
-                {
-                    if (removeEnabled.get())
-                    {
-                        removeEnabled.set(false);
-                        remove.setSelected(false);
-                        codeRemove(box, mapping, field, data.computeIfAbsent(mapping, m -> new HashSet<>()));
-                    }
-                }
-            });
-        }
+                field.setText(LABEL_ASSIGN);
+                data.remove(mapping);
+            }
+        });
     }
 
     private void createButtons()
     {
-        final JButton save = new JButton(LABEL_SAVE);
-        save.setFont(FONT);
-        save.addActionListener(event ->
-        {
-            save();
-            dispose();
-        });
-
         final JButton exit = new JButton(LABEL_EXIT);
         exit.setFont(FONT);
         exit.addActionListener(event ->
@@ -282,129 +241,8 @@ public class DeviceDialog extends JDialog
 
         final JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        panel.add(save, constraints);
         panel.add(exit, constraints);
 
         add(panel, BorderLayout.SOUTH);
-    }
-
-    private void load()
-    {
-        if (!inputCustom.exists())
-        {
-            prepareInputCustom();
-        }
-        final Collection<DeviceControllerConfig> configs = DeviceControllerConfig.imports(new Services(), inputCustom);
-        for (final DeviceControllerConfig config : configs)
-        {
-            final String name = controller.getName();
-            if (name.equals(config.getDevice().getSimpleName()))
-            {
-                final DeviceMapping[] values = DeviceMapping.values();
-                for (final Entry<Integer, Set<Integer>> entry : config.getFire().entrySet())
-                {
-                    data.put(values[entry.getKey().intValue()], entry.getValue());
-
-                    for (final Integer code : entry.getValue())
-                    {
-                        textToCode.put(controller.getText(code.intValue()), code);
-                    }
-                }
-            }
-        }
-    }
-
-    private void save()
-    {
-        final Map<DeviceMapper, Set<Integer>> written = new HashMap<>();
-        prepareInputCustom();
-
-        final File file = inputCustom.getFile();
-        try
-        {
-            boolean started = false;
-            final List<String> lines = Files.readAllLines(file.toPath());
-            try (FileWriter output = new FileWriter(file))
-            {
-                for (final String line : lines)
-                {
-                    if (started)
-                    {
-                        if (line.contains(DeviceControllerConfig.NODE_FIRE))
-                        {
-                            final DeviceMapper mapping = readMapping(line);
-                            if (mapping != null)
-                            {
-                                final Set<Integer> codes = data.get(mapping);
-                                if (codes != null)
-                                {
-                                    for (final Integer code : codes)
-                                    {
-                                        if (written.computeIfAbsent(mapping, m -> new HashSet<>()).add(code))
-                                        {
-                                            writeCode(output, mapping, code);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (line.contains(DeviceControllerConfig.NODE_DEVICE))
-                            {
-                                started = false;
-                            }
-                            output.write(line);
-                            output.write(System.lineSeparator());
-                        }
-                    }
-                    else
-                    {
-                        if (line.contains(DeviceControllerConfig.NODE_DEVICE) && line.contains(controller.getName()))
-                        {
-                            started = true;
-                        }
-                        output.write(line);
-                        output.write(System.lineSeparator());
-                    }
-                }
-                output.flush();
-            }
-            catch (final IOException exception)
-            {
-                Verbose.exception(exception);
-            }
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
-        }
-        written.clear();
-    }
-
-    private DeviceMapping readMapping(String line)
-    {
-        final String index = "index=\"";
-        final int start = line.indexOf(index) + index.length();
-        return DeviceMapping.valueOf(line.substring(start, line.indexOf('\"', start)));
-    }
-
-    private static void writeCode(FileWriter output, DeviceMapper mapping, Integer code) throws IOException
-    {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("        <")
-               .append(DeviceControllerConfig.NODE_FIRE)
-               .append(com.b3dgs.lionengine.Constant.SPACE)
-               .append(DeviceControllerConfig.ATT_INDEX)
-               .append(STR_EQUAL_QUOTE)
-               .append(mapping)
-               .append("\"")
-               .append(com.b3dgs.lionengine.Constant.SPACE)
-               .append(DeviceControllerConfig.ATT_POSITIVE)
-               .append(STR_EQUAL_QUOTE)
-               .append(code)
-               .append("\"/>");
-        output.write(builder.toString());
-        output.write(System.lineSeparator());
     }
 }

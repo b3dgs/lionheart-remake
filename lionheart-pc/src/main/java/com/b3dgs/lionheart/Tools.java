@@ -16,6 +16,9 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
@@ -55,6 +59,22 @@ public final class Tools
     private static final int TILE_HEIGHT = 16;
 
     private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
+
+    /**
+     * Prepare custom input file.
+     */
+    public static void prepareInputCustom()
+    {
+        try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
+             OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
+        {
+            UtilStream.copy(input, output);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
 
     /**
      * Generate raster for whole world.

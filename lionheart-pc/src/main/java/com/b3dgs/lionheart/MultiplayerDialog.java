@@ -21,6 +21,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,6 +30,7 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -41,6 +44,7 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
@@ -53,28 +57,31 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
- * Server dialog parameters.
+ * Multiplayer dialog parameters.
  */
-public class ServerDialog extends JDialog
+public class MultiplayerDialog extends JDialog
 {
+    private static final int PLAYERS_MIN = 1;
+    private static final int PLAYERS_MAX = 8;
+
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
     private static final Border BORDER = BorderFactory.createEmptyBorder(3, 10, 3, 10);
 
     private Media stage;
-    private final AtomicReference<NetworkGameType> type = new AtomicReference<>();
+    private final AtomicReference<GameType> type = new AtomicReference<>(GameType.SPEEDRUN);
+    private final AtomicInteger players = new AtomicInteger(2);
     private final AtomicInteger life = new AtomicInteger(0);
     private final AtomicInteger health = new AtomicInteger(1);
+    private final AtomicBoolean online = new AtomicBoolean(false);
 
     /**
      * Create dialog.
      * 
      * @param parent The parent frame.
      */
-    public ServerDialog(Window parent)
+    public MultiplayerDialog(Window parent)
     {
         super(parent);
-
-        setTitle("Server");
 
         final BorderLayout layout = new BorderLayout();
         setLayout(layout);
@@ -83,12 +90,22 @@ public class ServerDialog extends JDialog
         add(box, BorderLayout.CENTER);
 
         createType(box);
-        createStart(box);
+        final JSlider players = createPlayers(box);
+        createStart(box, players);
 
         pack();
         setModalityType(ModalityType.APPLICATION_MODAL);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(getParent());
+
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                MultiplayerDialog.this.players.set(0);
+            }
+        });
     }
 
     /**
@@ -96,7 +113,7 @@ public class ServerDialog extends JDialog
      * 
      * @return The game type.
      */
-    public NetworkGameType getGameType()
+    public GameType getGameType()
     {
         return type.get();
     }
@@ -131,6 +148,26 @@ public class ServerDialog extends JDialog
         return health.get();
     }
 
+    /**
+     * Get players number.
+     * 
+     * @return The players number.
+     */
+    public int getPlayers()
+    {
+        return players.get();
+    }
+
+    /**
+     * Check if is online or local.
+     * 
+     * @return <code>true</code> if online, <code>false</code> if local.
+     */
+    public boolean isOnline()
+    {
+        return online.get();
+    }
+
     private void createType(JComponent parent)
     {
         final JLabel label = new JLabel("Type: ");
@@ -139,13 +176,13 @@ public class ServerDialog extends JDialog
 
         final Box panel = Box.createVerticalBox();
 
-        final JComboBox<NetworkGameType> combo = new JComboBox<>(NetworkGameType.values());
+        final JComboBox<GameType> combo = new JComboBox<>(GameType.values());
         combo.setFont(FONT);
         combo.addActionListener(e ->
         {
             panel.removeAll();
 
-            final NetworkGameType type = combo.getItemAt(combo.getSelectedIndex());
+            final GameType type = combo.getItemAt(combo.getSelectedIndex());
             this.type.set(type);
             switch (type)
             {
@@ -163,7 +200,7 @@ public class ServerDialog extends JDialog
             }
             panel.validate();
         });
-        combo.setSelectedItem(NetworkGameType.BATTLE);
+        combo.setSelectedItem(type.get());
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BORDER);
@@ -215,13 +252,13 @@ public class ServerDialog extends JDialog
             @Override
             public void insertUpdate(DocumentEvent event)
             {
-                Launcher.updateField(ServerDialog.this.life, life);
+                Launcher.updateField(MultiplayerDialog.this.life, life);
             }
 
             @Override
             public void removeUpdate(DocumentEvent event)
             {
-                Launcher.updateField(ServerDialog.this.life, life);
+                Launcher.updateField(MultiplayerDialog.this.life, life);
             }
 
             @Override
@@ -251,13 +288,13 @@ public class ServerDialog extends JDialog
             @Override
             public void insertUpdate(DocumentEvent event)
             {
-                Launcher.updateField(ServerDialog.this.health, health);
+                Launcher.updateField(MultiplayerDialog.this.health, health);
             }
 
             @Override
             public void removeUpdate(DocumentEvent event)
             {
-                Launcher.updateField(ServerDialog.this.health, health);
+                Launcher.updateField(MultiplayerDialog.this.health, health);
             }
 
             @Override
@@ -301,29 +338,78 @@ public class ServerDialog extends JDialog
         parent.add(box);
     }
 
-    private void createStart(JComponent parent)
+    private JSlider createPlayers(JComponent parent)
     {
-        final JButton start = new JButton("OK");
-        start.setFont(FONT);
-        start.addActionListener(event ->
+        final JLabel label = new JLabel("Players: ");
+        label.setFont(FONT);
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        final JSlider slider = new JSlider(PLAYERS_MIN, PLAYERS_MAX, players.get());
+
+        final JLabel result = new JLabel(String.valueOf(slider.getValue()));
+        result.setFont(FONT);
+        result.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        slider.addChangeListener(e ->
         {
+            players.set(slider.getValue());
+            result.setText(String.valueOf(slider.getValue()));
+        });
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        box.add(label);
+        box.add(slider);
+        box.add(result);
+
+        parent.add(box);
+
+        return slider;
+    }
+
+    private void createStart(JComponent parent, JSlider players)
+    {
+        final JButton local = new JButton("Local");
+        local.setFont(FONT);
+        local.addActionListener(event ->
+        {
+            online.set(false);
             dispose();
         });
 
+        final JButton online = new JButton("Online");
+        online.setFont(FONT);
+        online.addActionListener(event ->
+        {
+            this.online.set(true);
+            dispose();
+        });
+
+        final JButton back = new JButton("Back");
+        back.setFont(FONT);
+        back.addActionListener(event ->
+        {
+            this.players.set(0);
+            dispose();
+        });
+
+        players.addChangeListener(e -> local.setEnabled(players.getValue() < 5));
+
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 1.0;
+        constraints.weightx = 0.5;
 
         final JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BORDER);
-        panel.add(start, constraints);
+        panel.add(local, constraints);
+        panel.add(online, constraints);
+        panel.add(back, constraints);
 
         parent.add(panel);
     }
 
     private static Collection<Media> wrap(Collection<Media> media)
     {
-        return media.stream().map(ServerDialog::wrap).sorted().collect(Collectors.toList());
+        return media.stream().map(MultiplayerDialog::wrap).sorted().collect(Collectors.toList());
     }
 
     private static Media wrap(Media media)

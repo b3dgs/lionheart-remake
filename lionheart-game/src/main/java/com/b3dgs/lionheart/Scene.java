@@ -23,6 +23,7 @@ import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.SplitType;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.game.Action;
@@ -32,7 +33,6 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.Zooming;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
-import com.b3dgs.lionengine.network.Network;
 
 /**
  * Game scene implementation.
@@ -52,64 +52,35 @@ public class Scene extends SequenceGame<World>
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param init The initial config.
+     * @param config The game config.
      * @throws LionEngineException If invalid argument.
      */
-    public Scene(Context context, InitConfig init)
+    public Scene(Context context, GameConfig config)
     {
-        this(context, Network.NONE, NetworkGameType.SPEEDRUN, init, Boolean.FALSE);
+        this(context, config, Boolean.FALSE);
     }
 
     /**
      * Create the scene.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param init The initial config.
+     * @param config The game config.
      * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
      * @throws LionEngineException If invalid argument.
      */
-    public Scene(Context context, InitConfig init, Boolean exit)
-    {
-        this(context, Network.NONE, NetworkGameType.SPEEDRUN, init, exit);
-    }
-
-    /**
-     * Create the scene.
-     * 
-     * @param context The context reference (must not be <code>null</code>).
-     * @param network The network type (must not be <code>null</code>).
-     * @param type The game type (must not be <code>null</code>).
-     * @param init The initial config.
-     * @throws LionEngineException If invalid argument.
-     */
-    public Scene(Context context, Network network, NetworkGameType type, InitConfig init)
-    {
-        this(context, network, type, init, Boolean.FALSE);
-    }
-
-    /**
-     * Create the scene.
-     * 
-     * @param context The context reference (must not be <code>null</code>).
-     * @param network The network type (must not be <code>null</code>).
-     * @param type The game type (must not be <code>null</code>).
-     * @param init The initial config.
-     * @param exit <code>true</code> if exit after loaded, <code>false</code> else.
-     * @throws LionEngineException If invalid argument.
-     */
-    Scene(Context context, Network network, NetworkGameType type, InitConfig init, Boolean exit)
+    public Scene(Context context, GameConfig config, Boolean exit)
     {
         super(context,
               Util.getResolution(Constant.RESOLUTION_GAME, context),
               Util.getLoop(),
-              s -> new World(s, network, type));
+              s -> new World(s, config));
 
-        this.init = init;
+        init = config.getInit();
         this.exit = exit;
 
         music = StageConfig.imports(new Configurer(init.getStage())).getMusic();
 
-        services.add(network);
+        services.add(config);
         services.add(init.getDifficulty());
 
         Util.setFilter(this);
@@ -121,13 +92,40 @@ public class Scene extends SequenceGame<World>
 
         info = new AppInfo(this::getFps, services);
 
-        try
+        world.prepare();
+        config.getNetwork().ifPresent(n ->
         {
-            world.prepareNetwork(closer, init);
-        }
-        catch (final IOException exception)
+            try
+            {
+                world.prepareNetwork(n, closer, init);
+            }
+            catch (final IOException exception)
+            {
+                Verbose.exception(exception);
+            }
+        });
+
+        checkSplit(config);
+    }
+
+    private void checkSplit(GameConfig config)
+    {
+        final SplitType split = config.getSplit();
+        switch (split)
         {
-            Verbose.exception(exception);
+            case NONE:
+                break;
+            case TWO_HORIZONTAL:
+                setSplit(this::render, g -> world.render(g, 0), true);
+                break;
+            case TWO_VERTICAL:
+                setSplit(this::render, g -> world.render(g, 0), false);
+                break;
+            case FOUR:
+                setSplit(this::render, g -> world.render(g, 0), g -> world.render(g, 1), g -> world.render(g, 2));
+                break;
+            default:
+                throw new LionEngineException(split);
         }
     }
 

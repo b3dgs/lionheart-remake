@@ -20,6 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.state.StateWin;
 
 /**
@@ -27,6 +28,8 @@ import com.b3dgs.lionheart.object.state.StateWin;
  */
 final class StatePreparedAttack extends State
 {
+    private final Hurtable hurtable;
+
     /**
      * Create the state.
      * 
@@ -36,6 +39,8 @@ final class StatePreparedAttack extends State
     StatePreparedAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
+
+        hurtable = model.getFeature(Hurtable.class);
 
         addTransition(StateAttackHorizontal.class, this::canAttackHorizontal);
         addTransition(StateAttackTurning.class, this::canAttackTurning);
@@ -61,6 +66,7 @@ final class StatePreparedAttack extends State
         super.enter();
 
         movement.zero();
+        hurtable.setShield(true);
     }
 
     @Override
@@ -69,5 +75,13 @@ final class StatePreparedAttack extends State
         super.update(extrp);
 
         movement.zero();
+    }
+
+    @Override
+    public void exit()
+    {
+        super.exit();
+
+        hurtable.setShield(false);
     }
 }

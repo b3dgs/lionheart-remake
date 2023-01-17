@@ -23,17 +23,20 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 import org.libsdl.SDL_Error;
 
 import com.b3dgs.lionengine.Constant;
+import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.InputDeviceListener;
 import com.b3dgs.lionengine.ListenableModel;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Timing;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.io.DevicePush;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
@@ -43,9 +46,9 @@ import com.badlogic.gdx.utils.Array;
 import uk.co.electronstudio.sdl2gdx.SDL2ControllerManager;
 
 /**
- * Gamepad device.
+ * Gamepad handler device.
  */
-public class Gamepad implements DevicePush
+public class Gamepad implements InputDevice
 {
     /**
      * Get instance or <code>null</code>.
@@ -95,7 +98,7 @@ public class Gamepad implements DevicePush
     /** Current manager, or <code>null</code>. */
     private final SDL2ControllerManager manager = getFailsafe();
     /** Push listener. */
-    private final ListenableModel<InputDeviceListener> listeners = new ListenableModel<>();
+    private final Map<Integer, ListenableModel<InputDeviceListener>> listeners = new ConcurrentHashMap<>();
     /** Controllers mapping by name and index. */
     private final Map<String, Integer> controllers = new ConcurrentHashMap<>();
     /** Press flags. */
@@ -106,9 +109,6 @@ public class Gamepad implements DevicePush
     private final Map<Integer, Integer> last = new ConcurrentHashMap<>();
     /** Check timing. */
     private final Timing timing = new Timing();
-
-    /** Active index. */
-    private Integer controller;
 
     /**
      * Create.
@@ -151,10 +151,11 @@ public class Gamepad implements DevicePush
                         last.put(index, code);
                         press.get(index).add(code);
 
-                        final int n = listeners.size();
+                        final ListenableModel<InputDeviceListener> l = listeners.get(index);
+                        final int n = l.size();
                         for (int i = 0; i < n; i++)
                         {
-                            listeners.get(i).onDeviceChanged(code, (char) buttonCode, true);
+                            l.get(i).onDeviceChanged(code, (char) buttonCode, true);
                         }
                     }
                     return false;
@@ -170,10 +171,11 @@ public class Gamepad implements DevicePush
                         last.remove(index, code);
                         press.get(index).remove(code);
 
-                        final int n = listeners.size();
+                        final ListenableModel<InputDeviceListener> l = listeners.get(index);
+                        final int n = l.size();
                         for (int i = 0; i < n; i++)
                         {
-                            listeners.get(i).onDeviceChanged(code, (char) buttonCode, false);
+                            l.get(i).onDeviceChanged(code, (char) buttonCode, false);
                         }
                     }
                     return false;
@@ -257,19 +259,6 @@ public class Gamepad implements DevicePush
     }
 
     /**
-     * Select active device.
-     * 
-     * @param index The device index.
-     */
-    public void select(int index)
-    {
-        if (manager != null)
-        {
-            controller = Integer.valueOf(index);
-        }
-    }
-
-    /**
      * Find available devices.
      * 
      * @return The devices mapping by name and index.
@@ -291,11 +280,6 @@ public class Gamepad implements DevicePush
                     final Integer index = Integer.valueOf(i);
                     controllers.put(array.get(i).getName(), index);
                     init(index);
-
-                    if (controller == null)
-                    {
-                        select(i);
-                    }
                 }
                 return controllers;
             }
@@ -314,6 +298,7 @@ public class Gamepad implements DevicePush
      */
     private void init(Integer index)
     {
+        listeners.put(index, new ListenableModel<>());
         press.put(index, new HashSet<>());
         pressed.put(index, new HashSet<>());
     }
@@ -330,33 +315,16 @@ public class Gamepad implements DevicePush
         Optional.ofNullable(pressed.get(index)).ifPresent(Set::clear);
     }
 
-    /**
-     * Check if contains index in controller map.
-     * 
-     * @param map The map used.
-     * @param index The index to check.
-     * @return <code>true</code> if contained, <code>false</code> else.
-     */
-    private boolean contains(Map<Integer, Set<Integer>> map, Integer index)
-    {
-        final Set<Integer> data = map.get(controller);
-        if (data != null)
-        {
-            return data.contains(index);
-        }
-        return false;
-    }
-
     @Override
     public void addListener(InputDeviceListener listener)
     {
-        listeners.addListener(listener);
+        // Nothing to do
     }
 
     @Override
     public void removeListener(InputDeviceListener listener)
     {
-        listeners.removeListener(listener);
+        // Nothing to do
     }
 
     @Override
@@ -383,47 +351,16 @@ public class Gamepad implements DevicePush
     }
 
     @Override
-    public boolean isPushed()
+    public GamepadInstance getCurrent(int id)
     {
-        if (controller != null)
-        {
-            return !press.get(controller).isEmpty();
-        }
-        return false;
-    }
+        final Integer i = Integer.valueOf(id);
+        final Supplier<ListenableModel<InputDeviceListener>> listenersGet = () -> listeners.get(i);
+        final Supplier<Set<Integer>> pressGet = () -> press.get(i);
+        final Supplier<Set<Integer>> pressedGet = () -> pressed.get(i);
+        final Supplier<Integer> lastGet = () -> last.get(i);
+        final Updatable updater = id == 0 ? this::update : UpdatableVoid.getInstance();
 
-    @Override
-    public Integer getPushed()
-    {
-        if (controller != null)
-        {
-            return last.get(controller);
-        }
-        return null;
-    }
-
-    @Override
-    public boolean isPushed(Integer index)
-    {
-        if (controller != null)
-        {
-            return contains(press, index);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isPushedOnce(Integer index)
-    {
-        if (controller != null)
-        {
-            if (contains(press, index) && !contains(pressed, index))
-            {
-                pressed.get(controller).add(index);
-                return true;
-            }
-        }
-        return false;
+        return new GamepadInstance(listenersGet, pressGet, pressedGet, lastGet, updater);
     }
 
     @Override

@@ -36,10 +36,8 @@ Stellen Sie die normalisierte Ansicht für das Remake ein.
 Wählen Sie den Zoomansichtseffekt.
 Ausgewählter Zoomansichtswert.
 Ausgewählter Zoomansichtswert.
-Wähle Gamepad.
-Ausgewähltes Gamepad.
-Konfiguration speichern und Spiel spielen.
-Spiele-Editor ausführen.
-Konfiguration speichern und Launcher beenden.
-Start game server.
-Join existing server.
+Konfigurieren Sie die Spielsteuerung.
+Konfiguration speichern und Singleplayer starten.
+Konfiguration speichern und Multiplayer starten.
+Spieleditor ausführen.
+Speichern Sie die Konfiguration und beenden Sie den Launcher.

@@ -15,11 +15,8 @@ Background:
 Foreground:
 Zoom:
 Advanced
-Gamepad:
-Setup Keyboard
-Setup Gamepad
-Play
+Controls
+Singleplayer
+Multiplayer
 Editor
 Exit
-Start Server
-Join Game

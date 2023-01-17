@@ -80,6 +80,17 @@ public enum DeviceMapping implements DeviceMapper
     /** Force exit. */
     FORCE_EXIT;
 
+    /**
+     * Convert from index.
+     * 
+     * @param index The index.
+     * @return The value.
+     */
+    public static String fromIndex(int index)
+    {
+        return DeviceMapping.values()[index].name();
+    }
+
     @Override
     public Integer getIndex()
     {

@@ -36,10 +36,8 @@ Set remake normalized view.
 Select zoom view effect.
 Selected zoom view value.
 Selected zoom view value.
-Choose gamepad.
-Selected gamepad.
-Save configuration and play game.
+Configure game controls.
+Save configuration and start singleplayer.
+Save configuration and start multiplayer.
 Run game editor.
 Save configuration and exit launcher.
-Start game server.
-Join existing server.

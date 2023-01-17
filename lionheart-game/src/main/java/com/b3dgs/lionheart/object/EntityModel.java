@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -66,12 +65,13 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DeviceControllerVoid;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
-import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.EntityConfig;
+import com.b3dgs.lionheart.GameConfig;
+import com.b3dgs.lionheart.GameType;
 import com.b3dgs.lionheart.object.feature.BossDragonflyHead;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Floater;
@@ -118,19 +118,19 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
 
     private final Force movement = new Force();
     private final Force jump = new Force();
-    private final Camera camera = services.get(Camera.class);
     private final MapTile map = services.get(MapTile.class);
     private final CheckpointHandler checkpoint = services.getOptional(CheckpointHandler.class).orElse(null);
-    private final CameraTracker tracker = services.getOptional(CameraTracker.class).orElse(null);
     private final ClassLoader loader = services.getOptional(ClassLoader.class).orElse(getClass().getClassLoader());
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
-    private final Network network = services.getOptional(Network.class).orElse(Network.NONE);
+    private final GameConfig game = services.get(GameConfig.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
     private final Origin origin = OriginConfig.imports(setup);
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
     private final int frames;
 
+    private Camera camera = services.get(Camera.class);
+    private CameraTracker tracker;
     private ModelConfig config = new ModelConfig();
     private boolean jumpOnHurt = true;
     private NetworkedDevice networkedDevice;
@@ -192,7 +192,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             final EntityChecker checker = provider.getFeature(EntityChecker.class);
 
-            if (network.is(NetworkType.NONE))
+            if (game.getType() == GameType.ORIGINAL)
             {
                 final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
                                                     .booleanValue();
@@ -232,15 +232,15 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             final String str = next.getName();
             final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
-            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + Float.BYTES * 5 + 2 + buffer.capacity());
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + Float.BYTES * 2 + 2 + buffer.capacity());
             data.putInt(getSyncId());
             data.put(UtilConversion.fromUnsignedByte(TYPE_STATE));
             data.putFloat((float) transformable.getX());
             data.putFloat((float) transformable.getY());
-            data.putFloat((float) body.getDirectionVertical());
-            data.putFloat((float) movement.getDirectionHorizontal());
-            data.putFloat((float) jump.getDirectionVertical());
-            data.put(UtilConversion.fromUnsignedByte(str.length()));
+            // data.putFloat((float) body.getDirectionVertical());
+            // data.putFloat((float) movement.getDirectionHorizontal());
+            // data.putFloat((float) jump.getDirectionVertical());
+            // data.put(UtilConversion.fromUnsignedByte(str.length()));
             data.put(buffer);
             networkable.send(data);
         }
@@ -274,18 +274,22 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
      */
     public void removeClientControl()
     {
-        networkedDevice.remove(services.get(DeviceController.class));
         setInput(DeviceControllerVoid.getInstance());
         movement.zero();
         jump.zero();
         state.changeState(StateIdle.class);
 
-        if (network.is(NetworkType.SERVER))
+        if (deviceNetwork != null)
         {
-            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 1);
-            data.putInt(getSyncId());
-            data.put(UtilConversion.fromUnsignedByte(TYPE_STOP));
-            networkable.send(data);
+            networkedDevice.remove(services.get(DeviceController.class));
+
+            if (game.getNetwork().get().is(NetworkType.SERVER))
+            {
+                final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 1);
+                data.putInt(getSyncId());
+                data.put(UtilConversion.fromUnsignedByte(TYPE_STOP));
+                networkable.send(data);
+            }
         }
     }
 
@@ -302,6 +306,26 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
                 setInput(deviceNetwork);
             }
         }
+    }
+
+    /**
+     * Set camera used.
+     * 
+     * @param camera The camera used.
+     */
+    public void setCamera(Camera camera)
+    {
+        this.camera = camera;
+    }
+
+    /**
+     * Set camera tracker.
+     * 
+     * @param tracker The tracker reference.
+     */
+    public void setTracker(CameraTracker tracker)
+    {
+        this.tracker = tracker;
     }
 
     /**
@@ -539,22 +563,22 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         else if (type == TYPE_STATE)
         {
             transformable.teleport(buffer.getFloat(), buffer.getFloat());
-            body.setForce(buffer.getFloat());
-            movement.setDirection(buffer.getFloat(), movement.getDirectionVertical());
-            jump.setDirection(jump.getDirectionHorizontal(), buffer.getFloat());
+            // body.setForce(buffer.getFloat());
+            // movement.setDirection(buffer.getFloat(), movement.getDirectionVertical());
+            // jump.setDirection(jump.getDirectionHorizontal(), buffer.getFloat());
 
-            final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
-            buffer.get(str);
-            final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
-            try
-            {
-                state.changeState((Class<? extends State>) loader.loadClass(name));
-                state.postUpdate();
-            }
-            catch (final ClassNotFoundException exception)
-            {
-                Verbose.exception(exception);
-            }
+            // final byte[] str = new byte[UtilConversion.toUnsignedByte(buffer.get())];
+            // buffer.get(str);
+            // final String name = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(str)).toString();
+            // try
+            // {
+            // state.changeState((Class<? extends State>) loader.loadClass(name));
+            // state.postUpdate();
+            // }
+            // catch (final ClassNotFoundException exception)
+            // {
+            // Verbose.exception(exception);
+            // }
         }
         else if (type == TYPE_STOP)
         {

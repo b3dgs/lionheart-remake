@@ -18,6 +18,7 @@ package com.b3dgs.lionheart;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.InputDevice;
@@ -33,7 +34,6 @@ import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.Sequencable;
-import com.b3dgs.lionengine.network.Network;
 
 /**
  * Program starts here.
@@ -53,22 +53,31 @@ public final class AppLionheart
         final Media mediaInput = Medias.create(Constant.INPUT_FILE_DEFAULT);
         if (!mediaInput.exists())
         {
-            DeviceDialog.prepareInputCustom();
+            Tools.prepareInputCustom();
         }
 
-        run(Network.from(args), NetworkGameType.valueOf(args[4]), new Gamepad());
+        final GameConfig config;
+        if (args.length == 0)
+        {
+            config = new GameConfig(1, GameType.ORIGINAL, Optional.empty());
+        }
+        else
+        {
+            // TODO handle params
+            config = new GameConfig();
+        }
+        run(config, new Gamepad());
     }
 
     /**
      * Run game.
      * 
-     * @param network The network type.
-     * @param type The game type.
+     * @param config The config reference.
      * @param gamepad The gamepad handler.
      */
-    static void run(Network network, NetworkGameType type, Gamepad gamepad)
+    static void run(GameConfig config, Gamepad gamepad)
     {
-        run(gamepad, Loading.class, network, type);
+        run(gamepad, Loading.class, config);
     }
 
     /**

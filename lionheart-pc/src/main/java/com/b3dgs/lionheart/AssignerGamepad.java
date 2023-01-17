@@ -39,8 +39,9 @@ public class AssignerGamepad extends AssignController
      * Create assigner.
      * 
      * @param gamepad The gamepad reference.
+     * @param id The id.
      */
-    public AssignerGamepad(Gamepad gamepad)
+    public AssignerGamepad(Gamepad gamepad, int id)
     {
         super(ACTION::set, b -> LABEL_BUTTON + b);
 
@@ -49,7 +50,7 @@ public class AssignerGamepad extends AssignController
             while (running.get())
             {
                 gamepad.update(1.0);
-                final Integer last = gamepad.getPushed();
+                final Integer last = gamepad.getCurrent(id).getPushed();
                 if (last != null && ACTION.get() != null)
                 {
                     ACTION.get().assign(last.intValue());

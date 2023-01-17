@@ -31,8 +31,9 @@ public interface CheckpointListener
      * 
      * @param player The player reference.
      * @param checkpoint The checkpoint reached.
+     * @param index The checkpoint index.
      */
-    void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint);
+    void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint, int index);
 
     /**
      * Called on next stage reached.

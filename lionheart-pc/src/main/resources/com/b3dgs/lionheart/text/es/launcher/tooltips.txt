@@ -36,10 +36,8 @@ Establecer la vista normalizada de remake.
 Seleccione el efecto de vista de zoom.
 Valor de vista de zoom seleccionado.
 Valor de vista de zoom seleccionado.
-Elija gamepad.
-Gamepad seleccionado.
-Guarde la configuración y juegue.
+Configura los controles del juego.
+Guarde la configuración e inicie un jugador.
+Guarde la configuración e inicie el modo multijugador.
 Ejecuta el editor de juegos.
 Guarde la configuración y salga del lanzador.
-Start game server.
-Join existing server.

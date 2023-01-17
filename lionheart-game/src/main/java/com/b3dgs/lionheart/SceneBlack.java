@@ -22,30 +22,26 @@ import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
-import com.b3dgs.lionengine.network.Network;
 
 /**
  * Black screen.
  */
 public final class SceneBlack extends Sequence
 {
-    private final Network network;
-    private final InitConfig init;
+    private final GameConfig config;
 
     /**
      * Constructor.
      * 
      * @param context The context reference (must not be <code>null</code>).
-     * @param network The network type (must not be <code>null</code>).
-     * @param init The initial config.
+     * @param config The game config (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    public SceneBlack(Context context, Network network, InitConfig init)
+    public SceneBlack(Context context, GameConfig config)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), new LoopUnlocked());
 
-        this.network = network;
-        this.init = init;
+        this.config = config;
 
         setSystemCursorVisible(false);
     }
@@ -59,14 +55,14 @@ public final class SceneBlack extends Sequence
     @Override
     public void update(double extrp)
     {
-        final StageConfig config = StageConfig.imports(new Configurer(init.getStage()));
-        if (config.getPic().isPresent() && !init.getSpawn().isPresent())
+        final StageConfig stage = StageConfig.imports(new Configurer(config.getInit().getStage()));
+        if (stage.getPic().isPresent() && !config.getInit().getSpawn().isPresent())
         {
-            end(ScenePicture.class, network, init, config.getPic().get(), config.getText().get());
+            end(ScenePicture.class, config, stage.getPic().get(), stage.getText().get());
         }
         else
         {
-            end(Scene.class, network, init);
+            end(Scene.class, config);
         }
     }
 

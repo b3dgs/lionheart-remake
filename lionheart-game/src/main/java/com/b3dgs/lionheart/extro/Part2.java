@@ -47,6 +47,7 @@ import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.MapTileWater;
 import com.b3dgs.lionheart.Time;
@@ -118,6 +119,7 @@ public class Part2 extends Sequence
         camera.setView(0, 0, getWidth(), getHeight(), getHeight());
 
         services.add(context);
+        services.add(new GameConfig());
         services.add(new CameraTracker(services));
         services.add(new MapTileHelper(services));
         services.add((CheatsProvider) () -> false);

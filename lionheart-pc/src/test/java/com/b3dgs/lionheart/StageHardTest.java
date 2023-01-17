@@ -71,16 +71,17 @@ final class StageHardTest
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
-                                             new InitConfig(stage.exists() ? stage : Stage.values()[stage.ordinal()],
-                                                            1,
-                                                            1,
-                                                            1,
-                                                            1,
-                                                            true,
-                                                            1,
-                                                            Difficulty.HARD,
-                                                            false,
-                                                            Optional.empty()),
+                                             new GameConfig().with(new InitConfig(stage.exists() ? stage
+                                                                                                 : Stage.values()[stage.ordinal()],
+                                                                                  1,
+                                                                                  1,
+                                                                                  1,
+                                                                                  1,
+                                                                                  true,
+                                                                                  1,
+                                                                                  Difficulty.HARD,
+                                                                                  false,
+                                                                                  Optional.empty())),
                                              Boolean.TRUE);
         task.await();
     }

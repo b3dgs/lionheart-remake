@@ -15,11 +15,8 @@ Arrière plan:
 Premier plan:
 Zoom:
 Avancé
-Manette:
-Configurer le clavier
-Configurer la manette
-Jouer
+Contrôles
+Solo
+Multijoueur
 Éditeur
 Quitter
-Lancer serveur
-Joindre une partie

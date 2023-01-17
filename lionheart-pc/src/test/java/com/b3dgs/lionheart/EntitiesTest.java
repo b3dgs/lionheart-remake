@@ -63,16 +63,16 @@ final class EntitiesTest
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
-                                                 new InitConfig(stage,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                true,
-                                                                1,
-                                                                Difficulty.NORMAL,
-                                                                false,
-                                                                Optional.empty()));
+                                                 new GameConfig().with(new InitConfig(stage,
+                                                                                      1,
+                                                                                      1,
+                                                                                      1,
+                                                                                      1,
+                                                                                      true,
+                                                                                      1,
+                                                                                      Difficulty.NORMAL,
+                                                                                      false,
+                                                                                      Optional.empty())));
             task.await();
         }
         else
@@ -103,16 +103,16 @@ final class EntitiesTest
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
-                                                 new InitConfig(stage,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                true,
-                                                                1,
-                                                                Difficulty.NORMAL,
-                                                                false,
-                                                                Optional.empty()));
+                                                 new GameConfig().with(new InitConfig(stage,
+                                                                                      1,
+                                                                                      1,
+                                                                                      1,
+                                                                                      1,
+                                                                                      true,
+                                                                                      1,
+                                                                                      Difficulty.NORMAL,
+                                                                                      false,
+                                                                                      Optional.empty())));
             task.await();
         }
         else
@@ -142,16 +142,16 @@ final class EntitiesTest
         {
             final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
-                                                 new InitConfig(stage,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                true,
-                                                                1,
-                                                                Difficulty.NORMAL,
-                                                                false,
-                                                                Optional.empty()),
+                                                 new GameConfig().with(new InitConfig(stage,
+                                                                                      1,
+                                                                                      1,
+                                                                                      1,
+                                                                                      1,
+                                                                                      true,
+                                                                                      1,
+                                                                                      Difficulty.NORMAL,
+                                                                                      false,
+                                                                                      Optional.empty())),
                                                  OptionalInt.of(400));
             task.await();
         }

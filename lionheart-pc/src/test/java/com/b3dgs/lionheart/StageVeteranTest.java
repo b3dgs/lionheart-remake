@@ -71,16 +71,16 @@ final class StageVeteranTest
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
-                                             new InitConfig(stage,
-                                                            1,
-                                                            1,
-                                                            1,
-                                                            1,
-                                                            true,
-                                                            1,
-                                                            Difficulty.NORMAL,
-                                                            false,
-                                                            Optional.empty()),
+                                             new GameConfig().with(new InitConfig(stage,
+                                                                                  1,
+                                                                                  1,
+                                                                                  1,
+                                                                                  1,
+                                                                                  true,
+                                                                                  1,
+                                                                                  Difficulty.NORMAL,
+                                                                                  false,
+                                                                                  Optional.empty())),
                                              Boolean.TRUE);
         task.await();
     }

@@ -49,12 +49,12 @@ import java.nio.file.Files;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -84,10 +84,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
 
-import org.libsdl.SDL;
-
 import com.b3dgs.lionengine.Engine;
-import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
@@ -96,13 +93,9 @@ import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
-import com.b3dgs.lionengine.awt.Keyboard;
-import com.b3dgs.lionengine.awt.Mouse;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
-import com.b3dgs.lionengine.game.feature.Services;
-import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.network.MessageType;
 import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionengine.network.NetworkType;
@@ -154,7 +147,6 @@ public final class Launcher
     private static final AtomicInteger ZOOM = new AtomicInteger();
     private static final AtomicInteger MUSIC = new AtomicInteger();
     private static final AtomicInteger SFX = new AtomicInteger();
-    private static final AtomicInteger GAMEPAD = new AtomicInteger();
     private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
     private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_DEFAULT);
     private static final AtomicReference<FilterType> FILTER = new AtomicReference<>(FilterType.NONE);
@@ -197,9 +189,9 @@ public final class Launcher
     private static final String LABEL_FLICKER_FOREGROUND = "Foreground:";
     private static final String LABEL_GAMEPLAY = "Gameplay:";
     private static final String LABEL_STAGES = "Stages:";
-    private static final String LABEL_GAMEPAD = "Gamepad:";
-    private static final String LABEL_SETUP_DEVICE = "Setup ";
-    private static final String LABEL_PLAY = "Play";
+    private static final String LABEL_CONTROLS = "Controls";
+    private static final String LABEL_SINGLEPLAYER = "Singleplayer";
+    private static final String LABEL_MULTIPLAYER = "Multiplayer";
     private static final String LABEL_EDITOR = "Editor";
     private static final String LABEL_EXIT = "Exit";
     private static final String LABEL_START_SERVER = "Start Server";
@@ -234,7 +226,11 @@ public final class Launcher
         loadLangs();
 
         Settings.load();
-        DeviceDialog.prepareInputCustom();
+        final Media mediaInput = Medias.create(Constant.INPUT_FILE_DEFAULT);
+        if (!mediaInput.exists())
+        {
+            Tools.prepareInputCustom();
+        }
 
         final Gamepad gamepad = new Gamepad();
 
@@ -303,7 +299,6 @@ public final class Launcher
         final Box advanced = Box.createVerticalBox();
         createFlags(advanced);
         createMiscs(advanced);
-        createFlicker(advanced);
         createZoom(advanced);
         advanced.setVisible(false);
 
@@ -330,10 +325,9 @@ public final class Launcher
         box.add(advancedPanel);
         box.add(advanced);
 
-        createGamepad(box, gamepad);
-        createSetups(box, frame, gamepad);
+        // createGamepad(box, gamepad);
+        createControls(box, frame, gamepad);
         createButtons(box, frame, gamepad);
-        createNetwork(box, frame, gamepad);
         createCopyright(frame);
 
         final String lang = Settings.getInstance().getLang();
@@ -909,6 +903,23 @@ public final class Launcher
 
     private static void createMiscs(Container parent)
     {
+        final Box misc = Box.createVerticalBox();
+        misc.setBorder(BorderFactory.createTitledBorder(LABEL_MISC));
+
+        createRaster(misc);
+
+        final Box box = Box.createHorizontalBox();
+        createHud(box);
+        createFlicker(box);
+
+        misc.add(box);
+        parent.add(misc);
+    }
+
+    private static void createRaster(Container parent)
+    {
+        final Box box = Box.createHorizontalBox();
+
         final JLabel raster = new JLabel(LABEL_RASTER);
         raster.setFont(FONT);
         raster.setHorizontalTextPosition(SwingConstants.LEADING);
@@ -920,16 +931,8 @@ public final class Launcher
         comboRaster.addActionListener(e -> RASTER.set(comboRaster.getItemAt(comboRaster.getSelectedIndex())));
         TIPS.add(raster);
 
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-
-        final Box misc = Box.createHorizontalBox();
-        misc.setBorder(BorderFactory.createTitledBorder(LABEL_MISC));
-        misc.add(raster);
-        misc.add(comboRaster);
-
-        box.add(misc);
-        createHud(box);
+        box.add(raster);
+        box.add(comboRaster);
 
         parent.add(box);
     }
@@ -1092,36 +1095,7 @@ public final class Launcher
         parent.add(box);
     }
 
-    private static String getControllerKey(int i)
-    {
-        return SDL.SDL_JoystickNameForIndex(i) + "#" + i;
-    }
-
-    private static void createGamepad(Container parent, Gamepad gamepad)
-    {
-        final JLabel label = new JLabel(LABEL_GAMEPAD);
-        label.setFont(FONT);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(label::setText);
-        TIPS.add(label);
-
-        final JComboBox<Object> combo = new JComboBox<>(gamepad.findDevices()
-                                                               .values()
-                                                               .stream()
-                                                               .map(Launcher::getControllerKey)
-                                                               .toArray());
-        combo.setFont(FONT);
-        combo.addActionListener(e -> GAMEPAD.set(combo.getSelectedIndex()));
-        TIPS.add(combo);
-
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        box.add(label);
-        box.add(combo);
-        parent.add(box);
-    }
-
-    private static void createSetups(Container parent, Window window, Gamepad gamepad)
+    private static void createControls(Container parent, Window window, Gamepad gamepad)
     {
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -1130,66 +1104,64 @@ public final class Launcher
         final JPanel panel = new JPanel(new GridBagLayout());
         parent.add(panel);
         panel.setBorder(BORDER);
-        final Collection<DeviceControllerConfig> configs;
-        configs = DeviceControllerConfig.imports(new Services(), Medias.create(Constant.INPUT_FILE_DEFAULT));
 
-        for (final DeviceControllerConfig config : configs)
-        {
-            final JButton setup = new JButton(LABEL_SETUP_DEVICE + config.getDevice().getSimpleName());
-            setup.setFont(FONT);
-            setup.addActionListener(event ->
-            {
-                final AssignController assigner = getAssigner(config, gamepad);
-                final DeviceDialog dialog = new DeviceDialog(window, assigner);
-                dialog.setResizable(false);
-                dialog.pack();
-                dialog.setLocationRelativeTo(null);
-                dialog.setVisible(true);
-                dialog.addWindowListener(new WindowAdapter()
-                {
-                    @Override
-                    public void windowClosed(WindowEvent e)
-                    {
-                        assigner.stop();
-                    }
-                });
-            });
-            LABELS.add(setup::setText);
-            panel.add(setup, constraints);
-        }
-    }
+        final JButton controls = new JButton(LABEL_CONTROLS);
+        controls.setFont(FONT);
+        LABELS.add(controls::setText);
+        TIPS.add(controls);
+        panel.add(controls, constraints);
 
-    private static AssignController getAssigner(DeviceControllerConfig config, Gamepad gamepad)
-    {
-        final Class<? extends InputDevice> device = config.getDevice();
-        if (Keyboard.class.equals(device))
+        controls.addActionListener(event ->
         {
-            return new AssignerKeyboard();
-        }
-        else if (Mouse.class.equals(device))
-        {
-            return new AssignerMouse();
-        }
-        else if (Gamepad.class.equals(device))
-        {
-            return new AssignerGamepad(gamepad);
-        }
-        throw new LionEngineException("Unknown device: " + device);
+            final ProfilesDialog dialog = new ProfilesDialog(window, gamepad);
+            dialog.setTitle(LABEL_CONTROLS);
+            dialog.setVisible(true);
+        });
     }
 
     private static void createButtons(Container parent, Window window, Gamepad gamepad)
     {
-        final JButton play = new JButton(LABEL_PLAY);
-        play.setFont(FONT);
-        play.addActionListener(event ->
+        final JButton singleplayer = new JButton(LABEL_SINGLEPLAYER);
+        singleplayer.setFont(FONT);
+        singleplayer.addActionListener(event ->
         {
-            gamepad.select(GAMEPAD.get());
             save();
             window.dispose();
-            AppLionheart.run(new Network(NetworkType.NONE), NetworkGameType.COOP, gamepad);
+            AppLionheart.run(new GameConfig(), gamepad);
         });
-        LABELS.add(play::setText);
-        TIPS.add(play);
+        LABELS.add(singleplayer::setText);
+        TIPS.add(singleplayer);
+
+        final JButton multiplayer = new JButton(LABEL_MULTIPLAYER);
+        multiplayer.setFont(FONT);
+        multiplayer.addActionListener(event ->
+        {
+            final MultiplayerDialog dialog = new MultiplayerDialog(window);
+            dialog.setTitle(multiplayer.getText());
+            dialog.setVisible(true);
+
+            if (dialog.getPlayers() > 0)
+            {
+                final Map<Integer, Integer> controls = new HashMap<>();
+                for (int i = 0; i < dialog.getPlayers(); i++)
+                {
+                    controls.put(Integer.valueOf(i), Integer.valueOf(i));
+                }
+
+                final GameConfig config = new GameConfig(dialog.getPlayers(),
+                                                         dialog.getGameType(),
+                                                         Optional.empty(),
+                                                         controls,
+                                                         new InitConfig(dialog.getStage(),
+                                                                        dialog.getHealth(),
+                                                                        dialog.getLife(),
+                                                                        Difficulty.NORMAL));
+
+                AppLionheart.run(config, gamepad);
+            }
+        });
+        LABELS.add(multiplayer::setText);
+        TIPS.add(multiplayer);
 
         final String path = "editor/Lionheart Remake Editor.exe";
         final JButton editor = new JButton(LABEL_EDITOR);
@@ -1223,7 +1195,7 @@ public final class Launcher
             }
             window.dispose();
         });
-        editor.setVisible(UtilFile.exists(path));
+        editor.setEnabled(UtilFile.exists(path));
         LABELS.add(editor::setText);
         TIPS.add(editor);
 
@@ -1245,7 +1217,8 @@ public final class Launcher
         final JPanel panel = new JPanel(new GridBagLayout());
         parent.add(panel);
         panel.setBorder(BORDER);
-        panel.add(play, constraints);
+        panel.add(singleplayer, constraints);
+        panel.add(multiplayer, constraints);
         panel.add(editor, constraints);
         panel.add(exit, constraints);
     }
@@ -1256,7 +1229,7 @@ public final class Launcher
         startServer.setFont(FONT);
         startServer.addActionListener(event ->
         {
-            final ServerDialog dialog = new ServerDialog(window);
+            final MultiplayerDialog dialog = new MultiplayerDialog(window);
             dialog.setVisible(true);
 
             final NetworkStageData data = new NetworkStageData(dialog.getGameType(),
@@ -1320,7 +1293,7 @@ public final class Launcher
             socket.send(new DatagramPacket(send.array(), send.capacity(), address, port));
 
             final ByteBuffer info = InfoGet.decode(socket);
-            final NetworkGameType type = NetworkGameType.values()[UtilConversion.toUnsignedByte(info.get())];
+            final GameType type = GameType.values()[UtilConversion.toUnsignedByte(info.get())];
             final int size = UtilConversion.toUnsignedByte(info.get());
             final byte[] stageBuffer = new byte[size];
             info.get(stageBuffer);
@@ -1339,12 +1312,12 @@ public final class Launcher
 
     private static class NetworkStageData
     {
-        private final NetworkGameType type;
+        private final GameType type;
         private final Media stage;
         private final int health;
         private final int life;
 
-        private NetworkStageData(NetworkGameType type, Media stage, int health, int life)
+        private NetworkStageData(GameType type, Media stage, int health, int life)
         {
             super();
 
@@ -1357,7 +1330,6 @@ public final class Launcher
 
     private static void run(Window window, Network network, Gamepad gamepad, NetworkStageData data)
     {
-        gamepad.select(GAMEPAD.get());
         save();
         window.dispose();
         AppLionheart.run(gamepad,

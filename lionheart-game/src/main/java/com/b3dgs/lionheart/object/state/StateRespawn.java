@@ -23,11 +23,11 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
-import com.b3dgs.lionengine.network.Network;
-import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionheart.CheatsProvider;
 import com.b3dgs.lionheart.CheckpointHandler;
 import com.b3dgs.lionheart.Difficulty;
+import com.b3dgs.lionheart.GameConfig;
+import com.b3dgs.lionheart.GameType;
 import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.menu.Continue;
@@ -45,7 +45,7 @@ public final class StateRespawn extends State
     private final CheckpointHandler checkpoint = model.getCheckpoint();
     private final Landscape landscape = model.getServices().get(Landscape.class);
     private final Difficulty difficulty = model.getServices().get(Difficulty.class);
-    private final Network network = model.getServices().get(Network.class);
+    private final GameConfig game = model.getServices().get(GameConfig.class);
     private final boolean cheats = model.getServices().get(CheatsProvider.class).getCheats();
 
     /**
@@ -64,27 +64,28 @@ public final class StateRespawn extends State
     @Override
     public void enter()
     {
-        if (network.is(NetworkType.NONE) && stats.getLife() == 0)
+        if (game.getType() == GameType.ORIGINAL && stats.getLife() == 0)
         {
             final Sequencer sequencer = model.getServices().get(Sequencer.class);
             if (stats.getCredits() > 0)
             {
                 sequencer.end(Continue.class,
-                              model.getServices().get(Network.class),
-                              new InitConfig(model.getServices().get(Media.class),
-                                             stats.getHealthMax(),
-                                             stats.getTalisment(),
-                                             stats.getLife(),
-                                             stats.getSword(),
-                                             stats.hasAmulet().booleanValue(),
-                                             stats.getCredits() - 1,
-                                             difficulty,
-                                             false,
-                                             Optional.empty()));
+                              model.getServices()
+                                   .get(GameConfig.class)
+                                   .with(new InitConfig(model.getServices().get(Media.class),
+                                                        stats.getHealthMax(),
+                                                        stats.getTalisment(),
+                                                        stats.getLife(),
+                                                        stats.getSword(),
+                                                        stats.hasAmulet().booleanValue(),
+                                                        stats.getCredits() - 1,
+                                                        difficulty,
+                                                        false,
+                                                        Optional.empty())));
             }
             else
             {
-                sequencer.end(Menu.class, model.getServices().get(Network.class));
+                sequencer.end(Menu.class, model.getServices().get(GameConfig.class));
             }
         }
         else

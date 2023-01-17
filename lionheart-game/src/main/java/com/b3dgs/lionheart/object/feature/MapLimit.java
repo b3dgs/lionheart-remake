@@ -17,7 +17,7 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -39,7 +39,6 @@ import com.b3dgs.lionheart.object.EntityModel;
 public final class MapLimit extends FeatureModel implements Routine
 {
     private final MapTile map = services.get(MapTile.class);
-    private final Viewer viewer = services.get(Viewer.class);
 
     @FeatureGet private Transformable transformable;
     @FeatureGet private EntityModel model;
@@ -60,6 +59,8 @@ public final class MapLimit extends FeatureModel implements Routine
     @Override
     public void update(double extrp)
     {
+        final Camera camera = model.getCamera();
+
         if (transformable.getX() < 2)
         {
             transformable.teleportX(2);
@@ -70,9 +71,9 @@ public final class MapLimit extends FeatureModel implements Routine
             transformable.teleportX(map.getWidth() - map.getTileWidth());
             model.getMovement().zero();
         }
-        if (networkable.isOwner() && transformable.getX() < viewer.getX())
+        if (networkable.isOwner() && transformable.getX() < camera.getX())
         {
-            transformable.teleportX(viewer.getX());
+            transformable.teleportX(camera.getX());
             model.getMovement().zero();
         }
     }

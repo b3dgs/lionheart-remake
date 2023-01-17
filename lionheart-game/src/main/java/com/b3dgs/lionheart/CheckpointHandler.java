@@ -263,7 +263,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
                 final int n = listenable.size();
                 for (int j = 0; j < n; j++)
                 {
-                    listenable.get(j).notifyReachCheckpoint(transformable, checkpoint);
+                    listenable.get(j).notifyReachCheckpoint(transformable, checkpoint, i);
                 }
             }
         }

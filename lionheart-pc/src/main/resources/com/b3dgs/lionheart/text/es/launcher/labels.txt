@@ -15,11 +15,8 @@ Fondo:
 Primer plano:
 Zoom:
 Avanzado
-Controlador:
-Configurar teclado
-Configurar controlador
-Jugar
+Controlador
+Solojugador
+Multijugador
 Editor
 Salida
-Start Server
-Join Game
