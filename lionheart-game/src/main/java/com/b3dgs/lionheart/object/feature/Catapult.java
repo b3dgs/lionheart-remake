@@ -16,9 +16,11 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.Updatable;
+import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
@@ -46,19 +48,19 @@ import com.b3dgs.lionheart.object.XmlSaver;
 /**
  * Catapult feature implementation.
  * <p>
- * Fire on hit.
+ * Fire on hit and reload.
  * </p>
  */
 @FeatureInterface
 public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable, CollidableListener
 {
-    private final Viewer viewer = services.get(Viewer.class);
-
     private final Animation idle;
     private final Animation fire;
+    private final Animation reload;
 
     private CatapultConfig config;
     private Direction vector = DirectionNone.INSTANCE;
+    private Updatable updater = UpdatableVoid.getInstance();
     private boolean fired;
 
     @FeatureGet private Transformable transformable;
@@ -79,8 +81,29 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
         fire = config.getAnimation(Anim.ATTACK);
+        reload = config.getAnimation(Anim.TURN);
 
         load(setup.getRoot());
+    }
+
+    private void updateReload(@SuppressWarnings("unused") double extrp)
+    {
+        if (fired && animatable.is(AnimState.FINISHED))
+        {
+            animatable.play(reload);
+            animatable.setFrame(reload.getLast());
+            updater = this::updateReloaded;
+        }
+    }
+
+    private void updateReloaded(@SuppressWarnings("unused") double extrp)
+    {
+        if (animatable.is(AnimState.FINISHED))
+        {
+            fired = false;
+            animatable.play(idle);
+            updater = UpdatableVoid.getInstance();
+        }
     }
 
     @Override
@@ -115,11 +138,7 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
     @Override
     public void update(double extrp)
     {
-        if (fired && !viewer.isViewable(transformable, 0, 0))
-        {
-            fired = false;
-            animatable.play(idle);
-        }
+        updater.update(extrp);
     }
 
     @Override
@@ -130,6 +149,7 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
             fired = true;
             animatable.play(fire);
             launcher.fire(vector);
+            updater = this::updateReload;
         }
     }
 

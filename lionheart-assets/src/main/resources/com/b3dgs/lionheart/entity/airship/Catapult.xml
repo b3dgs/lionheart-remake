@@ -16,6 +16,7 @@
             <lionengine:collisionFramed prefix="body" x="12" y="30" width="6" height="16"/>
         </lionengine:animation>
         <lionengine:animation name="attack" start="2" end="5" speed="0.25" reversed="false" repeat="false"/>
+        <lionengine:animation name="turn" start="2" end="5" speed="0.1" reversed="true" repeat="false"/>
     </lionengine:animations>
     <lionengine:layerable layerRefresh="3" layerDisplay="6"/>
     <lionengine:collidable group="3" accepted="1"/>
