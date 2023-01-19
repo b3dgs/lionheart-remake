@@ -9,6 +9,10 @@ Gameplay:
 Music:
   Sfx:
 Stages:
+Strategy:
+Parallel:
+VSync:
+Raster:
 Visible:
 Sword:
 Background:

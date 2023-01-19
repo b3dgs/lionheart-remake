@@ -17,6 +17,7 @@
 package com.b3dgs.lionheart;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -29,6 +30,7 @@ import java.awt.GridBagLayout;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -175,8 +177,6 @@ public final class Launcher
     private static final String LABEL_RATIO = "Ratio:";
     private static final String LABEL_WINDOWED = "Windowed:";
     private static final String LABEL_ADVANCED = "Advanced";
-    private static final String LABEL_MISC = "Misc";
-    private static final String LABEL_FLAG = "Flags";
     private static final String LABEL_FLAG_STRATEGY = "Strategy:";
     private static final String LABEL_FLAG_PARALLEL = "Parallel:";
     private static final String LABEL_FLAG_VSYNC = "VSync:";
@@ -206,6 +206,7 @@ public final class Launcher
     private static final int DIALOG_WIDTH = 400;
     private static final int DIALOG_HEIGHT = 360;
     private static final Border BORDER_SPLASH = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+    private static final Border BORDER_CHECK = BorderFactory.createEmptyBorder(0, 30, 0, 0);
     private static final Border BORDER = BorderFactory.createEmptyBorder(3, 10, 3, 10);
 
     private static final List<Consumer<String>> LABELS = new ArrayList<>();
@@ -255,7 +256,63 @@ public final class Launcher
         splash.setIcon(logo);
         splash.setToolTipText(Constant.PROGRAM_WEBSITE);
         splash.setBorder(BORDER_SPLASH);
-        splash.addMouseListener(new MouseAdapter()
+        splash.addMouseListener(createSplashListener(splash, logo, logoHover));
+        box2.add(splash);
+
+        createLang(box, frame);
+        createScale(box);
+        createFilter(box);
+        createGameplay(box);
+        createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
+        createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
+        createStages(box);
+
+        final Box advanced = Box.createVerticalBox();
+        createFlags(advanced);
+        createMiscs(advanced);
+        createZoom(advanced);
+        advanced.setVisible(false);
+
+        final Box advancedInner = createBorderBox(box, advanced);
+
+        final JButton show = new JButton(LABEL_ADVANCED);
+        show.setFont(FONT);
+        show.addActionListener(e ->
+        {
+            advanced.setVisible(true);
+            advanced.setBorder(BorderFactory.createTitledBorder(LABEL_ADVANCED));
+            show.setVisible(false);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+        });
+        LABELS.add(show::setText);
+
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1.0;
+
+        final JPanel advancedPanel = new JPanel(new GridBagLayout());
+        advancedPanel.setBorder(BORDER);
+        advancedPanel.add(show, constraints);
+
+        box.add(advancedPanel);
+        box.add(advancedInner);
+
+        // createGamepad(box, gamepad);
+        createControls(box, frame, gamepad);
+        createButtons(box, frame, gamepad);
+        createCopyright(frame);
+
+        final String lang = Settings.getInstance().getLang();
+        loadLabels(lang);
+        loadToolTips(lang);
+
+        run(frame, panel);
+    }
+
+    private static MouseListener createSplashListener(JLabel splash, ImageIcon logo, ImageIcon logoHover)
+    {
+        return new MouseAdapter()
         {
             @Override
             public void mouseEntered(MouseEvent event)
@@ -285,56 +342,93 @@ public final class Launcher
                     Verbose.exception(exception);
                 }
             }
-        });
-        box2.add(splash);
+        };
+    }
 
-        createLang(box, frame);
-        createScale(box);
-        createFilter(box);
-        createGameplay(box);
-        createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
-        createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
-        createStages(box);
+    private static JLabel createLabel(String name, int align)
+    {
+        final JLabel label = new JLabel(name);
+        label.setFont(FONT);
+        label.setHorizontalAlignment(align);
+        LABELS.add(label::setText);
+        TIPS.add(label);
+        return label;
+    }
 
-        final Box advanced = Box.createVerticalBox();
-        createFlags(advanced);
-        createMiscs(advanced);
-        createZoom(advanced);
-        advanced.setVisible(false);
+    private static <T> JComboBox<T> createCombo(T[] values, T selected)
+    {
+        final JComboBox<T> combo = new JComboBox<>(values);
+        combo.setFont(FONT);
+        combo.setSelectedItem(selected);
+        TIPS.add(combo);
+        return combo;
+    }
 
-        final JButton show = new JButton(LABEL_ADVANCED);
-        show.setFont(FONT);
-        show.addActionListener(e ->
+    private static Box createBorderBox(Container parent, Component... comp)
+    {
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        for (final Component c : comp)
         {
-            advanced.setVisible(true);
-            advanced.setBorder(BorderFactory.createTitledBorder(LABEL_ADVANCED));
-            show.setVisible(false);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
+            box.add(c);
+        }
+        parent.add(box);
+        return box;
+    }
+
+    private static JFormattedTextField createField(NumberFormatter formatter,
+                                                   int align,
+                                                   AtomicInteger field,
+                                                   JComboBox<Integer> scale,
+                                                   JComboBox<String> ratio)
+    {
+        final JFormattedTextField tf = new JFormattedTextField(formatter);
+        tf.setFont(FONT);
+        tf.setHorizontalAlignment(align);
+        tf.setText(String.valueOf(field.get()));
+        tf.setEditable(WINDOWED.get());
+        tf.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mousePressed(MouseEvent event)
+            {
+                scale.setSelectedIndex(0);
+                ratio.setSelectedIndex(0);
+            }
         });
-        LABELS.add(show::setText);
+        tf.getDocument().addDocumentListener(new DocumentListener()
+        {
+            @Override
+            public void insertUpdate(DocumentEvent event)
+            {
+                updateField(field, tf);
+            }
 
-        final GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 1.0;
+            @Override
+            public void removeUpdate(DocumentEvent event)
+            {
+                updateField(field, tf);
+            }
 
-        final JPanel advancedPanel = new JPanel(new GridBagLayout());
-        advancedPanel.setBorder(BORDER);
-        advancedPanel.add(show, constraints);
+            @Override
+            public void changedUpdate(DocumentEvent event)
+            {
+                // Nothing to do
+            }
+        });
+        return tf;
+    }
 
-        box.add(advancedPanel);
-        box.add(advanced);
-
-        // createGamepad(box, gamepad);
-        createControls(box, frame, gamepad);
-        createButtons(box, frame, gamepad);
-        createCopyright(frame);
-
-        final String lang = Settings.getInstance().getLang();
-        loadLabels(lang);
-        loadToolTips(lang);
-
-        run(frame, panel);
+    private static JCheckBox createCheck(String label, AtomicBoolean selected)
+    {
+        final JCheckBox check = new JCheckBox(label);
+        check.setFont(FONT);
+        check.setBorder(BORDER_CHECK);
+        check.setHorizontalTextPosition(SwingConstants.LEADING);
+        check.setSelected(selected.get());
+        LABELS.add(check::setText);
+        TIPS.add(check);
+        return check;
     }
 
     private static void loadPref()
@@ -447,11 +541,7 @@ public final class Launcher
 
     private static Container createLang(Container parent, JFrame frame)
     {
-        final JLabel label = new JLabel(LABEL_LANG);
-        label.setFont(FONT);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(label::setText);
-        TIPS.add(label);
+        final JLabel label = createLabel(LABEL_LANG, SwingConstants.RIGHT);
 
         final List<String> langs = Medias.create(Folder.TEXT)
                                          .getMedias()
@@ -459,8 +549,8 @@ public final class Launcher
                                          .map(s -> LANG_FULL.getOrDefault(s.getName(), s.getName()))
                                          .sorted()
                                          .collect(Collectors.toList());
-        final JComboBox<String> combo = new JComboBox<>(langs.toArray(new String[langs.size()]));
-        combo.setFont(FONT);
+        final JComboBox<String> combo = createCombo(langs.toArray(new String[langs.size()]),
+                                                    LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
         combo.addActionListener(e ->
         {
             final String k = combo.getItemAt(combo.getSelectedIndex());
@@ -471,14 +561,8 @@ public final class Launcher
             frame.pack();
             frame.setLocationRelativeTo(null);
         });
-        combo.setSelectedItem(LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
-        TIPS.add(combo);
 
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        box.add(label);
-        box.add(combo);
-        parent.add(box);
+        createBorderBox(parent, label, combo);
 
         return combo;
     }
@@ -507,34 +591,18 @@ public final class Launcher
 
     private static void createScale(Container parent)
     {
-        final JLabel labelScale = new JLabel(LABEL_SCALE);
-        labelScale.setFont(FONT);
-        labelScale.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(labelScale::setText);
-        TIPS.add(labelScale);
+        final JLabel labelScale = createLabel(LABEL_SCALE, SwingConstants.RIGHT);
 
-        final JComboBox<Integer> comboScale = new JComboBox<>(AVAILABLE_SCALE);
-        comboScale.setFont(FONT);
+        final JComboBox<Integer> comboScale = createCombo(AVAILABLE_SCALE, null);
         comboScale.setEnabled(WINDOWED.get());
-        TIPS.add(comboScale);
 
-        final JLabel labelRatio = new JLabel(LABEL_RATIO);
-        labelRatio.setFont(FONT);
-        labelRatio.setHorizontalAlignment(SwingConstants.RIGHT);
+        final JLabel labelRatio = createLabel(LABEL_RATIO, SwingConstants.RIGHT);
         labelRatio.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        LABELS.add(labelRatio::setText);
-        TIPS.add(labelRatio);
 
-        final JComboBox<String> comboRatio = new JComboBox<>(AVAILABLE_RATIO);
-        comboRatio.setFont(FONT);
+        final JComboBox<String> comboRatio = createCombo(AVAILABLE_RATIO, null);
         comboRatio.setEnabled(WINDOWED.get());
-        TIPS.add(comboRatio);
 
-        final JLabel labelResolution = new JLabel(LABEL_RESOLUTION);
-        labelResolution.setFont(FONT);
-        labelResolution.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(labelResolution::setText);
-        TIPS.add(labelResolution);
+        final JLabel labelResolution = createLabel(LABEL_RESOLUTION, SwingConstants.RIGHT);
 
         final NumberFormat format = NumberFormat.getIntegerInstance(Locale.ENGLISH);
         format.setGroupingUsed(false);
@@ -543,79 +611,13 @@ public final class Launcher
         formatter.setAllowsInvalid(false);
         formatter.setCommitsOnValidEdit(true);
 
-        final JFormattedTextField width = new JFormattedTextField(formatter);
-        width.setFont(FONT);
-        width.setHorizontalAlignment(SwingConstants.RIGHT);
-        width.setText(String.valueOf(WIDTH.get()));
-        width.setEditable(WINDOWED.get());
-        width.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mousePressed(MouseEvent event)
-            {
-                comboScale.setSelectedIndex(0);
-                comboRatio.setSelectedIndex(0);
-            }
-        });
-        width.getDocument().addDocumentListener(new DocumentListener()
-        {
-            @Override
-            public void insertUpdate(DocumentEvent event)
-            {
-                updateField(WIDTH, width);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent event)
-            {
-                updateField(WIDTH, width);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent event)
-            {
-                // Nothing to do
-            }
-        });
+        final JFormattedTextField width = createField(formatter, SwingConstants.RIGHT, WIDTH, comboScale, comboRatio);
 
         final JLabel labelX = new JLabel(" x ");
         labelX.setFont(FONT);
         TIPS.add(labelX);
 
-        final JFormattedTextField height = new JFormattedTextField(formatter);
-        height.setFont(FONT);
-        height.setHorizontalAlignment(SwingConstants.LEFT);
-        height.setText(String.valueOf(HEIGHT.get()));
-        height.setEditable(WINDOWED.get());
-        height.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mousePressed(MouseEvent event)
-            {
-                comboScale.setSelectedIndex(0);
-                comboRatio.setSelectedIndex(0);
-            }
-        });
-        height.getDocument().addDocumentListener(new DocumentListener()
-        {
-            @Override
-            public void insertUpdate(DocumentEvent event)
-            {
-                updateField(HEIGHT, height);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent event)
-            {
-                updateField(HEIGHT, height);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent event)
-            {
-                // Nothing to do
-            }
-        });
+        final JFormattedTextField height = createField(formatter, SwingConstants.LEFT, HEIGHT, comboScale, comboRatio);
 
         final JLabel labelA = new JLabel(" @ ");
         labelA.setFont(FONT);
@@ -648,31 +650,15 @@ public final class Launcher
         comboScale.addActionListener(e -> updateResolution(comboScale, comboRatio, width, height));
         comboRatio.addActionListener(e -> updateResolution(comboScale, comboRatio, width, height));
 
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        box.add(labelScale);
-        box.add(comboScale);
-        box.add(labelRatio);
-        box.add(comboRatio);
+        final Box box = createBorderBox(parent, labelScale, comboScale, labelRatio, comboRatio);
 
         final JComboBox<Res> comboRes = createResolutionsAvailable(box, width, height, comboRate);
         comboRes.setSelectedItem(new Res(WIDTH.get(), HEIGHT.get()));
         TIPS.add(comboRes);
-        parent.add(box);
 
-        final Box boxResolution = Box.createHorizontalBox();
-        boxResolution.setBorder(BORDER);
-
-        boxResolution.add(labelResolution);
-        boxResolution.add(width);
-        boxResolution.add(labelX);
-        boxResolution.add(height);
-        boxResolution.add(labelA);
-        boxResolution.add(comboRate);
-        boxResolution.add(labelHz);
+        final Box boxResolution;
+        boxResolution = createBorderBox(parent, labelResolution, width, labelX, height, labelA, comboRate, labelHz);
         createWindowed(boxResolution, comboScale, comboRatio, comboRes, comboRate, width, height);
-
-        parent.add(boxResolution);
     }
 
     private static List<Integer> getNativeRates()
@@ -719,12 +705,8 @@ public final class Launcher
                                                              JFormattedTextField height,
                                                              JComboBox<Integer> comboRate)
     {
-        final JLabel labelResolution = new JLabel(LABEL_AVAILABLE);
-        labelResolution.setFont(FONT);
+        final JLabel labelResolution = createLabel(LABEL_AVAILABLE, SwingConstants.RIGHT);
         labelResolution.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        labelResolution.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(labelResolution::setText);
-        TIPS.add(labelResolution);
 
         final List<Res> res = Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
                                                                .getDefaultScreenDevice()
@@ -735,10 +717,7 @@ public final class Launcher
                                     .collect(Collectors.toList());
         Collections.sort(res);
 
-        final JComboBox<Res> comboResolution;
-        comboResolution = new JComboBox<>(res.toArray(new Res[res.size()]));
-        comboResolution.setFont(FONT);
-        TIPS.add(comboResolution);
+        final JComboBox<Res> comboResolution = createCombo(res.toArray(new Res[res.size()]), null);
         comboResolution.addActionListener(e ->
         {
             final Res r = comboResolution.getItemAt(comboResolution.getSelectedIndex());
@@ -761,11 +740,7 @@ public final class Launcher
                                        JFormattedTextField width,
                                        JFormattedTextField height)
     {
-        final JCheckBox checkWindowed = new JCheckBox(LABEL_WINDOWED);
-        checkWindowed.setFont(FONT);
-        checkWindowed.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        checkWindowed.setHorizontalTextPosition(SwingConstants.LEADING);
-        checkWindowed.setSelected(WINDOWED.get());
+        final JCheckBox checkWindowed = createCheck(LABEL_WINDOWED, WINDOWED);
         checkWindowed.addActionListener(e ->
         {
             WINDOWED.set(checkWindowed.isSelected());
@@ -791,8 +766,6 @@ public final class Launcher
             width.setEditable(checkWindowed.isSelected());
             height.setEditable(checkWindowed.isSelected());
         });
-        LABELS.add(checkWindowed::setText);
-        TIPS.add(checkWindowed);
 
         parent.add(checkWindowed);
     }
@@ -813,182 +786,95 @@ public final class Launcher
 
     private static Container createFilter(Container parent)
     {
-        final JLabel label = new JLabel(LABEL_FILTER);
-        label.setFont(FONT);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(label::setText);
-        TIPS.add(label);
+        final JLabel label = createLabel(LABEL_FILTER, SwingConstants.RIGHT);
 
-        final JComboBox<FilterType> combo = new JComboBox<>(FilterType.values());
-        combo.setFont(FONT);
+        final JComboBox<FilterType> combo = createCombo(FilterType.values(), FILTER.get());
         combo.addActionListener(e -> FILTER.set(combo.getItemAt(combo.getSelectedIndex())));
-        combo.setSelectedItem(FILTER.get());
-        TIPS.add(combo);
 
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        box.add(label);
-        box.add(combo);
-        parent.add(box);
+        createBorderBox(parent, label, combo);
 
         return combo;
     }
 
     private static Container createGameplay(Container parent)
     {
-        final JLabel label = new JLabel(LABEL_GAMEPLAY);
-        label.setFont(FONT);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(label::setText);
-        TIPS.add(label);
+        final JLabel label = createLabel(LABEL_GAMEPLAY, SwingConstants.RIGHT);
 
-        final JComboBox<GameplayType> combo = new JComboBox<>(GameplayType.values());
-        combo.setFont(FONT);
+        final JComboBox<GameplayType> combo = createCombo(GameplayType.values(), GAMEPLAY.get());
         combo.addActionListener(e -> GAMEPLAY.set(combo.getItemAt(combo.getSelectedIndex())));
-        combo.setSelectedItem(GAMEPLAY.get());
-        TIPS.add(combo);
 
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        box.add(label);
-        box.add(combo);
-        parent.add(box);
+        createBorderBox(parent, label, combo);
 
         return combo;
     }
 
     private static void createFlags(Container parent)
     {
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
+        final JLabel label = createLabel(LABEL_FLAG_STRATEGY, SwingConstants.LEADING);
 
-        final Box flags = Box.createHorizontalBox();
-        flags.setBorder(BorderFactory.createTitledBorder(LABEL_FLAG));
-
-        final JLabel label = new JLabel(LABEL_FLAG_STRATEGY);
-        label.setFont(FONT);
-        TIPS.add(label);
-
-        final JComboBox<ImageLoadStrategy> combo = new JComboBox<>(ImageLoadStrategy.values());
-        combo.setFont(FONT);
+        final JComboBox<ImageLoadStrategy> combo = createCombo(ImageLoadStrategy.values(), null);
         combo.setSelectedIndex(FLAG_STRATEGY.get());
         combo.addActionListener(e -> FLAG_STRATEGY.set(combo.getSelectedIndex()));
-        TIPS.add(combo);
 
-        final JCheckBox parallel = new JCheckBox(LABEL_FLAG_PARALLEL);
-        parallel.setFont(FONT);
-        parallel.setHorizontalTextPosition(SwingConstants.LEADING);
-        parallel.setSelected(FLAG_PARALLEL.get());
+        final JCheckBox parallel = createCheck(LABEL_FLAG_PARALLEL, FLAG_PARALLEL);
         parallel.addChangeListener(e -> FLAG_PARALLEL.set(parallel.isSelected()));
-        parallel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        TIPS.add(parallel);
 
-        final JCheckBox vsync = new JCheckBox(LABEL_FLAG_VSYNC);
-        vsync.setFont(FONT);
-        vsync.setHorizontalTextPosition(SwingConstants.LEADING);
-        vsync.setSelected(FLAG_VSYNC.get());
+        final JCheckBox vsync = createCheck(LABEL_FLAG_VSYNC, FLAG_VSYNC);
         vsync.addChangeListener(e -> FLAG_VSYNC.set(vsync.isSelected()));
-        vsync.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        TIPS.add(vsync);
 
-        flags.add(label);
-        flags.add(combo);
-        flags.add(parallel);
-        flags.add(vsync);
-
-        box.add(flags);
-
-        parent.add(box);
+        createBorderBox(parent, label, combo, parallel, vsync);
     }
 
     private static void createMiscs(Container parent)
     {
-        final Box misc = Box.createVerticalBox();
-        misc.setBorder(BorderFactory.createTitledBorder(LABEL_MISC));
-
-        createRaster(misc);
+        createRaster(parent);
 
         final Box box = Box.createHorizontalBox();
         createHud(box);
         createFlicker(box);
-
-        misc.add(box);
-        parent.add(misc);
+        parent.add(box);
     }
 
     private static void createRaster(Container parent)
     {
-        final Box box = Box.createHorizontalBox();
+        final JLabel raster = createLabel(LABEL_RASTER, SwingConstants.LEADING);
 
-        final JLabel raster = new JLabel(LABEL_RASTER);
-        raster.setFont(FONT);
-        raster.setHorizontalTextPosition(SwingConstants.LEADING);
-
-        final JComboBox<RasterType> comboRaster;
-        comboRaster = new JComboBox<>(RasterType.values());
-        comboRaster.setFont(FONT);
-        comboRaster.setSelectedItem(RASTER.get());
+        final JComboBox<RasterType> comboRaster = createCombo(RasterType.values(), RASTER.get());
         comboRaster.addActionListener(e -> RASTER.set(comboRaster.getItemAt(comboRaster.getSelectedIndex())));
-        TIPS.add(raster);
 
-        box.add(raster);
-        box.add(comboRaster);
-
-        parent.add(box);
+        createBorderBox(parent, raster, comboRaster);
     }
 
     private static void createHud(Container parent)
     {
-        final JCheckBox hud = new JCheckBox(LABEL_HUD_VISIBLE);
-        hud.setFont(FONT);
-        hud.setHorizontalTextPosition(SwingConstants.LEADING);
-        hud.setSelected(HUD.get());
+        final JCheckBox hud = createCheck(LABEL_HUD_VISIBLE, HUD);
         hud.addChangeListener(e -> HUD.set(hud.isSelected()));
-        LABELS.add(hud::setText);
-        TIPS.add(hud);
 
-        final JCheckBox sword = new JCheckBox(LABEL_HUD_SWORD);
-        sword.setFont(FONT);
-        sword.setHorizontalTextPosition(SwingConstants.LEADING);
-        sword.setSelected(HUD_SWORD.get());
+        final JCheckBox sword = createCheck(LABEL_HUD_SWORD, HUD_SWORD);
         sword.addChangeListener(e -> HUD_SWORD.set(sword.isSelected()));
-        sword.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        LABELS.add(sword::setText);
-        TIPS.add(sword);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BorderFactory.createTitledBorder(LABEL_HUD));
         box.add(hud);
         box.add(sword);
 
-        parent.add(box);
+        createBorderBox(parent, box);
     }
 
     private static void createFlicker(Container parent)
     {
-        final JCheckBox background = new JCheckBox(LABEL_FLICKER_BACKGROUND);
-        background.setFont(FONT);
-        background.setHorizontalTextPosition(SwingConstants.LEADING);
-        background.setSelected(FLICKER_BACKGROUND.get());
+        final JCheckBox background = createCheck(LABEL_FLICKER_BACKGROUND, FLICKER_BACKGROUND);
         background.addChangeListener(e -> FLICKER_BACKGROUND.set(background.isSelected()));
-        LABELS.add(background::setText);
-        TIPS.add(background);
 
-        final JCheckBox foreground = new JCheckBox(LABEL_FLICKER_FOREGROUND);
-        foreground.setFont(FONT);
-        foreground.setHorizontalTextPosition(SwingConstants.LEADING);
-        foreground.setSelected(FLICKER_FOREGROUND.get());
+        final JCheckBox foreground = createCheck(LABEL_FLICKER_FOREGROUND, FLICKER_FOREGROUND);
         foreground.addChangeListener(e -> FLICKER_FOREGROUND.set(foreground.isSelected()));
-        foreground.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        LABELS.add(foreground::setText);
-        TIPS.add(foreground);
 
         final Box box = Box.createHorizontalBox();
         box.setBorder(BorderFactory.createTitledBorder(LABEL_FLICKER));
         box.add(background);
         box.add(foreground);
 
-        parent.add(box);
+        createBorderBox(parent, box);
     }
 
     private static void createZoom(Container parent)
@@ -1029,10 +915,7 @@ public final class Launcher
 
     private static JSlider createSlider(Container parent, String title, AtomicInteger value, int min, int max)
     {
-        final JLabel label = new JLabel(title);
-        label.setFont(FONT);
-        LABELS.add(label::setText);
-        TIPS.add(label);
+        final JLabel label = createLabel(title, SwingConstants.LEADING);
 
         final JSlider slider = new JSlider(min, max, value.get());
         slider.setFont(FONT);
@@ -1074,25 +957,14 @@ public final class Launcher
 
     private static void createStages(Container parent)
     {
-        final JLabel label = new JLabel(LABEL_STAGES);
-        label.setFont(FONT);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        LABELS.add(label::setText);
-        TIPS.add(label);
+        final JLabel label = createLabel(LABEL_STAGES, SwingConstants.RIGHT);
 
         final List<String> stages = Util.readLines(Medias.create(Folder.STAGE, FILENAME_STAGE));
 
-        final JComboBox<String> combo = new JComboBox<>(stages.toArray(new String[stages.size()]));
-        combo.setFont(FONT);
-        combo.setSelectedItem(STAGES.get());
+        final JComboBox<String> combo = createCombo(stages.toArray(new String[stages.size()]), STAGES.get());
         combo.addActionListener(e -> STAGES.set(combo.getItemAt(combo.getSelectedIndex())));
-        TIPS.add(combo);
 
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        box.add(label);
-        box.add(combo);
-        parent.add(box);
+        createBorderBox(parent, label, combo);
     }
 
     private static void createControls(Container parent, Window window, Gamepad gamepad)

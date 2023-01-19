@@ -9,6 +9,10 @@ Juego:
 Música:
    Sfx:
 Niveles:
+Strategy:
+Parallel:
+VSync:
+Raster:
 Visible:
 Espada:
 Fondo:

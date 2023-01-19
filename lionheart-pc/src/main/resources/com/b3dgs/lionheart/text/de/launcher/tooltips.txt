@@ -27,6 +27,7 @@ Ausgewählte Ladestrategie.
 Aktiviert, um paralleles Laden zu aktivieren (Standard), nicht markiert für sequentielles Laden.
 Aktiviert, um VSync zu aktivieren, deaktiviert, um VSync zu deaktivieren (Standard).
 Aktiviert, um den Rastereffekt zu aktivieren (Standard), deaktiviert, um den Effekt zu deaktivieren.
+Aktiviert, um den Rastereffekt zu aktivieren (Standard), deaktiviert, um den Effekt zu deaktivieren.
 Aktiviert, um das HUD anzuzeigen (Standard), deaktiviert, um es auszublenden.
 Aktiviert, um das Schwertniveau anzuzeigen, deaktiviert, um es auszublenden (Standard).
 Hintergrundflackern einstellen.

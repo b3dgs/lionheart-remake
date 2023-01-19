@@ -27,6 +27,7 @@ Estrategia de carga seleccionada.
 Marcado para habilitar la carga paralela (predeterminado), desmarcado para la carga secuencial.
 Marcado para habilitar VSync, desmarcado para deshabilitar (predeterminado).
 Marcado para habilitar el efecto de trama (predeterminado), desmarcado para deshabilitar el efecto.
+Marcado para habilitar el efecto de trama (predeterminado), desmarcado para deshabilitar el efecto.
 Marcado para mostrar HUD (predeterminado), desmarcado para ocultar.
 Marcado para mostrar el nivel de espada, desmarcado para ocultar (predeterminado).
 Establecer parpadeo de fondo.

@@ -9,6 +9,10 @@ Jouabilité:
 Musique:
    Son:
 Niveaux:
+Strategy:
+Parallel:
+VSync:
+Raster:
 Visible:
 Épée:
 Arrière plan:

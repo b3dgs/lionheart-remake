@@ -9,6 +9,10 @@ Spielweise:
 Musik:
    Sfx:
 Ebenen:
+Strategy:
+Parallel:
+VSync:
+Raster:
 Sichtbar:
 Schwert:
 Hintergrund:

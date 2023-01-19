@@ -27,6 +27,7 @@ Stratégie de chargement sélectionnée.
 Coché pour activer le chargement parallèle (par défaut), décoché pour le chargement séquentiel.
 Coché pour activer VSync, décoché pour désactiver (par défaut).
 Coché pour activer l'effet raster (par défaut), décoché pour désactiver l'effet.
+Coché pour activer l'effet raster (par défaut), décoché pour désactiver l'effet.
 Coché pour afficher le HUD (par défaut), décoché pour masquer.
 Coché pour afficher le niveau de l'épée, décoché pour masquer (par défaut).
 Définir le scintillement de l'arrière-plan.
