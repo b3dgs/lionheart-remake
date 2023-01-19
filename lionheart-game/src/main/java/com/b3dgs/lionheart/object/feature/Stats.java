@@ -130,7 +130,7 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     public void apply(TakeableConfig config)
     {
-        if (networkable.isServer())
+        if (!networkable.isClient())
         {
             health.increase(config.getHealth());
             if (talisment.isFull())
