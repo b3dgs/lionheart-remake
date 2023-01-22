@@ -42,8 +42,6 @@ public final class Constant
     /** Resolution. */
     public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, RESOLUTION.getRate());
 
-    /** Debug flag. */
-    public static final boolean DEBUG = true;
     /** Debug collisions flag. */
     public static final boolean DEBUG_COLLISIONS = false;
 

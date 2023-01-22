@@ -47,6 +47,7 @@ public final class AppLionheart
      */
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
+        System.setProperty("sun.java2d.uiScale", "1.0");
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
 
         Settings.load();

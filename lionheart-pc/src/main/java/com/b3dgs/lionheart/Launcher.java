@@ -33,7 +33,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +46,6 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,6 +218,7 @@ public final class Launcher
      */
     public static void main(String[] args) throws IOException // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
+        System.setProperty("sun.java2d.uiScale", "1.0");
         UIManager.put("ToolTip.font", FONT1);
 
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
@@ -543,12 +542,7 @@ public final class Launcher
     {
         final JLabel label = createLabel(LABEL_LANG, SwingConstants.RIGHT);
 
-        final List<String> langs = Medias.create(Folder.TEXT)
-                                         .getMedias()
-                                         .stream()
-                                         .map(s -> LANG_FULL.getOrDefault(s.getName(), s.getName()))
-                                         .sorted()
-                                         .collect(Collectors.toList());
+        final List<String> langs = LANG_FULL.values().stream().sorted().collect(Collectors.toList());
         final JComboBox<String> combo = createCombo(langs.toArray(new String[langs.size()]),
                                                     LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
         combo.addActionListener(e ->
@@ -1309,103 +1303,95 @@ public final class Launcher
         Settings.loadDefault();
         prepareSettings();
 
-        final File file = Medias.create(Settings.FILENAME).getFile();
-        try
+        final List<String> lines = Util.readLines(Medias.create(Settings.FILENAME));
+        try (FileWriter output = new FileWriter(Medias.create(Settings.FILENAME).getFile()))
         {
-            final List<String> lines = Files.readAllLines(file.toPath());
-            try (FileWriter output = new FileWriter(file))
+            for (final String line : lines)
             {
-                for (final String line : lines)
+                final String[] data = line.split(SETTINGS_SEPARATOR);
+                if (line.contains(Settings.LANG))
                 {
-                    final String[] data = line.split(SETTINGS_SEPARATOR);
-                    if (line.contains(Settings.LANG))
-                    {
-                        writeFormatted(output, data, LANG.get());
-                    }
-                    else if (line.contains(Settings.RESOLUTION_WINDOWED))
-                    {
-                        writeFormatted(output, data, WINDOWED.get());
-                    }
-                    else if (line.contains(Settings.RESOLUTION_WIDTH))
-                    {
-                        writeFormatted(output, data, WIDTH.get());
-                    }
-                    else if (line.contains(Settings.RESOLUTION_HEIGHT))
-                    {
-                        writeFormatted(output, data, HEIGHT.get());
-                    }
-                    else if (line.contains(Settings.RESOLUTION_RATE))
-                    {
-                        writeFormatted(output, data, RATE.get());
-                    }
-                    else if (line.contains(Settings.FILTER))
-                    {
-                        writeFormatted(output, data, FILTER.get().name());
-                    }
-                    else if (line.contains(Settings.GAMEPLAY))
-                    {
-                        writeFormatted(output, data, GAMEPLAY.get().name());
-                    }
-                    else if (line.contains(Settings.RASTER_TYPE))
-                    {
-                        writeFormatted(output, data, RASTER.get().name());
-                    }
-                    else if (line.contains(Settings.HUD_VISIBLE))
-                    {
-                        writeFormatted(output, data, HUD.get());
-                    }
-                    else if (line.contains(Settings.HUD_SWORD))
-                    {
-                        writeFormatted(output, data, HUD_SWORD.get());
-                    }
-                    else if (line.contains(Settings.FLICKER_BACKGROUND))
-                    {
-                        writeFormatted(output, data, FLICKER_BACKGROUND.get());
-                    }
-                    else if (line.contains(Settings.FLICKER_FOREGROUND))
-                    {
-                        writeFormatted(output, data, FLICKER_FOREGROUND.get());
-                    }
-                    else if (line.contains(Settings.ZOOM))
-                    {
-                        writeFormatted(output, data, ZOOM.get() / 100.0);
-                    }
-                    else if (line.contains(Settings.VOLUME_MUSIC))
-                    {
-                        writeFormatted(output, data, MUSIC.get());
-                    }
-                    else if (line.contains(Settings.VOLUME_SFX))
-                    {
-                        writeFormatted(output, data, SFX.get());
-                    }
-                    else if (line.contains(Settings.FLAG_STRATEGY))
-                    {
-                        writeFormatted(output, data, FLAG_STRATEGY.get());
-                    }
-                    else if (line.contains(Settings.FLAG_PARALLEL))
-                    {
-                        writeFormatted(output, data, FLAG_PARALLEL.get());
-                    }
-                    else if (line.contains(Settings.FLAG_VSYNC))
-                    {
-                        writeFormatted(output, data, FLAG_VSYNC.get());
-                    }
-                    else if (line.contains(Settings.STAGES))
-                    {
-                        writeFormatted(output, data, STAGES.get());
-                    }
-                    else
-                    {
-                        output.write(line);
-                    }
-                    output.write(System.lineSeparator());
+                    writeFormatted(output, data, LANG.get());
                 }
-                output.flush();
+                else if (line.contains(Settings.RESOLUTION_WINDOWED))
+                {
+                    writeFormatted(output, data, WINDOWED.get());
+                }
+                else if (line.contains(Settings.RESOLUTION_WIDTH))
+                {
+                    writeFormatted(output, data, WIDTH.get());
+                }
+                else if (line.contains(Settings.RESOLUTION_HEIGHT))
+                {
+                    writeFormatted(output, data, HEIGHT.get());
+                }
+                else if (line.contains(Settings.RESOLUTION_RATE))
+                {
+                    writeFormatted(output, data, RATE.get());
+                }
+                else if (line.contains(Settings.FILTER))
+                {
+                    writeFormatted(output, data, FILTER.get().name());
+                }
+                else if (line.contains(Settings.GAMEPLAY))
+                {
+                    writeFormatted(output, data, GAMEPLAY.get().name());
+                }
+                else if (line.contains(Settings.RASTER_TYPE))
+                {
+                    writeFormatted(output, data, RASTER.get().name());
+                }
+                else if (line.contains(Settings.HUD_VISIBLE))
+                {
+                    writeFormatted(output, data, HUD.get());
+                }
+                else if (line.contains(Settings.HUD_SWORD))
+                {
+                    writeFormatted(output, data, HUD_SWORD.get());
+                }
+                else if (line.contains(Settings.FLICKER_BACKGROUND))
+                {
+                    writeFormatted(output, data, FLICKER_BACKGROUND.get());
+                }
+                else if (line.contains(Settings.FLICKER_FOREGROUND))
+                {
+                    writeFormatted(output, data, FLICKER_FOREGROUND.get());
+                }
+                else if (line.contains(Settings.ZOOM))
+                {
+                    writeFormatted(output, data, ZOOM.get() / 100.0);
+                }
+                else if (line.contains(Settings.VOLUME_MUSIC))
+                {
+                    writeFormatted(output, data, MUSIC.get());
+                }
+                else if (line.contains(Settings.VOLUME_SFX))
+                {
+                    writeFormatted(output, data, SFX.get());
+                }
+                else if (line.contains(Settings.FLAG_STRATEGY))
+                {
+                    writeFormatted(output, data, FLAG_STRATEGY.get());
+                }
+                else if (line.contains(Settings.FLAG_PARALLEL))
+                {
+                    writeFormatted(output, data, FLAG_PARALLEL.get());
+                }
+                else if (line.contains(Settings.FLAG_VSYNC))
+                {
+                    writeFormatted(output, data, FLAG_VSYNC.get());
+                }
+                else if (line.contains(Settings.STAGES))
+                {
+                    writeFormatted(output, data, STAGES.get());
+                }
+                else
+                {
+                    output.write(line);
+                }
+                output.write(System.lineSeparator());
             }
-            catch (final IOException exception)
-            {
-                Verbose.exception(exception);
-            }
+            output.flush();
         }
         catch (final IOException exception)
         {

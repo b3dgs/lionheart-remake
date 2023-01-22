@@ -103,7 +103,7 @@
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
-                            <excludeArtifactIds>b3dgs-buildtools,lionheart-assets,lionheart-raster</excludeArtifactIds>
+                            <excludeArtifactIds>b3dgs-buildtools,lionheart-raster</excludeArtifactIds>
                             <excludeGroupIds>org.apiguardian,org.hamcrest,org.opentest4j,org.junit,junit</excludeGroupIds>
                             <excludes>
                                 armeabi-v7a/,arm64-v8a/,com/sun/jna/freebsd*/,com/sun/jna/openbsd*/,com/sun/jna/sunos*/,com/sun/jna/android*/,com/sun/jna/*ppc*/,com/sun/jna/*arm*/,com/sun/jna/*aarch64/,com/sun/jna/sunos-sparc*/,com/sun/jna/linux-s390x/,com/sun/jna/linux-riscv64/,com/sun/jna/linux-mips64el/,
