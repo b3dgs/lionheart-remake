@@ -7,10 +7,10 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
-        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="Lionheart Remake"
         android:largeHeap="true"
+        android:hardwareAccelerated="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity
             android:name=".android.ActivityLionheart"
