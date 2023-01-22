@@ -28,7 +28,7 @@ import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
 /**
  * Border state implementation.
  */
-final class StateBorder extends State
+public final class StateBorder extends State
 {
     /**
      * Create the state.
@@ -36,7 +36,7 @@ final class StateBorder extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateBorder(EntityModel model, Animation animation)
+    public StateBorder(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -34,7 +34,7 @@ public final class StateWin extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateWin(EntityModel model, Animation animation)
+    public StateWin(EntityModel model, Animation animation)
     {
         super(model, animation);
     }

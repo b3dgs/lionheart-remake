@@ -38,7 +38,7 @@ public final class StateIdleDragon extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateIdleDragon(EntityModel model, Animation animation)
+    public StateIdleDragon(EntityModel model, Animation animation)
     {
         super(model, animation);
 

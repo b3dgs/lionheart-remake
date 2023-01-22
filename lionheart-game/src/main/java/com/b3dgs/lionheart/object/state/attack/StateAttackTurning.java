@@ -25,7 +25,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Turning attack state implementation.
  */
-final class StateAttackTurning extends State
+public final class StateAttackTurning extends State
 {
     /**
      * Create the state.
@@ -33,7 +33,7 @@ final class StateAttackTurning extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackTurning(EntityModel model, Animation animation)
+    public StateAttackTurning(EntityModel model, Animation animation)
     {
         super(model, animation);
 

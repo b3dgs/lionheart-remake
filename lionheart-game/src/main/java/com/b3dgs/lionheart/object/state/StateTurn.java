@@ -36,7 +36,7 @@ public final class StateTurn extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateTurn(EntityModel model, Animation animation)
+    public StateTurn(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -32,7 +32,7 @@ public final class StateGuardAttack extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateGuardAttack(EntityModel model, Animation animation)
+    public StateGuardAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 

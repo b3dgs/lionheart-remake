@@ -25,7 +25,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Jump fish state implementation.
  */
-final class StateFishJump extends State
+public final class StateFishJump extends State
 {
     /**
      * Create the state.
@@ -33,7 +33,7 @@ final class StateFishJump extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateFishJump(EntityModel model, Animation animation)
+    public StateFishJump(EntityModel model, Animation animation)
     {
         super(model, animation);
 

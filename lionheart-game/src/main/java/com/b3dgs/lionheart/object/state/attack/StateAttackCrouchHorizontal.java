@@ -34,7 +34,7 @@ public final class StateAttackCrouchHorizontal extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackCrouchHorizontal(EntityModel model, Animation animation)
+    public StateAttackCrouchHorizontal(EntityModel model, Animation animation)
     {
         super(model, animation);
 

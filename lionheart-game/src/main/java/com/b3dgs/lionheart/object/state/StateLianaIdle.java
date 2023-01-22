@@ -42,7 +42,7 @@ public final class StateLianaIdle extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateLianaIdle(EntityModel model, Animation animation)
+    public StateLianaIdle(EntityModel model, Animation animation)
     {
         super(model, animation);
 

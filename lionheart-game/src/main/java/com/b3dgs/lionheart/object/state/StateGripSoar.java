@@ -54,7 +54,7 @@ public final class StateGripSoar extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateGripSoar(EntityModel model, Animation animation)
+    public StateGripSoar(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -45,7 +45,7 @@ public final class StateDrowned extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateDrowned(EntityModel model, Animation animation)
+    public StateDrowned(EntityModel model, Animation animation)
     {
         super(model, animation);
 

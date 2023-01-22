@@ -26,7 +26,7 @@ import com.b3dgs.lionheart.object.state.StateWin;
 /**
  * Prepared attack state implementation.
  */
-final class StatePreparedAttack extends State
+public final class StatePreparedAttack extends State
 {
     private final Hurtable hurtable;
 
@@ -36,7 +36,7 @@ final class StatePreparedAttack extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StatePreparedAttack(EntityModel model, Animation animation)
+    public StatePreparedAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 

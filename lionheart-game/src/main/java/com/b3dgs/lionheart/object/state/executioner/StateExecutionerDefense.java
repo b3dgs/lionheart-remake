@@ -38,7 +38,7 @@ public final class StateExecutionerDefense extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateExecutionerDefense(EntityModel model, Animation animation)
+    public StateExecutionerDefense(EntityModel model, Animation animation)
     {
         super(model, animation);
 

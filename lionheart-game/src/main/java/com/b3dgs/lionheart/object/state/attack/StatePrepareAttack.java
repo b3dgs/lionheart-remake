@@ -33,7 +33,7 @@ public final class StatePrepareAttack extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StatePrepareAttack(EntityModel model, Animation animation)
+    public StatePrepareAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -54,7 +54,7 @@ public final class StateWalk extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateWalk(EntityModel model, Animation animation)
+    public StateWalk(EntityModel model, Animation animation)
     {
         super(model, animation);
 

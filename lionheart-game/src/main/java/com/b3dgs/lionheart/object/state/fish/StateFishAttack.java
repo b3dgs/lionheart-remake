@@ -42,7 +42,7 @@ public final class StateFishAttack extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateFishAttack(EntityModel model, Animation animation)
+    public StateFishAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -40,7 +40,7 @@ public final class StateExecutionerAttack2 extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateExecutionerAttack2(EntityModel model, Animation animation)
+    public StateExecutionerAttack2(EntityModel model, Animation animation)
     {
         super(model, animation);
 

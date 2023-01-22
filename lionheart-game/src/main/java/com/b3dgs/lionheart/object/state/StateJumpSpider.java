@@ -32,7 +32,7 @@ public final class StateJumpSpider extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateJumpSpider(EntityModel model, Animation animation)
+    public StateJumpSpider(EntityModel model, Animation animation)
     {
         super(model, animation);
 

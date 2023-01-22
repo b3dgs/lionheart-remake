@@ -31,7 +31,7 @@ public final class StateDecay extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateDecay(EntityModel model, Animation animation)
+    public StateDecay(EntityModel model, Animation animation)
     {
         super(model, animation);
     }

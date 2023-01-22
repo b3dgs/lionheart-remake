@@ -25,7 +25,7 @@ import com.b3dgs.lionheart.object.state.StateIdle;
 /**
  * Unprepare attack state implementation.
  */
-final class StateUnprepareAttack extends State
+public final class StateUnprepareAttack extends State
 {
     /**
      * Create the state.
@@ -33,7 +33,7 @@ final class StateUnprepareAttack extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateUnprepareAttack(EntityModel model, Animation animation)
+    public StateUnprepareAttack(EntityModel model, Animation animation)
     {
         super(model, animation);
 

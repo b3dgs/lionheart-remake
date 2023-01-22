@@ -25,7 +25,7 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
 /**
  * Unprepare attack state implementation.
  */
-final class StateUnprepareAttackCrouch extends State
+public final class StateUnprepareAttackCrouch extends State
 {
     /**
      * Create the state.
@@ -33,7 +33,7 @@ final class StateUnprepareAttackCrouch extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateUnprepareAttackCrouch(EntityModel model, Animation animation)
+    public StateUnprepareAttackCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
 

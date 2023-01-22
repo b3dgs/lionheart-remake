@@ -26,7 +26,7 @@ import com.b3dgs.lionheart.object.state.StateWin;
 /**
  * Prepared attack crouch state implementation.
  */
-final class StatePreparedAttackCrouch extends State
+public final class StatePreparedAttackCrouch extends State
 {
     private final Hurtable hurtable;
 
@@ -36,7 +36,7 @@ final class StatePreparedAttackCrouch extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StatePreparedAttackCrouch(EntityModel model, Animation animation)
+    public StatePreparedAttackCrouch(EntityModel model, Animation animation)
     {
         super(model, animation);
 

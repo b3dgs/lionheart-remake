@@ -35,7 +35,7 @@ public final class StatePatrolCeil extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StatePatrolCeil(EntityModel model, Animation animation)
+    public StatePatrolCeil(EntityModel model, Animation animation)
     {
         super(model, animation);
     }

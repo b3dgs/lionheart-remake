@@ -41,7 +41,7 @@ public final class StateExecutionerAttackPrepare extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateExecutionerAttackPrepare(EntityModel model, Animation animation)
+    public StateExecutionerAttackPrepare(EntityModel model, Animation animation)
     {
         super(model, animation);
 

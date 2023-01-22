@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.object.State;
 /**
  * Top attack state implementation.
  */
-final class StateAttackTop extends State
+public final class StateAttackTop extends State
 {
     /**
      * Create the state.
@@ -32,7 +32,7 @@ final class StateAttackTop extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackTop(EntityModel model, Animation animation)
+    public StateAttackTop(EntityModel model, Animation animation)
     {
         super(model, animation);
 

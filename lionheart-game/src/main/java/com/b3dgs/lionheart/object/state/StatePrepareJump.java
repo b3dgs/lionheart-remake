@@ -38,7 +38,7 @@ public final class StatePrepareJump extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StatePrepareJump(EntityModel model, Animation animation)
+    public StatePrepareJump(EntityModel model, Animation animation)
     {
         super(model, animation);
 

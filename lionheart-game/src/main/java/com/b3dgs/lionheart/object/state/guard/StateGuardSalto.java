@@ -32,7 +32,7 @@ public final class StateGuardSalto extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateGuardSalto(EntityModel model, Animation animation)
+    public StateGuardSalto(EntityModel model, Animation animation)
     {
         super(model, animation);
 

@@ -31,7 +31,7 @@ public final class StateNone extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateNone(EntityModel model, Animation animation)
+    public StateNone(EntityModel model, Animation animation)
     {
         super(model, animation);
     }

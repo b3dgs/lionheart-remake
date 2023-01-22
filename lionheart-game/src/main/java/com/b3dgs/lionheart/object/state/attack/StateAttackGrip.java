@@ -38,7 +38,7 @@ public final class StateAttackGrip extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackGrip(EntityModel model, Animation animation)
+    public StateAttackGrip(EntityModel model, Animation animation)
     {
         super(model, animation);
 

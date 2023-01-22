@@ -41,7 +41,7 @@ public final class StateLianaWalk extends State
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateLianaWalk(EntityModel model, Animation animation)
+    public StateLianaWalk(EntityModel model, Animation animation)
     {
         super(model, animation);
 
