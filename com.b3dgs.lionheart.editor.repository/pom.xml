@@ -9,7 +9,7 @@
     </parent>
     <artifactId>com.b3dgs.lionheart.editor.repository</artifactId>
     <packaging>eclipse-repository</packaging>
-    <name>Lionheart Remake Repository</name>
+    <name>Lionheart Remake Editor Repository</name>
     <build>
         <plugins>
             <plugin>

@@ -9,7 +9,7 @@
     </parent>
     <artifactId>lionheart-pc</artifactId>
     <packaging>jar</packaging>
-    <name>Lionheart PC</name>
+    <name>Lionheart Remake PC</name>
     <properties>
         <checkstyle.skip>true</checkstyle.skip>
         <jna.version>5.8.0</jna.version>

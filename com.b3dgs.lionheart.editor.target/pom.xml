@@ -9,7 +9,7 @@
     </parent>
     <artifactId>com.b3dgs.lionheart.editor.target</artifactId>
     <packaging>eclipse-target-definition</packaging>
-    <name>Lionheart Remake Target Platform</name>
+    <name>Lionheart Remake Editor Target Platform</name>
     <build>
         <plugins>
             <plugin>

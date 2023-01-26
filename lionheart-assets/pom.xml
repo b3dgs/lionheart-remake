@@ -9,7 +9,7 @@
     </parent>
     <artifactId>lionheart-assets</artifactId>
     <packaging>jar</packaging>
-    <name>Lionheart Assets</name>
+    <name>Lionheart Remake Assets</name>
     <build>
         <plugins>
             <plugin>

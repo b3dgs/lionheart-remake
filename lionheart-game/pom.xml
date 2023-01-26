@@ -9,7 +9,7 @@
     </parent>
     <artifactId>lionheart-game</artifactId>
     <packaging>jar</packaging>
-    <name>Lionheart Game</name>
+    <name>Lionheart Remake Game</name>
     <properties>
         <checkstyle.skip>true</checkstyle.skip>
     </properties>
