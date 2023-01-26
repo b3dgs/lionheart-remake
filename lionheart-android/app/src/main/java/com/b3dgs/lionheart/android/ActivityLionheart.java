@@ -17,8 +17,10 @@
 package com.b3dgs.lionheart.android;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 
 import com.b3dgs.lionengine.Config;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.android.ActivityGame;
 import com.b3dgs.lionengine.android.graphic.EngineAndroid;
 import com.b3dgs.lionengine.android.graphic.ScreenAndroid;
@@ -46,6 +48,15 @@ public final class ActivityLionheart extends ActivityGame
     @Override
     protected void start(Bundle bundle)
     {
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final double size = (double) Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        final double ratio = Constant.RESOLUTION.getHeight() / size;
+        int width = (int) Math.round(Math.max(displayMetrics.widthPixels, displayMetrics.heightPixels) * ratio);
+        int height = (int) Math.round(size * ratio);
+
+        VirtualKeyboard.applyWidthRatio(width / (double) Constant.RESOLUTION.getWidth());
+
         ScreenAndroid.setVirtualKeyboard(VirtualKeyboard.class);
         EngineAndroid.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, this);
         AudioFactory.addFormat(Sc68Format.getFailsafe());
@@ -54,6 +65,7 @@ public final class ActivityLionheart extends ActivityGame
         final Settings settings = Settings.getInstance();
         AudioFactory.setVolume(settings.getVolumeMaster());
 
-        Loader.start(Config.fullscreen(settings.getResolution()), Loading.class, new GameConfig());
+        final Resolution resolution = new Resolution(width, height, settings.getResolution().getRate());
+        Loader.start(Config.fullscreen(resolution), Loading.class, new GameConfig());
     }
 }

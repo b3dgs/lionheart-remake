@@ -4,20 +4,24 @@
     android:versionName="1.3.0">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
+        android:isGame="true"
         android:label="Lionheart Remake"
         android:largeHeap="true"
-        android:hardwareAccelerated="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity
             android:name=".android.ActivityLionheart"
             android:exported="true"
+            android:fitsSystemWindows="false"
+            android:immersive="true"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -32,4 +36,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

@@ -36,10 +36,19 @@ public final class VirtualKeyboard extends VirtualDeviceButton
     /** Arrow up key. */
     private static final Integer UP = 4;
 
-    private static final int X = 360;
+    private static int X = 275;
     private static final int Y = 150;
     private static final int SIZE = 30;
     private static final int SIZE_BUTTON = 24;
+
+    /**
+     * Apply horizontal screen ratio.
+     * @param ratio The ratio value.
+     */
+    static void applyWidthRatio(double ratio)
+    {
+        X = (int) (X * ratio);
+    }
 
     /**
      * Create updater.
