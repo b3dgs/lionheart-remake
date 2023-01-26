@@ -47,7 +47,7 @@ public final class TestCredits extends Credits
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    TestCredits(Context context, DevicePush push, List<TickAction> actions)
+    public TestCredits(Context context, DevicePush push, List<TickAction> actions)
     {
         super(context, new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
 

@@ -47,7 +47,7 @@ public final class TestPart3 extends Part3
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    TestPart3(Context context, DevicePush push, List<TickAction> actions)
+    public TestPart3(Context context, DevicePush push, List<TickAction> actions)
     {
         super(context, new GameConfig(), new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO));
 

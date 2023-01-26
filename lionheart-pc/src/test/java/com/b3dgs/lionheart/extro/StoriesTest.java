@@ -110,7 +110,7 @@ public class StoriesTest
          * @param context The context reference.
          * @param auto <code>true</code> for auto skip, <code>false</code> for manual.
          */
-        Mock(Context context, Boolean auto)
+        public Mock(Context context, Boolean auto)
         {
             super(context, Util.getResolution(Constant.RESOLUTION, context));
 

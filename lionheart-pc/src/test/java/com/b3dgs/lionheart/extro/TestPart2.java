@@ -46,7 +46,7 @@ public final class TestPart2 extends Part2
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    TestPart2(Context context, DevicePush push, List<TickAction> actions)
+    public TestPart2(Context context, DevicePush push, List<TickAction> actions)
     {
         super(context, new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
 

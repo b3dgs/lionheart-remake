@@ -43,7 +43,7 @@ public final class TestMenu extends Menu
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    TestMenu(Context context, DevicePush push, List<TickAction> actions)
+    public TestMenu(Context context, DevicePush push, List<TickAction> actions)
     {
         super(context, new GameConfig());
 

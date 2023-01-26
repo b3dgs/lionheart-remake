@@ -43,7 +43,7 @@ public final class TestIntro extends Intro
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    TestIntro(Context context, DevicePush push, List<TickAction> actions)
+    public TestIntro(Context context, DevicePush push, List<TickAction> actions)
     {
         super(context, new GameConfig());
 

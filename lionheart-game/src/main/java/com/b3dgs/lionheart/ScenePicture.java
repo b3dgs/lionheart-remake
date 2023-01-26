@@ -109,7 +109,7 @@ public final class ScenePicture extends Sequence
      * @param auto <code>true</code> for auto skip, <code>false</code> for manual.
      * @throws LionEngineException If invalid argument.
      */
-    ScenePicture(Context context, GameConfig config, Media pic, String narrative, Boolean auto)
+    public ScenePicture(Context context, GameConfig config, Media pic, String narrative, Boolean auto)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 

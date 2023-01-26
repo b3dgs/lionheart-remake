@@ -46,7 +46,7 @@ public final class TestPart4 extends Part4
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    TestPart4(Context context, DevicePush push, List<TickAction> actions)
+    public TestPart4(Context context, DevicePush push, List<TickAction> actions)
     {
         super(context, new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
 
