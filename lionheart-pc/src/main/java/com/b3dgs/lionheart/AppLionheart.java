@@ -16,9 +16,11 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.InputDevice;
@@ -26,6 +28,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
@@ -40,33 +43,34 @@ import com.b3dgs.lionengine.graphic.engine.Sequencable;
  */
 public final class AppLionheart
 {
+    private static final String ARG_SETTINGS = "-settings";
+    private static final String ARG_INPUT = "-input";
+    private static final String ARG_GAMETYPE = "-gametype";
+    private static final String ARG_PLAYERS = "-players";
+
     /**
      * Main function.
+     * <p>
+     * Arguments:
+     * </p>
+     * <ul>
+     * <li>-settings: [string]</li>
+     * <li>-input [string]</li>
+     * <li>-players [int]</li>
+     * <li>-gametype {@link GameType} [string])</li>
+     * </ul>
      * 
-     * @param args The arguments (none).
+     * @param args The arguments.
      */
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
-        System.setProperty("sun.java2d.uiScale", "1.0");
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
 
-        Settings.load();
-        final Media mediaInput = Medias.create(Constant.INPUT_FILE_DEFAULT);
-        if (!mediaInput.exists())
-        {
-            Tools.prepareInputCustom();
-        }
+        final List<String> params = Arrays.asList(args);
+        loadSettings(params);
+        loadInput(params);
+        final GameConfig config = loadConfig(params);
 
-        final GameConfig config;
-        if (args.length == 0)
-        {
-            config = new GameConfig(1, GameType.ORIGINAL, Optional.empty());
-        }
-        else
-        {
-            // TODO handle params
-            config = new GameConfig();
-        }
         run(config, new Gamepad());
     }
 
@@ -110,6 +114,46 @@ public final class AppLionheart
                                Medias.create("icon-256.png")),
                      sequencable,
                      arguments);
+    }
+
+    private static <T> T getParam(List<String> params, String param, T def, Function<String, T> converter)
+    {
+        final int index = params.indexOf(param);
+        if (index > 0 && index + 1 < params.size())
+        {
+            try
+            {
+                return converter.apply(params.get(index + 1));
+            }
+            catch (final Exception exception)
+            {
+                Verbose.exception(exception);
+            }
+        }
+        return def;
+    }
+
+    private static void loadSettings(List<String> params)
+    {
+        final File file = getParam(params, ARG_SETTINGS, Settings.getFile(), File::new);
+        Settings.load(file);
+    }
+
+    private static void loadInput(List<String> params)
+    {
+        final Media media = getParam(params, ARG_INPUT, Medias.create(Constant.INPUT_FILE_DEFAULT), Medias::create);
+        if (!media.exists())
+        {
+            Tools.prepareInputCustom();
+        }
+    }
+
+    private static GameConfig loadConfig(List<String> params)
+    {
+        final GameType gameType = getParam(params, ARG_GAMETYPE, GameType.ORIGINAL, GameType::valueOf);
+        final int players = getParam(params, ARG_PLAYERS, Integer.valueOf(1), Integer::parseInt).intValue();
+        return new GameConfig(gameType, players, Optional.empty());
+
     }
 
     /**

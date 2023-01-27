@@ -218,7 +218,6 @@ public final class Launcher
      */
     public static void main(String[] args) throws IOException // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
-        System.setProperty("sun.java2d.uiScale", "1.0");
         UIManager.put("ToolTip.font", FONT1);
 
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);

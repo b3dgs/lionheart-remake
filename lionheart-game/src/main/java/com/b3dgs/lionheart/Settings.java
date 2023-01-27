@@ -117,7 +117,16 @@ public final class Settings
      */
     public static void load()
     {
-        final File file = getFile();
+        load(getFile());
+    }
+
+    /**
+     * Load settings.
+     * 
+     * @param file The custom settings.
+     */
+    public static void load(File file)
+    {
         if (!checkVersion())
         {
             file.delete();

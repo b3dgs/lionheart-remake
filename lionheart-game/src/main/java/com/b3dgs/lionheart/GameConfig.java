@@ -44,12 +44,11 @@ public class GameConfig
 
     /**
      * Create configuration.
-     * 
-     * @param players The players number.
      * @param game The game type.
+     * @param players The players number.
      * @param network The network configuration if online, absent if local.
      */
-    public GameConfig(int players, GameType game, Optional<Network> network)
+    public GameConfig(GameType game, int players, Optional<Network> network)
     {
         super();
 
