@@ -33,7 +33,7 @@ public class StateAttackSlide extends StateSlideBase
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateAttackSlide(EntityModel model, Animation animation)
+    public StateAttackSlide(EntityModel model, Animation animation)
     {
         super(model, animation);
 

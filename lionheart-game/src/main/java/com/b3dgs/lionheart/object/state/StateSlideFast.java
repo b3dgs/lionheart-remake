@@ -24,7 +24,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackSlide;
 /**
  * Slide fast state implementation.
  */
-final class StateSlideFast extends StateSlideBase
+public final class StateSlideFast extends StateSlideBase
 {
     /**
      * Create the state.
@@ -32,7 +32,7 @@ final class StateSlideFast extends StateSlideBase
      * @param model The model reference.
      * @param animation The animation reference.
      */
-    StateSlideFast(EntityModel model, Animation animation)
+    public StateSlideFast(EntityModel model, Animation animation)
     {
         super(model, animation);
 
