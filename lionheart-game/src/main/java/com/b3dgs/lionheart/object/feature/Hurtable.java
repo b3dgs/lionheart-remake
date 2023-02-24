@@ -338,9 +338,13 @@ public final class Hurtable extends FeatureModel
     {
         sfx.play();
         int damages = collidable.getFeature(Stats.class).getDamages();
-        if (!boss && by.getName().startsWith(Anim.ATTACK_FALL))
+        if (by.getName().startsWith(Anim.ATTACK_FALL))
         {
-            damages *= 2;
+            collidable.getFeature(EntityModel.class).jumpHit();
+            if (!boss)
+            {
+                damages *= 2;
+            }
         }
         if (stats.getHealthMax() > 0 && stats.applyDamages(damages))
         {

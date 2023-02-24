@@ -40,7 +40,6 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.state.StateIdleDragon;
 import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
@@ -266,9 +265,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.ANIMAL)
-            && by.getName().startsWith(Anim.LEG)
-            && collidable.getFeature(Stats.class).getHealth() > 0)
+        if (with.getName().startsWith(CollisionName.ANIMAL) && collidable.getFeature(Stats.class).getHealth() > 0)
         {
             start(collidable, with.getOffsetY());
         }

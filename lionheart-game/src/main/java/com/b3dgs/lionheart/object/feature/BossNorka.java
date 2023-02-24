@@ -825,6 +825,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
                 limbs[i].getFeature(Rasterable.class)
                         .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3) * 5);
             }
+            limbs[i].check(false);
         }
     }
 

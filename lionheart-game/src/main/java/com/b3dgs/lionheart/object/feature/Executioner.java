@@ -130,7 +130,9 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     {
         if (first)
         {
-            wall.getFeature(Transformable.class).teleport(transformable.getX() + 48.0, transformable.getY());
+            final Transformable t = wall.getFeature(Transformable.class);
+            t.teleport(transformable.getX() + 48.0, transformable.getY());
+            t.check(true);
             first = false;
         }
         else

@@ -99,9 +99,9 @@ public final class StateIdle extends State
     }
 
     @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        super.onCollided(collidable, with, by);
+        super.notifyCollided(collidable, with, by);
 
         border.notifyCollided(collidable, with, by);
     }
@@ -112,7 +112,6 @@ public final class StateIdle extends State
         super.enter();
 
         movement.setVelocity(0.16);
-        border.reset();
     }
 
     @Override

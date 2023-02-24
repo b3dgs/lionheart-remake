@@ -190,6 +190,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                 {
                     trans.teleport(x, transformable.getY() - i * 12 + 16);
                 }
+                trans.check(true);
             }
             for (int i = 0; i < toRemove.size(); i++)
             {

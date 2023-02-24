@@ -46,7 +46,7 @@ public final class Fly extends FeatureModel implements Routine, Recyclable, Coll
 
     private final Force direction = new Force();
 
-    private Trackable target;
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
 
     @FeatureGet private Transformable transformable;
 
@@ -97,8 +97,6 @@ public final class Fly extends FeatureModel implements Routine, Recyclable, Coll
         }
         direction.update(extrp);
         transformable.moveLocation(extrp, direction);
-
-        target = null;
     }
 
     @Override
@@ -106,7 +104,7 @@ public final class Fly extends FeatureModel implements Routine, Recyclable, Coll
     {
         if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
         {
-            target = collidable.getFeature(Trackable.class);
+            // FIXME target = collidable.getFeature(Trackable.class);
         }
     }
 

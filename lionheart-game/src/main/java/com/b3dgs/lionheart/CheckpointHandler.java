@@ -17,7 +17,9 @@
 package com.b3dgs.lionheart;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -77,13 +79,13 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
     private final List<Transformable> player = new ArrayList<>();
     private final List<Transformable> toAdd = new ArrayList<>();
     private final List<Transformable> toRemove = new ArrayList<>();
+    private final Map<Transformable, Integer> last = new HashMap<>();
 
     private final MapTile map;
     private final CheatsProvider cheats;
 
     private int nextsCount;
     private Updatable checkerBoss;
-    private int last;
     private int count;
     private Optional<Coord> boss;
     private boolean bossFound;
@@ -108,6 +110,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      */
     public void register(Transformable transformable)
     {
+        last.put(transformable, Integer.valueOf(0));
         toAdd.add(transformable);
     }
 
@@ -118,6 +121,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      */
     public void unregister(Transformable transformable)
     {
+        last.remove(transformable);
         toRemove.add(transformable);
     }
 
@@ -129,7 +133,6 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
      */
     public void load(StageConfig config, Optional<Coord> spawn)
     {
-        last = 0;
         checkpoints.clear();
 
         spawn.ifPresent(s -> checkpoints.add(new Checkpoint(s.getX(), s.getY(), Optional.empty(), Optional.empty())));
@@ -171,8 +174,8 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         {
             return boss.get();
         }
-        return new Coord(checkpoints.get(last).getTx() * map.getTileWidth(),
-                         checkpoints.get(last).getTy() * map.getTileHeight());
+        return new Coord(checkpoints.get(last.get(transformable).intValue()).getTx() * map.getTileWidth(),
+                         checkpoints.get(last.get(transformable).intValue()).getTy() * map.getTileHeight());
     }
 
     /**
@@ -248,7 +251,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
 
     private void update(Transformable transformable)
     {
-        final int start = player.size() == 1 ? last + 1 : 0;
+        final int start = player.size() == 1 ? last.get(transformable).intValue() + 1 : 0;
         for (int i = start; i < count; i++)
         {
             final Checkpoint checkpoint = checkpoints.get(i);
@@ -258,7 +261,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
                                      checkpoint.getTy()) < CHECKPOINT_DISTANCE_TILE
                 && map.getInTileX(transformable) > checkpoint.getTx())
             {
-                last = i;
+                last.put(transformable, Integer.valueOf(i));
 
                 final int n = listenable.size();
                 for (int j = 0; j < n; j++)

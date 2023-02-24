@@ -29,5 +29,6 @@
     <lionengine:collidable group="3" accepted="1"/>
     <stats health="-1" persist="true"/>
     <shade horizontal="3" vertical="3"/>
+    <glue force="true"/>
     <sheet hide="false"/>
 </lionengine:featurable>

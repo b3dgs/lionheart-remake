@@ -132,12 +132,14 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 if (transformable.getX() < minX)
                 {
                     transformable.teleportX(minX);
+                    transformable.check(true);
                     animatable.setAnimSpeed(-animatable.getAnimSpeed());
                     speed = -speed;
                 }
                 else if (transformable.getX() > maxX)
                 {
                     transformable.teleportX(maxX);
+                    transformable.check(true);
                     animatable.setAnimSpeed(-animatable.getAnimSpeed());
                     speed = -speed;
                     step++;
@@ -199,6 +201,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 {
                     jump -= 3.0;
                     transformable.teleportY(oldY);
+                    transformable.check(true);
                     body.resetGravity();
                     model.getJump().setDirection(0.0, jump);
                     if (jump < 0)
@@ -249,6 +252,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 }
                 headTransformable.setLocation(transformable.getX() + HEAD_OFFSET_X,
                                               transformable.getY() + headOffsetY + 6);
+                headTransformable.check(false);
                 headCollidable.setEnabled(headAnim.getFrame() == 6);
 
                 if (target != null && target.getX() > transformable.getX())
@@ -276,6 +280,7 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
         if (stats.getHealth() == 0 && transformable.getY() < oldY)
         {
             transformable.teleportY(oldY);
+            transformable.check(true);
             body.resetGravity();
             model.getJump().zero();
             body.setGravity(0.0);

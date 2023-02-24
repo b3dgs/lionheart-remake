@@ -23,5 +23,6 @@
     <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
     <lionengine:body gravity="0.072" gravityMax="8.5"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <glue force="true"/>
     <floater speedUp="1.2" speedDown="0.5"/>
 </lionengine:featurable>

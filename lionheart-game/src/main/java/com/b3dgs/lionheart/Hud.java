@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.game.Feature;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.graphic.ColorRgba;
@@ -81,6 +82,9 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final int LIFE_Y = 1;
     private static final int LIFE_X_BORDER = 4;
 
+    private static final double TIME_X_RATIO = 0.81;
+    private static final int TIME_Y = 1;
+
     private static final int PAUSE_FLICKER_DELAY_MS = 250;
 
     private final List<String> hud = Util.readLines(Medias.create(Folder.TEXT,
@@ -98,9 +102,11 @@ public final class Hud implements Resource, Updatable, Renderable
     private final SpriteTiled life = Drawable.loadSpriteTiled(hudSurface, 16, 16);
     private final SpriteDigit numberTalisment = Drawable.loadSpriteDigit(number, 8, 16, 2);
     private final SpriteDigit numberLife = Drawable.loadSpriteDigit(number, 8, 16, 2);
+    private final SpriteDigit numberTime = Drawable.loadSpriteDigit(number, 8, 16, 6);
 
     private final SpriteTiled[] hearts = new SpriteTiled[HEALTH_MAX];
     private final Tick tick = new Tick();
+    private final Tick time = new Tick();
     private final boolean swordVisible = Settings.getInstance().getHudSword();
 
     private final SourceResolutionProvider source;
@@ -207,6 +213,33 @@ public final class Hud implements Resource, Updatable, Renderable
     }
 
     /**
+     * Check if is feature.
+     * 
+     * @param feature The feature to check.
+     * @return <code>true</code> if feature, <code>false</code> else.
+     */
+    public boolean is(Feature feature)
+    {
+        return stats == feature.getFeature(Stats.class);
+    }
+
+    /**
+     * Start time tick.
+     */
+    public void timeStart()
+    {
+        time.restart();
+    }
+
+    /**
+     * Stop time tick.
+     */
+    public void timeStop()
+    {
+        time.pause();
+    }
+
+    /**
      * Load health and set location.
      */
     private void loadHealth()
@@ -256,6 +289,14 @@ public final class Hud implements Resource, Updatable, Renderable
         life.setTile(LIFE_TILE);
         life.setLocation(viewer.getWidth() - life.getTileWidth() - numberLife.getWidth() - LIFE_X_BORDER, LIFE_Y);
         numberLife.setLocation(life.getX() + life.getTileWidth() + 2, LIFE_Y + 1);
+    }
+
+    /**
+     * Load time location.
+     */
+    private void loadTime()
+    {
+        numberTime.setLocation(viewer.getWidth() * TIME_X_RATIO, TIME_Y);
     }
 
     /**
@@ -367,6 +408,12 @@ public final class Hud implements Resource, Updatable, Renderable
 
         life.render(g);
         numberLife.render(g);
+
+        if (time.isStarted())
+        {
+            numberTime.setValue(time.elapsedTime(source.getRate()));
+            numberTime.render(g);
+        }
     }
 
     /**
@@ -402,6 +449,7 @@ public final class Hud implements Resource, Updatable, Renderable
         loadSword();
         loadAmulet();
         loadLife();
+        loadTime();
 
         tick.start();
     }
@@ -416,6 +464,7 @@ public final class Hud implements Resource, Updatable, Renderable
     public void update(double extrp)
     {
         tick.update(extrp);
+        time.update(extrp);
         updaterHud.update(extrp);
         updaterPause.update(extrp);
     }

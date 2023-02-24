@@ -44,6 +44,7 @@ public class GameConfig
 
     /**
      * Create configuration.
+     * 
      * @param game The game type.
      * @param players The players number.
      * @param network The network configuration if online, absent if local.

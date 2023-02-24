@@ -16,8 +16,8 @@
         <lionengine:animation name="hurt" start="1" end="1" speed="1.0" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="attack" offsetX="4" offsetY="6" width="4" height="6" mirror="true"/>
-        <lionengine:collision name="body" offsetX="4" offsetY="6" width="4" height="6" mirror="true"/>
+        <lionengine:collision name="attack" offsetX="-4" offsetY="6" width="4" height="6" mirror="true"/>
+        <lionengine:collision name="body" offsetX="-4" offsetY="6" width="4" height="6" mirror="true"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>

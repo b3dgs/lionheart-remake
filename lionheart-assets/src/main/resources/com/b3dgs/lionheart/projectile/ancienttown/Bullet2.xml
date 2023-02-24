@@ -38,10 +38,12 @@
         <lionengine:category name="knee_left" axis="X" x="-1" y="2">
             <lionengine:group>block</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>spike</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_right" axis="X" x="4" y="2">
             <lionengine:group>block</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>spike</lionengine:group>
         </lionengine:category>
     </lionengine:categories>
     <lionengine:rasterable extern="true"/>

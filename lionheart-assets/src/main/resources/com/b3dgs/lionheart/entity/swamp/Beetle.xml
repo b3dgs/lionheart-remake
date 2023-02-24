@@ -25,5 +25,6 @@
     <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>
     <patrol amplitude="64" sh="0.8"/>
+    <glue force="true"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

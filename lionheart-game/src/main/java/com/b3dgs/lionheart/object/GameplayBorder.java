@@ -113,14 +113,17 @@ public final class GameplayBorder implements TileCollidableListener, CollidableL
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        final String name = with.getName();
-        if (name.startsWith(CollisionName.LEG_LEFT))
+        if (CollisionName.GROUND.equals(by.getName()))
         {
-            legLeftGround = true;
-        }
-        if (name.startsWith(CollisionName.LEG_RIGHT))
-        {
-            legRightGround = true;
+            final String name = with.getName();
+            if (name.startsWith(CollisionName.LEG_LEFT))
+            {
+                legLeftGround = true;
+            }
+            if (name.startsWith(CollisionName.LEG_RIGHT))
+            {
+                legRightGround = true;
+            }
         }
     }
 }

@@ -35,6 +35,7 @@
     <lionengine:body gravity="0.145" gravityMax="8.5"/>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="-1" persist="true"/>
+    <glue force="true"/>
     <floater speedUp="0.5" speedDown="0.25" max="5" hit="true"/>
     <shade horizontal="1" vertical="1"/>
     <alwaysUpdate>true</alwaysUpdate>

@@ -63,7 +63,7 @@ public class ClientsList extends FeatureModel implements Routine
     @Override
     public void render(Graphic g)
     {
-        if (!networkable.isOwner())
+        if (networkable.isServer())
         {
             final String name = clients.get(networkable.getClientId());
             if (name != null)

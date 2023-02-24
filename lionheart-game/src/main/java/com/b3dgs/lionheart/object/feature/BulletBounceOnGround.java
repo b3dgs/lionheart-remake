@@ -117,6 +117,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private EntityModel model;
+    @FeatureGet private Hurtable hurtable;
 
     /**
      * Create feature.
@@ -174,9 +175,13 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if ((count == 0 || bounced < count)
-            && category.getName().contains(CollisionName.LEG)
-            && tick.elapsedTime(source.getRate(), BOUNCE_DELAY_MS))
+        if (result.contains(CollisionName.SPIKE))
+        {
+            hurtable.kill(true);
+        }
+        else if ((count == 0 || bounced < count)
+                 && category.getName().contains(CollisionName.LEG)
+                 && tick.elapsedTime(source.getRate(), BOUNCE_DELAY_MS))
         {
             if (result.containsY(CollisionName.GROUND)
                 || result.containsY(CollisionName.SLOPE)
@@ -196,6 +201,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
                 tick.restart();
                 tileCollidable.apply(result);
                 transformable.teleportY(transformable.getY() + 2.0);
+                transformable.check(true);
 
                 final int sideX = getSideX(result);
                 if (result.containsY(CollisionName.SLOPE))
@@ -232,6 +238,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
             }
             tileCollidable.apply(result);
             transformable.teleportX(transformable.getX() + 1.0 * side);
+            transformable.check(true);
 
             final Force direction = launchable.getDirection();
             final double vx = direction.getDirectionHorizontal();

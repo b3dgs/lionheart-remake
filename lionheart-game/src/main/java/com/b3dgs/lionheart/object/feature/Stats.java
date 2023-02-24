@@ -332,29 +332,35 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
 
     private void syncApply(TakeableConfig config)
     {
-        final String str = config.getEffect().getPath();
-        final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
-        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + buffer.capacity() + 8);
-        data.putInt(getSyncId());
-        data.put(UtilConversion.fromUnsignedByte(0));
-        data.put(UtilConversion.fromUnsignedByte(str.length()));
-        data.put(buffer);
-        data.put(UtilConversion.fromUnsignedByte(config.getSfx().ordinal()));
-        data.put(UtilConversion.fromUnsignedByte(config.getHealth()));
-        data.put(UtilConversion.fromUnsignedByte(config.getTalisment()));
-        data.put(UtilConversion.fromUnsignedByte(config.getLife()));
-        data.put(UtilConversion.fromUnsignedByte(config.getSword()));
-        data.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(config.isAmulet())));
-        networkable.send(data);
+        if (networkable.isConnected())
+        {
+            final String str = config.getEffect().getPath();
+            final ByteBuffer buffer = StandardCharsets.UTF_8.encode(str);
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + buffer.capacity() + 8);
+            data.putInt(getSyncId());
+            data.put(UtilConversion.fromUnsignedByte(0));
+            data.put(UtilConversion.fromUnsignedByte(str.length()));
+            data.put(buffer);
+            data.put(UtilConversion.fromUnsignedByte(config.getSfx().ordinal()));
+            data.put(UtilConversion.fromUnsignedByte(config.getHealth()));
+            data.put(UtilConversion.fromUnsignedByte(config.getTalisment()));
+            data.put(UtilConversion.fromUnsignedByte(config.getLife()));
+            data.put(UtilConversion.fromUnsignedByte(config.getSword()));
+            data.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(config.isAmulet())));
+            networkable.send(data);
+        }
     }
 
     private void syncHurt(int damages)
     {
-        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2);
-        data.putInt(getSyncId());
-        data.put(UtilConversion.fromUnsignedByte(1));
-        data.put(UtilConversion.fromUnsignedByte(damages));
-        networkable.send(data);
+        if (networkable.isConnected())
+        {
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES + 2);
+            data.putInt(getSyncId());
+            data.put(UtilConversion.fromUnsignedByte(1));
+            data.put(UtilConversion.fromUnsignedByte(damages));
+            networkable.send(data);
+        }
     }
 
     @Override

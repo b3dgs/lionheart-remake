@@ -57,6 +57,7 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     private boolean abord;
 
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Glue glue;
 
     /**
      * Create feature.
@@ -89,7 +90,7 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     {
         super.prepare(provider);
 
-        ifIs(Glue.class, glue -> glue.addListener(new GlueListener()
+        glue.addListener(new GlueListener()
         {
             @Override
             public void notifyStart(Transformable transformable)
@@ -107,7 +108,7 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
                 glue.setGlue(false);
                 abord = true;
             }
-        }));
+        });
     }
 
     @Override

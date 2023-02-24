@@ -44,6 +44,7 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Liana feature implementation.
@@ -242,6 +243,12 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
 
                         final Tile t = map.getTile(current.getInTileX(), current.getInTileY() + 1);
                         final Tile b = map.getTile(current.getInTileX(), current.getInTileY() - 1);
+                        final Tile l = map.getTile(current.getInTileX() - 1, current.getInTileY());
+                        final Tile r = map.getTile(current.getInTileX() + 1, current.getInTileY());
+                        final Tile tl = map.getTile(current.getInTileX() - 1, current.getInTileY() + 1);
+                        final Tile tr = map.getTile(current.getInTileX() + 1, current.getInTileY() + 1);
+                        final Tile bl = map.getTile(current.getInTileX() - 1, current.getInTileY() - 1);
+                        final Tile br = map.getTile(current.getInTileX() + 1, current.getInTileY() - 1);
 
                         if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(t)))
                         {
@@ -259,6 +266,30 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                                         getTop(map.getTile(current.getInTileX(), current.getInTileY() - 2)));
                             mapCollision.updateCollisions(b);
                         }
+                        if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(l)))
+                        {
+                            mapCollision.updateCollisions(l);
+                        }
+                        if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(r)))
+                        {
+                            mapCollision.updateCollisions(r);
+                        }
+                        if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tl)))
+                        {
+                            mapCollision.updateCollisions(tl);
+                        }
+                        if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tr)))
+                        {
+                            mapCollision.updateCollisions(tr);
+                        }
+                        if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(bl)))
+                        {
+                            mapCollision.updateCollisions(bl);
+                        }
+                        if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(br)))
+                        {
+                            mapCollision.updateCollisions(br);
+                        }
                     }
                     toUpdate.clear();
 
@@ -274,6 +305,10 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                 }
                 identifiable.destroy();
                 current = CollidableListenerVoid.getInstance();
+            }
+            if (by.getName().startsWith(Anim.ATTACK_FALL))
+            {
+                collidable.getFeature(EntityModel.class).jumpHit();
             }
         };
     }

@@ -7,18 +7,19 @@
         <lionengine:feature>com.b3dgs.lionheart.object.feature.Sheet</lionengine:feature>
     </lionengine:features>
     <lionengine:surface image="surface/Sheet.png"/>
-    <lionengine:frames horizontal="1" vertical="1"/>
+    <lionengine:frames horizontal="1" vertical="1" offsetX="0" offsetY="2"/>
     <lionengine:size width="32" height="32"/>
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="ground" offsetX="0" offsetY="14" width="28" height="1" mirror="false"/>
+        <lionengine:collision name="ground" offsetX="0" offsetY="12" width="28" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="2" layerDisplay="4"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <glue force="true"/>
     <sheet hide="false"/>
 </lionengine:featurable>

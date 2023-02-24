@@ -21,5 +21,6 @@
     <lionengine:rasterable extern="true" offset="2"/>
     <lionengine:layerable layerRefresh="2" layerDisplay="5"/>
     <lionengine:collidable group="3" accepted="1"/>
+    <glue force="true"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

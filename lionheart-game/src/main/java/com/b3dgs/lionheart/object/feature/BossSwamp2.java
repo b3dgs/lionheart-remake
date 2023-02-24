@@ -165,6 +165,11 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         {
             if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK) && flickerCount == 0)
             {
+                if (by.getName().startsWith(Anim.ATTACK_FALL))
+                {
+                    c.getFeature(EntityModel.class).jumpHit();
+                }
+
                 flickerCount = 1;
                 c.ifIs(Stats.class, s ->
                 {
@@ -550,6 +555,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         neck.setFrameOffset(getFrameOffset());
 
         updateFlickerHurt(extrp);
+        transformable.check(true);
     }
 
     @Override

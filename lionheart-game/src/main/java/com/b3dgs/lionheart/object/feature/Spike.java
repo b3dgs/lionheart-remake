@@ -196,9 +196,12 @@ public final class Spike extends FeatureModel
 
     private void syncStart()
     {
-        final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES);
-        data.putInt(getSyncId());
-        networkable.send(data);
+        if (networkable.isOwner())
+        {
+            final ByteBuffer data = ByteBuffer.allocate(Integer.BYTES);
+            data.putInt(getSyncId());
+            networkable.send(data);
+        }
     }
 
     @Override

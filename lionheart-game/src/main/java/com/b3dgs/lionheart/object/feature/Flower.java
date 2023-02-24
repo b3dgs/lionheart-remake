@@ -69,7 +69,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable, C
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final MapTile map = services.get(MapTile.class);
 
-    private Trackable target;
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
     private Updatable current;
 
     @FeatureGet private Transformable transformable;
@@ -182,7 +182,6 @@ public final class Flower extends FeatureModel implements Routine, Recyclable, C
     public void update(double extrp)
     {
         current.update(extrp);
-        target = null;
     }
 
     @Override
@@ -190,7 +189,7 @@ public final class Flower extends FeatureModel implements Routine, Recyclable, C
     {
         if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
         {
-            target = collidable.getFeature(Trackable.class);
+            // FIXME target = collidable.getFeature(Trackable.class);
         }
     }
 

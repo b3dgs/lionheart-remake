@@ -32,5 +32,6 @@
     <stats health="-1" persist="true"/>
     <shade horizontal="5" vertical="4"/>
     <patrol amplitude="48" mirror="false" sv="0.6"/>
+    <glue force="true"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

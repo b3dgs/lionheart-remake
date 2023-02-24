@@ -98,7 +98,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     private double startY;
     private double curveAngle;
 
-    private Trackable target;
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
     private Updatable checker;
     private boolean enabled = true;
     private boolean first = true;
@@ -243,6 +243,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
                     {
                         transformable.teleportY(startY - amplitude);
                     }
+                    transformable.check(true);
 
                     if (Double.compare(sh, 0.0) != 0)
                     {
@@ -463,7 +464,6 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         {
             sync();
         }
-        target = null;
     }
 
     private void sync()
@@ -500,7 +500,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         }
         if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
         {
-            target = collidable.getFeature(Trackable.class);
+            // FIXME target = collidable.getFeature(Trackable.class);
         }
     }
 
@@ -518,7 +518,7 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         if (category.getAxis() == Axis.Y && result.containsY(CollisionName.HORIZONTAL))
         {
             stateHandler.changeState(StatePatrolCeil.class);
-            transformable.teleportY(result.getY().doubleValue() - 1.0);
+            transformable.teleportY(result.getY() - 1.0);
         }
     }
 

@@ -21,12 +21,14 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.UtilConversion;
+import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -128,6 +130,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     private final Origin origin = OriginConfig.imports(setup);
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
     private final int frames;
+    private final AtomicBoolean collideSword = new AtomicBoolean();
 
     private Camera camera = services.get(Camera.class);
     private CameraTracker tracker;
@@ -391,6 +394,39 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             identifiable.destroy();
         }
+    }
+
+    /**
+     * Perform jump on hit.
+     */
+    public void jumpHit()
+    {
+        final double vy = UtilMath.clamp(Math.abs(body.getDirectionVertical() * 0.65),
+                                         Constant.JUMP_MIN,
+                                         Constant.JUMP_HIT);
+        jump.setDirection(new Force(0, vy));
+        jump.setDirectionMaximum(new Force(0, vy));
+
+        body.resetGravity();
+        collideSword.set(true);
+    }
+
+    /**
+     * Get collide sword.
+     * 
+     * @return The collide sword.
+     */
+    public boolean getCollideSword()
+    {
+        return collideSword.get();
+    }
+
+    /**
+     * Reset collide sword.
+     */
+    public void resetCollideSword()
+    {
+        collideSword.set(false);
     }
 
     /**

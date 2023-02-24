@@ -66,6 +66,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroupModel;
+import com.b3dgs.lionengine.game.feature.tile.map.TileSetListener;
 import com.b3dgs.lionengine.game.feature.tile.map.TileSheetsConfig;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionModel;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollisionRenderer;
@@ -140,7 +141,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Hud[] splitHud;
     private final int[] splitTrackerInitY;
     private final double[] splitTrackerY;
-    private final CheckpointHandler[] splitCheckpoints;
     private final Landscape[] splitLandscape;
 
     private CheckpointHandler checkpoints;
@@ -175,6 +175,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                   9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.getHeight()));
         text = Graphics.createText(size);
         text.setColor(ColorRgba.WHITE);
+        componentCollision.setVisible(Constant.DEBUG_COLLISIONS);
 
         this.game = game;
         debug = Settings.getInstance().getFlagDebug();
@@ -206,11 +207,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final int n = game.getSplit() != SplitType.NONE ? game.getPlayers() - 1 : 0;
         splitCamera = new Camera[n];
         splitTracker = new CameraTracker[n];
-        splitDevice = new DeviceController[game.getPlayers()];
+        splitDevice = new DeviceController[game.getType() != GameType.ORIGINAL ? game.getPlayers() : 0];
         splitHud = new Hud[n];
         splitTrackerInitY = new int[n];
         splitTrackerY = new double[n];
-        splitCheckpoints = new CheckpointHandler[n];
         splitLandscape = new Landscape[n];
 
         for (int i = 0; i < n; i++)
@@ -221,24 +221,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             splitTrackerInitY[i] = 0;
             splitTrackerY[i] = 0.0;
         }
-    }
-
-    private static int countSplit(SplitType split)
-    {
-        final int n;
-        if (split == SplitType.FOUR)
-        {
-            n = 3;
-        }
-        else if (split == SplitType.TWO_HORIZONTAL || split == SplitType.TWO_VERTICAL)
-        {
-            n = 1;
-        }
-        else
-        {
-            n = 0;
-        }
-        return n;
     }
 
     private void playNextMusicTask()
@@ -459,12 +441,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         final Optional<Coord> spawn = init.getSpawn();
         checkpoints.load(stage, spawn);
 
-        for (int i = 0; i < splitCheckpoints.length; i++)
-        {
-            splitCheckpoints[i] = new CheckpointHandler(services);
-            splitCheckpoints[i].load(stage, spawn);
-        }
-
         players.clear();
         if (!server && !client)
         {
@@ -492,11 +468,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             handler.add(splitTracker[i]);
         }
 
-        for (int i = 1; i < players.size(); i++)
+        for (int i = 0; i < splitDevice.length; i++)
         {
-            splitDevice[i - 1] = DeviceControllerConfig.create(services,
-                                                               Medias.create(Constant.INPUT_FILE_DEFAULT),
-                                                               game.getControl(i));
+            splitDevice[i] = DeviceControllerConfig.create(services,
+                                                           Medias.create(Constant.INPUT_FILE_DEFAULT),
+                                                           game.getControl(i));
             players.get(i).getFeature(EntityModel.class).setInput(splitDevice[i]);
         }
 
@@ -510,6 +486,17 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 if (index > 0 && game.getType() == GameType.SPEEDRUN)
                 {
                     player.getFeature(EntityModel.class).removeClientControl();
+                    if (hud.is(player))
+                    {
+                        hud.timeStop();
+                    }
+                    for (int i = 0; i < splitHud.length; i++)
+                    {
+                        if (splitHud[i].is(player))
+                        {
+                            splitHud[i].timeStop();
+                        }
+                    }
                     checkpoints.unregister(player);
                 }
             }
@@ -656,17 +643,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
         });
         final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
-        map.addListener(tile ->
+        final TileSetListener tileListener = tile ->
         {
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
-                spawn(Medias.create(Folder.EFFECT, WorldType.SWAMP.getFolder(), "Liana.xml"), tile);
+                spawn(Medias.create(Folder.EFFECT, WorldType.SWAMP.getFolder(), "Liana.xml"),
+                      tile.getX() + tile.getWidth() / 2,
+                      tile.getY());
             }
             else if (CollisionName.BLOCK.equals(mapGroup.getGroup(tile)))
             {
                 spawn(Medias.create(Folder.EFFECT, WorldType.ANCIENTTOWN.getFolder(), "Block.xml"), tile);
             }
-        });
+        };
+        map.addListener(tileListener);
 
         final Optional<String> raster = config.getRasterFolder();
         if (RasterType.CACHE == settings.getRaster())
@@ -683,6 +673,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         loadMapBottom(settings, config, media, raster);
 
         createMapCollisionDebug();
+
+        map.removeListener(tileListener);
     }
 
     /**
@@ -1252,6 +1244,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
         Sfx.cacheEnd();
 
+        if (game.getType() == GameType.SPEEDRUN)
+        {
+            hud.timeStart();
+            for (int i = 0; i < splitHud.length; i++)
+            {
+                splitHud[i].timeStart();
+            }
+        }
         tick.restart();
     }
 
@@ -1338,7 +1338,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             camera.moveLocation(extrp, device.getHorizontalDirection() * 4, device.getVerticalDirection() * 4);
         }
 
-        if (game.getPlayers() > 1)
+        if (splitDevice.length > 0)
         {
             for (int i = 0; i < splitDevice.length; i++)
             {
@@ -1367,7 +1367,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
             for (int i = 0; i < splitLandscape.length; i++)
             {
-                splitCheckpoints[i].update(extrp);
                 splitLandscape[i].update(extrp, splitCamera[i]);
 
                 if (splitTrackerY[i] > 0)

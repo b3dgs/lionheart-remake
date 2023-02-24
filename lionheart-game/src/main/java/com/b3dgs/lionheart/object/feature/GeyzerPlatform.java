@@ -95,6 +95,7 @@ public final class GeyzerPlatform extends FeatureModel implements Routine, Colli
             if (Double.compare(other.getY(), other.getOldY()) == 0)
             {
                 transformable.teleportY(other.getY() + other.getHeight());
+                transformable.check(true);
                 model.getMovement().setDirection(0.0, 0.0);
             }
             else

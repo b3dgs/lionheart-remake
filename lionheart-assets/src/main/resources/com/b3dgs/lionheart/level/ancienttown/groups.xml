@@ -88,7 +88,6 @@
     <lionengine:group name="liana_horizontal" type="NONE"/>
     <lionengine:group name="liana_left" type="NONE"/>
     <lionengine:group name="liana_right" type="NONE"/>
-    <lionengine:group name="steep_vertical" type="NONE"/>
     <lionengine:group name="steep_left_vertical" type="NONE"/>
     <lionengine:group name="steep_right_vertical" type="NONE"/>
     <lionengine:group name="block_fixed" type="NONE">

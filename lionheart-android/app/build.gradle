@@ -62,7 +62,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
     implementation 'com.b3dgs:b3dgs-parent:2.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core-android:10.0.0-SNAPSHOT'

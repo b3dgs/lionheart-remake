@@ -145,8 +145,11 @@
         <lionengine:formula>steep_1_right_spike</lionengine:formula>
         <lionengine:formula>steep_1_right_vertical</lionengine:formula>
     </lionengine:collision>
-    <lionengine:collision group="steep_vertical">
-        <lionengine:formula>steep_vertical</lionengine:formula>
+    <lionengine:collision group="steep_left_vertical">
+        <lionengine:formula>steep_left_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="steep_right_vertical">
+        <lionengine:formula>steep_right_vertical</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="spike">
         <lionengine:formula>ground</lionengine:formula>
@@ -171,7 +174,7 @@
         <lionengine:formula>liana_slope_1_right</lionengine:formula>
     </lionengine:collision>
     <lionengine:collision group="liana_ground_top">
-        <lionengine:formula>horizontal</lionengine:formula>
+        <lionengine:formula>horizontal_liana</lionengine:formula>
         <lionengine:formula>left_vertical</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
         <lionengine:formula>ground15</lionengine:formula>

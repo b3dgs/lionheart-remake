@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.ComponentDisplayable;
 import com.b3dgs.lionengine.game.feature.ComponentRefreshable;
+import com.b3dgs.lionengine.game.feature.ComponentUpdater;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Handler;
@@ -133,7 +134,7 @@ public class Part2 extends Sequence
 
         handler.addComponent(new ComponentRefreshable());
         handler.addComponent(new ComponentDisplayable());
-        handler.addComponent(new ComponentCollision());
+        handler.addComponent((ComponentUpdater) new ComponentCollision(camera));
         handler.addListener(factory);
 
         final SourceResolutionProvider source = services.add(new SourceResolutionDelegate(this::getWidth,

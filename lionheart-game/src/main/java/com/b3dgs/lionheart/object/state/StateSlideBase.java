@@ -100,8 +100,8 @@ public class StateSlideBase extends State
     @Override
     public void update(double extrp)
     {
-        movement.setDestination(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
-        movement.setDirection(speed * steep.getSide(), -speed * 2.0 - 1.0 - speed);
+        movement.setDestination(speed * steep.getSide(), -speed * 4);
+        movement.setDirection(speed * steep.getSide(), -speed * 4);
         body.resetGravity();
     }
 

@@ -50,7 +50,9 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     private final Collection<GlueListener> listeners = new ArrayList<>();
     private final boolean force = setup.getBoolean(false, ATT_FORCE, NODE);
 
-    private TransformY transformY;
+    private Transform transformX;
+    private Transform transformY;
+    private double referenceX;
     private double referenceY;
     private boolean first;
     private Transformable other;
@@ -85,11 +87,21 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     }
 
     /**
+     * Set the horizontal transform.
+     * 
+     * @param transformX The horizontal transform.
+     */
+    public void setTransformX(Transform transformX)
+    {
+        this.transformX = transformX;
+    }
+
+    /**
      * Set the vertical transform.
      * 
      * @param transformY The vertical transform.
      */
-    public void setTransformY(TransformY transformY)
+    public void setTransformY(Transform transformY)
     {
         this.transformY = transformY;
     }
@@ -111,6 +123,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     {
         if (first)
         {
+            referenceX = reference.getX();
             referenceY = reference.getY();
             first = false;
         }
@@ -133,9 +146,17 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void update(double extrp)
     {
-        if (!first && transformY != null)
+        if (!first)
         {
-            reference.teleportY(referenceY - transformY.transformY());
+            if (transformX != null)
+            {
+                reference.teleportX(referenceX - transformX.transform());
+            }
+            if (transformY != null)
+            {
+                reference.teleportY(referenceY - transformY.transform());
+            }
+            reference.check(true);
         }
 
         if (!collide && started)
@@ -147,6 +168,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
             other.moveLocationX(1.0, reference.getX() - reference.getOldX());
             other.getFeature(Body.class).resetGravity();
             other.teleportY(reference.getY() + offsetY);
+            other.check(true);
         }
         if (!collidable.isEnabled() && other != null && Double.compare(other.getY(), other.getOldY()) == 0)
         {
@@ -160,18 +182,21 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.GROUND) && by.getName().startsWith(Anim.LEG))
+        if (with.getName().startsWith(CollisionName.GROUND)
+            && by.getName().startsWith(Anim.LEG)
+            && (!by.getName().contains(Anim.ATTACK_FALL) || force))
         {
             other = collidable.getFeature(Transformable.class);
             if (!collide
                 && (Double.compare(other.getY(), other.getOldY()) <= 0
                     && Double.compare(other.getFeature(EntityModel.class).getJump().getDirectionVertical(), 0.0) <= 0
-                    || force))
+                    || force && Double.compare(reference.getY(), reference.getOldY()) != 0))
             {
                 collide = true;
                 offsetY = with.getOffsetY();
                 other.getFeature(Body.class).resetGravity();
                 other.teleportY(reference.getY() + offsetY);
+                other.check(true);
 
                 start();
             }
@@ -185,7 +210,9 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     @Override
     public void recycle()
     {
+        transformX = null;
         transformY = null;
+        referenceX = 0.0;
         referenceY = 0.0;
         other = null;
         first = true;
@@ -198,14 +225,14 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     /**
      * Represents the vertical transformation.
      */
-    public interface TransformY
+    public interface Transform
     {
         /**
          * Get the current vertical transformation.
          * 
          * @return The vertical transformation.
          */
-        double transformY();
+        double transform();
     }
 
     /**

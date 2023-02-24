@@ -23,12 +23,10 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionengine.helper.StateHelper;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.Anim;
@@ -64,10 +62,6 @@ public abstract class State extends StateHelper<EntityModel>
     protected final GameplaySteep steep = new GameplaySteep();
     /** Liana gameplay. */
     protected final GameplayLiana liana = new GameplayLiana();
-    /** Tile collidable listener. */
-    private final TileCollidableListener listenerTileCollidable;
-    /** Collidable listener. */
-    private final CollidableListener collidableListener = this::onCollided;
     /** Win flag. */
     private final BooleanSupplier win;
 
@@ -91,32 +85,6 @@ public abstract class State extends StateHelper<EntityModel>
         {
             win = () -> false;
         }
-
-        listenerTileCollidable = (result, category) ->
-        {
-            if (Axis.X == category.getAxis())
-            {
-                if (category.getName().startsWith(CollisionName.KNEE))
-                {
-                    onCollideKnee(result, category);
-                }
-            }
-            else if (Axis.Y == category.getAxis())
-            {
-                if (!liana.is() && category.getName().startsWith(CollisionName.LEG))
-                {
-                    onCollideLeg(result, category);
-                }
-                else if (category.getName().startsWith(CollisionName.HAND))
-                {
-                    onCollideHand(result, category);
-                }
-                else if (category.getName().startsWith(CollisionName.HEAD))
-                {
-                    onCollideHead(result, category);
-                }
-            }
-        };
     }
 
     /**
@@ -212,35 +180,6 @@ public abstract class State extends StateHelper<EntityModel>
     }
 
     /**
-     * Called when a collision occurred with another {@link Collidable}.
-     * 
-     * @param collidable The collidable reference.
-     * @param with The collision collided with (source).
-     * @param by The collision collided by (other).
-     */
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        updateCollidedGlue(collidable, with, by);
-
-        if (with.getName().contains(CollisionName.BODY) && isCollidedVertical(by))
-        {
-            final Transformable other = collidable.getFeature(Transformable.class);
-            collideX.set(true);
-            if (by.getName().contains(CollisionName.LEFT_VERTICAL))
-            {
-                transformable.teleportX(other.getX() + by.getOffsetX() - with.getWidth() / 2);
-                collideXright.set(true);
-            }
-            if (by.getName().contains(CollisionName.RIGHT_VERTICAL))
-            {
-                transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2);
-                collideXleft.set(true);
-            }
-            movement.zero();
-        }
-    }
-
-    /**
      * Update collided with glue.
      * 
      * @param collidable The collidable reference.
@@ -308,8 +247,6 @@ public abstract class State extends StateHelper<EntityModel>
     public void enter()
     {
         animatable.play(animation);
-        tileCollidable.addListener(listenerTileCollidable);
-        collidable.addListener(collidableListener);
         collideX.set(false);
         collideXright.set(false);
         collideXleft.set(false);
@@ -331,10 +268,53 @@ public abstract class State extends StateHelper<EntityModel>
     }
 
     @Override
-    public void exit()
+    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        tileCollidable.removeListener(listenerTileCollidable);
-        collidable.removeListener(collidableListener);
+        if (Axis.X == category.getAxis())
+        {
+            if (category.getName().startsWith(CollisionName.KNEE))
+            {
+                onCollideKnee(result, category);
+            }
+        }
+        else if (Axis.Y == category.getAxis())
+        {
+            if (!liana.is() && category.getName().startsWith(CollisionName.LEG))
+            {
+                onCollideLeg(result, category);
+            }
+            else if (category.getName().startsWith(CollisionName.HAND))
+            {
+                onCollideHand(result, category);
+            }
+            else if (category.getName().startsWith(CollisionName.HEAD))
+            {
+                onCollideHead(result, category);
+            }
+        }
+    }
+
+    @Override
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    {
+        updateCollidedGlue(collidable, with, by);
+
+        if (with.getName().contains(CollisionName.BODY) && isCollidedVertical(by))
+        {
+            final Transformable other = collidable.getFeature(Transformable.class);
+            collideX.set(true);
+            if (by.getName().contains(CollisionName.LEFT_VERTICAL))
+            {
+                transformable.teleportX(other.getX() + by.getOffsetX() - with.getWidth() / 2);
+                collideXright.set(true);
+            }
+            if (by.getName().contains(CollisionName.RIGHT_VERTICAL))
+            {
+                transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2);
+                collideXleft.set(true);
+            }
+            movement.zero();
+        }
     }
 
     @Override

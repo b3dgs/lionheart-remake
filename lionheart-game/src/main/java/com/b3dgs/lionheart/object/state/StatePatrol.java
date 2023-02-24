@@ -94,9 +94,9 @@ public final class StatePatrol extends State
     }
 
     @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        super.onCollided(collidable, with, by);
+        super.notifyCollided(collidable, with, by);
 
         if (by.getName().startsWith(CollisionName.SPIKE))
         {

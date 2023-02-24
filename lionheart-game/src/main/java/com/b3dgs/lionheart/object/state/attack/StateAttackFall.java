@@ -16,15 +16,9 @@
  */
 package com.b3dgs.lionheart.object.state.attack;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Spawner;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGroup;
@@ -33,7 +27,6 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.MapTileCollision;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.Sfx;
-import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.EntityModel;
@@ -52,8 +45,6 @@ public final class StateAttackFall extends State
     private final MapTileCollision mapCollision = map.getFeature(MapTileCollision.class);
     private final Spawner spawner = model.getSpawner();
 
-    private final AtomicBoolean collideSword = new AtomicBoolean();
-
     private double oldVelocity;
 
     /**
@@ -67,27 +58,13 @@ public final class StateAttackFall extends State
         super(model, animation);
 
         addTransition(StateCrouch.class,
-                      () -> !collideSword.get() && !hasWin() && !steep.is() && collideY.get() && isGoDown());
-        addTransition(StateJump.class, () -> collideSword.get() && jump.getDirectionVertical() > 0);
+                      () -> !model.getCollideSword() && !hasWin() && !steep.is() && collideY.get() && isGoDown());
+        addTransition(StateJump.class, () -> model.getCollideSword() && jump.getDirectionVertical() > 0);
         addTransition(StateFall.class,
-                      () -> !collideSword.get()
+                      () -> !model.getCollideSword()
                             && (steep.is()
                                 || !isGoDown() && collideY.get()
                                 || !isFire() && Double.compare(jump.getDirectionVertical(), 0.0) <= 0));
-    }
-
-    /**
-     * Perform jump on hit.
-     * 
-     * @param vy The bounce vertical.
-     */
-    private void jumpHit(double vy)
-    {
-        jump.setDirection(new Force(0, vy));
-        jump.setDirectionMaximum(new Force(0, vy));
-
-        body.resetGravity();
-        collideSword.set(true);
     }
 
     @Override
@@ -108,23 +85,9 @@ public final class StateAttackFall extends State
             map.setTile(liana.getInTileX(), liana.getInTileY(), liana.getNumber() + 206);
             mapGroup.changeGroup(tile, null);
             mapCollision.updateCollisions(tile);
-            jumpHit(UtilMath.clamp(Math.abs(body.getDirectionVertical() * 0.65), Constant.JUMP_MIN, Constant.JUMP_HIT));
+            model.jumpHit();
             spawner.spawn(Medias.create(Folder.EFFECT, "swamp", "ExplodeLiana.xml"), liana.getX(), liana.getY());
             Sfx.MONSTER_HURT.play();
-        }
-    }
-
-    @Override
-    protected void onCollided(Collidable collidable, Collision with, Collision by)
-    {
-        super.onCollided(collidable, with, by);
-
-        if (collidable.getAccepted().contains(this.collidable.getGroup())
-            && !collideSword.get()
-            && by.getName().startsWith(CollisionName.BODY)
-            && with.getName().startsWith(Anim.ATTACK_FALL))
-        {
-            jumpHit(UtilMath.clamp(Math.abs(body.getDirectionVertical() * 0.65), Constant.JUMP_MIN, Constant.JUMP_HIT));
         }
     }
 
@@ -134,7 +97,7 @@ public final class StateAttackFall extends State
         super.enter();
 
         oldVelocity = movement.getVelocity();
-        collideSword.set(false);
+        model.resetCollideSword();
     }
 
     @Override

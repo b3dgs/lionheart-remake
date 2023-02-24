@@ -40,7 +40,7 @@ public final class StateWalk extends State
     private static final double ANIM_SPEED_DIVISOR = 6.0;
     private static final double WALK_MIN_SPEED = 0.2;
     private static final double SPEED_SLOPE_RISING = -0.3;
-    private static final double SPEED_SLOPE_DESCENDING = 0.8;
+    private static final double SPEED_SLOPE_DESCENDING = 0.9;
 
     private final AtomicBoolean slopeRising = new AtomicBoolean();
     private final AtomicBoolean slopeDescending = new AtomicBoolean();

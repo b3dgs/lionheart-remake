@@ -203,14 +203,13 @@
     <lionengine:group name="liana_right" type="NONE">
         <lionengine:tile number="601"/>
     </lionengine:group>
-    <lionengine:group name="steep_vertical" type="NONE">
-        <lionengine:tile number="219"/>
+    <lionengine:group name="steep_right_vertical" type="NONE">
         <lionengine:tile number="437"/>
     </lionengine:group>
     <lionengine:group name="steep_left_vertical" type="NONE">
         <lionengine:tile number="743"/>
+        <lionengine:tile number="219"/>
     </lionengine:group>
-    <lionengine:group name="steep_right_vertical" type="NONE"/>
     <lionengine:group name="vertical" type="NONE">
         <lionengine:tile number="676"/>
         <lionengine:tile number="679"/>

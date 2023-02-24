@@ -56,7 +56,7 @@ public final class Grasshopper extends FeatureModel implements Routine, Collidab
     private final MapTile map = services.get(MapTile.class);
     private final Camera camera = services.get(Camera.class);
 
-    private Trackable target;
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
     private double move;
 
     @FeatureGet private Transformable transformable;
@@ -127,7 +127,6 @@ public final class Grasshopper extends FeatureModel implements Routine, Collidab
                 launcher.fire();
             }
         }
-        target = null;
     }
 
     @Override
@@ -135,7 +134,7 @@ public final class Grasshopper extends FeatureModel implements Routine, Collidab
     {
         if (CollisionName.COLL_SIGH.equals(with.getName()) && collidable.hasFeature(Trackable.class))
         {
-            target = collidable.getFeature(Trackable.class);
+            // FIXME target = collidable.getFeature(Trackable.class);
         }
     }
 }
