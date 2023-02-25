@@ -129,6 +129,31 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     }
 
     /**
+     * Set custom patrol.
+     * 
+     * @param sh The horizontal patrol.
+     * @param sv The vertical patrol.
+     */
+    public void set(double sh, double sv)
+    {
+        this.sh = sh;
+        this.sv = sv;
+
+        if (sh < 0)
+        {
+            mirrorable.mirror(Mirror.HORIZONTAL);
+        }
+        else if (sv < 0)
+        {
+            mirrorable.mirror(Mirror.VERTICAL);
+        }
+        else if (sh > 0 || sv > 0)
+        {
+            mirrorable.mirror(Mirror.NONE);
+        }
+    }
+
+    /**
      * Stop patrol.
      */
     public void stop()
@@ -374,6 +399,12 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         if (patrols.size() > 0)
         {
             loadNextPatrol();
+            if (delay > 0)
+            {
+                sv = 0.0;
+                sh = 0.0;
+                currentIndex = -1;
+            }
         }
     }
 
@@ -411,11 +442,6 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         mirrorable.update(1.0);
 
         rasterable.setAnimOffset(animOffset);
-
-        if (patrols.size() > 0)
-        {
-            loadNextPatrol();
-        }
     }
 
     @Override
@@ -542,6 +568,18 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     @Override
     public void recycle()
     {
+        sh = 0.0;
+        sv = 0.0;
+        amplitude = 0;
+        offset = 0;
+        coll = false;
+        proximity = 0;
+        sight = 0;
+        animOffset = 0;
+        delay = 0;
+        curve = false;
+        skip = 0;
+
         currentIndex = -1;
         startX = 0.0;
         startY = 0.0;
@@ -551,6 +589,10 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
         idle = 0.0;
         skip = 0;
         stateHandler.changeState(StatePatrol.class);
+        if (patrols.size() > 0)
+        {
+            loadNextPatrol();
+        }
         tickSync.restart();
     }
 }

@@ -39,7 +39,7 @@ public class GameConfig
      */
     public GameConfig()
     {
-        this(1, GameType.ORIGINAL, Optional.empty(), Collections.emptyMap(), null);
+        this(GameType.ORIGINAL, 1, Optional.empty(), Collections.emptyMap(), null);
     }
 
     /**
@@ -69,8 +69,8 @@ public class GameConfig
      * @param controls The player id as key, the control index as value.
      * @param init The init configuration.
      */
-    public GameConfig(int players,
-                      GameType game,
+    public GameConfig(GameType game,
+                      int players,
                       Optional<Network> network,
                       Map<Integer, Integer> controls,
                       InitConfig init)
@@ -92,7 +92,7 @@ public class GameConfig
      */
     public GameConfig with(InitConfig init)
     {
-        return new GameConfig(players, type, network, controls, init);
+        return new GameConfig(type, players, network, controls, init);
     }
 
     /**

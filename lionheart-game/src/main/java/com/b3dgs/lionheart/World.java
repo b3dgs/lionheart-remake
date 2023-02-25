@@ -134,6 +134,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Thread musicTask;
     private final boolean debug;
     private final GameConfig game;
+    private final Tick spawnTick = new Tick();
 
     private final Camera[] splitCamera;
     private final CameraTracker[] splitTracker;
@@ -221,6 +222,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             splitTrackerInitY[i] = 0;
             splitTrackerY[i] = 0.0;
         }
+
+        spawnTick.start();
     }
 
     private void playNextMusicTask()
@@ -554,6 +557,35 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             {
                 loadRasterEntities(settings, stage, entities);
             }
+
+            loadSpawns(settings, stage);
+        }
+    }
+
+    private void loadSpawns(Settings settings, StageConfig stage)
+    {
+        final List<SpawnConfig> configs = stage.getSpawns();
+        final int n = configs.size();
+        for (int i = 0; i < n; i++)
+        {
+            final SpawnConfig spawn = configs.get(i);
+            spawnTick.addAction(() ->
+            {
+                final List<EntityConfig> entities = spawn.getEntities();
+                final int k = entities.size();
+                for (int j = 0; j < k; j++)
+                {
+                    final EntityConfig entity = entities.get(j);
+                    final Featurable featurable = factory.create(entity.getMedia());
+                    featurable.getFeature(Transformable.class).teleport(entity.getSpawnX(map), entity.getSpawnY(map));
+                    Util.loadEntityFeature(featurable, entity);
+                    if (RasterType.CACHE == settings.getRaster())
+                    {
+                        loadRasterEntity(stage, featurable, settings);
+                    }
+                    handler.add(featurable);
+                }
+            }, source.getRate(), spawn.getDelay());
         }
     }
 
@@ -1332,6 +1364,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void update(double extrp)
     {
+        spawnTick.update(extrp);
         if (server)
         {
             camera.setIntervals(0, 0);

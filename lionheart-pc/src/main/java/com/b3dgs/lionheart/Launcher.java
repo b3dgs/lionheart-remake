@@ -1013,8 +1013,8 @@ public final class Launcher
                     controls.put(Integer.valueOf(i), Integer.valueOf(i));
                 }
 
-                final GameConfig config = new GameConfig(dialog.getPlayers(),
-                                                         dialog.getGameType(),
+                final GameConfig config = new GameConfig(dialog.getGameType(),
+                                                         dialog.getPlayers(),
                                                          Optional.empty(),
                                                          controls,
                                                          new InitConfig(dialog.getStage(),

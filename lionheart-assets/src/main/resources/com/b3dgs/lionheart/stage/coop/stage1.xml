@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/boss.sc68"/>
+    <map file="level/swamp/coop/stage1.lvl"/>
+    <raster folder="raster/swamp/day"/>
+    <background type="SWAMP_DAY"/>
+    <foreground type="WATER" waterDepth="15" waterOffset="20"/>
+    <checkpoints>
+        <checkpoint tx="29.0" ty="6.0"/>
+    </checkpoints>
+    <entities/>
+    <spawns>
+        <spawn delay="1000">
+            <entity file="entity/swamp/Dino.xml" tx="2.0" ty="29.0">
+                <patrol sh="0.4"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="56.0" ty="24.0">
+                <patrol sh="-0.4"/>
+            </entity>
+        </spawn>
+        <spawn delay="500">
+            <entity file="entity/swamp/Bee.xml" tx="25.5" ty="30.0">
+                <patrol sv="-0.6"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="25.5" ty="40.0">
+                <patrol sv="-0.6"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="36.5" ty="35.0">
+                <patrol sv="-0.6"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="36.5" ty="45.0">
+                <patrol sv="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="500">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="20.0" ty="30.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="40.0" ty="30.0"/>
+        </spawn>
+    </spawns>
+</stage>

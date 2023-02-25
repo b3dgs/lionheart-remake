@@ -39,6 +39,8 @@ public final class StageConfig
 
     /** Entities node name. */
     public static final String NODE_ENTITIES = "entities";
+    /** Spawns node name. */
+    public static final String NODE_SPAWNS = "spawns";
 
     /** Stage picture attribute name. */
     public static final String ATT_STAGE_PIC = "pic";
@@ -129,6 +131,8 @@ public final class StageConfig
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     /** Entities configuration. */
     private final List<EntityConfig> entities = new ArrayList<>();
+    /** Spawns configuration. */
+    private final List<SpawnConfig> spawns = new ArrayList<>();
 
     /**
      * Create config.
@@ -175,6 +179,8 @@ public final class StageConfig
         configurer.getChildren(NODE_CHECKPOINT, NODE_CHECKPOINTS).forEach(this::addCheckpoints);
 
         configurer.getChildren(EntityConfig.NODE_ENTITY, NODE_ENTITIES).forEach(this::addEntity);
+
+        configurer.getChildren(SpawnConfig.NODE_SPAWN, NODE_SPAWNS).forEach(this::addSpawn);
     }
 
     /**
@@ -207,6 +213,16 @@ public final class StageConfig
     private void addEntity(XmlReader entity)
     {
         entities.add(EntityConfig.imports(entity));
+    }
+
+    /**
+     * Add spawns from configuration.
+     * 
+     * @param spawn The spawn configuration.
+     */
+    private void addSpawn(XmlReader spawn)
+    {
+        spawns.add(SpawnConfig.imports(spawn));
     }
 
     /**
@@ -347,5 +363,15 @@ public final class StageConfig
     public List<EntityConfig> getEntities()
     {
         return entities;
+    }
+
+    /**
+     * Get the spawns.
+     * 
+     * @return The spawns.
+     */
+    public List<SpawnConfig> getSpawns()
+    {
+        return spawns;
     }
 }

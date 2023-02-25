@@ -18,7 +18,9 @@ package com.b3dgs.lionheart;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -150,10 +152,14 @@ public final class AppLionheart
 
     private static GameConfig loadConfig(List<String> params)
     {
-        final GameType gameType = getParam(params, ARG_GAMETYPE, GameType.ORIGINAL, GameType::valueOf);
-        final int players = getParam(params, ARG_PLAYERS, Integer.valueOf(1), Integer::parseInt).intValue();
-        return new GameConfig(gameType, players, Optional.empty());
-
+        final GameType gameType = getParam(params, ARG_GAMETYPE, GameType.COOP, GameType::valueOf);
+        final int players = getParam(params, ARG_PLAYERS, Integer.valueOf(2), Integer::parseInt).intValue();
+        final Map<Integer, Integer> controls = new HashMap<>();
+        for (int i = 0; i < players; i++)
+        {
+            controls.put(Integer.valueOf(i), Integer.valueOf(i));
+        }
+        return new GameConfig(gameType, players, Optional.empty(), controls, null);
     }
 
     /**
