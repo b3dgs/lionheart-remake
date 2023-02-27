@@ -11,30 +11,569 @@
     <entities/>
     <spawns>
         <spawn delay="1000">
-            <entity file="entity/swamp/Dino.xml" tx="2.0" ty="29.0">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
                 <patrol sh="0.4"/>
             </entity>
-            <entity file="entity/swamp/Dino.xml" tx="56.0" ty="24.0">
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
                 <patrol sh="-0.4"/>
             </entity>
         </spawn>
-        <spawn delay="500">
-            <entity file="entity/swamp/Bee.xml" tx="25.5" ty="30.0">
-                <patrol sv="-0.6"/>
+        <spawn delay="7000">
+            <entity file="entity/swamp/Dino.xml" tx="1.5" ty="29.0">
+                <patrol sh="0.5"/>
             </entity>
-            <entity file="entity/swamp/Bee.xml" tx="25.5" ty="40.0">
-                <patrol sv="-0.6"/>
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.4"/>
             </entity>
-            <entity file="entity/swamp/Bee.xml" tx="36.5" ty="35.0">
-                <patrol sv="-0.6"/>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.4"/>
             </entity>
-            <entity file="entity/swamp/Bee.xml" tx="36.5" ty="45.0">
-                <patrol sv="-0.6"/>
+            <entity file="entity/swamp/Dino.xml" tx="60.5" ty="29.0">
+                <patrol sh="-0.5"/>
             </entity>
         </spawn>
-        <spawn delay="500">
-            <entity file="projectile/swamp/FlyTrack.xml" tx="20.0" ty="30.0"/>
-            <entity file="projectile/swamp/FlyTrack.xml" tx="40.0" ty="30.0"/>
+        <spawn delay="14000">
+            <entity file="entity/swamp/Dino.xml" tx="1.0" ty="29.0">
+                <patrol sh="0.4"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.0" ty="29.0">
+                <patrol sh="-0.4"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="19.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="25.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="31.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="37.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="43.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+        </spawn>
+        <spawn delay="18000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="1.0" ty="32.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="31.0" ty="32.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="61.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="28000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="8.0">
+                <patrol sh="1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-1.0" ty="13.0">
+                <patrol sh="0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-2.0" ty="18.0">
+                <patrol sh="0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-3.0" ty="23.0">
+                <patrol sh="0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="6.0">
+                <patrol sh="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="63.0" ty="11.0">
+                <patrol sh="-0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="64.0" ty="16.0">
+                <patrol sh="-0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="65.0" ty="21.0">
+                <patrol sh="-0.7"/>
+            </entity>
+        </spawn>
+        <spawn delay="29000">
+            <entity file="entity/swamp/PotionLittle.xml" tx="32" ty="32.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+        </spawn>
+        <spawn delay="30000">
+            <entity file="entity/swamp/Dino.xml" tx="2.0" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="1.5" ty="29.0">
+                <patrol sh="0.5"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="1.0" ty="29.0">
+                <patrol sh="0.4"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="59.0" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="60.0" ty="29.0">
+                <patrol sh="-0.5"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.0" ty="29.0">
+                <patrol sh="-0.4"/>
+            </entity>
+        </spawn>
+        <spawn delay="32000">
+            <entity file="entity/swamp/Bee.xml" tx="50.0" ty="32.0">
+                <patrol sh="-0.5" sv="-1.0"/>
+            </entity>
+        </spawn>
+        <spawn delay="36000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="10.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="20.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="30.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="10.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="20.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="30.0"/>
+        </spawn>
+        <spawn delay="47000">
+            <entity file="entity/swamp/Bee.xml" tx="6.0" ty="32.0">
+                <patrol sh="0.6" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="16.0" ty="32.0">
+                <patrol sh="0.5" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="21.0" ty="32.0">
+                <patrol sh="0.4" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="26.0" ty="32.0">
+                <patrol sh="0.3" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="36.0" ty="32.0">
+                <patrol sh="-0.3" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="41.0" ty="32.0">
+                <patrol sh="-0.4" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="46.0" ty="32.0">
+                <patrol sh="-0.5" sv="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="51.0" ty="32.0">
+                <patrol sh="-0.6" sv="-1.0"/>
+            </entity>
+        </spawn>
+        <spawn delay="49000">
+            <entity file="entity/swamp/PotionLittle.xml" tx="42" ty="32.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+        </spawn>
+        <spawn delay="50000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="51000">
+            <entity file="entity/swamp/Bee.xml" tx="10.0" ty="32.0">
+                <patrol sh="0.5" sv="-1.0"/>
+            </entity>
+        </spawn>
+        <spawn delay="52000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="54000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="56000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="58000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="59000">
+            <entity file="entity/swamp/PotionLittle.xml" tx="22" ty="32.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+        </spawn>
+        <spawn delay="60000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="64000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="8.0">
+                <patrol sh="1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-1.0" ty="13.0">
+                <patrol sh="0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-2.0" ty="18.0">
+                <patrol sh="0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-3.0" ty="23.0">
+                <patrol sh="0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="6.0">
+                <patrol sh="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="63.0" ty="11.0">
+                <patrol sh="-0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="64.0" ty="16.0">
+                <patrol sh="-0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="65.0" ty="21.0">
+                <patrol sh="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="8.0">
+                <patrol sh="1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-1.0" ty="13.0">
+                <patrol sh="0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-2.0" ty="18.0">
+                <patrol sh="0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="-3.0" ty="23.0">
+                <patrol sh="0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="6.0">
+                <patrol sh="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="63.0" ty="11.0">
+                <patrol sh="-0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="64.0" ty="16.0">
+                <patrol sh="-0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="65.0" ty="21.0">
+                <patrol sh="-0.7"/>
+            </entity>
+        </spawn>
+        <spawn delay="68000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="31.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="68500">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="21.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="69000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="42.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="70000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="37.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="70500">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="10.0"/>
+        </spawn>
+        <spawn delay="71000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="10.0"/>
+        </spawn>
+        <spawn delay="72000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="30.0"/>
+        </spawn>
+        <spawn delay="80000">
+            <entity file="boss/swamp/Egg.xml" tx="20.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="80400">
+            <entity file="boss/swamp/Egg.xml" tx="31.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="80800">
+            <entity file="boss/swamp/Egg.xml" tx="42.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="83000">
+            <entity file="boss/swamp/Egg.xml" tx="20.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="83400">
+            <entity file="boss/swamp/Egg.xml" tx="31.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="83800">
+            <entity file="boss/swamp/Egg.xml" tx="42.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="86000">
+            <entity file="boss/swamp/Egg.xml" tx="20.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="86400">
+            <entity file="boss/swamp/Egg.xml" tx="31.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="86800">
+            <entity file="boss/swamp/Egg.xml" tx="42.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="90000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="13.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="91000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="49.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="95000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="13.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="96000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="49.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="99000">
+            <entity file="entity/swamp/Bee.xml" tx="19.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="25.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="31.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="37.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="43.0" ty="32.0">
+                <patrol sv="-0.7"/>
+            </entity>
+        </spawn>
+        <spawn delay="100000">
+            <entity file="entity/swamp/PotionLittle.xml" tx="15" ty="34.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+            <entity file="entity/swamp/PotionLittle.xml" tx="30" ty="33.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+            <entity file="entity/swamp/PotionLittle.xml" tx="45" ty="32.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+        </spawn>
+        <spawn delay="101000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="49.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="102000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="13.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="107000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="49.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="108000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="13.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="113000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="8.0">
+                <patrol sh="1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="114000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="10.0">
+                <patrol sh="1.1"/>
+            </entity>
+        </spawn>
+        <spawn delay="115000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="6.0">
+                <patrol sh="1.1"/>
+            </entity>
+        </spawn>
+        <spawn delay="116000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="9.0">
+                <patrol sh="1.1"/>
+            </entity>
+        </spawn>
+        <spawn delay="117000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="11.0">
+                <patrol sh="1.1"/>
+            </entity>
+        </spawn>
+        <spawn delay="124000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="124250">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="6.0"/>
+        </spawn>
+        <spawn delay="124750">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="14.0"/>
+        </spawn>
+        <spawn delay="125000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="18.0"/>
+        </spawn>
+        <spawn delay="125250">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="22.0"/>
+        </spawn>
+        <spawn delay="125750">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="30.0"/>
+        </spawn>
+        <spawn delay="126000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="34.0"/>
+        </spawn>
+        <spawn delay="126250">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="126750">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="10.0"/>
+        </spawn>
+        <spawn delay="127000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="14.0"/>
+        </spawn>
+        <spawn delay="127250">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="18.0"/>
+        </spawn>
+        <spawn delay="127750">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="26.0"/>
+        </spawn>
+        <spawn delay="128000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="30.0"/>
+        </spawn>
+        <spawn delay="128250">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="34.0"/>
+        </spawn>
+        <spawn delay="130000">
+            <entity file="entity/swamp/PotionLittle.xml" tx="20" ty="32.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+            <entity file="entity/swamp/PotionLittle.xml" tx="40" ty="32.0">
+                <lionengine:body gravity="0.47" gravityMax="7.8"/>
+            </entity>
+        </spawn>
+        <spawn delay="134000">
+            <entity file="entity/swamp/Bee.xml" tx="18.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="134500">
+            <entity file="entity/swamp/Bee.xml" tx="20.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="135000">
+            <entity file="entity/swamp/Bee.xml" tx="22.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="135500">
+            <entity file="entity/swamp/Bee.xml" tx="24.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="136000">
+            <entity file="entity/swamp/Bee.xml" tx="26.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="136500">
+            <entity file="entity/swamp/Bee.xml" tx="28.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="137000">
+            <entity file="entity/swamp/Bee.xml" tx="30.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="137500">
+            <entity file="entity/swamp/Bee.xml" tx="32.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="138000">
+            <entity file="entity/swamp/Bee.xml" tx="34.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="138500">
+            <entity file="entity/swamp/Bee.xml" tx="36.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="139000">
+            <entity file="entity/swamp/Bee.xml" tx="38.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="139500">
+            <entity file="entity/swamp/Bee.xml" tx="40.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="140000">
+            <entity file="entity/swamp/Bee.xml" tx="42.0" ty="32.0">
+                <patrol sv="-1.2"/>
+            </entity>
+        </spawn>
+        <spawn delay="141000">
+            <entity file="entity/swamp/Dino.xml" tx="0.5" ty="29.0">
+                <patrol sh="0.6"/>
+            </entity>
+            <entity file="entity/swamp/Dino.xml" tx="61.5" ty="29.0">
+                <patrol sh="-0.6"/>
+            </entity>
+        </spawn>
+        <spawn delay="144000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="13.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="145000">
+            <entity file="entity/swamp/Grasshopper.xml" tx="49.0" ty="32.0"/>
+        </spawn>
+        <spawn delay="154000">
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="10.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="20.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="0.0" ty="30.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="10.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="20.0"/>
+            <entity file="projectile/swamp/FlyTrack.xml" tx="62.0" ty="30.0"/>
+        </spawn>
+        <spawn delay="163000">
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="7.0">
+                <patrol sh="1.1" sv="0.05"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="12.0">
+                <patrol sh="0.9" sv="-0.05"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="17.0">
+                <patrol sh="0.8" sv="-0.1"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="23.0">
+                <patrol sh="0.7" sv="-0.15"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="6.0">
+                <patrol sh="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="11.0">
+                <patrol sh="-0.9" sv="-0.05"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="16.0">
+                <patrol sh="-0.8" sv="-0.1"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="21.0">
+                <patrol sh="-0.7" sv="-0.15"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="2.0">
+                <patrol sh="1.0" sv="0.05"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="13.0">
+                <patrol sh="0.9"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="18.0">
+                <patrol sh="0.8"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="0.0" ty="24.0">
+                <patrol sh="0.7"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="5.0">
+                <patrol sh="-1.0"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="11.0">
+                <patrol sh="-0.9" sv="-0.05"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="16.0">
+                <patrol sh="-0.8" sv="-0.1"/>
+            </entity>
+            <entity file="entity/swamp/Bee.xml" tx="62.0" ty="21.0">
+                <patrol sh="-0.7" sv="-0.15"/>
+            </entity>
         </spawn>
     </spawns>
 </stage>

@@ -81,7 +81,6 @@ import com.b3dgs.lionheart.object.SetupEntity;
 public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
 {
     private static final int END_DELAY_MS = 8000;
-    private static final int PALLET_OFFSET = 2;
     private static final double MOVE_BACK_X = 1.0;
     private static final double MOVE_BACK_X_MARGIN = 64;
     private static final double MOVE_LEFT_X = -4.8;
@@ -462,7 +461,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
      */
     private void updateFlickerHurt(double extrp)
     {
-        rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * 2);
         if (flickerCount > 0)
         {
             tickFlicker.start();
@@ -499,8 +498,8 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         launcher.addListener(l ->
         {
             final int offset = UtilMath.clamp(getFrameOffset(), 0, 2);
-            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset2(offset * 20));
-            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset));
+            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset2(offset));
+            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset + 1));
         });
     }
 

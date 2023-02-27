@@ -457,7 +457,7 @@ public final class Hurtable extends FeatureModel
             }
             recover.restart();
         }
-        if (fall)
+        if (fall && stats.getHealth() == 0)
         {
             if (effect.isPresent())
             {

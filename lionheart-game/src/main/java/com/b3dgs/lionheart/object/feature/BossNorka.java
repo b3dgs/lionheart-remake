@@ -54,7 +54,6 @@ import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.extro.Extro;
-import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Boss Norka feature implementation.
@@ -514,10 +513,8 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Body body;
     @FeatureGet private Launcher launcher;
-    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.

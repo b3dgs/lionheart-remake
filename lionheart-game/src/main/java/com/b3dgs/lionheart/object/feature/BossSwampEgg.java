@@ -59,7 +59,6 @@ import com.b3dgs.lionheart.constant.CollisionName;
 @FeatureInterface
 public final class BossSwampEgg extends FeatureModel implements Routine, Recyclable, TileCollidableListener
 {
-    private static final int PALLET_OFFSET = 15;
     private static final String ANIM_HATCH = "hatch";
     private static final double FALL_VELOCITY = 0.12;
 
@@ -108,7 +107,7 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
     public void setFrameOffset(int offset)
     {
         this.offset = offset;
-        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(offset, 1, 3) * 15);
     }
 
     @Override
@@ -141,11 +140,11 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
                           transformable.getX(),
                           transformable.getY() + transformable.getHeight() / 2)
                    .getFeature(Rasterable.class)
-                   .setAnimOffset2(offset * 8);
+                   .setAnimOffset2(offset);
 
             spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Little.xml"), transformable)
                    .getFeature(Rasterable.class)
-                   .setAnimOffset2(offset * 8);
+                   .setAnimOffset2(offset);
 
             identifiable.destroy();
         }

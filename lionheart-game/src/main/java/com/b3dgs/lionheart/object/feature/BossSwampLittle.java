@@ -32,8 +32,13 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
+import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableListener;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Boss Swamp 2 little feature implementation.
@@ -42,14 +47,14 @@ import com.b3dgs.lionheart.constant.Anim;
  * </ol>
  */
 @FeatureInterface
-public final class BossSwampLittle extends FeatureModel implements Routine, Recyclable
+public final class BossSwampLittle extends FeatureModel implements Routine, Recyclable, TileCollidableListener
 {
     private static final double SPEED_X = 1.2;
 
     private final Trackable target = services.get(Trackable.class);
     private final Animation walk;
 
-    private double vx;
+    private double sh;
     private boolean init;
 
     @FeatureGet private Transformable transformable;
@@ -84,21 +89,42 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
     {
         if (init)
         {
-            vx = transformable.getX() > target.getX() ? -SPEED_X : SPEED_X;
-            if (vx > 0)
+            sh = transformable.getX() > target.getX() ? -SPEED_X : SPEED_X;
+            if (sh > 0)
             {
                 mirrorable.mirror(Mirror.HORIZONTAL);
             }
             init = false;
         }
-        transformable.moveLocationX(extrp, vx);
+        transformable.moveLocationX(extrp, sh);
+    }
+
+    @Override
+    public void notifyTileCollided(CollisionResult result, CollisionCategory category)
+    {
+        if (result.startWithX(CollisionName.STEEP)
+            && !result.endWithY(CollisionName.GROUND)
+            && category.getAxis() == Axis.X
+            && (result.containsX(CollisionName.LEFT) && sh > 0 || result.containsX(CollisionName.RIGHT) && sh < 0))
+        {
+            transformable.teleportX(transformable.getX() - sh * 5);
+            if (sh < 0)
+            {
+                mirrorable.mirror(Mirror.HORIZONTAL);
+            }
+            else
+            {
+                mirrorable.mirror(Mirror.NONE);
+            }
+            sh = -sh;
+        }
     }
 
     @Override
     public void recycle()
     {
         init = true;
-        vx = 0.0;
+        sh = 0.0;
         animatable.play(walk);
     }
 }

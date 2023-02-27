@@ -64,7 +64,6 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private static final int MAX_AWAY_Y = 388;
     private static final double MOVE_X = 1.1;
     private static final int BOWL_MARGIN = 48;
-    private static final int PALLET_OFFSET = 2;
 
     private final List<Launchable> bowls = new ArrayList<>();
     private final Trackable target = services.get(Trackable.class);
@@ -263,7 +262,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
             updateBowls(extrp);
         }
 
-        rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(getFrameOffset(), 0, 2) * 2);
 
         transformable.moveLocation(extrp, moveX, moveY);
     }

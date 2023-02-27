@@ -47,7 +47,6 @@ import com.b3dgs.lionheart.Constant;
 @FeatureInterface
 public final class BossSwampNeck extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final int PALLET_OFFSET = 2;
     private static final int OFFSET_X = -26;
     private static final int OFFSET_Y = 87;
     private static final int HIT_DELAY_MS = 30;
@@ -106,7 +105,7 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
      */
     public void setFrameOffset(int offset)
     {
-        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * 2);
     }
 
     /**

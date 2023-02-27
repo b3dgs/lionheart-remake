@@ -223,7 +223,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             splitTrackerY[i] = 0.0;
         }
 
-        spawnTick.start();
     }
 
     private void playNextMusicTask()
@@ -455,7 +454,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             splitTracker[i] = new CameraTracker(splitCamera[i]);
             camera.setInternal(i + 1, splitCamera[i]);
 
-            final Featurable player = createPlayerSplit(settings, init, stage);
+            final Featurable player = createPlayerSplit(settings, init, stage, i + 1);
             player.getFeature(EntityModel.class).setCamera(splitCamera[i]);
             player.getFeature(EntityModel.class).setTracker(splitTracker[i]);
             splitHud[i].setFeaturable(player);
@@ -903,9 +902,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * @param stage The stage reference.
      * @return The created player.
      */
-    private Featurable createPlayerSplit(Settings settings, InitConfig init, StageConfig stage)
+    private Featurable createPlayerSplit(Settings settings, InitConfig init, StageConfig stage, int id)
     {
-        final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn.xml"));
+        final Featurable featurable = factory.create(Medias.create(Folder.HERO, "valdyn", "Valdyn" + id + ".xml"));
         players.add(featurable);
         handler.add(featurable);
 
@@ -1230,6 +1229,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         handler.add(featurable);
     }
 
+    private void updateSpawn(double extrp)
+    {
+        spawnTick.update(extrp);
+        if (spawnTick.elapsedTime(source.getRate(), 176700))
+        {
+            for (int i = 0; i < players.size(); i++)
+            {
+                players.get(i).getFeature(Stats.class).win();
+            }
+            playMusic(Music.BOSS_WIN);
+            spawnTick.stop();
+        }
+    }
+
     /**
      * Load the stage from configuration.
      * 
@@ -1285,6 +1298,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
         }
         tick.restart();
+        spawnTick.start();
     }
 
     @Override
@@ -1364,7 +1378,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void update(double extrp)
     {
-        spawnTick.update(extrp);
+        updateSpawn(extrp);
+
         if (server)
         {
             camera.setIntervals(0, 0);

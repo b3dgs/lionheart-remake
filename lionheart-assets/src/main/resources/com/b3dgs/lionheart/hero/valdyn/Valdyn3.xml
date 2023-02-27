@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lionengine:featurable xmlns:lionengine="http://lionengine.b3dgs.com/xsd/9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://lionengine.b3dgs.com/xsd/9 http://lionengine.b3dgs.com/xsd/9/featurable.xsd">
+    <lionengine:class>com.b3dgs.lionengine.helper.EntityHelper</lionengine:class>
+    <lionengine:setup>com.b3dgs.lionheart.object.SetupEntity</lionengine:setup>
+    <lionengine:features>
+        <lionengine:feature>com.b3dgs.lionheart.object.EntityModel</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Stats</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.SwordShade</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Drownable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Hurtable</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.MapLimit</lionengine:feature>
+        <lionengine:feature>com.b3dgs.lionheart.object.feature.Trackable</lionengine:feature>
+    </lionengine:features>
+    <lionengine:surface image="Valdyn_3.png"/>
+    <lionengine:frames horizontal="13" vertical="12"/>
+    <lionengine:size width="20" height="55"/>
+    <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
+    <lionengine:animations>
+        <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="idleanimal" start="4" end="7" speed="0.3" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="2" y="10" width="16" height="38"/>
+        </lionengine:animation>
+        <lionengine:animation name="idledragon" start="8" end="11" speed="0.3" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="2" y="10" width="16" height="38"/>
+        </lionengine:animation>
+        <lionengine:animation name="crouch" start="3" end="3" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="34"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="land" start="21" end="21" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="50"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="walk" start="26" end="35" speed="0.3" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="turn" start="26" end="35" speed="0.3" reversed="false" repeat="true"/>
+        <lionengine:animation name="jump" start="17" end="19" speed="0.3" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="10" width="20" height="45"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="fall" start="20" end="20" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="grip" x="0" y="53" width="1" height="1"/>
+        </lionengine:animation>
+        <lionengine:animation name="border" start="13" end="16" speed="0.12" reversed="true" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="slide" start="24" end="24" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="slidefast" start="25" end="25" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="slideslow" start="23" end="23" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="lianaidle" start="56" end="56" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="lianawalk" start="36" end="44" speed="0.24" reversed="false" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="lianaslide" start="53" end="59" speed="0.24" reversed="true" repeat="true">
+            <lionengine:collisionFramed prefix="body" x="0" y="-5" width="12" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="lianasoar" start="72" end="82" speed="0.18" reversed="true" repeat="false">
+            <lionengine:collisionFramed prefix="body" number="1" x="-3" y="0" width="12" height="57"/>
+            <lionengine:collisionFramed prefix="body" number="2" x="-3" y="0" width="12" height="57"/>
+            <lionengine:collisionFramed prefix="body" number="3" x="-3" y="10" width="12" height="50"/>
+            <lionengine:collisionFramed prefix="body" number="4" x="0" y="15" width="15" height="45"/>
+            <lionengine:collisionFramed prefix="body" number="5" x="3" y="20" width="18" height="40"/>
+            <lionengine:collisionFramed prefix="body" number="6" x="6" y="25" width="24" height="40"/>
+            <lionengine:collisionFramed prefix="body" number="7" x="9" y="30" width="30" height="40"/>
+            <lionengine:collisionFramed prefix="body" number="8" x="6" y="35" width="24" height="45"/>
+            <lionengine:collisionFramed prefix="body" number="9" x="3" y="40" width="18" height="50"/>
+            <lionengine:collisionFramed prefix="body" number="10" x="0" y="45" width="15" height="55"/>
+            <lionengine:collisionFramed prefix="body" number="11" x="-3" y="50" width="12" height="56"/>
+        </lionengine:animation>
+        <lionengine:animation name="gripidle" start="72" end="72" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="-3" y="0" width="12" height="56"/>
+        </lionengine:animation>
+        <lionengine:animation name="gripsoar" start="73" end="82" speed="0.18" reversed="false" repeat="false"/>
+        <lionengine:animation name="hurt" start="67" end="67" speed="0.125" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="drowned" start="67" end="69" speed="0.15" reversed="false" repeat="false"/>
+        <lionengine:animation name="bitten" start="67" end="69" speed="0.15" reversed="false" repeat="false"/>
+        <lionengine:animation name="die" start="67" end="69" speed="0.15" reversed="false" repeat="false"/>
+        <lionengine:animation name="dead" start="70" end="71" speed="0.18" reversed="false" repeat="true"/>
+        <lionengine:animation name="respawn" start="71" end="71" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="win" start="153" end="153" speed="1.0" reversed="false" repeat="false"/>
+        <lionengine:animation name="prepareattack" start="83" end="83" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="preparedattack" start="84" end="84" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="unprepareattack" start="83" end="83" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="prepareattackcrouch" start="85" end="85" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="preparedattackcrouch" start="86" end="86" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="unprepareattackcrouch" start="85" end="85" speed="1.0" reversed="false" repeat="false">
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="37"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attacktop" start="93" end="95" speed="0.42" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="1" x="-15" y="60" width="12" height="8"/>
+            <lionengine:collisionFramed number="2" x="0" y="46" width="20" height="24"/>
+            <lionengine:collisionFramed number="3" x="20" y="46" width="20" height="20"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackhorizontal" start="107" end="111" speed="0.48" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="1" x="-12" y="60" width="10" height="2"/>
+            <lionengine:collisionFramed number="2" x="-22" y="45" width="5" height="15"/>
+            <lionengine:collisionFramed number="3" x="-24" y="25" width="5" height="25"/>
+            <lionengine:collisionFramed number="4" x="-10" y="15" width="15" height="10"/>
+            <lionengine:collisionFramed number="5" x="18" y="25" width="30" height="15"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="16" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackturning" start="130" end="139" speed="0.42" reversed="false" repeat="false">
+            <lionengine:collisionFramed number="8" x="-15" y="42" width="30" height="10"/>
+            <lionengine:collisionFramed number="9" x="-15" y="40" width="30" height="10"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="15" width="20" height="40"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackcrouchhorizontal" start="88" end="92" speed="0.48" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="1" x="5" y="1" width="5" height="8"/>
+            <lionengine:collisionFramed number="2" x="10" y="1" width="5" height="8"/>
+            <lionengine:collisionFramed number="3" x="15" y="1" width="5" height="8"/>
+            <lionengine:collisionFramed number="4" x="20" y="1" width="5" height="8"/>
+            <lionengine:collisionFramed number="5" x="26" y="1" width="5" height="8"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="35"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackjump" start="140" end="145" speed="0.42" reversed="false" repeat="false">
+            <lionengine:collisionFramed number="1" x="-24" y="26" width="5" height="2"/>
+            <lionengine:collisionFramed number="2" x="-16" y="24" width="15" height="22"/>
+            <lionengine:collisionFramed number="3" x="-10" y="40" width="35" height="22"/>
+            <lionengine:collisionFramed number="4" x="-5" y="52" width="35" height="22"/>
+            <lionengine:collisionFramed number="5" x="15" y="34" width="20" height="32"/>
+            <lionengine:collisionFramed number="6" x="15" y="16" width="10" height="17"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="20" height="55"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackfall" start="87" end="87" speed="1.0" reversed="false" repeat="true">
+            <lionengine:collisionFramed x="-3" y="0" width="10" height="26"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="30" width="20" height="25"/>
+            <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
+            <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackslide" start="121" end="125" speed="0.48" reversed="false" repeat="false">
+            <lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25"/>
+            <lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25"/>
+            <lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25"/>
+            <lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackliana" start="146" end="150" speed="0.48" reversed="false" repeat="false">
+            <lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25"/>
+            <lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25"/>
+            <lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25"/>
+            <lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15"/>
+        </lionengine:animation>
+        <lionengine:animation name="attacklianaslide" start="146" end="150" speed="0.48" reversed="false" repeat="false">
+            <lionengine:collisionFramed number="2" x="0" y="55" width="26" height="25"/>
+            <lionengine:collisionFramed number="3" x="10" y="55" width="26" height="25"/>
+            <lionengine:collisionFramed number="4" x="15" y="25" width="26" height="25"/>
+            <lionengine:collisionFramed number="5" x="15" y="5" width="26" height="15"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackgrip" start="112" end="116" speed="0.48" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="3" x="12" y="45" width="10" height="15"/>
+            <lionengine:collisionFramed number="4" x="25" y="35" width="12" height="20"/>
+            <lionengine:collisionFramed number="5" x="25" y="18" width="15" height="16"/>
+            <lionengine:collisionFramed prefix="body" x="0" y="0" width="16" height="55"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackanimal" start="126" end="129" speed="0.42" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="1" x="-15" y="64" width="12" height="4"/>
+            <lionengine:collisionFramed number="2" x="0" y="50" width="20" height="20"/>
+            <lionengine:collisionFramed number="3" x="20" y="50" width="20" height="16"/>
+            <lionengine:collisionFramed prefix="body" x="2" y="10" width="16" height="38"/>
+        </lionengine:animation>
+        <lionengine:animation name="attackdragon" start="117" end="120" speed="0.42" reversed="true" repeat="false">
+            <lionengine:collisionFramed number="1" x="-15" y="64" width="12" height="4"/>
+            <lionengine:collisionFramed number="2" x="0" y="50" width="20" height="20"/>
+            <lionengine:collisionFramed number="3" x="20" y="50" width="20" height="16"/>
+            <lionengine:collisionFramed prefix="body" x="2" y="10" width="16" height="38"/>
+        </lionengine:animation>
+        <lionengine:animation name="shade_attacktop" start="1" end="3" speed="0.42" reversed="true" repeat="false"/>
+        <lionengine:animation name="shade_attackhorizontal" start="10" end="14" speed="0.48" reversed="true" repeat="false"/>
+        <lionengine:animation name="shade_attackturning" start="28" end="36" speed="0.42" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackjump" start="37" end="42" speed="0.42" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackslide" start="47" end="50" speed="0.48" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackliana" start="39" end="42" speed="0.48" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attacklianaslide" start="39" end="42" speed="0.48" reversed="false" repeat="false"/>
+        <lionengine:animation name="shade_attackgrip" start="15" end="19" speed="0.48" reversed="true" repeat="false"/>
+        <lionengine:animation name="shade_attackanimal" start="26" end="27" speed="0.48" reversed="true" repeat="false"/>
+        <lionengine:animation name="shade_attackdragon" start="26" end="27" speed="0.48" reversed="true" repeat="false"/>
+    </lionengine:animations>
+    <lionengine:categories>
+        <lionengine:category name="head_left" axis="Y" x="-4" y="48">
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="head_right" axis="Y" x="4" y="48">
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="head" axis="Y" x="0" y="48">
+            <lionengine:group>horizontal</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_48_left" axis="X" x="-6" y="48">
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_48_right" axis="X" x="6" y="48">
+            <lionengine:group>left_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_48" axis="X" x="0" y="48">
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_33_left" axis="X" x="-6" y="33">
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_33_right" axis="X" x="6" y="33">
+            <lionengine:group>left_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_33" axis="X" x="0" y="33">
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_18_left" axis="X" x="-6" y="18">
+            <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>steep_right_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_18_right" axis="X" x="6" y="18">
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>steep_left_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_18" axis="X" x="0" y="18">
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>steep_left_vertical</lionengine:group>
+            <lionengine:group>steep_right_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_1_left" axis="X" x="-6" y="1">
+            <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>steep_right_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_1_right" axis="X" x="6" y="1">
+            <lionengine:group>left_vertical</lionengine:group>
+            <lionengine:group>steep_left_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_1" axis="X" x="0" y="1">
+            <lionengine:group>left_vertical</lionengine:group>
+            <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>steep_right_vertical</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="hand_liana" axis="Y" x="0" y="55" glue="true">
+            <lionengine:group>liana_left</lionengine:group>
+            <lionengine:group>liana_right</lionengine:group>
+            <lionengine:group>liana_slope_0_right</lionengine:group>
+            <lionengine:group>liana_slope_1_right</lionengine:group>
+            <lionengine:group>liana_horizontal</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="hand_grip" axis="Y" x="0" y="43" glue="true">
+            <lionengine:group>grip</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_x_left" axis="X" x="-6" y="5">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
+            <lionengine:group>steep_right_vertical</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_x_right" axis="X" x="6" y="5">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_left_vertical</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>left_vertical</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_x_center" axis="X" x="0" y="5">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
+            <lionengine:group>steep_left_vertical</lionengine:group>
+            <lionengine:group>steep_right_vertical</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>left_vertical</lionengine:group>
+            <lionengine:group>right_vertical</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_left" axis="Y" x="-4" y="0" glue="true">
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+            <lionengine:group>groundfix</lionengine:group>
+            <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline7_1_left</lionengine:group>
+            <lionengine:group>incline7_2_left</lionengine:group>
+            <lionengine:group>incline7_1_right</lionengine:group>
+            <lionengine:group>incline7_2_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_right" axis="Y" x="4" y="0" glue="true">
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+            <lionengine:group>groundfix</lionengine:group>
+            <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline7_1_left</lionengine:group>
+            <lionengine:group>incline7_2_left</lionengine:group>
+            <lionengine:group>incline7_1_right</lionengine:group>
+            <lionengine:group>incline7_2_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_center" axis="Y" x="0" y="0" glue="true">
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>pillar</lionengine:group>
+            <lionengine:group>pillar2</lionengine:group>
+            <lionengine:group>groundfix</lionengine:group>
+            <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>steep_0_left</lionengine:group>
+            <lionengine:group>steep_left_ground</lionengine:group>
+            <lionengine:group>steep_1_left</lionengine:group>
+            <lionengine:group>steep_0_right</lionengine:group>
+            <lionengine:group>steep_1_right</lionengine:group>
+            <lionengine:group>steep_1_right_spike</lionengine:group>
+            <lionengine:group>liana_horizontal</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline7_1_left</lionengine:group>
+            <lionengine:group>incline7_2_left</lionengine:group>
+            <lionengine:group>incline7_1_right</lionengine:group>
+            <lionengine:group>incline7_2_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_left_2" axis="Y" x="-4" y="-1" glue="true">
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>ground7</lionengine:group>
+            <lionengine:group>incline7_1_left</lionengine:group>
+            <lionengine:group>incline7_2_left</lionengine:group>
+            <lionengine:group>incline7_1_right</lionengine:group>
+            <lionengine:group>incline7_2_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_right_2" axis="Y" x="4" y="-1" glue="true">
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>ground7</lionengine:group>
+            <lionengine:group>incline7_1_left</lionengine:group>
+            <lionengine:group>incline7_2_left</lionengine:group>
+            <lionengine:group>incline7_1_right</lionengine:group>
+            <lionengine:group>incline7_2_right</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="leg_center_2" axis="Y" x="0" y="-1" glue="true">
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>ground15_pillar</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>ground7</lionengine:group>
+            <lionengine:group>incline7_1_left</lionengine:group>
+            <lionengine:group>incline7_2_left</lionengine:group>
+            <lionengine:group>incline7_1_right</lionengine:group>
+            <lionengine:group>incline7_2_right</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
+    <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
+    <lionengine:layerable layerRefresh="3" layerDisplay="9"/>
+    <lionengine:body gravity="0.54" gravityMax="7.8"/>
+    <lionengine:collidable group="1" accepted="1%2%3"/>
+    <alwaysUpdate>true</alwaysUpdate>
+</lionengine:featurable>

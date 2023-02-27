@@ -568,6 +568,12 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             config = new ModelConfig(root);
         }
+        if (root.hasNode(BodyConfig.NODE_BODY))
+        {
+            final BodyConfig c = BodyConfig.imports(root);
+            body.setGravity(c.getGravity());
+            body.setGravityMax(c.getGravityMax());
+        }
         mirrorable.mirror(config.getMirror().orElse(mirror).booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);
     }

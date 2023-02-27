@@ -16,6 +16,11 @@
     <lionengine:collisions>
         <lionengine:collision name="take" offsetX="0" offsetY="0" width="8" height="8" mirror="false"/>
     </lionengine:collisions>
+    <lionengine:categories>
+        <lionengine:category name="leg" axis="Y" x="-5" y="0">
+            <lionengine:group>ground</lionengine:group>
+        </lionengine:category>
+    </lionengine:categories>
     <lionengine:state>com.b3dgs.lionheart.object.state.StateIdle</lionengine:state>
     <lionengine:rasterable extern="true"/>
     <lionengine:layerable layerRefresh="3" layerDisplay="5"/>

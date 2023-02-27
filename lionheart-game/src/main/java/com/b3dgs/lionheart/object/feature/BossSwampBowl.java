@@ -46,7 +46,6 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossSwampBowl extends FeatureModel implements Routine, Recyclable, CollidableListener
 {
-    private static final int PALLET_OFFSET = 2;
     private static final int HIT_DELAY_MS = 30;
 
     private final Tick tick = new Tick();
@@ -109,7 +108,7 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
      */
     public void setFrameOffset(int offset)
     {
-        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * PALLET_OFFSET);
+        rasterable.setAnimOffset2(UtilMath.clamp(offset, 0, 2));
     }
 
     @Override
