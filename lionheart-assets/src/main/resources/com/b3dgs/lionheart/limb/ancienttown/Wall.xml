@@ -10,7 +10,7 @@
     <lionengine:origin>CENTER_BOTTOM</lionengine:origin>
     <lionengine:animations>
         <lionengine:animation name="idle" start="1" end="1" speed="1.0" reversed="false" repeat="false">
-            <lionengine:collisionFramed prefix="left_vertical" x="0" y="0" width="1" height="90"/>
+            <lionengine:collisionFramed prefix="left_vertical" x="0" y="0" width="1" height="110"/>
         </lionengine:animation>
         <lionengine:animation name="fall" start="1" end="80" speed="0.95" reversed="false" repeat="false">
             <lionengine:collisionFramed prefix="left_vertical" number="1" x="0" y="0" width="1" height="79"/>
