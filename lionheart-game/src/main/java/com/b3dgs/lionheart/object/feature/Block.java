@@ -40,6 +40,7 @@ import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Block feature implementation.
@@ -90,6 +91,11 @@ public final class Block extends FeatureModel implements CollidableListener, Rec
                 }
                 identifiable.destroy();
                 current = CollidableListenerVoid.getInstance();
+
+                if (by.getName().startsWith(Anim.ATTACK_FALL))
+                {
+                    collidable.getFeature(EntityModel.class).jumpHit();
+                }
             }
         };
     }
