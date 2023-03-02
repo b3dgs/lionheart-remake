@@ -36,7 +36,6 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
@@ -63,7 +62,6 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
     private Updatable updater = UpdatableVoid.getInstance();
     private boolean fired;
 
-    @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
 

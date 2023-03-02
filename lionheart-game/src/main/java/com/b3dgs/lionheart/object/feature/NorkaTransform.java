@@ -33,7 +33,6 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -52,7 +51,6 @@ public final class NorkaTransform extends FeatureModel implements Routine, Recyc
     private int max;
     private Updatable phase;
 
-    @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Identifiable identifiable;
 

@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -27,7 +26,6 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
@@ -65,11 +63,8 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
     private Force old;
 
     @FeatureGet private EntityModel model;
-    @FeatureGet private Animatable animatable;
     @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Transformable reference;
     @FeatureGet private Launchable launchable;
-    @FeatureGet private Collidable collidable;
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Glue glue;
 

@@ -39,7 +39,6 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.Anim;
@@ -72,8 +71,6 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     private Animation fall;
     private Animatable wall;
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Mirrorable mirrorable;

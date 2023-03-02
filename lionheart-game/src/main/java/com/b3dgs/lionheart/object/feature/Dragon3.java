@@ -25,16 +25,13 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
-import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Dragon3 feature implementation.
@@ -57,9 +54,6 @@ public final class Dragon3 extends FeatureModel implements Routine, Recyclable
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.

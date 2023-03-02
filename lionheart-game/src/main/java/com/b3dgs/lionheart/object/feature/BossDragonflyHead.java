@@ -32,7 +32,6 @@ import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -84,7 +83,6 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Mirrorable mirrorable;
 
     /**
      * Create feature.

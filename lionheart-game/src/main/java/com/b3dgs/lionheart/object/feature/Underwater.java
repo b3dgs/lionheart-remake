@@ -26,7 +26,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.FramesConfig;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -62,7 +61,6 @@ public final class Underwater extends FeatureModel implements Routine, Recyclabl
     private Renderable renderer;
 
     @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
 
     /**

@@ -57,8 +57,6 @@ public final class CarnivorousPlant extends FeatureModel implements Routine, Rec
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     @FeatureGet private Animatable animatable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.

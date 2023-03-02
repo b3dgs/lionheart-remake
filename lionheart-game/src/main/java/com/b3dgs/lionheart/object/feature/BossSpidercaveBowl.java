@@ -30,10 +30,8 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidable;
@@ -62,9 +60,7 @@ public final class BossSpidercaveBowl extends FeatureModel implements Routine, R
     @FeatureGet private Animatable animatable;
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private Collidable collidable;
-    @FeatureGet private Transformable transformable;
     @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Launchable launchable;
 
     /**

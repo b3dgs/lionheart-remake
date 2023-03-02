@@ -38,7 +38,6 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
@@ -92,7 +91,6 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Launcher launcher;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Stats stats;
 

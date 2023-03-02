@@ -24,16 +24,12 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
-import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
-import com.b3dgs.lionheart.object.EntityModel;
 
 /**
  * Ghost2 feature implementation.
@@ -59,11 +55,7 @@ public final class Ghost2 extends FeatureModel implements Routine, Recyclable
     private boolean first;
 
     @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Rasterable rasterable;
     @FeatureGet private Hurtable hurtable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler handler;
 
     /**
      * Create feature.

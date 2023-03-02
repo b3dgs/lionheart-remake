@@ -48,8 +48,6 @@ public final class TurningHit extends Turning implements CollidableListener
 
     @FeatureGet private Animatable animatable;
     @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Collidable collidable;
 
     private boolean stopped;
 

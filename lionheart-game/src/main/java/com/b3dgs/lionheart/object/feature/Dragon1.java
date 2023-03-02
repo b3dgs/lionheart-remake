@@ -38,7 +38,6 @@ import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.Editable;
-import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.XmlLoader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
@@ -72,7 +71,6 @@ public final class Dragon1 extends FeatureModel
     @FeatureGet private Launcher launcher;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Identifiable identifiable;
-    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.

@@ -91,7 +91,6 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     @FeatureGet private Transformable transformable;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Stats stats;
 
     /**
      * Create feature.

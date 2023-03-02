@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -61,7 +60,6 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
     private Updatable current;
 
     @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Identifiable identifiable;
 
     /**

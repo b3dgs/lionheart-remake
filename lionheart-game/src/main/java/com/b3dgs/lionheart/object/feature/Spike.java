@@ -36,7 +36,6 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.networkable.Networkable;
 import com.b3dgs.lionengine.game.feature.networkable.Syncable;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
@@ -74,7 +73,6 @@ public final class Spike extends FeatureModel
     private Updatable updater;
 
     @FeatureGet private Animatable animatable;
-    @FeatureGet private Collidable collidable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Networkable networkable;
 

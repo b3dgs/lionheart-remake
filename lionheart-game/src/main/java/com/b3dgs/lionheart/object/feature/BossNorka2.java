@@ -83,7 +83,6 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Body body;
     @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Stats stats;
     @FeatureGet private Launcher launcher;
 
     /**

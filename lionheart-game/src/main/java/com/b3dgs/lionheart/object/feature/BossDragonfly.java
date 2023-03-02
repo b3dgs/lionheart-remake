@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -73,7 +72,6 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private int oldHealth;
 
     @FeatureGet private EntityModel model;
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Hurtable hurtable;

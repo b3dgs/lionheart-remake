@@ -43,7 +43,6 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
-import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.RasterType;
@@ -89,8 +88,6 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     @FeatureGet private Transformable transformable;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Rasterable rasterable;
 
