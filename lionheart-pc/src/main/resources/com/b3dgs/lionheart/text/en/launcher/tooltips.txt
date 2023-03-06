@@ -20,8 +20,6 @@ Select music volume.
 Current music volume.
 Select mound fx volume.
 Current sound fx volume.
-Choose stages set (original Amiga stages or custom stages).
-Selected stages set.
 Image loading strategy mode.
 Selected loading strategy.
 Checked to enable parallel loading (default), unchecked for sequential loading.

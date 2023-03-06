@@ -50,12 +50,24 @@ public final class TestPart2 extends Part2
     {
         super(context, new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
 
-        device.addFire(push, DeviceMapping.UP.getIndex(), new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
-        device.addFire(push, DeviceMapping.DOWN.getIndex(), new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));
-        device.addFire(push,
+        device.addFire(null,
+                       push,
+                       DeviceMapping.UP.getIndex(),
+                       DeviceMapping.UP.getIndex(),
+                       new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
+        device.addFire(null,
+                       push,
+                       DeviceMapping.DOWN.getIndex(),
+                       DeviceMapping.DOWN.getIndex(),
+                       new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));
+        device.addFire(null,
+                       push,
+                       DeviceMapping.CTRL_RIGHT.getIndex(),
                        DeviceMapping.CTRL_RIGHT.getIndex(),
                        new DeviceActionModel(DeviceMapping.CTRL_RIGHT.getIndex(), push));
-        device.addFire(push,
+        device.addFire(null,
+                       push,
+                       DeviceMapping.FORCE_EXIT.getIndex(),
                        DeviceMapping.FORCE_EXIT.getIndex(),
                        new DeviceActionModel(DeviceMapping.FORCE_EXIT.getIndex(), push));
 

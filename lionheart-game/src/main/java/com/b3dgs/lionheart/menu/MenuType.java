@@ -21,6 +21,12 @@ package com.b3dgs.lionheart.menu;
  */
 enum MenuType
 {
+    /** Launcher menu. */
+    LAUNCHER,
+    /** Launcher play. */
+    LAUNCHER_PLAY,
+    /** Launcher exit. */
+    LAUNCHER_EXIT,
     /** Main menu. */
     MAIN,
     /** New game. */
@@ -31,6 +37,4 @@ enum MenuType
     OPTIONS,
     /** Intro. */
     INTRO,
-    /** Exit. */
-    EXIT
 }

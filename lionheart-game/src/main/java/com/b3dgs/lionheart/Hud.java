@@ -82,7 +82,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private static final int LIFE_Y = 1;
     private static final int LIFE_X_BORDER = 4;
 
-    private static final double TIME_X_RATIO = 0.81;
+    private static final double TIME_X_RATIO = 0.0;
     private static final int TIME_Y = 1;
 
     private static final int PAUSE_FLICKER_DELAY_MS = 250;
@@ -120,6 +120,9 @@ public final class Hud implements Resource, Updatable, Renderable
     private boolean paused;
     private boolean exit;
     private boolean flicker;
+    private boolean healthVisible = true;
+    private boolean talismentVisible = true;
+    private boolean lifeVisible = true;
 
     /**
      * Create hud.
@@ -210,6 +213,36 @@ public final class Hud implements Resource, Updatable, Renderable
             updaterPause = UpdatableVoid.getInstance();
             rendererHud = RenderableVoid.getInstance();
         }
+    }
+
+    /**
+     * Set visibility.
+     * 
+     * @param visible <code>true</code> if visible, <code>false</code> else.
+     */
+    public void setVisibleHealth(boolean visible)
+    {
+        healthVisible = visible;
+    }
+
+    /**
+     * Set visibility.
+     * 
+     * @param visible <code>true</code> if visible, <code>false</code> else.
+     */
+    public void setVisibleTalisment(boolean visible)
+    {
+        talismentVisible = visible;
+    }
+
+    /**
+     * Set visibility.
+     * 
+     * @param visible <code>true</code> if visible, <code>false</code> else.
+     */
+    public void setVisibleLife(boolean visible)
+    {
+        lifeVisible = visible;
     }
 
     /**
@@ -379,9 +412,12 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     private void renderHealth(Graphic g)
     {
-        for (int i = 0; i < hearts.length; i++)
+        if (healthVisible)
         {
-            hearts[i].render(g);
+            for (int i = 0; i < hearts.length; i++)
+            {
+                hearts[i].render(g);
+            }
         }
     }
 
@@ -394,9 +430,11 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         rendererPause.render(g);
 
-        talisment.render(g);
-        numberTalisment.render(g);
-
+        if (talismentVisible)
+        {
+            talisment.render(g);
+            numberTalisment.render(g);
+        }
         if (swordVisible)
         {
             sword.render(g);
@@ -405,9 +443,11 @@ public final class Hud implements Resource, Updatable, Renderable
         {
             amulet.render(g);
         }
-
-        life.render(g);
-        numberLife.render(g);
+        if (lifeVisible)
+        {
+            life.render(g);
+            numberLife.render(g);
+        }
 
         if (time.isStarted())
         {

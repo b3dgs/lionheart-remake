@@ -152,14 +152,14 @@ public final class AppLionheart
 
     private static GameConfig loadConfig(List<String> params)
     {
-        final GameType gameType = getParam(params, ARG_GAMETYPE, GameType.COOP, GameType::valueOf);
-        final int players = getParam(params, ARG_PLAYERS, Integer.valueOf(2), Integer::parseInt).intValue();
+        final GameType gameType = getParam(params, ARG_GAMETYPE, GameType.STORY, GameType::valueOf);
+        final int players = getParam(params, ARG_PLAYERS, Integer.valueOf(1), Integer::parseInt).intValue();
         final Map<Integer, Integer> controls = new HashMap<>();
         for (int i = 0; i < players; i++)
         {
             controls.put(Integer.valueOf(i), Integer.valueOf(i));
         }
-        return new GameConfig(gameType, players, Optional.empty(), controls, null);
+        return new GameConfig(gameType, players, Optional.empty(), Optional.empty(), controls, null);
     }
 
     /**

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/norka.sc68"/>
+    <map file="level/swamp/coop/stage1.lvl"/>
+    <raster folder="raster/swamp/dusk"/>
+    <background type="SWAMP_DUSK"/>
+    <foreground type="WATER" waterDepth="15" waterOffset="20"/>
+    <checkpoints>
+        <checkpoint tx="29.0" ty="6.0"/>
+    </checkpoints>
+</stage>

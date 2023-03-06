@@ -147,14 +147,12 @@ public final class Launcher
     private static final AtomicInteger ZOOM = new AtomicInteger();
     private static final AtomicInteger MUSIC = new AtomicInteger();
     private static final AtomicInteger SFX = new AtomicInteger();
-    private static final AtomicReference<String> STAGES = new AtomicReference<>(Folder.ORIGINAL);
     private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_DEFAULT);
     private static final AtomicReference<FilterType> FILTER = new AtomicReference<>(FilterType.NONE);
     private static final AtomicReference<GameplayType> GAMEPLAY = new AtomicReference<>(GameplayType.ORIGINAL);
 
     private static final String FOLDER_LAUNCHER = "launcher";
-    private static final String FILENAME_LANG = "langs.txt";
-    private static final String FILENAME_STAGE = "stages.txt";
+    private static final String FILENAME_LANGS = "langs.txt";
     private static final String FILENAME_LABELS = "labels.txt";
     private static final String FILENAME_TOOLTIPS = "tooltips.txt";
     private static final String FILENAME_ICON = "icon-256.png";
@@ -186,7 +184,6 @@ public final class Launcher
     private static final String LABEL_FLICKER_BACKGROUND = "Background:";
     private static final String LABEL_FLICKER_FOREGROUND = "Foreground:";
     private static final String LABEL_GAMEPLAY = "Gameplay:";
-    private static final String LABEL_STAGES = "Stages:";
     private static final String LABEL_CONTROLS = "Controls";
     private static final String LABEL_SINGLEPLAYER = "Singleplayer";
     private static final String LABEL_MULTIPLAYER = "Multiplayer";
@@ -263,7 +260,6 @@ public final class Launcher
         createGameplay(box);
         createSlider(box, LABEL_MUSIC, MUSIC, 0, com.b3dgs.lionengine.Constant.HUNDRED);
         createSlider(box, LABEL_SFX, SFX, 0, com.b3dgs.lionengine.Constant.HUNDRED);
-        createStages(box);
 
         final Box advanced = Box.createVerticalBox();
         createFlags(advanced);
@@ -468,16 +464,18 @@ public final class Launcher
         FLAG_STRATEGY.set(UtilMath.clamp(settings.getFlagStrategy(), 0, ImageLoadStrategy.values().length));
         FLAG_PARALLEL.set(settings.getFlagParallel());
         FLAG_VSYNC.set(settings.getFlagVsync());
-        STAGES.set(settings.getStages());
     }
 
     private static void loadLangs()
     {
-        for (final String lang : Util.readLines(Medias.create(Folder.TEXT, FILENAME_LANG)))
+        for (final String lang : Util.readLines(Medias.create(Folder.TEXT, FILENAME_LANGS)))
         {
-            final String[] data = lang.split(com.b3dgs.lionengine.Constant.SPACE);
-            LANG_FULL.put(data[0], data[1]);
-            LANG_SHORT.put(data[1], data[0]);
+            for (final String litteral : Util.readLines(Medias.create(Folder.TEXT, lang, Settings.FILE_LANG)))
+            {
+                LANG_FULL.put(lang, litteral);
+                LANG_SHORT.put(litteral, lang);
+                break;
+            }
         }
     }
 
@@ -948,18 +946,6 @@ public final class Launcher
         return String.valueOf(percent);
     }
 
-    private static void createStages(Container parent)
-    {
-        final JLabel label = createLabel(LABEL_STAGES, SwingConstants.RIGHT);
-
-        final List<String> stages = Util.readLines(Medias.create(Folder.STAGE, FILENAME_STAGE));
-
-        final JComboBox<String> combo = createCombo(stages.toArray(new String[stages.size()]), STAGES.get());
-        combo.addActionListener(e -> STAGES.set(combo.getItemAt(combo.getSelectedIndex())));
-
-        createBorderBox(parent, label, combo);
-    }
-
     private static void createControls(Container parent, Window window, Gamepad gamepad)
     {
         final GridBagConstraints constraints = new GridBagConstraints();
@@ -1015,6 +1001,7 @@ public final class Launcher
 
                 final GameConfig config = new GameConfig(dialog.getGameType(),
                                                          dialog.getPlayers(),
+                                                         Optional.empty(),
                                                          Optional.empty(),
                                                          controls,
                                                          new InitConfig(dialog.getStage(),
@@ -1379,10 +1366,6 @@ public final class Launcher
                 else if (line.contains(Settings.FLAG_VSYNC))
                 {
                     writeFormatted(output, data, FLAG_VSYNC.get());
-                }
-                else if (line.contains(Settings.STAGES))
-                {
-                    writeFormatted(output, data, STAGES.get());
                 }
                 else
                 {

@@ -21,7 +21,6 @@ import java.util.Deque;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-import com.b3dgs.lionengine.InputDeviceListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -37,6 +36,7 @@ import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DeviceControllerListener;
 
 /**
  * Chat handler dedicated to messages control and rendering.
@@ -55,7 +55,7 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
     private final Deque<String> messagesShort = new ArrayDeque<>(MESSAGES_MAX);
     private final AtomicReference<StringBuilder> builder = new AtomicReference<>(new StringBuilder());
     private final Tick tick = new Tick();
-    private final InputDeviceListener listener;
+    private final DeviceControllerListener listener;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final DeviceController device = services.get(DeviceController.class);
@@ -76,7 +76,7 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
     {
         super(services, setup);
 
-        listener = (push, c, flag) ->
+        listener = (name, push, c, flag) ->
         {
             if (flag)
             {

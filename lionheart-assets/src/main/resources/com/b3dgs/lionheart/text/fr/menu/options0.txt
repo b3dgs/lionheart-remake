@@ -1,0 +1,7 @@
+Jeu :
+Niveau(x) :
+Difficulté :
+Joueur(s) :
+Manette :
+Jouer
+Quitter

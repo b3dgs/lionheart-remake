@@ -8,7 +8,6 @@ Filtre:
 Jouabilité:
 Musique:
    Son:
-Niveaux:
 Strategy:
 Parallel:
 VSync:

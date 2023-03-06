@@ -8,7 +8,6 @@ Filtrar:
 Juego:
 Música:
    Sfx:
-Niveles:
 Strategy:
 Parallel:
 VSync:

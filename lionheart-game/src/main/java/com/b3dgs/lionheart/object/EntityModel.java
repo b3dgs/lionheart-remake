@@ -195,7 +195,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             final EntityChecker checker = provider.getFeature(EntityChecker.class);
 
-            if (game.getType() == GameType.ORIGINAL)
+            if (game.getType().is(GameType.STORY, GameType.TRAINING))
             {
                 final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
                                                     .booleanValue();

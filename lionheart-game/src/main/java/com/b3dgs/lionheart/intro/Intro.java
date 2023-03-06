@@ -21,6 +21,7 @@ import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -62,6 +63,7 @@ public class Intro extends Sequence
     /** Alpha speed. */
     int alphaSpeed = SPEED_FADE_IN;
 
+    private final Timing action = new Timing();
     private final Time time = new Time(getRate());
     private final Part1 part1;
     private final Part2 part2 = new Part2(time, getWidth(), getHeight(), getRate());
@@ -106,6 +108,7 @@ public class Intro extends Sequence
 
         setSystemCursorVisible(false);
         Util.setFilter(this);
+        action.start();
     }
 
     /**
@@ -165,8 +168,12 @@ public class Intro extends Sequence
         if (getAlpha() > 255)
         {
             alpha = 255.0;
-            audio.stop();
-            end(Menu.class, config);
+            alphaSpeed = 0;
+            action.addAction(() ->
+            {
+                audio.stop();
+                end(Menu.class, config);
+            }, 0);
         }
     }
 
@@ -269,6 +276,7 @@ public class Intro extends Sequence
     @Override
     public void update(double extrp)
     {
+        action.update(extrp);
         time.update(extrp);
         device.update(extrp);
         deviceCursor.update(extrp);

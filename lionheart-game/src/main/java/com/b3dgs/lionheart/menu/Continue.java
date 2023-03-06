@@ -120,8 +120,6 @@ public class Continue extends Sequence
     private final int mainY;
 
     private final Tick timeLeft = new Tick();
-    private final Media stage;
-    private final InitConfig init;
     private final DeviceController deviceCursor;
     private final Cursor cursor;
     private final DevicePointer pointer;
@@ -139,16 +137,12 @@ public class Continue extends Sequence
      * 
      * @param context The context reference.
      * @param game The game config reference.
-     * @param stage The current stage.
-     * @param init The init config.
      */
-    public Continue(Context context, GameConfig game, Media stage, InitConfig init)
+    public Continue(Context context, GameConfig game)
     {
         super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
 
         this.game = game;
-        this.stage = stage;
-        this.init = init;
 
         final Services services = new Services();
         services.add(context);
@@ -272,17 +266,18 @@ public class Continue extends Sequence
 
             if (choice == 0)
             {
-                end(Scene.class,
-                    game.with(new InitConfig(stage,
-                                             init.getHealthMax(),
-                                             0,
-                                             2,
-                                             init.getSword(),
-                                             init.isAmulet(),
-                                             init.getCredits(),
-                                             init.getDifficulty(),
-                                             false,
-                                             Optional.empty())));
+                final InitConfig init = game.getInit();
+                final InitConfig initNext = new InitConfig(init.getStage(),
+                                                           init.getHealthMax(),
+                                                           0,
+                                                           2,
+                                                           init.getSword(),
+                                                           init.isAmulet(),
+                                                           init.getCredits(),
+                                                           init.getDifficulty(),
+                                                           false,
+                                                           Optional.empty());
+                end(Scene.class, game.with(initNext));
             }
             else
             {
@@ -395,7 +390,7 @@ public class Continue extends Sequence
                       (int) Math.round(CENTER_X * factorH),
                       mainY + TEXT_CREDITS_Y,
                       Align.CENTER,
-                      continues.get(INDEX_CREDITS) + String.valueOf(init.getCredits()));
+                      continues.get(INDEX_CREDITS) + String.valueOf(game.getInit().getCredits()));
     }
 
     /**

@@ -88,8 +88,6 @@ public final class InitConfig
     {
         super();
 
-        Check.notNull(stage);
-
         Check.superiorOrEqual(healthMax, 0);
         Check.inferiorOrEqual(healthMax, Constant.STATS_MAX_HEALTH);
 

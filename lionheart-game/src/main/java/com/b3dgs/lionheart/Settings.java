@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Properties;
 
 import com.b3dgs.lionengine.Medias;
@@ -34,6 +35,8 @@ public final class Settings
 {
     /** Settings file. */
     public static final String FILENAME = "lionheart.properties";
+    /** Lang file. */
+    public static final String FILE_LANG = "lang.txt";
 
     /** Version key. */
     public static final String VERSION = "version";
@@ -102,13 +105,12 @@ public final class Settings
     /** Flag debug value. */
     public static final String FLAG_DEBUG = FLAG + ".debug";
 
-    /** New stages flag. */
-    public static final String STAGES = "stages";
-
     /** Single instance. */
     private static final Settings INSTANCE = new Settings();
     /** Default language. */
     private static final String DEFAULT_LANG = "en";
+    /** Local language. */
+    private static final String LOCALE_LANG = Locale.getDefault().getLanguage();
     /** Editor flag. */
     private static boolean editor;
 
@@ -263,7 +265,7 @@ public final class Settings
      */
     public String getLang()
     {
-        return properties.getProperty(LANG, DEFAULT_LANG);
+        return properties.getProperty(LANG, getDefaultLang());
     }
 
     /**
@@ -459,16 +461,6 @@ public final class Settings
     }
 
     /**
-     * Get stages value.
-     * 
-     * @return The stages value.
-     */
-    public String getStages()
-    {
-        return properties.getProperty(STAGES, Folder.ORIGINAL);
-    }
-
-    /**
      * Set text language.
      * 
      * @param lang The language value.
@@ -486,6 +478,20 @@ public final class Settings
     public void setRaster(boolean enabled)
     {
         properties.setProperty(RASTER, String.valueOf(enabled));
+    }
+
+    /**
+     * Get default platform language.
+     *
+     * @return The default language.
+     */
+    private static String getDefaultLang()
+    {
+        if (Medias.create(Folder.TEXT, LOCALE_LANG, FILE_LANG).exists())
+        {
+            return LOCALE_LANG;
+        }
+        return DEFAULT_LANG;
     }
 
     /**

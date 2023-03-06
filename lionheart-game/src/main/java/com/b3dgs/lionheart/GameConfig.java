@@ -31,6 +31,7 @@ public class GameConfig
     private final int players;
     private final GameType type;
     private final Optional<Network> network;
+    private final Optional<String> stages;
     private final Map<Integer, Integer> controls;
     private final InitConfig init;
 
@@ -39,7 +40,7 @@ public class GameConfig
      */
     public GameConfig()
     {
-        this(GameType.ORIGINAL, 1, Optional.empty(), Collections.emptyMap(), null);
+        this(GameType.STORY, 1, Optional.empty());
     }
 
     /**
@@ -56,6 +57,7 @@ public class GameConfig
         this.players = players;
         type = game;
         this.network = network;
+        stages = Optional.empty();
         controls = Collections.emptyMap();
         init = null;
     }
@@ -66,12 +68,14 @@ public class GameConfig
      * @param players The players number.
      * @param game The game type.
      * @param network The network configuration if online, absent if local.
+     * @param stages The stages set.
      * @param controls The player id as key, the control index as value.
      * @param init The init configuration.
      */
     public GameConfig(GameType game,
                       int players,
                       Optional<Network> network,
+                      Optional<String> stages,
                       Map<Integer, Integer> controls,
                       InitConfig init)
     {
@@ -80,8 +84,33 @@ public class GameConfig
         this.players = players;
         type = game;
         this.network = network;
+        this.stages = stages;
         this.controls = controls;
         this.init = init;
+    }
+
+    /**
+     * Create with custom type.
+     * 
+     * @param type The type.
+     * @param players The players number.
+     * @param controls The custom controls.
+     * @return The new configuration.
+     */
+    public GameConfig with(GameType type, int players, Map<Integer, Integer> controls)
+    {
+        return new GameConfig(type, players, network, stages, controls, init);
+    }
+
+    /**
+     * Create with stages set using existing configuration.
+     * 
+     * @param stages The stages set.
+     * @return The new configuration.
+     */
+    public GameConfig with(String stages)
+    {
+        return new GameConfig(type, players, network, Optional.ofNullable(stages), controls, init);
     }
 
     /**
@@ -92,7 +121,17 @@ public class GameConfig
      */
     public GameConfig with(InitConfig init)
     {
-        return new GameConfig(type, players, network, controls, init);
+        return new GameConfig(type, players, network, stages, controls, init);
+    }
+
+    /**
+     * Get the stages set.
+     * 
+     * @return The stages set.
+     */
+    public Optional<String> getStages()
+    {
+        return stages;
     }
 
     /**

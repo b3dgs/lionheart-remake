@@ -60,6 +60,7 @@ public enum StageVeteran implements Media
 
     /** Level file. */
     private final Media file = Medias.create(Folder.STAGE,
+                                             Folder.STORY,
                                              Folder.VETERAN,
                                              name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 

@@ -20,8 +20,6 @@ Seleccione el volumen de la música.
 Volumen de música actual.
 Seleccione el volumen del fx del montículo.
 Volumen actual de efectos de sonido.
-Elija el conjunto de etapas (original, otras son etapas personalizadas)
-Conjunto de escenarios seleccionados.
 Modo de estrategia de carga de imágenes.
 Estrategia de carga seleccionada.
 Marcado para habilitar la carga paralela (predeterminado), desmarcado para la carga secuencial.

@@ -1,4 +1,4 @@
-en English
-fr Français
-de Deutsch
-es Español
+de
+en
+es
+fr

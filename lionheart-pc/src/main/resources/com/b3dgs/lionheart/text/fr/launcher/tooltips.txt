@@ -20,8 +20,6 @@ Sélectionner le volume de la musique.
 Volume de la musique.
 Sélectionner le volume d'effets sonore.
 Volume d'effet sonore.
-Choisir les niveaux (original pour la version d'origine, les autres sont des niveaux personnalisés)
-Lot de niveaux sélectionné.
 Mode stratégie de chargement d'images.
 Stratégie de chargement sélectionnée.
 Coché pour activer le chargement parallèle (par défaut), décoché pour le chargement séquentiel.

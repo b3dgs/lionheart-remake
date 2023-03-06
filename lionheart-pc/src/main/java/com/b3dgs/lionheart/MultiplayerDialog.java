@@ -189,10 +189,10 @@ public class MultiplayerDialog extends JDialog
                 case SPEEDRUN:
                     createSpeedrun(panel);
                     break;
-                case BATTLE:
+                case VERSUS:
                     createBattle(panel);
                     break;
-                case COOP:
+                case BATTLE:
                     createCoop(panel);
                     break;
                 default:
@@ -227,7 +227,7 @@ public class MultiplayerDialog extends JDialog
 
     private void createCoop(JComponent parent)
     {
-        createStage(parent, Medias.create(Folder.STAGE, Folder.COOP).getMedias());
+        createStage(parent, Medias.create(Folder.STAGE, Folder.VERSUS).getMedias());
     }
 
     private void createStats(JComponent parent)

@@ -64,28 +64,35 @@ public final class StateRespawn extends State
     @Override
     public void enter()
     {
-        if (game.getType() == GameType.ORIGINAL && stats.getLife() == 0)
+        if (stats.getLife() == 0)
         {
             final Sequencer sequencer = model.getServices().get(Sequencer.class);
-            if (stats.getCredits() > 0)
+            if (game.getType().is(GameType.STORY))
             {
-                sequencer.end(Continue.class,
-                              model.getServices()
-                                   .get(GameConfig.class)
-                                   .with(new InitConfig(model.getServices().get(Media.class),
-                                                        stats.getHealthMax(),
-                                                        stats.getTalisment(),
-                                                        stats.getLife(),
-                                                        stats.getSword(),
-                                                        stats.hasAmulet().booleanValue(),
-                                                        stats.getCredits() - 1,
-                                                        difficulty,
-                                                        false,
-                                                        Optional.empty())));
+                if (stats.getCredits() > 0)
+                {
+                    sequencer.end(Continue.class,
+                                  model.getServices()
+                                       .get(GameConfig.class)
+                                       .with(new InitConfig(model.getServices().get(Media.class),
+                                                            stats.getHealthMax(),
+                                                            stats.getTalisment(),
+                                                            stats.getLife(),
+                                                            stats.getSword(),
+                                                            stats.hasAmulet().booleanValue(),
+                                                            stats.getCredits() - 1,
+                                                            difficulty,
+                                                            false,
+                                                            Optional.empty())));
+                }
+                else
+                {
+                    sequencer.end(Menu.class, model.getServices().get(GameConfig.class));
+                }
             }
-            else
+            else if (game.getType().is(GameType.TRAINING))
             {
-                sequencer.end(Menu.class, model.getServices().get(GameConfig.class));
+                sequencer.end(Menu.class, model.getServices().get(GameConfig.class).with((InitConfig) null));
             }
         }
         else

@@ -46,13 +46,29 @@ final class Data
      * 
      * @param g The graphic output.
      * @param choice The current choice.
+     * @param skip The items to skip.
      */
-    void render(Graphic g, int choice)
+    void render(Graphic g, int choice, int... skip)
     {
         for (int i = 0; i <= choiceMax; i++)
         {
-            choices[i].setHover(choice == i);
-            choices[i].render(g);
+            if (!isSkip(i, skip))
+            {
+                choices[i].setHover(choice == i);
+                choices[i].render(g);
+            }
         }
+    }
+
+    private static boolean isSkip(int cur, int... skip)
+    {
+        for (int i = 0; i < skip.length; i++)
+        {
+            if (cur == skip[i])
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

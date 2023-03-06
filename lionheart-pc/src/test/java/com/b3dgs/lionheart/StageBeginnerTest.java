@@ -26,13 +26,11 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.Engine;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.TaskFuture;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Test correct {@link StageBeginner} loading.
@@ -73,9 +71,7 @@ final class StageBeginnerTest
     {
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
-                                             new GameConfig().with(new InitConfig(Medias.create(Folder.STAGE,
-                                                                                                "beginner",
-                                                                                                "stage1.xml"),
+                                             new GameConfig().with(new InitConfig(stage,
                                                                                   1,
                                                                                   1,
                                                                                   1,

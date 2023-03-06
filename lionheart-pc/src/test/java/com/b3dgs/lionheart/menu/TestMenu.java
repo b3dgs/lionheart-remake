@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.io.DeviceActionModel;
 import com.b3dgs.lionengine.io.DevicePush;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.GameConfig;
+import com.b3dgs.lionheart.InitConfig;
 
 /**
  * Test menu implementation.
@@ -45,11 +46,21 @@ public final class TestMenu extends Menu
      */
     public TestMenu(Context context, DevicePush push, List<TickAction> actions)
     {
-        super(context, new GameConfig());
+        super(context, new GameConfig().with(new InitConfig(null, 0, 0, null)));
 
-        device.addFire(push, DeviceMapping.UP.getIndex(), new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
-        device.addFire(push, DeviceMapping.DOWN.getIndex(), new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));
-        device.addFire(push,
+        device.addFire(null,
+                       push,
+                       DeviceMapping.UP.getIndex(),
+                       DeviceMapping.UP.getIndex(),
+                       new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
+        device.addFire(null,
+                       push,
+                       DeviceMapping.DOWN.getIndex(),
+                       DeviceMapping.DOWN.getIndex(),
+                       new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));
+        device.addFire(null,
+                       push,
+                       DeviceMapping.CTRL_RIGHT.getIndex(),
                        DeviceMapping.CTRL_RIGHT.getIndex(),
                        new DeviceActionModel(DeviceMapping.CTRL_RIGHT.getIndex(), push));
 

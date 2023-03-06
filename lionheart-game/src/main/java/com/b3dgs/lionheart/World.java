@@ -37,6 +37,7 @@ import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.SplitType;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilConversion;
@@ -82,6 +83,8 @@ import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Text;
+import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityInputController;
 import com.b3dgs.lionengine.helper.MapTileHelper;
@@ -106,6 +109,7 @@ import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
+import com.b3dgs.lionheart.menu.Menu;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
@@ -130,6 +134,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
     private final List<Featurable> players = new ArrayList<>();
     private final Map<Integer, String> clients = services.add(new ConcurrentHashMap<>());
+    private final Sprite splitNone = Drawable.loadSprite(Medias.create(Folder.SPRITE, "split_none.png"));
     private final Text text;
     private final Thread musicTask;
     private final boolean debug;
@@ -206,9 +211,15 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         musicTask.start();
 
         final int n = game.getSplit() != SplitType.NONE ? game.getPlayers() - 1 : 0;
+        if (n == 2)
+        {
+            splitNone.load();
+            splitNone.prepare();
+            splitNone.setOrigin(Origin.MIDDLE);
+        }
         splitCamera = new Camera[n];
         splitTracker = new CameraTracker[n];
-        splitDevice = new DeviceController[game.getType() != GameType.ORIGINAL ? game.getPlayers() : 0];
+        splitDevice = new DeviceController[game.getPlayers() > 1 ? game.getPlayers() : 0];
         splitHud = new Hud[n];
         splitTrackerInitY = new int[n];
         splitTrackerY = new double[n];
@@ -485,7 +496,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             @Override
             public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint, int index)
             {
-                if (index > 0 && game.getType() == GameType.SPEEDRUN)
+                if (index > 0 && game.getType().is(GameType.SPEEDRUN))
                 {
                     player.getFeature(EntityModel.class).removeClientControl();
                     if (hud.is(player))
@@ -900,6 +911,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
      * @param settings The settings reference.
      * @param init The initial configuration.
      * @param stage The stage reference.
+     * @param id The player id.
      * @return The created player.
      */
     private Featurable createPlayerSplit(Settings settings, InitConfig init, StageConfig stage, int id)
@@ -1262,6 +1274,32 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             {
                 splitHud[i].load();
             }
+
+            if (game.getType().is(GameType.SPEEDRUN))
+            {
+                hud.setVisibleHealth(false);
+                hud.setVisibleTalisment(false);
+                hud.setVisibleLife(false);
+
+                for (int i = 0; i < splitHud.length; i++)
+                {
+                    splitHud[i].setVisibleHealth(false);
+                    splitHud[i].setVisibleTalisment(false);
+                    splitHud[i].setVisibleLife(false);
+                }
+            }
+            if (game.getType().is(GameType.BATTLE, GameType.VERSUS))
+            {
+                hud.setVisibleTalisment(false);
+                hud.setVisibleLife(false);
+
+                for (int i = 0; i < splitHud.length; i++)
+                {
+                    splitHud[i].setVisibleTalisment(false);
+                    splitHud[i].setVisibleLife(false);
+                }
+            }
+
             difficulty = init.getDifficulty();
 
             services.add(init.getStage());
@@ -1304,10 +1342,22 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void loadNextStage(String next, int delayMs, Optional<Coord> spawn)
     {
-        if (delayMs > 0)
+        if (game.getType().is(GameType.STORY))
         {
-            player.getFeature(Stats.class).win();
-            tick.addAction(() ->
+            if (delayMs > 0)
+            {
+                player.getFeature(Stats.class).win();
+                tick.addAction(() ->
+                {
+                    sequencer.end(SceneBlack.class,
+                                  game.with(Util.getInitConfig(Medias.create(next),
+                                                               player,
+                                                               difficulty,
+                                                               cheats.isEnabled(),
+                                                               spawn)));
+                }, source.getRate(), delayMs);
+            }
+            else
             {
                 sequencer.end(SceneBlack.class,
                               game.with(Util.getInitConfig(Medias.create(next),
@@ -1315,16 +1365,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                            difficulty,
                                                            cheats.isEnabled(),
                                                            spawn)));
-            }, source.getRate(), delayMs);
+            }
         }
         else
         {
-            sequencer.end(SceneBlack.class,
-                          game.with(Util.getInitConfig(Medias.create(next),
-                                                       player,
-                                                       difficulty,
-                                                       cheats.isEnabled(),
-                                                       spawn)));
+            sequencer.end(Menu.class, game.with((InitConfig) null));
         }
     }
 
@@ -1490,6 +1535,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         else
         {
             g.clear(0, 0, source.getWidth(), source.getHeight());
+            splitNone.setLocation(source.getWidth() / 2, source.getHeight() / 2);
+            splitNone.render(g);
         }
     }
 

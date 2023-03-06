@@ -1,0 +1,7 @@
+Juego:
+Etapa(s):
+Dificultad:
+Jugador(es):
+Controlador:
+Jugar
+Salida

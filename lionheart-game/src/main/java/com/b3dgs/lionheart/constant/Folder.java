@@ -49,18 +49,20 @@ public final class Folder
     public static final String LEVEL = "level";
     /** Stage folder. */
     public static final String STAGE = "stage";
+    /** Story folder. */
+    public static final String STORY = "story";
+    /** Stage speedrun folder. */
+    public static final String SPEEDRUN = "speedrun";
+    /** Stage battle folder. */
+    public static final String BATTLE = "battle";
+    /** Stage versus folder. */
+    public static final String VERSUS = "versus";
     /** Stage original folder. */
     public static final String ORIGINAL = "original";
     /** Stage veteran folder. */
     public static final String VETERAN = "veteran";
     /** Stage beginner folder. */
     public static final String BEGINNER = "beginner";
-    /** Stage speedrun folder. */
-    public static final String SPEEDRUN = "speedrun";
-    /** Stage battle folder. */
-    public static final String BATTLE = "battle";
-    /** Stage coop folder. */
-    public static final String COOP = "coop";
     /** Text folder. */
     public static final String TEXT = "text";
     /** Sfx folder. */

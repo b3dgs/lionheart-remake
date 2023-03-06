@@ -1,0 +1,5 @@
+Classic linear play with linked stages%from intro to game credits
+Individual playable stage%without intro and menu, to play quickly
+Finish stage as fast as possible.%No items, no monster, only speed
+Stay alive until last monster,%take items to survive longer !
+Fight against other players,%maximum health but no life ! 

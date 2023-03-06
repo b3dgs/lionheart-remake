@@ -17,8 +17,12 @@
 package com.b3dgs.lionheart.menu;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
@@ -30,6 +34,7 @@ import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Configurer;
@@ -47,14 +52,17 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
+import com.b3dgs.lionengine.io.DeviceControllerListener;
 import com.b3dgs.lionengine.io.DevicePointer;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Difficulty;
 import com.b3dgs.lionheart.GameConfig;
+import com.b3dgs.lionheart.GameType;
 import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Scene;
 import com.b3dgs.lionheart.SceneBlack;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Settings;
@@ -75,38 +83,143 @@ public class Menu extends Sequence
     private static final int MIN_HEIGHT = 360;
     private static final int FADE_SPEED = 10;
     private static final int CENTER_X = 320;
+    private static final int LAUNCHER_IMAGE_OFFSET_Y = -24;
+    private static final int LAUNCHER_TITLE_OFFSET_Y = 60;
+    private static final int LAUNCHER_TEXT_OFFSET_X = 5;
+    private static final int LAUNCHER_TEXT_TIPS_Y = 292;
     private static final int MENU_MAIN_IMAGE_OFFSET_Y = 32;
     private static final int OPTIONS_TITLE_OFFSET_Y = 96;
     private static final int OPTIONS_TEXT_OFFSET_X = 12;
 
-    private static List<String> getText(Settings settings, String file)
+    /**
+     * Load front.
+     * 
+     * @param media The font sprite media.
+     * @param data The font data media.
+     * @param lw The font image letter width.
+     * @param lh The font image letter height.
+     * @return The loaded font.
+     */
+    private static SpriteFont loadFont(String media, String data, int lw, int lh)
     {
-        return Util.readLines(Medias.create(Folder.TEXT, settings.getLang(), Folder.MENU, file));
+        return Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, media), Medias.create(Folder.SPRITE, data), lw, lh);
     }
 
-    private final SpriteFont textWhite = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu.png"),
-                                                                 Medias.create(Folder.SPRITE, "fontmenu.xml"),
-                                                                 25,
-                                                                 29);
-    private final SpriteFont textDark = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu_dark.png"),
-                                                                Medias.create(Folder.SPRITE, "fontmenu.xml"),
-                                                                25,
-                                                                29);
-    private final SpriteFont textBlue = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu_blue.png"),
-                                                                Medias.create(Folder.SPRITE, "fontmenu.xml"),
-                                                                25,
-                                                                29);
+    /**
+     * Get all supported training stages.
+     * 
+     * @return The training stages.
+     */
+    private static List<String> getStagesTraining()
+    {
+        final List<String> training = new ArrayList<>();
+        for (final String set : Util.readLines(Medias.create(Folder.STAGE, Folder.STORY, "stages.txt")))
+        {
+            int i = 1;
+            while (true)
+            {
+                final Media media = Medias.create(Folder.STAGE,
+                                                  Folder.STORY,
+                                                  set.toLowerCase(Locale.ENGLISH),
+                                                  "stage" + i + ".xml");
+                if (!media.exists())
+                {
+                    break;
+                }
+                training.add(set + "-" + i);
+                i++;
+            }
+        }
+        return training;
+    }
+
+    /**
+     * Get all stages in folder.
+     * 
+     * @param folder The folder name.
+     * @return The stages found.
+     */
+    private static List<String> getStages(String folder)
+    {
+        final List<String> stages = new ArrayList<>();
+        int i = 1;
+        while (true)
+        {
+            final Media media = Medias.create(Folder.STAGE, folder, "stage" + i + ".xml");
+            if (!media.exists())
+            {
+                break;
+            }
+            stages.add(String.valueOf(i));
+            i++;
+        }
+        return stages;
+    }
+
+    /**
+     * Cache text to image.
+     * 
+     * @param texts The text lines.
+     * @param index The starting index.
+     * @param buffers The cached buffer.
+     * @param font The font used.
+     * @return The next index.
+     */
+    private static int cacheText(List<String> texts, int index, ImageBuffer[] buffers, SpriteFont font)
+    {
+        int i;
+        for (i = 0; i < texts.size(); i++)
+        {
+            buffers[i + index] = Graphics.createImageBuffer(160, 40, ColorRgba.TRANSPARENT);
+            buffers[i + index].prepare();
+            final Graphic g = buffers[i + index].createGraphic();
+            font.draw(g, 0, 0, Align.LEFT, texts.get(i));
+            g.dispose();
+        }
+        return index + i;
+    }
+
+    /**
+     * Get difficulty index if exists.
+     * 
+     * @param config The current config.
+     * @return The difficulty index.
+     */
+    private static int getDifficultyIndex(GameConfig config)
+    {
+        if (config != null && config.getInit() != null && config.getInit().getDifficulty() != null)
+        {
+            return config.getInit().getDifficulty().ordinal();
+        }
+        return 0;
+    }
+
+    private final SpriteFont textWhite = loadFont("fontmenu.png", "fontmenu.xml", 25, 29);
+    private final SpriteFont textDark = loadFont("fontmenu_dark.png", "fontmenu.xml", 25, 29);
+    private final SpriteFont textBlue = loadFont("fontmenu_blue.png", "fontmenu.xml", 25, 29);
+    private final SpriteFont font = loadFont("fonttip.png", "fontdata.xml", 12, 12);
+
     private final Settings settings = Settings.getInstance();
 
-    private final List<String> main = getText(settings, "main.txt");
-    private final List<String> options = getText(settings, "options.txt");
-    private final List<String> optionsDifficulty = getText(settings, "difficulties.txt");
-    private final List<String> optionsJoystick = getText(settings, "joystick.txt");
-    private final List<String> optionsMusic = getText(settings, "music.txt");
+    private final List<String> menu0 = getText("main0.txt");
+    private final List<String> options0 = getText("options0.txt");
+    private final List<String> game0 = getText("games.txt");
+    private final List<String> players0 = getText("players.txt");
+    private final List<String> infoGame = getText("infoGame.txt");
+    private final List<String> infoStage = getText("infoStage.txt");
+    private final List<String> infoPlayer = getText("infoPlayer.txt");
+    private final List<String> infoController = getText("infoController.txt");
+    private final List<List<String>> stages0 = new ArrayList<>();
+    private final List<String> controllers0 = new ArrayList<>();
 
-    private final ImageBuffer[] bufferOptions = new ImageBuffer[optionsDifficulty.size()
-                                                                + optionsJoystick.size()
-                                                                + optionsMusic.size()];
+    private final List<String> menu1 = getText("main.txt");
+    private final List<String> options1 = getText("options.txt");
+    private final List<String> difficulty1 = getText("difficulties.txt");
+    private final List<String> joystick1 = getText("joystick.txt");
+    private final List<String> music1 = getText("music.txt");
+
+    private final Map<Integer, Integer> controls = new HashMap<>();
+    private final ImageBuffer[] bufferText;
 
     /** Alpha step speed. */
     int alphaSpeed = FADE_SPEED;
@@ -114,7 +227,7 @@ public class Menu extends Sequence
     final DeviceController device;
 
     /** Background menus. */
-    private final Sprite[] menus = new Sprite[2];
+    private final Sprite[] menus = new Sprite[3];
     /** List of menu data with their content. */
     private final Data[] menusData = new Data[menus.length];
     /** Application info. */
@@ -128,27 +241,37 @@ public class Menu extends Sequence
     private final DeviceController deviceCursor;
     private final Cursor cursor;
     private final DevicePointer pointer;
+    private final DeviceControllerListener listener;
 
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
     /** Current menu transition. */
     private TransitionType transition = TransitionType.IN;
     /** Line choice on. */
-    private int choice = 1;
+    private int choice;
     /** Current difficulty index. */
     private int difficulty;
     /** Current joystick value. */
     private int joystick;
     /** Current music test. */
     private int music = 1;
+    /** Current game index. */
+    private int game;
+    /** Current players index. */
+    private int players;
+    /** Current stage index. */
+    private int stage;
+    /** Current controller index. */
+    private int controller;
     /** Current. */
-    private MenuType menu = MenuType.MAIN;
+    private MenuType menu;
     /** Next. */
     private MenuType menuNext;
     /** Music player. */
     private Audio audio;
     private boolean movedHorizontal;
     private boolean movedVertical;
+    private int totalStages;
 
     /**
      * Constructor.
@@ -160,7 +283,20 @@ public class Menu extends Sequence
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop());
 
+        if (config.getInit() == null)
+        {
+            menu = MenuType.LAUNCHER;
+        }
+        else
+        {
+            menu = MenuType.MAIN;
+            choice = 1;
+        }
+
         this.config = config;
+        difficulty = getDifficultyIndex(config);
+        game = config.getType().ordinal();
+        players = config.getPlayers() - 1;
         setSystemCursorVisible(false);
 
         final Services services = new Services();
@@ -168,6 +304,31 @@ public class Menu extends Sequence
         services.add(new SourceResolutionDelegate(this::getWidth, this::getHeight, this::getRate));
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
         device.setVisible(false);
+
+        listener = (n, p, c, f) ->
+        {
+            if (choice == 3 && device.isFired(DeviceMapping.CTRL_RIGHT))
+            {
+                controls.put(Integer.valueOf(controller), Integer.valueOf(controllers0.indexOf(n)));
+            }
+        };
+        device.addListener(listener);
+
+        for (int i = 0; i < 4; i++)
+        {
+            controls.put(Integer.valueOf(i), Integer.valueOf(i));
+        }
+        for (int i = 0; i < config.getPlayers(); i++)
+        {
+            try
+            {
+                controls.put(Integer.valueOf(config.getControl(i)), Integer.valueOf(config.getControl(i)));
+            }
+            catch (@SuppressWarnings("unused") final NullPointerException exception)
+            {
+                // Skip
+            }
+        }
 
         final Media mediaCursor = Medias.create(Constant.INPUT_FILE_CURSOR);
         deviceCursor = DeviceControllerConfig.create(services, mediaCursor);
@@ -198,29 +359,90 @@ public class Menu extends Sequence
 
         mainY = (getHeight() - MIN_HEIGHT) / 2;
 
-        menusData[0] = createMain();
-        menusData[1] = createOptions();
+        menusData[0] = createLauncher();
+        menusData[1] = createMain();
+        menusData[2] = createOptions();
 
-        int i = 0;
-        i = cacheText(optionsDifficulty, i, bufferOptions, textBlue);
-        i = cacheText(optionsJoystick, i, bufferOptions, textBlue);
-        i = cacheText(optionsMusic, i, bufferOptions, textBlue);
+        stages0.add(Util.readLines(Medias.create(Folder.STAGE, Folder.STORY, "stages.txt")));
+        stages0.add(getStagesTraining());
+        stages0.add(getStages(Folder.SPEEDRUN));
+        stages0.add(getStages(Folder.BATTLE));
+        stages0.add(getStages(Folder.VERSUS));
+
+        final XmlReader xml = new XmlReader(Medias.create("input.xml"));
+        for (final XmlReader device : xml.getChildren(DeviceControllerConfig.NODE_DEVICE))
+        {
+            controllers0.add(device.getString(DeviceControllerConfig.ATT_NAME));
+        }
+
+        for (int j = 0; j < stages0.size(); j++)
+        {
+            totalStages += stages0.get(j).size();
+        }
+        bufferText = new ImageBuffer[game0.size()
+                                     + players0.size()
+                                     + totalStages
+                                     + controllers0.size()
+                                     + 4
+                                     + difficulty1.size()
+                                     + joystick1.size()
+                                     + music1.size()];
+        createCacheText();
 
         Util.setFilter(this);
     }
 
-    private static int cacheText(List<String> texts, int index, ImageBuffer[] buffers, SpriteFont text)
+    /**
+     * Get lines from file.
+     * 
+     * @param file The file to load.
+     * @return The lines read.
+     */
+    private List<String> getText(String file)
     {
-        int i;
-        for (i = 0; i < texts.size(); i++)
+        return Util.readLines(Medias.create(Folder.TEXT, settings.getLang(), Folder.MENU, file));
+    }
+
+    /**
+     * Create cached texts.
+     */
+    private void createCacheText()
+    {
+        int i = 0;
+        i = cacheText(game0, i, bufferText, textBlue);
+        i = cacheText(players0, i, bufferText, textBlue);
+        for (int j = 0; j < stages0.size(); j++)
         {
-            buffers[i + index] = Graphics.createImageBuffer(160, 40, ColorRgba.TRANSPARENT);
-            buffers[i + index].prepare();
-            final Graphic g = buffers[i + index].createGraphic();
-            text.draw(g, 0, 0, Align.LEFT, texts.get(i));
-            g.dispose();
+            final List<String> t = stages0.get(j);
+            i = cacheText(t, i, bufferText, textBlue);
         }
-        return index + i;
+        i = cacheText(controllers0, i, bufferText, textBlue);
+        i = cacheText(Arrays.asList("(1)", "(2)", "(3)", "(4)"), i, bufferText, textBlue);
+
+        i = cacheText(difficulty1, i, bufferText, textBlue);
+        i = cacheText(joystick1, i, bufferText, textBlue);
+        i = cacheText(music1, i, bufferText, textBlue);
+    }
+
+    /**
+     * Create options menu.
+     * 
+     * @return The created data.
+     */
+    private Data createLauncher()
+    {
+        final int x = (int) Math.round(CENTER_X * factorH);
+        final Choice[] choices = new Choice[]
+        {
+            new Choice(textDark, textWhite, options0.get(0), x - LAUNCHER_TEXT_OFFSET_X, mainY + 114, Align.RIGHT),
+            new Choice(textDark, textWhite, options0.get(1), x - LAUNCHER_TEXT_OFFSET_X, mainY + 141, Align.RIGHT),
+            new Choice(textDark, textWhite, options0.get(2), x - LAUNCHER_TEXT_OFFSET_X, mainY + 168, Align.RIGHT),
+            new Choice(textDark, textWhite, options0.get(3), x - LAUNCHER_TEXT_OFFSET_X, mainY + 168, Align.RIGHT),
+            new Choice(textDark, textWhite, options0.get(4), x - LAUNCHER_TEXT_OFFSET_X, mainY + 196, Align.RIGHT),
+            new Choice(textDark, textWhite, options0.get(5), x - 10, mainY + 268, Align.RIGHT, MenuType.LAUNCHER_PLAY),
+            new Choice(textDark, textWhite, options0.get(6), x + 10, mainY + 268, Align.LEFT, MenuType.LAUNCHER_EXIT)
+        };
+        return new Data(choices);
     }
 
     /**
@@ -236,21 +458,21 @@ public class Menu extends Sequence
         {
             choices = new Choice[]
             {
-                new Choice(textDark, textWhite, main.get(0), x, mainY + 100, Align.CENTER, MenuType.NEW),
-                new Choice(textDark, textWhite, main.get(1), x, mainY + 132, Align.CENTER, MenuType.CONTINUE),
-                new Choice(textDark, textWhite, main.get(2), x, mainY + 164, Align.CENTER, MenuType.OPTIONS),
-                new Choice(textDark, textWhite, main.get(3), x, mainY + 194, Align.CENTER, MenuType.INTRO),
-                new Choice(textDark, textWhite, main.get(4), x, mainY + 235, Align.CENTER, MenuType.EXIT)
+                new Choice(textDark, textWhite, menu1.get(0), x, mainY + 100, Align.CENTER, MenuType.NEW),
+                new Choice(textDark, textWhite, menu1.get(1), x, mainY + 132, Align.CENTER, MenuType.CONTINUE),
+                new Choice(textDark, textWhite, menu1.get(2), x, mainY + 164, Align.CENTER, MenuType.OPTIONS),
+                new Choice(textDark, textWhite, menu1.get(3), x, mainY + 194, Align.CENTER, MenuType.INTRO),
+                new Choice(textDark, textWhite, menu1.get(4), x, mainY + 235, Align.CENTER, MenuType.LAUNCHER)
             };
         }
         else
         {
             choices = new Choice[]
             {
-                new Choice(textDark, textWhite, main.get(0), x, mainY + 117, Align.CENTER, MenuType.NEW),
-                new Choice(textDark, textWhite, main.get(2), x, mainY + 151, Align.CENTER, MenuType.OPTIONS),
-                new Choice(textDark, textWhite, main.get(3), x, mainY + 185, Align.CENTER, MenuType.INTRO),
-                new Choice(textDark, textWhite, main.get(4), x, mainY + 235, Align.CENTER, MenuType.EXIT)
+                new Choice(textDark, textWhite, menu1.get(0), x, mainY + 117, Align.CENTER, MenuType.NEW),
+                new Choice(textDark, textWhite, menu1.get(2), x, mainY + 151, Align.CENTER, MenuType.OPTIONS),
+                new Choice(textDark, textWhite, menu1.get(3), x, mainY + 185, Align.CENTER, MenuType.INTRO),
+                new Choice(textDark, textWhite, menu1.get(4), x, mainY + 235, Align.CENTER, MenuType.LAUNCHER)
             };
         }
         return new Data(choices);
@@ -266,12 +488,86 @@ public class Menu extends Sequence
         final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices = new Choice[]
         {
-            new Choice(textDark, textWhite, options.get(0), x - 118, mainY + 125, Align.LEFT),
-            new Choice(textDark, textWhite, options.get(1), x - 118, mainY + 161, Align.LEFT),
-            new Choice(textDark, textWhite, options.get(2), x - 118, mainY + 197, Align.LEFT),
-            new Choice(textDark, textWhite, options.get(3), x, mainY + 241, Align.CENTER, MenuType.MAIN)
+            new Choice(textDark, textWhite, options1.get(0), x - 118, mainY + 125, Align.LEFT),
+            new Choice(textDark, textWhite, options1.get(1), x - 118, mainY + 161, Align.LEFT),
+            new Choice(textDark, textWhite, options1.get(2), x - 118, mainY + 197, Align.LEFT),
+            new Choice(textDark, textWhite, options1.get(3), x, mainY + 241, Align.CENTER, MenuType.MAIN)
         };
         return new Data(choices);
+    }
+
+    /**
+     * Handle the menu launcher.
+     */
+    private void handleLauncher()
+    {
+        // Game type
+        if (choice == 0)
+        {
+            final int nextGame = changeOption(game, 0, game0.size() - 1);
+            if (nextGame != game)
+            {
+                game = nextGame;
+                if (GameType.is(game, GameType.STORY, GameType.TRAINING) && players > 0)
+                {
+                    players = 0;
+                    controller = 0;
+                }
+                if (GameType.is(game, GameType.VERSUS) && players < 1)
+                {
+                    players = 1;
+                }
+                stage = 0;
+            }
+        }
+        // Stages
+        else if (choice == 1)
+        {
+            stage = changeOption(stage, 0, stages0.get(game).size() - 1);
+        }
+        // Difficulty
+        else if (choice == 2)
+        {
+            players = 0;
+            difficulty = changeOption(difficulty, 0, difficulty1.size() - 1);
+        }
+        // Players
+        else if (choice == 3)
+        {
+            final int min;
+            final int max;
+            if (GameType.is(game, GameType.VERSUS))
+            {
+                min = 1;
+            }
+            else
+            {
+                min = 0;
+            }
+            max = players0.size() - 1;
+
+            final int nextPlayers = changeOption(players, min, max);
+            if (nextPlayers != players)
+            {
+                players = nextPlayers;
+                controller = UtilMath.clamp(controller, 0, players);
+            }
+        }
+        // Controller
+        else if (choice == 4)
+        {
+            controller = changeOption(controller, 0, players);
+        }
+        // Play
+        else if (choice == 5)
+        {
+            choice = changeOption(choice, choice - 1, choice + 1);
+        }
+        // Quit
+        else if (choice == 6)
+        {
+            choice = changeOption(choice, choice - 1, choice);
+        }
     }
 
     /**
@@ -281,15 +577,15 @@ public class Menu extends Sequence
     {
         if (choice == 0)
         {
-            difficulty = changeOption(difficulty, 0, optionsDifficulty.size() - 1);
+            difficulty = changeOption(difficulty, 0, difficulty1.size() - 1);
         }
         else if (choice == 1)
         {
-            joystick = changeOption(joystick, 0, optionsJoystick.size() - 1);
+            joystick = changeOption(joystick, 0, joystick1.size() - 1);
         }
         else if (choice == 2)
         {
-            music = changeOption(music, 0, optionsMusic.size() - 1);
+            music = changeOption(music, 0, music1.size() - 1);
             handleOptionMusic();
         }
     }
@@ -308,6 +604,18 @@ public class Menu extends Sequence
                 audio.setVolume(settings.getVolumeMusic());
                 audio.play();
             }
+        }
+    }
+
+    /**
+     * Stop active music.
+     */
+    private void stopAudio()
+    {
+        if (audio != null)
+        {
+            audio.stop();
+            audio = null;
         }
     }
 
@@ -407,6 +715,16 @@ public class Menu extends Sequence
     }
 
     /**
+     * Get alpha value.
+     * 
+     * @return The alpha value.
+     */
+    private int getAlpha()
+    {
+        return (int) Math.floor(alpha);
+    }
+
+    /**
      * Get the menu id.
      * 
      * @return The menu id.
@@ -414,31 +732,23 @@ public class Menu extends Sequence
     private int getMenuId()
     {
         final int id;
-        if (menu == MenuType.MAIN)
+        if (menu == MenuType.LAUNCHER)
         {
             id = 0;
         }
-        else if (menu == MenuType.OPTIONS)
+        else if (menu == MenuType.MAIN)
         {
             id = 1;
+        }
+        else if (menu == MenuType.OPTIONS)
+        {
+            id = 2;
         }
         else
         {
             id = -1;
         }
         return id;
-    }
-
-    private int getCursorChoice(Data data)
-    {
-        for (int i = 0; i < data.choices.length; i++)
-        {
-            if (data.choices[i].isOver(cursor))
-            {
-                return i;
-            }
-        }
-        return choice;
     }
 
     /**
@@ -457,6 +767,12 @@ public class Menu extends Sequence
         if (!movedVertical && (device.getVerticalDirection() > 0 || device.isFiredOnce(DeviceMapping.UP)))
         {
             choice--;
+            if (menu == MenuType.LAUNCHER
+                && (choice == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS)
+                    || choice == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)))
+            {
+                choice--;
+            }
             cursor.setVisible(false);
             cursor.setLocation(0, 0);
             movedVertical = true;
@@ -464,6 +780,12 @@ public class Menu extends Sequence
         if (!movedVertical && (device.getVerticalDirection() < 0 || device.isFiredOnce(DeviceMapping.DOWN)))
         {
             choice++;
+            if (menu == MenuType.LAUNCHER
+                && (choice == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)
+                    || choice == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS)))
+            {
+                choice++;
+            }
             cursor.setVisible(false);
             cursor.setLocation(0, 0);
             movedVertical = true;
@@ -487,11 +809,32 @@ public class Menu extends Sequence
             menuNext = next;
             transition = TransitionType.OUT;
             stopAudio();
-            if (menuNext == MenuType.NEW || menuNext == MenuType.INTRO || menuNext == MenuType.EXIT)
+            if (menuNext == MenuType.NEW || menuNext == MenuType.INTRO || menuNext == MenuType.LAUNCHER_EXIT)
             {
                 setSystemCursorVisible(false);
             }
         }
+    }
+
+    /**
+     * Get current choice from cursor.
+     * 
+     * @param data The current data.
+     * @return The choice index.
+     */
+    private int getCursorChoice(Data data)
+    {
+        for (int i = 0; i < data.choices.length; i++)
+        {
+            if (data.choices[i].isOver(cursor)
+                && !(menu == MenuType.LAUNCHER
+                     && (i == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)
+                         || i == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))))
+            {
+                return i;
+            }
+        }
+        return choice;
     }
 
     /**
@@ -503,6 +846,15 @@ public class Menu extends Sequence
     {
         switch (menu)
         {
+            case LAUNCHER:
+                handleLauncher();
+                break;
+            case LAUNCHER_PLAY:
+                play();
+                break;
+            case LAUNCHER_EXIT:
+                end();
+                break;
             case MAIN:
                 break;
             case CONTINUE:
@@ -525,22 +877,68 @@ public class Menu extends Sequence
             case INTRO:
                 end(Intro.class, config);
                 break;
-            case EXIT:
-                end();
-                break;
             default:
                 throw new LionEngineException(menu);
         }
     }
 
+    /**
+     * Play with current configuration.
+     */
+    private void play()
+    {
+        final GameType type = GameType.from(game);
+        final Difficulty difficulty = Difficulty.from(this.difficulty);
+        final int players = this.players + 1;
+        final int stage = this.stage + 1;
+
+        if (GameType.is(game, GameType.STORY))
+        {
+            end(Intro.class,
+                config.with(type, players, controls)
+                      .with(stages0.get(0).get(this.stage))
+                      .with(new InitConfig(null, 0, 0, difficulty)));
+        }
+        else if (GameType.is(game, GameType.TRAINING))
+        {
+            final boolean hard = this.difficulty > Difficulty.NORMAL.ordinal();
+            final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
+            final String[] s = stages0.get(game).get(this.stage).split("-");
+            Media media = Medias.create(Folder.STAGE, Folder.STORY, s[0], "stage" + s[1] + suffix + ".xml");
+            if (!media.exists())
+            {
+                media = Medias.create(Folder.STAGE, Folder.STORY, s[0], "stage" + s[1] + ".xml");
+            }
+            end(Scene.class, config.with(type, players, controls).with(getInitConfig(media)));
+        }
+        else if (GameType.is(game, GameType.SPEEDRUN))
+        {
+            final Media media = Medias.create(Folder.STAGE, Folder.SPEEDRUN, "stage" + stage + ".xml");
+            end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 1, 0, difficulty)));
+        }
+        else if (GameType.is(game, GameType.BATTLE))
+        {
+            final Media media = Medias.create(Folder.STAGE, Folder.BATTLE, "stage" + stage + ".xml");
+            end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 8, 0, difficulty)));
+        }
+        else if (GameType.is(game, GameType.VERSUS))
+        {
+            final Media media = Medias.create(Folder.STAGE, Folder.VERSUS, "stage" + stage + ".xml");
+            end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 8, 0, difficulty)));
+        }
+    }
+
+    /**
+     * Start new game from story menu.
+     */
     private void startNewGame()
     {
         final boolean hard = difficulty > Difficulty.NORMAL.ordinal();
         final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
-        Media stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1" + suffix + ".xml");
+        Media stage = Medias.create(Folder.STAGE, Folder.STORY, config.getStages().get(), "stage1" + suffix + ".xml");
         if (!stage.exists())
         {
-            stage = Medias.create(Folder.STAGE, settings.getStages(), "stage1.xml");
+            stage = Medias.create(Folder.STAGE, Folder.STORY, config.getStages().get(), "stage1.xml");
         }
         final StageConfig stageConfig = StageConfig.imports(new Configurer(stage));
         end(ScenePicture.class,
@@ -608,21 +1006,130 @@ public class Menu extends Sequence
     {
         switch (menu)
         {
+            case LAUNCHER:
+                renderLauncher(g);
+                break;
             case MAIN:
-                menus[0].render(g);
-                menusData[0].render(g, choice);
+                menus[1].render(g);
+                menusData[1].render(g, choice);
                 break;
             case OPTIONS:
                 renderOptions(g);
                 break;
+            case LAUNCHER_PLAY:
+            case LAUNCHER_EXIT:
             case NEW:
             case CONTINUE:
             case INTRO:
-            case EXIT:
                 break;
             default:
                 throw new LionEngineException(menu);
         }
+    }
+
+    /**
+     * Render the launcher menu.
+     * 
+     * @param g The graphic output.
+     */
+    private void renderLauncher(Graphic g)
+    {
+        menus[0].render(g);
+        if (GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))
+        {
+            menusData[0].render(g, choice, 2);
+        }
+        else
+        {
+            menusData[0].render(g, choice, 3);
+        }
+
+        textBlue.draw(g,
+                      (int) Math.round(CENTER_X * factorH),
+                      mainY + LAUNCHER_TITLE_OFFSET_Y,
+                      Align.CENTER,
+                      menu0.get(0));
+
+        textDark.draw(g,
+                      (int) Math.round(CENTER_X * factorH),
+                      mainY + LAUNCHER_TITLE_OFFSET_Y + 22,
+                      Align.CENTER,
+                      menu0.get(1));
+
+        drawLauncherText(g, 0, 0, game);
+        drawLauncherText(g, 1, game0.size() + players0.size() + getGameStagesCount(), stage);
+        if (GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))
+        {
+            drawLauncherText(g, 3, game0.size(), players);
+        }
+        else
+        {
+            drawLauncherText(g, 2, game0.size() + players0.size() + totalStages + controllers0.size() + 4, difficulty);
+        }
+
+        final int start = game0.size() + players0.size() + totalStages;
+        final int indexDevice = controls.get(Integer.valueOf(controller)).intValue();
+        if (players > 0)
+        {
+            g.drawImage(bufferText[start + controllers0.size() + controller],
+                        (int) Math.round(CENTER_X * factorH - 8) + LAUNCHER_TEXT_OFFSET_X,
+                        menusData[0].choices[4].getY());
+
+            g.drawImage(bufferText[start + indexDevice],
+                        (int) Math.round(CENTER_X * factorH + 28) + LAUNCHER_TEXT_OFFSET_X,
+                        menusData[0].choices[4].getY());
+        }
+        else
+        {
+            drawLauncherText(g, 4, start, indexDevice);
+        }
+
+        if (choice == 0)
+        {
+            font.draw(g, getWidth() / 2, LAUNCHER_TEXT_TIPS_Y, Align.CENTER, infoGame.get(game));
+        }
+        else if (choice == 1)
+        {
+            font.draw(g, getWidth() / 2, LAUNCHER_TEXT_TIPS_Y, Align.CENTER, infoStage.get(0));
+        }
+        else if (choice == 3)
+        {
+            font.draw(g, getWidth() / 2, LAUNCHER_TEXT_TIPS_Y, Align.CENTER, infoPlayer.get(0));
+        }
+        else if (choice == 4)
+        {
+            font.draw(g, getWidth() / 2, LAUNCHER_TEXT_TIPS_Y, Align.CENTER, infoController.get(0));
+        }
+    }
+
+    /**
+     * Draw text launcher.
+     * 
+     * @param g The graphic output.
+     * @param index The option index.
+     * @param start The option start.
+     * @param value The option value.
+     */
+    private void drawLauncherText(Graphic g, int index, int start, int value)
+    {
+        g.drawImage(bufferText[start + value],
+                    menusData[0].choices[index].getX() + LAUNCHER_TEXT_OFFSET_X,
+                    menusData[0].choices[index].getY());
+    }
+
+    /**
+     * Get stages count from current selected game.
+     * 
+     * @return The stages number in selected game.
+     */
+    private int getGameStagesCount()
+    {
+        int count = 0;
+        for (int i = 0; i < game; i++)
+        {
+            count += stages0.get(i).size();
+        }
+        return count;
     }
 
     /**
@@ -632,18 +1139,18 @@ public class Menu extends Sequence
      */
     private void renderOptions(Graphic g)
     {
-        menus[1].render(g);
-        menusData[1].render(g, choice);
+        menus[2].render(g);
+        menusData[2].render(g, choice);
 
         textWhite.draw(g,
                        (int) Math.round(Menu.CENTER_X * factorH),
                        mainY + OPTIONS_TITLE_OFFSET_Y,
                        Align.CENTER,
-                       main.get(1).toUpperCase(Locale.ENGLISH));
+                       menu1.get(menusData[2].choiceMax == 4 ? 1 : 2).toUpperCase(Locale.ENGLISH));
 
         drawOptionText(g, 0, 0, difficulty);
-        drawOptionText(g, 1, optionsDifficulty.size(), joystick);
-        drawOptionText(g, 2, optionsDifficulty.size() + optionsJoystick.size(), music);
+        drawOptionText(g, 1, difficulty1.size(), joystick);
+        drawOptionText(g, 2, difficulty1.size() + joystick1.size(), music);
     }
 
     /**
@@ -656,19 +1163,22 @@ public class Menu extends Sequence
      */
     private void drawOptionText(Graphic g, int index, int start, int value)
     {
-        g.drawImage(bufferOptions[start + value],
+        g.drawImage(bufferText[game0.size() + players0.size() + totalStages + controllers0.size() + 4 + start + value],
                     (int) Math.round(CENTER_X * factorH) + OPTIONS_TEXT_OFFSET_X,
-                    menusData[1].choices[index].getY());
+                    menusData[2].choices[index].getY());
     }
 
     /**
-     * Get alpha value.
+     * Render transition fading.
      * 
-     * @return The alpha value.
+     * @param g The graphic output.
      */
-    private int getAlpha()
+    private void renderTransition(Graphic g)
     {
-        return (int) Math.floor(alpha);
+        if (transition != TransitionType.NONE)
+        {
+            renderFade(g);
+        }
     }
 
     /**
@@ -687,44 +1197,24 @@ public class Menu extends Sequence
         }
     }
 
-    /**
-     * Render transition fading.
-     * 
-     * @param g The graphic output.
-     */
-    private void renderTransition(Graphic g)
-    {
-        if (transition != TransitionType.NONE)
-        {
-            renderFade(g);
-        }
-    }
-
-    /**
-     * Stop active music.
-     */
-    private void stopAudio()
-    {
-        if (audio != null)
-        {
-            audio.stop();
-            audio = null;
-        }
-    }
-
     @Override
     public void load()
     {
         for (int i = 0; i < menus.length; i++)
         {
-            menus[i] = Drawable.loadSprite(Medias.create(Folder.SPRITE, "menu" + (i + 1) + ".png"));
+            menus[i] = Drawable.loadSprite(Medias.create(Folder.SPRITE, "menu" + i + ".png"));
             menus[i].setOrigin(Origin.CENTER_TOP);
             menus[i].load();
             menus[i].prepare();
         }
+
         final int x = (int) Math.round(CENTER_X * factorH);
-        menus[0].setLocation(x, mainY + MENU_MAIN_IMAGE_OFFSET_Y);
-        menus[1].setLocation(x, mainY);
+        menus[0].setLocation(x, mainY + LAUNCHER_IMAGE_OFFSET_Y);
+        menus[1].setLocation(x, mainY + MENU_MAIN_IMAGE_OFFSET_Y);
+        menus[2].setLocation(x, mainY);
+
+        font.load();
+        font.prepare();
     }
 
     @Override
@@ -745,8 +1235,8 @@ public class Menu extends Sequence
             cursor.setSync(pointer);
         }
 
-        updateTransition(extrp);
         updateMenu(extrp);
+        updateTransition(extrp);
 
         info.update(extrp);
     }
@@ -765,11 +1255,39 @@ public class Menu extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        device.removeListener(listener);
         stopAudio();
-        for (final Sprite element : menus)
+
+        menu0.clear();
+        options0.clear();
+        game0.clear();
+        players0.clear();
+        infoGame.clear();
+        infoStage.clear();
+        infoPlayer.clear();
+        infoController.clear();
+        stages0.clear();
+        controllers0.clear();
+        menu1.clear();
+        options1.clear();
+        difficulty1.clear();
+        joystick1.clear();
+        music1.clear();
+
+        textWhite.dispose();
+        textDark.dispose();
+        textBlue.dispose();
+        font.dispose();
+
+        for (int i = 0; i < menus.length; i++)
         {
-            element.dispose();
+            menus[i].dispose();
         }
+        for (int i = 0; i < bufferText.length; i++)
+        {
+            bufferText[i].dispose();
+        }
+
         if (!hasNextSequence)
         {
             Engine.terminate();

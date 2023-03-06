@@ -175,7 +175,7 @@
         <entity file="entity/ancienttown/PotionLittle.xml" tx="94.0" ty="60.0"/>
         <entity file="entity/ancienttown/Sword2.xml" tx="95.0" ty="60.0"/>
         <entity file="entity/ancienttown/Canon2.xml" tx="51.0" ty="72.0" dvy="0.0">
-            <shooter fireDelay="3500" firedDelay="0" svx="0.9" svy="1.5"/>
+            <shooter fireDelay="3500" firedDelay="0" svx="0.95" svy="1.5"/>
         </entity>
         <entity file="entity/ancienttown/Canon1.xml" tx="41.0" ty="79.0">
             <shooter fireDelay="3000" firedDelay="300" anim="1" svx="1.2" svy="1.6" dvy="0.0"/>

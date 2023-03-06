@@ -22,28 +22,33 @@ import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
+import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilMath;
+import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
-import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 import com.b3dgs.lionheart.landscape.BackgroundType;
+import com.b3dgs.lionheart.menu.Menu;
 
 /**
  * Loading screen.
  */
 public final class Loading extends Sequence
 {
+    private final Timing timing = new Timing();
     private final Progress progress = new Progress(getWidth(), getHeight());
     private final BackgroundType[] backgrounds = BackgroundType.values();
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
     private final GameConfig config;
     private final int max;
 
+    private boolean load;
     private int current = -1;
+    private int alpha = 255;
+    private int alphaSpeed = 10;
 
     /**
      * Constructor.
@@ -54,13 +59,39 @@ public final class Loading extends Sequence
      */
     public Loading(Context context, GameConfig config)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context), new LoopUnlocked());
+        super(context, Util.getResolution(Constant.RESOLUTION, context));
 
+        timing.start();
         this.config = config;
         max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
         Util.setFilter(this);
+    }
+
+    /**
+     * Load next scene.
+     */
+    private void loadNext()
+    {
+        if (Settings.getInstance().getFlagDebug())
+        {
+            load(Scene.class,
+                 config.with(new InitConfig(Medias.create(Folder.STAGE, Folder.STORY, Folder.ORIGINAL, "stage1.xml"),
+                                            Constant.STATS_MAX_HEART - 1,
+                                            Constant.STATS_MAX_TALISMENT - 1,
+                                            Constant.STATS_MAX_LIFE - 1,
+                                            0,
+                                            true,
+                                            Constant.CREDITS,
+                                            Difficulty.NORMAL,
+                                            true,
+                                            Optional.empty())));
+        }
+        else
+        {
+            load(Menu.class, config);
+        }
     }
 
     @Override
@@ -78,7 +109,20 @@ public final class Loading extends Sequence
     @Override
     public void update(double extrp)
     {
-        if (current < max)
+        timing.update(extrp);
+
+        if (!load && timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND / 2))
+        {
+            alpha -= alphaSpeed;
+            if (alpha < 0)
+            {
+                alpha = 0;
+                load = true;
+                timing.restart();
+                loadNext();
+            }
+        }
+        else if (current < max)
         {
             if (current > -1)
             {
@@ -88,27 +132,15 @@ public final class Loading extends Sequence
             }
             current = UtilMath.clamp(current + 1, 0, max);
         }
-        else
+        else if (timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND))
         {
-            if (Settings.getInstance().getFlagDebug())
+            alpha += alphaSpeed;
+
+            if (alpha > 255)
             {
-                end(Scene.class,
-                    config.with(new InitConfig(Medias.create(Folder.STAGE,
-                                                             Settings.getInstance().getStages(),
-                                                             "stage1.xml"),
-                                               Constant.STATS_MAX_HEART - 1,
-                                               Constant.STATS_MAX_TALISMENT - 1,
-                                               Constant.STATS_MAX_LIFE - 1,
-                                               Constant.STATS_MAX_SWORD - 1,
-                                               true,
-                                               Constant.CREDITS,
-                                               Difficulty.NORMAL,
-                                               true,
-                                               Optional.empty())));
-            }
-            else
-            {
-                end(Intro.class, config);
+                alpha = 255;
+                alphaSpeed = 0;
+                timing.addAction(this::end, 0);
             }
         }
     }
@@ -123,6 +155,13 @@ public final class Loading extends Sequence
         if (current < max)
         {
             progress.render(g);
+        }
+
+        if (alpha < 256)
+        {
+            g.setColor(Constant.ALPHAS_BLACK[alpha]);
+            g.drawRect(0, 0, getWidth(), getHeight(), true);
+            g.setColor(ColorRgba.BLACK);
         }
     }
 

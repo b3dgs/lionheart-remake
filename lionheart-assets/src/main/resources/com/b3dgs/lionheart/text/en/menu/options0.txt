@@ -1,0 +1,7 @@
+Game:
+Stage(s):
+Difficulty:
+Player(s):
+Controller:
+Play
+Quit

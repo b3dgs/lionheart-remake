@@ -8,7 +8,6 @@ Filter:
 Gameplay:
 Music:
   Sfx:
-Stages:
 Strategy:
 Parallel:
 VSync:

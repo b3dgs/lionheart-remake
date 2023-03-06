@@ -1,0 +1,5 @@
+Jeu linéaire classique avec des niveaux succéssifs%de l'intro jusqu'au générique du jeu
+Niveau jouable individuellement sans intro%ni menu, pour jouer rapidement
+Terminez le niveau aussi vite que possible. Pas%d'objets, pas de monstres, seulement de la vitesse
+Restez en vie jusqu'au dernier monstre,%prenez des objets pour survivre plus longtemps !
+Combattez contre d'autres joueurs,%santé maximale mais pas de vie !

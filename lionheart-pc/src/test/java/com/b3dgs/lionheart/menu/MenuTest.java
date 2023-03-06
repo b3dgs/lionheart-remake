@@ -103,6 +103,22 @@ final class MenuTest
         actions.add(() -> push.release(DeviceMapping.DOWN));
         actions.add(() -> push.press(DeviceMapping.CTRL_RIGHT));
         actions.add(() -> push.release(DeviceMapping.CTRL_RIGHT));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.DOWN));
+        actions.add(() -> push.release(DeviceMapping.DOWN));
+        actions.add(() -> push.press(DeviceMapping.CTRL_RIGHT));
+        actions.add(() -> push.release(DeviceMapping.CTRL_RIGHT));
 
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              TestMenu.class,

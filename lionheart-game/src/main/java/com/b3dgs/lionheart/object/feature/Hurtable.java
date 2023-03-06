@@ -33,7 +33,6 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.OriginConfig;
-import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -136,7 +135,6 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private EntityModel model;
     @FeatureGet private Stats stats;
     @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Animatable animatable;
     @FeatureGet private Networkable networkable;
 
     /**
@@ -310,8 +308,10 @@ public final class Hurtable extends FeatureModel
     {
         if (enabled
             && !shield
-            && collidable.getGroup() == Constant.COLL_GROUP_PLAYER
-            && recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS)
+            && (collidable.getGroup() == Constant.COLL_GROUP_PLAYER
+                && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
+                || this.collidable.getGroup() != Constant.COLL_GROUP_PLAYER
+                   && recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS))
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
             && with.getName().startsWith(CollisionName.BODY)
             && by.getName().startsWith(Anim.ATTACK))
@@ -365,6 +365,19 @@ public final class Hurtable extends FeatureModel
             getFeature(Patrol.class).stop();
         }
         hurt();
+
+        if (this.collidable.getGroup() == Constant.COLL_GROUP_PLAYER)
+        {
+            if (stats.getHealth() == 0)
+            {
+                Sfx.VALDYN_DIE.play();
+                stateHandler.changeState(StateDie.class);
+            }
+            else
+            {
+                hurtJump();
+            }
+        }
     }
 
     private void onKilled()

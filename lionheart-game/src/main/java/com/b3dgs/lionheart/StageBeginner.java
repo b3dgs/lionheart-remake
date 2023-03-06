@@ -60,6 +60,7 @@ public enum StageBeginner implements Media
 
     /** Level file. */
     private final Media file = Medias.create(Folder.STAGE,
+                                             Folder.STORY,
                                              Folder.BEGINNER,
                                              name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 

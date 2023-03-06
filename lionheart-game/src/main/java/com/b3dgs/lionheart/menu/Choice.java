@@ -117,6 +117,16 @@ final class Choice implements Renderable
     }
 
     /**
+     * Get x value.
+     * 
+     * @return The x value.
+     */
+    public int getX()
+    {
+        return x;
+    }
+
+    /**
      * Get y value.
      * 
      * @return The y value.
@@ -178,6 +188,10 @@ final class Choice implements Renderable
         else if (Align.CENTER == align)
         {
             offsetX = text.getTextWidth(name) / 2;
+        }
+        else if (Align.RIGHT == align)
+        {
+            offsetX = text.getTextWidth(name);
         }
         g.drawImage(current, x - offsetX, y);
     }

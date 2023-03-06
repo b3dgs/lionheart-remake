@@ -126,7 +126,7 @@ public class Cheats implements Updatable, Renderable
         cursor.setRenderingOffset(CURSOR_OX, CURSOR_OY);
         cursor.load();
 
-        if (config.getType() == GameType.ORIGINAL)
+        if (config.getType().is(GameType.STORY, GameType.TRAINING))
         {
             createMenu();
         }
@@ -215,7 +215,7 @@ public class Cheats implements Updatable, Renderable
         menus.add(make("Fly", this::onFly));
         menus.add(make("Invincibile", this::onInvincibility));
 
-        final List<String> stagesSet = Util.readLines(Medias.create(Folder.STAGE, "stages.txt"));
+        final List<String> stagesSet = Util.readLines(Medias.create(Folder.STAGE, Folder.STORY, "stages.txt"));
         for (final String stages : stagesSet)
         {
             final int stagesCount = (int) Medias.create(Folder.STAGE, stages)
@@ -244,7 +244,7 @@ public class Cheats implements Updatable, Renderable
      */
     private void updatePause()
     {
-        if (config.getType() == GameType.ORIGINAL && device.isFiredOnce(DeviceMapping.PAUSE))
+        if (config.getType().is(GameType.STORY, GameType.TRAINING) && device.isFiredOnce(DeviceMapping.PAUSE))
         {
             paused = !paused;
             hud.setPaused(paused);
@@ -258,7 +258,7 @@ public class Cheats implements Updatable, Renderable
     {
         if (device.isFiredOnce(DeviceMapping.QUIT))
         {
-            if (config.getType() == GameType.ORIGINAL)
+            if (config.getType().is(GameType.STORY))
             {
                 if (paused)
                 {
@@ -269,7 +269,7 @@ public class Cheats implements Updatable, Renderable
             }
             else
             {
-                sequencer.end();
+                sequencer.end(Menu.class, config.with((InitConfig) null));
             }
         }
     }
@@ -449,7 +449,7 @@ public class Cheats implements Updatable, Renderable
         {
             if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
             {
-                final Media stage = Util.getStage(Settings.getInstance().getStages(), difficulty, i + 1);
+                final Media stage = Util.getStage(config.getStages().get(), difficulty, i + 1);
                 if (stage.exists())
                 {
                     sequencer.end(SceneBlack.class,
@@ -490,7 +490,7 @@ public class Cheats implements Updatable, Renderable
         updatePause();
         updateQuit();
 
-        if (config.getType() == GameType.ORIGINAL && player != null)
+        if (config.getType().is(GameType.STORY, GameType.TRAINING) && player != null)
         {
             updateOriginal();
             updateMenu();

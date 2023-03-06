@@ -8,7 +8,6 @@ Filter:
 Spielweise:
 Musik:
    Sfx:
-Ebenen:
 Strategy:
 Parallel:
 VSync:

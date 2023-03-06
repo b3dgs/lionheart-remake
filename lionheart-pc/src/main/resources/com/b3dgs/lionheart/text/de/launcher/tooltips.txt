@@ -20,8 +20,6 @@ Wählen Sie die Musiklautstärke.
 Aktuelle Musiklautstärke.
 Wählen Sie die Lautstärke der Sound FX.
 Aktuelle Sound-FX Lautstärke.
-Wähle Level Set (Original oder benutzerdefinierte Level).
-Ausgewähltes Level Set.
 Strategiemodus zum Laden von Bildern.
 Ausgewählte Ladestrategie.
 Aktiviert, um paralleles Laden zu aktivieren (Standard), nicht markiert für sequentielles Laden.

@@ -1,0 +1,1 @@
+Select player's controller with horizontal,%and fire with device to select
