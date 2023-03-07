@@ -11,7 +11,7 @@
         <checkpoint tx="198.0" ty="9.0"/>
         <checkpoint tx="293.0" ty="4.0"/>
         <checkpoint tx="406.0" ty="8.0"/>
-        <checkpoint tx="463.0" ty="5.0" next="stage/original/stage2_hard.xml"/>
+        <checkpoint tx="463.0" ty="5.0" next="stage/story/original/stage2_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/swamp/Talisment.xml" tx="74.0" ty="43.0"/>

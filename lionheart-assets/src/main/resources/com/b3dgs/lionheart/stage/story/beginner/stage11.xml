@@ -7,7 +7,7 @@
     <foreground raise="2448" type="WATER" waterDepth="8" waterOffset="32"/>
     <checkpoints>
         <checkpoint tx="26.0" ty="4.0"/>
-        <checkpoint next="stage/beginner/stage12.xml" tx="27.0" ty="140.0"/>
+        <checkpoint next="stage/story/beginner/stage12.xml" tx="27.0" ty="140.0"/>
     </checkpoints>
     <entities>
         <entity file="entity/tower/RotatingPlatform180.xml" tx="21.0" ty="8.0">

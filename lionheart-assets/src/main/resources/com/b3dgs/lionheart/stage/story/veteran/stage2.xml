@@ -9,7 +9,7 @@
         <checkpoint tx="106.0" ty="42.0"/>
         <checkpoint tx="164.0" ty="42.0"/>
         <checkpoint tx="213.0" ty="20.0"/>
-        <checkpoint tx="260.0" ty="8.0" next="stage/veteran/stage1.xml" stx="560.0" sty="28.0"/>
+        <checkpoint tx="260.0" ty="8.0" next="stage/story/veteran/stage1.xml" stx="560.0" sty="28.0"/>
     </checkpoints>
     <entities>
         <entity file="boss/spidercave3/Boss.xml" tx="72.0" ty="34.5"/>

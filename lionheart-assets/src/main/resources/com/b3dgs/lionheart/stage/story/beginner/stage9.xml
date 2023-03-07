@@ -77,7 +77,7 @@
         <entity file="entity/airship/Talisment.xml" tx="460.0" ty="18.0"/>
         <entity file="entity/airship/Guard.xml" tx="438.0" ty="30.0"/>
         <entity file="entity/airship/Guard.xml" tx="404.0" ty="36.0">
-            <model next="stage/beginner/stage10.xml"/>
+            <model next="stage/story/beginner/stage10.xml"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="430.0" ty="27.0">
             <catapult vx="-1.6" vy="8.5"/>

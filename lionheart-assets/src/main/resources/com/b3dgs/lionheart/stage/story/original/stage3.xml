@@ -14,7 +14,7 @@
         <checkpoint tx="425" ty="3"/>
         <checkpoint tx="404" ty="44"/>
         <checkpoint tx="364" ty="70"/>
-        <checkpoint tx="435" ty="81" next="stage/original/stage4.xml"/>
+        <checkpoint tx="435" ty="81" next="stage/story/original/stage4.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/swamp/Sheet.xml" tx="38.0" ty="50.0"/>

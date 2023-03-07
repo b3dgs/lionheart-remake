@@ -9,14 +9,14 @@
         <checkpoint tx="5.0" ty="11.0"/>
         <checkpoint tx="35.0" ty="3.0"/>
         <checkpoint tx="72.0" ty="16.0"/>
-        <checkpoint next="stage/beginner/stage8.xml" tx="181.0" ty="3.0"/>
+        <checkpoint next="stage/story/beginner/stage8.xml" tx="181.0" ty="3.0"/>
         <checkpoint tx="96.0" ty="4.0"/>
         <checkpoint tx="131.0" ty="7.0"/>
         <checkpoint tx="224.0" ty="5.0"/>
         <checkpoint tx="263.0" ty="4.0"/>
         <checkpoint tx="303.0" ty="4.0"/>
     </checkpoints>
-    <boss tx="363" ty="17" tsx="344" tsy="3" next="stage/beginner/stage9.xml"/>
+    <boss tx="363" ty="17" tsx="344" tsy="3" next="stage/story/beginner/stage9.xml"/>
     <entities>
         <entity file="entity/lava/Life.xml" tx="10.0" ty="5.0"/>
         <entity file="entity/lava/Talisment.xml" tx="19.0" ty="3.0"/>

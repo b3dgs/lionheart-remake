@@ -18,7 +18,7 @@
         <checkpoint tx="660" ty="7"/>
         <checkpoint tx="684" ty="7"/>
     </checkpoints>
-    <boss tx="725" ty="12" tsx="752" tsy="6" next="stage/beginner/stage11.xml"/>
+    <boss tx="725" ty="12" tsx="752" tsy="6" next="stage/story/beginner/stage11.xml"/>
     <entities>
         <entity file="entity/dragonfly/Dragonflyer.xml" tx="425.0" ty="11.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="444.0" ty="2.0">

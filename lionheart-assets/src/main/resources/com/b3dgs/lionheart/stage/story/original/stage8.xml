@@ -15,7 +15,7 @@
         <checkpoint tx="434" ty="29"/>
         <checkpoint tx="476" ty="10"/>
         <checkpoint tx="550" ty="12"/>
-        <checkpoint tx="599" ty="36" next="stage/original/stage9.xml"/>
+        <checkpoint tx="599" ty="36" next="stage/story/original/stage9.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Rotating2.xml" tx="12.0" ty="49.0">

@@ -9,7 +9,7 @@
         <checkpoint tx="6.0" ty="26.5"/>
         <checkpoint tx="73.0" ty="26.5"/>
         <checkpoint tx="173.0" ty="26.5"/>
-        <checkpoint next="stage/veteran/stage4.xml" tx="243.0" ty="26.5"/>
+        <checkpoint next="stage/story/veteran/stage4.xml" tx="243.0" ty="26.5"/>
     </checkpoints>
     <entities>
         <entity file="entity/underworld/Talisment.xml" tx="16.0" ty="36.0"/>

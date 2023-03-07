@@ -253,7 +253,7 @@
             <catapult vx="-1.7" vy="8.0"/>
         </entity>
         <entity file="entity/airship/Guard.xml" tx="579.0" ty="38.0">
-            <model next="stage/veteran/stage10.xml"/>
+            <model next="stage/story/veteran/stage10.xml"/>
         </entity>
         <entity file="entity/airship/Canon.xml" tx="592.0" ty="32.0"/>
         <entity file="entity/airship/Talisment.xml" tx="603.0" ty="39.0"/>

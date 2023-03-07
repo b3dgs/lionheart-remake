@@ -8,7 +8,7 @@
         <checkpoint tx="12" ty="14"/>
         <checkpoint tx="49" ty="14"/>
         <checkpoint tx="71" ty="8"/>
-        <checkpoint tx="120" ty="8" next="stage/original/stage3_hard.xml"/>
+        <checkpoint tx="120" ty="8" next="stage/story/original/stage3_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="boss/spidercave1/Boss.xml" tx="24.0" ty="17.5"/>

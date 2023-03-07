@@ -9,7 +9,7 @@
         <checkpoint tx="6.0" ty="13.0"/>
         <checkpoint tx="57.0" ty="10.0"/>
         <checkpoint tx="106.0" ty="10.0"/>
-        <checkpoint next="stage/beginner/stage7.xml" stx="181.0" sty="3.0" tx="220.0" ty="15.0"/>
+        <checkpoint next="stage/story/beginner/stage7.xml" stx="181.0" sty="3.0" tx="220.0" ty="15.0"/>
     </checkpoints>
     <entities>
         <entity file="entity/secret/Talisment.xml" tx="221.0" ty="8.0"/>
@@ -57,7 +57,7 @@
             <rotating amplitude="60" extremity="SpikeBowl.xml" length="7" speed="0.03"/>
         </entity>
         <entity file="entity/secret/Amulet.xml" tx="226.0" ty="5.0">
-            <model next="stage/beginner/stage7.xml" stx="181.0" sty="3.0"/>
+            <model next="stage/story/beginner/stage7.xml" stx="181.0" sty="3.0"/>
         </entity>
         <entity file="entity/secret/Ghost1.xml" tx="21.0" ty="19.0">
             <model mirror="true"/>

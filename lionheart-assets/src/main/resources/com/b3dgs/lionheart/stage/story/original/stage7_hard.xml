@@ -20,7 +20,7 @@
         <checkpoint tx="346" ty="20"/>
         <checkpoint tx="371" ty="11"/>
         <checkpoint tx="433" ty="9"/>
-        <checkpoint tx="499" ty="11" next="stage/original/stage8_hard.xml"/>
+        <checkpoint tx="499" ty="11" next="stage/story/original/stage8_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Canon3.xml" tx="11.0" ty="60.0">

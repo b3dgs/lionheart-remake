@@ -10,7 +10,7 @@
     </checkpoints>
     <entities>
         <entity file="boss/underworld/Boss.xml" tx="14.0" ty="-1.0">
-            <model next="stage/veteran/stage6.xml"/>
+            <model next="stage/story/veteran/stage6.xml"/>
         </entity>
     </entities>
 </stage>
