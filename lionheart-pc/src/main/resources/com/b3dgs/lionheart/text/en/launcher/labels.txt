@@ -19,7 +19,8 @@ Foreground:
 Zoom:
 Advanced
 Controls
-Singleplayer
-Multiplayer
+Play
+Create server
+Join server
 Editor
 Exit

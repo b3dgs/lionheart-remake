@@ -1,7 +1,7 @@
-Game:
-Stage(s):
+Spiel:
+Level:
 Schwierigkeit:
-Player(s):
+Spieler:
 Controller:
-Play
-Quit
+Spielstart
+Beenden

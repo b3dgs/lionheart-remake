@@ -1,1 +1,1 @@
-Select player's controller with horizontal,%and fire with device to select
+Drücke Feuer am Controller um zuzuweisen, ändere Spieleranzahl%(ID) mit rechts/links falls mehr als einer vorhanden.

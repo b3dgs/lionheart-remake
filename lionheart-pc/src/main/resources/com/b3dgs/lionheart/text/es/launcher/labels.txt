@@ -19,7 +19,8 @@ Primer plano:
 Zoom:
 Avanzado
 Controlador
-Solojugador
-Multijugador
+Jugar
+Create server
+Join server
 Editor
 Salida

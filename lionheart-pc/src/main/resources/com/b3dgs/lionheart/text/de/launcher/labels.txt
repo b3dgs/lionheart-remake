@@ -19,7 +19,8 @@ Vordergrund:
 Zoomen:
 Erweiterte Einstellungen
 Steuert
-Einzelspieler
-Mehrspieler
+Spielen
+Server einrichten
+Server beitreten
 Editor
 Ausgang

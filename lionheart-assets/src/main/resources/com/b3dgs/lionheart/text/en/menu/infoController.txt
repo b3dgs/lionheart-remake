@@ -1,1 +1,1 @@
-Press fire with device to assign,%change player (id) with horizontal if many
+Press fire with device to assign,%change player (id) with horizontal if many.

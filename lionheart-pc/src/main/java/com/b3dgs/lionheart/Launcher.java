@@ -54,7 +54,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -185,12 +184,11 @@ public final class Launcher
     private static final String LABEL_FLICKER_FOREGROUND = "Foreground:";
     private static final String LABEL_GAMEPLAY = "Gameplay:";
     private static final String LABEL_CONTROLS = "Controls";
-    private static final String LABEL_SINGLEPLAYER = "Singleplayer";
-    private static final String LABEL_MULTIPLAYER = "Multiplayer";
-    private static final String LABEL_EDITOR = "Editor";
-    private static final String LABEL_EXIT = "Exit";
+    private static final String LABEL_PLAY = "Play";
     private static final String LABEL_START_SERVER = "Start Server";
     private static final String LABEL_JOIN_GAME = "Join Game";
+    private static final String LABEL_EDITOR = "Editor";
+    private static final String LABEL_EXIT = "Exit";
     private static final String LABEL_MADE = "Made with "
                                              + com.b3dgs.lionengine.Constant.ENGINE_NAME
                                              + com.b3dgs.lionengine.Constant.SPACE
@@ -215,6 +213,14 @@ public final class Launcher
      */
     public static void main(String[] args) throws IOException // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
+        try
+        {
+            System.setProperty("sun.java2d.uiScale", "1.0");
+        }
+        catch (final SecurityException exception)
+        {
+            Verbose.exception(exception);
+        }
         UIManager.put("ToolTip.font", FONT1);
 
         EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
@@ -292,7 +298,6 @@ public final class Launcher
         box.add(advancedPanel);
         box.add(advancedInner);
 
-        // createGamepad(box, gamepad);
         createControls(box, frame, gamepad);
         createButtons(box, frame, gamepad);
         createCopyright(frame);
@@ -302,6 +307,32 @@ public final class Launcher
         loadToolTips(lang);
 
         run(frame, panel);
+    }
+
+    private static JFrame createFrame()
+    {
+        final JFrame frame = new JFrame(Constant.PROGRAM_NAME
+                                        + com.b3dgs.lionengine.Constant.SPACE
+                                        + Constant.PROGRAM_VERSION);
+        try
+        {
+            frame.setIconImage(ToolsAwt.getImage(Launcher.class.getResourceAsStream(FILENAME_ICON)));
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
+        frame.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent event)
+            {
+                Engine.terminate();
+            }
+        });
+        return frame;
     }
 
     private static MouseListener createSplashListener(JLabel splash, ImageIcon logo, ImageIcon logoHover)
@@ -339,202 +370,6 @@ public final class Launcher
         };
     }
 
-    private static JLabel createLabel(String name, int align)
-    {
-        final JLabel label = new JLabel(name);
-        label.setFont(FONT);
-        label.setHorizontalAlignment(align);
-        LABELS.add(label::setText);
-        TIPS.add(label);
-        return label;
-    }
-
-    private static <T> JComboBox<T> createCombo(T[] values, T selected)
-    {
-        final JComboBox<T> combo = new JComboBox<>(values);
-        combo.setFont(FONT);
-        combo.setSelectedItem(selected);
-        TIPS.add(combo);
-        return combo;
-    }
-
-    private static Box createBorderBox(Container parent, Component... comp)
-    {
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BORDER);
-        for (final Component c : comp)
-        {
-            box.add(c);
-        }
-        parent.add(box);
-        return box;
-    }
-
-    private static JFormattedTextField createField(NumberFormatter formatter,
-                                                   int align,
-                                                   AtomicInteger field,
-                                                   JComboBox<Integer> scale,
-                                                   JComboBox<String> ratio)
-    {
-        final JFormattedTextField tf = new JFormattedTextField(formatter);
-        tf.setFont(FONT);
-        tf.setHorizontalAlignment(align);
-        tf.setText(String.valueOf(field.get()));
-        tf.setEditable(WINDOWED.get());
-        tf.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mousePressed(MouseEvent event)
-            {
-                scale.setSelectedIndex(0);
-                ratio.setSelectedIndex(0);
-            }
-        });
-        tf.getDocument().addDocumentListener(new DocumentListener()
-        {
-            @Override
-            public void insertUpdate(DocumentEvent event)
-            {
-                updateField(field, tf);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent event)
-            {
-                updateField(field, tf);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent event)
-            {
-                // Nothing to do
-            }
-        });
-        return tf;
-    }
-
-    private static JCheckBox createCheck(String label, AtomicBoolean selected)
-    {
-        final JCheckBox check = new JCheckBox(label);
-        check.setFont(FONT);
-        check.setBorder(BORDER_CHECK);
-        check.setHorizontalTextPosition(SwingConstants.LEADING);
-        check.setSelected(selected.get());
-        LABELS.add(check::setText);
-        TIPS.add(check);
-        return check;
-    }
-
-    private static void loadPref()
-    {
-        final Settings settings = Settings.getInstance();
-
-        LANG.set(settings.getLang());
-
-        if (Settings.getFile().exists())
-        {
-            WIDTH.set(settings.getResolution().getWidth());
-            HEIGHT.set(settings.getResolution().getHeight());
-            RATE.set(settings.getResolution().getRate());
-            WINDOWED.set(settings.getResolutionWindowed());
-        }
-        else
-        {
-            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                                                           .getDefaultScreenDevice()
-                                                           .getDisplayMode();
-            WIDTH.set(desktop.getWidth());
-            HEIGHT.set(desktop.getHeight());
-            RATE.set(desktop.getRefreshRate());
-            WINDOWED.set(false);
-        }
-
-        FILTER.set(settings.getFilter());
-        GAMEPLAY.set(settings.getGameplay());
-        RASTER.set(settings.getRaster());
-        HUD.set(settings.getHudVisible());
-        HUD_SWORD.set(settings.getHudSword());
-        FLICKER_BACKGROUND.set(settings.getFlickerBackground());
-        FLICKER_FOREGROUND.set(settings.getFlickerForeground());
-        ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
-                                (int) (Constant.ZOOM_MIN * 100),
-                                (int) (Constant.ZOOM_MAX * 100)));
-        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
-        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
-        FLAG_STRATEGY.set(UtilMath.clamp(settings.getFlagStrategy(), 0, ImageLoadStrategy.values().length));
-        FLAG_PARALLEL.set(settings.getFlagParallel());
-        FLAG_VSYNC.set(settings.getFlagVsync());
-    }
-
-    private static void loadLangs()
-    {
-        for (final String lang : Util.readLines(Medias.create(Folder.TEXT, FILENAME_LANGS)))
-        {
-            for (final String litteral : Util.readLines(Medias.create(Folder.TEXT, lang, Settings.FILE_LANG)))
-            {
-                LANG_FULL.put(lang, litteral);
-                LANG_SHORT.put(litteral, lang);
-                break;
-            }
-        }
-    }
-
-    private static void loadLabels(String lang)
-    {
-        Media media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_LABELS);
-        if (!media.exists())
-        {
-            media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_LABELS);
-        }
-        final List<String> labels = Util.readLines(media);
-        final int n = Math.min(labels.size(), LABELS.size());
-        for (int i = 0; i < n; i++)
-        {
-            LABELS.get(i).accept(labels.get(i));
-        }
-    }
-
-    private static void loadToolTips(String lang)
-    {
-        Media media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_TOOLTIPS);
-        if (!media.exists())
-        {
-            media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_TOOLTIPS);
-        }
-        final List<String> tips = Util.readLines(media);
-        final int n = Math.min(tips.size(), TIPS.size());
-        for (int i = 0; i < n; i++)
-        {
-            TIPS.get(i).setToolTipText(tips.get(i));
-        }
-    }
-
-    private static JFrame createFrame()
-    {
-        final JFrame frame = new JFrame(Constant.PROGRAM_NAME
-                                        + com.b3dgs.lionengine.Constant.SPACE
-                                        + Constant.PROGRAM_VERSION);
-        try
-        {
-            frame.setIconImage(ToolsAwt.getImage(Launcher.class.getResourceAsStream(FILENAME_ICON)));
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
-        }
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
-        frame.addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent event)
-            {
-                Engine.terminate();
-            }
-        });
-        return frame;
-    }
-
     private static Container createLang(Container parent, JFrame frame)
     {
         final JLabel label = createLabel(LABEL_LANG, SwingConstants.RIGHT);
@@ -556,28 +391,6 @@ public final class Launcher
         createBorderBox(parent, label, combo);
 
         return combo;
-    }
-
-    private static void updateResolution(JComboBox<Integer> comboScale,
-                                         JComboBox<String> comboRatio,
-                                         JFormattedTextField width,
-                                         JFormattedTextField height)
-    {
-        if (comboScale.getSelectedIndex() > 0 && comboRatio.getSelectedIndex() > 0)
-        {
-            int w = Constant.RESOLUTION.getWidth();
-            int h = Constant.RESOLUTION.getHeight();
-
-            final int scale = AVAILABLE_SCALE[comboScale.getSelectedIndex()].intValue();
-            w *= scale;
-            h *= scale;
-
-            final double ratio = RATIO_VALUE[comboRatio.getSelectedIndex() - 1];
-            w = (int) Math.round(h * ratio);
-
-            width.setText(String.valueOf(w));
-            height.setText(String.valueOf(h));
-        }
     }
 
     private static void createScale(Container parent)
@@ -652,45 +465,6 @@ public final class Launcher
         createWindowed(boxResolution, comboScale, comboRatio, comboRes, comboRate, width, height);
     }
 
-    private static List<Integer> getNativeRates()
-    {
-        return Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
-                                                .getDefaultScreenDevice()
-                                                .getDisplayModes())
-                     .stream()
-                     .filter(d -> d.getRefreshRate() >= Constant.RESOLUTION.getRate())
-                     .map(d -> Integer.valueOf(d.getRefreshRate()))
-                     .distinct()
-                     .sorted()
-                     .collect(Collectors.toList());
-    }
-
-    private static List<Integer> getAvailableRates()
-    {
-        final List<Integer> rates = new ArrayList<>(getNativeRates());
-        rates.add(Integer.valueOf(Constant.RESOLUTION.getRate()));
-        rates.add(Integer.valueOf(Constant.RESOLUTION.getRate() * 2));
-        return rates.stream().distinct().sorted().collect(Collectors.toList());
-    }
-
-    /**
-     * Update field.
-     * 
-     * @param field The field.
-     * @param text The text.
-     */
-    static void updateField(AtomicInteger field, JFormattedTextField text)
-    {
-        try
-        {
-            field.set(Integer.parseInt(text.getText()));
-        }
-        catch (@SuppressWarnings("unused") final NumberFormatException exception)
-        {
-            // Skip
-        }
-    }
-
     private static JComboBox<Res> createResolutionsAvailable(Container parent,
                                                              JFormattedTextField width,
                                                              JFormattedTextField height,
@@ -759,20 +533,6 @@ public final class Launcher
         });
 
         parent.add(checkWindowed);
-    }
-
-    private static int getClosestRate(JComboBox<Integer> comboRate, Integer custom)
-    {
-        final int c = comboRate.getItemCount();
-        for (int i = 0; i < c; i++)
-        {
-            final Integer rate = comboRate.getItemAt(i);
-            if (rate.compareTo(custom) >= 0)
-            {
-                return i;
-            }
-        }
-        return 0;
     }
 
     private static Container createFilter(Container parent)
@@ -904,48 +664,6 @@ public final class Launcher
         parent.add(box);
     }
 
-    private static JSlider createSlider(Container parent, String title, AtomicInteger value, int min, int max)
-    {
-        final JLabel label = createLabel(title, SwingConstants.LEADING);
-
-        final JSlider slider = new JSlider(min, max, value.get());
-        slider.setFont(FONT);
-        TIPS.add(slider);
-
-        final JLabel result = new JLabel(String.valueOf(getPercent(slider.getValue())));
-        result.setFont(FONT);
-        result.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-
-        slider.addChangeListener(e ->
-        {
-            value.set(slider.getValue());
-            result.setText(getPercent(value.get()));
-        });
-
-        final Box box = Box.createHorizontalBox();
-        box.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        box.add(label);
-        box.add(slider);
-        box.add(result);
-
-        parent.add(box);
-
-        return slider;
-    }
-
-    private static String getPercent(int percent)
-    {
-        if (percent < com.b3dgs.lionengine.Constant.DECADE)
-        {
-            return "00" + percent;
-        }
-        else if (percent < com.b3dgs.lionengine.Constant.HUNDRED)
-        {
-            return "0" + percent;
-        }
-        return String.valueOf(percent);
-    }
-
     private static void createControls(Container parent, Window window, Gamepad gamepad)
     {
         final GridBagConstraints constraints = new GridBagConstraints();
@@ -972,49 +690,102 @@ public final class Launcher
 
     private static void createButtons(Container parent, Window window, Gamepad gamepad)
     {
-        final JButton singleplayer = new JButton(LABEL_SINGLEPLAYER);
-        singleplayer.setFont(FONT);
-        singleplayer.addActionListener(event ->
+        final JButton play = createButtonPlay(window, gamepad);
+        final JButton startServer = createButtonStartServer(parent, window, gamepad);
+        final JButton joinGame = createButtonJoinGame(parent, window, gamepad);
+        final JButton editor = createButtonEditor(window);
+        final JButton exit = createButtonExit(window, gamepad);
+
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
+
+        final JPanel panel = new JPanel(new GridBagLayout());
+        parent.add(panel);
+        panel.setBorder(BORDER);
+        panel.add(play, constraints);
+        // TODO panel.add(startServer, constraints);
+        // TODO panel.add(joinGame, constraints);
+        panel.add(editor, constraints);
+        panel.add(exit, constraints);
+    }
+
+    private static JButton createButtonPlay(Window window, Gamepad gamepad)
+    {
+        final JButton play = new JButton(LABEL_PLAY);
+        play.setFont(FONT);
+        play.addActionListener(event ->
         {
             save();
             window.dispose();
-            AppLionheart.run(new GameConfig(), gamepad);
+            AppLionheart.run(new GameConfig(), gamepad, false);
         });
-        LABELS.add(singleplayer::setText);
-        TIPS.add(singleplayer);
+        LABELS.add(play::setText);
+        TIPS.add(play);
 
-        final JButton multiplayer = new JButton(LABEL_MULTIPLAYER);
-        multiplayer.setFont(FONT);
-        multiplayer.addActionListener(event ->
+        return play;
+    }
+
+    private static JButton createButtonStartServer(Container parent, Window window, Gamepad gamepad)
+    {
+        final JButton startServer = new JButton(LABEL_START_SERVER);
+        startServer.setFont(FONT);
+        startServer.addActionListener(event ->
         {
             final MultiplayerDialog dialog = new MultiplayerDialog(window);
-            dialog.setTitle(multiplayer.getText());
             dialog.setVisible(true);
 
-            if (dialog.getPlayers() > 0)
+            final NetworkStageData data = new NetworkStageData(dialog.getGameType(),
+                                                               dialog.getStage(),
+                                                               dialog.getHealth(),
+                                                               dialog.getLife());
+
+            final String ip = JOptionPane.showInputDialog(parent,
+                                                          "IP",
+                                                          "x.x.x.x / None (automatic)",
+                                                          JOptionPane.QUESTION_MESSAGE);
+            runGame(window, new Network(NetworkType.SERVER, getLocalIp(ip), 1000), gamepad, data);
+        });
+        LABELS.add(startServer::setText);
+        TIPS.add(startServer);
+
+        return startServer;
+    }
+
+    private static JButton createButtonJoinGame(Container parent, Window window, Gamepad gamepad)
+    {
+        final JButton joinGame = new JButton(LABEL_JOIN_GAME);
+        joinGame.setFont(FONT);
+        joinGame.addActionListener(event ->
+        {
+            final String ip = JOptionPane.showInputDialog(parent,
+                                                          "IP",
+                                                          joinGame.getText(),
+                                                          JOptionPane.QUESTION_MESSAGE);
+            final String name = JOptionPane.showInputDialog(parent,
+                                                            "NAME",
+                                                            joinGame.getText(),
+                                                            JOptionPane.QUESTION_MESSAGE);
+            if (ip != null && name != null)
             {
-                final Map<Integer, Integer> controls = new HashMap<>();
-                for (int i = 0; i < dialog.getPlayers(); i++)
+                try
                 {
-                    controls.put(Integer.valueOf(i), Integer.valueOf(i));
+                    runGame(window, new Network(NetworkType.CLIENT, ip, 1000, name), gamepad, getGameType(ip, 1000));
                 }
-
-                final GameConfig config = new GameConfig(dialog.getGameType(),
-                                                         dialog.getPlayers(),
-                                                         Optional.empty(),
-                                                         Optional.empty(),
-                                                         controls,
-                                                         new InitConfig(dialog.getStage(),
-                                                                        dialog.getHealth(),
-                                                                        dialog.getLife(),
-                                                                        Difficulty.NORMAL));
-
-                AppLionheart.run(config, gamepad);
+                catch (final IOException exception)
+                {
+                    Verbose.exception(exception);
+                }
             }
         });
-        LABELS.add(multiplayer::setText);
-        TIPS.add(multiplayer);
+        LABELS.add(joinGame::setText);
+        TIPS.add(joinGame);
 
+        return joinGame;
+    }
+
+    private static JButton createButtonEditor(Window window)
+    {
         final String path = "editor/Lionheart Remake Editor.exe";
         final JButton editor = new JButton(LABEL_EDITOR);
         editor.setFont(FONT);
@@ -1051,6 +822,11 @@ public final class Launcher
         LABELS.add(editor::setText);
         TIPS.add(editor);
 
+        return editor;
+    }
+
+    private static JButton createButtonExit(Window window, Gamepad gamepad)
+    {
         final JButton exit = new JButton(LABEL_EXIT);
         exit.setFont(FONT);
         exit.addActionListener(event ->
@@ -1062,133 +838,7 @@ public final class Launcher
         LABELS.add(exit::setText);
         TIPS.add(exit);
 
-        final GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-
-        final JPanel panel = new JPanel(new GridBagLayout());
-        parent.add(panel);
-        panel.setBorder(BORDER);
-        panel.add(singleplayer, constraints);
-        panel.add(multiplayer, constraints);
-        panel.add(editor, constraints);
-        panel.add(exit, constraints);
-    }
-
-    private static void createNetwork(Container parent, Window window, Gamepad gamepad)
-    {
-        final JButton startServer = new JButton(LABEL_START_SERVER);
-        startServer.setFont(FONT);
-        startServer.addActionListener(event ->
-        {
-            final MultiplayerDialog dialog = new MultiplayerDialog(window);
-            dialog.setVisible(true);
-
-            final NetworkStageData data = new NetworkStageData(dialog.getGameType(),
-                                                               dialog.getStage(),
-                                                               dialog.getHealth(),
-                                                               dialog.getLife());
-
-            run(window, new Network(NetworkType.SERVER, "127.0.0.1", 1000), gamepad, data);
-        });
-        LABELS.add(startServer::setText);
-        TIPS.add(startServer);
-
-        final JButton joinGame = new JButton(LABEL_JOIN_GAME);
-        joinGame.setFont(FONT);
-        joinGame.addActionListener(event ->
-        {
-            final String ip = JOptionPane.showInputDialog(parent,
-                                                          "IP",
-                                                          joinGame.getText(),
-                                                          JOptionPane.QUESTION_MESSAGE);
-            final String name = JOptionPane.showInputDialog(parent,
-                                                            "NAME",
-                                                            joinGame.getText(),
-                                                            JOptionPane.QUESTION_MESSAGE);
-            if (ip != null && name != null)
-            {
-                try
-                {
-                    run(window, new Network(NetworkType.CLIENT, ip, 1000, name), gamepad, getGameType(ip, 1000));
-                }
-                catch (final IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-        LABELS.add(joinGame::setText);
-        TIPS.add(joinGame);
-
-        final GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-
-        final JPanel panel = new JPanel(new GridBagLayout());
-        parent.add(panel);
-        panel.setBorder(BORDER);
-        panel.add(startServer, constraints);
-        panel.add(joinGame, constraints);
-    }
-
-    private static NetworkStageData getGameType(String ip, int port) throws IOException
-    {
-        try
-        {
-            final InetAddress address = InetAddress.getByName(ip);
-            final DatagramSocket socket = new DatagramSocket();
-
-            final ByteBuffer buffer = ByteBuffer.allocate(1);
-            buffer.put(UtilNetwork.toByte(MessageType.INFO));
-            final ByteBuffer send = UtilNetwork.createPacket(buffer);
-            socket.send(new DatagramPacket(send.array(), send.capacity(), address, port));
-
-            final ByteBuffer info = InfoGet.decode(socket);
-            final GameType type = GameType.values()[UtilConversion.toUnsignedByte(info.get())];
-            final int size = UtilConversion.toUnsignedByte(info.get());
-            final byte[] stageBuffer = new byte[size];
-            info.get(stageBuffer);
-
-            final String stage = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stageBuffer)).toString();
-            final int health = UtilConversion.toUnsignedByte(info.get());
-            final int life = UtilConversion.toUnsignedByte(info.get());
-
-            return new NetworkStageData(type, Medias.create(stage), health, life);
-        }
-        catch (final UnknownHostException | SocketException exception)
-        {
-            throw new IOException(exception);
-        }
-    }
-
-    private static class NetworkStageData
-    {
-        private final GameType type;
-        private final Media stage;
-        private final int health;
-        private final int life;
-
-        private NetworkStageData(GameType type, Media stage, int health, int life)
-        {
-            super();
-
-            this.type = type;
-            this.stage = stage;
-            this.health = health;
-            this.life = life;
-        }
-    }
-
-    private static void run(Window window, Network network, Gamepad gamepad, NetworkStageData data)
-    {
-        save();
-        window.dispose();
-        AppLionheart.run(gamepad,
-                         Scene.class,
-                         network,
-                         data.type,
-                         new InitConfig(data.stage, data.health, data.life, Difficulty.NORMAL));
+        return exit;
     }
 
     private static void createCopyright(Container parent)
@@ -1214,21 +864,6 @@ public final class Launcher
             }
         });
         parent.add(label, BorderLayout.SOUTH);
-    }
-
-    /**
-     * Use system theme for UI.
-     */
-    private static void setThemeSystem()
-    {
-        try
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (final ReflectiveOperationException | UnsupportedLookAndFeelException exception)
-        {
-            Verbose.exception(exception);
-        }
     }
 
     /**
@@ -1271,17 +906,345 @@ public final class Launcher
         }
     }
 
-    private static void prepareSettings()
+    private static void loadLangs()
     {
-        try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
-             OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
+        for (final String lang : Util.readLines(Medias.create(Folder.TEXT, FILENAME_LANGS)))
         {
-            UtilStream.copy(input, output);
+            for (final String litteral : Util.readLines(Medias.create(Folder.TEXT, lang, Settings.FILE_LANG)))
+            {
+                LANG_FULL.put(lang, litteral);
+                LANG_SHORT.put(litteral, lang);
+                break;
+            }
         }
-        catch (final IOException exception)
+    }
+
+    /**
+     * Use system theme for UI.
+     */
+    private static void setThemeSystem()
+    {
+        try
+        {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (final ReflectiveOperationException | UnsupportedLookAndFeelException exception)
         {
             Verbose.exception(exception);
         }
+    }
+
+    private static void loadPref()
+    {
+        final Settings settings = Settings.getInstance();
+
+        LANG.set(settings.getLang());
+
+        if (Settings.getFile().exists())
+        {
+            WIDTH.set(settings.getResolution().getWidth());
+            HEIGHT.set(settings.getResolution().getHeight());
+            RATE.set(settings.getResolution().getRate());
+            WINDOWED.set(settings.getResolutionWindowed());
+        }
+        else
+        {
+            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                           .getDefaultScreenDevice()
+                                                           .getDisplayMode();
+            WIDTH.set(desktop.getWidth());
+            HEIGHT.set(desktop.getHeight());
+            RATE.set(desktop.getRefreshRate());
+            WINDOWED.set(false);
+        }
+
+        FILTER.set(settings.getFilter());
+        GAMEPLAY.set(settings.getGameplay());
+        RASTER.set(settings.getRaster());
+        HUD.set(settings.getHudVisible());
+        HUD_SWORD.set(settings.getHudSword());
+        FLICKER_BACKGROUND.set(settings.getFlickerBackground());
+        FLICKER_FOREGROUND.set(settings.getFlickerForeground());
+        ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
+                                (int) (Constant.ZOOM_MIN * 100),
+                                (int) (Constant.ZOOM_MAX * 100)));
+        MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
+        FLAG_STRATEGY.set(UtilMath.clamp(settings.getFlagStrategy(), 0, ImageLoadStrategy.values().length));
+        FLAG_PARALLEL.set(settings.getFlagParallel());
+        FLAG_VSYNC.set(settings.getFlagVsync());
+    }
+
+    private static void loadLabels(String lang)
+    {
+        Media media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_LABELS);
+        if (!media.exists())
+        {
+            media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_LABELS);
+        }
+        final List<String> labels = Util.readLines(media);
+        final int n = Math.min(labels.size(), LABELS.size());
+        for (int i = 0; i < n; i++)
+        {
+            LABELS.get(i).accept(labels.get(i));
+        }
+    }
+
+    private static void loadToolTips(String lang)
+    {
+        Media media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_TOOLTIPS);
+        if (!media.exists())
+        {
+            media = Medias.create(Folder.TEXT, lang, FOLDER_LAUNCHER, FILENAME_TOOLTIPS);
+        }
+        final List<String> tips = Util.readLines(media);
+        final int n = Math.min(tips.size(), TIPS.size());
+        for (int i = 0; i < n; i++)
+        {
+            TIPS.get(i).setToolTipText(tips.get(i));
+        }
+    }
+
+    private static JLabel createLabel(String name, int align)
+    {
+        final JLabel label = new JLabel(name);
+        label.setFont(FONT);
+        label.setHorizontalAlignment(align);
+        LABELS.add(label::setText);
+        TIPS.add(label);
+        return label;
+    }
+
+    private static <T> JComboBox<T> createCombo(T[] values, T selected)
+    {
+        final JComboBox<T> combo = new JComboBox<>(values);
+        combo.setFont(FONT);
+        combo.setSelectedItem(selected);
+        TIPS.add(combo);
+        return combo;
+    }
+
+    private static Box createBorderBox(Container parent, Component... comp)
+    {
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BORDER);
+        for (final Component c : comp)
+        {
+            box.add(c);
+        }
+        parent.add(box);
+        return box;
+    }
+
+    private static JFormattedTextField createField(NumberFormatter formatter,
+                                                   int align,
+                                                   AtomicInteger field,
+                                                   JComboBox<Integer> scale,
+                                                   JComboBox<String> ratio)
+    {
+        final JFormattedTextField tf = new JFormattedTextField(formatter);
+        tf.setFont(FONT);
+        tf.setHorizontalAlignment(align);
+        tf.setText(String.valueOf(field.get()));
+        tf.setEditable(WINDOWED.get());
+        tf.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mousePressed(MouseEvent event)
+            {
+                scale.setSelectedIndex(0);
+                ratio.setSelectedIndex(0);
+            }
+        });
+        tf.getDocument().addDocumentListener(new DocumentListener()
+        {
+            @Override
+            public void insertUpdate(DocumentEvent event)
+            {
+                updateField(field, tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent event)
+            {
+                updateField(field, tf);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent event)
+            {
+                // Nothing to do
+            }
+        });
+        return tf;
+    }
+
+    private static JCheckBox createCheck(String label, AtomicBoolean selected)
+    {
+        final JCheckBox check = new JCheckBox(label);
+        check.setFont(FONT);
+        check.setBorder(BORDER_CHECK);
+        check.setHorizontalTextPosition(SwingConstants.LEADING);
+        check.setSelected(selected.get());
+        LABELS.add(check::setText);
+        TIPS.add(check);
+        return check;
+    }
+
+    private static JSlider createSlider(Container parent, String title, AtomicInteger value, int min, int max)
+    {
+        final JLabel label = createLabel(title, SwingConstants.LEADING);
+
+        final JSlider slider = new JSlider(min, max, value.get());
+        slider.setFont(FONT);
+        TIPS.add(slider);
+
+        final JLabel result = new JLabel(String.valueOf(getPercent(slider.getValue())));
+        result.setFont(FONT);
+        result.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+
+        slider.addChangeListener(e ->
+        {
+            value.set(slider.getValue());
+            result.setText(getPercent(value.get()));
+        });
+
+        final Box box = Box.createHorizontalBox();
+        box.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        box.add(label);
+        box.add(slider);
+        box.add(result);
+
+        parent.add(box);
+
+        return slider;
+    }
+
+    private static void updateResolution(JComboBox<Integer> comboScale,
+                                         JComboBox<String> comboRatio,
+                                         JFormattedTextField width,
+                                         JFormattedTextField height)
+    {
+        if (comboScale.getSelectedIndex() > 0 && comboRatio.getSelectedIndex() > 0)
+        {
+            int w = Constant.RESOLUTION.getWidth();
+            int h = Constant.RESOLUTION.getHeight();
+
+            final int scale = AVAILABLE_SCALE[comboScale.getSelectedIndex()].intValue();
+            w *= scale;
+            h *= scale;
+
+            final double ratio = RATIO_VALUE[comboRatio.getSelectedIndex() - 1];
+            w = (int) Math.round(h * ratio);
+
+            width.setText(String.valueOf(w));
+            height.setText(String.valueOf(h));
+        }
+    }
+
+    private static List<Integer> getNativeRates()
+    {
+        return Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                .getDefaultScreenDevice()
+                                                .getDisplayModes())
+                     .stream()
+                     .filter(d -> d.getRefreshRate() >= Constant.RESOLUTION.getRate())
+                     .map(d -> Integer.valueOf(d.getRefreshRate()))
+                     .distinct()
+                     .sorted()
+                     .collect(Collectors.toList());
+    }
+
+    private static List<Integer> getAvailableRates()
+    {
+        final List<Integer> rates = new ArrayList<>(getNativeRates());
+        rates.add(Integer.valueOf(Constant.RESOLUTION.getRate()));
+        rates.add(Integer.valueOf(Constant.RESOLUTION.getRate() * 2));
+        return rates.stream().distinct().sorted().collect(Collectors.toList());
+    }
+
+    private static int getClosestRate(JComboBox<Integer> comboRate, Integer custom)
+    {
+        final int c = comboRate.getItemCount();
+        for (int i = 0; i < c; i++)
+        {
+            final Integer rate = comboRate.getItemAt(i);
+            if (rate.compareTo(custom) >= 0)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private static String getPercent(int percent)
+    {
+        if (percent < com.b3dgs.lionengine.Constant.DECADE)
+        {
+            return "00" + percent;
+        }
+        else if (percent < com.b3dgs.lionengine.Constant.HUNDRED)
+        {
+            return "0" + percent;
+        }
+        return String.valueOf(percent);
+    }
+
+    private static String getLocalIp(String ip)
+    {
+        if (ip != null)
+        {
+            return ip;
+        }
+        try
+        {
+            return InetAddress.getLocalHost().getHostAddress();
+        }
+        catch (@SuppressWarnings("unused") final UnknownHostException exception)
+        {
+            return "127.0.0.1";
+        }
+    }
+
+    private static NetworkStageData getGameType(String ip, int port) throws IOException
+    {
+        try
+        {
+            final InetAddress address = InetAddress.getByName(ip);
+            final DatagramSocket socket = new DatagramSocket();
+
+            final ByteBuffer buffer = ByteBuffer.allocate(1);
+            buffer.put(UtilNetwork.toByte(MessageType.INFO));
+            final ByteBuffer send = UtilNetwork.createPacket(buffer);
+            socket.send(new DatagramPacket(send.array(), send.capacity(), address, port));
+
+            final ByteBuffer info = InfoGet.decode(socket);
+            final GameType type = GameType.values()[UtilConversion.toUnsignedByte(info.get())];
+            final int size = UtilConversion.toUnsignedByte(info.get());
+            final byte[] stageBuffer = new byte[size];
+            info.get(stageBuffer);
+
+            final String stage = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stageBuffer)).toString();
+            final int health = UtilConversion.toUnsignedByte(info.get());
+            final int life = UtilConversion.toUnsignedByte(info.get());
+
+            return new NetworkStageData(type, Medias.create(stage), health, life);
+        }
+        catch (final UnknownHostException | SocketException exception)
+        {
+            throw new IOException(exception);
+        }
+    }
+
+    private static void runGame(Window window, Network network, Gamepad gamepad, NetworkStageData data)
+    {
+        save();
+        window.dispose();
+        AppLionheart.run(gamepad,
+                         Scene.class,
+                         network,
+                         data.type,
+                         new InitConfig(data.stage, data.health, data.life, Difficulty.NORMAL));
     }
 
     private static void save()
@@ -1382,6 +1345,19 @@ public final class Launcher
         Settings.load();
     }
 
+    private static void prepareSettings()
+    {
+        try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
+             OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
+        {
+            UtilStream.copy(input, output);
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
     private static void writeFormatted(FileWriter output, String[] data, String value) throws IOException
     {
         output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
@@ -1403,11 +1379,39 @@ public final class Launcher
     }
 
     /**
-     * Private constructor.
+     * Update field.
+     * 
+     * @param field The field.
+     * @param text The text.
      */
-    private Launcher()
+    static void updateField(AtomicInteger field, JFormattedTextField text)
     {
-        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
+        try
+        {
+            field.set(Integer.parseInt(text.getText()));
+        }
+        catch (@SuppressWarnings("unused") final NumberFormatException exception)
+        {
+            // Skip
+        }
+    }
+
+    private static class NetworkStageData
+    {
+        private final GameType type;
+        private final Media stage;
+        private final int health;
+        private final int life;
+
+        private NetworkStageData(GameType type, Media stage, int health, int life)
+        {
+            super();
+
+            this.type = type;
+            this.stage = stage;
+            this.health = health;
+            this.life = life;
+        }
     }
 
     private static class Res implements Comparable<Res>
@@ -1478,5 +1482,13 @@ public final class Launcher
         {
             return new StringBuilder().append(width).append(" x ").append(height).toString();
         }
+    }
+
+    /**
+     * Private constructor.
+     */
+    private Launcher()
+    {
+        throw new LionEngineException(LionEngineException.ERROR_PRIVATE_CONSTRUCTOR);
     }
 }

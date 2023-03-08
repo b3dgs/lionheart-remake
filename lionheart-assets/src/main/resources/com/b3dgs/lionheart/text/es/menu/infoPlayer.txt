@@ -1,1 +1,1 @@
-Selecciona el número de jugadores%para el modo de juego seleccionado
+Selecciona el numero de jugadores%para el modo de juego seleccionado.

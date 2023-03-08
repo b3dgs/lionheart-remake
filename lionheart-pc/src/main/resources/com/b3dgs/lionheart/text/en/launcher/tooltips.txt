@@ -36,7 +36,8 @@ Select zoom view effect.
 Selected zoom view value.
 Selected zoom view value.
 Configure game controls.
-Save configuration and start singleplayer.
-Save configuration and start multiplayer.
+Save configuration and play local.
+Save configuration and play online as server.
+Save configuration and play online as client.
 Run game editor.
 Save configuration and exit launcher.

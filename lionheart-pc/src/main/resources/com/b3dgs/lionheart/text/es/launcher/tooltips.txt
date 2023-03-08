@@ -36,7 +36,8 @@ Seleccione el efecto de vista de zoom.
 Valor de vista de zoom seleccionado.
 Valor de vista de zoom seleccionado.
 Configura los controles del juego.
-Guarde la configuración e inicie un jugador.
-Guarde la configuración e inicie el modo multijugador.
+Guarde la configuración e inicie un jugar.
+Guarde la configuración e inicie un jugar en línea.
+Guarde la configuración e inicie un jugar en línea.
 Ejecuta el editor de juegos.
 Guarde la configuración y salga del lanzador.

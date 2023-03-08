@@ -28,9 +28,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -61,7 +61,7 @@ import com.b3dgs.lionheart.constant.Folder;
  */
 public class MultiplayerDialog extends JDialog
 {
-    private static final int PLAYERS_MIN = 1;
+    private static final int PLAYERS_MIN = 2;
     private static final int PLAYERS_MAX = 8;
 
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
@@ -69,10 +69,9 @@ public class MultiplayerDialog extends JDialog
 
     private Media stage;
     private final AtomicReference<GameType> type = new AtomicReference<>(GameType.SPEEDRUN);
-    private final AtomicInteger players = new AtomicInteger(2);
-    private final AtomicInteger life = new AtomicInteger(0);
+    private final AtomicInteger players = new AtomicInteger(PLAYERS_MIN);
     private final AtomicInteger health = new AtomicInteger(1);
-    private final AtomicBoolean online = new AtomicBoolean(false);
+    private final AtomicInteger life = new AtomicInteger(0);
 
     /**
      * Create dialog.
@@ -90,8 +89,8 @@ public class MultiplayerDialog extends JDialog
         add(box, BorderLayout.CENTER);
 
         createType(box);
-        final JSlider players = createPlayers(box);
-        createStart(box, players);
+        createPlayers(box);
+        createStart(box);
 
         pack();
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -103,7 +102,7 @@ public class MultiplayerDialog extends JDialog
             @Override
             public void windowClosing(WindowEvent e)
             {
-                MultiplayerDialog.this.players.set(0);
+                players.set(0);
             }
         });
     }
@@ -158,16 +157,6 @@ public class MultiplayerDialog extends JDialog
         return players.get();
     }
 
-    /**
-     * Check if is online or local.
-     * 
-     * @return <code>true</code> if online, <code>false</code> if local.
-     */
-    public boolean isOnline()
-    {
-        return online.get();
-    }
-
     private void createType(JComponent parent)
     {
         final JLabel label = new JLabel("Type: ");
@@ -176,7 +165,10 @@ public class MultiplayerDialog extends JDialog
 
         final Box panel = Box.createVerticalBox();
 
-        final JComboBox<GameType> combo = new JComboBox<>(GameType.values());
+        final JComboBox<GameType> combo = new JComboBox<>(Arrays.asList(GameType.SPEEDRUN,
+                                                                        GameType.BATTLE,
+                                                                        GameType.VERSUS)
+                                                                .toArray(new GameType[3]));
         combo.setFont(FONT);
         combo.addActionListener(e ->
         {
@@ -195,6 +187,8 @@ public class MultiplayerDialog extends JDialog
                 case BATTLE:
                     createCoop(panel);
                     break;
+                case STORY:
+                case TRAINING:
                 default:
                     throw new LionEngineException(type);
             }
@@ -338,7 +332,7 @@ public class MultiplayerDialog extends JDialog
         parent.add(box);
     }
 
-    private JSlider createPlayers(JComponent parent)
+    private void createPlayers(JComponent parent)
     {
         final JLabel label = new JLabel("Players: ");
         label.setFont(FONT);
@@ -362,25 +356,14 @@ public class MultiplayerDialog extends JDialog
         box.add(result);
 
         parent.add(box);
-
-        return slider;
     }
 
-    private void createStart(JComponent parent, JSlider players)
+    private void createStart(JComponent parent)
     {
-        final JButton local = new JButton("Local");
-        local.setFont(FONT);
-        local.addActionListener(event ->
+        final JButton start = new JButton("Start");
+        start.setFont(FONT);
+        start.addActionListener(event ->
         {
-            online.set(false);
-            dispose();
-        });
-
-        final JButton online = new JButton("Online");
-        online.setFont(FONT);
-        online.addActionListener(event ->
-        {
-            this.online.set(true);
             dispose();
         });
 
@@ -388,11 +371,9 @@ public class MultiplayerDialog extends JDialog
         back.setFont(FONT);
         back.addActionListener(event ->
         {
-            this.players.set(0);
+            players.set(0);
             dispose();
         });
-
-        players.addChangeListener(e -> local.setEnabled(players.getValue() < 5));
 
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -400,8 +381,7 @@ public class MultiplayerDialog extends JDialog
 
         final JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BORDER);
-        panel.add(local, constraints);
-        panel.add(online, constraints);
+        panel.add(start, constraints);
         panel.add(back, constraints);
 
         parent.add(panel);

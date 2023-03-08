@@ -19,7 +19,8 @@ Premier plan:
 Zoom:
 Avancé
 Contrôles
-Solo
-Multijoueur
+Jouer
+Créer serveur
+Joindre serveur
 Éditeur
 Quitter

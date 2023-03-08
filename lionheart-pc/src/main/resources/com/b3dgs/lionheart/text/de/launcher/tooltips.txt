@@ -36,7 +36,8 @@ Wählen Sie den Zoomansichtseffekt.
 Ausgewählter Zoomansichtswert.
 Ausgewählter Zoomansichtswert.
 Konfigurieren Sie die Spielsteuerung.
-Konfiguration speichern und Singleplayer starten.
-Konfiguration speichern und Multiplayer starten.
+Konfiguration speichern und Spielen.
+Konfiguration speichern und Spielen online.
+Konfiguration speichern und Spielen online.
 Spieleditor ausführen.
 Speichern Sie die Konfiguration und beenden Sie den Launcher.
