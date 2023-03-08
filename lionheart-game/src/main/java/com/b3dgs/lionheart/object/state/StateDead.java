@@ -19,8 +19,11 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.GameConfig;
+import com.b3dgs.lionheart.GameType;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
+import com.b3dgs.lionheart.object.feature.Hurtable;
 
 /**
  * Dead state implementation.
@@ -31,6 +34,12 @@ public final class StateDead extends State
     private static final long DEAD_DELAY_MS = 1000;
 
     private final Tick tick = new Tick();
+    private final Hurtable hurtable = model.getFeature(Hurtable.class);
+    private final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+    private final boolean respawn = model.getServices()
+                                         .get(GameConfig.class)
+                                         .getType()
+                                         .is(GameType.STORY, GameType.TRAINING);
 
     /**
      * Create the state.
@@ -42,8 +51,10 @@ public final class StateDead extends State
     {
         super(model, animation);
 
-        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
-        addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), DEAD_DELAY_MS));
+        if (respawn)
+        {
+            addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), DEAD_DELAY_MS));
+        }
     }
 
     @Override
@@ -60,5 +71,10 @@ public final class StateDead extends State
     {
         tick.update(extrp);
         body.resetGravity();
+
+        if (!respawn && tick.elapsedTime(source.getRate(), DEAD_DELAY_MS))
+        {
+            hurtable.kill(true);
+        }
     }
 }

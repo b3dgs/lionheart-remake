@@ -451,21 +451,25 @@ public final class Util
     /**
      * Save progress.
      * 
-     * @param config The current config.
+     * @param config The game configuration.
      */
-    public static void saveProgress(InitConfig config)
+    public static void saveProgress(GameConfig config)
     {
-        try (FileWriting file = new FileWriting(Medias.create(Constant.FILE_PROGRESS)))
+        final InitConfig init = config.getInit();
+        try (FileWriting file = new FileWriting(Medias.create(Folder.STAGE,
+                                                              Folder.STORY,
+                                                              config.getStages().get(),
+                                                              Constant.FILE_PROGRESS)))
         {
-            file.writeString(config.getStage().getPath());
-            file.writeByte(UtilConversion.fromUnsignedByte(config.getHealthMax()));
-            file.writeByte(UtilConversion.fromUnsignedByte(config.getTalisment()));
-            file.writeByte(UtilConversion.fromUnsignedByte(config.getLife()));
-            file.writeByte(UtilConversion.fromUnsignedByte(config.getSword()));
-            file.writeBoolean(config.isAmulet());
-            file.writeByte(UtilConversion.fromUnsignedByte(config.getCredits()));
-            file.writeString(config.getDifficulty().name());
-            file.writeBoolean(config.isCheats());
+            file.writeString(init.getStage().getPath());
+            file.writeByte(UtilConversion.fromUnsignedByte(init.getHealthMax()));
+            file.writeByte(UtilConversion.fromUnsignedByte(init.getTalisment()));
+            file.writeByte(UtilConversion.fromUnsignedByte(init.getLife()));
+            file.writeByte(UtilConversion.fromUnsignedByte(init.getSword()));
+            file.writeBoolean(init.isAmulet());
+            file.writeByte(UtilConversion.fromUnsignedByte(init.getCredits()));
+            file.writeString(init.getDifficulty().name());
+            file.writeBoolean(init.isCheats());
         }
         catch (final IOException exception)
         {
@@ -476,12 +480,16 @@ public final class Util
     /**
      * Load progress from file.
      * 
+     * @param config The game configuration.
      * @return The progress loaded.
      * @throws IOException If error.
      */
-    public static InitConfig loadProgress() throws IOException
+    public static InitConfig loadProgress(GameConfig config) throws IOException
     {
-        try (FileReading file = new FileReading(Medias.create(Constant.FILE_PROGRESS)))
+        try (FileReading file = new FileReading(Medias.create(Folder.STAGE,
+                                                              Folder.STORY,
+                                                              config.getStages().get(),
+                                                              Constant.FILE_PROGRESS)))
         {
             return new InitConfig(Medias.create(file.readString()),
                                   UtilConversion.toUnsignedByte(file.readByte()),

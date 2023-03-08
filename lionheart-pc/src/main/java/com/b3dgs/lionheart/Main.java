@@ -18,6 +18,8 @@ package com.b3dgs.lionheart;
 
 import java.io.IOException;
 
+import com.b3dgs.lionengine.Verbose;
+
 /**
  * Main entry.
  */
@@ -32,9 +34,11 @@ public class Main
      * Arguments to start game without launcher:
      * </p>
      * <ul>
-     * <li>custom lionheart.propertie [string]</li>
+     * <li>custom lionheart.properties [string]</li>
      * <li>input.xml [string]</li>
      * <li>{@link GameType} [string])</li>
+     * <li>Stage [string])</li>
+     * <li>{@link Difficulty} [string])</li>
      * <li>players number [int]</li>
      * </ul>
      * 
@@ -43,7 +47,14 @@ public class Main
      */
     public static void main(String[] args) throws IOException
     {
-        System.setProperty("sun.java2d.uiScale", "1.0");
+        try
+        {
+            System.setProperty("sun.java2d.uiScale", "1.0");
+        }
+        catch (final SecurityException exception)
+        {
+            Verbose.exception(exception);
+        }
 
         if (args.length > 0)
         {

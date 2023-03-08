@@ -318,9 +318,7 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
      */
     private void applyDamagesInternal(int damages)
     {
-        health.decrease(damages);
-        final boolean dead = health.isEmpty();
-        if (dead)
+        if (health.decrease(damages) > 0 && health.isEmpty())
         {
             final int n = listeners.size();
             for (int i = 0; i < n; i++)

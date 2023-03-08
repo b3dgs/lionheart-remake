@@ -249,6 +249,8 @@ public class Menu extends Sequence
     private TransitionType transition = TransitionType.IN;
     /** Line choice on. */
     private int choice;
+    /** Old choice. */
+    private int choiceOld;
     /** Current difficulty index. */
     private int difficulty;
     /** Current joystick value. */
@@ -283,16 +285,6 @@ public class Menu extends Sequence
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop());
 
-        if (config.getInit() == null)
-        {
-            menu = MenuType.LAUNCHER;
-        }
-        else
-        {
-            menu = MenuType.MAIN;
-            choice = 1;
-        }
-
         this.config = config;
         difficulty = getDifficultyIndex(config);
         game = config.getType().ordinal();
@@ -307,7 +299,7 @@ public class Menu extends Sequence
 
         listener = (n, p, c, f) ->
         {
-            if (choice == 3 && device.isFired(DeviceMapping.CTRL_RIGHT))
+            if (choice == 4 && device.isFired(DeviceMapping.CTRL_RIGHT))
             {
                 controls.put(Integer.valueOf(controller), Integer.valueOf(controllers0.indexOf(n)));
             }
@@ -362,6 +354,16 @@ public class Menu extends Sequence
         menusData[0] = createLauncher();
         menusData[1] = createMain();
         menusData[2] = createOptions();
+
+        if (config.getInit() == null)
+        {
+            menu = MenuType.LAUNCHER;
+            choice = 0;
+        }
+        else
+        {
+            menu = MenuType.MAIN;
+        }
 
         stages0.add(Util.readLines(Medias.create(Folder.STAGE, Folder.STORY, "stages.txt")));
         stages0.add(getStagesTraining());
@@ -454,8 +456,10 @@ public class Menu extends Sequence
     {
         final int x = (int) Math.round(CENTER_X * factorH);
         final Choice[] choices;
-        if (Medias.create(Constant.FILE_PROGRESS).exists())
+        if (config.getStages().isPresent()
+            && Medias.create(Folder.STAGE, Folder.STORY, config.getStages().get(), Constant.FILE_PROGRESS).exists())
         {
+            choice = 2;
             choices = new Choice[]
             {
                 new Choice(textDark, textWhite, menu1.get(0), x, mainY + 100, Align.CENTER, MenuType.NEW),
@@ -467,6 +471,7 @@ public class Menu extends Sequence
         }
         else
         {
+            choice = 1;
             choices = new Choice[]
             {
                 new Choice(textDark, textWhite, menu1.get(0), x, mainY + 117, Align.CENTER, MenuType.NEW),
@@ -645,6 +650,16 @@ public class Menu extends Sequence
             movedHorizontal = true;
             value++;
         }
+        if (choice == choiceOld
+            && (menu == MenuType.LAUNCHER && choice < 4 || menu == MenuType.OPTIONS && choice < 2)
+            && deviceCursor.isFiredOnce(DeviceMapping.LEFT))
+        {
+            value++;
+            if (value > max)
+            {
+                value = min;
+            }
+        }
         value = UtilMath.clamp(value, min, max);
         if (value != option)
         {
@@ -758,7 +773,7 @@ public class Menu extends Sequence
      */
     private void updateMenuNavigation(int menuId)
     {
-        final int choiceOld = choice;
+        choiceOld = choice;
         if (device.getVerticalDirection() == 0)
         {
             movedVertical = false;
@@ -790,12 +805,12 @@ public class Menu extends Sequence
             cursor.setLocation(0, 0);
             movedVertical = true;
         }
+        final Data data = menusData[menuId];
         if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
         {
+            choice = getCursorChoice(data);
             cursor.setVisible(true);
         }
-        final Data data = menusData[menuId];
-        choice = getCursorChoice(data);
         choice = UtilMath.clamp(choice, 0, data.choiceMax);
         if (choiceOld != choice)
         {
@@ -860,7 +875,7 @@ public class Menu extends Sequence
             case CONTINUE:
                 try
                 {
-                    end(SceneBlack.class, config, Util.loadProgress());
+                    end(SceneBlack.class, config.with(Util.loadProgress(config)));
                 }
                 catch (final IOException exception)
                 {
@@ -896,7 +911,7 @@ public class Menu extends Sequence
         {
             end(Intro.class,
                 config.with(type, players, controls)
-                      .with(stages0.get(0).get(this.stage))
+                      .with(stages0.get(0).get(this.stage).toLowerCase(Locale.ENGLISH))
                       .with(new InitConfig(null, 0, 0, difficulty)));
         }
         else if (GameType.is(game, GameType.TRAINING))

@@ -1,1 +1,1 @@
-Select player's controller with horizontal,%and press fire to select
+Press fire with device to assign,%change player (id) with horizontal if many

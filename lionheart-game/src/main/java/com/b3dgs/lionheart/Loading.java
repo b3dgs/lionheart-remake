@@ -30,6 +30,7 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.intro.Intro;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.menu.Menu;
 
@@ -43,6 +44,7 @@ public final class Loading extends Sequence
     private final BackgroundType[] backgrounds = BackgroundType.values();
     private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
     private final GameConfig config;
+    private final boolean direct;
     private final int max;
 
     private boolean load;
@@ -55,14 +57,16 @@ public final class Loading extends Sequence
      * 
      * @param context The context reference (must not be <code>null</code>).
      * @param config The config reference (must not be <code>null</code>).
+     * @param direct <code>true</code> for direct start, <code>false</code> to show menu.
      * @throws LionEngineException If invalid argument.
      */
-    public Loading(Context context, GameConfig config)
+    public Loading(Context context, GameConfig config, Boolean direct)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context));
 
         timing.start();
         this.config = config;
+        this.direct = direct.booleanValue();
         max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
@@ -87,6 +91,17 @@ public final class Loading extends Sequence
                                             Difficulty.NORMAL,
                                             true,
                                             Optional.empty())));
+        }
+        else if (direct)
+        {
+            if (config.getType().is(GameType.STORY))
+            {
+                load(Intro.class, config);
+            }
+            else
+            {
+                load(Scene.class, config);
+            }
         }
         else
         {
@@ -118,8 +133,8 @@ public final class Loading extends Sequence
             {
                 alpha = 0;
                 load = true;
-                timing.restart();
                 loadNext();
+                timing.restart();
             }
         }
         else if (current < max)

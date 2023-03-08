@@ -273,9 +273,9 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     }
 
     /**
-     * Remove client control.
+     * Remove control.
      */
-    public void removeClientControl()
+    public void removeControl()
     {
         setInput(DeviceControllerVoid.getInstance());
         movement.zero();
@@ -624,7 +624,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         }
         else if (type == TYPE_STOP)
         {
-            removeClientControl();
+            removeControl();
         }
     }
 

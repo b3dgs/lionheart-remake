@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.b3dgs.lionengine.Align;
@@ -114,6 +115,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
+import com.b3dgs.lionheart.object.feature.StatsListener;
 import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.feature.Underwater;
 
@@ -123,6 +125,10 @@ import com.b3dgs.lionheart.object.feature.Underwater;
 // CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
 final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 {
+    private static final int VERSUS_WIN_DELAY_MS = 5500;
+    private static final int SPEEDRUN_WIN_DELAY_MS = 5500;
+    private static final int BATTLE_WIN_DELAY_MS = 5500;
+    private static final int ALLDEAD_DELAY_MS = 2000;
     private static final int PARALLEL_LOAD_TIMEOUT_SEC = 30;
     private static final String MAP_BOTTOM = "_bottom";
 
@@ -234,6 +240,20 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             splitTrackerY[i] = 0.0;
         }
 
+        if (game.getType().is(GameType.BATTLE))
+        {
+            spawnTick.addAction(() ->
+            {
+                for (int i = 0; i < players.size(); i++)
+                {
+                    players.get(i).getFeature(Stats.class).win();
+                }
+                playMusic(Music.BOSS_WIN);
+                spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                    source.getRate(),
+                                    BATTLE_WIN_DELAY_MS);
+            }, source.getRate(), 176700);
+        }
     }
 
     private void playNextMusicTask()
@@ -498,19 +518,23 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             {
                 if (index > 0 && game.getType().is(GameType.SPEEDRUN))
                 {
-                    player.getFeature(EntityModel.class).removeClientControl();
-                    if (hud.is(player))
+                    for (int i = 0; i < players.size(); i++)
                     {
-                        hud.timeStop();
+                        players.get(i).getFeature(EntityModel.class).removeControl();
+                        checkpoints.unregister(players.get(i).getFeature(Transformable.class));
                     }
+                    player.getFeature(Stats.class).win();
+
+                    hud.timeStop();
                     for (int i = 0; i < splitHud.length; i++)
                     {
-                        if (splitHud[i].is(player))
-                        {
-                            splitHud[i].timeStop();
-                        }
+                        splitHud[i].timeStop();
                     }
-                    checkpoints.unregister(player);
+
+                    playMusic(Music.BOSS_WIN);
+                    spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                        source.getRate(),
+                                        SPEEDRUN_WIN_DELAY_MS);
                 }
             }
 
@@ -1244,15 +1268,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private void updateSpawn(double extrp)
     {
         spawnTick.update(extrp);
-        if (spawnTick.elapsedTime(source.getRate(), 176700))
-        {
-            for (int i = 0; i < players.size(); i++)
-            {
-                players.get(i).getFeature(Stats.class).win();
-            }
-            playMusic(Music.BOSS_WIN);
-            spawnTick.stop();
-        }
     }
 
     /**
@@ -1307,6 +1322,54 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             loadStage(Settings.getInstance(), init);
 
             cheats.init(player, difficulty, init.isCheats());
+
+            if (game.getType().is(GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))
+            {
+                final AtomicInteger dead = new AtomicInteger();
+                final StatsListener listener = new StatsListener()
+                {
+                    @Override
+                    public void notifyNextSword(int level)
+                    {
+                        // Nothing to do
+                    }
+
+                    @Override
+                    public void notifyDead()
+                    {
+                        if (game.getType().is(GameType.VERSUS))
+                        {
+                            if (dead.incrementAndGet() == players.size() - 1)
+                            {
+                                for (int i = 0; i < players.size(); i++)
+                                {
+                                    if (players.get(i).getFeature(Stats.class).getHealth() > 0)
+                                    {
+                                        players.get(i).getFeature(Stats.class).win();
+                                    }
+                                }
+                                playMusic(Music.BOSS_WIN);
+                                spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                                    source.getRate(),
+                                                    VERSUS_WIN_DELAY_MS);
+                            }
+                        }
+                        else
+                        {
+                            if (dead.incrementAndGet() == players.size())
+                            {
+                                spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                                    source.getRate(),
+                                                    ALLDEAD_DELAY_MS);
+                            }
+                        }
+                    }
+                };
+                for (int i = 0; i < players.size(); i++)
+                {
+                    players.get(i).getFeature(Stats.class).addListener(listener);
+                }
+            }
         }
         finally
         {

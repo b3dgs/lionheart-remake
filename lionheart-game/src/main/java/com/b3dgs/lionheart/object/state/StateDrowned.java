@@ -19,6 +19,8 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.GameConfig;
+import com.b3dgs.lionheart.GameType;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -49,8 +51,11 @@ public final class StateDrowned extends State
     {
         super(model, animation);
 
-        final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
-        addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), DROWN_END_DELAY_MS));
+        if (model.getServices().get(GameConfig.class).getType().is(GameType.STORY, GameType.TRAINING))
+        {
+            final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
+            addTransition(StateRespawn.class, () -> tick.elapsedTime(source.getRate(), DROWN_END_DELAY_MS));
+        }
     }
 
     @Override
