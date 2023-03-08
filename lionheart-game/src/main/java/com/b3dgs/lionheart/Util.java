@@ -455,25 +455,28 @@ public final class Util
      */
     public static void saveProgress(GameConfig config)
     {
-        final InitConfig init = config.getInit();
-        try (FileWriting file = new FileWriting(Medias.create(Folder.STAGE,
-                                                              Folder.STORY,
-                                                              config.getStages().get(),
-                                                              Constant.FILE_PROGRESS)))
+        if (config.getStages().isPresent())
         {
-            file.writeString(init.getStage().getPath());
-            file.writeByte(UtilConversion.fromUnsignedByte(init.getHealthMax()));
-            file.writeByte(UtilConversion.fromUnsignedByte(init.getTalisment()));
-            file.writeByte(UtilConversion.fromUnsignedByte(init.getLife()));
-            file.writeByte(UtilConversion.fromUnsignedByte(init.getSword()));
-            file.writeBoolean(init.isAmulet());
-            file.writeByte(UtilConversion.fromUnsignedByte(init.getCredits()));
-            file.writeString(init.getDifficulty().name());
-            file.writeBoolean(init.isCheats());
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
+            final InitConfig init = config.getInit();
+            try (FileWriting file = new FileWriting(Medias.create(Folder.STAGE,
+                                                                  Folder.STORY,
+                                                                  config.getStages().get(),
+                                                                  Constant.FILE_PROGRESS)))
+            {
+                file.writeString(init.getStage().getPath());
+                file.writeByte(UtilConversion.fromUnsignedByte(init.getHealthMax()));
+                file.writeByte(UtilConversion.fromUnsignedByte(init.getTalisment()));
+                file.writeByte(UtilConversion.fromUnsignedByte(init.getLife()));
+                file.writeByte(UtilConversion.fromUnsignedByte(init.getSword()));
+                file.writeBoolean(init.isAmulet());
+                file.writeByte(UtilConversion.fromUnsignedByte(init.getCredits()));
+                file.writeString(init.getDifficulty().name());
+                file.writeBoolean(init.isCheats());
+            }
+            catch (final IOException exception)
+            {
+                Verbose.exception(exception);
+            }
         }
     }
 
@@ -486,22 +489,26 @@ public final class Util
      */
     public static InitConfig loadProgress(GameConfig config) throws IOException
     {
-        try (FileReading file = new FileReading(Medias.create(Folder.STAGE,
-                                                              Folder.STORY,
-                                                              config.getStages().get(),
-                                                              Constant.FILE_PROGRESS)))
+        if (config.getStages().isPresent())
         {
-            return new InitConfig(Medias.create(file.readString()),
-                                  UtilConversion.toUnsignedByte(file.readByte()),
-                                  UtilConversion.toUnsignedByte(file.readByte()),
-                                  UtilConversion.toUnsignedByte(file.readByte()),
-                                  UtilConversion.toUnsignedByte(file.readByte()),
-                                  file.readBoolean(),
-                                  UtilConversion.toUnsignedByte(file.readByte()),
-                                  Difficulty.valueOf(file.readString()),
-                                  file.readBoolean(),
-                                  Optional.empty());
+            try (FileReading file = new FileReading(Medias.create(Folder.STAGE,
+                                                                  Folder.STORY,
+                                                                  config.getStages().get(),
+                                                                  Constant.FILE_PROGRESS)))
+            {
+                return new InitConfig(Medias.create(file.readString()),
+                                      UtilConversion.toUnsignedByte(file.readByte()),
+                                      UtilConversion.toUnsignedByte(file.readByte()),
+                                      UtilConversion.toUnsignedByte(file.readByte()),
+                                      UtilConversion.toUnsignedByte(file.readByte()),
+                                      file.readBoolean(),
+                                      UtilConversion.toUnsignedByte(file.readByte()),
+                                      Difficulty.valueOf(file.readString()),
+                                      file.readBoolean(),
+                                      Optional.empty());
+            }
         }
+        return null;
     }
 
     private static char[] getLetters()

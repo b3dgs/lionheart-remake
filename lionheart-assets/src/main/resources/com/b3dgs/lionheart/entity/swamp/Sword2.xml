@@ -14,7 +14,7 @@
         <lionengine:animation name="idle" start="1" end="8" speed="0.3" reversed="false" repeat="true"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="take" offsetX="0" offsetY="0" width="8" height="8" mirror="false"/>
+        <lionengine:collision name="take" offsetX="0" offsetY="0" width="8" height="12" mirror="false"/>
     </lionengine:collisions>
     <lionengine:categories>
         <lionengine:category name="leg" axis="Y" x="-5" y="0">
