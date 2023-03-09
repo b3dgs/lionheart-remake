@@ -213,16 +213,20 @@ public class Cheats implements Updatable, Renderable
         menus.add(make("Heart Less", this::onRemoveHeart));
         menus.add(make("Heart Fill", this::onFillHeart));
         menus.add(make("Fly", this::onFly));
-        menus.add(make("Invincibile", this::onInvincibility));
+        menus.add(make("Invincible", this::onInvincibility));
 
         final List<String> stagesSet = Util.readLines(Medias.create(Folder.STAGE, Folder.STORY, "stages.txt"));
         for (final String stages : stagesSet)
         {
-            final int stagesCount = (int) Medias.create(Folder.STAGE, stages)
-                                                .getMedias()
-                                                .stream()
-                                                .filter(m -> !m.getName().endsWith(Constant.STAGE_HARD_SUFFIX))
-                                                .count();
+            int stagesCount = 0;
+            while (true)
+            {
+                if (!Util.getStage(stages, null, stagesCount + 1).exists())
+                {
+                    break;
+                }
+                stagesCount++;
+            }
             final CheatMenu[] menu = new CheatMenu[stagesCount];
             final int l = CHEATS_STAGE_WIDTH;
             for (int i = 0; i < menu.length; i++)
@@ -447,7 +451,8 @@ public class Cheats implements Updatable, Renderable
     {
         for (int i = 0; i < Stage.values().length; i++)
         {
-            if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
+            if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue()))
+                && config.getStages().isPresent())
             {
                 final Media stage = Util.getStage(config.getStages().get(), difficulty, i + 1);
                 if (stage.exists())

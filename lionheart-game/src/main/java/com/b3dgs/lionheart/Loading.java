@@ -49,7 +49,7 @@ public final class Loading extends Sequence
 
     private boolean load;
     private int current = -1;
-    private int alpha = 255;
+    private double alpha = 255;
     private int alphaSpeed = 10;
 
     /**
@@ -62,7 +62,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context, GameConfig config, Boolean direct)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
         timing.start();
         this.config = config;
@@ -81,7 +81,7 @@ public final class Loading extends Sequence
         if (Settings.getInstance().getFlagDebug())
         {
             load(Scene.class,
-                 config.with(new InitConfig(Medias.create(Folder.STAGE, Folder.STORY, Folder.ORIGINAL, "stage1.xml"),
+                 config.with(new InitConfig(Stage.STAGE1,
                                             Constant.STATS_MAX_HEART - 1,
                                             Constant.STATS_MAX_TALISMENT - 1,
                                             Constant.STATS_MAX_LIFE - 1,
@@ -128,7 +128,7 @@ public final class Loading extends Sequence
 
         if (!load && timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND / 2))
         {
-            alpha -= alphaSpeed;
+            alpha -= alphaSpeed * extrp;
             if (alpha < 0)
             {
                 alpha = 0;
@@ -149,7 +149,7 @@ public final class Loading extends Sequence
         }
         else if (timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND))
         {
-            alpha += alphaSpeed;
+            alpha += alphaSpeed * extrp;
 
             if (alpha > 255)
             {
@@ -174,7 +174,7 @@ public final class Loading extends Sequence
 
         if (alpha < 256)
         {
-            g.setColor(Constant.ALPHAS_BLACK[alpha]);
+            g.setColor(Constant.ALPHAS_BLACK[(int) Math.floor(alpha)]);
             g.drawRect(0, 0, getWidth(), getHeight(), true);
             g.setColor(ColorRgba.BLACK);
         }

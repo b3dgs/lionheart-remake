@@ -57,4 +57,47 @@ public enum Difficulty
         }
         return value;
     }
+
+    /**
+     * Check if index is type of.
+     * 
+     * @param index The index to check.
+     * @param types The types to check.
+     * @return <code>true</code> if is type, <code>false</code> if none.
+     */
+    public static boolean is(int index, Difficulty... types)
+    {
+        return is(from(index), types);
+    }
+
+    /**
+     * Check if type is type of.
+     * 
+     * @param type The type to check.
+     * @param types The types to check.
+     * @return <code>true</code> if is type, <code>false</code> if none.
+     */
+    private static boolean is(Difficulty type, Difficulty... types)
+    {
+        final int n = types.length;
+        for (int i = 0; i < n; i++)
+        {
+            if (type == types[i])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if is type of.
+     * 
+     * @param types The types to check.
+     * @return <code>true</code> if is type, <code>false</code> if none.
+     */
+    public boolean is(Difficulty... types)
+    {
+        return is(this, types);
+    }
 }

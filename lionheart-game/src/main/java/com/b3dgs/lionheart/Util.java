@@ -17,11 +17,13 @@
 package com.b3dgs.lionheart;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -61,6 +63,7 @@ import com.b3dgs.lionengine.graphic.scanline.ScanlineCrt;
 import com.b3dgs.lionengine.graphic.scanline.ScanlineHorizontal;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
+import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -315,20 +318,22 @@ public final class Util
      * Get stage by difficulty.
      * 
      * @param stages The stages set.
-     * @param difficulty The difficulty.
+     * @param difficulty The difficulty (<code>null</code> to ignore).
      * @param index The stage index.
      * @return The stage media.
      */
     public static Media getStage(String stages, Difficulty difficulty, int index)
     {
+        final String folder = stages.toLowerCase(Locale.ENGLISH);
         final Media stage = Medias.create(Folder.STAGE,
-                                          stages,
-                                          Constant.STAGE_PREFIX + index + Constant.STAGE_HARD_SUFFIX);
-        if (!Difficulty.NORMAL.equals(difficulty) && stage.exists())
+                                          Folder.STORY,
+                                          folder,
+                                          Constant.STAGE_PREFIX + index + Constant.STAGE_HARD_SUFFIX + Extension.STAGE);
+        if (difficulty != null && difficulty.is(Difficulty.HARD, Difficulty.LIONHARD) && stage.exists())
         {
             return stage;
         }
-        return Medias.create(Folder.STAGE, stages, Constant.STAGE_PREFIX + index + ".xml");
+        return Medias.create(Folder.STAGE, Folder.STORY, folder, Constant.STAGE_PREFIX + index + Extension.STAGE);
     }
 
     /**
@@ -455,25 +460,39 @@ public final class Util
      */
     public static void saveProgress(GameConfig config)
     {
-        if (config.getStages().isPresent())
+        if (config.getStages().isPresent() && new File(Medias.getResourcesDirectory()).isDirectory())
         {
-            final InitConfig init = config.getInit();
-            try (FileWriting file = new FileWriting(Medias.create(Folder.STAGE,
-                                                                  Folder.STORY,
-                                                                  config.getStages().get(),
-                                                                  Constant.FILE_PROGRESS)))
+            final Media media = Medias.create(Folder.STAGE,
+                                              Folder.STORY,
+                                              config.getStages().get(),
+                                              Constant.FILE_PROGRESS);
+            try
             {
-                file.writeString(init.getStage().getPath());
-                file.writeByte(UtilConversion.fromUnsignedByte(init.getHealthMax()));
-                file.writeByte(UtilConversion.fromUnsignedByte(init.getTalisment()));
-                file.writeByte(UtilConversion.fromUnsignedByte(init.getLife()));
-                file.writeByte(UtilConversion.fromUnsignedByte(init.getSword()));
-                file.writeBoolean(init.isAmulet());
-                file.writeByte(UtilConversion.fromUnsignedByte(init.getCredits()));
-                file.writeString(init.getDifficulty().name());
-                file.writeBoolean(init.isCheats());
+                final File file = new File(Medias.getResourcesDirectory(), media.getPath());
+                if (!file.getParentFile().isDirectory())
+                {
+                    file.getParentFile().mkdirs();
+                }
+                if (!file.isFile())
+                {
+                    file.createNewFile();
+                }
+
+                final InitConfig init = config.getInit();
+                try (FileWriting writing = new FileWriting(media))
+                {
+                    writing.writeString(init.getStage().getPath());
+                    writing.writeByte(UtilConversion.fromUnsignedByte(init.getHealthMax()));
+                    writing.writeByte(UtilConversion.fromUnsignedByte(init.getTalisment()));
+                    writing.writeByte(UtilConversion.fromUnsignedByte(init.getLife()));
+                    writing.writeByte(UtilConversion.fromUnsignedByte(init.getSword()));
+                    writing.writeBoolean(init.isAmulet());
+                    writing.writeByte(UtilConversion.fromUnsignedByte(init.getCredits()));
+                    writing.writeString(init.getDifficulty().name());
+                    writing.writeBoolean(init.isCheats());
+                }
             }
-            catch (final IOException exception)
+            catch (final IOException | SecurityException exception)
             {
                 Verbose.exception(exception);
             }
@@ -491,20 +510,20 @@ public final class Util
     {
         if (config.getStages().isPresent())
         {
-            try (FileReading file = new FileReading(Medias.create(Folder.STAGE,
-                                                                  Folder.STORY,
-                                                                  config.getStages().get(),
-                                                                  Constant.FILE_PROGRESS)))
+            try (FileReading reading = new FileReading(Medias.create(Folder.STAGE,
+                                                                     Folder.STORY,
+                                                                     config.getStages().get(),
+                                                                     Constant.FILE_PROGRESS)))
             {
-                return new InitConfig(Medias.create(file.readString()),
-                                      UtilConversion.toUnsignedByte(file.readByte()),
-                                      UtilConversion.toUnsignedByte(file.readByte()),
-                                      UtilConversion.toUnsignedByte(file.readByte()),
-                                      UtilConversion.toUnsignedByte(file.readByte()),
-                                      file.readBoolean(),
-                                      UtilConversion.toUnsignedByte(file.readByte()),
-                                      Difficulty.valueOf(file.readString()),
-                                      file.readBoolean(),
+                return new InitConfig(Medias.create(reading.readString()),
+                                      UtilConversion.toUnsignedByte(reading.readByte()),
+                                      UtilConversion.toUnsignedByte(reading.readByte()),
+                                      UtilConversion.toUnsignedByte(reading.readByte()),
+                                      UtilConversion.toUnsignedByte(reading.readByte()),
+                                      reading.readBoolean(),
+                                      UtilConversion.toUnsignedByte(reading.readByte()),
+                                      Difficulty.valueOf(reading.readString()),
+                                      reading.readBoolean(),
                                       Optional.empty());
             }
         }

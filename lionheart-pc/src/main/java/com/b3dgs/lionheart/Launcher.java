@@ -33,10 +33,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -90,7 +89,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.UtilStream;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
@@ -157,7 +155,7 @@ public final class Launcher
     private static final String FILENAME_ICON = "icon-256.png";
     private static final String FILENAME_LOGO = "logo.png";
     private static final String FILENAME_LOGO_HOVER = "logo_hover.png";
-    private static final String SETTINGS_SEPARATOR = "=";
+    private static final String SETTINGS_SEPARATOR = " = ";
 
     private static final String LABEL_LANG = "Lang:";
     private static final String LABEL_FILTER = "Filter:";
@@ -213,26 +211,18 @@ public final class Launcher
      */
     public static void main(String[] args) throws IOException // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
-        try
-        {
-            System.setProperty("sun.java2d.uiScale", "1.0");
-        }
-        catch (final SecurityException exception)
-        {
-            Verbose.exception(exception);
-        }
+        Tools.disableAutoScale();
         UIManager.put("ToolTip.font", FONT1);
 
-        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+        if (!Engine.isStarted())
+        {
+            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+        }
 
         loadLangs();
 
         Settings.load();
-        final Media mediaInput = Medias.create(Constant.INPUT_FILE_DEFAULT);
-        if (!mediaInput.exists())
-        {
-            Tools.prepareInputCustom();
-        }
+        Tools.prepareInputCustom();
 
         final Gamepad gamepad = new Gamepad();
 
@@ -1249,133 +1239,82 @@ public final class Launcher
 
     private static void save()
     {
-        Settings.loadDefault();
-        prepareSettings();
-
-        final List<String> lines = Util.readLines(Medias.create(Settings.FILENAME));
-        try (FileWriter output = new FileWriter(Medias.create(Settings.FILENAME).getFile()))
+        if (new File(Medias.getResourcesDirectory()).isDirectory())
         {
-            for (final String line : lines)
+            try (FileWriter output = new FileWriter(prepareSettings()))
             {
-                final String[] data = line.split(SETTINGS_SEPARATOR);
-                if (line.contains(Settings.LANG))
-                {
-                    writeFormatted(output, data, LANG.get());
-                }
-                else if (line.contains(Settings.RESOLUTION_WINDOWED))
-                {
-                    writeFormatted(output, data, WINDOWED.get());
-                }
-                else if (line.contains(Settings.RESOLUTION_WIDTH))
-                {
-                    writeFormatted(output, data, WIDTH.get());
-                }
-                else if (line.contains(Settings.RESOLUTION_HEIGHT))
-                {
-                    writeFormatted(output, data, HEIGHT.get());
-                }
-                else if (line.contains(Settings.RESOLUTION_RATE))
-                {
-                    writeFormatted(output, data, RATE.get());
-                }
-                else if (line.contains(Settings.FILTER))
-                {
-                    writeFormatted(output, data, FILTER.get().name());
-                }
-                else if (line.contains(Settings.GAMEPLAY))
-                {
-                    writeFormatted(output, data, GAMEPLAY.get().name());
-                }
-                else if (line.contains(Settings.RASTER_TYPE))
-                {
-                    writeFormatted(output, data, RASTER.get().name());
-                }
-                else if (line.contains(Settings.HUD_VISIBLE))
-                {
-                    writeFormatted(output, data, HUD.get());
-                }
-                else if (line.contains(Settings.HUD_SWORD))
-                {
-                    writeFormatted(output, data, HUD_SWORD.get());
-                }
-                else if (line.contains(Settings.FLICKER_BACKGROUND))
-                {
-                    writeFormatted(output, data, FLICKER_BACKGROUND.get());
-                }
-                else if (line.contains(Settings.FLICKER_FOREGROUND))
-                {
-                    writeFormatted(output, data, FLICKER_FOREGROUND.get());
-                }
-                else if (line.contains(Settings.ZOOM))
-                {
-                    writeFormatted(output, data, ZOOM.get() / 100.0);
-                }
-                else if (line.contains(Settings.VOLUME_MUSIC))
-                {
-                    writeFormatted(output, data, MUSIC.get());
-                }
-                else if (line.contains(Settings.VOLUME_SFX))
-                {
-                    writeFormatted(output, data, SFX.get());
-                }
-                else if (line.contains(Settings.FLAG_STRATEGY))
-                {
-                    writeFormatted(output, data, FLAG_STRATEGY.get());
-                }
-                else if (line.contains(Settings.FLAG_PARALLEL))
-                {
-                    writeFormatted(output, data, FLAG_PARALLEL.get());
-                }
-                else if (line.contains(Settings.FLAG_VSYNC))
-                {
-                    writeFormatted(output, data, FLAG_VSYNC.get());
-                }
-                else
-                {
-                    output.write(line);
-                }
+                writeFormatted(output, Settings.VERSION, Constant.PROGRAM_VERSION.toString());
                 output.write(System.lineSeparator());
+                writeFormatted(output, Settings.LANG, LANG.get());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.RESOLUTION_WINDOWED, WINDOWED.get());
+                writeFormatted(output, Settings.RESOLUTION_WIDTH, WIDTH.get());
+                writeFormatted(output, Settings.RESOLUTION_HEIGHT, HEIGHT.get());
+                writeFormatted(output, Settings.RESOLUTION_RATE, RATE.get());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.FILTER, FILTER.get().name());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.GAMEPLAY, GAMEPLAY.get().name());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.RASTER_TYPE, RASTER.get().name());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.HUD_VISIBLE, HUD.get());
+                writeFormatted(output, Settings.HUD_SWORD, HUD_SWORD.get());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.FLICKER_BACKGROUND, FLICKER_BACKGROUND.get());
+                writeFormatted(output, Settings.FLICKER_FOREGROUND, FLICKER_FOREGROUND.get());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.ZOOM, ZOOM.get() / 100.0);
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.VOLUME_MUSIC, MUSIC.get());
+                writeFormatted(output, Settings.VOLUME_SFX, SFX.get());
+                output.write(System.lineSeparator());
+                writeFormatted(output, Settings.FLAG_STRATEGY, FLAG_STRATEGY.get());
+                writeFormatted(output, Settings.FLAG_PARALLEL, FLAG_PARALLEL.get());
+                writeFormatted(output, Settings.FLAG_VSYNC, FLAG_VSYNC.get());
+
+                output.flush();
             }
-            output.flush();
+            catch (final IOException exception)
+            {
+                Verbose.exception(exception);
+            }
+            Settings.load();
         }
-        catch (final IOException exception)
+    }
+
+    private static File prepareSettings() throws IOException
+    {
+        final File file = new File(Medias.getResourcesDirectory(), Settings.FILENAME);
+        if (!file.isFile())
         {
-            Verbose.exception(exception);
+            file.createNewFile();
         }
-        Settings.load();
+        return file;
     }
 
-    private static void prepareSettings()
+    private static void writeFormatted(FileWriter output, String data, String value) throws IOException
     {
-        try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
-             OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
-        {
-            UtilStream.copy(input, output);
-        }
-        catch (final IOException exception)
-        {
-            Verbose.exception(exception);
-        }
+        output.write(data + SETTINGS_SEPARATOR + value);
+        output.write(System.lineSeparator());
     }
 
-    private static void writeFormatted(FileWriter output, String[] data, String value) throws IOException
+    private static void writeFormatted(FileWriter output, String data, int value) throws IOException
     {
-        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
+        output.write(data + SETTINGS_SEPARATOR + value);
+        output.write(System.lineSeparator());
     }
 
-    private static void writeFormatted(FileWriter output, String[] data, int value) throws IOException
+    private static void writeFormatted(FileWriter output, String data, double value) throws IOException
     {
-        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
+        output.write(data + SETTINGS_SEPARATOR + value);
+        output.write(System.lineSeparator());
     }
 
-    private static void writeFormatted(FileWriter output, String[] data, double value) throws IOException
+    private static void writeFormatted(FileWriter output, String data, boolean value) throws IOException
     {
-        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
-    }
-
-    private static void writeFormatted(FileWriter output, String[] data, boolean value) throws IOException
-    {
-        output.write(data[0] + SETTINGS_SEPARATOR + com.b3dgs.lionengine.Constant.SPACE + value);
+        output.write(data + SETTINGS_SEPARATOR + value);
+        output.write(System.lineSeparator());
     }
 
     /**

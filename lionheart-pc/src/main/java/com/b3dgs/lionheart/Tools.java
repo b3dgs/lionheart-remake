@@ -16,6 +16,7 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -61,19 +62,61 @@ public final class Tools
     private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
 
     /**
+     * Disable UI auto scale.
+     */
+    public static void disableAutoScale()
+    {
+        try
+        {
+            System.setProperty("sun.java2d.uiScale", "1.0");
+        }
+        catch (final SecurityException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
+    /**
      * Prepare custom input file.
      */
     public static void prepareInputCustom()
     {
-        try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
-             OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
+        try
         {
-            UtilStream.copy(input, output);
+            if (new File(Medias.getResourcesDirectory()).isDirectory())
+            {
+                final File file = new File(Medias.getResourcesDirectory(), Constant.INPUT_FILE_DEFAULT);
+                if (!file.isFile())
+                {
+                    file.createNewFile();
+                }
+                try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
+                     OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
+                {
+                    UtilStream.copy(input, output);
+                }
+            }
         }
         catch (final IOException exception)
         {
             Verbose.exception(exception);
         }
+    }
+
+    /**
+     * Get icons from sizes.
+     * 
+     * @param sizes The sizes.
+     * @return The icons.
+     */
+    public static Media[] getIcons(int... sizes)
+    {
+        final Media[] icons = new Media[sizes.length];
+        for (int i = 0; i < sizes.length; i++)
+        {
+            icons[i] = Medias.create("icon-" + 16 + ".png");
+        }
+        return icons;
     }
 
     /**

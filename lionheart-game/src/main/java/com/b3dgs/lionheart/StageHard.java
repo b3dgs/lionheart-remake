@@ -53,12 +53,6 @@ public enum StageHard implements Media
     STAGE9,
     /** Airship hard stage. */
     STAGE11,
-    /** Dragonfly hard stage. */
-    STAGE12,
-    /** Tower hard stage. */
-    STAGE13,
-    /** Norka hard stage. */
-    STAGE14,
     /** Secret hard stage. */
     STAGE10;
 
@@ -66,7 +60,9 @@ public enum StageHard implements Media
     private final Media file = Medias.create(Folder.STAGE,
                                              Folder.STORY,
                                              Folder.ORIGINAL,
-                                             name().toLowerCase(Locale.ENGLISH) + "_hard" + Extension.STAGE);
+                                             name().toLowerCase(Locale.ENGLISH)
+                                                              + Constant.STAGE_HARD_SUFFIX
+                                                              + Extension.STAGE);
 
     @Override
     public String getPath()

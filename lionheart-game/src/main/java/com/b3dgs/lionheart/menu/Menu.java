@@ -69,6 +69,7 @@ import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
 import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.Util;
+import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.intro.Intro;
 
@@ -118,11 +119,7 @@ public class Menu extends Sequence
             int i = 1;
             while (true)
             {
-                final Media media = Medias.create(Folder.STAGE,
-                                                  Folder.STORY,
-                                                  set.toLowerCase(Locale.ENGLISH),
-                                                  "stage" + i + ".xml");
-                if (!media.exists())
+                if (!Util.getStage(set, null, i).exists())
                 {
                     break;
                 }
@@ -145,7 +142,7 @@ public class Menu extends Sequence
         int i = 1;
         while (true)
         {
-            final Media media = Medias.create(Folder.STAGE, folder, "stage" + i + ".xml");
+            final Media media = Medias.create(Folder.STAGE, folder, Constant.STAGE_PREFIX + i + Extension.STAGE);
             if (!media.exists())
             {
                 break;
@@ -916,29 +913,24 @@ public class Menu extends Sequence
         }
         else if (GameType.is(game, GameType.TRAINING))
         {
-            final boolean hard = this.difficulty > Difficulty.NORMAL.ordinal();
-            final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
             final String[] s = stages0.get(game).get(this.stage).split("-");
-            Media media = Medias.create(Folder.STAGE, Folder.STORY, s[0], "stage" + s[1] + suffix + ".xml");
-            if (!media.exists())
-            {
-                media = Medias.create(Folder.STAGE, Folder.STORY, s[0], "stage" + s[1] + ".xml");
-            }
+            final String set = s[0].toLowerCase(Locale.ENGLISH);
+            final Media media = Util.getStage(set, difficulty, Integer.parseInt(s[1]));
             end(Scene.class, config.with(type, players, controls).with(getInitConfig(media)));
         }
         else if (GameType.is(game, GameType.SPEEDRUN))
         {
-            final Media media = Medias.create(Folder.STAGE, Folder.SPEEDRUN, "stage" + stage + ".xml");
+            final Media media = Medias.create(Folder.STAGE, Folder.SPEEDRUN, Constant.STAGE_PREFIX + stage + ".xml");
             end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 1, 0, difficulty)));
         }
         else if (GameType.is(game, GameType.BATTLE))
         {
-            final Media media = Medias.create(Folder.STAGE, Folder.BATTLE, "stage" + stage + ".xml");
+            final Media media = Medias.create(Folder.STAGE, Folder.BATTLE, Constant.STAGE_PREFIX + stage + ".xml");
             end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 8, 0, difficulty)));
         }
         else if (GameType.is(game, GameType.VERSUS))
         {
-            final Media media = Medias.create(Folder.STAGE, Folder.VERSUS, "stage" + stage + ".xml");
+            final Media media = Medias.create(Folder.STAGE, Folder.VERSUS, Constant.STAGE_PREFIX + stage + ".xml");
             end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 8, 0, difficulty)));
         }
     }
@@ -949,7 +941,7 @@ public class Menu extends Sequence
     private void startNewGame()
     {
         final boolean hard = difficulty > Difficulty.NORMAL.ordinal();
-        final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
+        final String suffix = hard ? Constant.STAGE_HARD_SUFFIX : com.b3dgs.lionengine.Constant.EMPTY_STRING;
         Media stage = Medias.create(Folder.STAGE, Folder.STORY, config.getStages().get(), "stage1" + suffix + ".xml");
         if (!stage.exists())
         {

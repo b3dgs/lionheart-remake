@@ -16,9 +16,11 @@
  */
 package com.b3dgs.lionheart;
 
+import java.io.File;
 import java.io.IOException;
 
-import com.b3dgs.lionengine.Verbose;
+import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 
 /**
  * Main entry.
@@ -33,30 +35,18 @@ public class Main
      * <p>
      * Arguments to start game without launcher:
      * </p>
-     * <ul>
-     * <li>custom lionheart.properties [string]</li>
-     * <li>input.xml [string]</li>
-     * <li>{@link GameType} [string])</li>
-     * <li>Stage [string])</li>
-     * <li>{@link Difficulty} [string])</li>
-     * <li>players number [int]</li>
-     * </ul>
+     * {@link AppLionheart#main(String[])}
      * 
      * @param args The arguments.
      * @throws IOException If error.
      */
     public static void main(String[] args) throws IOException
     {
-        try
-        {
-            System.setProperty("sun.java2d.uiScale", "1.0");
-        }
-        catch (final SecurityException exception)
-        {
-            Verbose.exception(exception);
-        }
+        Tools.disableAutoScale();
 
-        if (args.length > 0)
+        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+
+        if (args.length > 0 || new File(Medias.getResourcesDirectory(), Settings.FILENAME).exists())
         {
             AppLionheart.main(args);
         }

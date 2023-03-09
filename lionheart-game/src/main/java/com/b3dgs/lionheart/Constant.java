@@ -91,7 +91,7 @@ public final class Constant
     /** Stage prefix. */
     public static final String STAGE_PREFIX = "stage";
     /** Stage hard suffix. */
-    public static final String STAGE_HARD_SUFFIX = "_hard.xml";
+    public static final String STAGE_HARD_SUFFIX = "_hard";
 
     /** Raster tile file. */
     public static final String RASTER_FILE_TILE = "tiles.png";

@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Config;
+import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -40,6 +42,7 @@ import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.Sequencable;
+import com.b3dgs.lionheart.constant.Extension;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -57,30 +60,41 @@ public final class AppLionheart
     private static final String ARG_LIFE = "-life";
 
     /**
-     * Main function.
+     * Main.
      * <p>
      * Arguments:
      * </p>
      * <ul>
-     * <li>-settings: [string]</li>
-     * <li>-input [string]</li>
-     * <li>-players [int]</li>
-     * <li>-gametype {@link GameType} [string])</li>
+     * <li>-settings <code>[string]</code></li>
+     * <li>-input <code>[string]</code></li>
+     * <li>-game [<code>story, training, speedrun, battle, versus</code>]</li>
+     * <li>-stage {story=[<code>original, beginner, veteran</code>],
+     * training=[<code>original-X, beginner-X, veteran-X</code>],
+     * speedrun=[1], battle=[1], versus=[1]}</li>
+     * <li>-difficulty [<code>beginner, normal, hard, lionhard</code>]</li>
+     * <li>-player {story=[1], training=[1], speedrun=[1, 2, 3, 4], battle=[1, 2, 3, 4], versus=[2, 3, 4]}</li>
+     * </ul>
+     * <p>
+     * Examples:
+     * </p>
+     * <ul>
+     * <li>story: -game story -stage beginner -difficulty beginner</li>
+     * <li>training: -game training -stage veteran-6 -difficulty lionhard</li>
+     * <li>speedrun: -game speedrun -stage 1 -players 2</li>
+     * <li>battle: -game battle -stage 1 -players 3</li>
+     * <li>versus: -game versus -stage 1 -players 4</li>
      * </ul>
      * 
      * @param args The arguments.
      */
     public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
-        try
+        Tools.disableAutoScale();
+
+        if (!Engine.isStarted())
         {
-            System.setProperty("sun.java2d.uiScale", "1.0");
+            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
         }
-        catch (final SecurityException exception)
-        {
-            Verbose.exception(exception);
-        }
-        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
 
         final List<String> params = Arrays.asList(args);
         loadSettings(params);
@@ -94,7 +108,7 @@ public final class AppLionheart
         {
             final GameConfig config = loadConfig(params);
 
-            run(config, new Gamepad(), true);
+            run(config, new Gamepad(), config.getInit() != null);
         }
     }
 
@@ -114,11 +128,13 @@ public final class AppLionheart
      * Run game.
      * 
      * @param gamepad The gamepad handler.
-     * @param sequencable The the next sequence to start (must not be <code>null</code>).
-     * @param arguments The sequence arguments list if needed by its constructor.
+     * @param sequence The the next sequence to start (must not be <code>null</code>).
+     * @param args The sequence arguments list if needed by its constructor.
      */
-    static void run(Gamepad gamepad, Class<? extends Sequencable> sequencable, Object... arguments)
+    static void run(Gamepad gamepad, Class<? extends Sequencable> sequence, Object... args)
     {
+        Check.notNull(sequence);
+
         AudioFactory.addFormat(new WavFormat());
         AudioFactory.addFormat(Sc68Format.getFailsafe());
 
@@ -129,23 +145,23 @@ public final class AppLionheart
         ToolsAwt.setLoadStrategy(strategies[UtilMath.clamp(settings.getFlagStrategy(), 0, strategies.length)]);
         AudioFactory.setVolume(settings.getVolumeMaster());
 
-        Loader.start(configure(settings,
-                               Arrays.asList(gamepad),
-                               Medias.create("icon-16.png"),
-                               Medias.create("icon-32.png"),
-                               Medias.create("icon-48.png"),
-                               Medias.create("icon-64.png"),
-                               Medias.create("icon-128.png"),
-                               Medias.create("icon-256.png")),
-                     sequencable,
-                     arguments);
+        final List<InputDevice> devices = Arrays.asList(gamepad);
+        final Media[] icons = Tools.getIcons(16, 32, 48, 64, 128, 256);
+        Loader.start(configure(settings, devices, icons), sequence, args);
     }
 
-    private static <T> T getParam(List<String> params,
-                                  String param,
-                                  T def,
-                                  Function<String, T> converter,
-                                  int lowerNoUpper)
+    /**
+     * Get converted parameter value.
+     * 
+     * @param <T> The parameter type.
+     * @param params The parameters list.
+     * @param param The parameter name.
+     * @param def The defaut value.
+     * @param conv The converter function.
+     * @param lowerNoUpper -1 to lower case, 0 for default, 1 for upper case.
+     * @return The converted value.
+     */
+    private static <T> T getParam(List<String> params, String param, T def, Function<String, T> conv, int lowerNoUpper)
     {
         final int index = params.indexOf(param);
         if (index > -1 && index + 1 < params.size())
@@ -165,7 +181,7 @@ public final class AppLionheart
                 {
                     arg = params.get(index + 1);
                 }
-                return converter.apply(arg);
+                return conv.apply(arg);
             }
             catch (final Exception exception)
             {
@@ -175,12 +191,22 @@ public final class AppLionheart
         return def;
     }
 
+    /**
+     * Load settings from parameters.
+     * 
+     * @param params The parameters.
+     */
     private static void loadSettings(List<String> params)
     {
         final File file = getParam(params, ARG_SETTINGS, Settings.getFile(), File::new, 0);
         Settings.load(file);
     }
 
+    /**
+     * Load input from parameters.
+     * 
+     * @param params The parameters.
+     */
     private static void loadInput(List<String> params)
     {
         final Media media = getParam(params, ARG_INPUT, Medias.create(Constant.INPUT_FILE_DEFAULT), Medias::create, 0);
@@ -190,12 +216,25 @@ public final class AppLionheart
         }
     }
 
+    /**
+     * Load game configuration from parameters.
+     * 
+     * 
+     * @param params The parameters.
+     * @return The game configuration.
+     */
     private static GameConfig loadConfig(List<String> params)
     {
         final GameType game = getParam(params, ARG_GAME, GameType.STORY, GameType::valueOf, 1);
         final Optional<String> stage = getParam(params, ARG_STAGE, Optional.empty(), Optional::ofNullable, -1);
         final Difficulty difficulty = getParam(params, ARG_DIFFICULTY, Difficulty.NORMAL, Difficulty::valueOf, 1);
-        final int players = getParam(params, ARG_PLAYERS, Integer.valueOf(1), Integer::parseInt, 0).intValue();
+        final int players = UtilMath.clamp(getParam(params,
+                                                    ARG_PLAYERS,
+                                                    Integer.valueOf(1),
+                                                    Integer::parseInt,
+                                                    0).intValue(),
+                                           game.is(GameType.VERSUS) ? 2 : 1,
+                                           4);
 
         final Map<Integer, Integer> controls = new HashMap<>();
         for (int i = 0; i < players; i++)
@@ -203,42 +242,42 @@ public final class AppLionheart
             controls.put(Integer.valueOf(i), Integer.valueOf(i));
         }
 
-        if (game == GameType.STORY)
+        if (game == GameType.STORY && stage.isPresent())
         {
-            return new GameConfig(game,
-                                  players,
-                                  Optional.empty(),
-                                  stage,
-                                  controls,
-                                  new InitConfig(null, 0, 0, difficulty));
+            return new GameConfig(game, 1, Optional.empty(), stage, controls, new InitConfig(null, 0, 0, difficulty));
         }
 
         final int health = getParam(params, ARG_HEALTH, Integer.valueOf(4), Integer::parseInt, 0).intValue();
         final int life = getParam(params, ARG_LIFE, Integer.valueOf(2), Integer::parseInt, 0).intValue();
 
         final Media stageMedia;
-        if (game == GameType.TRAINING)
+        if (game == GameType.TRAINING && stage.isPresent())
         {
-            final boolean hard = difficulty.ordinal() > Difficulty.NORMAL.ordinal();
-            final String suffix = hard ? "_hard" : com.b3dgs.lionengine.Constant.EMPTY_STRING;
-            Media media = Medias.create(Folder.STAGE, Folder.STORY, stage.get() + suffix + ".xml");
-            if (!media.exists())
-            {
-                media = Medias.create(Folder.STAGE, Folder.STORY, stage.get() + ".xml");
-            }
-            stageMedia = media;
+            final String[] s = stage.get().split("-");
+            final String set = s[0].toLowerCase(Locale.ENGLISH);
+            stageMedia = Util.getStage(set, difficulty, Integer.parseInt(s[1]));
+        }
+        else if (stage.isPresent())
+        {
+            stageMedia = Medias.create(Folder.STAGE,
+                                       game.name().toLowerCase(Locale.ENGLISH),
+                                       Constant.STAGE_PREFIX + stage.get() + Extension.STAGE);
         }
         else
         {
-            stageMedia = Medias.create(Folder.STAGE, game.name().toLowerCase(Locale.ENGLISH), stage.get() + ".xml");
+            return new GameConfig(game, players, Optional.empty());
         }
 
-        return new GameConfig(game,
-                              players,
-                              Optional.empty(),
-                              Optional.empty(),
-                              controls,
-                              new InitConfig(stageMedia, health, life, difficulty));
+        if (stageMedia.exists())
+        {
+            return new GameConfig(game,
+                                  players,
+                                  Optional.empty(),
+                                  Optional.empty(),
+                                  controls,
+                                  new InitConfig(stageMedia, health, life, difficulty));
+        }
+        return new GameConfig(game, players, Optional.empty());
     }
 
     /**
