@@ -358,7 +358,15 @@ public final class Hurtable extends FeatureModel
         if (stats.getHealth() > 0)
         {
             final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
-            hurtForce.setDirection(hurtForceValue * side, 0.0);
+            if (this.collidable.getGroup() == Constant.COLL_GROUP_PLAYER
+                && collidable.getGroup() == Constant.COLL_GROUP_PLAYER)
+            {
+                hurtForce.setDirection(1.2 * side, 0.0);
+            }
+            else
+            {
+                hurtForce.setDirection(hurtForceValue * side, 0.0);
+            }
         }
         else if (hasFeature(Patrol.class))
         {

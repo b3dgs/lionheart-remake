@@ -114,7 +114,7 @@ public final class Tools
         final Media[] icons = new Media[sizes.length];
         for (int i = 0; i < sizes.length; i++)
         {
-            icons[i] = Medias.create("icon-" + 16 + ".png");
+            icons[i] = Medias.create("icon-" + sizes[i] + ".png");
         }
         return icons;
     }
