@@ -180,7 +180,7 @@
             <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
         </lionengine:animation>
         <lionengine:animation name="attackfall" start="87" end="87" speed="1.0" reversed="false" repeat="true">
-            <lionengine:collisionFramed x="-3" y="0" width="10" height="26"/>
+            <lionengine:collisionFramed x="-3" y="-1" width="10" height="26"/>
             <lionengine:collisionFramed prefix="body" x="0" y="30" width="20" height="25"/>
             <lionengine:collisionFramed prefix="leg_left" x="-3" y="0" width="1" height="1" mirror="false"/>
             <lionengine:collisionFramed prefix="leg_right" x="3" y="0" width="1" height="1" mirror="false"/>
@@ -236,15 +236,18 @@
         <lionengine:category name="head_left" axis="Y" x="-4" y="48">
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="head_right" axis="Y" x="4" y="48">
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="head" axis="Y" x="0" y="48">
             <lionengine:group>horizontal</lionengine:group>
             <lionengine:group>left_horizontal</lionengine:group>
             <lionengine:group>right_horizontal</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
         </lionengine:category>
         <lionengine:category name="knee_48_left" axis="X" x="-6" y="48">
             <lionengine:group>right_horizontal</lionengine:group>
@@ -348,6 +351,7 @@
             <lionengine:group>pillar2</lionengine:group>
             <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
             <lionengine:group>incline7_1_left</lionengine:group>
@@ -365,6 +369,7 @@
             <lionengine:group>pillar2</lionengine:group>
             <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
             <lionengine:group>incline_left</lionengine:group>
             <lionengine:group>incline_right</lionengine:group>
             <lionengine:group>incline7_1_left</lionengine:group>
@@ -378,6 +383,7 @@
             <lionengine:group>pillar2</lionengine:group>
             <lionengine:group>groundfix</lionengine:group>
             <lionengine:group>groundboss</lionengine:group>
+            <lionengine:group>liana_ground_top</lionengine:group>
             <lionengine:group>slope_0_left</lionengine:group>
             <lionengine:group>slope_1_left</lionengine:group>
             <lionengine:group>slope_0_right</lionengine:group>

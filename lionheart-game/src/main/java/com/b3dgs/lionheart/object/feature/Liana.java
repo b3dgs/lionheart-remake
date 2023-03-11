@@ -166,6 +166,19 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
 
         take = (collidable, with, by) ->
         {
+            if (by.getName().startsWith(Anim.ATTACK_FALL))
+            {
+                final Tile tile = map.getTile(transformable, 0, 0);
+                if (tile != null && mapGroup.getGroup(tile).startsWith(CollisionName.LIANA))
+                {
+                    collidable.getFeature(EntityModel.class).jumpHit();
+                }
+                else
+                {
+                    identifiable.destroy();
+                    current = CollidableListenerVoid.getInstance();
+                }
+            }
             if (by.getName().startsWith(Anim.ATTACK))
             {
                 final Tile tile = map.getTile(transformable, 0, 0);
@@ -305,10 +318,6 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                 }
                 identifiable.destroy();
                 current = CollidableListenerVoid.getInstance();
-            }
-            if (by.getName().startsWith(Anim.ATTACK_FALL))
-            {
-                collidable.getFeature(EntityModel.class).jumpHit();
             }
         };
     }

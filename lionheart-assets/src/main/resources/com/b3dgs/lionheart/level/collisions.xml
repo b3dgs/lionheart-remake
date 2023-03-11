@@ -177,6 +177,6 @@
         <lionengine:formula>horizontal_liana</lionengine:formula>
         <lionengine:formula>left_vertical</lionengine:formula>
         <lionengine:formula>right_vertical</lionengine:formula>
-        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>groundliana</lionengine:formula>
     </lionengine:collision>
 </lionengine:collisions>
