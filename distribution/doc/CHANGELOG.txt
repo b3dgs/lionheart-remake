@@ -1,0 +1,119 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.3.0] - In progress
+### Added
+- New game menu
+- New game modes (Story, Training, Speedrun, Battle, Coop)
+- Local multiplayer (up to 4 players split screen)
+- Support to stage progress save and load
+- Alternative player attack gameplay with more trivial feeling
+- Start game without launcher with custom configuration
+- Language automatically detected
+- Android left analog stick support
+- Android Menu navigation with dpad and x button
+- Android UI overlay hidden when controller is connected
+- Android automatic screen ratio
+- Android 5 support
+- Water flickering option
+- More cheats and access to all stages set
+- JAR signature added
+
+### Fixed
+- Corrupted Veteran stage 6
+- AncientTown executioner wall can be crossed with attack jump
+- Catapult projectile missing respawn
+- Norka first boss body collision missing on attack
+- Norka second boss wrong collision and bullet hit
+- Movement clamped to zero when changing direction on jump
+- Android liana cut crash
+- Sfx audio bad rendering and latency on Linux
+- Antivirus detections on "Lionheart Remake.exe" launcher
+- Memory leak on State changes
+
+## [1.2.0] - 2022-01-29
+### Added
+- Underworld theme added with new stages, objects and boss
+- New beginner stages added to play without headache
+- New beginner difficulty (more starting health and life)
+- Basic CRT filter added (without shader)
+- Direct raster implemented (no need cached files, overall size reduced)
+- Catapult Rock projectile sfx
+- More default key configuration
+- Launcher tool tips
+- Launcher logo click go to website
+- Editor run from Launcher
+
+### Changed
+- Resources moved from Jar to external directory
+
+### Fixed
+- Menu select sfx may not be heard
+- Norka bullet bowl missing body collision with backward
+- Norka Boss2 stuck if hit on attack end
+- Dragonfly boss head body collision with backward on hurt
+- Swamp Dragon does not respawn once offscreen
+- Rotating objects layer display invalid
+- Swamp Bee missing steep collision on fallen
+- Grasshopper launch even if not on sight
+- Object Body and Ground collision overlapped with AttackFall
+- MeltingPlatform animation speed
+- Geyzer default delay and height
+- AttackJump transition on vertical collide when moving down
+- Double jump when hurt on AttackFall
+- Missing StateWin transitions
+- Canon Secret ground collision offset invalid
+- Unreachable Talisment at Veteran Lava stage
+- Invalid area Veteran Airship stage
+- Invalid map objects delay
+- Projectile Secret Bullet invalid vertical collision
+- Original Hard Stages corrections
+- Missing Veteran AncientTown stage tile
+- Editor do not save correct rate if changed from resolution list
+- Resolution scaling not pixel perfect
+- Frog spawn even if camera starts after location
+- Music on arm64-v8
+- Linux libsdl2gdx64 udev missing dependency warning
+
+## [1.1.0] - 2021-10-03
+### Added
+- Game launcher configuration
+- Gamepad support (PC & Android)
+- New stages (Swamp, Spidercave, Ancient Town, Lava, Secret, Airship, Dragonfly, Tower)
+- Full editor with stage entities properties and checkpoints edition
+- Original 50Hz support added with fullscreen
+- Cheats menu added
+- Click and touch support to menu
+- Android virtual keyboard diagonal support
+- Multi language support (shipped with English, French, German, Spanish)
+- Sword level on hud
+
+### Changed
+- Intro and Extro reviewed with perfect original timing
+- Font converted to bitmap to be rendered same on any platform
+- Backdrop non flicker mode with more color
+- Loading time improved
+- Map tile file size reduced
+- Sfx converted to mono with no loss
+
+### Fixed
+- Widescreen support
+- Life lost even with cheats enabled
+- No credits on last life lost when bitten
+- Intro and Credits English texts
+- Intro not working without music
+- Bird behavior on collide
+- Player camera limit lock
+- Swamp stage5 Bee invalid patrol proximity
+- Spider ground fall
+- Liana and Grip soar hurt invalid jump
+- Sfx not correctly cached
+- Music on Windows 32bits
+- AncientTown level rip 7 and 8 black color
+
+## [1.0.0] - 2021-06-30
+### First final release
+- Original game 99.9% cloned
