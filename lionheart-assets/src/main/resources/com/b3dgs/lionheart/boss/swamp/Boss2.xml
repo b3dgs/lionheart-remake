@@ -18,7 +18,7 @@
         <lionengine:animation name="land" start="2" end="2" speed="1.0" reversed="false" repeat="false"/>
     </lionengine:animations>
     <lionengine:collisions>
-        <lionengine:collision name="ground" offsetX="-2" offsetY="88" width="20" height="1" mirror="false"/>
+        <lionengine:collision name="ground" offsetX="-2" offsetY="84" width="20" height="1" mirror="false"/>
     </lionengine:collisions>
     <lionengine:layerable layerRefresh="7" layerDisplay="0"/>
     <lionengine:launcher level="0">

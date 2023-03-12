@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.body.Body;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
@@ -69,6 +70,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     @FeatureGet private EntityModel model;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Glue glue;
+    @FeatureGet private Body body;
 
     /**
      * Create feature.
@@ -155,7 +157,8 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         if (!viewer.isViewable(transformable, viewer.getWidth() / 2, viewer.getHeight() / 2)
             && !viewer.isViewable(origin, 0, 0))
         {
-            transformable.teleport(origin.getX(), origin.getY());
+            // transformable.teleport(origin.getX(), origin.getY());
+            body.resetGravity();
             recycle();
         }
     }
