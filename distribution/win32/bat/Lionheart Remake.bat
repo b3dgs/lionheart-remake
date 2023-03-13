@@ -3,6 +3,6 @@ set PARAM=-Xverify:none -server -splash:splash.png -jar lionheart-pc-%VERSION%.j
 
 if %PROCESSOR_ARCHITECTURE% == AMD64 (set ARCH=64) else (set ARCH=32)
 
-set path=%~dp0data\jvm%ARCH%\bin\;%path%
-cd data
+set path=%~dp0data\jre%ARCH%\bin\;%path%
+if "%LaunchPath%" == "" (cd data) else (cd %LaunchPath%\data)
 start "" javaw %PARAM%
