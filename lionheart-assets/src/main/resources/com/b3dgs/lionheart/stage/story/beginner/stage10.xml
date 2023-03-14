@@ -261,7 +261,7 @@
         <entity file="entity/dragonfly/Dragon.xml" tx="643.0" ty="7.0">
             <model mirror="true"/>
             <patrol amplitude="112" mirror="false" sh="-0.7" sv="0.0"/>
-            <patrol amplitude="20" curve="true" delay="400" mirror="false" sh="0.25" sv="0.05"/>
+            <patrol amplitude="20" curve="true" delay="500" mirror="false" sh="0.25" sv="0.05"/>
             <patrol amplitude="0" mirror="false" sh="-0.7" sv="0.0"/>
             <shooter anim="0" fireDelay="1000" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>

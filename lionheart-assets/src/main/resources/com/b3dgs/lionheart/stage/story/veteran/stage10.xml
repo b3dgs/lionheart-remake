@@ -174,14 +174,14 @@
         <entity file="entity/dragonfly/Dragon.xml" tx="643.0" ty="7.0">
             <model mirror="true"/>
             <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
-            <patrol sh="0.25" sv="0.05" delay="400" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="500" amplitude="20" curve="true" mirror="false"/>
             <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
             <shooter fireDelay="1000" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
         <entity file="entity/dragonfly/Dragon.xml" tx="644.0" ty="19.0">
             <model mirror="true"/>
             <patrol sh="-0.7" sv="0.0" amplitude="112" mirror="false"/>
-            <patrol sh="0.25" sv="0.05" delay="400" amplitude="20" curve="true" mirror="false"/>
+            <patrol sh="0.25" sv="0.05" delay="500" amplitude="20" curve="true" mirror="false"/>
             <patrol sh="-0.7" sv="0.0" amplitude="0" mirror="false"/>
             <shooter fireDelay="1000" firedDelay="0" svx="-1.0" svy="0.0"/>
         </entity>
