@@ -48,6 +48,8 @@ public final class StageConfig
     public static final String ATT_STAGE_TEXT = "text";
     /** File attribute name. */
     public static final String ATT_FILE = "file";
+    /** Reload attribute name. */
+    private static final String ATT_RELOAD = "reload";
 
     /** Music node name. */
     public static final String NODE_MUSIC = "music";
@@ -109,6 +111,8 @@ public final class StageConfig
     private final Optional<String> text;
     /** Music file. */
     private final Media music;
+    /** Reload flag. */
+    private final boolean reload;
     /** Map level file. */
     private final Media mapFile;
     /** Lines per raster. */
@@ -148,6 +152,7 @@ public final class StageConfig
 
         pic = configurer.getMediaOptional(ATT_STAGE_PIC);
         text = configurer.getStringOptional(ATT_STAGE_TEXT);
+        reload = configurer.getBoolean(false, ATT_RELOAD);
 
         music = configurer.getMedia(ATT_FILE, NODE_MUSIC);
 
@@ -243,6 +248,16 @@ public final class StageConfig
     public Optional<String> getText()
     {
         return text;
+    }
+
+    /**
+     * Get the reload flag.
+     * 
+     * @return The reload flag.
+     */
+    public boolean getReload()
+    {
+        return reload;
     }
 
     /**

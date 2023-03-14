@@ -58,6 +58,7 @@ import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.networkable.ComponentNetwork;
 import com.b3dgs.lionengine.game.feature.networkable.IdentifiableCreate;
 import com.b3dgs.lionengine.game.feature.networkable.Networkable;
@@ -576,24 +577,58 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         if (!client)
         {
+            loadEntities(settings, stage);
+        }
+    }
+
+    private void loadEntities(Settings settings, StageConfig stage)
+    {
+        final Featurable[] entities = createEntities(settings, stage);
+
+        if (settings.getFlagParallel())
+        {
+            executor.execute(() -> createEffectCache(settings, stage));
+        }
+        else
+        {
+            createEffectCache(settings, stage);
+        }
+
+        if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
+        {
+            loadRasterEntities(settings, stage, entities);
+        }
+
+        loadSpawns(settings, stage);
+    }
+
+    @Override
+    public void reloadStage()
+    {
+        tick.addAction(() ->
+        {
+            handler.updateAdd();
+            for (final Featurable featurable : handler.values())
+            {
+                featurable.ifIs(Collidable.class, c ->
+                {
+                    if (!Constant.COLL_GROUP_PLAYER.equals(c.getGroup()))
+                    {
+                        featurable.getFeature(Identifiable.class).destroy();
+                    }
+                });
+            }
+            handler.updateRemove();
+
+            final Settings settings = Settings.getInstance();
+            final StageConfig stage = StageConfig.imports(new Configurer(game.getInit().getStage()));
             final Featurable[] entities = createEntities(settings, stage);
-
-            if (settings.getFlagParallel())
-            {
-                executor.execute(() -> createEffectCache(settings, stage));
-            }
-            else
-            {
-                createEffectCache(settings, stage);
-            }
-
             if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
             {
                 loadRasterEntities(settings, stage, entities);
             }
-
-            loadSpawns(settings, stage);
-        }
+            handler.updateAdd();
+        }, 0);
     }
 
     private void loadSpawns(Settings settings, StageConfig stage)
@@ -1160,8 +1195,38 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         };
 
         final String theme = stage.getBackground().getWorld().getFolder();
-        factory.createCache(cacheSpawner, Medias.create(Folder.EFFECT, theme), 4);
-        factory.createCache(cacheSpawner, Medias.create(Folder.PROJECTILE, theme), 6);
+
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "ExplodeBig.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "ExplodeLittle.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "Explode.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "Explode5.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "ExplodeBlock.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "ExplodeLiana.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "ExplodeSilent.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "Taken.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "LaserDot.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.EFFECT, theme, "Smoke.xml"), 4);
+
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Fly.xml"), 6);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "FlyTrack.xml"), 3);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Tongue.xml"), 6);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "TongueEnd.xml"), 2);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet.xml"), 5);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet1.xml"), 6);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet1a.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet1b.xml"), 6);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet2.xml"), 6);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet3.xml"), 6);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Bullet4.xml"), 3);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Fireball.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "FireballUp.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "ForeballDown.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "HotFireBall.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "HotFireBall2.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Baril.xml"), 2);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Dragon3.xml"), 4);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Laser.xml"), 3);
+        factory.createCacheMedia(cacheSpawner, Medias.create(Folder.PROJECTILE, theme, "Rock.xml"), 2);
     }
 
     private void quickSave()

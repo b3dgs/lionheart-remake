@@ -26,6 +26,11 @@ import com.b3dgs.lionengine.geom.Coord;
 public interface LoadNextStage
 {
     /**
+     * Reload current stage.
+     */
+    void reloadStage();
+
+    /**
      * Load next stage.
      * 
      * @param next The next stage.

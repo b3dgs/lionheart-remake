@@ -138,11 +138,13 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     private boolean jumpOnHurt = true;
     private NetworkedDevice networkedDevice;
     private DeviceController deviceNetwork;
+    private boolean ignoreGlue;
 
     @FeatureGet private Body body;
     @FeatureGet private Mirrorable mirrorable;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Collidable collidable;
+    @FeatureGet private EntityChecker checker;
     @FeatureGet private StateHandler state;
     @FeatureGet private Identifiable identifiable;
     @FeatureGet private Networkable networkable;
@@ -190,27 +192,6 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     public void prepare(FeatureProvider provider)
     {
         super.prepare(provider);
-
-        if (services.getOptional(Trackable.class).isPresent())
-        {
-            final EntityChecker checker = provider.getFeature(EntityChecker.class);
-
-            if (game.getType().is(GameType.STORY, GameType.TRAINING))
-            {
-                final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
-                                                    .booleanValue();
-                checker.setCheckerUpdate(() -> alwaysUpdate
-                                               || camera.isViewable(transformable, 0, transformable.getHeight()));
-            }
-            checker.setCheckerRender(() -> camera.isViewable(transformable, 0, transformable.getHeight() * 2));
-        }
-
-        movement.setVelocity(DEFAULT_MOVEMENT_VELOCITY);
-        movement.setSensibility(DEFAULT_MOVEMENT_SENSIBILITY);
-
-        jump.setVelocity(DEFAULT_JUMP_VELOCITY);
-        jump.setSensibility(DEFAULT_JUMP_SENSIBILITY);
-        jump.setDestination(0.0, 0.0);
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
 
@@ -440,6 +421,26 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     }
 
     /**
+     * Set ignore glue flag.
+     * 
+     * @param ignoreGlue The ignore glue flag.
+     */
+    public void setIgnoreGlue(boolean ignoreGlue)
+    {
+        this.ignoreGlue = ignoreGlue;
+    }
+
+    /**
+     * Check if ignore glue.
+     * 
+     * @return <code>true</code> if ignore glue, <code>false</code> else.
+     */
+    public boolean isIgnoreGlue()
+    {
+        return ignoreGlue;
+    }
+
+    /**
      * Get the camera reference.
      * 
      * @return The camera reference.
@@ -631,7 +632,25 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     @Override
     public void recycle()
     {
+        if (services.getOptional(Trackable.class).isPresent())
+        {
+            if (game.getType().is(GameType.STORY, GameType.TRAINING))
+            {
+                final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
+                                                    .booleanValue();
+                checker.setCheckerUpdate(() -> alwaysUpdate
+                                               || camera.isViewable(transformable, 0, transformable.getHeight()));
+            }
+            checker.setCheckerRender(() -> camera.isViewable(transformable, 0, transformable.getHeight() * 2));
+        }
+
+        movement.setVelocity(DEFAULT_MOVEMENT_VELOCITY);
+        movement.setSensibility(DEFAULT_MOVEMENT_SENSIBILITY);
         movement.zero();
+
+        jump.setVelocity(DEFAULT_JUMP_VELOCITY);
+        jump.setSensibility(DEFAULT_JUMP_SENSIBILITY);
+        jump.setDestination(0.0, 0.0);
         jump.zero();
     }
 }
