@@ -116,6 +116,8 @@ public final class CollisionName
 
     /** Collision block prefix. */
     public static final String BLOCK = "block";
+    /** Collision trigger prefix. */
+    public static final String TRIGGER = "trigger";
 
     /** Collision sigh. */
     public static final String COLL_SIGH = "sigh";

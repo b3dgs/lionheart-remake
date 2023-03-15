@@ -69,14 +69,16 @@ public final class BulletDestroyOnGround extends FeatureModel implements Recycla
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if ((category.getName().contains(CollisionName.KNEE) || category.getName().contains(CollisionName.LEG))
-            && (result.containsY(CollisionName.GROUND)
-                || result.containsY(CollisionName.SLOPE)
-                || result.containsY(CollisionName.INCLINE)
-                || result.containsY(CollisionName.BLOCK)
-                || result.containsY(CollisionName.VERTICAL)
-                || result.containsY(CollisionName.HORIZONTAL)
-                || result.containsX(CollisionName.VERTICAL))
+        if ((category.getName().contains(CollisionName.LEG)
+             || category.getName().contains(CollisionName.KNEE)
+             || category.getName().contains(CollisionName.HEAD))
+            && (result.contains(CollisionName.GROUND)
+                || result.contains(CollisionName.SLOPE)
+                || result.contains(CollisionName.INCLINE)
+                || result.contains(CollisionName.BLOCK)
+                || result.contains(CollisionName.VERTICAL)
+                || result.contains(CollisionName.HORIZONTAL)
+                || result.contains(CollisionName.VERTICAL))
             && (collFromBottom || transformable.getY() < transformable.getOldY()))
         {
             tileCollidable.apply(result);

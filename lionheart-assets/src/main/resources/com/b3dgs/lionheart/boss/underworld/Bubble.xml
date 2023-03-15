@@ -44,6 +44,5 @@
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="1"/>
     <hurtable frame="-1" effect="effect/underworld/ExplodeLittle.xml"/>
-    <bulletDestroyOnGround collFromBottom="true"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>
