@@ -38,6 +38,8 @@ public final class HurtableConfig
     private static final String ATT_EFFECT = "effect";
     /** Move backward attribute name. */
     private static final String ATT_BACKWARD = "backward";
+    /** Interrupt movement attribute name. */
+    private static final String ATT_INTERRUPT = "interrupt";
     /** Persist on death attribute name. */
     private static final String ATT_PERSIST = "persist";
     /** Fall before death attribute name. */
@@ -63,17 +65,19 @@ public final class HurtableConfig
             final OptionalInt frame = configurer.getIntegerOptional(ATT_FRAME, NODE_HURTABLE);
             final Optional<Media> effect = configurer.getMediaOptional(ATT_EFFECT, NODE_HURTABLE);
             final OptionalDouble backward = configurer.getDoubleOptional(ATT_BACKWARD, NODE_HURTABLE);
+            final boolean interrupt = configurer.getBoolean(true, ATT_INTERRUPT, NODE_HURTABLE);
             final boolean persist = configurer.getBoolean(false, ATT_PERSIST, NODE_HURTABLE);
             final boolean fall = configurer.getBoolean(false, ATT_FALL, NODE_HURTABLE);
             final Optional<String> sfx = configurer.getStringOptional(ATT_SFX, NODE_HURTABLE);
             final boolean boss = configurer.getBoolean(false, ATT_BOSS, NODE_HURTABLE);
 
-            return new HurtableConfig(frame, effect, backward, persist, fall, sfx, boss);
+            return new HurtableConfig(frame, effect, backward, interrupt, persist, fall, sfx, boss);
         }
         return new HurtableConfig(OptionalInt.empty(),
                                   Optional.empty(),
                                   OptionalDouble.empty(),
                                   false,
+                                  true,
                                   false,
                                   Optional.empty(),
                                   false);
@@ -85,6 +89,8 @@ public final class HurtableConfig
     private final Optional<Media> effect;
     /** Move backward force. */
     private final OptionalDouble backward;
+    /** Interrupt movement flag. */
+    private final boolean interrupt;
     /** Persist on death flag. */
     private final boolean persist;
     /** Fall before death flag. */
@@ -100,6 +106,7 @@ public final class HurtableConfig
      * @param frame The hurt frame.
      * @param effect The effect media (can be <code>null</code>).
      * @param backward The move backward force.
+     * @param interrupt The interrupt flag.
      * @param persist The persist flag.
      * @param fall The fall before death flag.
      * @param sfx The media sfx.
@@ -108,6 +115,7 @@ public final class HurtableConfig
     private HurtableConfig(OptionalInt frame,
                            Optional<Media> effect,
                            OptionalDouble backward,
+                           boolean interrupt,
                            boolean persist,
                            boolean fall,
                            Optional<String> sfx,
@@ -118,6 +126,7 @@ public final class HurtableConfig
         this.frame = frame;
         this.effect = effect;
         this.backward = backward;
+        this.interrupt = interrupt;
         this.persist = persist;
         this.fall = fall;
         this.sfx = sfx;
@@ -152,6 +161,16 @@ public final class HurtableConfig
     public OptionalDouble getBackward()
     {
         return backward;
+    }
+
+    /**
+     * Get the interrupt flag.
+     * 
+     * @return The interrupt flag.
+     */
+    public boolean hasInterrupt()
+    {
+        return interrupt;
     }
 
     /**

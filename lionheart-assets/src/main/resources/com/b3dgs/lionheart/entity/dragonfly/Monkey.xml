@@ -36,7 +36,7 @@
     </lionengine:launcher>
     <lionengine:collidable group="2" accepted="1"/>
     <stats health="20"/>
-    <hurtable effect="effect/dragonfly/ExplodeBig.xml"/>
+    <hurtable effect="effect/dragonfly/ExplodeBig.xml" interrupt="false"/>
     <shade horizontal="9" vertical="1"/>
     <model mirror="true"/>
     <patrol sh="-0.5" sv="0.0" amplitude="192" mirror="false"/>

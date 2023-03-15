@@ -104,6 +104,7 @@ public final class Hurtable extends FeatureModel
     private final double hurtForceValue;
     private final Optional<Media> effect;
     private final OptionalInt frame;
+    private final boolean interrupt;
     private final boolean persist;
     private final boolean fall;
     private final Sfx sfx;
@@ -152,6 +153,7 @@ public final class Hurtable extends FeatureModel
         frame = config.getFrame();
         effect = config.getEffect();
         persist = config.hasPersist();
+        interrupt = config.hasInterrupt();
         fall = config.hasFall();
         sfx = config.getSfx().map(Sfx::valueOf).orElse(Sfx.MONSTER_HURT);
         boss = config.hasBoss();
@@ -295,6 +297,16 @@ public final class Hurtable extends FeatureModel
     public OptionalInt getFrame()
     {
         return frame;
+    }
+
+    /**
+     * Get the interrupt flag.
+     * 
+     * @return The interrupt flag.
+     */
+    public boolean hasInterrupt()
+    {
+        return interrupt;
     }
 
     /**

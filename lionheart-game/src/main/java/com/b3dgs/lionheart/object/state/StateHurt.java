@@ -147,7 +147,10 @@ public final class StateHurt extends State
         {
             body.resetGravity();
         }
-        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        if (hurtable.hasInterrupt())
+        {
+            movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+        }
     }
 
     @Override
