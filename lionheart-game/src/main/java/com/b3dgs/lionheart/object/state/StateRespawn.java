@@ -21,6 +21,7 @@ import java.util.Optional;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Mirror;
+import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
 import com.b3dgs.lionheart.CheatsProvider;
@@ -29,6 +30,8 @@ import com.b3dgs.lionheart.Difficulty;
 import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.GameType;
 import com.b3dgs.lionheart.InitConfig;
+import com.b3dgs.lionheart.LoadNextStage;
+import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.landscape.Landscape;
 import com.b3dgs.lionheart.menu.Continue;
 import com.b3dgs.lionheart.menu.Menu;
@@ -46,6 +49,7 @@ public final class StateRespawn extends State
     private final Landscape landscape = model.getServices().get(Landscape.class);
     private final Difficulty difficulty = model.getServices().get(Difficulty.class);
     private final GameConfig game = model.getServices().get(GameConfig.class);
+    private final LoadNextStage stage = model.getServices().get(LoadNextStage.class);
     private final boolean cheats = model.getServices().get(CheatsProvider.class).getCheats();
 
     /**
@@ -111,6 +115,12 @@ public final class StateRespawn extends State
                 stats.decreaseLife();
             }
             landscape.reset();
+
+            final StageConfig config = StageConfig.imports(new Configurer(game.getInit().getStage()));
+            if (config.getReload())
+            {
+                stage.reloadStage();
+            }
         }
     }
 }
