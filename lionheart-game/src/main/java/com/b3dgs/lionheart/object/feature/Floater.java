@@ -157,7 +157,7 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
         if (!viewer.isViewable(transformable, viewer.getWidth() / 2, viewer.getHeight() / 2)
             && !viewer.isViewable(origin, 0, 0))
         {
-            // transformable.teleport(origin.getX(), origin.getY());
+            transformable.teleport(origin.getX(), origin.getY());
             body.resetGravity();
             recycle();
         }
@@ -172,11 +172,11 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
             final Transformable other = collidable.getFeature(Transformable.class);
             if (transformable.getX() > other.getX())
             {
-                movement.setDirection(3.0, 0.0);
+                movement.setDirection(3.5, 0.0);
             }
             else
             {
-                movement.setDirection(-3.0, 0.0);
+                movement.setDirection(-3.5, 0.0);
             }
         }
     }
