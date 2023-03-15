@@ -261,6 +261,7 @@ public abstract class State extends StateHelper<EntityModel>
         collideYleft.set(false);
         collideYright.set(false);
         grip.set(false);
+        collObject = false;
         steep.reset();
         liana.reset();
     }
@@ -280,6 +281,7 @@ public abstract class State extends StateHelper<EntityModel>
         super.exit();
 
         model.setIgnoreGlue(false);
+        collObject = false;
     }
 
     @Override
