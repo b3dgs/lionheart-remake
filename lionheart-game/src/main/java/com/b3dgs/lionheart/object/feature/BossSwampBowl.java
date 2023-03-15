@@ -108,7 +108,7 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
      */
     public void setFrameOffset(int offset)
     {
-        rasterable.setAnimOffset2(UtilMath.clamp(offset, 0, 2));
+        rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * 2);
     }
 
     @Override

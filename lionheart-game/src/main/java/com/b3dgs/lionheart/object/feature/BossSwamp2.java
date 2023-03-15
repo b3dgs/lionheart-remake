@@ -498,7 +498,7 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         launcher.addListener(l ->
         {
             final int offset = UtilMath.clamp(getFrameOffset(), 0, 2);
-            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset2(offset));
+            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset(offset * 20));
             l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset + 1));
         });
     }
