@@ -11,10 +11,10 @@
     </checkpoints>
     <entities>
         <entity file="entity/tower/Rotating.xml" tx="21.0" ty="14.0">
-            <rotating amplitude="40" extremity="Platform1.xml" length="4" speed="0.05"/>
+            <rotating amplitude="40" extremity="Platform1.xml" length="5" speed="0.05"/>
         </entity>
         <entity file="entity/tower/Rotating.xml" tx="21.0" ty="24.0">
-            <rotating amplitude="60" back="176" extremity="Platform1.xml" length="5" speed="-0.05"/>
+            <rotating amplitude="60" back="176" extremity="Platform1.xml" length="4" speed="-0.05"/>
         </entity>
         <entity file="entity/tower/PotionLittle.xml" tx="11.0" ty="20.0"/>
         <entity file="entity/tower/Face.xml" tx="31.0" ty="27.0">
