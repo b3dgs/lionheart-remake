@@ -19,7 +19,7 @@
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Rotating2.xml" tx="12.0" ty="49.0">
-            <rotating amplitude="8" controlled="true" extremity="Platform2.xml" length="6" speed="0.05"/>
+            <rotating amplitude="8" controlled="true" extremity="Platform2.xml" length="6" speed="0.08"/>
         </entity>
         <entity file="entity/ancienttown/Talisment.xml" tx="11.0" ty="65.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="12.0" ty="65.0"/>

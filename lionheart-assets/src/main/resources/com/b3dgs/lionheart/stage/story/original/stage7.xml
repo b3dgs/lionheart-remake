@@ -92,9 +92,7 @@
         <entity file="entity/ancienttown/Rotating2.xml" tx="149.0" ty="14.0">
             <rotating amplitude="90" extremity="Platform.xml" length="3" speed="-0.05"/>
         </entity>
-        <entity file="entity/ancienttown/Rotating2.xml" tx="162.0" ty="20.0">
-            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="4" speed="0.05"/>
-        </entity>
+        <entity file="entity/ancienttown/RotatingPlatformControlled.xml" tx="162.0" ty="20.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="146.0" ty="32.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="147.0" ty="32.0"/>
         <entity file="entity/ancienttown/Talisment.xml" tx="148.0" ty="32.0"/>

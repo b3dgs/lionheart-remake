@@ -65,6 +65,10 @@ public abstract class State extends StateHelper<EntityModel>
     /** Win flag. */
     private final BooleanSupplier win;
 
+    /** Object collide flag. */
+    private boolean collObject;
+    private double oldY;
+
     /**
      * Create the state.
      * 
@@ -190,9 +194,12 @@ public abstract class State extends StateHelper<EntityModel>
     {
         if (collidable.hasFeature(Glue.class))
         {
-            if (with.getName().startsWith(Anim.LEG) && by.getName().startsWith(CollisionName.GROUND))
+            if (!model.isIgnoreGlue()
+                && with.getName().startsWith(Anim.LEG)
+                && by.getName().startsWith(CollisionName.GROUND))
             {
                 collideY.set(true);
+                collObject = true;
             }
             else if (with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
             {
@@ -268,6 +275,14 @@ public abstract class State extends StateHelper<EntityModel>
     }
 
     @Override
+    public void exit()
+    {
+        super.exit();
+
+        model.setIgnoreGlue(false);
+    }
+
+    @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
         if (Axis.X == category.getAxis())
@@ -279,8 +294,11 @@ public abstract class State extends StateHelper<EntityModel>
         }
         else if (Axis.Y == category.getAxis())
         {
-            if (!liana.is() && category.getName().startsWith(CollisionName.LEG))
+            if ((!collObject || transformable.getY() < oldY)
+                && !liana.is()
+                && category.getName().startsWith(CollisionName.LEG))
             {
+                model.setIgnoreGlue(true);
                 onCollideLeg(result, category);
             }
             else if (category.getName().startsWith(CollisionName.HAND))
@@ -331,5 +349,8 @@ public abstract class State extends StateHelper<EntityModel>
         grip.set(false);
         steep.reset();
         liana.reset();
+
+        collObject = false;
+        oldY = transformable.getY();
     }
 }

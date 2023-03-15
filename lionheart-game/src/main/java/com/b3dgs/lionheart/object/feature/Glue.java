@@ -188,6 +188,7 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         {
             other = collidable.getFeature(Transformable.class);
             if (!collide
+                && !other.getFeature(EntityModel.class).isIgnoreGlue()
                 && (Double.compare(other.getY(), other.getOldY()) <= 0
                     && Double.compare(other.getFeature(EntityModel.class).getJump().getDirectionVertical(), 0.0) <= 0
                     || force && Double.compare(reference.getY(), reference.getOldY()) != 0))

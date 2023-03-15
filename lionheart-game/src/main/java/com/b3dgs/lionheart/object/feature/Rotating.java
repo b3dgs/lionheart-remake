@@ -38,9 +38,11 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Sfx;
+import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -103,10 +105,16 @@ public final class Rotating extends FeatureModel
 
     /**
      * Called on collide.
+     * 
+     * @param with The collision with.
+     * @param by The collision by.
      */
-    private void onCollide()
+    private void onCollide(Collision with, Collision by)
     {
-        collide = true;
+        if (with.getName().startsWith(CollisionName.GROUND) && by.getName().startsWith(CollisionName.LEG))
+        {
+            collide = true;
+        }
     }
 
     @Override
@@ -157,7 +165,7 @@ public final class Rotating extends FeatureModel
             if (config.isControlled())
             {
                 final Collidable platformCollidable = platform.getFeature(Collidable.class);
-                platformCollidable.addListener((c, w, b) -> onCollide());
+                platformCollidable.addListener((c, w, b) -> onCollide(w, b));
             }
 
             rings.add(platform);
@@ -185,20 +193,16 @@ public final class Rotating extends FeatureModel
         {
             if (config.isControlled())
             {
-                if (collide && target.isState(StateCrouch.class))
+                if (platform.getOldY() > platform.getY())
                 {
-                    if (platform.getOldY() > platform.getY())
+                    if (collide && target.isState(StateCrouch.class))
                     {
-                        max += 0.035 * extrp;
-                    }
-                    else
-                    {
-                        max -= 0.06 * extrp;
+                        max += 0.045 * extrp;
                     }
                 }
                 else
                 {
-                    max -= 0.0024;
+                    max -= 0.02 * extrp;
                 }
                 max = UtilMath.clamp(max, 0.95, 6.5);
 
