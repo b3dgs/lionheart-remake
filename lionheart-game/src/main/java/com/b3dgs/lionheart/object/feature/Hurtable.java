@@ -61,6 +61,7 @@ import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.network.Packet;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.LoadNextStage;
@@ -134,6 +135,7 @@ public final class Hurtable extends FeatureModel
     @FeatureGet private Collidable collidable;
     @FeatureGet private TileCollidable tileCollidable;
     @FeatureGet private EntityModel model;
+    @FeatureGet private EntityChecker checker;
     @FeatureGet private Stats stats;
     @FeatureGet private Rasterable rasterable;
     @FeatureGet private Networkable networkable;
@@ -409,6 +411,7 @@ public final class Hurtable extends FeatureModel
             body.setGravity(0.25);
             body.setGravityMax(4.0);
             tileCollidable.setEnabled(true);
+            checker.setCheckerUpdate(() -> true);
         }
         currentCollide = CollidableListenerVoid.getInstance();
         model.getMovement().zero();
