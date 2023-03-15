@@ -26,6 +26,7 @@ import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
@@ -47,9 +48,10 @@ public final class Extro extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param config The game config reference.
      * @param alternative The alternative end.
      */
-    public Extro(Context context, Boolean alternative)
+    public Extro(Context context, GameConfig config, Boolean alternative)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), new LoopUnlocked());
 
@@ -61,7 +63,7 @@ public final class Extro extends Sequence
         services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)))
                 .setVisible(false);
 
-        load(Part1.class, time, audio, alternative);
+        load(Part1.class, config, time, audio, alternative);
 
         setSystemCursorVisible(false);
         Util.setFilter(this);

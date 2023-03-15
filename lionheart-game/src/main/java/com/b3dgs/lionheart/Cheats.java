@@ -468,7 +468,7 @@ public class Cheats implements Updatable, Renderable
             tick.addAction(() ->
             {
                 music.stopMusic();
-                sequencer.end(Extro.class, player.getFeature(Stats.class).hasAmulet());
+                sequencer.end(Extro.class, config, player.getFeature(Stats.class).hasAmulet());
             }, source.getRate(), EXTRO_DELAY_MS);
         }
     }

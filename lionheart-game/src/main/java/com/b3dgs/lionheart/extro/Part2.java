@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart.extro;
 
+import java.util.Optional;
+
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.Medias;
@@ -33,6 +35,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.ComponentCollision;
+import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Renderable;
@@ -105,11 +108,12 @@ public class Part2 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param config The game config reference.
      * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part2(Context context, Time time, Audio audio, Boolean alternative)
+    public Part2(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
@@ -126,9 +130,19 @@ public class Part2 extends Sequence
         services.add((CheatsProvider) () -> false);
         services.add(new CheckpointHandler(services));
         services.add(new MapTileWater(services));
-        services.add((LoadNextStage) (next, delayMs, spawn) ->
+        services.add(new LoadNextStage()
         {
-            // Mock
+            @Override
+            public void reloadStage()
+            {
+                // Mock
+            }
+
+            @Override
+            public void loadNextStage(String next, int delayMs, Optional<Coord> spawn)
+            {
+                // Mock
+            }
         });
         device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
 
@@ -143,7 +157,7 @@ public class Part2 extends Sequence
         background = new DragonEnd(source);
         info = new AppInfo(this::getFps, services);
 
-        load(Part3.class, time, audio, alternative);
+        load(Part3.class, config, time, audio, alternative);
 
         setSystemCursorVisible(false);
         Util.setFilter(this);

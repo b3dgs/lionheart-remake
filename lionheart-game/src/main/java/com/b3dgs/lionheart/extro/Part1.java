@@ -163,11 +163,12 @@ public class Part1 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param config The game config reference.
      * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part1(Context context, Time time, Audio audio, Boolean alternative)
+    public Part1(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
 
@@ -191,7 +192,7 @@ public class Part1 extends Sequence
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
 
-        load(Part2.class, time, audio, alternative);
+        load(Part2.class, config, time, audio, alternative);
 
         setSystemCursorVisible(false);
         Util.setFilter(this);

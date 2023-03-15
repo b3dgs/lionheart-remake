@@ -43,6 +43,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
@@ -81,6 +82,7 @@ public class Credits extends Sequence
 
     private final List<SpriteFont> texts = new ArrayList<>();
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
+    private final GameConfig config;
     private final Sprite credits;
     private final Time time;
     private final Audio audio;
@@ -101,14 +103,16 @@ public class Credits extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param config The game config reference.
      * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Credits(Context context, Time time, Audio audio, Boolean alternative)
+    public Credits(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
+        this.config = config;
         this.time = time;
         this.audio = audio;
         this.alternative = Boolean.TRUE.equals(alternative);
@@ -306,7 +310,7 @@ public class Credits extends Sequence
         if (getAlpha() > 255)
         {
             alpha = 255.0;
-            end(Menu.class);
+            end(Menu.class, config);
             updater = UpdatableVoid.getInstance();
         }
     }

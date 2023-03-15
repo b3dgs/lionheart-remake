@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.io.DeviceActionModel;
 import com.b3dgs.lionengine.io.DevicePush;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Time;
 
@@ -49,7 +50,11 @@ public final class TestCredits extends Credits
      */
     public TestCredits(Context context, DevicePush push, List<TickAction> actions)
     {
-        super(context, new Time(Constant.RESOLUTION.getRate()), AudioFactory.loadAudio(Music.INTRO), Boolean.TRUE);
+        super(context,
+              new GameConfig(),
+              new Time(Constant.RESOLUTION.getRate()),
+              AudioFactory.loadAudio(Music.INTRO),
+              Boolean.TRUE);
 
         device.addFire(null,
                        push,

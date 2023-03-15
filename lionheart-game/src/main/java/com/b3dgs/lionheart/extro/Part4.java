@@ -39,6 +39,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Time;
@@ -103,11 +104,12 @@ public class Part4 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param config The game config reference.
      * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part4(Context context, Time time, Audio audio, Boolean alternative)
+    public Part4(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
@@ -125,12 +127,12 @@ public class Part4 extends Sequence
         {
             audioAlternative = AudioFactory.loadAudio(Music.EXTRO_ALTERNATIVE);
             audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());
-            load(Part5.class, time, audioAlternative, alternative);
+            load(Part5.class, config, time, audioAlternative, alternative);
         }
         else
         {
             audioAlternative = null;
-            load(Credits.class, time, audio, alternative);
+            load(Credits.class, config, time, audio, alternative);
         }
 
         setSystemCursorVisible(false);

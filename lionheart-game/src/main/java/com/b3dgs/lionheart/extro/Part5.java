@@ -58,6 +58,7 @@ import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionheart.AppInfo;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Time;
 import com.b3dgs.lionheart.Util;
 import com.b3dgs.lionheart.constant.Anim;
@@ -178,11 +179,12 @@ public class Part5 extends Sequence
      * Constructor.
      * 
      * @param context The context reference.
+     * @param config The game config reference.
      * @param time The time reference.
      * @param audio The audio reference.
      * @param alternative The alternative end.
      */
-    public Part5(Context context, Time time, Audio audio, Boolean alternative)
+    public Part5(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
         super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
 
@@ -200,7 +202,7 @@ public class Part5 extends Sequence
         handler.addComponent(new ComponentDisplayable());
         handler.addListener(factory);
 
-        load(Credits.class, time, audio, alternative);
+        load(Credits.class, config, time, audio, alternative);
 
         setSystemCursorVisible(false);
         Util.setFilter(this);
