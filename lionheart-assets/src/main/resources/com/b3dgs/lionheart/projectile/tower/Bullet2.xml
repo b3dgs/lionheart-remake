@@ -25,8 +25,48 @@
         <lionengine:collision name="body" offsetX="0" offsetY="4" width="8" height="8" mirror="false"/>
     </lionengine:collisions>
     <lionengine:categories>
+        <lionengine:category name="head" axis="Y" x="0" y="12">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_left" axis="X" x="-6" y="6">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+        </lionengine:category>
+        <lionengine:category name="knee_right" axis="X" x="6" y="6">
+            <lionengine:group>spike</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
+            <lionengine:group>ground15</lionengine:group>
+            <lionengine:group>block</lionengine:group>
+            <lionengine:group>vertical</lionengine:group>
+            <lionengine:group>slope_0_right</lionengine:group>
+            <lionengine:group>slope_1_right</lionengine:group>
+            <lionengine:group>slope_0_left</lionengine:group>
+            <lionengine:group>slope_1_left</lionengine:group>
+            <lionengine:group>incline_right</lionengine:group>
+            <lionengine:group>incline_left</lionengine:group>
+        </lionengine:category>
         <lionengine:category name="leg" axis="Y" x="0" y="0">
             <lionengine:group>spike</lionengine:group>
+            <lionengine:group>ground</lionengine:group>
             <lionengine:group>ground15</lionengine:group>
             <lionengine:group>block</lionengine:group>
             <lionengine:group>vertical</lionengine:group>
