@@ -48,6 +48,7 @@ import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.graphic.engine.Sequencer;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Music;
 import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.ScreenShaker;
@@ -799,7 +800,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         {
             identifiable.destroy();
             music.stopMusic();
-            sequencer.end(Extro.class, target.getFeature(Stats.class).hasAmulet());
+            sequencer.end(Extro.class, services.get(GameConfig.class), target.getFeature(Stats.class).hasAmulet());
         }
     }
 
