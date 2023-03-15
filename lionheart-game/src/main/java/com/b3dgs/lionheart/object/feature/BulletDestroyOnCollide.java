@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionheart.constant.CollisionName;
 
 /**
  * Destroy bullet on collide.
@@ -65,7 +66,7 @@ public final class BulletDestroyOnCollide extends FeatureModel implements Routin
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (!by.getName().equals("trigger"))
+        if (by.getName().equals(CollisionName.BODY))
         {
             identifiable.destroy();
         }
