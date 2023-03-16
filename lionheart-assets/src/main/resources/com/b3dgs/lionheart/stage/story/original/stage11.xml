@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic4.png" text="airship.txt">
+<stage pic="sprite/pic4.png" text="airship.txt" reload="true" reloadMaxX="8000">
     <music file="music/airship.sc68"/>
     <map file="level/airship/original/stage.lvl"/>
     <background type="AIRSHIP"/>

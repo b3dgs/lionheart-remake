@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic5.png" text="dragonfly.txt">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic5.png" text="dragonfly.txt" reload="true" reloadMinX="11200">
     <music file="music/dragonfly.sc68"/>
     <map file="level/dragonfly/original/stage.lvl"/>
     <raster folder="raster/dragonfly/dragonfly/"/>

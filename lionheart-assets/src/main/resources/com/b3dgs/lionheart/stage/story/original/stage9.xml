@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic3.png" text="lava.txt">
+<stage pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13728">
     <music file="music/lava.sc68"/>
     <map file="level/lava/original/stage.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>

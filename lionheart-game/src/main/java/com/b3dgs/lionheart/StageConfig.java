@@ -50,6 +50,10 @@ public final class StageConfig
     public static final String ATT_FILE = "file";
     /** Reload attribute name. */
     private static final String ATT_RELOAD = "reload";
+    /** Reload minimum horizontal location attribute name. */
+    private static final String ATT_RELOAD_MIN_X = "reloadMinX";
+    /** Reload maximum horizontal location attribute name. */
+    private static final String ATT_RELOAD_MAX_X = "reloadMaxX";
 
     /** Music node name. */
     public static final String NODE_MUSIC = "music";
@@ -113,6 +117,10 @@ public final class StageConfig
     private final Media music;
     /** Reload flag. */
     private final boolean reload;
+    /** Reload min X. */
+    private final int reloadMinX;
+    /** Reload max X. */
+    private final int reloadMaxX;
     /** Map level file. */
     private final Media mapFile;
     /** Lines per raster. */
@@ -153,6 +161,8 @@ public final class StageConfig
         pic = configurer.getMediaOptional(ATT_STAGE_PIC);
         text = configurer.getStringOptional(ATT_STAGE_TEXT);
         reload = configurer.getBoolean(false, ATT_RELOAD);
+        reloadMinX = configurer.getInteger(0, ATT_RELOAD_MIN_X);
+        reloadMaxX = configurer.getInteger(Integer.MAX_VALUE, ATT_RELOAD_MAX_X);
 
         music = configurer.getMedia(ATT_FILE, NODE_MUSIC);
 
@@ -258,6 +268,26 @@ public final class StageConfig
     public boolean getReload()
     {
         return reload;
+    }
+
+    /**
+     * Get the reload min X.
+     * 
+     * @return The reload min X.
+     */
+    public int getReloadMinX()
+    {
+        return reloadMinX;
+    }
+
+    /**
+     * Get the reload max X.
+     * 
+     * @return The reload max X.
+     */
+    public int getReloadMaxX()
+    {
+        return reloadMaxX;
     }
 
     /**
