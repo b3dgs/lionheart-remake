@@ -210,7 +210,6 @@
         <entity file="entity/dragonfly/Bomb.xml" tx="267.0" ty="20.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="271.0" ty="8.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="273.0" ty="10.0"/>
-        <entity file="entity/dragonfly/Bomb.xml" tx="273.0" ty="10.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="274.0" ty="3.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="274.0" ty="19.0"/>
         <entity file="entity/dragonfly/Bomb.xml" tx="275.0" ty="17.0"/>
