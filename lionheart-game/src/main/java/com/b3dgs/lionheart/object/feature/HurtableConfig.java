@@ -36,6 +36,8 @@ public final class HurtableConfig
     private static final String ATT_FRAME = "frame";
     /** Effect attribute name (can be <code>null</code>). */
     private static final String ATT_EFFECT = "effect";
+    /** Effect offset X name. */
+    private static final String ATT_OFFSET_X = "offsetX";
     /** Move backward attribute name. */
     private static final String ATT_BACKWARD = "backward";
     /** Interrupt movement attribute name. */
@@ -64,6 +66,7 @@ public final class HurtableConfig
         {
             final OptionalInt frame = configurer.getIntegerOptional(ATT_FRAME, NODE_HURTABLE);
             final Optional<Media> effect = configurer.getMediaOptional(ATT_EFFECT, NODE_HURTABLE);
+            final int offsetX = configurer.getInteger(0, ATT_OFFSET_X, NODE_HURTABLE);
             final OptionalDouble backward = configurer.getDoubleOptional(ATT_BACKWARD, NODE_HURTABLE);
             final boolean interrupt = configurer.getBoolean(true, ATT_INTERRUPT, NODE_HURTABLE);
             final boolean persist = configurer.getBoolean(false, ATT_PERSIST, NODE_HURTABLE);
@@ -71,13 +74,14 @@ public final class HurtableConfig
             final Optional<String> sfx = configurer.getStringOptional(ATT_SFX, NODE_HURTABLE);
             final boolean boss = configurer.getBoolean(false, ATT_BOSS, NODE_HURTABLE);
 
-            return new HurtableConfig(frame, effect, backward, interrupt, persist, fall, sfx, boss);
+            return new HurtableConfig(frame, effect, offsetX, backward, interrupt, persist, fall, sfx, boss);
         }
         return new HurtableConfig(OptionalInt.empty(),
                                   Optional.empty(),
+                                  0,
                                   OptionalDouble.empty(),
-                                  false,
                                   true,
+                                  false,
                                   false,
                                   Optional.empty(),
                                   false);
@@ -87,6 +91,8 @@ public final class HurtableConfig
     private final OptionalInt frame;
     /** Effect media. */
     private final Optional<Media> effect;
+    /** Offset X. */
+    private final int offsetX;
     /** Move backward force. */
     private final OptionalDouble backward;
     /** Interrupt movement flag. */
@@ -105,6 +111,7 @@ public final class HurtableConfig
      * 
      * @param frame The hurt frame.
      * @param effect The effect media (can be <code>null</code>).
+     * @param offsetX The horizontal offset.
      * @param backward The move backward force.
      * @param interrupt The interrupt flag.
      * @param persist The persist flag.
@@ -114,6 +121,7 @@ public final class HurtableConfig
      */
     private HurtableConfig(OptionalInt frame,
                            Optional<Media> effect,
+                           int offsetX,
                            OptionalDouble backward,
                            boolean interrupt,
                            boolean persist,
@@ -125,6 +133,7 @@ public final class HurtableConfig
 
         this.frame = frame;
         this.effect = effect;
+        this.offsetX = offsetX;
         this.backward = backward;
         this.interrupt = interrupt;
         this.persist = persist;
@@ -151,6 +160,16 @@ public final class HurtableConfig
     public Optional<Media> getEffect()
     {
         return effect;
+    }
+
+    /**
+     * Get the horizontal offset.
+     * 
+     * @return The horizontal offset.
+     */
+    public int getOffsetX()
+    {
+        return offsetX;
     }
 
     /**

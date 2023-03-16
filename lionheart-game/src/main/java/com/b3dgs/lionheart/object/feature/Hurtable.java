@@ -104,6 +104,7 @@ public final class Hurtable extends FeatureModel
     private final SpriteAnimated shade;
     private final double hurtForceValue;
     private final Optional<Media> effect;
+    private final int effectOffsetX;
     private final OptionalInt frame;
     private final boolean interrupt;
     private final boolean persist;
@@ -154,6 +155,7 @@ public final class Hurtable extends FeatureModel
         final HurtableConfig config = HurtableConfig.imports(setup);
         frame = config.getFrame();
         effect = config.getEffect();
+        effectOffsetX = config.getOffsetX();
         persist = config.hasPersist();
         interrupt = config.hasInterrupt();
         fall = config.hasFall();
@@ -196,7 +198,7 @@ public final class Hurtable extends FeatureModel
      */
     public void hurtDamages()
     {
-        if (!invincibility)
+        if (!invincibility && stats.getHealth() > 0)
         {
             if (stats.applyDamages(1))
             {
@@ -552,7 +554,9 @@ public final class Hurtable extends FeatureModel
         {
             if (effect.isPresent())
             {
-                spawner.spawn(effect.get(), transformable.getX(), transformable.getY() + transformable.getHeight() / 2)
+                spawner.spawn(effect.get(),
+                              transformable.getX() + effectOffsetX,
+                              transformable.getY() + transformable.getHeight() / 2)
                        .getFeature(Rasterable.class)
                        .setAnimOffset2(rasterable.getAnimOffset2());
             }
