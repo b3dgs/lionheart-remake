@@ -348,7 +348,7 @@ public final class Hurtable extends FeatureModel
      * @param collidable The collidable reference.
      * @param by The collision by.
      */
-    private void updateCollideAttack(Collidable collidable, Collision by)
+    public void updateCollideAttack(Collidable collidable, Collision by)
     {
         sfx.play();
         int damages = collidable.getFeature(Stats.class).getDamages();

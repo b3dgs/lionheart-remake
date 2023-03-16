@@ -188,9 +188,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
                 || result.containsY(CollisionName.INCLINE)
                 || result.containsY(CollisionName.BLOCK))
             {
-                final double bounce = UtilMath.clamp(Math.abs(transformable.getOldY() - transformable.getY())
-                                                     / extrp
-                                                     * 0.8,
+                final double bounce = UtilMath.clamp(Math.abs(transformable.getOldY() - transformable.getY()) / extrp,
                                                      0.0,
                                                      BOUNCE_MAX);
                 if (bounce > 0.5 && viewer.isViewable(transformable, 0, 0))
@@ -200,7 +198,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
                 body.resetGravity();
                 tick.restart();
                 tileCollidable.apply(result);
-                transformable.teleportY(transformable.getY() + 2.0);
+                transformable.teleportY(transformable.getY() + 1);
                 transformable.check(true);
 
                 final int sideX = getSideX(result);

@@ -27,6 +27,7 @@ import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Anim;
 
 /**
@@ -39,6 +40,7 @@ public final class BossNorka2Bullet extends FeatureModel implements Recyclable, 
 
     @FeatureGet private Hurtable hurtable;
     @FeatureGet private Launchable launchable;
+    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
@@ -60,7 +62,7 @@ public final class BossNorka2Bullet extends FeatureModel implements Recyclable, 
             && by.getName().startsWith(Anim.BODY)
             && collidable.hasFeature(BossNorka2.class))
         {
-            collidable.getFeature(Hurtable.class).hurt();
+            collidable.getFeature(Hurtable.class).updateCollideAttack(collidable, by);
             hurtable.kill(true);
         }
         if (!reverted
@@ -72,6 +74,7 @@ public final class BossNorka2Bullet extends FeatureModel implements Recyclable, 
             final double sv = launchable.getDirection().getDirectionVertical();
             launchable.getDirection().setDirection(-sh, sv);
             launchable.getDirection().setDestination(-sh, sv);
+            this.collidable.addAccept(Constant.COLL_GROUP_ENEMIES);
             reverted = true;
         }
     }
@@ -80,5 +83,6 @@ public final class BossNorka2Bullet extends FeatureModel implements Recyclable, 
     public void recycle()
     {
         reverted = false;
+        collidable.removeAccept(Constant.COLL_GROUP_ENEMIES);
     }
 }
