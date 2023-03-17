@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -54,8 +56,6 @@ public final class Settings
     public static final String RESOLUTION_HEIGHT = RESOLUTION + ".height";
     /** Resolution rate. */
     public static final String RESOLUTION_RATE = RESOLUTION + ".rate";
-    /** Resolution resize key. */
-    public static final String RESOLUTION_RESIZE = RESOLUTION + ".resize";
 
     /** Volume master. */
     public static final String VOLUME = "volume";
@@ -226,6 +226,41 @@ public final class Settings
         return false;
     }
 
+    /**
+     * Get default platform language.
+     *
+     * @return The default language.
+     */
+    private static String getDefaultLang()
+    {
+        if (Medias.create(Folder.TEXT, LOCALE_LANG, FILE_LANG).exists())
+        {
+            return LOCALE_LANG;
+        }
+        return DEFAULT_LANG;
+    }
+
+    /**
+     * Get desktop resolution.
+     * 
+     * @return The desktop resolution (<code>null</code> if error).
+     */
+    private static Resolution getDesktopResolution()
+    {
+        try
+        {
+            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                           .getDefaultScreenDevice()
+                                                           .getDisplayMode();
+            return new Resolution(desktop.getWidth(), desktop.getHeight(), desktop.getRefreshRate());
+        }
+        catch (final Throwable exception)
+        {
+            Verbose.exception(exception);
+            return null;
+        }
+    }
+
     /** Properties data. */
     private final Properties properties = new Properties();
 
@@ -285,19 +320,25 @@ public final class Settings
      */
     public Resolution getResolution()
     {
-        return new Resolution(getInt(RESOLUTION_WIDTH, Constant.RESOLUTION.getWidth()),
-                              getInt(RESOLUTION_HEIGHT, Constant.RESOLUTION.getHeight()),
-                              getInt(RESOLUTION_RATE, Constant.RESOLUTION.getRate()));
-    }
-
-    /**
-     * Get resize resolution.
-     * 
-     * @return The resize resolution.
-     */
-    public boolean getResolutionResize()
-    {
-        return getBoolean(RESOLUTION_RESIZE, true);
+        final Resolution desktop = getDesktopResolution();
+        final int defWidth;
+        final int defHeight;
+        final int defRate;
+        if (desktop != null)
+        {
+            defWidth = desktop.getWidth();
+            defHeight = desktop.getHeight();
+            defRate = desktop.getRate();
+        }
+        else
+        {
+            defWidth = Constant.RESOLUTION_OUTPUT.getWidth();
+            defHeight = Constant.RESOLUTION_OUTPUT.getHeight();
+            defRate = Constant.RESOLUTION.getRate();
+        }
+        return new Resolution(getInt(RESOLUTION_WIDTH, defWidth),
+                              getInt(RESOLUTION_HEIGHT, defHeight),
+                              getInt(RESOLUTION_RATE, defRate));
     }
 
     /**
@@ -478,20 +519,6 @@ public final class Settings
     public void setRaster(boolean enabled)
     {
         properties.setProperty(RASTER, String.valueOf(enabled));
-    }
-
-    /**
-     * Get default platform language.
-     *
-     * @return The default language.
-     */
-    private static String getDefaultLang()
-    {
-        if (Medias.create(Folder.TEXT, LOCALE_LANG, FILE_LANG).exists())
-        {
-            return LOCALE_LANG;
-        }
-        return DEFAULT_LANG;
     }
 
     /**

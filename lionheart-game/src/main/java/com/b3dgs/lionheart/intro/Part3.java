@@ -155,7 +155,7 @@ public class Part3 extends Sequence
      */
     public Part3(Context context, GameConfig config, Time time, Audio audio)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH, true), Util.getLoop());
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
 
         this.config = config;
         this.time = time;

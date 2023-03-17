@@ -167,51 +167,10 @@ public final class Util
     public static Resolution getResolution(Resolution source, Context context)
     {
         final Resolution output = context.getConfig().getOutput();
-        if (Settings.getInstance().getResolutionResize())
-        {
-            final double factor = source.getHeight() / (double) output.getHeight();
-            return new Resolution((int) Math.round(output.getWidth() * factor),
-                                  (int) Math.round(output.getHeight() * factor),
-                                  source.getRate());
-        }
-        return output;
-    }
-
-    /**
-     * Get resolution adapted to output from source.
-     * 
-     * @param context The context reference.
-     * @param minHeight The minimum height.
-     * @param maxWidth The maximum width.
-     * @param marginWidth The width margin.
-     * @param force The force resize flag.
-     * @return The adjusted source resolution based on output wide.
-     */
-    public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth, boolean force)
-    {
-        final Resolution resolution;
-        final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
-        if (Settings.getInstance().getResolutionResize() || force)
-        {
-            final Resolution output = context.getConfig().getOutput();
-            final double ratio = (double) output.getWidth() / (double) output.getHeight();
-            final int width = adjusted.getWidth() - (adjusted.getWidth() - maxWidth + marginWidth);
-            final int height = (int) Math.round(width / ratio);
-
-            if (height < minHeight)
-            {
-                resolution = new Resolution((int) Math.ceil(minHeight * ratio), minHeight, adjusted.getRate());
-            }
-            else
-            {
-                resolution = new Resolution(width, height, adjusted.getRate());
-            }
-        }
-        else
-        {
-            resolution = adjusted;
-        }
-        return resolution;
+        final double factor = source.getHeight() / (double) output.getHeight();
+        return new Resolution((int) Math.round(output.getWidth() * factor),
+                              (int) Math.round(output.getHeight() * factor),
+                              source.getRate());
     }
 
     /**
@@ -225,7 +184,23 @@ public final class Util
      */
     public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth)
     {
-        return getResolution(context, minHeight, maxWidth, marginWidth, false);
+        final Resolution output = context.getConfig().getOutput();
+        final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
+        final double ratio = (double) output.getWidth() / (double) output.getHeight();
+        final int width = adjusted.getWidth() - (adjusted.getWidth() - maxWidth + marginWidth);
+        final int height = (int) Math.round(width / ratio);
+
+        final Resolution resolution;
+        if (height < minHeight)
+        {
+            resolution = new Resolution((int) Math.ceil(minHeight * ratio), minHeight, adjusted.getRate());
+        }
+        else
+        {
+            resolution = new Resolution(width, height, adjusted.getRate());
+        }
+
+        return resolution;
     }
 
     /**
