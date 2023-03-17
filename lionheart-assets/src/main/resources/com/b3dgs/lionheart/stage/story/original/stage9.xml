@@ -223,7 +223,7 @@
             <geyzer delayFirst="2500" delayStart="1500" delayDown="600" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="743.5" ty="4.0"/>
-        <entity file="entity/lava/FireBallLittle.xml" tx="760" ty="20.0"/>
+        <entity file="entity/lava/FireBallLittle.xml" tx="759.5" ty="20.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="785.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="786.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="791.0" ty="2.0"/>
