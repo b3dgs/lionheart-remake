@@ -61,8 +61,23 @@ public final class StateHurt extends State
     {
         super(model, animation);
 
-        addTransition(StateLast.class, () -> !hurtable.isHurting() && !model.hasFeature(Patrol.class));
-        addTransition(StatePatrol.class, () -> !hurtable.isHurting() && model.hasFeature(Patrol.class));
+        if (model.hasFeature(Patrol.class))
+        {
+            addTransition(StatePatrol.class, () -> !hurtable.isHurting());
+        }
+        else
+        {
+            final boolean player = model.hasFeature(Trackable.class);
+            addTransition(StateLast.class,
+                          () -> !hurtable.isHurting()
+                                && (Double.compare(transformable.getY(), transformable.getOldY()) == 0 || !player));
+            if (player)
+            {
+                addTransition(StateFall.class,
+                              () -> !hurtable.isHurting()
+                                    && Double.compare(transformable.getY(), transformable.getOldY()) != 0);
+            }
+        }
 
         final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
 
