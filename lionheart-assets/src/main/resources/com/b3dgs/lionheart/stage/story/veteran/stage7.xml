@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMinX="13760">
     <music file="music/lava.sc68"/>
     <map file="level/lava/veteran/stage.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
     <background type="LAVA_HOT"/>
     <foreground type="LAVA" waterDepth="2" waterEffect="false" waterOffset="30" waterSpeed="0.1"/>
     <checkpoints>
+        <checkpoint tx="706.0" ty="5.0"/>
         <checkpoint tx="6.0" ty="24.0"/>
         <checkpoint tx="150.0" ty="8.0"/>
         <checkpoint tx="291.0" ty="4.0"/>
@@ -14,7 +15,7 @@
         <checkpoint next="stage/story/veteran/stage8.xml" tx="662.0" ty="3.0"/>
         <checkpoint tx="706.0" ty="5.0"/>
     </checkpoints>
-    <boss tx="880" ty="17" tsx="861" tsy="3" next="stage/story/veteran/stage9.xml"/>
+    <boss tx="862" ty="20" tsx="861" tsy="3" next="stage/story/veteran/stage9.xml"/>
     <entities>
         <entity file="entity/lava/HotFireBallStraight.xml" tx="53.0" ty="1.0">
             <hotfireball count="5" delay="1000" level="0" vx="0.0" vy="5.0"/>

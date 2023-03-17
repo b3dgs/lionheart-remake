@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMinX="5488">
     <music file="music/lava.sc68"/>
     <map file="level/lava/beginner/stage.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
@@ -16,7 +16,7 @@
         <checkpoint tx="263.0" ty="4.0"/>
         <checkpoint tx="303.0" ty="4.0"/>
     </checkpoints>
-    <boss tx="363" ty="17" tsx="344" tsy="3" next="stage/story/beginner/stage9.xml"/>
+    <boss tx="345" ty="20" tsx="344" tsy="3" next="stage/story/beginner/stage9.xml"/>
     <entities>
         <entity file="entity/lava/Life.xml" tx="10.0" ty="5.0"/>
         <entity file="entity/lava/Talisment.xml" tx="19.0" ty="3.0"/>

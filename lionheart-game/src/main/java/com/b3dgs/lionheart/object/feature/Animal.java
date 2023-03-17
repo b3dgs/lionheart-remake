@@ -263,7 +263,9 @@ public final class Animal extends FeatureModel
     @Override
     public void notifyCollided(Collidable collidable, Collision with, Collision by)
     {
-        if (with.getName().startsWith(CollisionName.ANIMAL) && collidable.getFeature(Stats.class).getHealth() > 0)
+        if (with.getName().startsWith(CollisionName.ANIMAL)
+            && by.getName().startsWith(CollisionName.BODY)
+            && collidable.getFeature(Stats.class).getHealth() > 0)
         {
             start(collidable, with.getOffsetY());
         }

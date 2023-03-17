@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13728">
+<stage pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMinX="13760">
     <music file="music/lava.sc68"/>
     <map file="level/lava/original/stage.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
@@ -18,7 +18,7 @@
         <checkpoint tx="673" ty="4"/>
         <checkpoint tx="754" ty="5"/>
     </checkpoints>
-    <boss tx="880" ty="17" tsx="861" tsy="3" next="stage/story/original/stage11.xml"/>
+    <boss tx="862" ty="20" tsx="861" tsy="3" next="stage/story/original/stage11.xml"/>
     <entities>
         <entity file="entity/lava/PotionLittle.xml" tx="186.0" ty="10.0"/>
         <entity file="entity/lava/Talisment.xml" tx="293.0" ty="12.0"/>
@@ -223,7 +223,7 @@
             <geyzer delayFirst="2500" delayStart="1500" delayDown="600" height="64"/>
         </entity>
         <entity file="entity/lava/Platform.xml" tx="743.5" ty="4.0"/>
-        <entity file="entity/lava/FireBallLittle.xml" tx="760.0" ty="20.0"/>
+        <entity file="entity/lava/FireBallLittle.xml" tx="760" ty="20.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="785.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="786.0" ty="2.0"/>
         <entity file="entity/lava/MeltingPlatform.xml" tx="791.0" ty="2.0"/>

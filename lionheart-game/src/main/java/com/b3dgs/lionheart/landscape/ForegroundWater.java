@@ -90,6 +90,8 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     /** Water raise offset. */
     private double raise;
     /** Water raise max. */
+    private final double raiseMaxInit;
+    /** Water raise max. */
     private double raiseMax;
     /** Raise updater. */
     private Updatable raiseUpdater = this::updateRaise;
@@ -128,7 +130,8 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
         depthOffset = config.getWaterOffset().orElse(0);
         animSpeed = config.getWaterSpeed().orElse(DEFAULT_ANIM_SPEED);
         effect = config.getWaterEffect();
-        raiseMax = config.getWaterRaise();
+        raiseMaxInit = config.getWaterRaise();
+        raiseMax = raiseMaxInit;
         raise = 0;
         widthMax = config.getWidthMax().orElse(0);
 
@@ -223,6 +226,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
     {
         raise = 0;
         raiseUpdater = this::updateRaise;
+        raiseMax = raiseMaxInit;
     }
 
     @Override

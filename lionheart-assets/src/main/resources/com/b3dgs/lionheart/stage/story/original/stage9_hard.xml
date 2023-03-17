@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13728">
+<stage pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13760">
     <music file="music/lava.sc68"/>
     <map file="level/lava/original/stage_hard.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
@@ -18,7 +18,7 @@
         <checkpoint tx="673" ty="4"/>
         <checkpoint tx="754" ty="5"/>
     </checkpoints>
-    <boss tx="880" ty="17" tsx="861" tsy="3" next="stage/story/original/stage11_hard.xml"/>
+    <boss tx="862" ty="3.1" tsx="861" tsy="3" next="stage/story/original/stage11_hard.xml"/>
     <entities>
         <entity file="entity/lava/PotionLittle.xml" tx="186.0" ty="10.0"/>
         <entity file="entity/lava/Talisment.xml" tx="293.0" ty="12.0"/>

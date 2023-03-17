@@ -162,6 +162,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private DeviceController device;
     private boolean server;
     private boolean client;
+    private boolean reload;
 
     private Landscape landscape;
     private int trackerInitY;
@@ -215,7 +216,6 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         camera.setIntervals(Constant.CAMERA_HORIZONTAL_MARGIN, 0);
 
         musicTask = new Thread(this::playNextMusicTask, "Musics");
-        musicTask.start();
 
         final int n = game.getSplit() != SplitType.NONE ? game.getPlayers() - 1 : 0;
         if (n == 2)
@@ -605,6 +605,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void reloadStage()
     {
+        reload = true;
         tick.addAction(() ->
         {
             handler.updateAdd();
@@ -618,16 +619,48 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     }
                 });
             }
+            handler.updateAdd();
+            for (final Featurable featurable : handler.values())
+            {
+                featurable.ifIs(Collidable.class, c ->
+                {
+                    if (!Constant.COLL_GROUP_PLAYER.equals(c.getGroup()))
+                    {
+                        featurable.getFeature(Identifiable.class).destroy();
+                    }
+                });
+            }
             handler.updateRemove();
+            factory.clearCache();
 
             final Settings settings = Settings.getInstance();
             final StageConfig stage = StageConfig.imports(new Configurer(game.getInit().getStage()));
-            final Featurable[] entities = createEntities(settings, stage);
-            if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
+
+            if (stage.getBossSpawn().isPresent())
             {
-                loadRasterEntities(settings, stage, entities);
+                spawn(Medias.create(Folder.BOSS, stage.getBackground().getWorld().getFolder(), "Boss.xml"),
+                      stage.getBossSpawn().get().getX() * map.getTileWidth(),
+                      stage.getBossSpawn().get().getY() * map.getTileHeight()).getFeature(EntityModel.class)
+                                                                              .setNext(stage.getBossNext(),
+                                                                                       Optional.empty());
+                if (stage.getBackground().getWorld() == WorldType.DRAGONFLY)
+                {
+                    spawn(Medias.create(Folder.ENTITY, WorldType.DRAGONFLY.getFolder(), "Dragonflyer.xml"),
+                          stage.getBoss().get().getX() * map.getTileWidth(),
+                          stage.getBoss().get().getY() * map.getTileHeight());
+                }
+            }
+            else
+            {
+                final Featurable[] entities = createEntities(settings, stage);
+                if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.getFlagParallel())
+                {
+                    loadRasterEntities(settings, stage, entities);
+                }
             }
             handler.updateAdd();
+            landscape.reset();
+            reload = false;
         }, 0);
     }
 
@@ -1463,6 +1496,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 splitHud[i].timeStart();
             }
         }
+        musicTask.start();
         tick.restart();
         spawnTick.start();
     }
@@ -1620,22 +1654,27 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void render(Graphic g)
     {
-        landscape.renderBackground(g);
-        super.render(g);
-        rasterRenderer.execute();
-        landscape.renderForeground(g);
-        hud.render(g);
-
-        if (device.isFired(DeviceMapping.TAB))
+        if (!reload)
         {
-            int y = 20;
-            for (final String name : clients.values())
+            landscape.renderBackground(g);
+
+            super.render(g);
+
+            rasterRenderer.execute();
+            landscape.renderForeground(g);
+            hud.render(g);
+
+            if (device.isFired(DeviceMapping.TAB))
             {
-                text.draw(g, 2, y, Align.LEFT, name);
-                y += text.getHeight();
+                int y = 20;
+                for (final String name : clients.values())
+                {
+                    text.draw(g, 2, y, Align.LEFT, name);
+                    y += text.getHeight();
+                }
             }
+            cheats.render(g);
         }
-        cheats.render(g);
     }
 
     /**

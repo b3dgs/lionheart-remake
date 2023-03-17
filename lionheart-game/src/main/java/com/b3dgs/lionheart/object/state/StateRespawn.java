@@ -118,8 +118,8 @@ public final class StateRespawn extends State
 
             final StageConfig config = StageConfig.imports(new Configurer(game.getInit().getStage()));
             if (config.getReload()
-                && transformable.getX() > config.getReloadMinX()
-                && transformable.getX() < config.getReloadMaxX())
+                && Double.compare(transformable.getX(), config.getReloadMinX()) >= 0
+                && Double.compare(transformable.getX(), config.getReloadMaxX()) <= 0)
             {
                 stage.reloadStage();
             }

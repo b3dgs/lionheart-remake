@@ -40,7 +40,6 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
 {
     private static final int CHECKPOINT_DISTANCE_TILE = 4;
     private static final int END_DISTANCE_TILE = 2;
-    private static final int BOSS_DISTANCE = 128;
 
     /**
      * Check if checkpoint is previous to spawn.
@@ -236,7 +235,7 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
         for (int i = 0; i < n; i++)
         {
             final Transformable transformable = player.get(i);
-            if (!cheats.isFly() && UtilMath.getDistance(transformable, boss) < BOSS_DISTANCE)
+            if (!cheats.isFly() && transformable.getX() > boss.getX() && transformable.getY() < boss.getY())
             {
                 final int k = listenable.size();
                 for (int j = 0; j < k; j++)

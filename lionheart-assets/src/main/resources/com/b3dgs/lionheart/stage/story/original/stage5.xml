@@ -16,7 +16,7 @@
         <checkpoint tx="441" ty="15"/>
         <checkpoint tx="512" ty="29"/>
     </checkpoints>
-    <boss tx="594" ty="8.1" tsx="598" tsy="-7" next="stage/story/original/stage6.xml"/>
+    <boss tx="586" ty="8.1" tsx="598" tsy="-7" next="stage/story/original/stage6.xml"/>
     <entities>
         <entity file="entity/swamp/Crawling.xml" tx="59.0" ty="5.0">
             <patrol sh="-0.3" amplitude="208"/>

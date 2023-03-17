@@ -32,6 +32,6 @@
             <lionengine:force velocity="1.0" sensibility="0.0" vx="6.0" vy="-2.0"/>
         </lionengine:launchable>
     </lionengine:launcher>
-    <lionengine:collidable group="3" accepted="1"/>
+    <lionengine:collidable group="2" accepted="1"/>
     <alwaysUpdate>true</alwaysUpdate>
 </lionengine:featurable>

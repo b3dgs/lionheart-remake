@@ -207,7 +207,7 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
             }
         });
 
-        start(collidable, DEFAULT_Y);
+        start(collidable, (int) collidable.getY());
         oldHealth = playerStats.getHealth();
     }
 
