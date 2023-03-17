@@ -16,8 +16,6 @@
  */
 package com.b3dgs.lionheart;
 
-import java.util.Optional;
-
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
@@ -49,8 +47,8 @@ public final class Loading extends Sequence
 
     private boolean load;
     private int current = -1;
-    private double alpha = 255;
-    private int alphaSpeed = 10;
+    private double alpha = Settings.getInstance().getFlagDebug() ? 0 : 255;
+    private int alphaSpeed = Settings.getInstance().getFlagDebug() ? 256 : 10;
 
     /**
      * Constructor.
@@ -80,17 +78,18 @@ public final class Loading extends Sequence
     {
         if (Settings.getInstance().getFlagDebug())
         {
-            load(Scene.class,
-                 config.with(new InitConfig(Stage.STAGE1,
-                                            Constant.STATS_MAX_HEART - 1,
-                                            Constant.STATS_MAX_TALISMENT - 1,
-                                            Constant.STATS_MAX_LIFE - 1,
-                                            0,
-                                            true,
-                                            Constant.CREDITS,
-                                            Difficulty.NORMAL,
-                                            true,
-                                            Optional.empty())));
+            if (config.getInit() == null)
+            {
+                load(Scene.class,
+                     config.with(new InitConfig(Stage.STAGE1,
+                                                Constant.STATS_MAX_HEART - 1,
+                                                Constant.STATS_MAX_LIFE - 1,
+                                                Difficulty.NORMAL)));
+            }
+            else
+            {
+                load(Scene.class, config);
+            }
         }
         else if (direct)
         {
