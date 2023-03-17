@@ -110,7 +110,7 @@ final class Norka extends BackgroundAbstract
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
-            frame = UtilMath.wrapAngleDouble(frame + BACK_ANIM_SPEED);
+            frame = UtilMath.wrapAngleDouble(frame + BACK_ANIM_SPEED * extrp);
             final int id = 1 + (int) Math.round(UtilMath.sin(frame * 0.5) * 2.75);
 
             for (int i = 0; i < back.length; i++)
