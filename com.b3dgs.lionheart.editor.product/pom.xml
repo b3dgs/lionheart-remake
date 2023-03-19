@@ -10,6 +10,13 @@
     <artifactId>com.b3dgs.lionheart.editor.product</artifactId>
     <packaging>eclipse-repository</packaging>
     <name>Lionheart Remake Editor Product</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.b3dgs.lionheart.editor</groupId>
+            <artifactId>com.b3dgs.lionheart.editor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

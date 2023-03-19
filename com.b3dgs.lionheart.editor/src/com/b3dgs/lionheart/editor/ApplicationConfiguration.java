@@ -58,6 +58,7 @@ import com.b3dgs.lionengine.game.feature.body.BodyModel;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableModel;
 import com.b3dgs.lionengine.game.feature.launchable.LaunchableModel;
 import com.b3dgs.lionengine.game.feature.launchable.LauncherModel;
+import com.b3dgs.lionengine.game.feature.networkable.NetworkableModel;
 import com.b3dgs.lionengine.game.feature.state.StateHandler;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.TileCollidableModel;
 import com.b3dgs.lionengine.game.feature.tile.map.persister.MapTilePersister;
@@ -66,6 +67,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.helper.MapTileHelper;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.MapTilePersisterOptimized;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.editor.checkpoint.Checkpoints;
@@ -89,6 +91,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
 import com.b3dgs.lionheart.object.feature.Animal;
 import com.b3dgs.lionheart.object.feature.Dragon1;
 import com.b3dgs.lionheart.object.feature.Geyzer;
+import com.b3dgs.lionheart.object.feature.Glue;
 import com.b3dgs.lionheart.object.feature.HotFireBall;
 import com.b3dgs.lionheart.object.feature.Jumper;
 import com.b3dgs.lionheart.object.feature.LaserAirship;
@@ -254,6 +257,7 @@ public class ApplicationConfiguration
                 final Project project = ProjectFactory.create(path.getCanonicalFile());
                 ProjectImportHandler.importProject(project);
 
+                services.add(new GameConfig());
                 services.remove(services.get(Spawner.class));
                 services.add((Spawner) (media, x, y) ->
                 {
@@ -268,6 +272,8 @@ public class ApplicationConfiguration
                     featurable.addFeature(new TileCollidableModel(services, setup));
                     featurable.addFeature(new StateHandler(services, setup));
                     featurable.addFeature(new AnimatableModel(services, setup));
+                    featurable.addFeature(new NetworkableModel(services, setup));
+                    featurable.addFeature(new Glue(services, setup));
                     featurable.addFeature(new Stats(services, setup));
                     featurable.addFeature(new EntityChecker());
                     FeaturableConfig.getFeatures(project.getLoader().getClassLoader(), services, setup, XmlSaver.class)
