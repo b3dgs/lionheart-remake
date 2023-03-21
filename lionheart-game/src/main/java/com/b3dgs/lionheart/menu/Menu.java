@@ -240,10 +240,10 @@ public class Menu extends Sequence
     private final DevicePointer pointer;
     private final DeviceControllerListener listener;
 
+    /** Current menu transition. */
+    protected TransitionType transition = TransitionType.IN;
     /** Screen mask alpha current value. */
     private double alpha = 255.0;
-    /** Current menu transition. */
-    private TransitionType transition = TransitionType.IN;
     /** Line choice on. */
     private int choice;
     /** Old choice. */

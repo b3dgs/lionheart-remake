@@ -65,14 +65,17 @@ public final class TestMenu extends Menu
                        new DeviceActionModel(DeviceMapping.CTRL_RIGHT.getIndex(), push));
 
         this.actions = actions;
-        alphaSpeed = 255;
+        alphaSpeed = 256;
     }
 
     @Override
     public void update(double extrp)
     {
-        actions.get(i).execute();
-        i = UtilMath.clamp(i + 1, 0, actions.size() - 1);
+        if (transition == TransitionType.NONE)
+        {
+            actions.get(i).execute();
+            i = UtilMath.clamp(i + 1, 0, actions.size() - 1);
+        }
 
         super.update(extrp);
     }
