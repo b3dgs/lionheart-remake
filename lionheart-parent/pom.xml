@@ -24,9 +24,10 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <checkstyle.skip>true</checkstyle.skip>
+        <jdk.version>17</jdk.version>
         <lionengine.version>10.0.0-SNAPSHOT</lionengine.version>
         <radial.base-package>com.b3dgs.lionheart</radial.base-package>
+        <checkstyle.skip>true</checkstyle.skip>
     </properties>
     <repositories>
         <repository>
@@ -84,12 +85,25 @@
             <version>${lionengine.version}</version>
         </dependency>
     </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
     <profiles>
         <profile>
             <id>game</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <modules>
                 <module>../lionheart-game</module>
             </modules>
@@ -97,18 +111,43 @@
         <profile>
             <id>pc</id>
             <modules>
-                <module>../lionheart-assets</module>
                 <module>../lionheart-game</module>
                 <module>../lionheart-pc</module>
             </modules>
+            <properties>
+                <lionheart-pc-excludes>b3dgs-buildtools,lionheart-assets,lionheart-raster</lionheart-pc-excludes>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.b3dgs.lionheart</groupId>
+                    <artifactId>lionheart-assets</artifactId>
+                    <version>${project.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
-            <id>pc-signed</id>
+            <id>pc-assets</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
-                <module>../lionheart-assets</module>
                 <module>../lionheart-game</module>
                 <module>../lionheart-pc</module>
             </modules>
+            <properties>
+                <lionheart-pc-excludes>b3dgs-buildtools,lionheart-raster</lionheart-pc-excludes>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.b3dgs.lionheart</groupId>
+                    <artifactId>lionheart-assets</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>sign</id>
             <build>
                 <plugins>
                     <plugin>
