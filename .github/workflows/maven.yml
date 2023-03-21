@@ -41,4 +41,4 @@ jobs:
      - name: Run build
        uses: GabrielBB/xvfb-action@v1
        with:
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Ppc
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Ppc-assets
