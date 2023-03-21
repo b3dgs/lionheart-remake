@@ -72,8 +72,7 @@ final class ExtroTest
         final DevicePushMock push = new DevicePushMock();
         final List<TickAction> actions = new ArrayList<>();
 
-        actions.add(() -> push.press(DeviceMapping.FORCE_EXIT));
-        actions.add(() -> push.release(DeviceMapping.FORCE_EXIT));
+        DevicePushMock.addSimu(actions, push, DeviceMapping.FORCE_EXIT);
 
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), part, push, actions);
         task.await();

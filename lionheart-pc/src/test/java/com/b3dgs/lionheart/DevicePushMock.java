@@ -17,9 +17,11 @@
 package com.b3dgs.lionheart;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.b3dgs.lionengine.InputDeviceListener;
+import com.b3dgs.lionengine.TickAction;
 import com.b3dgs.lionengine.io.DevicePush;
 
 /**
@@ -27,6 +29,19 @@ import com.b3dgs.lionengine.io.DevicePush;
  */
 public final class DevicePushMock implements DevicePush
 {
+    /**
+     * Add key simulation.
+     * 
+     * @param actions The actions.
+     * @param push The device.
+     * @param key The key.
+     */
+    public static void addSimu(List<TickAction> actions, DevicePushMock push, DeviceMapping key)
+    {
+        actions.add(() -> push.press(key));
+        actions.add(() -> push.release(key));
+    }
+
     private final Set<Integer> press = new HashSet<>();
     private Integer last;
 
