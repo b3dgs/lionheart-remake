@@ -126,13 +126,6 @@
             <properties>
                 <lionheart-pc-excludes>b3dgs-buildtools,lionheart-raster</lionheart-pc-excludes>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.b3dgs.lionheart</groupId>
-                    <artifactId>lionheart-assets</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>sonar</id>
