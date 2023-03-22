@@ -13,6 +13,10 @@
     <packaging>pom</packaging>
     <description>Remake of the original Lionheart on the Amiga by Thalion</description>
     <url>https://github.com/b3dgs/lionheart-remake</url>
+    <modules>
+        <module>../lionheart-assets</module>
+        <module>../lionheart-game</module>
+    </modules>
     <organization>
         <name>Byron 3D Games Studio</name>
         <url>www.b3dgs.com</url>
@@ -103,28 +107,13 @@
     </build>
     <profiles>
         <profile>
-            <id>game</id>
-            <modules>
-                <module>../lionheart-game</module>
-            </modules>
-        </profile>
-        <profile>
             <id>pc</id>
             <modules>
-                <module>../lionheart-game</module>
                 <module>../lionheart-pc</module>
             </modules>
             <properties>
                 <lionheart-pc-excludes>b3dgs-buildtools,lionheart-assets,lionheart-raster</lionheart-pc-excludes>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.b3dgs.lionheart</groupId>
-                    <artifactId>lionheart-assets</artifactId>
-                    <version>${project.version}</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>pc-assets</id>
@@ -132,7 +121,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>../lionheart-game</module>
                 <module>../lionheart-pc</module>
             </modules>
             <properties>
@@ -145,6 +133,21 @@
                     <version>${project.version}</version>
                 </dependency>
             </dependencies>
+        </profile>
+        <profile>
+            <id>sonar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>sign</id>

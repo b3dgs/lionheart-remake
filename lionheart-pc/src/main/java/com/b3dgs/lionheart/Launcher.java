@@ -776,17 +776,29 @@ public final class Launcher
 
     private static JButton createButtonEditor(Window window)
     {
-        final String path = "editor/Lionheart Remake Editor.exe";
+        final String path1 = "editor/lionheart_remake_editor.exe";
+        final String path2 = "editor/lionheart_remake_editor";
         final JButton editor = new JButton(LABEL_EDITOR);
         editor.setFont(FONT);
         editor.addActionListener(event ->
         {
             save();
-            if (UtilFile.exists(path))
+            if (UtilFile.exists(path1))
             {
                 try
                 {
-                    Runtime.getRuntime().exec(path);
+                    Runtime.getRuntime().exec(path1);
+                }
+                catch (final IOException exception)
+                {
+                    Verbose.exception(exception);
+                }
+            }
+            else if (UtilFile.exists(path2))
+            {
+                try
+                {
+                    Runtime.getRuntime().exec(path2);
                 }
                 catch (final IOException exception)
                 {
@@ -808,7 +820,7 @@ public final class Launcher
             }
             window.dispose();
         });
-        editor.setEnabled(UtilFile.exists(path));
+        editor.setEnabled(UtilFile.exists(path1) || UtilFile.exists(path2));
         LABELS.add(editor::setText);
         TIPS.add(editor);
 
