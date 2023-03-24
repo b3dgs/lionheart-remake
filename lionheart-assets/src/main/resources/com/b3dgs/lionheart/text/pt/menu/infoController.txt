@@ -1,0 +1,1 @@
+Aperte fire no controle a definir, mude a (id)%de jogador com horizontal se houverem muitos.

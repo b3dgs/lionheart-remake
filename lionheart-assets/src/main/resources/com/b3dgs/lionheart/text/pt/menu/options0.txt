@@ -1,0 +1,7 @@
+Jogo:
+Estagio(s):
+Dificuldade:
+Jogador(es):
+Controle:
+Jogar
+Sair

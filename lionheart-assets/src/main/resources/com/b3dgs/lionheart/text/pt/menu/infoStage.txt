@@ -1,0 +1,1 @@
+Selecione estágio da história,% ou a id do estágio em outro modo de jogo.

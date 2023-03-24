@@ -65,7 +65,7 @@ final class MenuTest
     @ParameterizedTest
     @ValueSource(strings =
     {
-        "en", "fr", "de", "es"
+        "en", "fr", "de", "es", "pt"
     })
     void testMenu(String lang)
     {

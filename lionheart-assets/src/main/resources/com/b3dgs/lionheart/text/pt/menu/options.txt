@@ -1,0 +1,4 @@
+Dificuldade
+Joystick
+Teste de som
+Confirmar

@@ -1,0 +1,5 @@
+Jogo clássico linear com estágios%interligados de introdução aos créditos.
+Estágios jogáveis individualmente, sem%introdução e menu, para jogar rapidamente.
+Termine um estágio o mais rápido possível.%Pegue itens para sobreviver !
+Sobreviva até o último monstro,%Pegue itens para sobreviver !
+Lute contra outros jogadores, %energia no máximo mas sem vidas !

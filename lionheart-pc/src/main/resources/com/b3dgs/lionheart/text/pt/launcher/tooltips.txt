@@ -1,0 +1,43 @@
+Escolha linguagem do jogo.
+Linguagens disponíveis.
+Fator de escala da resolução baseado na resolução original do jogo.
+Fator de escala escolhido.
+Proporção da resolução escalada, 4/3 é a proporção do jogo original.
+Proporção selecionada.
+Resolução atual em largura e altura.
+Resolução atual em largura e altura.
+Escolha a frequência para tela.
+Frequência atual da tela.
+Lista de resoluções tela cheia suportadas por este monitor.
+Resolução escolhida.
+Resolução escolhida.
+Marcado para modo em janela, desmarcado para tela cheia.
+Lista de filtros disponíveis.
+Filtro escolhido.
+Lista de tipos de jogo disponíveis.
+Tipo de jogo escolhido.
+Escolha o volume da música.
+Volume atual da música.
+Escolha o volume de efeitos sonoros.
+Volume atual de efeitos sonoros.
+Estratégia de carregamento de imagens.
+Estratégia de carregamento escolhida.
+Marcado habilita carregamento paralelo(padrão), desmarcado para carregamento sequencial.
+Marcado habilita Vsync, desmarcado desabilita (padrão).
+Marcado habilita efeito raster (padrão), desmarcado desabilita.
+Marcado habilita efeito raster (padrão), desmarcado desabilita.
+Marcado mostra HUD (padrão), desmarcado esconde.
+Marcado mostra nível da espada, desmarcado esconde.
+Define flicker do segundo plano.
+Define flicker do primeiro plano.
+Define visão original truncada.
+Define visão normalizada do remake.
+Escolha efeito de zoom.
+Zoom escolhido.
+Zoom escolhido.
+Configure controles do jogo.
+Salvar configuração e jogar localmente.
+Salvar configuração e jogar online como servidor.
+Salvar configuração e jogar online como client.
+Abrir editor do jogo.
+Salvar configuração e sair do launcher.
