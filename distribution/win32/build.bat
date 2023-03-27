@@ -20,11 +20,11 @@ rem ############################################################################
 
 rem ############################################################## Compile project ###############################################################
 echo --------------------------------------------- Compile game ---------------------------------------------
-rem call mvn clean install -f ..\..\lionheart-parent\pom.xml -P pc,sign
+call mvn clean install -f ..\..\lionheart-parent\pom.xml -P pc,sign
 echo --------------------------------------------------------------------------------------------------------
 
 echo -------------------------------------------- Compile editor --------------------------------------------
-rem call mvn clean verify -f ..\..\lionheart-editor-parent\pom.xml -P release
+call mvn clean verify -f ..\..\lionheart-editor-parent\pom.xml -P release
 echo --------------------------------------------------------------------------------------------------------
 rem ##############################################################################################################################################
 
@@ -54,6 +54,9 @@ copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
 echo -------------------------------------------- Copy exe
 copy "src\Lionheart Remake\Release\Lionheart Remake.exe" "%DEST%"
 copy "src\Lionheart Remake Configure\Release\Configure.exe" "%DEST%"
+echo -------------------------------------------- Sign
+if %PASS%=="" (echo skip) else (%SIGNTOOL% sign /f %PFX% /p %PASS% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "%DEST%\Lionheart Remake.exe")
+if %PASS%=="" (echo skip) else (%SIGNTOOL% sign /f %PFX% /p %PASS% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "%DEST%\Configure.exe")
 echo -------------------------------------------- Copy bat
 copy "bat\Lionheart Remake.bat" "%DEST%"
 copy "bat\Configure.bat" "%DEST%"

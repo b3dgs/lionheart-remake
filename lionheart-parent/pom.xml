@@ -28,7 +28,6 @@
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <jdk.version>17</jdk.version>
         <lionengine.version>10.0.0-SNAPSHOT</lionengine.version>
         <radial.base-package>com.b3dgs.lionheart</radial.base-package>
         <checkstyle.skip>true</checkstyle.skip>
@@ -104,6 +103,12 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
     <profiles>
         <profile>
