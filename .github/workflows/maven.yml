@@ -29,20 +29,20 @@ jobs:
        uses: actions/cache@v2.1.1
        with:
           path: ~/.m2/repository
-          key: maven-${{ matrix.os }}-java${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
+          key: maven-${{ matrix.os }}-java${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            maven-${{ matrix.os }}-java${{ matrix.java }}-
+            maven-${{ matrix.os }}-java${{ matrix.jdk }}-
             maven-${{ matrix.os }}-
      
      - name: Install Toolchain JDK
-       if: ${{ matrix.java == '8' }}
+       if: ${{ matrix.jdk == '8' }}
        uses: battila7/jdk-via-jabba@v1
        with:
           jdk: temurin@8.0.362+9
           javaHomeEnvironmentVariable: TOOLCHAIN_JDK
      
      - name: Set up Toolchain
-       if: ${{ matrix.java == '8' }}
+       if: ${{ matrix.jdk == '8' }}
        shell: bash
        run: |
           mkdir -p $HOME/.m2 \
