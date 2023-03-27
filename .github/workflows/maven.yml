@@ -34,15 +34,19 @@ jobs:
             maven-${{ matrix.os }}-java${{ matrix.jdk }}-
             maven-${{ matrix.os }}-
      
-     - name: Install Toolchain JDK
-       if: ${{ matrix.jdk == '8' }}
+     - name: Install JDK 8
+       uses: battila7/jdk-via-jabba@v1
+       with:
+          jdk: adopt@1.8.0-292
+          javaHomeEnvironmentVariable: TOOLCHAIN_JDK8
+          
+     - name: Install JDK 17
        uses: battila7/jdk-via-jabba@v1
        with:
           jdk: openjdk@1.17.0
-          javaHomeEnvironmentVariable: TOOLCHAIN_JDK
+          javaHomeEnvironmentVariable: TOOLCHAIN_JDK17
      
      - name: Set up Toolchain
-       if: ${{ matrix.jdk == '8' }}
        shell: bash
        run: |
           mkdir -p $HOME/.m2 \
@@ -52,11 +56,21 @@ jobs:
             <toolchain>
               <type>jdk</type>
                 <provides>
+                  <version>1.8</version>
+                  <vendor>temurin</vendor>
+                </provides>
+                <configuration>
+                  <jdkHome>${{ env.TOOLCHAIN_JDK8 }}</jdkHome>
+                </configuration>
+            </toolchain>
+            <toolchain>
+              <type>jdk</type>
+                <provides>
                   <version>17</version>
                   <vendor>temurin</vendor>
                 </provides>
                 <configuration>
-                  <jdkHome>${{ env.TOOLCHAIN_JDK }}</jdkHome>
+                  <jdkHome>${{ env.TOOLCHAIN_JDK17 }}</jdkHome>
                 </configuration>
             </toolchain>
           </toolchains>
