@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/ancienttown.sc68"/>
     <map file="level/ancienttown/original/stage3_hard.lvl"/>
     <raster folder="raster/ancienttown/day/"/>
     <background type="ANCIENTTOWN_DAY"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>
     <checkpoints>
-        <checkpoint tx="11" ty="42"/>
-        <checkpoint tx="149" ty="42"/>
-        <checkpoint tx="201" ty="13"/>
-        <checkpoint tx="290" ty="12"/>
-        <checkpoint tx="293" ty="30"/>
-        <checkpoint tx="359" ty="39"/>
-        <checkpoint tx="434" ty="29"/>
-        <checkpoint tx="476" ty="10"/>
-        <checkpoint tx="550" ty="12"/>
-        <checkpoint tx="599" ty="36" next="stage/story/original/stage9_hard.xml"/>
+        <checkpoint tx="11.0" ty="42.0"/>
+        <checkpoint tx="149.0" ty="42.0"/>
+        <checkpoint tx="201.0" ty="13.0"/>
+        <checkpoint tx="290.0" ty="12.0"/>
+        <checkpoint tx="293.0" ty="30.0"/>
+        <checkpoint tx="359.0" ty="39.0"/>
+        <checkpoint tx="434.0" ty="29.0"/>
+        <checkpoint tx="476.0" ty="10.0"/>
+        <checkpoint tx="550.0" ty="12.0"/>
+        <checkpoint tx="599.0" ty="36.0" next="stage/story/original/stage9_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Rotating2.xml" tx="12.0" ty="49.0">

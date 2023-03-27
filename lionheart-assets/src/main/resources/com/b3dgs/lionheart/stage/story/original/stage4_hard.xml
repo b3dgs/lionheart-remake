@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/spidercave.sc68"/>
     <map file="level/spidercave2/original/stage_hard.lvl"/>
     <background type="SPIDERCAVE2"/>
     <foreground type="NONE"/>
     <checkpoints>
-        <checkpoint tx="11" ty="67"/>
-        <checkpoint tx="57" ty="55"/>
-        <checkpoint tx="54" ty="37"/>
-        <checkpoint tx="90" ty="46"/>
-        <checkpoint tx="107" ty="60"/>
-        <checkpoint tx="152" ty="48"/>
-        <checkpoint tx="266" ty="27" next="stage/story/original/stage5_hard.xml"/>
+        <checkpoint tx="11.0" ty="67.0"/>
+        <checkpoint tx="57.0" ty="55.0"/>
+        <checkpoint tx="54.0" ty="37.0"/>
+        <checkpoint tx="90.0" ty="46.0"/>
+        <checkpoint tx="107.0" ty="60.0"/>
+        <checkpoint tx="152.0" ty="48.0"/>
+        <checkpoint tx="266.0" ty="27.0" next="stage/story/original/stage5_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="boss/spidercave2/Boss.xml" tx="24.0" ty="70.5"/>

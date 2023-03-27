@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/ancienttown.sc68"/>
     <map file="level/ancienttown/original/stage2.lvl"/>
     <raster folder="raster/ancienttown/dawn/"/>
     <background type="ANCIENTTOWN_DAWN"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>
     <checkpoints>
-        <checkpoint tx="11" ty="54"/>
-        <checkpoint tx="89" ty="14"/>
-        <checkpoint tx="117" ty="10"/>
-        <checkpoint tx="133" ty="11"/>
-        <checkpoint tx="158" ty="14"/>
-        <checkpoint tx="170" ty="14"/>
-        <checkpoint tx="225" ty="14"/>
-        <checkpoint tx="244" ty="14"/>
-        <checkpoint tx="236" ty="43"/>
-        <checkpoint tx="275" ty="43"/>
-        <checkpoint tx="313" ty="35"/>
-        <checkpoint tx="346" ty="20"/>
-        <checkpoint tx="371" ty="11"/>
-        <checkpoint tx="442" ty="11" next="stage/story/original/stage8.xml"/>
+        <checkpoint tx="11.0" ty="54.0"/>
+        <checkpoint tx="89.0" ty="14.0"/>
+        <checkpoint tx="117.0" ty="10.0"/>
+        <checkpoint tx="133.0" ty="11.0"/>
+        <checkpoint tx="158.0" ty="14.0"/>
+        <checkpoint tx="170.0" ty="14.0"/>
+        <checkpoint tx="225.0" ty="14.0"/>
+        <checkpoint tx="244.0" ty="14.0"/>
+        <checkpoint tx="236.0" ty="43.0"/>
+        <checkpoint tx="275.0" ty="43.0"/>
+        <checkpoint tx="313.0" ty="35.0"/>
+        <checkpoint tx="346.0" ty="20.0"/>
+        <checkpoint tx="371.0" ty="11.0"/>
+        <checkpoint tx="442.0" ty="11.0" next="stage/story/original/stage8.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Canon3.xml" tx="11.0" ty="60.0">

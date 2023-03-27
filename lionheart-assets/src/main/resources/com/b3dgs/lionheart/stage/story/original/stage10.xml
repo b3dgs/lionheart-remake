@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
     <music file="music/secret.sc68"/>
     <map file="level/secret/original/stage.lvl"/>
     <raster folder="raster/secret/secret/"/>
     <background type="SECRET"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="12" ty="45"/>
-        <checkpoint tx="45" ty="4"/>
-        <checkpoint tx="111" ty="13"/>
-        <checkpoint tx="175" ty="17"/>
-        <checkpoint tx="245" ty="64"/>
-        <checkpoint tx="272" ty="40"/>
-        <checkpoint tx="297" ty="40" next="stage/story/original/stage9.xml" stx="580" sty="3"/>
+        <checkpoint tx="12.0" ty="45.0"/>
+        <checkpoint tx="45.0" ty="4.0"/>
+        <checkpoint tx="111.0" ty="13.0"/>
+        <checkpoint tx="175.0" ty="17.0"/>
+        <checkpoint tx="245.0" ty="64.0"/>
+        <checkpoint tx="272.0" ty="40.0"/>
+        <checkpoint tx="297.0" ty="40.0" next="stage/story/original/stage9.xml" stx="580.0" sty="3.0"/>
     </checkpoints>
     <entities>
         <entity file="entity/secret/Talisment.xml" tx="20.0" ty="26.0"/>

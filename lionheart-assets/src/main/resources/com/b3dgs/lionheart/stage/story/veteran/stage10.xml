@@ -6,17 +6,17 @@
     <background type="DRAGONFLY_COLD"/>
     <foreground type="NONE"/>
     <checkpoints>
-        <checkpoint tx="415" ty="7"/>
-        <checkpoint tx="468" ty="7"/>
-        <checkpoint tx="492" ty="7"/>
-        <checkpoint tx="516" ty="7"/>
-        <checkpoint tx="540" ty="7"/>
-        <checkpoint tx="564" ty="7"/>
-        <checkpoint tx="588" ty="7"/>
-        <checkpoint tx="612" ty="7"/>
-        <checkpoint tx="636" ty="7"/>
-        <checkpoint tx="660" ty="7"/>
-        <checkpoint tx="684" ty="7"/>
+        <checkpoint tx="415.0" ty="7.0"/>
+        <checkpoint tx="468.0" ty="7.0"/>
+        <checkpoint tx="492.0" ty="7.0"/>
+        <checkpoint tx="516.0" ty="7.0"/>
+        <checkpoint tx="540.0" ty="7.0"/>
+        <checkpoint tx="564.0" ty="7.0"/>
+        <checkpoint tx="588.0" ty="7.0"/>
+        <checkpoint tx="612.0" ty="7.0"/>
+        <checkpoint tx="636.0" ty="7.0"/>
+        <checkpoint tx="660.0" ty="7.0"/>
+        <checkpoint tx="684.0" ty="7.0"/>
     </checkpoints>
     <boss tx="705" ty="25" tsx="752" tsy="6" next="stage/story/veteran/stage11.xml"/>
     <entities>

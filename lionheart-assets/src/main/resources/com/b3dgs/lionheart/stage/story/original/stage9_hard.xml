@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13760">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13760">
     <music file="music/lava.sc68"/>
     <map file="level/lava/original/stage_hard.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
     <background type="LAVA"/>
     <foreground type="LAVA" waterDepth="2" waterOffset="30" waterSpeed="0.1" waterEffect="false"/>
     <checkpoints>
-        <checkpoint tx="11" ty="3"/>
-        <checkpoint tx="63" ty="3"/>
-        <checkpoint tx="184" ty="7"/>
-        <checkpoint tx="243" ty="5"/>
-        <checkpoint tx="308" ty="3"/>
-        <checkpoint tx="378" ty="8"/>
-        <checkpoint tx="434" ty="4"/>
-        <checkpoint tx="545" ty="4"/>
-        <checkpoint tx="580" ty="3" next="stage/story/original/stage10_hard.xml"/>
-        <checkpoint tx="673" ty="4"/>
-        <checkpoint tx="754" ty="5"/>
+        <checkpoint tx="11.0" ty="3.0"/>
+        <checkpoint tx="63.0" ty="3.0"/>
+        <checkpoint tx="184.0" ty="7.0"/>
+        <checkpoint tx="243.0" ty="5.0"/>
+        <checkpoint tx="308.0" ty="3.0"/>
+        <checkpoint tx="378.0" ty="8.0"/>
+        <checkpoint tx="434.0" ty="4.0"/>
+        <checkpoint tx="545.0" ty="4.0"/>
+        <checkpoint tx="580.0" ty="3.0" next="stage/story/original/stage10_hard.xml"/>
+        <checkpoint tx="673.0" ty="4.0"/>
+        <checkpoint tx="754.0" ty="5.0"/>
     </checkpoints>
     <boss tx="862" ty="3.1" tsx="861" tsy="3" next="stage/story/original/stage11_hard.xml"/>
     <entities>

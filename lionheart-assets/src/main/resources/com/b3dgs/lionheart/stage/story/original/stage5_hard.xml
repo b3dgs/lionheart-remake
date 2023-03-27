@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage reload="true" reloadMinX="9376">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" reload="true" reloadMinX="9376">
     <music file="music/swamp.sc68"/>
     <map file="level/swamp/original/stage3_hard.lvl"/>
     <raster folder="raster/swamp/day/"/>
     <background type="SWAMP_DAY"/>
     <foreground type="WATER" waterDepth="8" waterOffset="24"/>
     <checkpoints>
-        <checkpoint tx="46" ty="4"/>
-        <checkpoint tx="36" ty="20"/>
-        <checkpoint tx="117" ty="4"/>
-        <checkpoint tx="191" ty="4"/>
-        <checkpoint tx="230" ty="31"/>
-        <checkpoint tx="309" ty="30"/>
-        <checkpoint tx="351" ty="10"/>
-        <checkpoint tx="441" ty="15"/>
-        <checkpoint tx="512" ty="29"/>
+        <checkpoint tx="46.0" ty="4.0"/>
+        <checkpoint tx="36.0" ty="20.0"/>
+        <checkpoint tx="117.0" ty="4.0"/>
+        <checkpoint tx="191.0" ty="4.0"/>
+        <checkpoint tx="230.0" ty="31.0"/>
+        <checkpoint tx="309.0" ty="30.0"/>
+        <checkpoint tx="351.0" ty="10.0"/>
+        <checkpoint tx="441.0" ty="15.0"/>
+        <checkpoint tx="512.0" ty="29.0"/>
     </checkpoints>
     <boss tx="586" ty="8.1" tsx="598" tsy="-7" next="stage/story/original/stage6_hard.xml"/>
     <entities>

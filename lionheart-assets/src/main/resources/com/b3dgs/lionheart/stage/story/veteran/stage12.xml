@@ -6,7 +6,7 @@
     <background type="NORKA"/>
     <foreground type="LAVA" waterDepth="3" waterOffset="-80" raise="180" widthMax="416"/>
     <checkpoints>
-        <checkpoint tx="9" ty="5"/>
+        <checkpoint tx="9.0" ty="5.0"/>
     </checkpoints>
     <entities>
         <entity file="boss/norka/NorkaShield.xml" tx="13.0" ty="9.0"/>

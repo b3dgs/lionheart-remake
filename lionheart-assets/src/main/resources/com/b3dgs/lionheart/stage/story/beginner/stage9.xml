@@ -49,8 +49,8 @@
         <entity file="entity/airship/RotatingSpikeBowl180.xml" tx="478.0" ty="10.0">
             <rotating amplitude="90" extremity="SpikeBowl.xml" length="3" speed="0.06"/>
         </entity>
-        <entity file="entity/airship/RotatingPlatformControlled.xml" tx="502.0" ty="12.0">
-            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="4" speed="0.06"/>
+        <entity file="entity/airship/Rotating.xml" tx="502.0" ty="11.0">
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="3" speed="0.08"/>
         </entity>
         <entity file="entity/airship/Catapult.xml" tx="497.0" ty="21.0">
             <catapult vx="-1.5" vy="6.5"/>

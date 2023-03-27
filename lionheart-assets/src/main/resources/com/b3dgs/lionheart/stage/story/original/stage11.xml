@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic4.png" text="airship.txt" reload="true" reloadMaxX="8000">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic4.png" text="airship.txt" reload="true" reloadMaxX="8000">
     <music file="music/airship.sc68"/>
     <map file="level/airship/original/stage.lvl"/>
     <background type="AIRSHIP"/>
     <foreground type="AIRSHIP"/>
     <checkpoints>
-        <checkpoint tx="12" ty="4.75"/>
-        <checkpoint tx="550" ty="4.75"/>
-        <checkpoint tx="732" ty="4.75"/>
-        <checkpoint tx="716" ty="37"/>
-        <checkpoint tx="670" ty="26"/>
-        <checkpoint tx="603" ty="29"/>
-        <checkpoint tx="659" ty="69"/>
-        <checkpoint tx="697" ty="60"/>
+        <checkpoint tx="12.0" ty="4.75"/>
+        <checkpoint tx="550.0" ty="4.75"/>
+        <checkpoint tx="732.0" ty="4.75"/>
+        <checkpoint tx="716.0" ty="37.0"/>
+        <checkpoint tx="670.0" ty="26.0"/>
+        <checkpoint tx="603.0" ty="29.0"/>
+        <checkpoint tx="659.0" ty="69.0"/>
+        <checkpoint tx="697.0" ty="60.0"/>
     </checkpoints>
     <entities>
         <entity file="entity/airship/Road.xml" tx="0.0" ty="0.0">
@@ -141,7 +141,7 @@
         </entity>
         <entity file="entity/airship/Dragon3.xml" tx="708.0" ty="14.0"/>
         <entity file="entity/airship/Rotating.xml" tx="751.0" ty="11.0">
-            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="3" speed="0.05"/>
+            <rotating amplitude="15" controlled="true" extremity="Platform2.xml" length="3" speed="0.08"/>
         </entity>
         <entity file="entity/airship/Rotating.xml" tx="715.0" ty="30.0">
             <rotating amplitude="180" back="210" extremity="Platform1.xml" length="2" speed="-0.05"/>

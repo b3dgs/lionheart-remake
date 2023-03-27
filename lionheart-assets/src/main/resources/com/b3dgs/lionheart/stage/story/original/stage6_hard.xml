@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage pic="sprite/pic2.png" text="ancienttown.txt">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic2.png" text="ancienttown.txt">
     <music file="music/ancienttown.sc68"/>
     <map file="level/ancienttown/original/stage1_hard.lvl"/>
     <raster folder="raster/ancienttown/dusk/"/>
     <background type="ANCIENTTOWN_DUSK"/>
     <foreground type="WATER" waterDepth="32" waterOffset="80"/>
     <checkpoints>
-        <checkpoint tx="18" ty="12"/>
-        <checkpoint tx="61" ty="14"/>
-        <checkpoint tx="40" ty="29"/>
-        <checkpoint tx="14" ty="29"/>
-        <checkpoint tx="65" ty="44"/>
-        <checkpoint tx="75" ty="60"/>
-        <checkpoint tx="48" ty="73"/>
-        <checkpoint tx="10" ty="85"/>
-        <checkpoint tx="50" ty="93"/>
-        <checkpoint tx="101" ty="93"/>
-        <checkpoint tx="148" ty="56"/>
-        <checkpoint tx="184" ty="76"/>
-        <checkpoint tx="194" ty="86" next="stage/story/original/stage7_hard.xml"/>
+        <checkpoint tx="18.0" ty="12.0"/>
+        <checkpoint tx="61.0" ty="14.0"/>
+        <checkpoint tx="40.0" ty="29.0"/>
+        <checkpoint tx="14.0" ty="29.0"/>
+        <checkpoint tx="65.0" ty="44.0"/>
+        <checkpoint tx="75.0" ty="60.0"/>
+        <checkpoint tx="48.0" ty="73.0"/>
+        <checkpoint tx="10.0" ty="85.0"/>
+        <checkpoint tx="50.0" ty="93.0"/>
+        <checkpoint tx="101.0" ty="93.0"/>
+        <checkpoint tx="148.0" ty="56.0"/>
+        <checkpoint tx="184.0" ty="76.0"/>
+        <checkpoint tx="194.0" ty="86.0" next="stage/story/original/stage7_hard.xml"/>
     </checkpoints>
     <entities>
         <entity file="entity/ancienttown/Bee.xml" tx="45.0" ty="14.0">

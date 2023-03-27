@@ -6,7 +6,6 @@
     <background type="LAVA_HOT"/>
     <foreground type="LAVA" waterDepth="2" waterEffect="false" waterOffset="30" waterSpeed="0.1"/>
     <checkpoints>
-        <checkpoint tx="706.0" ty="5.0"/>
         <checkpoint tx="6.0" ty="24.0"/>
         <checkpoint tx="150.0" ty="8.0"/>
         <checkpoint tx="291.0" ty="4.0"/>
