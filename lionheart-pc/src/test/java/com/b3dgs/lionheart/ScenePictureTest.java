@@ -58,10 +58,13 @@ final class ScenePictureTest
     @ParameterizedTest
     @CsvSource(value =
     {
-        "en:pic1:swamp", "en:pic2:ancienttown", "en:pic3:lava", "en:pic4:airship", "en:pic5:dragonfly", "en:pic6:tower",
-        "fr:pic1:swamp", "fr:pic2:ancienttown", "fr:pic3:lava", "fr:pic4:airship", "fr:pic5:dragonfly", "fr:pic6:tower",
-        "es:pic1:swamp", "es:pic2:ancienttown", "es:pic3:lava", "es:pic4:airship", "es:pic5:dragonfly", "es:pic6:tower",
-        "de:pic1:swamp", "de:pic2:ancienttown", "de:pic3:lava", "de:pic4:airship", "de:pic5:dragonfly", "de:pic6:tower",
+    // @formatter:off
+        "en:pic1:swamp", "en:pic2:ancienttown", "en:pic3:lava", "en:pic4:airship", "en:pic5:dragonfly", "en:pic6:tower", "en:pic7:underworld",
+        "fr:pic1:swamp", "fr:pic2:ancienttown", "fr:pic3:lava", "fr:pic4:airship", "fr:pic5:dragonfly", "fr:pic6:tower", "fr:pic7:underworld",
+        "es:pic1:swamp", "es:pic2:ancienttown", "es:pic3:lava", "es:pic4:airship", "es:pic5:dragonfly", "es:pic6:tower", "es:pic7:underworld",
+        "de:pic1:swamp", "de:pic2:ancienttown", "de:pic3:lava", "de:pic4:airship", "de:pic5:dragonfly", "de:pic6:tower", "de:pic7:underworld",
+        "pt:pic1:swamp", "pt:pic2:ancienttown", "pt:pic3:lava", "pt:pic4:airship", "pt:pic5:dragonfly", "pt:pic6:tower", "pt:pic7:underworld",
+    // @formatter:on
     }, delimiter = ':')
     void testPicturesManual(String lang, String pic, String text)
     {
@@ -95,10 +98,13 @@ final class ScenePictureTest
     @ParameterizedTest
     @CsvSource(value =
     {
-        "en:pic1:swamp", "en:pic2:ancienttown", "en:pic3:lava", "en:pic4:airship", "en:pic5:dragonfly", "en:pic6:tower",
-        "fr:pic1:swamp", "fr:pic2:ancienttown", "fr:pic3:lava", "fr:pic4:airship", "fr:pic5:dragonfly", "fr:pic6:tower",
-        "es:pic1:swamp", "es:pic2:ancienttown", "es:pic3:lava", "es:pic4:airship", "es:pic5:dragonfly", "es:pic6:tower",
-        "de:pic1:swamp", "de:pic2:ancienttown", "de:pic3:lava", "de:pic4:airship", "de:pic5:dragonfly", "de:pic6:tower",
+    // @formatter:off
+        "en:pic1:swamp", "en:pic2:ancienttown", "en:pic3:lava", "en:pic4:airship", "en:pic5:dragonfly", "en:pic6:tower", "en:pic7:underworld",
+        "fr:pic1:swamp", "fr:pic2:ancienttown", "fr:pic3:lava", "fr:pic4:airship", "fr:pic5:dragonfly", "fr:pic6:tower", "fr:pic7:underworld",
+        "es:pic1:swamp", "es:pic2:ancienttown", "es:pic3:lava", "es:pic4:airship", "es:pic5:dragonfly", "es:pic6:tower", "es:pic7:underworld",
+        "de:pic1:swamp", "de:pic2:ancienttown", "de:pic3:lava", "de:pic4:airship", "de:pic5:dragonfly", "de:pic6:tower", "de:pic7:underworld",
+        "pt:pic1:swamp", "pt:pic2:ancienttown", "pt:pic3:lava", "pt:pic4:airship", "pt:pic5:dragonfly", "pt:pic6:tower", "pt:pic7:underworld",
+    // @formatter:on
     }, delimiter = ':')
     void testPictures(String lang, String pic, String text)
     {

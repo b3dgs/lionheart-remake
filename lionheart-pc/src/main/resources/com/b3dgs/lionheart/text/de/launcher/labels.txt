@@ -18,9 +18,9 @@ Hintergrund:
 Vordergrund:
 Zoomen:
 Erweiterte Einstellungen
-Steuert
+Steuerung
 Spielen
 Server einrichten
 Server beitreten
 Editor
-Ausgang
+Beenden

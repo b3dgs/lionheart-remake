@@ -102,4 +102,5 @@
     <lionengine:letter char="(" height="0" width="7"/>
     <lionengine:letter char=")" height="0" width="7"/>
     <lionengine:letter char=" " height="0" width="5"/>
+    <lionengine:letter char="Ã" height="0" width="16"/>
 </lionengine:letters>
