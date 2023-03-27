@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -43,7 +44,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
+import com.b3dgs.lionengine.io.DeviceAxis;
 import com.b3dgs.lionengine.io.DeviceMapper;
 
 /**
@@ -66,6 +69,10 @@ public class DeviceDialog extends JDialog
         return String.format("%" + DEVICE_NAME_SPACE_MAX + "s", mapping);
     }
 
+    private final AtomicReference<Integer> positiveX = new AtomicReference<>();
+    private final AtomicReference<Integer> negativeX = new AtomicReference<>();
+    private final AtomicReference<Integer> positiveY = new AtomicReference<>();
+    private final AtomicReference<Integer> negativeY = new AtomicReference<>();
     /** Store by mapping and their code. */
     private final Map<DeviceMapper, Integer> data = new HashMap<>();
     /** Text to code mapper. */
@@ -96,6 +103,12 @@ public class DeviceDialog extends JDialog
         load(config);
 
         final JPanel panel = new JPanel(new GridLayout(0, 1));
+
+        createAxis(panel, Axis.X + " -", negativeX, controller);
+        createAxis(panel, Axis.X + " +", positiveX, controller);
+        createAxis(panel, Axis.Y + " -", negativeY, controller);
+        createAxis(panel, Axis.Y + " +", positiveY, controller);
+
         for (final DeviceMapper mapping : DeviceMapping.values())
         {
             createInput(panel, mapping, controller);
@@ -121,6 +134,17 @@ public class DeviceDialog extends JDialog
             f.add(entry.getValue());
             fires.put(entry.getKey().getIndex(), f);
         }
+        config.getHorizontal().clear();
+        config.getVertical().clear();
+        if (negativeX.get() != null && positiveX.get() != null)
+        {
+            config.getHorizontal().add(new DeviceAxis(negativeX.get(), positiveX.get()));
+        }
+        if (negativeY.get() != null && negativeY != null)
+        {
+            config.getVertical().add(new DeviceAxis(negativeY.get(), positiveY.get()));
+        }
+
         final DeviceControllerConfig result = new DeviceControllerConfig(config.getName(),
                                                                          config.getIndex(),
                                                                          config.getId(),
@@ -137,6 +161,17 @@ public class DeviceDialog extends JDialog
         final String name = controller.getName();
         if (name.equals(config.getDevice().getSimpleName()))
         {
+            if (!config.getHorizontal().isEmpty())
+            {
+                negativeX.set(config.getHorizontal().get(0).getNegative());
+                positiveX.set(config.getHorizontal().get(0).getPositive());
+            }
+            if (!config.getVertical().isEmpty())
+            {
+                negativeY.set(config.getVertical().get(0).getNegative());
+                positiveY.set(config.getVertical().get(0).getPositive());
+            }
+
             final DeviceMapping[] values = DeviceMapping.values();
             for (final Entry<Integer, Set<Integer>> entry : config.getFire().entrySet())
             {
@@ -157,8 +192,34 @@ public class DeviceDialog extends JDialog
     public void pack()
     {
         super.pack();
-        setPreferredSize(new Dimension(Math.min(getWidth() + 32, DIALOG_WIDTH), Math.min(getHeight(), DIALOG_HEIGHT)));
+        setPreferredSize(new Dimension(Math.min(Math.max(getWidth(), 256) + 32, DIALOG_WIDTH),
+                                       Math.min(getHeight(), DIALOG_HEIGHT)));
         super.pack();
+    }
+
+    private JTextField createTextField(Box box, AtomicReference<Integer> axis)
+    {
+        final JTextField field = new JTextField();
+        field.setFont(FONT);
+        field.setHorizontalAlignment(SwingConstants.CENTER);
+        field.setEditable(false);
+        field.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                if (e.getButton() == MouseEvent.BUTTON1)
+                {
+                    codeAssign(field, axis);
+                }
+                else
+                {
+                    axis.set(null);
+                }
+            }
+        });
+        box.add(field);
+        return field;
     }
 
     private JTextField createTextField(Box box, DeviceMapper mapping)
@@ -199,6 +260,44 @@ public class DeviceDialog extends JDialog
 
         textToCode.put(field.getText(), Integer.valueOf(code));
         data.put(mapping, Integer.valueOf(code));
+    }
+
+    private void codeAssign(JTextField field, AtomicReference<Integer> axis)
+    {
+        final ActionGetter dialog = new ActionGetter(DeviceDialog.this, controller.getName());
+        controller.awaitAssign(dialog);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        final int code = dialog.getKey();
+        field.setText(controller.getText(code));
+
+        textToCode.put(field.getText(), Integer.valueOf(code));
+        axis.set(Integer.valueOf(code));
+    }
+
+    private void createAxis(Container parent, String axis, AtomicReference<Integer> code, AssignController controller)
+    {
+        final Box box = Box.createHorizontalBox();
+        parent.add(box);
+
+        final JLabel label = new JLabel(axis);
+        label.setFont(FONT);
+        label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        box.add(label);
+
+        final JTextField field = createTextField(box, code);
+        field.setText(code.get() != null ? controller.getText(code.get().intValue()) : LABEL_ASSIGN);
+        field.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent event)
+            {
+                field.setText(LABEL_ASSIGN);
+                code.set(null);
+            }
+        });
     }
 
     private void createInput(Container parent, DeviceMapper mapping, AssignController controller)

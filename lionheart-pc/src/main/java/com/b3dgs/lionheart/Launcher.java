@@ -213,6 +213,10 @@ public final class Launcher
     {
         Tools.disableAutoScale();
         UIManager.put("ToolTip.font", FONT1);
+        UIManager.put("OptionPane.messageFont", FONT);
+        UIManager.put("OptionPane.buttonFont", FONT);
+        UIManager.put("ComboBox.font", FONT);
+        UIManager.put("TextField.font", FONT);
 
         if (!Engine.isStarted())
         {

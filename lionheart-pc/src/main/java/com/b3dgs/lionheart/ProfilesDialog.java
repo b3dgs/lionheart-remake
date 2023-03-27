@@ -197,9 +197,14 @@ public class ProfilesDialog extends JDialog
                                                                                     Mouse.class
                                                                                 },
                                                                                 Keyboard.class);
+            int max = 0;
+            for (final DeviceControllerConfig c : configs.values())
+            {
+                max = Math.max(max, c.getIndex());
+            }
             final DeviceControllerConfig config = new DeviceControllerConfig(name,
                                                                              model.getSize(),
-                                                                             0,
+                                                                             max + 1,
                                                                              device,
                                                                              false,
                                                                              new ArrayList<>(),
