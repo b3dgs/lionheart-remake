@@ -27,6 +27,8 @@ public enum FilterType
     BLUR,
     /** HQ2X. */
     HQ2X,
+    /** HQ3X. */
+    HQ3X,
     /** Scanline. */
     SCANLINE,
     /** CRT. */

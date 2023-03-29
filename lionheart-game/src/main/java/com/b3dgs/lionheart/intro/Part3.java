@@ -176,7 +176,7 @@ public class Part3 extends Sequence
         camera.setView(0, (getHeight() - scene.getHeight()) / 2, getWidth(), getHeight(), getHeight());
 
         setSystemCursorVisible(false);
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), 2);
     }
 
     /**
@@ -600,6 +600,8 @@ public class Part3 extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        super.onTerminated(hasNextSequence);
+
         if (!hasNextSequence)
         {
             audio.stop();

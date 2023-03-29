@@ -68,7 +68,7 @@ public final class Loading extends Sequence
         max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(Constant.RESOLUTION, context), 2);
     }
 
     /**
@@ -182,6 +182,8 @@ public final class Loading extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        super.onTerminated(hasNextSequence);
+
         loading.dispose();
     }
 }

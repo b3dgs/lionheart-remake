@@ -195,7 +195,7 @@ public class Part1 extends Sequence
         load(Part2.class, config, time, audio, alternative);
 
         setSystemCursorVisible(false);
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), 2);
     }
 
     /**
@@ -487,6 +487,8 @@ public class Part1 extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        super.onTerminated(hasNextSequence);
+
         if (!hasNextSequence)
         {
             audio.stop();

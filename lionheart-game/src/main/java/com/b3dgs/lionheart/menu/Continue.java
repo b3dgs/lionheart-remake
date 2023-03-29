@@ -497,6 +497,8 @@ public class Continue extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        super.onTerminated(hasNextSequence);
+
         back.dispose();
         valdyn.dispose();
         continues.clear();

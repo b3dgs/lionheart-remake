@@ -53,13 +53,16 @@ import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.TextStyle;
+import com.b3dgs.lionengine.graphic.engine.FilterNone;
 import com.b3dgs.lionengine.graphic.engine.Loop;
 import com.b3dgs.lionengine.graphic.engine.LoopHybrid;
 import com.b3dgs.lionengine.graphic.engine.LoopUnlocked;
+import com.b3dgs.lionengine.graphic.engine.ScanlineNone;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.filter.FilterBlur;
+import com.b3dgs.lionengine.graphic.filter.FilterCrt;
 import com.b3dgs.lionengine.graphic.filter.FilterHq2x;
-import com.b3dgs.lionengine.graphic.scanline.ScanlineCrt;
+import com.b3dgs.lionengine.graphic.filter.FilterHq3x;
 import com.b3dgs.lionengine.graphic.scanline.ScanlineHorizontal;
 import com.b3dgs.lionengine.io.FileReading;
 import com.b3dgs.lionengine.io.FileWriting;
@@ -129,31 +132,41 @@ public final class Util
      * Set scene filter.
      * 
      * @param sequence The sequence reference.
+     * @param context The context reference.
+     * @param source The source resolution.
+     * @param scale The filter scale.
      */
-    public static void setFilter(Sequence sequence)
+    public static void setFilter(Sequence sequence, Context context, Resolution source, int scale)
     {
         final Settings settings = Settings.getInstance();
         final FilterType filter = settings.getFilter();
         if (FilterType.BLUR == filter)
         {
             final FilterBlur blur = new FilterBlur();
-            blur.setRadius(1.25f);
+            blur.setRadius(1.3f);
             sequence.setFilter(blur);
+            sequence.setScanline(ScanlineNone.INSTANCE);
         }
         else if (FilterType.HQ2X == filter)
         {
             sequence.setFilter(new FilterHq2x());
+            sequence.setScanline(ScanlineNone.INSTANCE);
+        }
+        else if (FilterType.HQ3X == filter)
+        {
+            sequence.setFilter(new FilterHq3x());
+            sequence.setScanline(ScanlineNone.INSTANCE);
         }
         else if (FilterType.SCANLINE == filter)
         {
-            sequence.setScanline(ScanlineHorizontal.getInstance(Constant.RESOLUTION, 2.5));
+            sequence.setScanline(new ScanlineHorizontal(Util.getResolution(source, context), 2));
+            sequence.setFilter(FilterNone.INSTANCE);
         }
         else if (FilterType.CRT == filter)
         {
-            sequence.setScanline(ScanlineCrt.getInstance(Constant.RESOLUTION, 2.5));
-            final FilterBlur blur = new FilterBlur();
-            blur.setRadius(1.3f);
-            sequence.setFilter(blur);
+            final FilterCrt crt = new FilterCrt(scale);
+            sequence.setFilter(crt);
+            sequence.setScanline(ScanlineNone.INSTANCE);
         }
     }
 

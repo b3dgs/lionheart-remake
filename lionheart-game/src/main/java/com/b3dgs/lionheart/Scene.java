@@ -83,7 +83,7 @@ public class Scene extends SequenceGame<World>
         services.add(config);
         services.add(init.getDifficulty());
 
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(Constant.RESOLUTION_GAME, context), 2);
         if (config.getType().is(GameType.STORY))
         {
             Util.saveProgress(config);

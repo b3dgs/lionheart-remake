@@ -388,7 +388,7 @@ public class Menu extends Sequence
                                      + music1.size()];
         createCacheText();
 
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(Constant.RESOLUTION, context).get2x(), 2);
     }
 
     /**
@@ -1262,6 +1262,8 @@ public class Menu extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        super.onTerminated(hasNextSequence);
+
         device.removeListener(listener);
         stopAudio();
 

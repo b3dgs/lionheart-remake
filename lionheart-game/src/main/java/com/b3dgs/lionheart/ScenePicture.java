@@ -135,7 +135,7 @@ public final class ScenePicture extends Sequence
         text.setOrigin(Origin.TOP_LEFT);
 
         setSystemCursorVisible(false);
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(Constant.RESOLUTION, context), 2);
     }
 
     /**
@@ -313,6 +313,8 @@ public final class ScenePicture extends Sequence
     @Override
     public void onTerminated(boolean hasNextSequence)
     {
+        super.onTerminated(hasNextSequence);
+
         picture.dispose();
         text.dispose();
         if (!hasNextSequence)

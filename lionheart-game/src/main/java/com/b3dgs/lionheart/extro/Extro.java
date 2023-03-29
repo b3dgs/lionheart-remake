@@ -66,7 +66,7 @@ public final class Extro extends Sequence
         load(Part1.class, config, time, audio, alternative);
 
         setSystemCursorVisible(false);
-        Util.setFilter(this);
+        Util.setFilter(this, context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), 2);
     }
 
     @Override
