@@ -59,27 +59,27 @@ public final class VirtualKeyboard extends VirtualDeviceButton
     {
         super(pointer);
 
-        addButton(X - SIZE, Y - SIZE, LEFT, Medias.create("button", "up_left.png"));
-        addButton(X - SIZE, Y - SIZE, UP, Medias.create("button", "up_left.png"));
+        addButton(X - SIZE, Y - SIZE, 32, 32, LEFT, Medias.create("button", "up_left.png"));
+        addButton(X - SIZE, Y - SIZE, 32, 32, UP, Medias.create("button", "up_left.png"));
 
-        addButton(X, Y - SIZE, UP, Medias.create("button", "up.png"));
+        addButton(X, Y - SIZE, 32, 32, UP, Medias.create("button", "up.png"));
 
-        addButton(X + SIZE, Y - SIZE, RIGHT, Medias.create("button", "up_right.png"));
-        addButton(X + SIZE, Y - SIZE, UP, Medias.create("button", "up_right.png"));
+        addButton(X + SIZE, Y - SIZE, 32, 32, RIGHT, Medias.create("button", "up_right.png"));
+        addButton(X + SIZE, Y - SIZE, 32, 32, UP, Medias.create("button", "up_right.png"));
 
-        addButton(X - SIZE, Y, LEFT, Medias.create("button", "left.png"));
+        addButton(X - SIZE, Y, 32, 32, LEFT, Medias.create("button", "left.png"));
 
-        addButton(X + SIZE, Y, RIGHT, Medias.create("button", "right.png"));
+        addButton(X + SIZE, Y, 32, 32, RIGHT, Medias.create("button", "right.png"));
 
-        addButton(X - SIZE, Y + SIZE, LEFT, Medias.create("button", "down_left.png"));
-        addButton(X - SIZE, Y + SIZE, DOWN, Medias.create("button", "down_left.png"));
+        addButton(X - SIZE, Y + SIZE, 32, 32, LEFT, Medias.create("button", "down_left.png"));
+        addButton(X - SIZE, Y + SIZE, 32, 32, DOWN, Medias.create("button", "down_left.png"));
 
-        addButton(X, Y + SIZE, DOWN, Medias.create("button", "down.png"));
+        addButton(X, Y + SIZE, 32, 32, DOWN, Medias.create("button", "down.png"));
 
-        addButton(X + SIZE, Y + SIZE, RIGHT, Medias.create("button", "down_right.png"));
-        addButton(X + SIZE, Y + SIZE, DOWN, Medias.create("button", "down_right.png"));
+        addButton(X + SIZE, Y + SIZE, 32, 32, RIGHT, Medias.create("button", "down_right.png"));
+        addButton(X + SIZE, Y + SIZE, 32, 32, DOWN, Medias.create("button", "down_right.png"));
 
-        addButton(1, Y - SIZE_BUTTON, UP, Medias.create("button", "1.png"));
-        addButton(1, Y + SIZE_BUTTON, CONTROL, Medias.create("button", "2.png"));
+        addButton(1, Y - SIZE_BUTTON, 48, 48, UP, Medias.create("button", "1.png"));
+        addButton(1, Y + SIZE_BUTTON, 48, 48, CONTROL, Medias.create("button", "2.png"));
     }
 }
