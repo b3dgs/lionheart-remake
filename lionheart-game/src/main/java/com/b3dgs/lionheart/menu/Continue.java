@@ -140,7 +140,7 @@ public class Continue extends Sequence
      */
     public Continue(Context context, GameConfig game)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop());
+        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop(context.getConfig().getOutput()));
 
         this.game = game;
 

@@ -72,7 +72,7 @@ public class Scene extends SequenceGame<World>
     {
         super(context,
               Util.getResolution(Constant.RESOLUTION_GAME, context),
-              Util.getLoop(),
+              Util.getLoop(context.getConfig().getOutput()),
               s -> new World(s, config));
 
         init = config.getInit();

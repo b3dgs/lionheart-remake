@@ -86,6 +86,7 @@ import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
@@ -946,21 +947,23 @@ public final class Launcher
 
         LANG.set(settings.getLang());
 
+        final DisplayMode screen = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                      .getDefaultScreenDevice()
+                                                      .getDisplayMode();
+        final Resolution desktop = new Resolution(screen.getWidth(), screen.getHeight(), screen.getRefreshRate());
+
         if (Settings.getFile().exists())
         {
-            WIDTH.set(settings.getResolution().getWidth());
-            HEIGHT.set(settings.getResolution().getHeight());
-            RATE.set(settings.getResolution().getRate());
+            WIDTH.set(settings.getResolution(desktop).getWidth());
+            HEIGHT.set(settings.getResolution(desktop).getHeight());
+            RATE.set(settings.getResolution(desktop).getRate());
             WINDOWED.set(settings.getResolutionWindowed());
         }
         else
         {
-            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                                                           .getDefaultScreenDevice()
-                                                           .getDisplayMode();
             WIDTH.set(desktop.getWidth());
             HEIGHT.set(desktop.getHeight());
-            RATE.set(desktop.getRefreshRate());
+            RATE.set(desktop.getRate());
             WINDOWED.set(false);
         }
 

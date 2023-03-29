@@ -85,7 +85,7 @@ public class Part4 extends Sequence
      */
     public Part4(Context context, GameConfig config, Time time, Audio audio)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         this.time = time;

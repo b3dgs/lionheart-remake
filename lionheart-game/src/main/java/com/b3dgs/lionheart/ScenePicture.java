@@ -111,7 +111,7 @@ public final class ScenePicture extends Sequence
      */
     public ScenePicture(Context context, GameConfig config, Media pic, String narrative, Boolean auto)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         this.auto = auto;

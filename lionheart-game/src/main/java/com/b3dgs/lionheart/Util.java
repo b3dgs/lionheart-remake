@@ -111,9 +111,10 @@ public final class Util
     /**
      * Get loop instance.
      * 
+     * @param desktop The desktop resolution.
      * @return The loop instance.
      */
-    public static Loop getLoop()
+    public static Loop getLoop(Resolution desktop)
     {
         final Settings settings = Settings.getInstance();
         final LoopFactory factory;
@@ -125,7 +126,7 @@ public final class Util
         {
             factory = LoopHybrid::new;
         }
-        return factory.create(Constant.RESOLUTION, settings.getResolution());
+        return factory.create(Constant.RESOLUTION, settings.getResolution(desktop));
     }
 
     /**

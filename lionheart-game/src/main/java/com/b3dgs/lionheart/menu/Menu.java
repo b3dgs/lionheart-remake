@@ -280,7 +280,7 @@ public class Menu extends Sequence
      */
     public Menu(Context context, GameConfig config)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop());
+        super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         difficulty = getDifficultyIndex(config);

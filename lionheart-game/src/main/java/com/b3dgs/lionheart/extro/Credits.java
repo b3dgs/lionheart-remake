@@ -110,7 +110,7 @@ public class Credits extends Sequence
      */
     public Credits(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop());
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         this.time = time;

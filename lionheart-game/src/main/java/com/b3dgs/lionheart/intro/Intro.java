@@ -88,7 +88,7 @@ public class Intro extends Sequence
      */
     public Intro(Context context, GameConfig config)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         part1 = new Part1(time, getWidth(), getHeight(), getWideFactor(context));

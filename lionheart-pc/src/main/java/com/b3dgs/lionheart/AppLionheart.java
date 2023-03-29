@@ -16,6 +16,8 @@
  */
 package com.b3dgs.lionheart;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
+import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -293,9 +296,30 @@ public final class AppLionheart
     {
         if (settings.getResolutionWindowed())
         {
-            return Config.windowed(settings.getResolution(), devices, icons);
+            return Config.windowed(settings.getResolution(getDesktopResolution()), devices, icons);
         }
-        return Config.fullscreen(settings.getResolution(), devices, icons);
+        return Config.fullscreen(settings.getResolution(getDesktopResolution()), devices, icons);
+    }
+
+    /**
+     * Get desktop resolution.
+     * 
+     * @return The desktop resolution (<code>null</code> if error).
+     */
+    private static Resolution getDesktopResolution()
+    {
+        try
+        {
+            final DisplayMode desktop = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                                                           .getDefaultScreenDevice()
+                                                           .getDisplayMode();
+            return new Resolution(desktop.getWidth(), desktop.getHeight(), desktop.getRefreshRate());
+        }
+        catch (final Throwable exception)
+        {
+            Verbose.exception(exception);
+            return null;
+        }
     }
 
     /**

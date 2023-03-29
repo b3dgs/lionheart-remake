@@ -170,7 +170,7 @@ public class Part1 extends Sequence
      */
     public Part1(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop());
+        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop(context.getConfig().getOutput()));
 
         this.time = time;
         this.audio = audio;
