@@ -20,11 +20,11 @@ rem ############################################################################
 
 rem ############################################################## Compile project ###############################################################
 echo --------------------------------------------- Compile game ---------------------------------------------
-call mvn clean install -f ..\..\lionheart-parent\pom.xml -P pc,sign
+rem call mvn clean install -f ..\..\lionheart-parent\pom.xml -P pc,sign
 echo --------------------------------------------------------------------------------------------------------
 
 echo -------------------------------------------- Compile editor --------------------------------------------
-call mvn clean verify -f ..\..\lionheart-editor-parent\pom.xml -P release
+rem call mvn clean verify -f ..\..\lionheart-editor-parent\pom.xml -P release
 echo --------------------------------------------------------------------------------------------------------
 rem ##############################################################################################################################################
 
@@ -43,6 +43,8 @@ echo -------------------------------------------- Copy properties
 copy "..\data\.lionengine" "%DEST%\data"
 echo -------------------------------------------- Copy doc
 robocopy "..\doc" "%DEST%\doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
+copy "..\..\CHANGELOG" "%DEST%\doc\CHANGELOG.txt"
+copy "..\..\LICENSE" "%DEST%\doc\LICENSE.txt"
 echo -------------------------------------------- Copy assets
 robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "%DEST%\data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
 echo -------------------------------------------- Remove levels rip
