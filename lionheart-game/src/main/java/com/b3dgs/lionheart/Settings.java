@@ -46,14 +46,14 @@ public final class Settings
 
     /** Resolution key. */
     public static final String RESOLUTION = "resolution";
-    /** Resolution windowed. */
-    public static final String RESOLUTION_WINDOWED = RESOLUTION + ".windowed";
     /** Resolution width. */
     public static final String RESOLUTION_WIDTH = RESOLUTION + ".width";
     /** Resolution height. */
     public static final String RESOLUTION_HEIGHT = RESOLUTION + ".height";
     /** Resolution rate. */
     public static final String RESOLUTION_RATE = RESOLUTION + ".rate";
+    /** Resolution windowed. */
+    public static final String RESOLUTION_WINDOWED = RESOLUTION + ".windowed";
 
     /** Volume master. */
     public static final String VOLUME = "volume";
@@ -281,16 +281,6 @@ public final class Settings
     }
 
     /**
-     * Get windowed flag.
-     * 
-     * @return The windowed flag.
-     */
-    public boolean getResolutionWindowed()
-    {
-        return getBoolean(RESOLUTION_WINDOWED, true);
-    }
-
-    /**
      * Get output resolution.
      * 
      * @param desktop The desktop resolution (<code>null</code> if none).
@@ -316,6 +306,16 @@ public final class Settings
         return new Resolution(getInt(RESOLUTION_WIDTH, defWidth),
                               getInt(RESOLUTION_HEIGHT, defHeight),
                               getInt(RESOLUTION_RATE, defRate));
+    }
+
+    /**
+     * Get windowed flag.
+     * 
+     * @return The windowed flag.
+     */
+    public boolean getResolutionWindowed()
+    {
+        return getBoolean(RESOLUTION_WINDOWED, true);
     }
 
     /**

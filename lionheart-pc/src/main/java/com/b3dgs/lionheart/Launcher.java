@@ -964,7 +964,7 @@ public final class Launcher
             WIDTH.set(desktop.getWidth());
             HEIGHT.set(desktop.getHeight());
             RATE.set(desktop.getRate());
-            WINDOWED.set(false);
+            WINDOWED.set(true);
         }
 
         FILTER.set(settings.getFilter());
@@ -1264,17 +1264,27 @@ public final class Launcher
             {
                 writeFormatted(output, Settings.VERSION, Constant.PROGRAM_VERSION.toString());
                 output.write(System.lineSeparator());
+                writeFormatted(output, "# undefined = system language");
                 writeFormatted(output, Settings.LANG, LANG.get());
                 output.write(System.lineSeparator());
-                writeFormatted(output, Settings.RESOLUTION_WINDOWED, WINDOWED.get());
+                writeFormatted(output, "# undefined = desktop resolution");
                 writeFormatted(output, Settings.RESOLUTION_WIDTH, WIDTH.get());
                 writeFormatted(output, Settings.RESOLUTION_HEIGHT, HEIGHT.get());
                 writeFormatted(output, Settings.RESOLUTION_RATE, RATE.get());
+                writeFormatted(output, Settings.RESOLUTION_WINDOWED, WINDOWED.get());
                 output.write(System.lineSeparator());
+                writeFormatted(output, "# NONE, BLUR, HQ2X, HQ3X, SCANLINE, CRT");
                 writeFormatted(output, Settings.FILTER, FILTER.get().name());
                 output.write(System.lineSeparator());
+                writeFormatted(output, "# [0 - 100]");
+                writeFormatted(output, Settings.VOLUME, com.b3dgs.lionengine.Constant.HUNDRED);
+                writeFormatted(output, Settings.VOLUME_MUSIC, MUSIC.get());
+                writeFormatted(output, Settings.VOLUME_SFX, SFX.get());
+                output.write(System.lineSeparator());
+                writeFormatted(output, "# ORIGINAL, ALTERNATIVE");
                 writeFormatted(output, Settings.GAMEPLAY, GAMEPLAY.get().name());
                 output.write(System.lineSeparator());
+                writeFormatted(output, "# NONE, DIRECT, CACHE");
                 writeFormatted(output, Settings.RASTER_TYPE, RASTER.get().name());
                 output.write(System.lineSeparator());
                 writeFormatted(output, Settings.HUD_VISIBLE, HUD.get());
@@ -1283,14 +1293,14 @@ public final class Launcher
                 writeFormatted(output, Settings.FLICKER_BACKGROUND, FLICKER_BACKGROUND.get());
                 writeFormatted(output, Settings.FLICKER_FOREGROUND, FLICKER_FOREGROUND.get());
                 output.write(System.lineSeparator());
+                writeFormatted(output, "# [0.8 - 1.3]");
                 writeFormatted(output, Settings.ZOOM, ZOOM.get() / 100.0);
                 output.write(System.lineSeparator());
-                writeFormatted(output, Settings.VOLUME_MUSIC, MUSIC.get());
-                writeFormatted(output, Settings.VOLUME_SFX, SFX.get());
-                output.write(System.lineSeparator());
+                writeFormatted(output, "# 0 = FAST_LOADING, 1 = FAST_RENDERING, 2 = LOW_MEMORY");
                 writeFormatted(output, Settings.FLAG_STRATEGY, FLAG_STRATEGY.get());
                 writeFormatted(output, Settings.FLAG_PARALLEL, FLAG_PARALLEL.get());
                 writeFormatted(output, Settings.FLAG_VSYNC, FLAG_VSYNC.get());
+                writeFormatted(output, Settings.FLAG_DEBUG, false);
 
                 output.flush();
             }
@@ -1310,6 +1320,12 @@ public final class Launcher
             file.createNewFile();
         }
         return file;
+    }
+
+    private static void writeFormatted(FileWriter output, String data) throws IOException
+    {
+        output.write(data);
+        output.write(System.lineSeparator());
     }
 
     private static void writeFormatted(FileWriter output, String data, String value) throws IOException
