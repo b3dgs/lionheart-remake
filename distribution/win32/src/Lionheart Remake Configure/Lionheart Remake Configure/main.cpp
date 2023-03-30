@@ -2,32 +2,22 @@
 #include <stdio.h>
 #include <Windows.h>
 
-static BOOL IsOS64Bit()
+BOOL Is64BitWindows()
 {
-	BOOL b64Bit = FALSE;
-
-	typedef BOOL(WINAPI* PFNISWOW64PROCESS)(HANDLE, PBOOL);
-
-	HMODULE hKernel32 = LoadLibrary(TEXT("kernel32.dll"));
-	if (hKernel32 != NULL)
-	{
-		PFNISWOW64PROCESS pfnIsWow64Process = (PFNISWOW64PROCESS)GetProcAddress(hKernel32, "IsWow64Process");
-		if (pfnIsWow64Process == NULL)
-		{
-			FreeLibrary(hKernel32);
-			return FALSE;
-		}
-
-		pfnIsWow64Process(GetCurrentProcess(), &b64Bit);
-		FreeLibrary(hKernel32);
-	}
-
-	return b64Bit;
+#if defined(_WIN64)
+	return TRUE;  // 64-bit programs run only on Win64
+#elif defined(_WIN32)
+	// 32-bit programs run on both 32-bit and 64-bit Windows
+	BOOL f64 = FALSE;
+	return IsWow64Process(GetCurrentProcess(), &f64) && f64;
+#else
+	return FALSE; // Win64 does not support Win16
+#endif
 }
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 {
-	if (IsOS64Bit())
+	if (Is64BitWindows())
 	{
 		system("start \"\" /d data /b \"data\\jre_win32-x86_64\\bin\\javaw.exe\" -server -splash:splash.png -cp lionheart-pc-1.3.0.jar com.b3dgs.lionheart.Launcher");
 	}
