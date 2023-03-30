@@ -24,7 +24,16 @@ rem ----------------------- DO NOT CHANGE -----------------------
 set VERSION=1.3.0
 set PARAM=-Xverify:none -server -splash:splash.png -jar lionheart-pc-%VERSION%.jar %ARGS%
 
-if %PROCESSOR_ARCHITECTURE% == AMD64 (set JRE=jre_win32-x86_64) else (set JRE=jre_win32-x86)
+if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
+  set JRE=jre_win32-x86_64
+) else (
+  if "%PROCESSOR_ARCHITEW6432%" == "AMD64" (
+    set JRE=jre_win32-x86_64
+  ) else (
+    set JRE=jre_win32-x86
+  )
+)
+
 set path=%~dp0data\%JRE%\bin\;%path%
 if "%LaunchPath%" == "" (cd data) else (cd %LaunchPath%\data)
 start "" javaw %PARAM%
