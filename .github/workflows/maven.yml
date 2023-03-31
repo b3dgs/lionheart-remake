@@ -125,13 +125,15 @@ jobs:
        
       - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
-        run: |
-          New-Item -ItemType directory -Path certificate
-          Set-Content -Path certificate\certificate.txt -Value '${{ secrets.CODESIGN_BASE64 }}'
-          certutil -decode certificate\certificate.txt certificate\certificate.pfx
-          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Lionheart Remake.exe"
-          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Configure.exe"
-        shell: cmd
+        uses: GabrielAcostaEngler/signtool-code-sign@main
+        with:
+          certificate: '${{ secrets.CODESIGN_BASE64 }}'
+          cert-password: '${{ secrets.CODESIGN_PWD }}'
+          cert-sha1: '${{ secrets.CODESIGN_SHA1 }}'
+          cert-description: 'Byron 3D Games Studio'
+          folder: 'build\${{ env.TARGET_WIN }}'
+          recursive: false
+          timestamp-server: 'http://timestamp.digicert.com'
           
       - name: ${{ matrix.os }} Make ZIP
         if: ${{ matrix.os }} == "windows-latest"
@@ -181,9 +183,15 @@ jobs:
           
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
-        run: |
-          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}.exe"
-        shell: cmd
+        uses: GabrielAcostaEngler/signtool-code-sign@main
+        with:
+          certificate: '${{ secrets.CODESIGN_BASE64 }}'
+          cert-password: '${{ secrets.CODESIGN_PWD }}'
+          cert-sha1: '${{ secrets.CODESIGN_SHA1 }}'
+          cert-description: 'Byron 3D Games Studio'
+          folder: '.'
+          recursive: false
+          timestamp-server: 'http://timestamp.digicert.com'
           
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
