@@ -76,6 +76,7 @@ jobs:
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
           cd ..\..
+        shell: cmd
 
       - name: Bundle JRE x86_32
         uses: actions/setup-java@v3
@@ -125,6 +126,7 @@ jobs:
           
       - name: Prepare 7z
         run: cd build
+        shell: cmd
           
       - name: Make 7z
         uses: edgarrc/action-7z@v1
@@ -140,9 +142,11 @@ jobs:
           
       - name: Copy SFX
         run: copy "7z.sfx" "${{ env.TARGET }}"
+        shell: cmd
           
       - name: Make SFX
         run: copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET }}.7z" "${{ env.TARGET }}.exe"
+        shell: cmd
        
       - uses: engineerd/configurator@v0.0.10
         with:
@@ -155,6 +159,7 @@ jobs:
           ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action delete -mask versioninfo, 1,
           ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
           ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action changelanguage(1033)
+          shell: cmd
           
       - name: Sign SFX
         uses: GabrielAcostaEngler/signtool-code-sign@main
@@ -171,6 +176,7 @@ jobs:
         run: |
           del "${{ env.TARGET }}.7z"
           rmdir /S /Q "${{ env.TARGET }}"
+          shell: cmd
           
       - name: Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
