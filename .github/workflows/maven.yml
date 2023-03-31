@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     env:
       JDK_VERSION: "8"
@@ -46,7 +46,7 @@ jobs:
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Ppc-assets
+          run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true -Ppc
 
   release_win32:
     needs: build
@@ -58,6 +58,7 @@ jobs:
     steps:
       - name: Prepare folders
         run: |
+          dir
           rmdir /S /Q build
           mkdir build
           mkdir build\${{ env.TARGET }}
@@ -75,32 +76,46 @@ jobs:
           copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
+          dir
           cd ..\..
+          dir
         shell: cmd
 
-      - name: Bundle JRE x86_32
+      - name: Set JRE x86_32
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           architecture: x86
-          run: jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET }}\data\jre_win32-x86_32
+          
+      - name: Bundle JRE x86_32
+        run: |
+          dir
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET }}\data\jre_win32-x86_32
+        shell: cmd
 
-      - name: Bundle JRE x86_64
+      - name: Set JRE x86_64
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           architecture: x64
-          run: jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET }}\data\jre_win32-x86_64
+          
+      - name: Bundle JRE x86_64
+        run: |
+          dir
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET }}\data\jre_win32-x86_64
+        shell: cmd
     
       - name: msbuild
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Compile Lionheart Remake.exe
         run: |
+          dir
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
+        shell: cmd
        
       - name: Sign Lionheart Remake.exe
         uses: GabrielAcostaEngler/signtool-code-sign@main
@@ -125,7 +140,10 @@ jobs:
           timestamp-server: 'http://timestamp.digicert.com'
           
       - name: Prepare 7z
-        run: cd build
+        run: |
+          dir
+          cd build
+          dir
         shell: cmd
           
       - name: Make 7z
@@ -141,11 +159,15 @@ jobs:
           pathInArchive: "."
           
       - name: Copy SFX
-        run: copy "7z.sfx" "${{ env.TARGET }}"
+        run: |
+          dir
+          copy "7z.sfx" "${{ env.TARGET }}"
         shell: cmd
           
       - name: Make SFX
-        run: copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET }}.7z" "${{ env.TARGET }}.exe"
+        run: |
+          dir
+          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET }}.7z" "${{ env.TARGET }}.exe"
         shell: cmd
        
       - uses: engineerd/configurator@v0.0.10
@@ -156,6 +178,7 @@ jobs:
           
       - name: Update info
         run: |
+          dir
           ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action delete -mask versioninfo, 1,
           ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
           ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action changelanguage(1033)
@@ -174,6 +197,7 @@ jobs:
           
       - name: Clean
         run: |
+          dir
           del "${{ env.TARGET }}.7z"
           rmdir /S /Q "${{ env.TARGET }}"
           shell: cmd
