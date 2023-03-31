@@ -60,17 +60,18 @@ jobs:
           mkdir build\${{ env.TARGET_WIN }}\data
           mkdir build\${{ env.TARGET_WIN }}\data\assets
           cd build\${{ env.TARGET_WIN }}
-          robocopy "distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
-          copy "CHANGELOG" "doc\CHANGELOG.txt"
-          copy "LICENSE" "doc\LICENSE.txt"
-          copy "distribution\data\splash.png" "data"
-          copy "distribution\data\b3dgs.cer" "data"
-          copy "distribution\data\.lionengine" "data"
-          copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
-          copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar.asc" "data"
-          copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
+          robocopy "..\..\distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
+          copy "..\..\CHANGELOG" "doc\CHANGELOG.txt"
+          copy "..\..\LICENSE" "doc\LICENSE.txt"
+          copy "..\..\distribution\data\splash.png" "data"
+          copy "..\..\distribution\data\b3dgs.cer" "data"
+          copy "..\..\distribution\data\.lionengine" "data"
+          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
+          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar.asc" "data"
+          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
+          dir
           cd data
           dir
           cd ..\..\..
@@ -88,9 +89,6 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_32
-          cd build\${{ env.TARGET_WIN }}\data
-          dir
-          cd ..\..\..
         shell: cmd
 
       - name: ${{ matrix.os }} Set JRE x86_64
@@ -105,9 +103,6 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_64
-          cd build\${{ env.TARGET_WIN }}\data
-          dir
-          cd ..\..\..
         shell: cmd
     
       - name: ${{ matrix.os }} msbuild
@@ -119,8 +114,8 @@ jobs:
         run: |
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
-          copy "distribution\win32\src\Lionheart Remake\Release\Lionheart Remake.exe" "build\${{ env.TARGET_WIN }}"
-          copy "distribution\win32\src\Lionheart Remake Configure\Release\Configure.exe" "build\${{ env.TARGET_WIN }}"
+          copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\${{ env.TARGET_WIN }}"
+          copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\${{ env.TARGET_WIN }}"
           cd build\${{ env.TARGET_WIN }}
           dir
           cd ..\..
@@ -148,9 +143,7 @@ jobs:
           
       - name: ${{ matrix.os }} Make 7z
         if: ${{ matrix.os }} == "windows-latest"
-        uses: edgarrc/action-7z@v1
-        with:
-          args: 7z a -t7z -mf=off -m0=lzma2 -mx=9 "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}"
+          "/c/Program Files/7-Zip/7z.exe" a -t7z -mf=off -m0=lzma2 -mx=9 "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}"
           
       - name: ${{ matrix.os }} Get SFX
         if: ${{ matrix.os }} == "windows-latest"
