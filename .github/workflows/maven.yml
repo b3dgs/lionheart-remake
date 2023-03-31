@@ -11,7 +11,7 @@ on:
 
 env:
   APP_VERSION: '1.3.0-SNAPSHOT'
-  BUILD: 'lionheart-remake-${{ APP_VERSION }}'
+  BUILD: 'lionheart-remake-${{ env.APP_VERSION }}'
 
 jobs:
   build:
@@ -31,16 +31,16 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: maven-${{ matrix.os }}-java${{ JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
+          key: maven-${{ matrix.os }}-java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            maven-${{ matrix.os }}-java${{ JDK_VERSION }}-
+            maven-${{ matrix.os }}-java${{ env.JDK_VERSION }}-
             maven-${{ matrix.os }}-
 
       - name: Set JDK
         uses: actions/setup-java@v3
         with:
           java-version: |
-            ${{ JDK_VERSION }}
+            ${{ env.JDK_VERSION }}
             17
           distribution: 'temurin'
           mvn-toolchain-vendor: Eclipse Temurin
@@ -70,9 +70,9 @@ jobs:
           copy "distribution\data\splash.png" "data"
           copy "distribution\data\b3dgs.cer" "data"
           copy "distribution\data\.lionengine" "data"
-          copy "lionheart-pc\target\lionheart-pc-${{ APP_VERSION }}.jar" "data"
-          copy "lionheart-pc\target\lionheart-pc-${{ APP_VERSION }}.jar.asc" "data"
-          copy "lionheart-pc\target\lionheart-pc-${{ APP_VERSION }}.jar" "data"
+          copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
+          copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar.asc" "data"
+          copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
           cd ..\..
