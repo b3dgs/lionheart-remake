@@ -32,21 +32,17 @@ jobs:
             maven-${{ matrix.os }}-java${{ env.JDK_VERSION }}-
             maven-${{ matrix.os }}-
 
-      - name: Set JDK ${{ env.JDK_VERSION }}
+      - name: Set JDK
         uses: actions/setup-java@v3
         with:
-          java-version: ${{ env.JDK_VERSION }}
+          java-version: |
+            ${{ env.JDK_VERSION }}
+            17
           distribution: 'temurin'
           mvn-toolchain-vendor: Eclipse Temurin
-          mvn-toolchain-id: 1.8
-          
-      - name: Set JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: 'temurin'
-          mvn-toolchain-vendor: Eclipse Temurin
-          mvn-toolchain-id: 17
+          mvn-toolchain-id: |
+            1.8
+            17
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
