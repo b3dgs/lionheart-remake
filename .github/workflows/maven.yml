@@ -19,6 +19,9 @@ jobs:
     env:
       JDK_VERSION: "8"
       AUDIODEV: "null"
+      APP_VERSION: "1.3.0-SNAPSHOT"
+      BUILD: "lionheart-remake-1.3.0-SNAPSHOT"
+      TARGET_WIN: "lionheart-remake-1.3.0-SNAPSHOT_win32_x86"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,23 +51,16 @@ jobs:
         with:
           run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true -Ppc
 
-  release_win32:
-    needs: build
-    runs-on: windows-latest
-    env:
-      APP_VERSION: "1.3.0-SNAPSHOT"
-      BUILD: "lionheart-remake-1.3.0-SNAPSHOT"
-      TARGET: "lionheart-remake-1.3.0-SNAPSHOT_win32_x86"
-    steps:
-      - name: Prepare folders
+      - name: ${{ matrix.os }} Prepare folders
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
           rmdir /S /Q build
           mkdir build
-          mkdir build\${{ env.TARGET }}
-          mkdir build\${{ env.TARGET }}\data
-          mkdir build\${{ env.TARGET }}\data\assets
-          cd build\${{ env.TARGET }}
+          mkdir build\${{ env.TARGET_WIN }}
+          mkdir build\${{ env.TARGET_WIN }}\data
+          mkdir build\${{ env.TARGET_WIN }}\data\assets
+          cd build\${{ env.TARGET_WIN }}
           robocopy "distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
           copy "CHANGELOG" "doc\CHANGELOG.txt"
           copy "LICENSE" "doc\LICENSE.txt"
@@ -81,43 +77,50 @@ jobs:
           dir
         shell: cmd
 
-      - name: Set JRE x86_32
+      - name: ${{ matrix.os }} Set JRE x86_32
+        if: ${{ matrix.os }} == "windows-latest"
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           architecture: x86
           
-      - name: Bundle JRE x86_32
+      - name: ${{ matrix.os }} Bundle JRE x86_32
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET }}\data\jre_win32-x86_32
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_32
         shell: cmd
 
-      - name: Set JRE x86_64
+      - name: ${{ matrix.os }} Set JRE x86_64
+        if: ${{ matrix.os }} == "windows-latest"
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           architecture: x64
           
-      - name: Bundle JRE x86_64
+      - name: ${{ matrix.os }} Bundle JRE x86_64
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET }}\data\jre_win32-x86_64
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_64
         shell: cmd
     
-      - name: msbuild
+      - name: ${{ matrix.os }} msbuild
+        if: ${{ matrix.os }} == "windows-latest"
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: Compile Lionheart Remake.exe
+      - name: ${{ matrix.os }} Compile Lionheart Remake.exe
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
         shell: cmd
        
-      - name: Sign Lionheart Remake.exe
+      - name: ${{ matrix.os }} Sign Lionheart Remake.exe
+        if: ${{ matrix.os }} == "windows-latest"
         uses: GabrielAcostaEngler/signtool-code-sign@main
         with:
           certificate: '${{ secrets.CODESIGN_BASE64 }}'
@@ -128,7 +131,8 @@ jobs:
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
           
-      - name: Sign Configure.exe
+      - name: ${{ matrix.os }} Sign Configure.exe
+        if: ${{ matrix.os }} == "windows-latest"
         uses: GabrielAcostaEngler/signtool-code-sign@main
         with:
           certificate: '${{ secrets.CODESIGN_BASE64 }}'
@@ -139,52 +143,61 @@ jobs:
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
           
-      - name: Prepare 7z
+      - name: ${{ matrix.os }} Prepare 7z
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
           cd build
           dir
         shell: cmd
           
-      - name: Make 7z
+      - name: ${{ matrix.os }} Make 7z
+        if: ${{ matrix.os }} == "windows-latest"
         uses: edgarrc/action-7z@v1
         with:
-          args: 7z a -t7z -mf=off -m0=lzma2 -mx=9 "${{ env.TARGET }}.7z" "${{ env.TARGET }}"
+          args: 7z a -t7z -mf=off -m0=lzma2 -mx=9 "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}"
           
-      - name: Get SFX
+      - name: ${{ matrix.os }} Get SFX
+        if: ${{ matrix.os }} == "windows-latest"
         uses: engineerd/configurator@v0.0.10
         with:
           name: "7z.sfx"
           url: "https://7-zip.org/a/7z2201.exe"
           pathInArchive: "."
           
-      - name: Copy SFX
+      - name: ${{ matrix.os }} Copy SFX
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          copy "7z.sfx" "${{ env.TARGET }}"
+          copy "7z.sfx" "${{ env.TARGET_WIN }}"
         shell: cmd
           
-      - name: Make SFX
+      - name: ${{ matrix.os }} Make SFX
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET }}.7z" "${{ env.TARGET }}.exe"
+          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
         shell: cmd
        
-      - uses: engineerd/configurator@v0.0.10
+      - name: ${{ matrix.os }} Get reshack
+        if: ${{ matrix.os }} == "windows-latest"
+        uses: engineerd/configurator@v0.0.10
         with:
           name: "ResourceHacker.exe"
           url: "http://www.angusj.com/resourcehacker/resource_hacker.zip"
           pathInArchive: "ResourceHacker.exe"
           
-      - name: Update info
+      - name: ${{ matrix.os }} Update info
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action delete -mask versioninfo, 1,
-          ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          ResourceHacker.exe -open ${{ env.TARGET }}.exe -save ${{ env.TARGET }}.exe -action changelanguage(1033)
+          ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
+          ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
           shell: cmd
           
-      - name: Sign SFX
+      - name: ${{ matrix.os }} Sign SFX
+        if: ${{ matrix.os }} == "windows-latest"
         uses: GabrielAcostaEngler/signtool-code-sign@main
         with:
           certificate: '${{ secrets.CODESIGN_BASE64 }}'
@@ -195,11 +208,12 @@ jobs:
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
           
-      - name: Clean
+      - name: ${{ matrix.os }} Clean
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          del "${{ env.TARGET }}.7z"
-          rmdir /S /Q "${{ env.TARGET }}"
+          del "${{ env.TARGET_WIN }}.7z"
+          rmdir /S /Q "${{ env.TARGET_WIN }}"
           shell: cmd
           
       - name: Deploy
