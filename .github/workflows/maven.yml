@@ -9,10 +9,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  APP_VERSION: "1.3.0-SNAPSHOT"
-  BUILD: "lionheart-remake-1.3.0-SNAPSHOT"
-
 jobs:
   build:
     strategy:
@@ -54,7 +50,9 @@ jobs:
     needs: build
     runs-on: windows-latest
     env:
-      TARGET: ${{ env.BUILD }}'_win32_x86'
+      APP_VERSION: "1.3.0-SNAPSHOT"
+      BUILD: "lionheart-remake-1.3.0-SNAPSHOT"
+      TARGET: "lionheart-remake-1.3.0-SNAPSHOT_win32_x86"
     steps:
       - name: Prepare folders
         run: |
