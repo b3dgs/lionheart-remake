@@ -127,10 +127,10 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           New-Item -ItemType directory -Path certificate
-          Set-Content -Path certificate.txt -Value '${{ secrets.CODESIGN_BASE64 }}'
-          certutil -decode certificate.txt certificate.pfx
-          signtool sign /f certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Lionheart Remake.exe"
-          signtool sign /f certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Configure.exe"
+          Set-Content -Path certificate\certificate.txt -Value '${{ secrets.CODESIGN_BASE64 }}'
+          certutil -decode certificate\certificate.txt certificate\certificate.pfx
+          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Lionheart Remake.exe"
+          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Configure.exe"
         shell: cmd
           
       - name: ${{ matrix.os }} Make ZIP
@@ -182,7 +182,7 @@ jobs:
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          signtool sign /f certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}.exe"
+          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}.exe"
         shell: cmd
           
       - name: ${{ matrix.os }} Clean
