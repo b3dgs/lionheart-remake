@@ -39,10 +39,9 @@ jobs:
             ${{ env.JDK_VERSION }}
             17
           distribution: 'temurin'
-          mvn-toolchain-vendor: Eclipse Temurin
           mvn-toolchain-id: |
-            1.8
-            17
+            JavaSE-1.8
+            JavaSE-17
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
