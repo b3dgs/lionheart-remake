@@ -144,17 +144,17 @@ jobs:
           
       - name: ${{ matrix.os }} Get 7zip
         if: ${{ matrix.os }} == "windows-latest"
-        uses: engineerd/configurator@v0.0.10
+        uses: gamedev-thingy/Download-Extract@done
         with:
-          name: "7z.sfx"
           url: "https://7-zip.org/a/7z2201-x64.exe"
-          pathInArchive: "7z.sfx"
+          destination: 7zip
+          ZIPname: "7z2201-x64.exe"
           
       - name: ${{ matrix.os }} Copy SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          copy "7z.sfx" "${{ env.TARGET_WIN }}"
+          copy "7zip/7z.sfx" "${{ env.TARGET_WIN }}"
         shell: cmd
           
       - name: ${{ matrix.os }} Make SFX
@@ -166,19 +166,19 @@ jobs:
        
       - name: ${{ matrix.os }} Get reshack
         if: ${{ matrix.os }} == "windows-latest"
-        uses: engineerd/configurator@v0.0.10
+        uses: gamedev-thingy/Download-Extract@done
         with:
-          name: "ResourceHacker.exe"
           url: "http://www.angusj.com/resourcehacker/resource_hacker.zip"
-          pathInArchive: "ResourceHacker.exe"
+          destination: reshack
+          ZIPname: "resource_hacker.zip"
           
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
-          ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
+          reshack/ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
+          reshack/ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          reshack/ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
           shell: cmd
           
       - name: ${{ matrix.os }} Sign SFX
