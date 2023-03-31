@@ -72,7 +72,9 @@ jobs:
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
           dir
-          cd data
+          cd doc
+          dir
+          cd ..\data
           dir
           cd ..\..\..
         shell: cmd
@@ -109,7 +111,7 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: ${{ matrix.os }} Compile Lionheart Remake.exe
+      - name: ${{ matrix.os }} Compile vsproject
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
@@ -123,43 +125,29 @@ jobs:
        
       - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
-        uses: GabrielAcostaEngler/signtool-code-sign@main
+        uses: skymatic/code-sign-action@v1
         with:
           certificate: '${{ secrets.CODESIGN_BASE64 }}'
-          cert-password: '${{ secrets.CODESIGN_PWD }}'
-          cert-sha1: '${{ secrets.CERT_HASH }}'
-          cert-description: 'Byron 3D Games Studio'
+          password: '${{ secrets.CODESIGN_PWD }}'
+          certificatesha1: '${{ secrets.CERT_HASH }}'
+          certificatename: '${{ secrets.CERT_NAME }}'
+          description: 'Byron 3D Games Studio'
           folder: 'build\${{ env.TARGET_WIN }}'
           recursive: false
-          timestamp-server: 'http://timestamp.digicert.com'
+          timestampUrl: 'http://timestamp.digicert.com'
           
-      - name: ${{ matrix.os }} Prepare 7z
+      - name: ${{ matrix.os }} Make ZIP
         if: ${{ matrix.os }} == "windows-latest"
+        shell: bash
         run: |
-          dir
           cd build
-          dir
-        shell: cmd
-          
-      - name: ${{ matrix.os }} Make 7z
-        if: ${{ matrix.os }} == "windows-latest"
-        shell: cmd
-        run: |
-          "/c/Program Files/7-Zip/7z.exe" a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
-          
-      - name: ${{ matrix.os }} Get SFX
-        if: ${{ matrix.os }} == "windows-latest"
-        uses: engineerd/configurator@v0.0.10
-        with:
-          name: "7z.sfx"
-          url: "https://7-zip.org/a/7z2201.exe"
-          pathInArchive: "."
+          7z a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
           
       - name: ${{ matrix.os }} Copy SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          copy "7z.sfx" "${{ env.TARGET_WIN }}"
+          copy "/c/Program Files/7-Zip/7z.sfx" "${{ env.TARGET_WIN }}"
         shell: cmd
           
       - name: ${{ matrix.os }} Make SFX
@@ -188,15 +176,16 @@ jobs:
           
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
-        uses: GabrielAcostaEngler/signtool-code-sign@main
+        uses: skymatic/code-sign-action@v1
         with:
           certificate: '${{ secrets.CODESIGN_BASE64 }}'
-          cert-password: '${{ secrets.CODESIGN_PWD }}'
-          cert-sha1: '${{ secrets.CERT_HASH }}'
-          cert-description: 'Byron 3D Games Studio'
+          password: '${{ secrets.CODESIGN_PWD }}'
+          certificatesha1: '${{ secrets.CERT_HASH }}'
+          certificatename: '${{ secrets.CERT_NAME }}'
+          description: 'Byron 3D Games Studio'
           folder: '.'
           recursive: false
-          timestamp-server: 'http://timestamp.digicert.com'
+          timestampUrl: 'http://timestamp.digicert.com'
           
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
