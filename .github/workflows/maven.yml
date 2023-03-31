@@ -143,7 +143,9 @@ jobs:
           
       - name: ${{ matrix.os }} Make 7z
         if: ${{ matrix.os }} == "windows-latest"
-          "/c/Program Files/7-Zip/7z.exe" a -t7z -mf=off -m0=lzma2 -mx=9 "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}"
+        shell: cmd
+        run: |
+          "/c/Program Files/7-Zip/7z.exe" a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
           
       - name: ${{ matrix.os }} Get SFX
         if: ${{ matrix.os }} == "windows-latest"
