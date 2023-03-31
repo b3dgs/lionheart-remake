@@ -17,7 +17,7 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     env:
-      JDK_VERSION: "8"
+      JDK_VERSION: "1.8"
       AUDIODEV: "null"
     steps:
       - name: Checkout
