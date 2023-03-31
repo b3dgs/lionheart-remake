@@ -11,7 +11,7 @@ on:
 
 env:
   APP_VERSION: "1.3.0-SNAPSHOT"
-  BUILD: "lionheart-remake-${{ env.APP_VERSION }}"
+  BUILD: "lionheart-remake-1.3.0-SNAPSHOT"
 
 jobs:
   build:
