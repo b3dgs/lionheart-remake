@@ -125,16 +125,13 @@ jobs:
        
       - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
-        uses: skymatic/code-sign-action@v1
-        with:
-          certificate: '${{ secrets.CODESIGN_BASE64 }}'
-          password: '${{ secrets.CODESIGN_PWD }}'
-          certificatesha1: '${{ secrets.CERT_HASH }}'
-          certificatename: '${{ secrets.CERT_NAME }}'
-          description: 'Byron 3D Games Studio'
-          folder: 'build\${{ env.TARGET_WIN }}'
-          recursive: false
-          timestampUrl: 'http://timestamp.digicert.com'
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate.txt -Value '${{ secrets.CODESIGN_BASE64 }}'
+          certutil -decode certificate.txt certificate.pfx
+          signtool sign /f certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Lionheart Remake.exe"
+          signtool sign /f certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}\Configure.exe"
+        shell: cmd
           
       - name: ${{ matrix.os }} Make ZIP
         if: ${{ matrix.os }} == "windows-latest"
@@ -143,11 +140,19 @@ jobs:
           cd build
           7z a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
           
+      - name: ${{ matrix.os }} Get 7zip
+        if: ${{ matrix.os }} == "windows-latest"
+        uses: engineerd/configurator@v0.0.10
+        with:
+          name: "7z.sfx"
+          url: "https://7-zip.org/a/7z2201-x64.exe"
+          pathInArchive: "7z.sfx"
+          
       - name: ${{ matrix.os }} Copy SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          copy "/c/Program Files/7-Zip/7z.sfx" "${{ env.TARGET_WIN }}"
+          copy "7z.sfx" "${{ env.TARGET_WIN }}"
         shell: cmd
           
       - name: ${{ matrix.os }} Make SFX
@@ -176,16 +181,9 @@ jobs:
           
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
-        uses: skymatic/code-sign-action@v1
-        with:
-          certificate: '${{ secrets.CODESIGN_BASE64 }}'
-          password: '${{ secrets.CODESIGN_PWD }}'
-          certificatesha1: '${{ secrets.CERT_HASH }}'
-          certificatename: '${{ secrets.CERT_NAME }}'
-          description: 'Byron 3D Games Studio'
-          folder: '.'
-          recursive: false
-          timestampUrl: 'http://timestamp.digicert.com'
+        run: |
+          signtool sign /f certificate.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.TARGET_WIN }}.exe"
+        shell: cmd
           
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
