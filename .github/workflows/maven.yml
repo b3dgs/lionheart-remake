@@ -54,7 +54,6 @@ jobs:
       - name: ${{ matrix.os }} Prepare folders
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          dir
           rmdir /S /Q build
           mkdir build
           mkdir build\${{ env.TARGET_WIN }}
@@ -72,9 +71,9 @@ jobs:
           copy "lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
+          cd data
           dir
-          cd ..\..
-          dir
+          cd ..\..\..
         shell: cmd
 
       - name: ${{ matrix.os }} Set JRE x86_32
@@ -88,8 +87,10 @@ jobs:
       - name: ${{ matrix.os }} Bundle JRE x86_32
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          dir
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_32
+          cd build\${{ env.TARGET_WIN }}\data
+          dir
+          cd ..\..\..
         shell: cmd
 
       - name: ${{ matrix.os }} Set JRE x86_64
@@ -103,8 +104,10 @@ jobs:
       - name: ${{ matrix.os }} Bundle JRE x86_64
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          dir
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_64
+          cd build\${{ env.TARGET_WIN }}\data
+          dir
+          cd ..\..\..
         shell: cmd
     
       - name: ${{ matrix.os }} msbuild
@@ -114,12 +117,16 @@ jobs:
       - name: ${{ matrix.os }} Compile Lionheart Remake.exe
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
+          msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
+          copy "distribution\win32\src\Lionheart Remake\Release\Lionheart Remake.exe" "build\${{ env.TARGET_WIN }}"
+          copy "distribution\win32\src\Lionheart Remake Configure\Release\Configure.exe" "build\${{ env.TARGET_WIN }}"
+          cd build\${{ env.TARGET_WIN }}
           dir
-          msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
-          msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
+          cd ..\..
         shell: cmd
        
-      - name: ${{ matrix.os }} Sign Lionheart Remake.exe
+      - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
         uses: GabrielAcostaEngler/signtool-code-sign@main
         with:
@@ -127,19 +134,7 @@ jobs:
           cert-password: '${{ secrets.CODESIGN_PWD }}'
           cert-sha1: '${{ secrets.CERT_HASH }}'
           cert-description: 'Byron 3D Games Studio'
-          folder: 'distribution\win32\src\Lionheart Remake\Release'
-          recursive: false
-          timestamp-server: 'http://timestamp.digicert.com'
-          
-      - name: ${{ matrix.os }} Sign Configure.exe
-        if: ${{ matrix.os }} == "windows-latest"
-        uses: GabrielAcostaEngler/signtool-code-sign@main
-        with:
-          certificate: '${{ secrets.CODESIGN_BASE64 }}'
-          cert-password: '${{ secrets.CODESIGN_PWD }}'
-          cert-sha1: '${{ secrets.CERT_HASH }}'
-          cert-description: 'Byron 3D Games Studio'
-          folder: 'distribution\win32\src\Lionheart Remake Configure\Release'
+          folder: 'build\${{ env.TARGET_WIN }}'
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
           
