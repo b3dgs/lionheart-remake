@@ -10,8 +10,8 @@ on:
     branches: [ master ]
 
 env:
-  VERSION: "1.3.0-SNAPSHOT"
-  BUILD: "lionheart-remake-${{ VERSION }}"
+  VERSION: '1.3.0-SNAPSHOT'
+  BUILD: 'lionheart-remake-${{ VERSION }}'
 
 jobs:
   build:
@@ -21,7 +21,6 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     env:
-      JDK_VERSION: 8
       AUDIODEV: "null"
     steps:
       - name: Checkout
@@ -54,7 +53,7 @@ jobs:
     needs: build
     runs-on: ${{ windows-latest }}
     env:
-      TARGET: ${{ BUILD }}"_win32_x86"
+      TARGET: ${{ BUILD }}'_win32_x86'
     steps:
       - name: Prepare folders
         run: |
