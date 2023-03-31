@@ -140,6 +140,7 @@ jobs:
         shell: bash
         run: |
           cd build
+          mkdir 7zip
           7z a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
           
       - name: ${{ matrix.os }} Get 7zip
