@@ -47,10 +47,16 @@ jobs:
             JavaSE-1.8
             JavaSE-17
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true -Ppc
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -DskipTests=true -Ppc
         
       - name: Prepare folders win32
         if: ${{ contains(matrix.os, 'windows-latest') }}
@@ -69,7 +75,6 @@ jobs:
           copy "..\..\distribution\data\.lionengine" "data"
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar.asc" "data"
-          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           copy "..\..\distribution\win32\bat\Lionheart Remake.bat" .
           copy "..\..\distribution\win32\bat\Configure.bat" .
           copy "..\..\distribution\win32\bat\Profile.bat" .
@@ -95,7 +100,6 @@ jobs:
           cp ../../distribution/data/.lionengine data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar.asc" data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
           copy "../../distribution/linux64/sh/Lionheart Remake.sh" .
           copy "../../distribution/linux64/sh/Configure.sh" .
           copy "../../distribution/linux64/sh/Profile.sh" .
