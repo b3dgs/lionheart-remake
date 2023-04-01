@@ -124,15 +124,12 @@ jobs:
 
       - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
-        uses: GabrielAcostaEngler/signtool-code-sign@main
-        with:
-          certificate: '${{ secrets.CODESIGN_BASE64 }}'
-          cert-password: '${{ secrets.CODESIGN_PWD }}'
-          cert-sha1: '${{ secrets.CODESIGN_SHA1 }}'
-          cert-description: 'Byron 3D Games Studio'
-          folder: 'build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}'
-          recursive: false
-          timestamp-server: 'http://timestamp.digicert.com'
+        run: |
+          certutil -decode ${{ secrets.CODESIGN_BASE64 }} cert.pfx
+          "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}\Lionheart Remake.exe"
+          "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}\Configure.exe"
+          del cert.pfx
+        shell: cmd
 
       - name: ${{ matrix.os }} Make Archive
         if: ${{ matrix.os }} == "windows-latest"
