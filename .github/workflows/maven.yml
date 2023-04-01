@@ -129,8 +129,8 @@ jobs:
           dir "C:\Program Files (x86)\Windows Kits\10\bin\"
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
           certutil -decode base64.txt cert.pfx
-          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Lionheart Remake.exe"
-          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Configure.exe"
+          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Lionheart Remake.exe"
+          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Configure.exe"
           del base64.txt
           del cert.pfx
         shell: cmd
@@ -159,9 +159,11 @@ jobs:
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          reshack\ResourceHacker.exe -open "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -save "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -action delete -mask versioninfo, 1,
-          reshack\ResourceHacker.exe -open "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -save "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          reshack\ResourceHacker.exe -open "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -save "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -action changelanguage(1033)
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action changelanguage(1033)
+          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action delete -mask versioninfo, 1,
+          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+        shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
@@ -169,7 +171,7 @@ jobs:
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
           certutil -decode base64.txt cert.pfx
-          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
+          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
           del base64.txt
           del cert.pfx
         shell: cmd
