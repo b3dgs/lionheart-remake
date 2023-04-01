@@ -125,9 +125,11 @@ jobs:
       - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          certutil -decode ${{ secrets.CODESIGN_BASE64 }} cert.pfx
+          echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
+          certutil -decode base64.txt cert.pfx
           "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}\Lionheart Remake.exe"
           "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}\Configure.exe"
+          del base64.txt
           del cert.pfx
         shell: cmd
 
