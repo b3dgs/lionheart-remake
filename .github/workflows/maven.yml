@@ -71,12 +71,7 @@ jobs:
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
-          dir
-          cd doc
-          dir
-          cd ..\data
-          dir
-          cd ..\..\..
+          cd ..\..
         shell: cmd
 
       - name: ${{ matrix.os }} Set JRE x86_32
@@ -118,9 +113,6 @@ jobs:
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\${{ env.TARGET_WIN }}"
           copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\${{ env.TARGET_WIN }}"
-          cd build\${{ env.TARGET_WIN }}
-          dir
-          cd ..\..
         shell: cmd
 
       - name: ${{ matrix.os }} Sign
@@ -156,7 +148,6 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           cd 7zip
-          dir
           copy "7z.sfx" "..\build"
           cd ..
         shell: cmd
@@ -166,7 +157,6 @@ jobs:
         run: |
           cd build
           copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
-          dir
           cd ..
           mkdir reshack
         shell: cmd
@@ -184,9 +174,9 @@ jobs:
         run: |
           cd reshack
           dir
-          ResourceHacker.exe -open ..\build\${{ env.TARGET_WIN }}.exe -save ..\build\${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
-          ResourceHacker.exe -open ..\build\${{ env.TARGET_WIN }}.exe -save ..\build\${{ env.TARGET_WIN }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          ResourceHacker.exe -open ..\build\${{ env.TARGET_WIN }}.exe -save ..\build\${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
+          ResourceHacker.exe -open "..\build\${{ env.TARGET_WIN }}.exe" -save "..\build\${{ env.TARGET_WIN }}.exe" -action delete -mask versioninfo, 1,
+          ResourceHacker.exe -open "..\build\${{ env.TARGET_WIN }}.exe" -save "..\build\${{ env.TARGET_WIN }}.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          ResourceHacker.exe -open "..\build\${{ env.TARGET_WIN }}.exe" -save "..\build\${{ env.TARGET_WIN }}.exe" -action changelanguage(1033)
           cd ..
         shell: cmd
 
@@ -205,12 +195,10 @@ jobs:
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          dir
           cd build
-          dir
+          del 7z.sfx
           del "${{ env.TARGET_WIN }}.7z"
           rmdir /S /Q "${{ env.TARGET_WIN }}"
-          dir
         shell: cmd
 
       - name: Deploy
@@ -219,4 +207,4 @@ jobs:
           server: ftp.b3dgs.com
           username: ${{ secrets.login }}
           password: ${{ secrets.password }}
-          local-dir: .
+          local-dir: ./
