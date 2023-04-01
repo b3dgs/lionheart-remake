@@ -182,10 +182,12 @@ jobs:
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          cd reshack
           dir
-          reshack/ResourceHacker.exe -open build\${{ env.TARGET_WIN }}.exe -save build\${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
-          reshack/ResourceHacker.exe -open build\${{ env.TARGET_WIN }}.exe -save build\${{ env.TARGET_WIN }}.exe -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          reshack/ResourceHacker.exe -open build\${{ env.TARGET_WIN }}.exe -save build\${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
+          ResourceHacker.exe -open ..\build\${{ env.TARGET_WIN }}.exe -save ..\build\${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
+          ResourceHacker.exe -open ..\build\${{ env.TARGET_WIN }}.exe -save ..\build\${{ env.TARGET_WIN }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          ResourceHacker.exe -open ..\build\${{ env.TARGET_WIN }}.exe -save ..\build\${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
+          cd ..
         shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
@@ -204,8 +206,11 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
+          cd build
+          dir
           del "${{ env.TARGET_WIN }}.7z"
           rmdir /S /Q "${{ env.TARGET_WIN }}"
+          dir
         shell: cmd
 
       - name: Deploy
