@@ -56,7 +56,7 @@ jobs:
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -DskipTests=true -Ppc
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -DskipTests=true -Ppc,sign
         
       - name: Prepare folders win32
         if: ${{ contains(matrix.os, 'windows-latest') }}
