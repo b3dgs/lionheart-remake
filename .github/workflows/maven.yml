@@ -175,11 +175,11 @@ jobs:
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          dir
-          "reshack\ResourceHacker.exe" -open "build\${{ env.TARGET_WIN }}.exe" -save "build\${{ env.TARGET_WIN }}.exe" -action delete -mask versioninfo, 1,
-          "reshack\ResourceHacker.exe" -open "build\${{ env.TARGET_WIN }}.exe" -save "build\${{ env.TARGET_WIN }}.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          "reshack\ResourceHacker.exe" -open "build\${{ env.TARGET_WIN }}.exe" -save "build\${{ env.TARGET_WIN }}.exe" -action changelanguage(1033)
-        shell: cmd
+          cd build
+          "reshack\ResourceHacker.exe" -open "${{ env.TARGET_WIN }}.exe" -save "${{ env.TARGET_WIN }}.exe" -action delete -mask versioninfo, 1,
+          "reshack\ResourceHacker.exe" -open "${{ env.TARGET_WIN }}.exe" -save "${{ env.TARGET_WIN }}.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          "reshack\ResourceHacker.exe" -open "${{ env.TARGET_WIN }}.exe" -save "${{ env.TARGET_WIN }}.exe" -action changelanguage(1033)
+        shell: bash
 
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
