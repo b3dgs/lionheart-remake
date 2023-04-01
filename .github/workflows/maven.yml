@@ -205,6 +205,6 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ftp.b3dgs.com
-          username: ${{ secrets.login }}
-          password: ${{ secrets.password }}
+          username: ${{ secrets.LOGIN }}
+          password: ${{ secrets.PASSWORD }}
           local-dir: ./
