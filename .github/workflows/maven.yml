@@ -46,6 +46,13 @@ jobs:
           mvn-toolchain-id: |
             JavaSE-1.8
             JavaSE-17
+            
+      - name: Set GCC
+        if: ${{ contains(matrix.os, 'ubuntu-latest') }}
+        uses: egor-tensin/setup-gcc@v1.3
+        with:
+          version: latest
+          platform: x64
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
@@ -55,7 +62,7 @@ jobs:
 
       - name: Decode Keystore
         id: write_keystore
-        uses: timheuer/base64-to-file@v1
+        uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'android.jks'
           fileDir: 'lionheart-pc/'
@@ -112,9 +119,9 @@ jobs:
           cp ../../distribution/data/.lionengine data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar.asc" data
-          cp ../../distribution/linux64/sh/lionheart-remake.sh .
-          cp ../../distribution/linux64/sh/configure.sh .
-          cp ../../distribution/linux64/sh/profile.sh .
+          cp ../../distribution/linux/sh/lionheart-remake.sh .
+          cp ../../distribution/linux/sh/configure.sh .
+          cp ../../distribution/linux/sh/profile.sh .
           cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. $DEST/data/assets
           find . -name 'stage*.png' -delete
           cd ../..
