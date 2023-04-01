@@ -134,42 +134,18 @@ jobs:
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
 
-      - name: ${{ matrix.os }} Make ZIP
-        if: ${{ matrix.os }} == "windows-latest"
-        shell: cmd
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd build
-          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
-          cd ..
-          mkdir 7zip
-
-      - name: ${{ matrix.os }} Get 7zip
-        if: ${{ matrix.os }} == "windows-latest"
-        uses: gamedev-thingy/Download-Extract@done
-        with:
-          url: "https://7-zip.org/a/7z2201-x64.exe"
-          destination: 7zip
-          ZIPname: "7z2201-x64.exe"
-
-      - name: ${{ matrix.os }} Copy SFX
-        if: ${{ matrix.os }} == "windows-latest"
-        run: |
-          cd 7zip
-          copy "7z.sfx" "..\build"
-          copy "..\distribution\win32\src\sfxmaker.txt" "..\build"
-          cd ..
-        shell: cmd
-
       - name: ${{ matrix.os }} Make SFX
         if: ${{ matrix.os }} == "windows-latest"
+        shell: cmd
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          copy "distribution\win32\src\sfxmaker.txt" "build"
+          copy "distribution\win32\src\7zsd_LZMA2.txt" "build"
           cd build
-          copy /b "7z.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
+          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
+          copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
           cd ..
           mkdir reshack
-        shell: cmd
 
       - name: ${{ matrix.os }} Get reshack
         if: ${{ matrix.os }} == "windows-latest"
@@ -184,12 +160,11 @@ jobs:
         shell: cmd
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          cd reshack
           dir
-          cd build
-          start "" ..\reshack\ResourceHacker.exe -open "%TARGET%.exe" -save "%TARGET%.exe" -action delete -mask versioninfo, 1,
-          start "" ..\reshack\ResourceHacker.exe -open "%TARGET%.exe" -save "%TARGET%.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          start "" ..\reshack\ResourceHacker.exe -open "%TARGET%.exe" -save "%TARGET%.exe" -action changelanguage(1033)
-          dir
+          ResourceHacker.exe -open "..\build\%TARGET%.exe" -save "..\build\%TARGET%.exe" -action delete -mask versioninfo, 1,
+          ResourceHacker.exe -open "..\build\%TARGET%.exe" -save "..\build\%TARGET%.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          ResourceHacker.exe -open "..\build\%TARGET%.exe" -save "..\build\%TARGET%.exe" -action changelanguage(1033)
 
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
@@ -208,7 +183,7 @@ jobs:
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
-          del 7z.sfx
+          del 7zsd_LZMA2.sfx
           del sfxmaker.txt
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
