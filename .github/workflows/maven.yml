@@ -160,9 +160,7 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action changelanguage(1033)
-          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action delete -mask versioninfo, 1,
-          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res "distribution\win32\src\versioninfo.res",
         shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
