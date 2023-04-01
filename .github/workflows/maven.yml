@@ -71,13 +71,13 @@ jobs:
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -X -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
         
-      - name: Prepare folders win32
+      - name: Prepare folders win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
@@ -102,7 +102,7 @@ jobs:
           cd ..\..
         shell: cmd
         
-      - name: Prepare folders linux64
+      - name: Prepare folders linux-x86_64
         if: ${{ contains(matrix.os, 'ubuntu-latest') }}
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
@@ -142,7 +142,7 @@ jobs:
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_32
         shell: cmd
 
-      - name: Set JRE x86_64
+      - name: Set JRE win32-x86_64
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
@@ -163,8 +163,9 @@ jobs:
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\$TARGET\data\jre_linux-x86_64
         shell: sh
         
-      - name: Compile c linux64
+      - name: Compile c linux-x86_64
         if: ${{ contains(matrix.os, 'ubuntu-latest') }}
+        shell: sh
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
           gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
@@ -210,9 +211,9 @@ jobs:
           cd ..
           mkdir reshack
           
-      - name: Make Archive linux64
+      - name: Make Archive linux-x86_64
         if: ${{ contains(matrix.os, 'ubuntu-latest') }}
-        shell: cmd
+        shell: sh
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
           cd build
