@@ -259,11 +259,10 @@ jobs:
         shell: cmd
 
       - name: Deploy
-        uses: airvzxf/ftp-deployment-action@latest
+        uses: dennisameling/ftp-upload-action@v1
         with:
           server: ftp.b3dgs.com
-          user: ${{ secrets.LOGIN }}
+          username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
-          local-dir: build/
-          remote_dir: ${{ env.APP_VERSION }}/
-          delete: "false"
+          local_dir: build/
+          server_dir: ${{ env.APP_VERSION }}/
