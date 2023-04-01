@@ -120,7 +120,6 @@ jobs:
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET%"
           copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\%TARGET%"
-          certutil -addstore -user -f "My" "build\data\b3dgs.cer"
         shell: cmd
 
       - name: ${{ matrix.os }} Sign
