@@ -208,4 +208,4 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local-dir: build/
-          server-dir: ${{ env.APP_VERSION }}
+          server-dir: ${{ env.APP_VERSION }}/
