@@ -48,7 +48,8 @@ jobs:
       - name: Get version
         run: |
           (mvn help:evaluate --file lionheart-parent/pom.xml -Dexpression=project.version -q -DforceStdout & echo.) >2 & (set /p APP_VERSION=)<2
-        shell: cmd
+          echo %APP_VERSION% >> $env:GITHUB_OUTPUT
+        shell: bash
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
