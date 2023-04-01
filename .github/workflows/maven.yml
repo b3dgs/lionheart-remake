@@ -53,7 +53,7 @@ jobs:
           run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true -Ppc
         
       - name: Prepare folders win32
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           mkdir build
@@ -79,7 +79,7 @@ jobs:
         shell: cmd
         
       - name: Prepare folders linux64
-        if: ${{ matrix.os }} == "ubuntu-latest"
+        if: ${{ contains(matrix.os, 'ubuntu-latest')
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
           mkdir build
@@ -105,7 +105,7 @@ jobs:
         shell: sh
 
       - name: Set JRE win32-x86_32
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
@@ -113,7 +113,7 @@ jobs:
           architecture: x86
 
       - name: Bundle JRE win32-x86_32
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_32
@@ -127,25 +127,25 @@ jobs:
           architecture: x64
 
       - name: Bundle JRE win32-x86_64
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
         shell: cmd
         
       - name: Bundle JRE linux-x86_64
-        if: ${{ matrix.os }} == "ubuntu-latest"
+        if: ${{ contains(matrix.os, 'ubuntu-latest')
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\$TARGET\data\jre_linux-x86_64
         shell: sh
 
       - name: ${{ matrix.os }} msbuild
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         uses: microsoft/setup-msbuild@v1.1
 
       - name: ${{ matrix.os }} Compile vsproject
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
@@ -155,7 +155,7 @@ jobs:
         shell: cmd
 
       - name: ${{ matrix.os }} Sign
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           dir "C:\Program Files (x86)\Windows Kits\10\bin\"
@@ -168,7 +168,7 @@ jobs:
         shell: cmd
 
       - name: Make Archive win32
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         shell: cmd
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
@@ -181,7 +181,7 @@ jobs:
           mkdir reshack
           
       - name: Make Archive linux64
-        if: ${{ matrix.os }} == "ubuntu-latest"
+        if: ${{ contains(matrix.os, 'ubuntu-latest')
         shell: cmd
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
@@ -191,7 +191,7 @@ jobs:
           cd ..
 
       - name: ${{ matrix.os }} Get reshack
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         uses: gamedev-thingy/Download-Extract@done
         with:
           url: "http://www.angusj.com/resourcehacker/resource_hacker.zip"
@@ -199,14 +199,14 @@ jobs:
           ZIPname: "resource_hacker.zip"
 
       - name: ${{ matrix.os }} Update info
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res "distribution\win32\src\versioninfo.res",
         shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
@@ -217,7 +217,7 @@ jobs:
         shell: cmd
 
       - name: ${{ matrix.os }} Clean
-        if: ${{ matrix.os }} == "windows-latest"
+        if: ${{ contains(matrix.os, 'windows-latest')
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           cd build
