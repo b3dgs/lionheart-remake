@@ -86,7 +86,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           architecture: x86
-          
+
       - name: ${{ matrix.os }} Bundle JRE x86_32
         if: ${{ matrix.os }} == "windows-latest"
         run: |
@@ -100,13 +100,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           architecture: x64
-          
+
       - name: ${{ matrix.os }} Bundle JRE x86_64
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\${{ env.TARGET_WIN }}\data\jre_win32-x86_64
         shell: cmd
-    
+
       - name: ${{ matrix.os }} msbuild
         if: ${{ matrix.os }} == "windows-latest"
         uses: microsoft/setup-msbuild@v1.1
@@ -122,7 +122,7 @@ jobs:
           dir
           cd ..\..
         shell: cmd
-       
+
       - name: ${{ matrix.os }} Sign
         if: ${{ matrix.os }} == "windows-latest"
         uses: GabrielAcostaEngler/signtool-code-sign@main
@@ -134,15 +134,16 @@ jobs:
           folder: 'build\${{ env.TARGET_WIN }}'
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
-          
+
       - name: ${{ matrix.os }} Make ZIP
         if: ${{ matrix.os }} == "windows-latest"
-        shell: bash
+        shell: cmd
         run: |
-          mkdir 7zip
           cd build
           7z a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
-          
+          cd ..
+          mkdir 7zip
+
       - name: ${{ matrix.os }} Get 7zip
         if: ${{ matrix.os }} == "windows-latest"
         uses: gamedev-thingy/Download-Extract@done
@@ -150,24 +151,26 @@ jobs:
           url: "https://7-zip.org/a/7z2201-x64.exe"
           destination: 7zip
           ZIPname: "7z2201-x64.exe"
-          
+
       - name: ${{ matrix.os }} Copy SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          cd 7zip
           dir
-          copy "7zip\7z.sfx" "build\${{ env.TARGET_WIN }}"
+          copy "7z.sfx" "..\build"
+          cd ..
         shell: cmd
-          
+
       - name: ${{ matrix.os }} Make SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          cd build
           dir
-          copy /b "7z.sfx" + "..\..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
+          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
+          dir
           cd ..
           mkdir reshack
         shell: cmd
-       
+
       - name: ${{ matrix.os }} Get reshack
         if: ${{ matrix.os }} == "windows-latest"
         uses: gamedev-thingy/Download-Extract@done
@@ -175,7 +178,7 @@ jobs:
           url: "http://www.angusj.com/resourcehacker/resource_hacker.zip"
           destination: reshack
           ZIPname: "resource_hacker.zip"
-          
+
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
@@ -183,8 +186,8 @@ jobs:
           reshack/ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action delete -mask versioninfo, 1,
           reshack/ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
           reshack/ResourceHacker.exe -open ${{ env.TARGET_WIN }}.exe -save ${{ env.TARGET_WIN }}.exe -action changelanguage(1033)
-          shell: cmd
-          
+        shell: cmd
+
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
         uses: GabrielAcostaEngler/signtool-code-sign@main
@@ -196,15 +199,15 @@ jobs:
           folder: '.'
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
-          
+
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
           del "${{ env.TARGET_WIN }}.7z"
           rmdir /S /Q "${{ env.TARGET_WIN }}"
-          shell: cmd
-          
+        shell: cmd
+
       - name: Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
