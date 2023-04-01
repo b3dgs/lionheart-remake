@@ -112,9 +112,9 @@ jobs:
           cp ../../distribution/data/.lionengine data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar.asc" data
-          cp ../../distribution/linux64/sh/Lionheart Remake.sh" .
-          cp ../../distribution/linux64/sh/Configure.sh" .
-          cp ../../distribution/linux64/sh/Profile.sh" .
+          cp ../../distribution/linux64/sh/lionheart-remake.sh .
+          cp ../../distribution/linux64/sh/configure.sh .
+          cp ../../distribution/linux64/sh/profile.sh .
           cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. $DEST/data/assets
           find . -name 'stage*.png' -delete
           cd ../..
