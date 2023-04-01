@@ -61,9 +61,6 @@ jobs:
           fileDir: 'lionheart-pc/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
-      - name: Dir
-        run: dir lionheart-pc/
-
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
