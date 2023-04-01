@@ -58,7 +58,7 @@ jobs:
         uses: timheuer/base64-to-file@v1
         with:
           fileName: 'android.jks'
-          fileDir: './keystore/'
+          fileDir: './lionheart-remake/lionheart-pc/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Dir
@@ -67,7 +67,7 @@ jobs:
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -X -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore='../../keystore/android.jks' -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.key=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.pass=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -X -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore='android.jks' -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.key=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.pass=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
