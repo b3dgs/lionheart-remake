@@ -157,6 +157,7 @@ jobs:
         run: |
           cd 7zip
           copy "7z.sfx" "..\build"
+          copy "..\distribution\win32\src\sfxmaker.txt" "..\build"
           cd ..
         shell: cmd
 
@@ -165,7 +166,7 @@ jobs:
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
-          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
+          copy /b "7z.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
           cd ..
           mkdir reshack
         shell: cmd
@@ -180,15 +181,15 @@ jobs:
 
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
+        shell: cmd
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           dir
           cd build
-          "..\reshack\ResourceHacker.exe" -open "%TARGET%.exe" -save "%TARGET%.exe" -action delete -mask versioninfo, 1,
-          "..\reshack\ResourceHacker.exe" -open "%TARGET%.exe" -save "%TARGET%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          "..\reshack\ResourceHacker.exe" -open "%TARGET%.exe" -save "%TARGET%.exe" -action changelanguage(1033)
+          start "" ..\reshack\ResourceHacker.exe -open "%TARGET%.exe" -save "%TARGET%.exe" -action delete -mask versioninfo, 1,
+          start "" ..\reshack\ResourceHacker.exe -open "%TARGET%.exe" -save "%TARGET%.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          start "" ..\reshack\ResourceHacker.exe -open "%TARGET%.exe" -save "%TARGET%.exe" -action changelanguage(1033)
           dir
-        shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
@@ -206,10 +207,9 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          dir
           cd build
-          dir
           del 7z.sfx
+          del sfxmaker.txt
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
         shell: cmd
