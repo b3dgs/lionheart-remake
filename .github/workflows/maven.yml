@@ -24,8 +24,8 @@ jobs:
     steps:
       - name: "Set environmental variables"
         run: |
-          set BUILD="lionheart-remake-"${{ APP_VERSION }}
-          set TARGET_WIN=%BUILD%"_"${{ TARGET_PLATFORM }}
+          set BUILD="lionheart-remake-"${{ env.APP_VERSION }}
+          set TARGET_WIN=%BUILD%"_"${{ env.TARGET_PLATFORM }}
         shell: cmd
     
       - name: Checkout
@@ -182,9 +182,9 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           cd build
-          "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action delete -mask versioninfo, 1,
-          "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action changelanguage(1033)
+          call "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action delete -mask versioninfo, 1,
+          call "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          call "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action changelanguage(1033)
         shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
@@ -202,7 +202,6 @@ jobs:
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          cd build
           del 7z.sfx
           del "%TARGET_WIN%.7z"
           rmdir /S /Q "%TARGET_WIN%"
