@@ -122,7 +122,7 @@ jobs:
           cp ../../distribution/linux/sh/lionheart-remake.sh .
           cp ../../distribution/linux/sh/configure.sh .
           cp ../../distribution/linux/sh/profile.sh .
-          cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. $DEST/data/assets
+          cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. assets
           find . -name 'stage*.png' -delete
           cd ../..
         shell: sh
@@ -162,12 +162,19 @@ jobs:
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\$TARGET\data\jre_linux-x86_64
         shell: sh
+        
+      - name: Compile c linux64
+        if: ${{ contains(matrix.os, 'ubuntu-latest') }}
+        run: |
+          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
+          gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
+          chmod +x build/$TARGET/lionheart-remake
 
-      - name: ${{ matrix.os }} msbuild
+      - name: msbuild win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: ${{ matrix.os }} Compile vsproject
+      - name: Compile vsproject win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
@@ -177,7 +184,7 @@ jobs:
           copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\%TARGET%"
         shell: cmd
 
-      - name: ${{ matrix.os }} Sign
+      - name: Sign win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
@@ -190,7 +197,7 @@ jobs:
           del cert.pfx
         shell: cmd
 
-      - name: Make Archive win32
+      - name: Make Archive win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         shell: cmd
         run: |
@@ -213,7 +220,7 @@ jobs:
           rm -r -f $TARGET
           cd ..
 
-      - name: ${{ matrix.os }} Get reshack
+      - name: Get reshack win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         uses: gamedev-thingy/Download-Extract@done
         with:
@@ -221,14 +228,14 @@ jobs:
           destination: reshack
           ZIPname: "resource_hacker.zip"
 
-      - name: ${{ matrix.os }} Update info
+      - name: Update info win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
           reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res "distribution\win32\src\versioninfo.res",
         shell: cmd
 
-      - name: ${{ matrix.os }} Sign SFX
+      - name: Sign SFX win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
@@ -239,7 +246,7 @@ jobs:
           del cert.pfx
         shell: cmd
 
-      - name: ${{ matrix.os }} Clean
+      - name: Clean win32-x86
         if: ${{ contains(matrix.os, 'windows-latest') }}
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_WIN }}
