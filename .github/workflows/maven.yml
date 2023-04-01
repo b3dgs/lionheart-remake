@@ -139,8 +139,8 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         shell: bash
         run: |
-          cd build
           mkdir 7zip
+          cd build
           7z a -t7z -mf=off -m0=lzma2 -mx=9 ${{ env.TARGET_WIN }}.7z ${{ env.TARGET_WIN }}
           
       - name: ${{ matrix.os }} Get 7zip
@@ -163,6 +163,7 @@ jobs:
         run: |
           dir
           copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
+          mkdir reshack
         shell: cmd
        
       - name: ${{ matrix.os }} Get reshack
