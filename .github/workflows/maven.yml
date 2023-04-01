@@ -58,11 +58,11 @@ jobs:
         uses: timheuer/base64-to-file@v1
         with:
           fileName: 'android.jks'
-          fileDir: './lionheart-remake/lionheart-pc/'
+          fileDir: './lionheart-remake/lionheart-remake/lionheart-pc/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Dir
-        run: dir lionheart-remake/lionheart-pc/
+        run: dir lionheart-remake/lionheart-remake/lionheart-pc/
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
