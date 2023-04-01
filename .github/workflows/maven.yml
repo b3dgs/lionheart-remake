@@ -47,7 +47,7 @@ jobs:
 
       - name: Get version
         run: |
-          echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          echo "APP_VERSION=$(mvn help:evaluate --file lionheart-parent/pom.xml -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
@@ -81,7 +81,8 @@ jobs:
           cd ..\..
         shell: cmd
         
-      - name: Find and Replace
+      - name: ${{ matrix.os }} Find and Replace
+        if: ${{ matrix.os }} == "windows-latest"
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "set VERSION=1.3.0"
