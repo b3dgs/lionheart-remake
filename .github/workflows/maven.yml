@@ -20,7 +20,6 @@ jobs:
       JDK_VERSION: "8"
       AUDIODEV: "null"
       APP_NAME: "lionheart-remake"
-      APP_VERSION: "1.3.0-SNAPSHOT"
       APP_PLATFORM: "win32-x86"
     steps:   
       - name: Checkout
@@ -45,6 +44,10 @@ jobs:
           mvn-toolchain-id: |
             JavaSE-1.8
             JavaSE-17
+
+      - name: Get version
+        run: |
+          echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
@@ -77,6 +80,14 @@ jobs:
           del /Q /F /S "stage*.png"
           cd ..\..
         shell: cmd
+        
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "set VERSION=1.3.0"
+          replace: "set VERSION=${{ env.APP_VERSION }}"
+          include: "build/${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}/**.bat"
+          regex: false
 
       - name: ${{ matrix.os }} Set JRE x86_32
         if: ${{ matrix.os }} == "windows-latest"
@@ -134,13 +145,13 @@ jobs:
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
 
-      - name: ${{ matrix.os }} Make SFX
+      - name: ${{ matrix.os }} Make Archive
         if: ${{ matrix.os }} == "windows-latest"
         shell: cmd
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           copy "distribution\win32\src\sfxmaker.txt" "build"
-          copy "distribution\win32\src\7zsd_LZMA2.txt" "build"
+          copy "distribution\win32\src\7zsd_LZMA2.sfx" "build"
           cd build
           7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
           copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
@@ -157,14 +168,10 @@ jobs:
 
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
-        shell: cmd
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd reshack
-          dir
-          ResourceHacker.exe -open "..\build\%TARGET%.exe" -save "..\build\%TARGET%.exe" -action delete -mask versioninfo, 1,
-          ResourceHacker.exe -open "..\build\%TARGET%.exe" -save "..\build\%TARGET%.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          ResourceHacker.exe -open "..\build\%TARGET%.exe" -save "..\build\%TARGET%.exe" -action changelanguage(1033)
+          reshack\ResourceHacker.exe -open "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -save "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -action delete -mask versioninfo, 1,
+          reshack\ResourceHacker.exe -open "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -save "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          reshack\ResourceHacker.exe -open "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -save "..\build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}.exe" -action changelanguage(1033)
 
       - name: ${{ matrix.os }} Sign SFX
         if: ${{ matrix.os }} == "windows-latest"
