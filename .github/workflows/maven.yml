@@ -69,6 +69,9 @@ jobs:
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar.asc" "data"
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
+          copy "..\..\distribution\win32\bat\Lionheart Remake.bat" .
+          copy "..\..\distribution\win32\bat\Configure.bat" .
+          copy "..\..\distribution\win32\bat\Profile.bat" .
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
           cd ..\..
@@ -172,12 +175,10 @@ jobs:
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          cd reshack
           dir
-          ResourceHacker.exe -open "..\build\${{ env.TARGET_WIN }}.exe" -save "..\build\${{ env.TARGET_WIN }}.exe" -action delete -mask versioninfo, 1,
-          ResourceHacker.exe -open "..\build\${{ env.TARGET_WIN }}.exe" -save "..\build\${{ env.TARGET_WIN }}.exe" -action add -res "..\distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          ResourceHacker.exe -open "..\build\${{ env.TARGET_WIN }}.exe" -save "..\build\${{ env.TARGET_WIN }}.exe" -action changelanguage(1033)
-          cd ..
+          "reshack\ResourceHacker.exe" -open "build\${{ env.TARGET_WIN }}.exe" -save "build\${{ env.TARGET_WIN }}.exe" -action delete -mask versioninfo, 1,
+          "reshack\ResourceHacker.exe" -open "build\${{ env.TARGET_WIN }}.exe" -save "build\${{ env.TARGET_WIN }}.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          "reshack\ResourceHacker.exe" -open "build\${{ env.TARGET_WIN }}.exe" -save "build\${{ env.TARGET_WIN }}.exe" -action changelanguage(1033)
         shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
