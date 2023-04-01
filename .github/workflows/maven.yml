@@ -155,14 +155,16 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         run: |
           dir
-          copy "7zip/7z.sfx" "${{ env.TARGET_WIN }}"
+          copy "7zip\7z.sfx" "build\${{ env.TARGET_WIN }}"
         shell: cmd
           
       - name: ${{ matrix.os }} Make SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          cd build
           dir
-          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
+          copy /b "7z.sfx" + "..\..\distribution\win32\src\sfxmaker.txt" + "${{ env.TARGET_WIN }}.7z" "${{ env.TARGET_WIN }}.exe"
+          cd ..
           mkdir reshack
         shell: cmd
        
