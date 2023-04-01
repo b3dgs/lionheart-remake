@@ -19,15 +19,10 @@ jobs:
     env:
       JDK_VERSION: "8"
       AUDIODEV: "null"
+      APP_NAME: "lionheart-remake"
       APP_VERSION: "1.3.0-SNAPSHOT"
-      TARGET_PLATFORM: "win32-x86"
-    steps:
-      - name: "Set environmental variables"
-        run: |
-          set BUILD="lionheart-remake-"${{ env.APP_VERSION }}
-          set TARGET_WIN=%BUILD%"_"${{ env.TARGET_PLATFORM }}
-        shell: cmd
-    
+      APP_PLATFORM: "win32-x86"
+    steps:   
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -59,12 +54,13 @@ jobs:
       - name: ${{ matrix.os }} Prepare folders
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           rmdir /S /Q build
           mkdir build
-          mkdir build\%TARGET_WIN%
-          mkdir build\%TARGET_WIN%\data
-          mkdir build\%TARGET_WIN%\data\assets
-          cd build\%TARGET_WIN%
+          mkdir build\%TARGET%
+          mkdir build\%TARGET%\data
+          mkdir build\%TARGET%\data\assets
+          cd build\%TARGET%
           robocopy "..\..\distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
           copy "..\..\CHANGELOG" "doc\CHANGELOG.txt"
           copy "..\..\LICENSE" "doc\LICENSE.txt"
@@ -93,7 +89,8 @@ jobs:
       - name: ${{ matrix.os }} Bundle JRE x86_32
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET_WIN%\data\jre_win32-x86_32
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_32
         shell: cmd
 
       - name: ${{ matrix.os }} Set JRE x86_64
@@ -107,7 +104,8 @@ jobs:
       - name: ${{ matrix.os }} Bundle JRE x86_64
         if: ${{ matrix.os }} == "windows-latest"
         run: |
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET_WIN%\data\jre_win32-x86_64
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
         shell: cmd
 
       - name: ${{ matrix.os }} msbuild
@@ -117,11 +115,12 @@ jobs:
       - name: ${{ matrix.os }} Compile vsproject
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
-          copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET_WIN%"
-          copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\%TARGET_WIN%"
-          "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" -addstore root "build\data\b3dgs.cer"
+          copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET%"
+          copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\%TARGET%"
+          certutil -addstore root "build\data\b3dgs.cer"
         shell: cmd
 
       - name: ${{ matrix.os }} Sign
@@ -132,7 +131,7 @@ jobs:
           cert-password: '${{ secrets.CODESIGN_PWD }}'
           cert-sha1: '${{ secrets.CODESIGN_SHA1 }}'
           cert-description: 'Byron 3D Games Studio'
-          folder: 'build\%TARGET_WIN%'
+          folder: 'build\${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}'
           recursive: false
           timestamp-server: 'http://timestamp.digicert.com'
 
@@ -140,8 +139,9 @@ jobs:
         if: ${{ matrix.os }} == "windows-latest"
         shell: cmd
         run: |
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
-          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET_WIN%.7z %TARGET_WIN%
+          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
           cd ..
           mkdir 7zip
 
@@ -164,8 +164,9 @@ jobs:
       - name: ${{ matrix.os }} Make SFX
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
-          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "%TARGET_WIN%.7z" "%TARGET_WIN%.exe"
+          copy /b "7z.sfx" + "..\distribution\win32\src\sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
           cd ..
           mkdir reshack
         shell: cmd
@@ -181,10 +182,11 @@ jobs:
       - name: ${{ matrix.os }} Update info
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
-          call "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action delete -mask versioninfo, 1,
-          call "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
-          call "..\reshack\ResourceHacker.exe" -open "%TARGET_WIN%.exe" -save "%TARGET_WIN%.exe" -action changelanguage(1033)
+          call "..\reshack\ResourceHacker.exe" -open "%TARGET%.exe" -save "%TARGET%.exe" -action delete -mask versioninfo, 1,
+          call "..\reshack\ResourceHacker.exe" -open "%TARGET%.exe" -save "%TARGET%.exe" -action add -res "distribution\win32\src\versioninfo.res" -mask versioninfo, 1,
+          call "..\reshack\ResourceHacker.exe" -open "%TARGET%.exe" -save "%TARGET%.exe" -action changelanguage(1033)
         shell: cmd
 
       - name: ${{ matrix.os }} Sign SFX
@@ -202,9 +204,10 @@ jobs:
       - name: ${{ matrix.os }} Clean
         if: ${{ matrix.os }} == "windows-latest"
         run: |
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           del 7z.sfx
-          del "%TARGET_WIN%.7z"
-          rmdir /S /Q "%TARGET_WIN%"
+          del "%TARGET%.7z"
+          rmdir /S /Q "%TARGET%"
         shell: cmd
 
       - name: Deploy
