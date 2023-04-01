@@ -62,15 +62,12 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Dir
-        run: |
-          dir .
-          dir ./lionheart-remake/
-          dir ./lionheart-remake/lionheart-pc/
+        run: dir lionheart-remake/lionheart-pc/
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -X -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore='./android.jks' -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.key=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.pass=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -X -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.key=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.pass=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
