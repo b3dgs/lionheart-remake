@@ -56,7 +56,7 @@ jobs:
       - name: Decode Keystore
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: 'keystore/android.jks'
+          fileName: 'lionheart-remake/lionheart-pc/keystore/android.jks'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Compile Java
