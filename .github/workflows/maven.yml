@@ -207,4 +207,5 @@ jobs:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
-          local-dir: ./
+          local-dir: build/
+          server-dir: ${{ APP_VERSION }}
