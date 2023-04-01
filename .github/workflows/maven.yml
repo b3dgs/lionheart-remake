@@ -266,3 +266,4 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
           server_dir: ${{ env.APP_VERSION }}/
+          secure: false
