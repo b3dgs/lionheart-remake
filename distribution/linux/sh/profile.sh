@@ -23,7 +23,7 @@ export ARGS="-game story -stage original"
 
 
 # ----------------------- DO NOT CHANGE -----------------------
-export VERSION=1.3.0
+export VERSION=%%APPV%%
 export PARAM="-server -splash:splash.png -jar lionheart-pc-"$VERSION".jar "
 
 cd data

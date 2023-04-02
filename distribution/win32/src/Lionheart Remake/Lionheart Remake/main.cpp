@@ -19,11 +19,11 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 {
 	if (Is64BitWindows())
 	{
-		system("start \"\" /d data /b \"data\\jre_win32-x86_64\\bin\\javaw.exe\" -server -splash:splash.png -jar lionheart-pc-1.3.0.jar");
+		system("start \"\" /d data /b \"data\\jre_win32-x86_64\\bin\\javaw.exe\" -server -splash:splash.png -jar lionheart-pc-%%APPV%%.jar");
 	}
 	else
 	{
-		system("start \"\" /d data /b \"data\\jre_win32-x86\\bin\\javaw.exe\" -server -splash:splash.png -jar lionheart-pc-1.3.0.jar");
+		system("start \"\" /d data /b \"data\\jre_win32-x86\\bin\\javaw.exe\" -server -splash:splash.png -jar lionheart-pc-%%APPV%%.jar");
 	}
 	return 0;
 }

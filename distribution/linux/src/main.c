@@ -18,6 +18,6 @@
 
 int main(int argc, char** argv)
 {
-   system("cd data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-1.3.0.jar");
+   system("cd data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-%%APPV%%.jar");
    return 0;
 }
