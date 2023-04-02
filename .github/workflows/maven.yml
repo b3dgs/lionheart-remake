@@ -306,7 +306,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
-          sha256sum "build/%TARGET%.tar.xz" >> "build/%TARGET_sha256sum"
+          sha256sum "build/$TARGET.tar.xz" >> "build/%TARGET_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
@@ -382,7 +382,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
-          sha256sum "build/%TARGET%.tar.xz" >> "build/%TARGET_sha256sum"
+          sha256sum "build/$TARGET.tar.xz" >> "build/%TARGET_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
