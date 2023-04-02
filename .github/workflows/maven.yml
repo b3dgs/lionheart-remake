@@ -289,6 +289,13 @@ jobs:
             JavaSE-1.8
             JavaSE-17
 
+      - name: Decode Keystore
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'android.jks'
+          fileDir: 'lionheart-android/app/'
+          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
       - name: Build JAR
         run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true
 
