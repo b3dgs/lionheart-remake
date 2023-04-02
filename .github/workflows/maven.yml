@@ -70,6 +70,7 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
+          _output-file: 'distribution\win32\src\Lionheart Remake.bat'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -77,6 +78,7 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Configure.bat'
+          _output-file: 'distribution\win32\src\Configure.bat'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -84,6 +86,7 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Profile.bat'
+          _output-file: 'distribution\win32\src\Profile.bat'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -91,6 +94,7 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\sfxmaker.txt'
+          _output-file: 'distribution\win32\src\sfxmaker.txt'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -98,6 +102,7 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
+          _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -105,6 +110,7 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
+          _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -300,24 +306,28 @@ jobs:
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/lionheart-remake.sh'
+          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update configure.sh version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/configure.sh'
+          _output-file: 'distribution/linux/sh/configure.sh'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update profile.sh version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/profile.sh'
+          _output-file: 'distribution/linux/sh/profile.sh'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update main.c version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/src/main.c'
+          _output-file: 'distribution/linux/src/main.c'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Prepare folders
