@@ -182,27 +182,11 @@ jobs:
           del sfxmaker.txt
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
+          sha256sum %TARGET%.exe
+          sha256sum %TARGET%.exe > %TARGET%_sha256sum
         shell: cmd
 
       - name: Deploy Archive
-        uses: dennisameling/ftp-upload-action@v1.0.10
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: ./${{ env.APP_VERSION }}/
-          secure: false
-
-      - name: SHA256
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          sha256sum %TARGET%.exe
-          sha256sum %TARGET%.exe > %TARGET%_sha256sum
-          del /F /Q $TARGET.tar.xz
-        shell: cmd
-        
-      - name: Deploy SHA256
         uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
@@ -319,25 +303,10 @@ jobs:
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-
-      - name: Deploy Archive
-        uses: dennisameling/ftp-upload-action@v1.0.10
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: ./${{ env.APP_VERSION }}/
-          secure: false
-
-      - name: SHA256
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           sha256sum $TARGET.tar.xz
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
-          rm $TARGET.tar.xz
 
-      - name: Deploy SHA
+      - name: Deploy Archive
         uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
@@ -417,25 +386,10 @@ jobs:
           cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-
-      - name: Deploy Archive
-        uses: dennisameling/ftp-upload-action@v1.0.10
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: ./${{ env.APP_VERSION }}/
-          secure: false
-
-      - name: SHA256
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           sha256sum $TARGET.tar.xz
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
-          rm $TARGET.tar.xz
 
-      - name: Deploy SHA
+      - name: Deploy Archive
         uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
