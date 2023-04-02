@@ -20,7 +20,7 @@ jobs:
     env:
       JDK_VERSION: "8"
       AUDIODEV: "null"
-      APP_PLATFORM_WIN: "win32-x86"
+      APP_PLATFORM: "win32-x86"
 
     steps:   
       - name: Checkout
@@ -324,7 +324,7 @@ jobs:
     env:
       JDK_VERSION: "17"
       main_project_module: app
-      APP_PLATFORM_ANDROID: "android-arm"
+      APP_PLATFORM: "android-arm"
 
     steps:  
       - name: Checkout
