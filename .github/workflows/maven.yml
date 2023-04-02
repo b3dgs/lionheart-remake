@@ -211,10 +211,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: maven-${{ matrix.os }}-java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-${{ matrix.os }}-java${{ env.JDK_VERSION }}-
-            maven-${{ matrix.os }}-
+          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: java${{ env.JDK_VERSION }}-
 
       - name: Set JDK
         uses: actions/setup-java@v3
@@ -301,7 +299,7 @@ jobs:
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz >> $TARGET_sha256sum
+          sha256sum $TARGET.tar.xz > $TARGET_sha256sum
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
@@ -376,7 +374,7 @@ jobs:
           cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz >> $TARGET_sha256sum
+          sha256sum $TARGET.tar.xz > $TARGET_sha256sum
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
