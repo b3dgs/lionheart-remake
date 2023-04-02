@@ -11,7 +11,6 @@ on:
 
 env:
   APP_NAME: "lionheart-remake"
-  APP_VERSION: "1.3.0-SNAPSHOT"
 
 jobs:
   win32-x86:
@@ -22,7 +21,7 @@ jobs:
       AUDIODEV: "null"
       APP_PLATFORM: "win32-x86"
 
-    steps:   
+    steps:
       - name: Checkout
         uses: actions/checkout@v3.5.0
 
@@ -57,6 +56,10 @@ jobs:
           fileDir: 'lionheart-pc/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn --file lionheart-parent/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
         with:
@@ -72,8 +75,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
           _output-file: 'distribution\win32\src\Lionheart Remake.bat'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update Configure.bat version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -81,8 +83,7 @@ jobs:
           _input-file: 'distribution\win32\src\Configure.bat'
           _output-file: 'distribution\win32\src\Configure.bat'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update Profile.bat version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -90,7 +91,7 @@ jobs:
           _input-file: 'distribution\win32\src\Profile.bat'
           _output-file: 'distribution\win32\src\Profile.bat'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update sfxmaker.txt version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -98,8 +99,7 @@ jobs:
           _input-file: 'distribution\win32\src\sfxmaker.txt'
           _output-file: 'distribution\win32\src\sfxmaker.txt'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update Lionheart Remake.cpp version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -107,8 +107,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update Lionheart Remake Configure.cpp version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -116,12 +115,11 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Prepare folders
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           mkdir build
           mkdir build\%TARGET%
           mkdir build\%TARGET%\data
@@ -133,7 +131,7 @@ jobs:
           copy "..\..\distribution\data\splash.png" "data"
           copy "..\..\distribution\data\b3dgs.cer" "data"
           copy "..\..\distribution\data\.lionengine" "data"
-          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
+          copy "..\..\lionheart-pc\target\lionheart-pc-${{ steps.project.outputs.version }}.jar" "data"
           copy "..\..\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
           copy "..\..\distribution\win32\src\Lionheart Remake.bat" .
           copy "..\..\distribution\win32\src\Configure.bat" .
@@ -151,7 +149,7 @@ jobs:
 
       - name: Bundle JRE x86_32
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_32
         shell: cmd
 
@@ -164,7 +162,7 @@ jobs:
 
       - name: Bundle JRE x86_64
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
         shell: cmd
 
@@ -173,7 +171,7 @@ jobs:
 
       - name: Compile vsproject
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET%"
@@ -182,7 +180,7 @@ jobs:
 
       - name: Sign
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           dir "C:\Program Files (x86)\Windows Kits\10\bin\"
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
           certutil -decode base64.txt cert.pfx
@@ -194,7 +192,7 @@ jobs:
 
       - name: Make Archive
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           copy "distribution\win32\src\sfxmaker.txt" "build"
           copy "distribution\win32\src\7zsd_LZMA2.sfx" "build"
           cd build
@@ -213,13 +211,13 @@ jobs:
 
       - name: Update info
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res "distribution\win32\src\versioninfo.res",
         shell: cmd
 
       - name: Sign SFX
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
           certutil -decode base64.txt cert.pfx
           "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
@@ -229,7 +227,7 @@ jobs:
 
       - name: Clean
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           cd build
           del 7zsd_LZMA2.sfx
           del sfxmaker.txt
@@ -246,7 +244,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
+          server_dir: /${{ steps.project.outputs.version }}/
           secure: false
 
   linux-x86_64:
@@ -298,6 +296,10 @@ jobs:
           fileDir: 'lionheart-pc/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn --file lionheart-parent/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
       - name: Compile Java
         uses: coactions/setup-xvfb@v1.0.1
         with:
@@ -313,8 +315,7 @@ jobs:
           _input-file: 'distribution/linux/sh/lionheart-remake.sh'
           _output-file: 'distribution/linux/sh/lionheart-remake.sh'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update configure.sh version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -322,8 +323,7 @@ jobs:
           _input-file: 'distribution/linux/sh/configure.sh'
           _output-file: 'distribution/linux/sh/configure.sh'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update profile.sh version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -331,8 +331,7 @@ jobs:
           _input-file: 'distribution/linux/sh/profile.sh'
           _output-file: 'distribution/linux/sh/profile.sh'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Update main.c version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -340,12 +339,11 @@ jobs:
           _input-file: 'distribution/linux/src/main.c'
           _output-file: 'distribution/linux/src/main.c'
           _format-key: '%%key%%'
-        env:
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{ steps.project.outputs.version }}
 
       - name: Prepare folders
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          export TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           mkdir build
           mkdir build/$TARGET
           mkdir build/$TARGET/data
@@ -357,7 +355,7 @@ jobs:
           cp ../../distribution/data/splash.png data
           cp ../../distribution/data/b3dgs.cer data
           cp ../../distribution/data/.lionengine data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+          cp "../../lionheart-pc/target/lionheart-pc-${{ steps.project.outputs.version }}.jar" data
           cp ../../distribution/linux/src/icon.xpm .
           cp ../../distribution/linux/sh/lionheart-remake.sh .
           cp ../../distribution/linux/sh/configure.sh .
@@ -377,18 +375,18 @@ jobs:
 
       - name: Bundle JRE x86_64
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          export TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
 
       - name: Compile C
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          export TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
           chmod +x build/$TARGET/lionheart-remake
 
       - name: Make Archive
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          export TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
@@ -402,7 +400,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
+          server_dir: /${{ steps.project.outputs.version }}/
           secure: false
 
   android-arm:
@@ -442,6 +440,10 @@ jobs:
           fileDir: 'lionheart-android/app/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn --file lionheart-parent/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
       - name: Build JAR
         run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true -Pgame
 
@@ -464,14 +466,14 @@ jobs:
 
       - name: Make Archive
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          export TARGET=${{ env.APP_NAME }}-${{ steps.project.outputs.version }}_${{ env.APP_PLATFORM }}
           mkdir build
           mkdir build/$TARGET
           cd build/$TARGET
           cp -R ../../distribution/doc "doc"
           cp "../../CHANGELOG" "doc/CHANGELOG.txt"
           cp "../../LICENSE" "doc/LICENSE.txt"
-          cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
+          cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ steps.project.outputs.version }}.apk
           cd ..
           zip -r $TARGET.zip $TARGET
           rm -r -f $TARGET
@@ -485,5 +487,5 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
+          server_dir: /${{ steps.project.outputs.version }}/
           secure: false
