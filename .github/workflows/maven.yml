@@ -288,7 +288,7 @@ jobs:
           cd lionheart-android
           run: |
             chmod +x ./gradlew
-            ./gradlew build assembleRelease
+            ./gradlew -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} build assembleRelease
 
       - name: Prepare folders
         run: |
