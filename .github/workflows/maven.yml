@@ -24,17 +24,17 @@ jobs:
 
     steps:   
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v3.3.1
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
 
       - name: Set JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
@@ -45,7 +45,7 @@ jobs:
             JavaSE-17
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5
+        uses: crazy-max/ghaction-import-gpg@v5.2.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -81,16 +81,37 @@ jobs:
           copy "..\..\distribution\data\b3dgs.cer" "data"
           copy "..\..\distribution\data\.lionengine" "data"
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
-          copy "..\..\distribution\win32\bat\Lionheart Remake.bat" .
-          copy "..\..\distribution\win32\bat\Configure.bat" .
-          copy "..\..\distribution\win32\bat\Profile.bat" .
+          copy "..\..\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
+          copy "..\..\distribution\win32\src\Lionheart Remake.bat" .
+          copy "..\..\distribution\win32\src\Configure.bat" .
+          copy "..\..\distribution\win32\src\Profile.bat" .
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
-          cd ..\..
         shell: cmd
 
+      - name: Update Lionheart Remake.bat version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'Lionheart Remake.bat'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
+
+      - name: Update Configure.bat version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'Configure.bat'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
+
+      - name: Update Profile.bat version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'Profile.bat'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
+
       - name: Set JRE x86_32
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -98,12 +119,11 @@ jobs:
 
       - name: Bundle JRE x86_32
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_32
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output data\jre_win32-x86_32
         shell: cmd
 
       - name: Set JRE x86_64
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -111,15 +131,15 @@ jobs:
 
       - name: Bundle JRE x86_64
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output data\jre_win32-x86_64
         shell: cmd
 
       - name: msbuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1.3.1
 
       - name: Compile vsproject
         run: |
+          cd ..\..
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -verbosity:diag -property:Configuration=Release
@@ -138,6 +158,13 @@ jobs:
           del base64.txt
           del cert.pfx
         shell: cmd
+
+      - name: Update sfxmaker.txt version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\sfxmaker.txt'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
 
       - name: Make Archive
         run: |
@@ -206,17 +233,17 @@ jobs:
 
     steps:   
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v3.3.1
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
 
       - name: Set JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
@@ -233,7 +260,7 @@ jobs:
           platform: x64
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5
+        uses: crazy-max/ghaction-import-gpg@v5.2.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -246,7 +273,7 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Compile Java
-        uses: coactions/setup-xvfb@v1
+        uses: coactions/setup-xvfb@v1.0.1
         with:
           run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
         env:
@@ -269,18 +296,46 @@ jobs:
           cp ../../distribution/data/b3dgs.cer data
           cp ../../distribution/data/.lionengine data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
-          cp ../../distribution/linux/sh/lionheart-remake.sh .
-          cp ../../distribution/linux/sh/configure.sh .
-          cp ../../distribution/linux/sh/profile.sh .
+          cp ../../distribution/linux/src/icon.xpm .
+          cp ../../distribution/linux/src/lionheart-remake.sh .
+          cp ../../distribution/linux/src/configure.sh .
+          cp ../../distribution/linux/src/profile.sh .
           cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
           find . -name 'stage*.png' -delete
           chmod +x lionheart-remake.sh
           chmod +x configure.sh
           chmod +x profile.sh
-          cd ../..
+
+      - name: Update lionheart-remake.sh version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'lionheart-remake.sh'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
+
+      - name: Update configure.sh version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'configure.sh'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
+
+      - name: Update profile.sh version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'profile.sh'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
+
+      - name: Update main.c version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution/linux/src/main.c'
+          _format-key: '1.3.0'
+          1.3.0: ${{ env.APP_VERSION }}
 
       - name: Set JRE x86_64
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -288,19 +343,17 @@ jobs:
 
       - name: Bundle JRE x86_64
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
+          jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output data/jre_linux-x86_64
 
       - name: Compile C
         run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
+          gcc distribution/linux/src/main.c -s -static -o lionheart-remake
           chmod +x build/$TARGET/lionheart-remake
 
       - name: Make Archive
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd build
+          cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           sha256sum $TARGET.tar.xz
@@ -326,17 +379,17 @@ jobs:
 
     steps:  
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v3.3.1
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
 
       - name: Set JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           java-version: |
             8
@@ -384,7 +437,7 @@ jobs:
           cp "../../LICENSE" "doc/LICENSE.txt"
           cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
           cd ..
-          tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
+          zip -r $TARGET.zip $TARGET
           rm -r -f $TARGET
           sha256sum $TARGET.tar.xz
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
