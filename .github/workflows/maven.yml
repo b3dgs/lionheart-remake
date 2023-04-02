@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI
+name: Build CI
 
 on:
   push:
@@ -23,6 +23,7 @@ jobs:
       APP_VERSION: "1.3.0-SNAPSHOT"
       APP_PLATFORM_WIN: "win32-x86"
       APP_PLATFORM_LINUX: "linux-x86_64"
+      APP_PLATFORM_ANDROID: "android-arm"
     steps:   
       - name: Checkout
         uses: actions/checkout@v3
@@ -258,6 +259,55 @@ jobs:
           rmdir /S /Q "%TARGET%"
         shell: cmd
 
+      - name: Deploy
+        uses: dennisameling/ftp-upload-action@v1
+        with:
+          server: ftp.b3dgs.com
+          username: ${{ secrets.LOGIN }}
+          password: ${{ secrets.PASSWORD }}
+          local_dir: build/
+          server_dir: ${{ env.APP_VERSION }}/
+          secure: false
+
+  android:
+    runs-on: ubuntu-latest
+    steps:    
+      - name: Build
+        run: |
+          cd lionheart-android
+          run: ./gradlew build assembleRelease
+
+      - name: Prepare folders
+        run: |
+          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_ANDROID }}
+          cd ..
+          mkdir build
+          mkdir build/$TARGET
+          cd build/$TARGET
+          cp -R ../../distribution/doc "doc"
+          cp "../../CHANGELOG" "doc/CHANGELOG.txt"
+          cp "../../LICENSE" "doc/LICENSE.txt"
+          cp "../../lionheart-android/app/build/outputs/apk/app-release.apk" lionheart-remake${{ env.APP_VERSION }}.apk
+          cd ../..
+
+      - name: Sign app APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: build/$TARGET
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
+          keyPassword: ${{ secrets.KEYSTORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "33.0.0"
+          
+      - name: Make Archive android-arm
+        run: |
+          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_LINUX }}
+          tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
+          rm -r -f $TARGET
+          cd ..
+          
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
         with:
