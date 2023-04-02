@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export VERSION=%%APPV%%
+export VERSION=%%INPUT_APPV%%
 export PARAM="-server -splash:splash.png -cp lionheart-pc-"$VERSION".jar com.b3dgs.lionheart.Launcher"
 
 cd data

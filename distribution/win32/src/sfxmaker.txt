@@ -1,8 +1,8 @@
 ;!@Install@!UTF-8!
-SetEnvironment="LaunchPath=%%S\lionheart-remake-%%APPV%%_win32-x86"
+SetEnvironment="LaunchPath=%%S\lionheart-remake-%%INPUT_APPV%%_win32-x86"
 InstallPath="%%S\\"
-Title="Lionheart Remake %%APPV%%"
-ExtractPathTitle="Lionheart Remake %%APPV%%"
-ExtractTitle="Lionheart Remake %%APPV%%"
-ExecuteFile="%%S\\lionheart-remake-%%APPV%%_win32-x86\\Lionheart Remake.bat"
+Title="Lionheart Remake %%INPUT_APPV%%"
+ExtractPathTitle="Lionheart Remake %%INPUT_APPV%%"
+ExtractTitle="Lionheart Remake %%INPUT_APPV%%"
+ExecuteFile="%%S\\lionheart-remake-%%INPUT_APPV%%_win32-x86\\Lionheart Remake.bat"
 ;!@InstallEnd@!

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export VERSION=%%APPV%%
+export VERSION=%%INPUT_APPV%%
 export PARAM="-server -splash:splash.png -jar lionheart-pc-"$VERSION".jar"
 
 cd data

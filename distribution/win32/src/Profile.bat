@@ -21,7 +21,7 @@ set ARGS=-game story -stage original
 
 
 rem ----------------------- DO NOT CHANGE -----------------------
-set VERSION=%%APPV%%
+set VERSION=%%INPUT_APPV%%
 set PARAM=-Xverify:none -server -splash:splash.png -jar lionheart-pc-%VERSION%.jar %ARGS%
 
 if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (

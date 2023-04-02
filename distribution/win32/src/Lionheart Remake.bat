@@ -1,4 +1,4 @@
-set VERSION=%%APPV%%
+set VERSION=%%INPUT_APPV%%
 set PARAM=-server -splash:splash.png -jar lionheart-pc-%VERSION%.jar
 
 if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
