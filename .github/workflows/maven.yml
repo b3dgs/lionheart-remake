@@ -187,7 +187,7 @@ jobs:
         shell: cmd
 
       - name: Deploy
-        uses: dennisameling/ftp-upload-action@v1
+        uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -307,7 +307,7 @@ jobs:
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Deploy
-        uses: dennisameling/ftp-upload-action@v1
+        uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -390,7 +390,7 @@ jobs:
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Deploy
-        uses: dennisameling/ftp-upload-action@v1
+        uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
