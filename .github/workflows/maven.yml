@@ -366,15 +366,13 @@ jobs:
           cp -R ../../distribution/doc "doc"
           cp "../../CHANGELOG" "doc/CHANGELOG.txt"
           cp "../../LICENSE" "doc/LICENSE.txt"
-          cp "../../lionheart-android/app/build/outputs/apk//release/app-release.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
-          dir
+          cp "../../lionheart-android/app/build/outputs/apk/release/app-release.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
           cd ../..
-          dir
 
       - name: Sign app APK
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: ../build/$TARGET
+          releaseDirectory: build/${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
