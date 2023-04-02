@@ -232,7 +232,7 @@ jobs:
 
       - name: Clean
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
           del 7zsd_LZMA2.sfx
           del sfxmaker.txt
@@ -249,7 +249,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}}/
+          server_dir: /${{ env.APP_VERSION }}/
           secure: false
 
   linux-x86_64:
