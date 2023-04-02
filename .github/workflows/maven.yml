@@ -66,6 +66,48 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
 
+      - name: Update Lionheart Remake.bat version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake.bat'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update Configure.bat version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\Configure.bat'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update Profile.bat version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\Profile.bat'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update sfxmaker.txt version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\sfxmaker.txt'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update Lionheart Remake.cpp version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update Lionheart Remake Configure.cpp version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
       - name: Prepare folders
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
@@ -88,27 +130,6 @@ jobs:
           robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
           del /Q /F /S "stage*.png"
         shell: cmd
-
-      - name: Update Lionheart Remake.bat version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'Lionheart Remake.bat'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
-
-      - name: Update Configure.bat version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'Configure.bat'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
-
-      - name: Update Profile.bat version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'Profile.bat'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
 
       - name: Set JRE x86_32
         uses: actions/setup-java@v3.11.0
@@ -158,13 +179,6 @@ jobs:
           del base64.txt
           del cert.pfx
         shell: cmd
-
-      - name: Update sfxmaker.txt version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'distribution\win32\src\sfxmaker.txt'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
 
       - name: Make Archive
         run: |
@@ -281,6 +295,34 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
 
+      - name: Update lionheart-remake.sh version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update configure.sh version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution/linux/sh/configure.sh'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update profile.sh version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution/linux/sh/profile.sh'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
+      - name: Update main.c version
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-file: 'distribution/linux/src/main.c'
+          _format-key: '%%key%%'
+          APPV: ${{ env.APP_VERSION }}
+
       - name: Prepare folders
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
@@ -297,42 +339,14 @@ jobs:
           cp ../../distribution/data/.lionengine data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
           cp ../../distribution/linux/src/icon.xpm .
-          cp ../../distribution/linux/src/lionheart-remake.sh .
-          cp ../../distribution/linux/src/configure.sh .
-          cp ../../distribution/linux/src/profile.sh .
+          cp ../../distribution/linux/sh/lionheart-remake.sh .
+          cp ../../distribution/linux/sh/configure.sh .
+          cp ../../distribution/linux/sh/profile.sh .
           cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
           find . -name 'stage*.png' -delete
           chmod +x lionheart-remake.sh
           chmod +x configure.sh
           chmod +x profile.sh
-
-      - name: Update lionheart-remake.sh version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'lionheart-remake.sh'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
-
-      - name: Update configure.sh version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'configure.sh'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
-
-      - name: Update profile.sh version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'profile.sh'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
-
-      - name: Update main.c version
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _format-key: '%%key%%'
-          APPV: ${{ env.APP_VERSION }}
 
       - name: Set JRE x86_64
         uses: actions/setup-java@v3.11.0
