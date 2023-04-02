@@ -140,7 +140,6 @@ jobs:
         shell: cmd
 
       - name: Make Archive
-        shell: cmd
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           copy "distribution\win32\src\sfxmaker.txt" "build"
@@ -150,6 +149,7 @@ jobs:
           copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
           cd ..
           mkdir reshack
+        shell: cmd
 
       - name: Get reshack
         uses: gamedev-thingy/Download-Extract@done
@@ -172,7 +172,6 @@ jobs:
           "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
           del base64.txt
           del cert.pfx
-          sha256sum "build\%TARGET%.exe" >> "build\%TARGET%_sha256sum"
         shell: cmd
 
       - name: Clean
@@ -183,6 +182,7 @@ jobs:
           del sfxmaker.txt
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
+          sha256sum %TARGET%.exe >> %TARGET%_sha256sum
         shell: cmd
 
       - name: Deploy
@@ -276,7 +276,6 @@ jobs:
           cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
           find . -name 'stage*.png' -delete
           cd ../..
-        shell: sh
 
       - name: Set JRE x86_64
         uses: actions/setup-java@v3
@@ -289,24 +288,20 @@ jobs:
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
-        shell: sh
 
       - name: Compile C
-        shell: sh
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
           chmod +x build/$TARGET/lionheart-remake
 
       - name: Make Archive
-        shell: sh
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          cd ..
-          sha256sum "build/$TARGET.tar.xz" >> "build/$TARGET_sha256sum"
+          sha256sum $TARGET.tar.xz >> $TARGET_sha256sum
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
@@ -381,8 +376,7 @@ jobs:
           cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          cd ..
-          sha256sum "build/$TARGET.tar.xz" >> "build/$TARGET_sha256sum"
+          sha256sum $TARGET.tar.xz >> $TARGET_sha256sum
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
