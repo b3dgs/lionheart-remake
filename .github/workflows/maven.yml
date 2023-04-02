@@ -70,6 +70,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -77,6 +78,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution\win32\src\Configure.bat'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -84,6 +86,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution\win32\src\Profile.bat'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -91,6 +94,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution\win32\src\sfxmaker.txt'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -98,6 +102,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -105,6 +110,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -300,6 +306,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution/linux/sh/lionheart-remake.sh'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -307,6 +314,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution/linux/sh/configure.sh'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -314,6 +322,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution/linux/sh/profile.sh'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -321,6 +330,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         with:
           _input-file: 'distribution/linux/src/main.c'
+          _input-text: '%%APPV%%'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
