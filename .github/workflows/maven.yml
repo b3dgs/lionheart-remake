@@ -72,6 +72,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
           _output-file: 'distribution\win32\src\Lionheart Remake.bat'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update Configure.bat version
@@ -80,6 +81,7 @@ jobs:
           _input-file: 'distribution\win32\src\Configure.bat'
           _output-file: 'distribution\win32\src\Configure.bat'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update Profile.bat version
@@ -96,6 +98,7 @@ jobs:
           _input-file: 'distribution\win32\src\sfxmaker.txt'
           _output-file: 'distribution\win32\src\sfxmaker.txt'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update Lionheart Remake.cpp version
@@ -104,6 +107,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update Lionheart Remake Configure.cpp version
@@ -112,6 +116,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Prepare folders
@@ -308,6 +313,7 @@ jobs:
           _input-file: 'distribution/linux/sh/lionheart-remake.sh'
           _output-file: 'distribution/linux/sh/lionheart-remake.sh'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update configure.sh version
@@ -316,6 +322,7 @@ jobs:
           _input-file: 'distribution/linux/sh/configure.sh'
           _output-file: 'distribution/linux/sh/configure.sh'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update profile.sh version
@@ -324,6 +331,7 @@ jobs:
           _input-file: 'distribution/linux/sh/profile.sh'
           _output-file: 'distribution/linux/sh/profile.sh'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Update main.c version
@@ -332,6 +340,7 @@ jobs:
           _input-file: 'distribution/linux/src/main.c'
           _output-file: 'distribution/linux/src/main.c'
           _format-key: '%%key%%'
+        env:
           INPUT_APPV: ${{ env.APP_VERSION }}
 
       - name: Prepare folders
