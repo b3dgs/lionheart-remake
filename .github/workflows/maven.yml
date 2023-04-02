@@ -65,7 +65,7 @@ jobs:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-        
+
       - name: Prepare folders
         run: |
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
@@ -115,7 +115,7 @@ jobs:
           set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           jlink --compress=2 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
         shell: cmd
-        
+
       - name: msbuild
         uses: microsoft/setup-msbuild@v1.1
 
@@ -318,7 +318,7 @@ jobs:
           server_dir: ${{ env.APP_VERSION }}/
           secure: false
 
-  android:
+  android-arm:
     runs-on: ubuntu-latest
 
     env:
@@ -367,12 +367,14 @@ jobs:
           cp "../../CHANGELOG" "doc/CHANGELOG.txt"
           cp "../../LICENSE" "doc/LICENSE.txt"
           cp "../../lionheart-android/app/build/outputs/apk//release/app-release.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
+          dir
           cd ../..
+          dir
 
       - name: Sign app APK
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: build/$TARGET
+          releaseDirectory: ../build/$TARGET
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
