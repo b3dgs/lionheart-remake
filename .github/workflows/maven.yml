@@ -172,7 +172,7 @@ jobs:
           "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
           del base64.txt
           del cert.pfx
-          sha256sum "build\%TARGET%.exe" >> "build\%TARGET_sha256sum"
+          sha256sum "build\%TARGET%.exe" >> "build\%TARGET%_sha256sum"
         shell: cmd
 
       - name: Clean
@@ -306,7 +306,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
-          sha256sum "build/$TARGET.tar.xz" >> "build/%TARGET_sha256sum"
+          sha256sum "build/$TARGET.tar.xz" >> "build/$TARGET_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
@@ -382,7 +382,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
-          sha256sum "build/$TARGET.tar.xz" >> "build/%TARGET_sha256sum"
+          sha256sum "build/$TARGET.tar.xz" >> "build/$TARGET_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
