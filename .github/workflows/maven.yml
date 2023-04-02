@@ -182,6 +182,7 @@ jobs:
           del sfxmaker.txt
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
+          sha256sum %TARGET%.exe
           sha256sum %TARGET%.exe > %TARGET%_sha256sum
         shell: cmd
 
@@ -192,7 +193,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: ${{ env.APP_VERSION }}/
+          server_dir: ./${{ env.APP_VERSION }}/
           secure: false
 
   linux-x86_64:
@@ -302,6 +303,7 @@ jobs:
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
+          sha256sum $TARGET.tar.xz
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Deploy
@@ -311,7 +313,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: ${{ env.APP_VERSION }}/
+          server_dir: ./${{ env.APP_VERSION }}/
           secure: false
 
   android-arm:
@@ -384,6 +386,7 @@ jobs:
           cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
+          sha256sum $TARGET.tar.xz
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Deploy
@@ -393,5 +396,5 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: ${{ env.APP_VERSION }}/
+          server_dir: ./${{ env.APP_VERSION }}/
           secure: false
