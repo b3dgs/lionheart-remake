@@ -81,7 +81,6 @@ jobs:
           copy "..\..\distribution\data\b3dgs.cer" "data"
           copy "..\..\distribution\data\.lionengine" "data"
           copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
-          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar.asc" "data"
           copy "..\..\distribution\win32\bat\Lionheart Remake.bat" .
           copy "..\..\distribution\win32\bat\Configure.bat" .
           copy "..\..\distribution\win32\bat\Profile.bat" .
@@ -173,6 +172,7 @@ jobs:
           "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
           del base64.txt
           del cert.pfx
+          sha256sum "build\%TARGET%.exe" >> "build\%TARGET_sha256sum"
         shell: cmd
 
       - name: Clean
@@ -270,7 +270,6 @@ jobs:
           cp ../../distribution/data/b3dgs.cer data
           cp ../../distribution/data/.lionengine data
           cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar.asc" data
           cp ../../distribution/linux/sh/lionheart-remake.sh .
           cp ../../distribution/linux/sh/configure.sh .
           cp ../../distribution/linux/sh/profile.sh .
@@ -307,6 +306,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
+          sha256sum "build/%TARGET%.tar.xz" >> "build/%TARGET_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
@@ -382,6 +382,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
+          sha256sum "build/%TARGET%.tar.xz" >> "build/%TARGET_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
