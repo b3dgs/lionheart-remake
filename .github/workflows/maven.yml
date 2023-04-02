@@ -272,6 +272,7 @@ jobs:
   android:
     runs-on: ubuntu-latest
     env:
+      JDK_VERSION: "17"
       main_project_module: app
     steps:  
       - name: Checkout
@@ -281,8 +282,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: |
+            8
             ${{ env.JDK_VERSION }}
-            17
           distribution: 'temurin'
           mvn-toolchain-id: |
             JavaSE-1.8
