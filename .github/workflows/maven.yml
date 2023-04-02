@@ -67,50 +67,44 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
 
       - name: Update Lionheart Remake.bat version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
-          _input-text: 'APPV'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update Configure.bat version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Configure.bat'
-          _input-text: 'APPV'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update Profile.bat version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Profile.bat'
-          _input-text: 'APPV'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update sfxmaker.txt version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\sfxmaker.txt'
-          _input-text: 'APPV'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update Lionheart Remake.cpp version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
-          _input-text: 'APPV'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update Lionheart Remake Configure.cpp version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
-          _input-text: 'APPV'
           _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
@@ -303,35 +297,27 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
 
       - name: Update lionheart-remake.sh version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _input-text: 'APPV'
-          _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update configure.sh version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/configure.sh'
-          _input-text: 'APPV'
-          _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update profile.sh version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/profile.sh'
-          _input-text: 'APPV'
-          _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Update main.c version
-        uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/src/main.c'
-          _input-text: 'APPV'
-          _format-key: '%%key%%'
           APPV: ${{ env.APP_VERSION }}
 
       - name: Prepare folders
