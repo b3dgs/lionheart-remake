@@ -193,7 +193,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: ./${{ env.APP_VERSION }}/
+          server_dir: /${{ env.APP_VERSION }}/
           secure: false
 
   linux-x86_64:
@@ -313,7 +313,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: ./${{ env.APP_VERSION }}/
+          server_dir: /${{ env.APP_VERSION }}/
           secure: false
 
   android-arm:
@@ -396,5 +396,5 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: ./${{ env.APP_VERSION }}/
+          server_dir: /${{ env.APP_VERSION }}/
           secure: false
