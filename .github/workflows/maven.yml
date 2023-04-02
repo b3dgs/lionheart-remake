@@ -472,7 +472,7 @@ jobs:
           cp "../../LICENSE" "doc/LICENSE.txt"
           cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
           cd ..
-          zip -r $TARGET.zip $TARGET
+          zip -9 -r $TARGET.zip $TARGET
           rm -r -f $TARGET
           sha256sum $TARGET.zip
           sha256sum $TARGET.zip > $TARGET"_sha256sum"
