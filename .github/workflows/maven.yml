@@ -283,7 +283,10 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Build
+      - name: Build JAR
+        run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true
+
+      - name: Build APK
         run: |
           cd lionheart-android
           run: |
