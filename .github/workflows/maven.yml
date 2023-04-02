@@ -357,7 +357,18 @@ jobs:
           chmod +x ./gradlew
           ./gradlew assembleRelease -Pkeystore=android.jks -Pkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Pkeystore.storepassword=${{ secrets.KEYSTORE_STOREPASS }} -Pkeystore.password=${{ secrets.KEYSTORE_PASS }}
 
-      - name: Prepare folders
+      - name: Sign app APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: lionheart-android/app/build/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
+          keyPassword: ${{ secrets.KEYSTORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "33.0.0"
+
+      - name: Make Archive
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           mkdir build
@@ -366,24 +377,8 @@ jobs:
           cp -R ../../distribution/doc "doc"
           cp "../../CHANGELOG" "doc/CHANGELOG.txt"
           cp "../../LICENSE" "doc/LICENSE.txt"
-          cp "../../lionheart-android/app/build/outputs/apk/release/app-release.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
-          cd ../..
-
-      - name: Sign app APK
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: build/${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.KEYSTORE_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
-          keyPassword: ${{ secrets.KEYSTORE_PASS }}
-        env:
-          BUILD_TOOLS_VERSION: "33.0.0"
-
-      - name: Make Archive android-arm
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM_ANDROID }}
-          cd build
+          cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
+          cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           cd ..
