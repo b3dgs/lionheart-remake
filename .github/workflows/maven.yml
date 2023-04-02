@@ -277,11 +277,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set Up JDK
+      - name: Set JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: |
+            ${{ env.JDK_VERSION }}
+            17
           distribution: 'temurin'
+          mvn-toolchain-id: |
+            JavaSE-1.8
+            JavaSE-17
 
       - name: Build JAR
         run: mvn clean install --file lionheart-parent/pom.xml -U -DskipTests=true
