@@ -182,7 +182,7 @@ jobs:
           del sfxmaker.txt
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
-          sha256sum %TARGET%.exe >> %TARGET%_sha256sum
+          sha256sum %TARGET%.exe > %TARGET%_sha256sum
         shell: cmd
 
       - name: Deploy
@@ -273,6 +273,9 @@ jobs:
           cp ../../distribution/linux/sh/profile.sh .
           cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
           find . -name 'stage*.png' -delete
+          chmod +x lionheart-remake.sh
+          chmod +x configure.sh
+          chmod +x profile.sh
           cd ../..
 
       - name: Set JRE x86_64
@@ -299,7 +302,7 @@ jobs:
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz > $TARGET_sha256sum
+          sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
@@ -322,6 +325,13 @@ jobs:
     steps:  
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: java${{ env.JDK_VERSION }}-
 
       - name: Set JDK
         uses: actions/setup-java@v3
@@ -374,7 +384,7 @@ jobs:
           cd ..
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz > $TARGET_sha256sum
+          sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Deploy
         uses: dennisameling/ftp-upload-action@v1
