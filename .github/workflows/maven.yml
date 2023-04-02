@@ -271,14 +271,23 @@ jobs:
 
   android:
     runs-on: ubuntu-latest
+    env:
+      main_project_module: app
     steps:  
       - name: Checkout
         uses: actions/checkout@v3
     
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+    
       - name: Build
         run: |
           cd lionheart-android
-          run: ./gradlew build assembleRelease
+          run: |
+            chmod +x ./gradlew
+            ./gradlew build assembleRelease
 
       - name: Prepare folders
         run: |
