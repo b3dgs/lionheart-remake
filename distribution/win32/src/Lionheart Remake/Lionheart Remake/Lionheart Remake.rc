@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#pragma code_page(65001)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -36,7 +36,7 @@ IDI_ICON1               ICON                    "icon.ico"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION %%INPUT_APPVI%%,0
- PRODUCTVERSION %%INPUT_APPVI%%,0
+ PRODUCTVERSION %%INPUT_APPVI%%
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -56,8 +56,8 @@ BEGIN
             VALUE "FileDescription", "https://lionheart.b3dgs.com"
             VALUE "FileVersion", "%%INPUT_APPV%%"
             VALUE "InternalName", "Lionheart Remake"
-            VALUE "LegalCopyright", "Copyright © 2023 (GPL v3)"
-            VALUE "LegalTrademarks", "Byron 3D Games Studio © 2023 (GPL v3)"
+            VALUE "LegalCopyright", "Copyright Â© 2023 (GPL v3)"
+            VALUE "LegalTrademarks", "Byron 3D Games Studio Â© 2023 (GPL v3)"
             VALUE "OriginalFilename", "Lionheart Remake.exe"
             VALUE "ProductName", "Lionheart Remake"
             VALUE "ProductVersion", "%%INPUT_APPV%%"
@@ -78,7 +78,7 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#pragma code_page(65001)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
