@@ -66,6 +66,7 @@ jobs:
           $APP_VERSION = Get-Content .\version.txt -Raw 
           echo $APP_VERSION
           echo "APP_VERSION=$APP_VERSION" >> $env:GITHUB_ENV
+          echo "APP_VERSIONI=$InputString.Split("-")[0].replace('.',',')" >> $env:GITHUB_ENV
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
@@ -130,7 +131,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
           _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
           _format-key: '%%key%%'
-          INPUT_APPVI: '1,3,0'
+          INPUT_APPVI: ${{env.APP_VERSIONI}}
 
       - name: Update Lionheart Remake.cpp version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -154,7 +155,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
           _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
           _format-key: '%%key%%'
-          INPUT_APPVI: '1,3,0'
+          INPUT_APPVI: ${{env.APP_VERSIONI}}
 
       - name: Update Lionheart Remake Configure.cpp version
         uses: bluwy/substitute-string-action@v2.0.1
