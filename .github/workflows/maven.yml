@@ -62,7 +62,7 @@ jobs:
           for /f "delims=" %%x in (version.txt) do set APP_VERSION=%%x
           del /Q /F version.txt
           echo %APP_VERSION%
-          echo "APP_VERSION=%APP_VERSION%" >> $GITHUB_ENV
+          echo "APP_VERSION=%APP_VERSION%" >> $GITHUB_OUTPUT
         shell: cmd
 
       - name: Compile Java
