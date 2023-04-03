@@ -58,7 +58,7 @@ jobs:
 
       - name: Get version
         run: |
-          call version.bat > version.txt
+          call distribution\win32\src\version.bat > version.txt
           for /f "delims=" %%x in (version.txt) do set APP_VERSION=%%x
           del /Q /F version.txt
           echo %APP_VERSION% >> $GITHUB_ENV
