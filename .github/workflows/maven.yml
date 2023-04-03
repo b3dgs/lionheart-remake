@@ -57,12 +57,14 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Get version
+        id: version
         run: |
           call distribution\win32\src\version.bat > version.txt
           for /f "delims=" %%x in (version.txt) do set APP_VERSION=%%x
           del /Q /F version.txt
           echo %APP_VERSION%
           echo "APP_VERSION=%APP_VERSION%" >> $GITHUB_OUTPUT
+          echo ${{steps.version.outputs.APP_VERSION}}
         shell: cmd
 
       - name: Compile Java
@@ -114,6 +116,22 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
+      - name: Update Lionheart Remake.rc version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
+          _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
+          _format-key: '%%key%%'
+          INPUT_APPV: ${{ env.APP_VERSION }}
+
+      - name: Update Lionheart Remake.rc version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
+          _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
+          _format-key: '%%key%%'
+          INPUT_APPVI: '1,3,0'
+
       - name: Update Lionheart Remake.cpp version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
@@ -121,6 +139,22 @@ jobs:
           _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
+
+      - name: Update Lionheart Remake Lionheart Remake Configure.rc version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
+          _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
+          _format-key: '%%key%%'
+          INPUT_APPV: ${{ env.APP_VERSION }}
+          
+      - name: Update Lionheart Remake Lionheart Remake Configure.rc version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
+          _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
+          _format-key: '%%key%%'
+          INPUT_APPVI: '1,3,0'
 
       - name: Update Lionheart Remake Configure.cpp version
         uses: bluwy/substitute-string-action@v2.0.1
