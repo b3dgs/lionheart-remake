@@ -64,7 +64,6 @@ jobs:
           del /Q /F version.txt
           echo %APP_VERSION%
           echo "APP_VERSION=%APP_VERSION%" >> $GITHUB_OUTPUT
-          echo ${{steps.version.outputs.APP_VERSION}}
         shell: cmd
 
       - name: Compile Java
@@ -82,7 +81,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
           _output-file: 'distribution\win32\src\Lionheart Remake.bat'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update Lionheart Remake.bat version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -90,7 +89,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake.bat'
           _output-file: 'distribution\win32\src\Lionheart Remake.bat'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update Configure.bat version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -98,7 +97,7 @@ jobs:
           _input-file: 'distribution\win32\src\Configure.bat'
           _output-file: 'distribution\win32\src\Configure.bat'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update Profile.bat version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -106,7 +105,7 @@ jobs:
           _input-file: 'distribution\win32\src\Profile.bat'
           _output-file: 'distribution\win32\src\Profile.bat'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update sfxmaker.txt version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -114,7 +113,7 @@ jobs:
           _input-file: 'distribution\win32\src\sfxmaker.txt'
           _output-file: 'distribution\win32\src\sfxmaker.txt'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update Lionheart Remake.rc version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -122,7 +121,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
           _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update Lionheart Remake.rc version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -138,7 +137,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Update Lionheart Remake Lionheart Remake Configure.rc version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -146,7 +145,7 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
           _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
           
       - name: Update Lionheart Remake Lionheart Remake Configure.rc version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -162,11 +161,11 @@ jobs:
           _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
           _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
+          INPUT_APPV: ${{steps.version.outputs.APP_VERSION}}
 
       - name: Prepare folders
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           mkdir build
           mkdir build\%TARGET%
           mkdir build\%TARGET%\data
@@ -178,7 +177,7 @@ jobs:
           copy "..\..\distribution\data\splash.png" "data"
           copy "..\..\distribution\data\b3dgs.cer" "data"
           copy "..\..\distribution\data\.lionengine" "data"
-          copy "..\..\lionheart-pc\target\lionheart-pc-${{ env.APP_VERSION }}.jar" "data"
+          copy "..\..\lionheart-pc\target\lionheart-pc-${{steps.version.outputs.APP_VERSION}}.jar" "data"
           copy "..\..\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
           copy "..\..\distribution\win32\src\Lionheart Remake.bat" .
           copy "..\..\distribution\win32\src\Configure.bat" .
@@ -196,7 +195,7 @@ jobs:
 
       - name: Bundle JRE x86_32
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_32
         shell: cmd
 
@@ -209,7 +208,7 @@ jobs:
 
       - name: Bundle JRE x86_64
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
         shell: cmd
 
@@ -218,7 +217,7 @@ jobs:
 
       - name: Compile vsproject
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -property:Configuration=Release
           msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -property:Configuration=Release
           copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET%"
@@ -227,7 +226,7 @@ jobs:
 
       - name: Sign
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           dir "C:\Program Files (x86)\Windows Kits\10\bin\"
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
           certutil -decode base64.txt cert.pfx
@@ -239,7 +238,7 @@ jobs:
 
       - name: Make Archive
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           copy "distribution\win32\src\sfxmaker.txt" "build"
           copy "distribution\win32\src\7zsd_LZMA2.sfx" "build"
           cd build
@@ -258,7 +257,7 @@ jobs:
 
       - name: Update info
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           reshack\ResourceHacker.exe -open "Lionheart Remake.exe" -save info.res -action extract -mask *,*,
           reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action delete -mask *,*,
           reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res info.res -mask *,*,
@@ -267,7 +266,7 @@ jobs:
 
       - name: Sign SFX
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
           certutil -decode base64.txt cert.pfx
           "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
@@ -277,7 +276,7 @@ jobs:
 
       - name: Clean
         run: |
-          set TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          set TARGET=${{ env.APP_NAME }}-${{steps.version.outputs.APP_VERSION}}_${{ env.APP_PLATFORM }}
           cd build
           del 7zsd_LZMA2.sfx
           del sfxmaker.txt
@@ -294,7 +293,7 @@ jobs:
           username: ${{ secrets.LOGIN }}
           password: ${{ secrets.PASSWORD }}
           local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
+          server_dir: /${{steps.version.outputs.APP_VERSION}}/
           secure: false
 
   linux-x86_64:
