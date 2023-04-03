@@ -57,14 +57,15 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Get version
-        id: version
         run: |
           call distribution\win32\src\version.bat > version.txt
-          for /f "delims=" %%x in (version.txt) do set APP_VERSION=%%x
-          del /Q /F version.txt
-          echo %APP_VERSION%
-          echo "APP_VERSION=%APP_VERSION%" >> %GITHUB_ENV%
         shell: cmd
+
+      - name: Set version
+        run: |
+          $APP_VERSION = Get-Content .\version.txt -Raw 
+          echo $APP_VERSION
+          echo "APP_VERSION=$APP_VERSION" >> $env:GITHUB_ENV
 
       - name: Compile Java
         uses: coactions/setup-xvfb@v1
