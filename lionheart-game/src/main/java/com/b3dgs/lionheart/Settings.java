@@ -38,9 +38,6 @@ public final class Settings
     /** Lang file. */
     public static final String FILE_LANG = "lang.txt";
 
-    /** Version key. */
-    public static final String VERSION = "version";
-
     /** Language key. */
     public static final String LANG = "lang";
 
@@ -127,11 +124,6 @@ public final class Settings
      */
     public static void load(File file)
     {
-        if (!checkVersion())
-        {
-            file.delete();
-        }
-
         if (file.exists())
         {
             try (InputStream input = new FileInputStream(file))
@@ -205,26 +197,6 @@ public final class Settings
     }
 
     /**
-     * Check version validity.
-     * 
-     * @return <code>true</code> if correct, <code>false</code> else.
-     */
-    private static boolean checkVersion()
-    {
-        final Settings settings = new Settings();
-        try (InputStream input = new FileInputStream(getFile()))
-        {
-            settings.load(input);
-            return settings.getVersion().equals(Constant.PROGRAM_VERSION.toString());
-        }
-        catch (@SuppressWarnings("unused") final IOException exception)
-        {
-            // Ignore
-        }
-        return false;
-    }
-
-    /**
      * Get default platform language.
      *
      * @return The default language.
@@ -258,16 +230,6 @@ public final class Settings
     public void load(InputStream input) throws IOException
     {
         properties.load(input);
-    }
-
-    /**
-     * Get version.
-     * 
-     * @return The version.
-     */
-    public String getVersion()
-    {
-        return properties.getProperty(VERSION, "0.0.0");
     }
 
     /**

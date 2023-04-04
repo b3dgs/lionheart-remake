@@ -1262,8 +1262,6 @@ public final class Launcher
         {
             try (FileWriter output = new FileWriter(prepareSettings()))
             {
-                writeFormatted(output, Settings.VERSION, Constant.PROGRAM_VERSION.toString());
-                output.write(System.lineSeparator());
                 writeFormatted(output, "# undefined = system language");
                 writeFormatted(output, Settings.LANG, LANG.get());
                 output.write(System.lineSeparator());
