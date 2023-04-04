@@ -23,6 +23,8 @@ import com.b3dgs.lionengine.io.DeviceMapper;
  */
 public enum DeviceMapping implements DeviceMapper
 {
+    /** Move. */
+    MOVE,
     /** Left. */
     LEFT,
     /** Right. */

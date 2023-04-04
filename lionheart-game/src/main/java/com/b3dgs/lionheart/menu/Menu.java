@@ -280,7 +280,9 @@ public class Menu extends Sequence
      */
     public Menu(Context context, GameConfig config)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context).get2x(), Util.getLoop(context.getConfig().getOutput()));
+        super(context,
+              Util.getResolution(Constant.RESOLUTION, context).get2x(),
+              Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         difficulty = getDifficultyIndex(config);
@@ -649,7 +651,8 @@ public class Menu extends Sequence
         }
         if (choice == choiceOld
             && (menu == MenuType.LAUNCHER && choice < 4 || menu == MenuType.OPTIONS && choice < 2)
-            && deviceCursor.isFiredOnce(DeviceMapping.LEFT))
+            && deviceCursor.isFiredOnce(DeviceMapping.LEFT)
+            && menusData[getMenuId()].choices[choice].isOver(cursor))
         {
             value++;
             if (value > max)
@@ -803,7 +806,9 @@ public class Menu extends Sequence
             movedVertical = true;
         }
         final Data data = menusData[menuId];
-        if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
+        if (deviceCursor.isFired(DeviceMapping.MOVE)
+            || Double.compare(cursor.getMoveX(), 0.0) != 0
+            || Double.compare(cursor.getMoveY(), 0.0) != 0)
         {
             choice = getCursorChoice(data);
             cursor.setVisible(true);
@@ -816,7 +821,8 @@ public class Menu extends Sequence
         final MenuType next = data.choices[choice].getNext();
         // Accept choice
         if (next != null
-            && (device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT)))
+            && (device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
+                || deviceCursor.isFiredOnce(DeviceMapping.LEFT) && data.choices[choice].isOver(cursor)))
         {
             menuNext = next;
             transition = TransitionType.OUT;

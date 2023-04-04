@@ -164,7 +164,7 @@ final class Choice implements Renderable
         }
 
         return UtilMath.isBetween(cursor.getScreenX(), x1, x2)
-               && UtilMath.isBetween(cursor.getScreenY(), y + 5, y + 25);
+               && UtilMath.isBetween(cursor.getScreenY(), y + 10, y + 22);
     }
 
     /**
