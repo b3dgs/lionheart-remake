@@ -47,13 +47,13 @@ jobs:
            JavaSE-17
 
      - name: Compile
-       if: ${{ !contains(matrix.os, 'windows-latest') }}
+       if: matrix.os != 'windows-latest'
        uses: coactions/setup-xvfb@v1
        with:
          run: mvn clean install --file lionheart-parent/pom.xml -U -Ppc-assets
 
      - name: Sonar
-       if: ${{ contains(matrix.os, 'ubuntu-latest') }}
+       if: matrix.os == 'windows-latest'
        uses: coactions/setup-xvfb@v1
        with:
          run: mvn clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-parent/pom.xml -U -Ppc-assets -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
