@@ -10,7 +10,7 @@
     <artifactId>lionheart-editor-parent</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Lionheart Remake Editor Parent</name>
+    <name>Lionheart Remake Editor</name>
     <description>Lionheart Remake Editor Parent POM</description>
     <url>https://github.com/b3dgs/lionheart</url>
     <modules>
