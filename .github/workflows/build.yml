@@ -57,3 +57,5 @@ jobs:
        uses: coactions/setup-xvfb@v1
        with:
          run: mvn clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-parent/pom.xml -U -Ppc-assets -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
+       env:
+         JDK_VERSION: 17
