@@ -1,5 +1,6 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+# This workflow will:
+# - compile, sign, package deploy project on win32-x86 with JDK 8
+# - compile, package deploy project on linux-x86_64 with JDK 8
 
 name: Deploy
 
@@ -50,8 +51,8 @@ jobs:
       - name: Decode Keystore
         uses: timheuer/base64-to-file@v1.2
         with:
-          fileName: 'android.jks'
-          fileDir: 'lionheart-pc/'
+          fileName: 'keystore.jks'
+          fileDir: 'keystore/'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Get version
@@ -67,10 +68,19 @@ jobs:
           $data = $APP_VERSION.Split("-")[0].replace('.',',')
           echo "APP_VERSIONI=$data" >> $env:GITHUB_ENV
 
-      - name: Compile Java
+      - name: Compile Game
         uses: coactions/setup-xvfb@v1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+          
+      - name: Compile Editor
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: mvn clean verify --file lionheart-editor-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Prelease
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
@@ -167,10 +177,10 @@ jobs:
       - name: Prepare folders
         run: |
           set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          mkdir build
-          mkdir build\%TARGET%
-          mkdir build\%TARGET%\data
-          mkdir build\%TARGET%\data\assets
+          mkdir "build"
+          mkdir "build\%TARGET%"
+          mkdir "build\%TARGET%\data"
+          mkdir "build\%TARGET%\data\assets"
           cd build\%TARGET%
           robocopy "..\..\distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
           copy "..\..\CHANGELOG" "doc\CHANGELOG.txt"
@@ -287,7 +297,28 @@ jobs:
           sha256sum %TARGET%.exe > %TARGET%_sha256sum
         shell: cmd
 
-      - name: Deploy Archive
+      - name: Prepare editor
+        run: |
+          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+          rmdir /S /Q build
+          mkdir "build"
+          mkdir "build\%TARGET%"
+          mkdir "build\%TARGET%\data"
+          mkdir "build\%TARGET%\data\assets"
+          mkdir "build\%TARGET%\data\editor"
+          mkdir "build\%TARGET%\data\editor\plugins"
+          robocopy "com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "build\%TARGET%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+          cd "lionheart-assets\src\main\resources\com\b3dgs\lionheart"
+          xcopy stage*.png ..\..\..\..\..\..\..\build\%TARGET%\data\assets /s /q /i
+          cd
+          cd build
+          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
+          rmdir /S /Q "%TARGET%"
+          sha256sum %TARGET%_editor.7z
+          sha256sum %TARGET%_editor.7z > %TARGET%_editor_sha256sum
+        shell: cmd
+
+      - name: Deploy archives
         uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
@@ -444,7 +475,26 @@ jobs:
           sha256sum $TARGET.tar.xz
           sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
-      - name: Deploy Archive
+      - name: Prepare editor
+        run: |
+          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          mkdir build
+          mkdir build/$TARGET
+          mkdir build/$TARGET/data
+          mkdir build/$TARGET/data/assets
+          mkdir $TARGET/data/editor
+          mkdir $TARGET/data/editor/plugins
+          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. $TARGET/data/editor
+          cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
+          find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
+          cd
+          cd build
+          tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
+          rm -r -f $TARGET
+          sha256sum $TARGET"_editor.tar.xz"
+          sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor_sha256sum"
+
+      - name: Deploy archives
         uses: dennisameling/ftp-upload-action@v1.0.10
         with:
           server: ftp.b3dgs.com
