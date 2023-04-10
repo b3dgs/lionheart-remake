@@ -52,7 +52,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'keystore.jks'
-          fileDir: 'keystore/'
+          fileDir: './'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Get version
@@ -375,17 +375,26 @@ jobs:
       - name: Decode Keystore
         uses: timheuer/base64-to-file@v1.2
         with:
-          fileName: 'android.jks'
-          fileDir: 'lionheart-pc/'
+          fileName: 'keystore.jks'
+          fileDir: './'
           encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Get version
         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Compile Java
+      - name: Compile Game
         uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=android.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Ppc,sign
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+
+      - name: Compile Editor
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: mvn clean verify --file lionheart-editor-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Prelease
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
