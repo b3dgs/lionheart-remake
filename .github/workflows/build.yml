@@ -12,7 +12,7 @@ on:
     branches: [ master ]
 
 jobs:
-  game:
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -49,60 +49,25 @@ jobs:
            JavaSE-1.8
            JavaSE-17
 
-     - name: Compile
+     - name: Compile Game
        if: matrix.os != 'ubuntu-latest'
        uses: coactions/setup-xvfb@v1
        with:
          run: mvn clean install --file lionheart-parent/pom.xml -U -Ppc-assets
 
-     - name: Sonar
-       if: matrix.os == 'ubuntu-latest'
-       uses: coactions/setup-xvfb@v1
-       with:
-         run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-editor-parent/pom.xml -U -Ppc-assets -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
-
-  editor:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        jdk: [17]
-    runs-on: ${{ matrix.os }}
-    env:
-      JDK_VERSION: ${{ matrix.jdk }}
-      AUDIODEV: "null"
-
-    steps:
-     - name: Checkout
-       uses: actions/checkout@v3.5.0
-       with:
-         fetch-depth: 0
-
-     - name: Cache
-       uses: actions/cache@v3.3.1
-       with:
-          path: ~/.m2/repository
-          key: maven-${{ matrix.os }}-java${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-${{ matrix.os }}-java${{ matrix.jdk }}-
-            maven-${{ matrix.os }}-
-
-     - name: JDK
-       uses: actions/setup-java@v3.11.0
-       with:
-         java-version: |
-           ${{ matrix.jdk }}
-         distribution: 'temurin'
-         mvn-toolchain-id: |
-           JavaSE-17
-
-     - name: Compile
+     - name: Compile Editor
        if: matrix.os == 'windows-latest'
        uses: coactions/setup-xvfb@v1
        with:
          run: mvn clean verify --file lionheart-editor-parent/pom.xml -U
 
-     - name: Sonar
+     - name: Sonar Game
+       if: matrix.os == 'ubuntu-latest'
+       uses: coactions/setup-xvfb@v1
+       with:
+         run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-parent/pom.xml -U -Ppc-assets -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
+
+     - name: Sonar Editor
        if: matrix.os == 'ubuntu-latest'
        uses: coactions/setup-xvfb@v1
        with:
