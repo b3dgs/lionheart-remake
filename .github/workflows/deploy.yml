@@ -283,11 +283,6 @@ jobs:
           "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
           del base64.txt
           del cert.pfx
-        shell: cmd
-
-      - name: Clean
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
           cd build
           del 7zsd_LZMA2.sfx
           del sfxmaker.txt
@@ -300,8 +295,7 @@ jobs:
       - name: Prepare editor
         run: |
           set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          rmdir /S /Q build
-          mkdir "build"
+          dir
           mkdir "build\%TARGET%"
           mkdir "build\%TARGET%\data"
           mkdir "build\%TARGET%\data\assets"
@@ -311,9 +305,12 @@ jobs:
           cd "lionheart-assets\src\main\resources\com\b3dgs\lionheart"
           xcopy stage*.png ..\..\..\..\..\..\..\build\%TARGET%\data\assets /s /q /i
           cd
+          dir
           cd build
+          dir
           7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
-          rmdir /S /Q "%TARGET%"
+          rmdir /S /Q %TARGET%
+          dir
           sha256sum %TARGET%_editor.7z
           sha256sum %TARGET%_editor.7z > %TARGET%_editor_sha256sum
         shell: cmd
@@ -487,7 +484,6 @@ jobs:
       - name: Prepare editor
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build
           mkdir build/$TARGET
           mkdir build/$TARGET/data
           mkdir build/$TARGET/data/assets
