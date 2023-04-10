@@ -289,7 +289,7 @@ jobs:
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
           sha256sum %TARGET%.exe
-          sha256sum %TARGET%.exe > %TARGET%_sha256sum
+          sha256sum %TARGET%.exe > %TARGET%.sha256sum
         shell: cmd
 
       - name: Prepare editor
@@ -304,12 +304,10 @@ jobs:
           cd "lionheart-assets\src\main\resources\com\b3dgs\lionheart"
           xcopy stage*.png ..\..\..\..\..\..\..\build\%TARGET%\data\assets /s /q /i
           cd ..\..\..\..\..\..\..\build
-          dir
           7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
           rmdir /S /Q %TARGET%
-          dir
           sha256sum %TARGET%_editor.7z
-          sha256sum %TARGET%_editor.7z > %TARGET%_editor_sha256sum
+          sha256sum %TARGET%_editor.7z > %TARGET%_editor.sha256sum
         shell: cmd
 
       - name: Deploy archives
@@ -486,7 +484,7 @@ jobs:
           mkdir build/$TARGET/data/assets
           mkdir build/$TARGET/data/editor
           mkdir build/$TARGET/data/editor/plugins
-          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. $TARGET/data/editor
+          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. build/$TARGET/data/editor
           cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
           find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
           cd ../../../../../../../build
