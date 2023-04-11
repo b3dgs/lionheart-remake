@@ -560,15 +560,6 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
           SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
 
-      - name: Compile Editor
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: mvn clean verify --file lionheart-editor-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -DskipTests=true -Prelease
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
       - name: Update lionheart-remake.sh version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
@@ -635,21 +626,6 @@ jobs:
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
-          rm -r -f $TARGET
-
-      - name: Prepare editor
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build/$TARGET
-          mkdir build/$TARGET/data
-          mkdir build/$TARGET/data/assets
-          mkdir build/$TARGET/data/editor
-          mkdir build/$TARGET/data/editor/plugins
-          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/macosx/cocoa/x86_64/. build/$TARGET/data/editor
-          cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
-          find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
-          cd ../../../../../../../build
-          tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
           rm -r -f $TARGET
 
       - name: Deploy archives
