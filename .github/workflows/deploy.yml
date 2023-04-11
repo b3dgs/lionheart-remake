@@ -593,14 +593,6 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
-      - name: Update main.c version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _output-file: 'distribution/linux/src/main.c'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
       - name: Prepare folders
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
@@ -644,8 +636,6 @@ jobs:
           cd build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz
-          sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
 
       - name: Prepare editor
         run: |
@@ -655,14 +645,12 @@ jobs:
           mkdir build/$TARGET/data/assets
           mkdir build/$TARGET/data/editor
           mkdir build/$TARGET/data/editor/plugins
-          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. build/$TARGET/data/editor
+          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/macosx/cocoa/x86_64/. build/$TARGET/data/editor
           cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
           find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
           cd ../../../../../../../build
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
           rm -r -f $TARGET
-          sha256sum $TARGET"_editor.tar.xz"
-          sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor_sha256sum"
 
       - name: Deploy archives
         uses: dennisameling/ftp-upload-action@v1.0.10
