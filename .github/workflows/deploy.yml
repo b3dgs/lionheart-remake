@@ -320,13 +320,13 @@ jobs:
           server_dir: /${{env.APP_VERSION}}/
           secure: false
 
-  linux-x86_64:
+  linux-x86:
     runs-on: ubuntu-latest
 
     env:
       JDK_VERSION: "8"
       AUDIODEV: "null"
-      APP_PLATFORM: "linux-x86_64"
+      APP_PLATFORM: "linux-x86"
 
     steps:   
       - name: Checkout
@@ -461,10 +461,22 @@ jobs:
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
 
+      - name: Set JRE x86_32
+        uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          architecture: x86
+
+      - name: Bundle JRE x86_32
+        run: |
+          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_32
+
       - name: Compile C
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
+          gcc distribution/linux/src/main.c -s -static -m32 -o build/$TARGET/lionheart-remake
           chmod +x build/$TARGET/lionheart-remake
 
       - name: Make Archive
