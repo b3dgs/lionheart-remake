@@ -610,7 +610,7 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
-      - name: Update profile.sh version
+      - name: Update profile.sh vm
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/sh/profile.sh'
@@ -625,7 +625,7 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
-      - name: Update main.c version
+      - name: Update main.c vm
         uses: bluwy/substitute-string-action@v2.0.1
         with:
           _input-file: 'distribution/linux/src/main.c'
