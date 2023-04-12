@@ -580,6 +580,13 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
+      - name: Update lionheart-remake.sh vm
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
+          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
+          linux-x86_64: linux-x86
+
       - name: Update configure.sh version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
@@ -587,6 +594,13 @@ jobs:
           _output-file: 'distribution/linux/sh/configure.sh'
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
+
+      - name: Update configure.sh vm
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution/linux/sh/configure.sh'
+          _output-file: 'distribution/linux/sh/configure.sh'
+          linux-x86_64: linux-x86
 
       - name: Update profile.sh version
         uses: bluwy/substitute-string-action@v2.0.1
@@ -596,6 +610,13 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
+      - name: Update profile.sh version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution/linux/sh/profile.sh'
+          _output-file: 'distribution/linux/sh/profile.sh'
+          linux-x86_64: linux-x86
+
       - name: Update main.c version
         uses: bluwy/substitute-string-action@v2.0.1
         with:
@@ -603,6 +624,13 @@ jobs:
           _output-file: 'distribution/linux/src/main.c'
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
+
+      - name: Update main.c version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution/linux/src/main.c'
+          _output-file: 'distribution/linux/src/main.c'
+          linux-x86_64: linux-x86
 
       - name: Prepare folders
         run: |
