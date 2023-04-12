@@ -657,17 +657,17 @@ jobs:
           chmod +x configure.sh
           chmod +x profile.sh
 
-      - name: Set JRE x86_32
+      - name: Set JRE x86
         uses: actions/setup-java@v3.11.0
         with:
           distribution: 'zulu'
           java-version: '17'
           architecture: x86
 
-      - name: Bundle JRE x86_32
+      - name: Bundle JRE x86
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_32
+          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86
 
       - name: Compile C
         run: |
