@@ -228,21 +228,11 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
             launcher.addListener(l -> l.ifIs(Underwater.class, u -> u.loadRaster("raster/underworld/underworld/")));
         }
         identifiable.addListener(id -> music.playMusic(Music.BOSS_WIN));
-        stats.addListener(new StatsListener()
+        stats.addListener((StatsDeadListener) () ->
         {
-            @Override
-            public void notifyNextSword(int level)
-            {
-                // Nothing to do
-            }
-
-            @Override
-            public void notifyDead()
-            {
-                water.stopRaise();
-                spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 208, 4);
-                spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 240, 4);
-            }
+            water.stopRaise();
+            spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 208, 4);
+            spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 240, 4);
         });
     }
 

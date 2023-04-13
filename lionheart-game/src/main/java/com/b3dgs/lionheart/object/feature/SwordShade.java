@@ -109,20 +109,7 @@ public final class SwordShade extends FeatureModel implements Routine
             }
         });
 
-        stats.addListener(new StatsListener()
-        {
-            @Override
-            public void notifyNextSword(int level)
-            {
-                shade = shades[level];
-            }
-
-            @Override
-            public void notifyDead()
-            {
-                // Nothing to do
-            }
-        });
+        stats.addListener((StatsSwordListener) level -> shade = shades[level]);
     }
 
     @Override

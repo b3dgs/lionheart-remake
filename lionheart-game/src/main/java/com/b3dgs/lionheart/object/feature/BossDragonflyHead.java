@@ -38,6 +38,7 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
@@ -77,8 +78,10 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private boolean start;
     private double startX;
     private double startY;
+    private double trackSpeed = TRACK_SPEED;
 
     @FeatureGet private Transformable transformable;
+    @FeatureGet private Collidable collidable;
     @FeatureGet private Launcher launcher;
     @FeatureGet private Animatable animatable;
     @FeatureGet private Rasterable rasterable;
@@ -100,8 +103,8 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
         attack = config.getAnimation(Anim.ATTACK);
         turn = config.getAnimation(Anim.TURN);
 
-        force.setVelocity(0.15);
-        force.setSensibility(0.15);
+        force.setVelocity(0.2);
+        force.setSensibility(0.25);
     }
 
     /**
@@ -119,20 +122,22 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
             startY = transformable.getY();
             start = false;
         }
-
         if (animatable.getFrame() == 1
             && tick.elapsedTime(source.getRate(), FIRE_DELAY_MS)
             && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4) < 8
-            && target.getX() < transformable.getX())
+            && target.getX() < transformable.getX()
+            && Double.compare(transformable.getX(), transformable.getOldX()) <= 0)
         {
+            trackSpeed = 0;
             launcher.fire();
             animatable.play(attack);
+            collidable.setEnabled(false);
             updater = this::updateFired;
             tick.restart();
         }
         else
         {
-            computeForce();
+            trackSpeed = TRACK_SPEED;
             force.update(extrp);
             transformable.moveLocation(extrp, force);
             fixLimit();
@@ -159,7 +164,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private void computeForce()
     {
         final double dh = target.getX() - transformable.getOldX();
-        final double dv = target.getY() - transformable.getOldY() + transformable.getHeight() / 3;
+        final double dv = target.getY() - transformable.getOldY() + transformable.getHeight() / 3.5;
 
         final double nh = Math.abs(dh);
         final double nv = Math.abs(dv);
@@ -187,7 +192,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
             sy = 0.5;
         }
 
-        force.setDestination(sx * TRACK_SPEED, sy * TRACK_SPEED);
+        force.setDestination(sx * trackSpeed, sy * trackSpeed);
     }
 
     /**
@@ -225,6 +230,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
         if (tick.elapsedTime(source.getRate(), FIRED_DELAY_MS))
         {
             animatable.play(idle);
+            collidable.setEnabled(true);
             updater = this::updateTrack;
             tick.restart();
         }
@@ -289,6 +295,7 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     public void update(double extrp)
     {
         updater.update(extrp);
+        computeForce();
         updateLimbs(extrp);
     }
 

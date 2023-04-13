@@ -29,6 +29,13 @@ public interface StatsListener
     void notifyNextSword(int level);
 
     /**
+     * Notify on hurt.
+     * 
+     * @param damages The damages.
+     */
+    void notifyHurt(int damages);
+
+    /**
      * Notify dead.
      */
     void notifyDead();

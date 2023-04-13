@@ -51,9 +51,9 @@ import com.b3dgs.lionheart.object.EntityModel;
 public final class BossDragonfly extends FeatureModel implements Routine, Recyclable
 {
     private static final int END_DELAY_MS = 8000;
-    private static final int APPROACH_DELAY_MS = 650;
+    private static final int APPROACH_DELAY_MS = 500;
     private static final double SPEED = 0.5;
-    private static final double SPEED_LEAVE = -3.0;
+    private static final double SPEED_LEAVE = -2.0;
     private static final int EXPLODE_DELAY_MS = 160;
 
     private final Tick tick = new Tick();
@@ -68,13 +68,13 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private Updatable updater;
     private Hurtable head;
     private Hurtable gobelin;
-    private Stats stats;
-    private int oldHealth;
 
     @FeatureGet private EntityModel model;
     @FeatureGet private Transformable transformable;
     @FeatureGet private Collidable collidable;
     @FeatureGet private Hurtable hurtable;
+
+    private boolean leave;
 
     /**
      * Create feature.
@@ -105,12 +105,32 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
                                 transformable.getY() + 128)
                          .getFeature(Hurtable.class);
 
-        stats = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "BossNeck.xml"),
-                              transformable.getX() - 96,
-                              transformable.getY() + 128)
-                       .getFeature(Stats.class);
+        final Stats stats = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "BossNeck.xml"),
+                                          transformable.getX() - 96,
+                                          transformable.getY() + 128)
+                                   .getFeature(Stats.class);
 
-        oldHealth = stats.getHealth();
+        stats.addListener(new StatsHurtListener()
+        {
+            @Override
+            public void notifyHurt(int damages)
+            {
+                head.hurt();
+                gobelin.hurt();
+                hurtable.hurt();
+            }
+
+            @Override
+            public void notifyDead()
+            {
+                updater = BossDragonfly.this::updateExplode;
+                head.kill(true);
+                music.playMusic(Music.BOSS_WIN);
+                model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_DELAY_MS));
+                tick.restart();
+            }
+        });
+
         updater = this::updateApproach;
         tick.restart();
     }
@@ -158,24 +178,13 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
             target.moveLocationX(extrp, SPEED);
         }
 
-        if (oldHealth != stats.getHealth())
+        if (hurtable.isHurting())
         {
-            head.hurt();
-            gobelin.hurt();
-            hurtable.hurt();
+            leave = true;
         }
-        oldHealth = stats.getHealth();
-
-        if (stats.getHealth() == 0)
+        if (leave && !head.isHurting())
         {
-            updater = this::updateExplode;
-            head.kill(true);
-            music.playMusic(Music.BOSS_WIN);
-            model.getConfig().getNext().ifPresent(next -> stage.loadNextStage(next, END_DELAY_MS));
-            tick.restart();
-        }
-        else if (hurtable.isHurting())
-        {
+            leave = false;
             updater = this::updateLeave;
         }
 

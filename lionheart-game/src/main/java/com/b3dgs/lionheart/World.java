@@ -116,7 +116,7 @@ import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
 import com.b3dgs.lionheart.object.feature.Stats;
-import com.b3dgs.lionheart.object.feature.StatsListener;
+import com.b3dgs.lionheart.object.feature.StatsDeadListener;
 import com.b3dgs.lionheart.object.feature.Trackable;
 import com.b3dgs.lionheart.object.feature.Underwater;
 
@@ -1424,42 +1424,32 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             if (game.getType().is(GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))
             {
                 final AtomicInteger dead = new AtomicInteger();
-                final StatsListener listener = new StatsListener()
+                final StatsDeadListener listener = () ->
                 {
-                    @Override
-                    public void notifyNextSword(int level)
+                    if (game.getType().is(GameType.VERSUS))
                     {
-                        // Nothing to do
-                    }
-
-                    @Override
-                    public void notifyDead()
-                    {
-                        if (game.getType().is(GameType.VERSUS))
+                        if (dead.incrementAndGet() == players.size() - 1)
                         {
-                            if (dead.incrementAndGet() == players.size() - 1)
+                            for (int i = 0; i < players.size(); i++)
                             {
-                                for (int i = 0; i < players.size(); i++)
+                                if (players.get(i).getFeature(Stats.class).getHealth() > 0)
                                 {
-                                    if (players.get(i).getFeature(Stats.class).getHealth() > 0)
-                                    {
-                                        players.get(i).getFeature(Stats.class).win();
-                                    }
+                                    players.get(i).getFeature(Stats.class).win();
                                 }
-                                playMusic(Music.BOSS_WIN);
-                                spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
-                                                    source.getRate(),
-                                                    VERSUS_WIN_DELAY_MS);
                             }
+                            playMusic(Music.BOSS_WIN);
+                            spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                                source.getRate(),
+                                                VERSUS_WIN_DELAY_MS);
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (dead.incrementAndGet() == players.size())
                         {
-                            if (dead.incrementAndGet() == players.size())
-                            {
-                                spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
-                                                    source.getRate(),
-                                                    ALLDEAD_DELAY_MS);
-                            }
+                            spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                                source.getRate(),
+                                                ALLDEAD_DELAY_MS);
                         }
                     }
                 };
