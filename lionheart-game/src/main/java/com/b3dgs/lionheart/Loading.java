@@ -40,15 +40,15 @@ public final class Loading extends Sequence
     private final Timing timing = new Timing();
     private final Progress progress = new Progress(getWidth(), getHeight());
     private final BackgroundType[] backgrounds = BackgroundType.values();
-    private final Image loading = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
+    private final Image image = Drawable.loadImage(Medias.create(Folder.SPRITE, "logo.png"));
     private final GameConfig config;
     private final boolean direct;
     private final int max;
 
     private boolean load;
     private int current = -1;
-    private double alpha = Settings.getInstance().getFlagDebug() ? 0 : 255;
-    private int alphaSpeed = Settings.getInstance().getFlagDebug() ? 256 : 10;
+    private double alpha = Settings.getInstance().isFlagDebug() ? 0 : 255;
+    private int alphaSpeed = Settings.getInstance().isFlagDebug() ? 256 : 10;
 
     /**
      * Constructor.
@@ -65,7 +65,7 @@ public final class Loading extends Sequence
         timing.start();
         this.config = config;
         this.direct = direct.booleanValue();
-        max = Settings.getInstance().getRasterCheck() ? backgrounds.length - 1 : current;
+        max = Settings.getInstance().isRasterCheck() ? backgrounds.length - 1 : current;
 
         setSystemCursorVisible(false);
         Util.setFilter(this, context, Util.getResolution(Constant.RESOLUTION, context), 2);
@@ -76,7 +76,7 @@ public final class Loading extends Sequence
      */
     private void loadNext()
     {
-        if (Settings.getInstance().getFlagDebug())
+        if (Settings.getInstance().isFlagDebug())
         {
             if (config.getInit() == null)
             {
@@ -114,10 +114,10 @@ public final class Loading extends Sequence
         Sfx.cache(Sfx.MENU_SELECT);
         Sfx.cacheStart();
 
-        loading.load();
-        loading.prepare();
-        loading.setOrigin(Origin.MIDDLE);
-        loading.setLocation(getWidth() / 2.0, getHeight() / 2.0);
+        image.load();
+        image.prepare();
+        image.setOrigin(Origin.MIDDLE);
+        image.setLocation(getWidth() / 2.0, getHeight() / 2.0);
     }
 
     @Override
@@ -164,7 +164,7 @@ public final class Loading extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        loading.render(g);
+        image.render(g);
 
         if (current < max)
         {
@@ -184,6 +184,6 @@ public final class Loading extends Sequence
     {
         super.onTerminated(hasNextSequence);
 
-        loading.dispose();
+        image.dispose();
     }
 }

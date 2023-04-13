@@ -75,8 +75,8 @@ public class Part2 extends Sequence
     private static final String DRAGON_EXTRO = "DragonExtro.xml";
     private static final String VALDYN = "Valdyn.xml";
 
-    private static final int TIME_FADE_IN_MS = 23200;
-    private static final int TIME_FADE_OUT_MS = 33100;
+    private static final int TIME_FADE_IN_MS = 23_200;
+    private static final int TIME_FADE_OUT_MS = 33_100;
 
     /** Device controller reference. */
     final DeviceController device;

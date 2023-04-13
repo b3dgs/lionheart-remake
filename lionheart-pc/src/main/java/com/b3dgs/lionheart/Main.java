@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
@@ -38,9 +37,8 @@ public class Main
      * {@link AppLionheart#main(String[])}
      * 
      * @param args The arguments.
-     * @throws IOException If error.
      */
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args)
     {
         Tools.disableAutoScale();
 

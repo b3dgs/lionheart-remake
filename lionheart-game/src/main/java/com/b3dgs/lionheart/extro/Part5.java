@@ -84,20 +84,20 @@ public class Part5 extends Sequence
     private static final int TRANSFORM_FLICK_DELAY_MS = 150;
     private static final int EYE_Y = 57;
 
-    private static final int TIME_TRANSFORM1_MS = 141600;
-    private static final int TIME_TRANSFORM_ALPHA_IN_MS = 142500;
-    private static final int TIME_TRANSFORM2_MS = 143400;
-    private static final int TIME_TRANSFORM3_MS = 144300;
-    private static final int TIME_TRANSFORM4_MS = 145900;
-    private static final int TIME_TRANSFORM5_MS = 148700;
-    private static final int TIME_TRANSFORM6_MS = 149700;
-    private static final int TIME_TRANSFORM7_MS = 150700;
-    private static final int TIME_TRANSFORM_FLICKER_MS = 151900;
-    private static final int TIME_TRANSFORM8_MS = 153600;
-    private static final int TIME_TRANSFORM_ALPHA_OUT_MS = 155000;
-    private static final int TIME_TRANSFORM_EYES_MS = 156000;
+    private static final int TIME_TRANSFORM1_MS = 141_600;
+    private static final int TIME_TRANSFORM_ALPHA_IN_MS = 142_500;
+    private static final int TIME_TRANSFORM2_MS = 143_400;
+    private static final int TIME_TRANSFORM3_MS = 144_300;
+    private static final int TIME_TRANSFORM4_MS = 145_900;
+    private static final int TIME_TRANSFORM5_MS = 148_700;
+    private static final int TIME_TRANSFORM6_MS = 149_700;
+    private static final int TIME_TRANSFORM7_MS = 150_700;
+    private static final int TIME_TRANSFORM_FLICKER_MS = 151_900;
+    private static final int TIME_TRANSFORM8_MS = 153_600;
+    private static final int TIME_TRANSFORM_ALPHA_OUT_MS = 155_000;
+    private static final int TIME_TRANSFORM_EYES_MS = 156_000;
 
-    private static final int TIME_FADE_OUT_MS = 160300;
+    private static final int TIME_FADE_OUT_MS = 160_300;
 
     private final Sprite transform0a = get("transform0a.png");
     private final Sprite transform0b = get("transform0b.png");

@@ -45,7 +45,7 @@ import com.b3dgs.lionheart.Util;
 /**
  * Test extro stories {@link Stories}.
  */
-public class StoriesTest
+final class StoriesTest
 {
     /**
      * Init engine.

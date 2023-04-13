@@ -73,7 +73,7 @@ public class Credits extends Sequence
     private static final int TEXT_SMALL_OFFSET_WIDTH = 32;
     private static final int TEXT_SCROLL_END_HEIGHT = 48;
 
-    private static final int TIME_START_MS = 175000;
+    private static final int TIME_START_MS = 175_000;
 
     /** Device controller reference. */
     final DeviceController device;
@@ -83,7 +83,7 @@ public class Credits extends Sequence
     private final List<SpriteFont> texts = new ArrayList<>();
     private final Audio audioAlternative = AudioFactory.loadAudio(Music.CREDITS);
     private final GameConfig config;
-    private final Sprite credits;
+    private final Sprite sprite;
     private final Time time;
     private final Audio audio;
     private final boolean alternative;
@@ -121,12 +121,12 @@ public class Credits extends Sequence
         if (this.alternative)
         {
             alpha = 255.0;
-            credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, PART5_FOLDER, FILENAME_IMAGE));
+            sprite = Drawable.loadSprite(Medias.create(Folder.EXTRO, PART5_FOLDER, FILENAME_IMAGE));
         }
         else
         {
             alpha = 0.0;
-            credits = Drawable.loadSprite(Medias.create(Folder.EXTRO, PART4_FOLDER, FILENAME_IMAGE));
+            sprite = Drawable.loadSprite(Medias.create(Folder.EXTRO, PART4_FOLDER, FILENAME_IMAGE));
         }
 
         final Services services = new Services();
@@ -151,10 +151,10 @@ public class Credits extends Sequence
     @Override
     public void load()
     {
-        credits.load();
-        credits.prepare();
-        credits.setOrigin(Origin.MIDDLE);
-        credits.setLocation(getWidth() / 2, getHeight() / 2);
+        sprite.load();
+        sprite.prepare();
+        sprite.setOrigin(Origin.MIDDLE);
+        sprite.setLocation(getWidth() / 2, getHeight() / 2);
     }
 
     private void loadTextLines()
@@ -224,17 +224,17 @@ public class Credits extends Sequence
 
             if (size == TEXT_SIZE_SEPARATOR || size == TEXT_SIZE_MEDIUM)
             {
-                text.setLocation(getWidth() / 2 - credits.getWidth() / 2 + 2, y);
+                text.setLocation(getWidth() / 2 - sprite.getWidth() / 2 + 2, y);
                 y += TEXT_SIZE_SMALL;
             }
             else if (size == TEXT_SIZE_SMALL)
             {
                 y += 2;
-                text.setLocation(getWidth() / 2 - credits.getWidth() / 2 + TEXT_SMALL_OFFSET_WIDTH, y);
+                text.setLocation(getWidth() / 2 - sprite.getWidth() / 2 + TEXT_SMALL_OFFSET_WIDTH, y);
             }
             else
             {
-                text.setLocation(getWidth() / 2 - credits.getWidth() / 2, y);
+                text.setLocation(getWidth() / 2 - sprite.getWidth() / 2, y);
             }
         }
         text.setText(line.substring(TEXT_BEGIN_INDEX));
@@ -387,7 +387,7 @@ public class Credits extends Sequence
     {
         g.clear(0, 0, getWidth(), getHeight());
 
-        credits.render(g);
+        sprite.render(g);
         rendererText.render(g);
         rendererFade.render(g);
         info.render(g);

@@ -70,7 +70,7 @@ final class Dragonfly extends BackgroundAbstract
     /**
      * Backdrop represents the back background plus top background elements.
      */
-    private final class Backdrop implements BackgroundComponent
+    private static final class Backdrop implements BackgroundComponent
     {
         private final BackgroundElement backcolorA;
         private final BackgroundElement backcolorB;

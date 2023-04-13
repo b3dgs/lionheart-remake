@@ -67,11 +67,11 @@ public class Part4 extends Sequence
 
     private static final String FILE_AMULET = "amulet.png";
 
-    private static final int TIME_STORY2_MS = 89100;
-    private static final int TIME_END_MS = 103000;
-    private static final int TIME_STORY4_MS = 108200;
-    private static final int TIME_STORY5_MS = 123400;
-    private static final int TIME_FADE_OUT_MS = 138600;
+    private static final int TIME_STORY2_MS = 89_100;
+    private static final int TIME_END_MS = 103_000;
+    private static final int TIME_STORY4_MS = 108_200;
+    private static final int TIME_STORY5_MS = 123_400;
+    private static final int TIME_FADE_OUT_MS = 138_600;
 
     /** Device controller reference. */
     final DeviceController device;

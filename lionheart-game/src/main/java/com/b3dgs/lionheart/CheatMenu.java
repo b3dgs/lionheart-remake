@@ -62,14 +62,7 @@ public class CheatMenu implements Routine, Surface
         }
         for (int i = 0; i < s.length(); i++)
         {
-            if (i == 0 && s.charAt(i) == '-')
-            {
-                if (s.length() == 1)
-                {
-                    return false;
-                }
-            }
-            if (Character.digit(s.charAt(i), radix) < 0)
+            if (i == 0 && s.charAt(i) == '-' && s.length() == 1 || Character.digit(s.charAt(i), radix) < 0)
             {
                 return false;
             }
@@ -93,7 +86,7 @@ public class CheatMenu implements Routine, Surface
 
     private boolean active;
     private boolean spawned;
-    private boolean hover;
+    private boolean isHover;
     private boolean hide;
 
     /**
@@ -179,7 +172,7 @@ public class CheatMenu implements Routine, Surface
     public void setInactive()
     {
         active = false;
-        hover = false;
+        isHover = false;
     }
 
     /**
@@ -202,7 +195,7 @@ public class CheatMenu implements Routine, Surface
      */
     public boolean isHover()
     {
-        return hover;
+        return isHover;
     }
 
     /**
@@ -239,13 +232,13 @@ public class CheatMenu implements Routine, Surface
     {
         if (spawned && active)
         {
-            hover = false;
+            isHover = false;
             final double cx = cursor.getScreenX();
             final double cy = cursor.getScreenY();
             final boolean inside = area.contains(cx, cy);
             if (inside)
             {
-                hover = true;
+                isHover = true;
                 if (!sub.isEmpty())
                 {
                     for (final CheatMenu menu : menus)
@@ -341,7 +334,7 @@ public class CheatMenu implements Routine, Surface
     {
         if (spawned)
         {
-            if (hover)
+            if (isHover)
             {
                 g.setColor(HOVER);
             }

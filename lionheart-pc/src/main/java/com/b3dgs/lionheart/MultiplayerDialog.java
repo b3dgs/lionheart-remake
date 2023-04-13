@@ -33,7 +33,6 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -389,7 +388,7 @@ public class MultiplayerDialog extends JDialog
 
     private static Collection<Media> wrap(Collection<Media> media)
     {
-        return media.stream().map(MultiplayerDialog::wrap).sorted().collect(Collectors.toList());
+        return media.stream().map(MultiplayerDialog::wrap).sorted().toList();
     }
 
     private static Media wrap(Media media)

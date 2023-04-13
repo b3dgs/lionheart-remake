@@ -87,9 +87,9 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int PAUSE_FLICKER_DELAY_MS = 250;
 
-    private final List<String> hud = Util.readLines(Medias.create(Folder.TEXT,
-                                                                  Settings.getInstance().getLang(),
-                                                                  TXT_FILE));
+    private final List<String> pauseExit = Util.readLines(Medias.create(Folder.TEXT,
+                                                                        Settings.getInstance().getLang(),
+                                                                        TXT_FILE));
 
     private final Image heartSurface = Drawable.loadImage(Medias.create(Folder.SPRITE, IMG_HEART));
     private final ImageBuffer hudSurface = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_HUD));
@@ -107,7 +107,7 @@ public final class Hud implements Resource, Updatable, Renderable
     private final SpriteTiled[] hearts = new SpriteTiled[HEALTH_MAX];
     private final Tick tick = new Tick();
     private final Tick time = new Tick();
-    private final boolean swordVisible = Settings.getInstance().getHudSword();
+    private final boolean swordVisible = Settings.getInstance().isHudSword();
 
     private final SourceResolutionProvider source;
     private final Viewer viewer;
@@ -199,7 +199,7 @@ public final class Hud implements Resource, Updatable, Renderable
      */
     public void setFeaturable(Featurable featurable)
     {
-        if (Settings.getInstance().getHudVisible() && featurable.hasFeature(Stats.class))
+        if (Settings.getInstance().isHudVisible() && featurable.hasFeature(Stats.class))
         {
             stats = featurable.getFeature(Stats.class);
             updaterHud = this::updateHud;
@@ -465,12 +465,12 @@ public final class Hud implements Resource, Updatable, Renderable
     {
         if (exit)
         {
-            text.draw(g, HEALTH_X, HEALTH_Y, hud.get(1));
-            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), hud.get(2));
+            text.draw(g, HEALTH_X, HEALTH_Y, pauseExit.get(1));
+            text.draw(g, HEALTH_X, HEALTH_Y + text.getSize(), pauseExit.get(2));
         }
         else
         {
-            text.draw(g, HEALTH_X, HEALTH_Y, hud.get(0));
+            text.draw(g, HEALTH_X, HEALTH_Y, pauseExit.get(0));
         }
     }
 

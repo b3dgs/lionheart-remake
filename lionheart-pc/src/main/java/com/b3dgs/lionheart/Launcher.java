@@ -208,9 +208,8 @@ public final class Launcher
      * Main function.
      * 
      * @param args The arguments (none).
-     * @throws IOException If error.
      */
-    public static void main(String[] args) throws IOException // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
+    public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
         Tools.disableAutoScale();
         UIManager.put("ToolTip.font", FONT1);
@@ -369,7 +368,7 @@ public final class Launcher
     {
         final JLabel label = createLabel(LABEL_LANG, SwingConstants.RIGHT);
 
-        final List<String> langs = LANG_FULL.values().stream().sorted().collect(Collectors.toList());
+        final List<String> langs = LANG_FULL.values().stream().sorted().toList();
         final JComboBox<String> combo = createCombo(langs.toArray(new String[langs.size()]),
                                                     LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
         combo.addActionListener(e ->
@@ -957,7 +956,7 @@ public final class Launcher
             WIDTH.set(settings.getResolution(desktop).getWidth());
             HEIGHT.set(settings.getResolution(desktop).getHeight());
             RATE.set(settings.getResolution(desktop).getRate());
-            WINDOWED.set(settings.getResolutionWindowed());
+            WINDOWED.set(settings.isResolutionWindowed());
         }
         else
         {
@@ -970,18 +969,18 @@ public final class Launcher
         FILTER.set(settings.getFilter());
         GAMEPLAY.set(settings.getGameplay());
         RASTER.set(settings.getRaster());
-        HUD.set(settings.getHudVisible());
-        HUD_SWORD.set(settings.getHudSword());
-        FLICKER_BACKGROUND.set(settings.getFlickerBackground());
-        FLICKER_FOREGROUND.set(settings.getFlickerForeground());
+        HUD.set(settings.isHudVisible());
+        HUD_SWORD.set(settings.isHudSword());
+        FLICKER_BACKGROUND.set(settings.isFlickerBackground());
+        FLICKER_FOREGROUND.set(settings.isFlickerForeground());
         ZOOM.set(UtilMath.clamp((int) Math.round(settings.getZoom() * 100),
                                 (int) (Constant.ZOOM_MIN * 100),
                                 (int) (Constant.ZOOM_MAX * 100)));
         MUSIC.set(UtilMath.clamp(settings.getVolumeMusic(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
         SFX.set(UtilMath.clamp(settings.getVolumeSfx(), 0, com.b3dgs.lionengine.Constant.HUNDRED));
         FLAG_STRATEGY.set(UtilMath.clamp(settings.getFlagStrategy(), 0, ImageLoadStrategy.values().length));
-        FLAG_PARALLEL.set(settings.getFlagParallel());
-        FLAG_VSYNC.set(settings.getFlagVsync());
+        FLAG_PARALLEL.set(settings.isFlagParallel());
+        FLAG_VSYNC.set(settings.isFlagVsync());
     }
 
     private static void loadLabels(String lang)
@@ -1161,7 +1160,7 @@ public final class Launcher
                      .map(d -> Integer.valueOf(d.getRefreshRate()))
                      .distinct()
                      .sorted()
-                     .collect(Collectors.toList());
+                     .toList();
     }
 
     private static List<Integer> getAvailableRates()
@@ -1169,7 +1168,7 @@ public final class Launcher
         final List<Integer> rates = new ArrayList<>(getNativeRates());
         rates.add(Integer.valueOf(Constant.RESOLUTION.getRate()));
         rates.add(Integer.valueOf(Constant.RESOLUTION.getRate() * 2));
-        return rates.stream().distinct().sorted().collect(Collectors.toList());
+        return rates.stream().distinct().sorted().toList();
     }
 
     private static int getClosestRate(JComboBox<Integer> comboRate, Integer custom)

@@ -60,7 +60,7 @@ public final class Part1 implements Updatable, Renderable
 
     private static final int BACKGROUND_X_MAX = 810;
 
-    private static final int TIME_START_CAMERA_MOVE_MS = 10100;
+    private static final int TIME_START_CAMERA_MOVE_MS = 10_100;
 
     /**
      * Get media from filename.

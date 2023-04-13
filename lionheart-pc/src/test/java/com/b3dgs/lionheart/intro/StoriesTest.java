@@ -46,7 +46,7 @@ import com.b3dgs.lionheart.Util;
  * Test intro stories {@link Stories}.
  */
 @Tag("manual")
-public class StoriesTest
+final class StoriesTest
 {
     /**
      * Init engine.

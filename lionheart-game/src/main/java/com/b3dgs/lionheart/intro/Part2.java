@@ -84,24 +84,24 @@ public final class Part2 implements Updatable, Renderable
     private static final double SPEED_RAGE_START = 8;
     private static final double SPEED_RAGE_END = 4;
 
-    private static final int TIME_DOOR_OPEN_MS = 47500;
-    private static final int TIME_DOOR_ENTER_MS = 48700;
-    private static final int TIME_CAVE_FADE_IN_MS = 50500;
-    private static final int TIME_VALDYN_MOVE_MS = 66900;
-    private static final int TIME_CAVE_FADE_OUT_MS = 71500;
-    private static final int TIME_EQUIP_FADE_IN_MS = 72100;
-    private static final int TIME_SHOW_SWORD_MS = 74800;
-    private static final int TIME_EQUIP_SWORD_MS = 75400;
-    private static final int TIME_SHOW_FOOT_MS = 76500;
-    private static final int TIME_EQUIP_FOOT_MS = 77100;
-    private static final int TIME_SHOW_HAND_MS = 78300;
-    private static final int TIME_EQUIP_HAND_MS = 78800;
-    private static final int TIME_EQUIP_FADE_OUT_MS = 81000;
-    private static final int TIME_RAGE_FADE_IN_MS = 81500;
-    private static final int TIME_RAGE_START_MS = 83300;
-    private static final int TIME_RAGE_FLASH_MS = 84800;
-    private static final int TIME_RAGE_END_MS = 85800;
-    private static final int TIME_RAGE_FADE_OUT_MS = 86800;
+    private static final int TIME_DOOR_OPEN_MS = 47_500;
+    private static final int TIME_DOOR_ENTER_MS = 48_700;
+    private static final int TIME_CAVE_FADE_IN_MS = 50_500;
+    private static final int TIME_VALDYN_MOVE_MS = 66_900;
+    private static final int TIME_CAVE_FADE_OUT_MS = 71_500;
+    private static final int TIME_EQUIP_FADE_IN_MS = 72_100;
+    private static final int TIME_SHOW_SWORD_MS = 74_800;
+    private static final int TIME_EQUIP_SWORD_MS = 75_400;
+    private static final int TIME_SHOW_FOOT_MS = 76_500;
+    private static final int TIME_EQUIP_FOOT_MS = 77_100;
+    private static final int TIME_SHOW_HAND_MS = 78_300;
+    private static final int TIME_EQUIP_HAND_MS = 78_800;
+    private static final int TIME_EQUIP_FADE_OUT_MS = 81_000;
+    private static final int TIME_RAGE_FADE_IN_MS = 81_500;
+    private static final int TIME_RAGE_START_MS = 83_300;
+    private static final int TIME_RAGE_FLASH_MS = 84_800;
+    private static final int TIME_RAGE_END_MS = 85_800;
+    private static final int TIME_RAGE_FADE_OUT_MS = 86_800;
 
     /**
      * Get media from filename.
@@ -171,7 +171,7 @@ public final class Part2 implements Updatable, Renderable
         this.width = width;
         this.height = height;
         this.rate = rate;
-        bandHeight = (int) (Math.floor(height - BAND_HEIGHT) / 2.0);
+        bandHeight = (int) (Math.floor((height - BAND_HEIGHT) / 2.0));
     }
 
     /**

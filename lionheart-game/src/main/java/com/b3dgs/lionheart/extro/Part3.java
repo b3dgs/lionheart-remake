@@ -44,10 +44,10 @@ public class Part3 extends Sequence
 {
     private static final int FADE_SPEED = 5;
 
-    private static final int TIME_STORY0_MS = 41400;
-    private static final int TIME_STORY1_MS = 56500;
-    private static final int TIME_STORY2_MS = 71700;
-    private static final int TIME_FADE_OUT_MS = 85200;
+    private static final int TIME_STORY0_MS = 41_400;
+    private static final int TIME_STORY1_MS = 56_500;
+    private static final int TIME_STORY2_MS = 71_700;
+    private static final int TIME_FADE_OUT_MS = 85_200;
 
     /** Device controller reference. */
     final DeviceController device;

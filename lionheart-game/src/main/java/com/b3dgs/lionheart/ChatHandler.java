@@ -136,7 +136,7 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
         messagesShort.addFirst(message);
         tick.addAction(() ->
         {
-            if (messagesShort.size() > 0 && messagesShort.contains(message))
+            if (!messagesShort.isEmpty() && messagesShort.contains(message))
             {
                 messagesShort.removeLast();
             }

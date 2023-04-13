@@ -88,7 +88,7 @@ final class Airship extends BackgroundAbstract
     /**
      * Backdrop represents the back background plus top background elements.
      */
-    private final class Backdrop implements BackgroundComponent
+    private static final class Backdrop implements BackgroundComponent
     {
         private final BackgroundElement backcolorA;
         private final BackgroundElement backcolorB;
@@ -177,7 +177,7 @@ final class Airship extends BackgroundAbstract
     /**
      * Backdrop represents the back background plus top background elements.
      */
-    private final class BackdropForest implements BackgroundComponent
+    private static final class BackdropForest implements BackgroundComponent
     {
         private final BackgroundElement backcolorA;
         private final BackgroundElement backcolorB;

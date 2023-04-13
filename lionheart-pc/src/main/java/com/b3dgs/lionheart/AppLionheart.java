@@ -294,7 +294,7 @@ public final class AppLionheart
      */
     private static Config configure(Settings settings, List<InputDevice> devices, Media... icons)
     {
-        if (settings.getResolutionWindowed())
+        if (settings.isResolutionWindowed())
         {
             return Config.windowed(settings.getResolution(getDesktopResolution()), devices, icons);
         }

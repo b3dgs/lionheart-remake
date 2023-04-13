@@ -55,8 +55,8 @@ public class Intro extends Sequence
     private static final int SPEED_FADE_IN = 4;
     private static final int SPEED_FADE_OUT = 10;
 
-    private static final int TIME_PART2_MS = 47500;
-    private static final int TIME_PART3_MS = 93800;
+    private static final int TIME_PART2_MS = 47_500;
+    private static final int TIME_PART3_MS = 93_800;
 
     /** Device controller reference. */
     final DeviceController device;
@@ -88,7 +88,9 @@ public class Intro extends Sequence
      */
     public Intro(Context context, GameConfig config)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop(context.getConfig().getOutput()));
+        super(context,
+              Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH),
+              Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         part1 = new Part1(time, getWidth(), getHeight(), getWideFactor(context));

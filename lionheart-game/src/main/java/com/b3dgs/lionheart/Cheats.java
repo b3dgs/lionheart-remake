@@ -83,7 +83,7 @@ public class Cheats implements Updatable, Renderable
     private StateHandler player;
     private boolean paused;
     private boolean pressed;
-    private boolean cheats;
+    private boolean enabled;
     private boolean cheatsMenu;
     private boolean fly;
     private boolean invincibility;
@@ -134,9 +134,9 @@ public class Cheats implements Updatable, Renderable
         services.add(new CheatsProvider()
         {
             @Override
-            public boolean getCheats()
+            public boolean isCheats()
             {
-                return cheats;
+                return enabled;
             }
 
             @Override
@@ -158,7 +158,7 @@ public class Cheats implements Updatable, Renderable
     {
         this.player = player;
         this.difficulty = difficulty;
-        this.cheats = cheats;
+        enabled = cheats;
         tickMouse.stop();
     }
 
@@ -189,7 +189,7 @@ public class Cheats implements Updatable, Renderable
      */
     public boolean isEnabled()
     {
-        return cheats;
+        return enabled;
     }
 
     /**
@@ -307,7 +307,7 @@ public class Cheats implements Updatable, Renderable
 
     private void onFly()
     {
-        cheats = true;
+        enabled = true;
         fly = !fly;
         unlockPlayer(fly);
         cursor.setInputDevice(deviceCursor);
@@ -327,7 +327,7 @@ public class Cheats implements Updatable, Renderable
                       config.with(Util.getInitConfig(Util.getStage(stages, difficulty, index + 1),
                                                      player,
                                                      difficulty,
-                                                     cheats,
+                                                     enabled,
                                                      Optional.empty())));
     }
 
@@ -359,13 +359,13 @@ public class Cheats implements Updatable, Renderable
             else if (device.isFiredOnce(DeviceMapping.PAGE_DOWN))
             {
                 device.isFiredOnce(DeviceMapping.CTRL_LEFT);
-                cheats = !cheats;
+                enabled = !enabled;
                 shaker.start();
                 paused = false;
                 hud.setPaused(false);
             }
         }
-        else if (cheats && !player.isState(StateWin.class))
+        else if (enabled && !player.isState(StateWin.class))
         {
             updateCheatsFly();
             updateStages();
@@ -470,7 +470,11 @@ public class Cheats implements Updatable, Renderable
                 if (stage.exists())
                 {
                     sequencer.end(SceneBlack.class,
-                                  config.with(Util.getInitConfig(stage, player, difficulty, cheats, Optional.empty())));
+                                  config.with(Util.getInitConfig(stage,
+                                                                 player,
+                                                                 difficulty,
+                                                                 enabled,
+                                                                 Optional.empty())));
                 }
             }
         }

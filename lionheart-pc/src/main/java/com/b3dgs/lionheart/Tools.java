@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -128,7 +127,7 @@ public final class Tools
     {
         for (final BackgroundType background : BackgroundType.values())
         {
-            if (type.equals(background.getWorld()))
+            if (type == background.getWorld())
             {
                 generateWorldRaster(background);
             }
@@ -148,7 +147,7 @@ public final class Tools
                                                                                   / 2));
         executor.execute(() ->
         {
-            if (BackgroundType.LAVA.equals(type))
+            if (BackgroundType.LAVA == type)
             {
                 generateTileRasterInside(type);
             }
@@ -167,7 +166,7 @@ public final class Tools
         medias.addAll(Medias.create(Folder.LIMB, type.getWorld().getFolder()).getMedias());
         medias.addAll(Medias.create(Folder.PROJECTILE, type.getWorld().getFolder()).getMedias());
         medias.addAll(Medias.create(Folder.EFFECT, type.getWorld().getFolder()).getMedias());
-        if (BackgroundType.UNDERWORLD.equals(type))
+        if (BackgroundType.UNDERWORLD == type)
         {
             medias.addAll(Medias.create(Folder.BOSS, type.getWorld().getFolder()).getMedias());
         }
@@ -178,7 +177,7 @@ public final class Tools
             {
                 if (media.getName().endsWith(XML))
                 {
-                    if (BackgroundType.LAVA.equals(type))
+                    if (BackgroundType.LAVA == type)
                     {
                         generateObjectRasterInside(type, media);
                     }
@@ -191,7 +190,7 @@ public final class Tools
                                             .getChildren(FeaturableConfig.NODE_FEATURE)
                                             .stream()
                                             .map(XmlReader::getText)
-                                            .collect(Collectors.toList())
+                                            .toList()
                                             .contains(Underwater.class.getName()))
                     {
                         generateObjectWaterRaster(type, media);
@@ -488,8 +487,8 @@ public final class Tools
         final Media raster = Medias.create(Folder.RASTER,
                                            Folder.HERO,
                                            "valdyn",
-                                           BackgroundType.LAVA.equals(type) ? Constant.RASTER_FILE_LAVA
-                                                                            : Constant.RASTER_FILE_WATER);
+                                           BackgroundType.LAVA == type ? Constant.RASTER_FILE_LAVA
+                                                                       : Constant.RASTER_FILE_WATER);
 
         final String folder = raster.getName().replace(PNG, BLANK)
                               + com.b3dgs.lionengine.Constant.UNDERSCORE

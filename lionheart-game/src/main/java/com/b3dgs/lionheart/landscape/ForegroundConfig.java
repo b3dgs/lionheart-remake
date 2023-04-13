@@ -151,9 +151,9 @@ public final class ForegroundConfig
     }
 
     /**
-     * Get the water speed.
+     * Get the water effect.
      * 
-     * @return The water speed.
+     * @return The water effect.
      */
     public boolean getWaterEffect()
     {

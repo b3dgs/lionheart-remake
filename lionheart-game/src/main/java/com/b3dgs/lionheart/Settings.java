@@ -275,7 +275,7 @@ public final class Settings
      * 
      * @return The windowed flag.
      */
-    public boolean getResolutionWindowed()
+    public boolean isResolutionWindowed()
     {
         return getBoolean(RESOLUTION_WINDOWED, true);
     }
@@ -345,7 +345,7 @@ public final class Settings
      * 
      * @return The raster check flag.
      */
-    public boolean getRasterCheck()
+    public boolean isRasterCheck()
     {
         return RasterType.CACHE == getRaster() && getBoolean(RASTER_CHECK, false);
     }
@@ -355,7 +355,7 @@ public final class Settings
      * 
      * @return The hud visible value.
      */
-    public boolean getHudVisible()
+    public boolean isHudVisible()
     {
         return getBoolean(HUD_VISIBLE, true);
     }
@@ -365,7 +365,7 @@ public final class Settings
      * 
      * @return The hud sword value.
      */
-    public boolean getHudSword()
+    public boolean isHudSword()
     {
         return getBoolean(HUD_SWORD, true);
     }
@@ -375,7 +375,7 @@ public final class Settings
      * 
      * @return The flicker background value.
      */
-    public boolean getFlickerBackground()
+    public boolean isFlickerBackground()
     {
         return getBoolean(FLICKER_BACKGROUND, false);
     }
@@ -385,7 +385,7 @@ public final class Settings
      * 
      * @return The flicker foreground value.
      */
-    public boolean getFlickerForeground()
+    public boolean isFlickerForeground()
     {
         return getBoolean(FLICKER_FOREGROUND, false);
     }
@@ -415,7 +415,7 @@ public final class Settings
      * 
      * @return The flag sync value.
      */
-    public boolean getFlagVsync()
+    public boolean isFlagVsync()
     {
         return getBoolean(FLAG_VSYNC, false);
     }
@@ -425,7 +425,7 @@ public final class Settings
      * 
      * @return The load parallel value.
      */
-    public boolean getFlagParallel()
+    public boolean isFlagParallel()
     {
         return getBoolean(FLAG_PARALLEL, true);
     }
@@ -435,7 +435,7 @@ public final class Settings
      * 
      * @return The flag debug value.
      */
-    public boolean getFlagDebug()
+    public boolean isFlagDebug()
     {
         return getBoolean(FLAG_DEBUG, false);
     }

@@ -263,9 +263,9 @@ public class Menu extends Sequence
     /** Current controller index. */
     private int controller;
     /** Current. */
-    private MenuType menu;
+    private MenuType type;
     /** Next. */
-    private MenuType menuNext;
+    private MenuType typeNext;
     /** Music player. */
     private Audio audio;
     private boolean movedHorizontal;
@@ -356,12 +356,12 @@ public class Menu extends Sequence
 
         if (config.getInit() == null)
         {
-            menu = MenuType.LAUNCHER;
+            type = MenuType.LAUNCHER;
             choice = 0;
         }
         else
         {
-            menu = MenuType.MAIN;
+            type = MenuType.MAIN;
         }
 
         stages0.add(Util.readLines(Medias.create(Folder.STAGE, Folder.STORY, "stages.txt")));
@@ -650,7 +650,7 @@ public class Menu extends Sequence
             value++;
         }
         if (choice == choiceOld
-            && (menu == MenuType.LAUNCHER && choice < 4 || menu == MenuType.OPTIONS && choice < 2)
+            && (type == MenuType.LAUNCHER && choice < 4 || type == MenuType.OPTIONS && choice < 2)
             && deviceCursor.isFiredOnce(DeviceMapping.LEFT)
             && menusData[getMenuId()].choices[choice].isOver(cursor))
         {
@@ -723,7 +723,7 @@ public class Menu extends Sequence
         if (getAlpha() > 255)
         {
             alpha = 255.0;
-            menu = menuNext;
+            type = typeNext;
             transition = TransitionType.IN;
             choice = 0;
         }
@@ -747,15 +747,15 @@ public class Menu extends Sequence
     private int getMenuId()
     {
         final int id;
-        if (menu == MenuType.LAUNCHER)
+        if (type == MenuType.LAUNCHER)
         {
             id = 0;
         }
-        else if (menu == MenuType.MAIN)
+        else if (type == MenuType.MAIN)
         {
             id = 1;
         }
-        else if (menu == MenuType.OPTIONS)
+        else if (type == MenuType.OPTIONS)
         {
             id = 2;
         }
@@ -782,7 +782,7 @@ public class Menu extends Sequence
         if (!movedVertical && (device.getVerticalDirection() > 0 || device.isFiredOnce(DeviceMapping.UP)))
         {
             choice--;
-            if (menu == MenuType.LAUNCHER
+            if (type == MenuType.LAUNCHER
                 && (choice == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS)
                     || choice == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)))
             {
@@ -795,7 +795,7 @@ public class Menu extends Sequence
         if (!movedVertical && (device.getVerticalDirection() < 0 || device.isFiredOnce(DeviceMapping.DOWN)))
         {
             choice++;
-            if (menu == MenuType.LAUNCHER
+            if (type == MenuType.LAUNCHER
                 && (choice == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)
                     || choice == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS)))
             {
@@ -824,10 +824,10 @@ public class Menu extends Sequence
             && (device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
                 || deviceCursor.isFiredOnce(DeviceMapping.LEFT) && data.choices[choice].isOver(cursor)))
         {
-            menuNext = next;
+            typeNext = next;
             transition = TransitionType.OUT;
             stopAudio();
-            if (menuNext == MenuType.NEW || menuNext == MenuType.INTRO || menuNext == MenuType.LAUNCHER_EXIT)
+            if (typeNext == MenuType.NEW || typeNext == MenuType.INTRO || typeNext == MenuType.LAUNCHER_EXIT)
             {
                 setSystemCursorVisible(false);
             }
@@ -845,7 +845,7 @@ public class Menu extends Sequence
         for (int i = 0; i < data.choices.length; i++)
         {
             if (data.choices[i].isOver(cursor)
-                && !(menu == MenuType.LAUNCHER
+                && !(type == MenuType.LAUNCHER
                      && (i == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)
                          || i == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))))
             {
@@ -862,7 +862,7 @@ public class Menu extends Sequence
      */
     private void updateMenu(double extrp)
     {
-        switch (menu)
+        switch (type)
         {
             case LAUNCHER:
                 handleLauncher();
@@ -896,7 +896,7 @@ public class Menu extends Sequence
                 end(Intro.class, config);
                 break;
             default:
-                throw new LionEngineException(menu);
+                throw new LionEngineException(type);
         }
     }
 
@@ -1017,7 +1017,7 @@ public class Menu extends Sequence
      */
     private void renderMenus(Graphic g)
     {
-        switch (menu)
+        switch (type)
         {
             case LAUNCHER:
                 renderLauncher(g);
@@ -1036,7 +1036,7 @@ public class Menu extends Sequence
             case INTRO:
                 break;
             default:
-                throw new LionEngineException(menu);
+                throw new LionEngineException(type);
         }
     }
 

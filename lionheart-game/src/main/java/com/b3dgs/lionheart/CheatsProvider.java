@@ -26,7 +26,7 @@ public interface CheatsProvider
      * 
      * @return <code>true</code> if enabled, <code>false</code> else.
      */
-    boolean getCheats();
+    boolean isCheats();
 
     /**
      * Check fly mode.

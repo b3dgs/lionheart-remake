@@ -52,11 +52,11 @@ public class Part4 extends Sequence
     private static final int STORY2_INDEX = 2;
     private static final int STORY3_INDEX = 3;
 
-    private static final int TIME_START_MS = 114200;
-    private static final int TIME_STORY1_MS = 130000;
-    private static final int TIME_STORY2_MS = 155300;
-    private static final int TIME_STORY3_MS = 180600;
-    private static final int TIME_END_MS = 200200;
+    private static final int TIME_START_MS = 114_200;
+    private static final int TIME_STORY1_MS = 130_000;
+    private static final int TIME_STORY2_MS = 155_300;
+    private static final int TIME_STORY3_MS = 180_600;
+    private static final int TIME_END_MS = 200_200;
 
     /** Device controller reference. */
     final DeviceController device;

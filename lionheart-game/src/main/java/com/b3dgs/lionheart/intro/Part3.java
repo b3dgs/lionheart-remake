@@ -75,18 +75,18 @@ public class Part3 extends Sequence
     private static final double DRAGON_MOVE_X = 1.5;
     private static final double DRAGON_MOVE_Y = 1.75;
 
-    private static final int TIME_FADE_IN_MS = 93800;
-    private static final int TIME_VALDYN_MOVE_MS = 95000;
-    private static final int TIME_VALDYN_RENDER_AFTER_MS = 95200;
-    private static final int TIME_DRAGON_HEAD_MS = 96000;
-    private static final int TIME_CAMERA_MOVE_MS = 96200;
-    private static final int TIME_VALDYN_HAND_MS = 99000;
-    private static final int TIME_VALDYN_DRAGON_MS = 100000;
-    private static final int TIME_DRAGON_EAT_MS = 98500;
-    private static final int TIME_DRAGON_BACK_MS = 99900;
-    private static final int TIME_DRAGON_FLY_MS = 101900;
-    private static final int TIME_DRAGON_RENDER_AFTER_MS = 101200;
-    private static final int TIME_FADE_OUT_MS = 108000;
+    private static final int TIME_FADE_IN_MS = 93_800;
+    private static final int TIME_VALDYN_MOVE_MS = 95_000;
+    private static final int TIME_VALDYN_RENDER_AFTER_MS = 95_200;
+    private static final int TIME_DRAGON_HEAD_MS = 96_000;
+    private static final int TIME_CAMERA_MOVE_MS = 96_200;
+    private static final int TIME_VALDYN_HAND_MS = 99_000;
+    private static final int TIME_VALDYN_DRAGON_MS = 100_000;
+    private static final int TIME_DRAGON_EAT_MS = 98_500;
+    private static final int TIME_DRAGON_BACK_MS = 99_900;
+    private static final int TIME_DRAGON_FLY_MS = 101_900;
+    private static final int TIME_DRAGON_RENDER_AFTER_MS = 101_200;
+    private static final int TIME_FADE_OUT_MS = 108_000;
 
     /**
      * Get media from filename.
@@ -155,7 +155,9 @@ public class Part3 extends Sequence
      */
     public Part3(Context context, GameConfig config, Time time, Audio audio)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop(context.getConfig().getOutput()));
+        super(context,
+              Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH),
+              Util.getLoop(context.getConfig().getOutput()));
 
         this.config = config;
         this.time = time;

@@ -50,7 +50,7 @@ public final class StateRespawn extends State
     private final Difficulty difficulty = model.getServices().get(Difficulty.class);
     private final GameConfig game = model.getServices().get(GameConfig.class);
     private final LoadNextStage stage = model.getServices().get(LoadNextStage.class);
-    private final boolean cheats = model.getServices().get(CheatsProvider.class).getCheats();
+    private final boolean cheats = model.getServices().get(CheatsProvider.class).isCheats();
 
     /**
      * Create the state.

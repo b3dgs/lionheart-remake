@@ -99,11 +99,11 @@ public class Part1 extends Sequence
     private static final int EXPLODE_Y_OFFSET = 12;
     private static final double EXPLODE_Y_SCALE = 0.6;
 
-    private static final int TIME_EXPLODE_LOT_MS = 15300;
-    private static final int TIME_CITADEL_DESTROYED_MS = 16000;
-    private static final int TIME_CITADEL_FALL_MS = 16600;
-    private static final int TIME_EXPLODE_END_MS = 18000;
-    private static final int TIME_FADE_OUT_MS = 19300;
+    private static final int TIME_EXPLODE_LOT_MS = 15_300;
+    private static final int TIME_CITADEL_DESTROYED_MS = 16_000;
+    private static final int TIME_CITADEL_FALL_MS = 16_600;
+    private static final int TIME_EXPLODE_END_MS = 18_000;
+    private static final int TIME_FADE_OUT_MS = 19_300;
 
     /**
      * Get media from filename.
@@ -138,7 +138,7 @@ public class Part1 extends Sequence
     });
     private final Tick tickExplode = new Tick();
     private final Animation valdynAnim = new Animation(Animation.DEFAULT_NAME, 1, 12, 0.25, false, true);
-    private final int bandHeight = (int) (Math.floor(getHeight() - 208) / 2.0);
+    private final int bandHeight = (int) Math.floor((getHeight() - 208) / 2.0);
     private final AppInfo info;
     private final Time time;
     private final Audio audio;
@@ -170,7 +170,9 @@ public class Part1 extends Sequence
      */
     public Part1(Context context, GameConfig config, Time time, Audio audio, Boolean alternative)
     {
-        super(context, Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH), Util.getLoop(context.getConfig().getOutput()));
+        super(context,
+              Util.getResolution(context, MIN_HEIGHT, MAX_WIDTH, MARGIN_WIDTH),
+              Util.getLoop(context.getConfig().getOutput()));
 
         this.time = time;
         this.audio = audio;

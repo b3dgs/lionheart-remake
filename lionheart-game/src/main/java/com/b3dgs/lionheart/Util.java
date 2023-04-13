@@ -118,7 +118,7 @@ public final class Util
     {
         final Settings settings = Settings.getInstance();
         final LoopFactory factory;
-        if (settings.getFlagVsync() && !settings.getResolutionWindowed())
+        if (settings.isFlagVsync() && !settings.isResolutionWindowed())
         {
             factory = LoopUnlocked::new;
         }
@@ -144,7 +144,7 @@ public final class Util
         if (FilterType.BLUR == filter)
         {
             final FilterBlur blur = new FilterBlur();
-            blur.setRadius(1.3f);
+            blur.setRadius(1.3F);
             sequence.setFilter(blur);
             sequence.setScanline(ScanlineNone.INSTANCE);
         }
