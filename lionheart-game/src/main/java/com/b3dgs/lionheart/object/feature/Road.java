@@ -32,6 +32,7 @@ import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.object.Editable;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -99,6 +100,7 @@ public final class Road extends FeatureModel implements XmlLoader, XmlSaver, Edi
     public void update(double extrp)
     {
         road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 3 * extrp, 0.0, road.getRenderable().getWidth()));
+        road.setOffsetY(-176 - camera.getHeight() + Constant.RESOLUTION.getHeight());
     }
 
     @Override
