@@ -16,5 +16,5 @@ about: Create a report to help us improve
   3. 
 
 ## Specifications
-  - Lionheart Remake Version:
-  - OS:
+  - Lionheart Remake Version: 
+  - OS: 
