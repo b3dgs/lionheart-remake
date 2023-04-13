@@ -53,6 +53,15 @@
         <lionengine:formula>right_vertical</lionengine:formula>
         <lionengine:formula>block</lionengine:formula>
     </lionengine:collision>
+    <lionengine:collision group="2vertical">
+        <lionengine:formula>2left_vertical</lionengine:formula>
+        <lionengine:formula>2right_vertical</lionengine:formula>
+    </lionengine:collision>
+    <lionengine:collision group="ground15_vertical">
+        <lionengine:formula>ground15</lionengine:formula>
+        <lionengine:formula>2left_vertical</lionengine:formula>
+        <lionengine:formula>2right_vertical</lionengine:formula>
+    </lionengine:collision>
     <lionengine:collision group="pillar">
         <lionengine:formula>ground_pillar</lionengine:formula>
         <lionengine:formula>left_pillar_vertical</lionengine:formula>
