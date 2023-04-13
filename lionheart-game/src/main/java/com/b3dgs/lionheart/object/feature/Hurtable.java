@@ -324,9 +324,9 @@ public final class Hurtable extends FeatureModel
     {
         if (enabled
             && !shield
-            && (collidable.getGroup() == Constant.COLL_GROUP_PLAYER
+            && (Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup())
                 && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
-                || this.collidable.getGroup() != Constant.COLL_GROUP_PLAYER
+                || !Constant.COLL_GROUP_PLAYER.equals(this.collidable.getGroup())
                    && recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS))
             && Double.compare(hurtForce.getDirectionHorizontal(), 0.0) == 0
             && with.getName().startsWith(CollisionName.BODY)
@@ -335,7 +335,7 @@ public final class Hurtable extends FeatureModel
             updateCollideAttack(collidable, by);
         }
         if (!invincibility
-            && collidable.getGroup() != Constant.COLL_GROUP_PLAYER
+            && !Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup())
             && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
             && with.getName().startsWith(Anim.BODY)
             && by.getName().startsWith(Anim.ATTACK))
@@ -374,8 +374,8 @@ public final class Hurtable extends FeatureModel
         if (stats.getHealth() > 0)
         {
             final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
-            if (this.collidable.getGroup() == Constant.COLL_GROUP_PLAYER
-                && collidable.getGroup() == Constant.COLL_GROUP_PLAYER)
+            if (Constant.COLL_GROUP_PLAYER.equals(this.collidable.getGroup())
+                && Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup()))
             {
                 hurtForce.setDirection(1.2 * side, 0.0);
             }
@@ -390,7 +390,7 @@ public final class Hurtable extends FeatureModel
         }
         hurt();
 
-        if (this.collidable.getGroup() == Constant.COLL_GROUP_PLAYER)
+        if (Constant.COLL_GROUP_PLAYER.equals(this.collidable.getGroup()))
         {
             if (stats.getHealth() == 0)
             {

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import com.b3dgs.lionengine.Align;
@@ -83,7 +84,7 @@ public final class Util
     private static final int MARGIN_X = 1;
     private static final int MARGIN_Y = 5;
 
-    private static volatile Consumer<BackgroundType> init;
+    private static AtomicReference<Consumer<BackgroundType>> init = new AtomicReference<>();
 
     /**
      * Init task.
@@ -92,7 +93,7 @@ public final class Util
      */
     public static void init(Consumer<BackgroundType> init)
     {
-        Util.init = init;
+        Util.init.set(init);
     }
 
     /**
@@ -102,9 +103,10 @@ public final class Util
      */
     public static void run(BackgroundType type)
     {
-        if (init != null)
+        final Consumer<BackgroundType> t = init.get();
+        if (t != null)
         {
-            init.accept(type);
+            t.accept(type);
         }
     }
 
@@ -462,9 +464,9 @@ public final class Util
                 {
                     file.getParentFile().mkdirs();
                 }
-                if (!file.isFile())
+                if (!file.isFile() && !file.createNewFile())
                 {
-                    file.createNewFile();
+                    Verbose.warning("Unable to create progress: " + file);
                 }
 
                 final InitConfig init = config.getInit();

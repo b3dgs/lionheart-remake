@@ -65,7 +65,6 @@ public final class Road extends FeatureModel implements XmlLoader, XmlSaver, Edi
         sprite0.load();
         sprite0.prepare();
         road = new BackgroundElement(0, 0, sprite0);
-        road.setOffsetY(-176);
     }
 
     @Override
@@ -100,7 +99,7 @@ public final class Road extends FeatureModel implements XmlLoader, XmlSaver, Edi
     public void update(double extrp)
     {
         road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 3 * extrp, 0.0, road.getRenderable().getWidth()));
-        road.setOffsetY(-176 - camera.getHeight() + Constant.RESOLUTION.getHeight());
+        road.setOffsetY(-176.0 - camera.getHeight() + Constant.RESOLUTION.getHeight());
     }
 
     @Override

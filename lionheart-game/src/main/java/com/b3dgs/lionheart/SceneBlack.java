@@ -56,7 +56,7 @@ public final class SceneBlack extends Sequence
     public void update(double extrp)
     {
         final StageConfig stage = StageConfig.imports(new Configurer(config.getInit().getStage()));
-        if (stage.getPic().isPresent() && !config.getInit().getSpawn().isPresent())
+        if (stage.getPic().isPresent() && stage.getText().isPresent() && !config.getInit().getSpawn().isPresent())
         {
             end(ScenePicture.class, config, stage.getPic().get(), stage.getText().get());
         }

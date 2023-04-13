@@ -916,12 +916,11 @@ public final class Launcher
     {
         for (final String lang : Util.readLines(Medias.create(Folder.TEXT, FILENAME_LANGS)))
         {
-            for (final String litteral : Util.readLines(Medias.create(Folder.TEXT, lang, Settings.FILE_LANG)))
-            {
-                LANG_FULL.put(lang, litteral);
-                LANG_SHORT.put(litteral, lang);
-                break;
-            }
+            final String litteral = Util.readLines(Medias.create(Folder.TEXT, lang, Settings.FILE_LANG))
+                                        .iterator()
+                                        .next();
+            LANG_FULL.put(lang, litteral);
+            LANG_SHORT.put(litteral, lang);
         }
     }
 
@@ -1216,15 +1215,12 @@ public final class Launcher
 
     private static NetworkStageData getGameType(String ip, int port) throws IOException
     {
-        try
+        try (final DatagramSocket socket = new DatagramSocket())
         {
-            final InetAddress address = InetAddress.getByName(ip);
-            final DatagramSocket socket = new DatagramSocket();
-
             final ByteBuffer buffer = ByteBuffer.allocate(1);
             buffer.put(UtilNetwork.toByte(MessageType.INFO));
             final ByteBuffer send = UtilNetwork.createPacket(buffer);
-            socket.send(new DatagramPacket(send.array(), send.capacity(), address, port));
+            socket.send(new DatagramPacket(send.array(), send.capacity(), InetAddress.getByName(ip), port));
 
             final ByteBuffer info = InfoGet.decode(socket);
             final GameType type = GameType.values()[UtilConversion.toUnsignedByte(info.get())];
@@ -1312,9 +1308,9 @@ public final class Launcher
     private static File prepareSettings() throws IOException
     {
         final File file = new File(Medias.getResourcesDirectory(), Settings.FILENAME);
-        if (!file.isFile())
+        if (!file.isFile() && !file.createNewFile())
         {
-            file.createNewFile();
+            Verbose.info("Unable to create file: " + file);
         }
         return file;
     }

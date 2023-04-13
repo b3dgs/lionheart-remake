@@ -281,7 +281,7 @@ public final class Hud implements Resource, Updatable, Renderable
         {
             hearts[i] = Drawable.loadSpriteTiled(heartSurface.getSurface(), HEALTH_TILE_WIDTH, HEALTH_TILE_HEIGHT);
             hearts[i].setTile(2);
-            hearts[i].setLocation(HEALTH_X + i % (HEALTH_MAX / 2) * HEALTH_MAX,
+            hearts[i].setLocation(HEALTH_X + i % (HEALTH_MAX / 2.0) * HEALTH_MAX,
                                   HEALTH_Y + Math.floor(i / (HEALTH_MAX / 2.0)) * HEALTH_MAX);
         }
     }

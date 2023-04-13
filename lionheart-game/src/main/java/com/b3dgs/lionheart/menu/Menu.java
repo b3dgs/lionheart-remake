@@ -184,7 +184,7 @@ public class Menu extends Sequence
      */
     private static int getDifficultyIndex(GameConfig config)
     {
-        if (config != null && config.getInit() != null && config.getInit().getDifficulty() != null)
+        if (config.getInit() != null && config.getInit().getDifficulty() != null)
         {
             return config.getInit().getDifficulty().ordinal();
         }
@@ -633,7 +633,7 @@ public class Menu extends Sequence
      */
     private int changeOption(int option, int min, int max)
     {
-        if (device.getHorizontalDirection() == 0)
+        if (Double.compare(device.getHorizontalDirection(), 0) == 0)
         {
             movedHorizontal = false;
         }
@@ -774,7 +774,7 @@ public class Menu extends Sequence
     private void updateMenuNavigation(int menuId)
     {
         choiceOld = choice;
-        if (device.getVerticalDirection() == 0)
+        if (Double.compare(device.getVerticalDirection(), 0) == 0)
         {
             movedVertical = false;
         }

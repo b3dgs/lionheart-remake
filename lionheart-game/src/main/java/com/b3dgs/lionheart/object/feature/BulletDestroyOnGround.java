@@ -76,7 +76,6 @@ public final class BulletDestroyOnGround extends FeatureModel implements Recycla
                 || result.contains(CollisionName.SLOPE)
                 || result.contains(CollisionName.INCLINE)
                 || result.contains(CollisionName.BLOCK)
-                || result.contains(CollisionName.VERTICAL)
                 || result.contains(CollisionName.HORIZONTAL)
                 || result.contains(CollisionName.VERTICAL))
             && (collFromBottom || transformable.getY() < transformable.getOldY()))

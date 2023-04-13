@@ -607,7 +607,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             createEffectCache(settings, stage);
         }
 
-        if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.isFlagParallel())
+        if (entities != null && RasterType.CACHE == Settings.getInstance().getRaster() && settings.isFlagParallel())
         {
             loadRasterEntities(stage, entities);
         }
@@ -666,7 +666,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             else
             {
                 final Featurable[] entities = createEntities(settings, stage);
-                if (RasterType.CACHE == Settings.getInstance().getRaster() && settings.isFlagParallel())
+                if (entities != null
+                    && RasterType.CACHE == Settings.getInstance().getRaster()
+                    && settings.isFlagParallel())
                 {
                     loadRasterEntities(stage, entities);
                 }

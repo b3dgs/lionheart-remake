@@ -461,20 +461,23 @@ public class Cheats implements Updatable, Renderable
      */
     private void updateStages()
     {
-        for (int i = 0; i < Stage.values().length; i++)
+        if (config.getStages().isPresent())
         {
-            if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue()))
-                && config.getStages().isPresent())
+            final String s = config.getStages().get();
+            for (int i = 0; i < Stage.values().length; i++)
             {
-                final Media stage = Util.getStage(config.getStages().get(), difficulty, i + 1);
-                if (stage.exists())
+                if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
                 {
-                    sequencer.end(SceneBlack.class,
-                                  config.with(Util.getInitConfig(stage,
-                                                                 player,
-                                                                 difficulty,
-                                                                 enabled,
-                                                                 Optional.empty())));
+                    final Media stage = Util.getStage(s, difficulty, i + 1);
+                    if (stage.exists())
+                    {
+                        sequencer.end(SceneBlack.class,
+                                      config.with(Util.getInitConfig(stage,
+                                                                     player,
+                                                                     difficulty,
+                                                                     enabled,
+                                                                     Optional.empty())));
+                    }
                 }
             }
         }
