@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/boss.sc68"/>
+    <map file="level/secret/speedrun/stage1.lvl"/>
+    <raster folder="raster/secret/secret/"/>
+    <background type="SECRET"/>
+    <foreground type="WATER" waterDepth="8" waterOffset="24"/>
+    <checkpoints>
+        <checkpoint tx="3.5" ty="16.0"/>
+        <checkpoint tx="330.0" ty="16.0"/>
+    </checkpoints>
+    <entities/>
+</stage>

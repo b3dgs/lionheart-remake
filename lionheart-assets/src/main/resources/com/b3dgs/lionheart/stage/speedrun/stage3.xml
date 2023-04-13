@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage xmlns:lionengine="https://lionengine.b3dgs.com">
+    <music file="music/boss.sc68"/>
+    <map file="level/lava/speedrun/stage1.lvl"/>
+    <raster folder="raster/lava/lava/"/>
+    <background type="LAVA"/>
+    <foreground type="LAVA" waterDepth="2" waterEffect="false" waterOffset="30" waterSpeed="0.1"/>
+    <checkpoints>
+        <checkpoint tx="5.0" ty="12.0"/>
+        <checkpoint tx="327.0" ty="5.0"/>
+    </checkpoints>
+    <entities/>
+</stage>
