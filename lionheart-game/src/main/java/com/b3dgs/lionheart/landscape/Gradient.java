@@ -66,7 +66,7 @@ final class Gradient extends BackgroundAbstract
     /**
      * Backdrop represents the back background plus top background elements.
      */
-    private static final class Backdrop implements BackgroundComponent
+    public static final class Backdrop implements BackgroundComponent
     {
         private final BackgroundElement backcolorA;
         private final BackgroundElement backcolorB;
@@ -81,7 +81,7 @@ final class Gradient extends BackgroundAbstract
          * @param flickering The flickering flag effect.
          * @param screenWidth The screen width.
          */
-        Backdrop(String path, boolean flickering, int screenWidth)
+        public Backdrop(String path, boolean flickering, int screenWidth)
         {
             super();
 
@@ -105,7 +105,7 @@ final class Gradient extends BackgroundAbstract
          * 
          * @param width The new width.
          */
-        private void setScreenWidth(int width)
+        public void setScreenWidth(int width)
         {
             screenWidth = width;
         }

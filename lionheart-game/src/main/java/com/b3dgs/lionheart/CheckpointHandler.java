@@ -213,13 +213,24 @@ public class CheckpointHandler implements Updatable, Listenable<CheckpointListen
                 final Optional<String> nextStage = checkpoint.getNext();
                 if (nextStage.isPresent())
                 {
-                    final int n = listenable.size();
-                    for (int j = 0; j < n; j++)
-                    {
-                        listenable.get(j).notifyReachStage(nextStage.get(), checkpoint.getSpawn());
-                    }
+                    notifyNextStage(nextStage.get(), checkpoint);
                 }
             }
+        }
+    }
+
+    /**
+     * Notify next stage reached.
+     * 
+     * @param nextStage The next stage reached.
+     * @param checkpoint The next starting point.
+     */
+    private void notifyNextStage(String nextStage, Checkpoint checkpoint)
+    {
+        final int n = listenable.size();
+        for (int j = 0; j < n; j++)
+        {
+            listenable.get(j).notifyReachStage(nextStage, checkpoint.getSpawn());
         }
     }
 

@@ -108,16 +108,12 @@ final class Swamp extends BackgroundAbstract
      */
     private final class Backdrop implements BackgroundComponent
     {
-        private final BackgroundElement backcolorA;
-        private final BackgroundElement backcolorB;
+        private final Gradient.Backdrop backdrop;
         private final BackgroundElement mountain;
         private final BackgroundElementRastered moon;
         private final Sprite mountainSprite;
-        private final boolean flickering;
         private final int moonOffset;
         private int w;
-        private int screenWidth;
-        private boolean flicker;
 
         /**
          * Constructor.
@@ -130,17 +126,7 @@ final class Swamp extends BackgroundAbstract
         {
             super();
 
-            this.flickering = flickering;
-            if (flickering)
-            {
-                backcolorA = createElement(path, "backcolor1.png", 0, 0);
-                backcolorB = createElement(path, "backcolor2.png", 0, 0);
-            }
-            else
-            {
-                backcolorA = createElement(path, "backcolor.png", 0, 0);
-                backcolorB = null;
-            }
+            backdrop = new Gradient.Backdrop(path, flickering, screenWidth);
             mountain = createElement(path, "mountain.png", 0, PARALLAX_Y);
             moonOffset = MOON_OFFSET_Y;
             moon = new BackgroundElementRastered(0,
@@ -149,7 +135,6 @@ final class Swamp extends BackgroundAbstract
                                                  Medias.create(path, "palette.png"),
                                                  Medias.create(path, "raster.png"));
             mountainSprite = (Sprite) mountain.getRenderable();
-            this.screenWidth = screenWidth;
             w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
         }
 
@@ -160,33 +145,8 @@ final class Swamp extends BackgroundAbstract
          */
         private void setScreenWidth(int width)
         {
-            screenWidth = width;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
-        }
-
-        /**
-         * Render backdrop element.
-         * 
-         * @param g The graphic output.
-         */
-        private void renderBackdrop(Graphic g)
-        {
-            final Sprite sprite;
-            if (flicker)
-            {
-                sprite = (Sprite) backcolorB.getRenderable();
-            }
-            else
-            {
-                sprite = (Sprite) backcolorA.getRenderable();
-            }
-            for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
-            {
-                final int x = backcolorA.getMainX() + i * sprite.getWidth();
-                final double y = backcolorA.getOffsetY() + backcolorA.getMainY();
-                sprite.setLocation(x, y);
-                sprite.render(g);
-            }
+            backdrop.setScreenWidth(width);
+            w = (int) Math.ceil(width / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
         }
 
         /**
@@ -222,7 +182,7 @@ final class Swamp extends BackgroundAbstract
         @Override
         public void update(double extrp, int x, int y, double speed)
         {
-            backcolorA.setOffsetY(y);
+            backdrop.update(extrp, x, y, speed);
             moon.setOffsetY(moonOffset - totalHeight + getOffsetY());
             final double mx = mountain.getOffsetX() + speed * 0.25;
             mountain.setOffsetX(UtilMath.wrapDouble(mx, 0.0, mountainSprite.getWidth()));
@@ -232,14 +192,9 @@ final class Swamp extends BackgroundAbstract
         @Override
         public void render(Graphic g)
         {
-            renderBackdrop(g);
+            backdrop.render(g);
             renderMoon(g);
             renderMountains(g);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
         }
     }
 }

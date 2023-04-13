@@ -241,23 +241,11 @@ public class CheatMenu implements Routine, Surface
                 isHover = true;
                 if (!sub.isEmpty())
                 {
-                    for (final CheatMenu menu : menus)
-                    {
-                        if (menu != this)
-                        {
-                            for (final CheatMenu s : menu.sub)
-                            {
-                                s.hide();
-                            }
-                        }
-                    }
+                    updateMenuSubWith();
                 }
                 if (sub.isEmpty())
                 {
-                    if (action != null && isPressed.getAsBoolean())
-                    {
-                        action.execute();
-                    }
+                    updateMenuSubNo();
                 }
                 else if (!sub.get(0).spawned)
                 {
@@ -276,6 +264,31 @@ public class CheatMenu implements Routine, Surface
             spawned = false;
         }
         active = true;
+    }
+
+    private void updateMenuSubWith()
+    {
+        final int n = menus.size();
+        for (int i = 0; i < n; i++)
+        {
+            final CheatMenu menu = menus.get(i);
+            if (menu != this)
+            {
+                final int k = menu.sub.size();
+                for (int j = 0; j < k; j++)
+                {
+                    menu.sub.get(j).hide();
+                }
+            }
+        }
+    }
+
+    private void updateMenuSubNo()
+    {
+        if (action != null && isPressed.getAsBoolean())
+        {
+            action.execute();
+        }
     }
 
     /**

@@ -96,13 +96,7 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
             {
                 if (push.intValue() == MESSAGE_VALIDATE_KEY)
                 {
-                    final String message = builder.get().toString();
-                    add(message);
-                    if (consumer != null)
-                    {
-                        consumer.accept(message);
-                    }
-                    typing = false;
+                    validateMessage();
                 }
                 else if (push.intValue() == MESSAGE_CORRECT_KEY)
                 {
@@ -159,6 +153,17 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
     public boolean isTyping()
     {
         return typing;
+    }
+
+    private void validateMessage()
+    {
+        final String message = builder.get().toString();
+        add(message);
+        if (consumer != null)
+        {
+            consumer.accept(message);
+        }
+        typing = false;
     }
 
     private void correctMessage()

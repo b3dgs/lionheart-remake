@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.WorldType;
 import com.b3dgs.lionheart.constant.Folder;
+import com.b3dgs.lionheart.landscape.Gradient.Backdrop;
 
 /**
  * Airship background implementation.
@@ -83,95 +84,6 @@ final class Airship extends BackgroundAbstract
         trees.setScreenWidth(width);
         backdrop.setScreenWidth(width);
         backdropForest.setScreenWidth(width);
-    }
-
-    /**
-     * Backdrop represents the back background plus top background elements.
-     */
-    private static final class Backdrop implements BackgroundComponent
-    {
-        private final BackgroundElement backcolorA;
-        private final BackgroundElement backcolorB;
-        private final boolean flickering;
-        private int screenWidth;
-        private boolean flicker;
-
-        /**
-         * Constructor.
-         * 
-         * @param path The backdrop path.
-         * @param flickering The flickering flag effect.
-         * @param screenWidth The screen width.
-         */
-        Backdrop(String path, boolean flickering, int screenWidth)
-        {
-            super();
-
-            this.flickering = flickering;
-            if (flickering)
-            {
-                backcolorA = createElement(path, "backcolor1.png", 0, 0);
-                backcolorB = createElement(path, "backcolor2.png", 0, 0);
-            }
-            else
-            {
-                backcolorA = createElement(path, "backcolor.png", 0, 0);
-                backcolorB = null;
-            }
-            this.screenWidth = screenWidth;
-        }
-
-        /**
-         * Called when the resolution changed.
-         * 
-         * @param width The new width.
-         */
-        private void setScreenWidth(int width)
-        {
-            screenWidth = width;
-        }
-
-        /**
-         * Render backdrop element.
-         * 
-         * @param g The graphic output.
-         */
-        private void renderBackdrop(Graphic g)
-        {
-            final Sprite sprite;
-            if (flicker)
-            {
-                sprite = (Sprite) backcolorB.getRenderable();
-            }
-            else
-            {
-                sprite = (Sprite) backcolorA.getRenderable();
-            }
-            for (int i = 0; i < Math.ceil(screenWidth / (double) sprite.getWidth()); i++)
-            {
-                final int x = backcolorA.getMainX() + i * sprite.getWidth();
-                final double y = backcolorA.getOffsetY() + backcolorA.getMainY();
-                sprite.setLocation(x, y);
-                sprite.render(g);
-            }
-        }
-
-        @Override
-        public void update(double extrp, int x, int y, double speed)
-        {
-            backcolorA.setOffsetY(y);
-        }
-
-        @Override
-        public void render(Graphic g)
-        {
-            renderBackdrop(g);
-
-            if (flickering)
-            {
-                flicker = !flicker;
-            }
-        }
     }
 
     /**

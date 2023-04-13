@@ -217,18 +217,7 @@ public enum Sfx
                 final int volume = Settings.getInstance().getVolumeSfx();
                 if (!TO_CACHE.isEmpty() && volume > 0)
                 {
-                    for (final Sfx sfx : TO_CACHE)
-                    {
-                        try
-                        {
-                            sfx.audio.await();
-                        }
-                        catch (@SuppressWarnings("unused") final RejectedExecutionException exception)
-                        {
-                            // Skip
-                        }
-                        sfx.audio.setVolume(volume);
-                    }
+                    awaitCaches(volume);
                     TO_CACHE.clear();
                 }
             }
@@ -236,6 +225,27 @@ public enum Sfx
             {
                 Verbose.exception(exception);
             }
+        }
+    }
+
+    /**
+     * Await all caches.
+     * 
+     * @param volume The last volume.
+     */
+    private static void awaitCaches(int volume)
+    {
+        for (final Sfx sfx : TO_CACHE)
+        {
+            try
+            {
+                sfx.audio.await();
+            }
+            catch (@SuppressWarnings("unused") final RejectedExecutionException exception)
+            {
+                // Skip
+            }
+            sfx.audio.setVolume(volume);
         }
     }
 
