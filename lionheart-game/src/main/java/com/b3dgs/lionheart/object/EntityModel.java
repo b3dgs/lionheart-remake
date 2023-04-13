@@ -636,8 +636,7 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             if (game.getType().is(GameType.STORY, GameType.TRAINING))
             {
-                final boolean alwaysUpdate = Boolean.valueOf(setup.getTextDefault("false", NODE_ALWAYS_UPDATE))
-                                                    .booleanValue();
+                final boolean alwaysUpdate = Boolean.parseBoolean(setup.getTextDefault("false", NODE_ALWAYS_UPDATE));
                 checker.setCheckerUpdate(() -> alwaysUpdate
                                                || camera.isViewable(transformable, 0, transformable.getHeight()));
             }

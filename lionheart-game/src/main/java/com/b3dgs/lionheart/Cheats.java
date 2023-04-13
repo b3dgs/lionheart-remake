@@ -469,15 +469,7 @@ public class Cheats implements Updatable, Renderable
                 if (device.isFiredOnce(Integer.valueOf(i + DeviceMapping.F1.getIndex().intValue())))
                 {
                     final Media stage = Util.getStage(s, difficulty, i + 1);
-                    if (stage.exists())
-                    {
-                        sequencer.end(SceneBlack.class,
-                                      config.with(Util.getInitConfig(stage,
-                                                                     player,
-                                                                     difficulty,
-                                                                     enabled,
-                                                                     Optional.empty())));
-                    }
+                    jumpToStage(stage);
                 }
             }
         }
@@ -489,6 +481,20 @@ public class Cheats implements Updatable, Renderable
                 music.stopMusic();
                 sequencer.end(Extro.class, config, player.getFeature(Stats.class).hasAmulet());
             }, source.getRate(), EXTRO_DELAY_MS);
+        }
+    }
+
+    /**
+     * Jump to stage if exists.
+     * 
+     * @param stage The stage reference.
+     */
+    private void jumpToStage(Media stage)
+    {
+        if (stage.exists())
+        {
+            sequencer.end(SceneBlack.class,
+                          config.with(Util.getInitConfig(stage, player, difficulty, enabled, Optional.empty())));
         }
     }
 

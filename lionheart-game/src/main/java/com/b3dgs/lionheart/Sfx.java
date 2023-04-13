@@ -172,22 +172,34 @@ public enum Sfx
                 final Sfx sfx = TO_CACHE.get(i);
                 if (!sfx.cached)
                 {
-                    executor.execute(() ->
-                    {
-                        sfx.audio.setVolume(0);
-                        try
-                        {
-                            sfx.play();
-                        }
-                        catch (@SuppressWarnings("unused") final RejectedExecutionException exception)
-                        {
-                            // Skip
-                        }
-                        sfx.audio.await();
-                    });
+                    executor.execute(createCache(sfx));
                 }
             }
         }
+
+    }
+
+    /**
+     * Create cache task.
+     * 
+     * @param sfx The sfx to cache.
+     * @return The created task.
+     */
+    private static Runnable createCache(Sfx sfx)
+    {
+        return () ->
+        {
+            sfx.audio.setVolume(0);
+            try
+            {
+                sfx.play();
+            }
+            catch (@SuppressWarnings("unused") final RejectedExecutionException exception)
+            {
+                // Skip
+            }
+            sfx.audio.await();
+        };
     }
 
     /**

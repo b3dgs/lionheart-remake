@@ -55,7 +55,7 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
     private final Deque<String> messagesShort = new ArrayDeque<>(MESSAGES_MAX);
     private final AtomicReference<StringBuilder> builder = new AtomicReference<>(new StringBuilder());
     private final Tick tick = new Tick();
-    private final DeviceControllerListener listener;
+    private final DeviceControllerListener listener = this::onDeviceChanged;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final DeviceController device = services.get(DeviceController.class);
@@ -76,40 +76,48 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
     {
         super(services, setup);
 
-        listener = (name, push, c, flag) ->
+        device.addListener(listener);
+        tick.start();
+    }
+
+    /**
+     * Called on device changed.
+     * 
+     * @param name The device name.
+     * @param push The push value.
+     * @param c The char representation.
+     * @param flag <code>true</code> if enabled, <code>false</code> if disabled.
+     */
+    private void onDeviceChanged(String name, Integer push, char c, boolean flag)
+    {
+        if (flag)
         {
-            if (flag)
+            if (typing)
             {
-                if (typing)
+                if (push.intValue() == MESSAGE_VALIDATE_KEY)
                 {
-                    if (push.intValue() == MESSAGE_VALIDATE_KEY)
+                    final String message = builder.get().toString();
+                    add(message);
+                    if (consumer != null)
                     {
-                        final String message = builder.get().toString();
-                        add(message);
-                        if (consumer != null)
-                        {
-                            consumer.accept(message);
-                        }
-                        typing = false;
+                        consumer.accept(message);
                     }
-                    else if (push.intValue() == MESSAGE_CORRECT_KEY)
-                    {
-                        correctMessage();
-                    }
-                    else
-                    {
-                        typeMessage(c);
-                    }
+                    typing = false;
                 }
-                else if (push.intValue() == MESSAGE_VALIDATE_KEY)
+                else if (push.intValue() == MESSAGE_CORRECT_KEY)
                 {
-                    startMessage();
+                    correctMessage();
+                }
+                else
+                {
+                    typeMessage(c);
                 }
             }
-        };
-        device.addListener(listener);
-
-        tick.start();
+            else if (push.intValue() == MESSAGE_VALIDATE_KEY)
+            {
+                startMessage();
+            }
+        }
     }
 
     /**
@@ -201,6 +209,6 @@ public class ChatHandler extends FeatureModel implements Routine, IdentifiableLi
     @Override
     public void notifyDestroyed(Integer id)
     {
-        device.addListener(listener);
+        device.removeListener(listener);
     }
 }

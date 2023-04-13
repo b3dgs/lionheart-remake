@@ -520,7 +520,7 @@ public class Part3 extends Sequence
      */
     private void drawBand(Graphic g)
     {
-        final int bandHeight = (int) (Math.floor(getHeight() - MIN_HEIGHT) / 2.0);
+        final int bandHeight = (int) Math.floor((getHeight() - MIN_HEIGHT) / 2.0);
         g.clear(0, 0, getWidth(), bandHeight);
         g.clear(0, getHeight() - bandHeight, getWidth(), bandHeight);
     }

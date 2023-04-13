@@ -46,6 +46,7 @@ public final class Part2 implements Updatable, Renderable
 
     private static final int BAND_HEIGHT = 144;
     private static final int PILLAR_COUNT = 6;
+    private static final int LAST_PILLAR_INDEX = PILLAR_COUNT + 1;
 
     private static final int Z_DOOR_INIT = 10;
     private static final int Z_PILLAR_INIT = 25;
@@ -130,8 +131,7 @@ public final class Part2 implements Updatable, Renderable
     private final Sprite valdyn2 = Drawable.loadSprite(get("valdyn2"));
 
     private final Coord valdynCoord = new Coord(310, 240);
-    private final double[] z = new double[2 + pillar.length];
-    private final int lastPillarIndex = pillar.length + 1;
+    private final double[] z = new double[2 + PILLAR_COUNT];
     private final Tick flashTime = new Tick();
     private final Time time;
     private final int width;
@@ -171,7 +171,7 @@ public final class Part2 implements Updatable, Renderable
         this.width = width;
         this.height = height;
         this.rate = rate;
-        bandHeight = (int) (Math.floor((height - BAND_HEIGHT) / 2.0));
+        bandHeight = (int) Math.floor((height - BAND_HEIGHT) / 2.0);
     }
 
     /**
@@ -695,9 +695,9 @@ public final class Part2 implements Updatable, Renderable
      */
     private void renderCave(Graphic g)
     {
-        if (z[lastPillarIndex] > 0)
+        if (z[LAST_PILLAR_INDEX] > 0)
         {
-            final double caveZ = UtilMath.clamp(1000.0 / z[lastPillarIndex], 5.0, 100.0);
+            final double caveZ = UtilMath.clamp(1000.0 / z[LAST_PILLAR_INDEX], 5.0, 100.0);
             if (caveZ < 100.0)
             {
                 cave1.stretch(caveZ, caveZ);
