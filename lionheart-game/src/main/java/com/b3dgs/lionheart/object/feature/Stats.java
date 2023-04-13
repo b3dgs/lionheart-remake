@@ -147,20 +147,32 @@ public final class Stats extends FeatureModel implements Snapshotable, Recyclabl
             {
                 amulet = true;
             }
+            applySword(config.getSword(), false);
 
-            final int nextSword = config.getSword();
-            if (nextSword > 0 && sword != nextSword)
-            {
-                sword = nextSword;
-                damages.setDamages(sword + 1, sword + 1);
-
-                final int n = listeners.size();
-                for (int i = 0; i < n; i++)
-                {
-                    listeners.get(i).notifyNextSword(sword);
-                }
-            }
             syncApply(config);
+        }
+    }
+
+    /**
+     * Set sword level.
+     * 
+     * @param nextSword The next sword level.
+     * @param canDecrease <code>true</code> if can decrease level, <code>false</code> only increase.
+     */
+    public void applySword(int nextSword, boolean canDecrease)
+    {
+        if (nextSword > -1
+            && (canDecrease && sword != nextSword || nextSword > sword)
+            && nextSword < Constant.STATS_MAX_SWORD)
+        {
+            sword = nextSword;
+            damages.setDamages(sword + 1, sword + 1);
+
+            final int n = listeners.size();
+            for (int i = 0; i < n; i++)
+            {
+                listeners.get(i).notifyNextSword(sword);
+            }
         }
     }
 

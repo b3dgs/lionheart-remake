@@ -212,6 +212,8 @@ public class Cheats implements Updatable, Renderable
         menus.add(make("Heart More", this::onAddHeart));
         menus.add(make("Heart Less", this::onRemoveHeart));
         menus.add(make("Heart Fill", this::onFillHeart));
+        menus.add(make("Sword More", this::onMoreSword));
+        menus.add(make("Sword Less", this::onLessSword));
         menus.add(make("Fly", this::onFly));
         menus.add(make("Invincible", this::onInvincibility));
 
@@ -291,6 +293,16 @@ public class Cheats implements Updatable, Renderable
     private void onFillHeart()
     {
         player.getFeature(Stats.class).fillHealth();
+    }
+
+    private void onMoreSword()
+    {
+        player.getFeature(Stats.class).applySword(player.getFeature(Stats.class).getSword() + 1, false);
+    }
+
+    private void onLessSword()
+    {
+        player.getFeature(Stats.class).applySword(player.getFeature(Stats.class).getSword() - 1, true);
     }
 
     private void onFly()
