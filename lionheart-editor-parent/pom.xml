@@ -16,6 +16,7 @@
     <modules>
         <module>../com.b3dgs.lionheart.editor.target</module>
         <module>../com.b3dgs.lionheart.editor</module>
+        <module>../com.b3dgs.lionheart.editor.test</module>
     </modules>
     <scm>
         <url>https://github.com/b3dgs/lionheart</url>
