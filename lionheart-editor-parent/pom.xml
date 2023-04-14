@@ -30,9 +30,9 @@
     </ciManagement>
     <properties>
         <radial.base-package>com.b3dgs.lionheart.editor</radial.base-package>
-        <sonar-branch>lionheart-editor-1.3.0</sonar-branch>
         <jdk.version>17</jdk.version>
         <jdk-toolchain.version>${jdk.version}</jdk-toolchain.version>
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${project.artifactId}.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
         <dependency>
