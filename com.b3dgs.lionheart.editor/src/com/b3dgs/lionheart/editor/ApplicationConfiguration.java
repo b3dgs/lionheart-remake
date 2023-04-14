@@ -113,14 +113,19 @@ public class ApplicationConfiguration
     private static final String ARG_IMPORT = "-import";
 
     /** Application reference. */
-    @Inject private MApplication application;
+    private final MApplication application;
 
     /**
      * Constructor.
+     * 
+     * @param application The application reference.
      */
-    public ApplicationConfiguration()
+    @Inject
+    public ApplicationConfiguration(MApplication application)
     {
         super();
+
+        this.application = application;
     }
 
     /**

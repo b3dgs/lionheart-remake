@@ -22,7 +22,7 @@ import com.b3dgs.lionheart.constant.Extension;
 /**
  * Utility functions.
  */
-public class Util
+public final class Util
 {
     /**
      * List of supported level formats.

@@ -137,7 +137,7 @@ public class PatrolPart implements Focusable, PropertiesFeature
         tree.addListener(SWT.Expand, listener);
 
         menuService.registerContextMenu(tree, MENU);
-        addListeners(menuService);
+        addListeners();
     }
 
     /**
@@ -152,10 +152,8 @@ public class PatrolPart implements Focusable, PropertiesFeature
 
     /**
      * Add mouse tree listener.
-     * 
-     * @param menuService The menu service reference.
      */
-    private void addListeners(EMenuService menuService)
+    private void addListeners()
     {
         tree.addMouseListener(new MouseAdapter()
         {

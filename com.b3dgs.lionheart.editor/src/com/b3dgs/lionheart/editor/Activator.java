@@ -36,19 +36,6 @@ public class Activator implements BundleActivator
     /** Plugin ID. */
     public static final String PLUGIN_ID = "com.b3dgs.lionheart.editor";
 
-    /** Context reference. */
-    private static BundleContext context;
-
-    /**
-     * Get the context reference.
-     * 
-     * @return The context reference.
-     */
-    public static BundleContext getContext()
-    {
-        return Activator.context;
-    }
-
     /**
      * Constructor.
      */
@@ -60,12 +47,12 @@ public class Activator implements BundleActivator
     @Override
     public void start(BundleContext bundleContext) throws Exception
     {
-        Activator.context = bundleContext;
+        // Nothing to do
     }
 
     @Override
     public void stop(BundleContext bundleContext) throws Exception
     {
-        Activator.context = null;
+        // Nothing to do
     }
 }

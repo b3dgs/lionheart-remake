@@ -87,7 +87,7 @@ public final class StageLoadHandler
         }
 
         WorldModel.INSTANCE.getHandler().removeAll();
-        stage.getEntities().forEach(config -> createEntity(stage, config));
+        stage.getEntities().forEach(StageLoadHandler::createEntity);
 
         final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
         worldPart.update();
@@ -96,10 +96,9 @@ public final class StageLoadHandler
     /**
      * Create entity from configuration.
      * 
-     * @param stage The stage configuration.
      * @param config The entity configuration.
      */
-    private static void createEntity(StageConfig stage, EntityConfig config)
+    private static void createEntity(EntityConfig config)
     {
         final MapTile map = WorldModel.INSTANCE.getMap();
         final Spawner spawner = WorldModel.INSTANCE.getServices().get(Spawner.class);

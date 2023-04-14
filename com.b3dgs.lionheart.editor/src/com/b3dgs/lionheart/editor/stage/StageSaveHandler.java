@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.Handler;
-import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionheart.EntityConfig;
 import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.editor.Util;
@@ -45,13 +44,11 @@ public final class StageSaveHandler
     /**
      * Save world.
      * 
-     * @param shell The shell reference.
      * @param media The media output.
      */
-    private static void save(Shell shell, Media media)
+    private static void save(Media media)
     {
         final Handler handler = WorldModel.INSTANCE.getHandler();
-        final MapTile map = WorldModel.INSTANCE.getMap();
         final Xml root = new Xml(StageConfig.NODE_STAGE);
 
         UtilPart.getPart(StagePart.ID, StagePart.class).save(root);
@@ -71,7 +68,7 @@ public final class StageSaveHandler
         });
 
         final Xml entities = root.createChild(StageConfig.NODE_ENTITIES);
-        handler.values().forEach(featurable -> entities.add(saveFeaturable(featurable, map)));
+        handler.values().forEach(featurable -> entities.add(saveFeaturable(featurable)));
 
         root.save(media);
 
@@ -83,10 +80,9 @@ public final class StageSaveHandler
      * Save featurable.
      * 
      * @param featurable The featurable to save.
-     * @param map The map reference.
      * @return The xml node.
      */
-    private static Xml saveFeaturable(Featurable featurable, MapTile map)
+    private static Xml saveFeaturable(Featurable featurable)
     {
         final Xml root = new Xml(EntityConfig.NODE_ENTITY);
         featurable.getFeatures().forEach(feature ->
@@ -115,6 +111,6 @@ public final class StageSaveHandler
     @Execute
     public void execute(Shell shell)
     {
-        UtilDialog.selectResourceFile(shell, false, Util.getLevelFilter()).ifPresent(media -> save(shell, media));
+        UtilDialog.selectResourceFile(shell, false, Util.getLevelFilter()).ifPresent(StageSaveHandler::save);
     }
 }

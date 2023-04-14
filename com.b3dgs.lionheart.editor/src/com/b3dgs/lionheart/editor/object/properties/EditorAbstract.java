@@ -44,7 +44,7 @@ public abstract class EditorAbstract<C> extends com.b3dgs.lionengine.editor.dial
      * @param icon The editor icon.
      * @param config The configuration base.
      */
-    public EditorAbstract(Composite parent, String title, Image icon, C config)
+    protected EditorAbstract(Composite parent, String title, Image icon, C config)
     {
         super(parent, title, icon);
 

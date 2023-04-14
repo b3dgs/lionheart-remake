@@ -131,7 +131,7 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
             item.dispose();
         }
 
-        this.editable = (E) feature;
+        editable = (E) feature;
         if (editable.getConfig() == null)
         {
             enable();
@@ -164,7 +164,7 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
         tree.addListener(SWT.Expand, listener);
 
         menuService.registerContextMenu(tree, menuId);
-        addListeners(menuService);
+        addListeners();
     }
 
     /**
@@ -179,10 +179,8 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
 
     /**
      * Add mouse tree listener.
-     * 
-     * @param menuService The menu service reference.
      */
-    private void addListeners(EMenuService menuService)
+    private void addListeners()
     {
         tree.addMouseListener(new MouseAdapter()
         {

@@ -112,7 +112,7 @@ public class CheckpointPart implements Focusable
         final TreeItem item = new TreeItem(tree, SWT.NONE);
         final Camera camera = WorldModel.INSTANCE.getCamera();
         final MapTile map = WorldModel.INSTANCE.getMap();
-        final Checkpoint checkpoint = new Checkpoint(UtilMath.getRounded((camera.getX() + camera.getWidth() / 2)
+        final Checkpoint checkpoint = new Checkpoint(UtilMath.getRounded((camera.getX() + camera.getWidth() / 2.0)
                                                                          / map.getTileWidth(),
                                                                          map.getTileWidth()),
                                                      UtilMath.getRounded((camera.getY() + camera.getHeight())
@@ -206,7 +206,7 @@ public class CheckpointPart implements Focusable
         tree.addListener(SWT.Expand, listener);
 
         menuService.registerContextMenu(tree, MENU);
-        addListeners(menuService);
+        addListeners();
     }
 
     /**
@@ -221,10 +221,8 @@ public class CheckpointPart implements Focusable
 
     /**
      * Add mouse tree listener.
-     * 
-     * @param menuService The menu service reference.
      */
-    private void addListeners(EMenuService menuService)
+    private void addListeners()
     {
         tree.addMouseListener(new MouseAdapter()
         {
@@ -244,10 +242,10 @@ public class CheckpointPart implements Focusable
                         final MapTile map = WorldModel.INSTANCE.getMap();
                         final Camera camera = WorldModel.INSTANCE.getCamera();
                         camera.teleport(UtilMath.getRounded(checkpoint.getTx() * map.getTileWidth()
-                                                            - camera.getWidth() / 2,
+                                                            - camera.getWidth() / 2.0,
                                                             map.getTileWidth()),
                                         UtilMath.getRounded(checkpoint.getTy() * map.getTileHeight()
-                                                            - camera.getHeight() / 2,
+                                                            - camera.getHeight() / 2.0,
                                                             map.getTileHeight()));
                         final WorldPart worldPart = WorldModel.INSTANCE.getServices().get(WorldPart.class);
                         worldPart.update();

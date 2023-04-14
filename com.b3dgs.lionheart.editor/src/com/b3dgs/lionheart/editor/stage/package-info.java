@@ -14,40 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.editor.world;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.widgets.Display;
 
 /**
- * Represents the different standard palette types.
+ * Stage package base.
  */
-public enum PaletteType
-{
-    /** Object pointer. Allows to interact with object. */
-    POINTER_CHECKPOINT(SWT.CURSOR_ARROW);
-
-    /** The associated cursor. */
-    private final Cursor cursor;
-
-    /**
-     * Private constructor.
-     * 
-     * @param cursor The cursor reference.
-     */
-    PaletteType(int cursor)
-    {
-        this.cursor = Display.getDefault().getSystemCursor(cursor);
-    }
-
-    /**
-     * Get the palette cursor.
-     * 
-     * @return The palette cursor.
-     */
-    public Cursor getCursor()
-    {
-        return cursor;
-    }
-}
+package com.b3dgs.lionheart.editor.stage;
