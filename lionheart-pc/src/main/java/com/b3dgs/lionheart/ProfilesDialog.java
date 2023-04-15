@@ -198,13 +198,16 @@ public class ProfilesDialog extends JDialog
                                                                                 },
                                                                                 Keyboard.class);
             int max = 0;
-            for (final DeviceControllerConfig c : configs.values())
+            if (device == Gamepad.class)
             {
-                max = Math.max(max, c.getIndex());
+                for (final DeviceControllerConfig c : configs.values())
+                {
+                    max = Math.max(max, c.getId() + 1);
+                }
             }
             final DeviceControllerConfig config = new DeviceControllerConfig(name,
                                                                              model.getSize(),
-                                                                             max + 1,
+                                                                             max,
                                                                              device,
                                                                              false,
                                                                              new ArrayList<>(),
