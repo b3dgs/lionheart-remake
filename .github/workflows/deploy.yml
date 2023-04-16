@@ -254,6 +254,8 @@ jobs:
           copy "distribution\win32\src\7zsd_LZMA2.sfx" "build"
           cd build
           7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
+          7z a -tzip -m0=deflate -mx=9 %TARGET%.zip %TARGET%
+          sha256sum %TARGET%.zip > %TARGET%.zip.sha256sum
           copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
           cd ..
           mkdir reshack
@@ -289,7 +291,7 @@ jobs:
           del "%TARGET%.7z"
           rmdir /S /Q "%TARGET%"
           sha256sum %TARGET%.exe
-          sha256sum %TARGET%.exe > %TARGET%.sha256sum
+          sha256sum %TARGET%.exe > %TARGET%.exe.sha256sum
         shell: cmd
 
       - name: Prepare editor
@@ -307,7 +309,7 @@ jobs:
           7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
           rmdir /S /Q %TARGET%
           sha256sum %TARGET%_editor.7z
-          sha256sum %TARGET%_editor.7z > %TARGET%_editor.sha256sum
+          sha256sum %TARGET%_editor.7z > %TARGET%_editor.7z.sha256sum
         shell: cmd
 
       - name: Deploy archives
@@ -491,7 +493,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
           rm -r -f $TARGET
           sha256sum $TARGET"_editor.tar.xz"
-          sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor_sha256sum"
+          sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor.tar.xz.sha256sum"
 
       - name: Deploy archives
         uses: dennisameling/ftp-upload-action@v1.0.10
@@ -503,13 +505,13 @@ jobs:
           server_dir: /${{ env.APP_VERSION }}/
           secure: false
 
-  linux-x86:
+  linux-x86-32:
     runs-on: ubuntu-latest
 
     env:
       JDK_VERSION: "8"
       AUDIODEV: "null"
-      APP_PLATFORM: "linux-x86"
+      APP_PLATFORM: "linux-x86-32"
 
     steps:
       - name: Dependencies
@@ -682,7 +684,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           sha256sum $TARGET.tar.xz
-          sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
+          sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
 
       - name: Deploy archives
         uses: dennisameling/ftp-upload-action@v1.0.10
@@ -694,13 +696,13 @@ jobs:
           server_dir: /${{ env.APP_VERSION }}/
           secure: false
 
-  macos-x86_64:
+  macos-x86-64:
     runs-on: macos-latest
 
     env:
       JDK_VERSION: "8"
       AUDIODEV: "null"
-      APP_PLATFORM: "macos-x86_64"
+      APP_PLATFORM: "macos-x86-64"
 
     steps:   
       - name: Checkout
@@ -816,7 +818,8 @@ jobs:
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           cd build
-          tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
+          zip -9 -r $TARGET.zip $TARGET
+          shasum -a 256 $TARGET.zip > $TARGET".zip.sha256sum"
           rm -r -f $TARGET
 
       - name: Deploy archives
@@ -905,7 +908,7 @@ jobs:
           zip -9 -r $TARGET.zip $TARGET
           rm -r -f $TARGET
           sha256sum $TARGET.zip
-          sha256sum $TARGET.zip > $TARGET"_sha256sum"
+          sha256sum $TARGET.zip > $TARGET".zip_sha256sum"
 
       - name: Deploy Archive
         uses: dennisameling/ftp-upload-action@v1.0.10
