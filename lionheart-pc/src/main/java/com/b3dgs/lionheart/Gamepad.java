@@ -100,7 +100,7 @@ public class Gamepad implements InputDevice
     /** Push listener. */
     private final Map<Integer, ListenableModel<InputDeviceListener>> listeners = new ConcurrentHashMap<>();
     /** Controllers mapping by name and index. */
-    private final Map<String, Integer> controllers = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> controllers = new ConcurrentHashMap<>();
     /** Press flags. */
     private final Map<Integer, Set<Integer>> press = new ConcurrentHashMap<>();
     /** Pressed flags. */
@@ -124,17 +124,22 @@ public class Gamepad implements InputDevice
                 @Override
                 public void connected(Controller controller)
                 {
-                    final Integer index = controllers.get(controller.getName());
-                    if (index != null)
+                    int index;
+                    for (index = 0; index < controllers.size(); index++)
                     {
-                        init(index);
+                        if (!controllers.containsKey(Integer.valueOf(controller.hashCode())))
+                        {
+                            break;
+                        }
                     }
+                    controllers.put(Integer.valueOf(controller.hashCode()), Integer.valueOf(index));
+                    init(Integer.valueOf(index));
                 }
 
                 @Override
                 public void disconnected(Controller controller)
                 {
-                    final Integer index = controllers.get(controller.getName());
+                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
                     if (index != null)
                     {
                         clean(index);
@@ -144,7 +149,7 @@ public class Gamepad implements InputDevice
                 @Override
                 public boolean buttonDown(Controller controller, int buttonCode)
                 {
-                    final Integer index = controllers.get(controller.getName());
+                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
                     if (index != null)
                     {
                         final Integer code = Integer.valueOf(buttonCode);
@@ -155,7 +160,7 @@ public class Gamepad implements InputDevice
                         final int n = l.size();
                         for (int i = 0; i < n; i++)
                         {
-                            l.get(i).onDeviceChanged(code, (char) buttonCode, true);
+                            l.get(i).onDeviceChanged(index, code, (char) buttonCode, true);
                         }
                     }
                     return false;
@@ -164,7 +169,7 @@ public class Gamepad implements InputDevice
                 @Override
                 public boolean buttonUp(Controller controller, int buttonCode)
                 {
-                    final Integer index = controllers.get(controller.getName());
+                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
                     if (index != null)
                     {
                         final Integer code = Integer.valueOf(buttonCode);
@@ -175,7 +180,7 @@ public class Gamepad implements InputDevice
                         final int n = l.size();
                         for (int i = 0; i < n; i++)
                         {
-                            l.get(i).onDeviceChanged(code, (char) buttonCode, false);
+                            l.get(i).onDeviceChanged(index, code, (char) buttonCode, false);
                         }
                     }
                     return false;
@@ -202,7 +207,7 @@ public class Gamepad implements InputDevice
                 @Override
                 public boolean axisMoved(Controller controller, int axisCode, float value)
                 {
-                    final Integer index = controllers.get(controller.getName());
+                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
                     if (index != null)
                     {
                         final Set<Integer> codes = press.get(index);
@@ -263,7 +268,7 @@ public class Gamepad implements InputDevice
      * 
      * @return The devices mapping by name and index.
      */
-    public final Map<String, Integer> findDevices()
+    public final Map<Integer, Integer> findDevices()
     {
         if (manager != null)
         {
@@ -278,7 +283,7 @@ public class Gamepad implements InputDevice
                 for (int i = 0; i < array.size; i++)
                 {
                     final Integer index = Integer.valueOf(i);
-                    controllers.put(array.get(i).getName(), index);
+                    controllers.put(Integer.valueOf(array.get(i).hashCode()), index);
                     init(index);
                 }
                 return controllers;
