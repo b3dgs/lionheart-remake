@@ -476,7 +476,7 @@ jobs:
           tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
           rm -r -f $TARGET
           sha256sum $TARGET.tar.xz
-          sha256sum $TARGET.tar.xz > $TARGET"_sha256sum"
+          sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
 
       - name: Prepare editor
         run: |
@@ -908,7 +908,7 @@ jobs:
           zip -9 -r $TARGET.zip $TARGET
           rm -r -f $TARGET
           sha256sum $TARGET.zip
-          sha256sum $TARGET.zip > $TARGET".zip_sha256sum"
+          sha256sum $TARGET.zip > $TARGET".zip.sha256sum"
 
       - name: Deploy Archive
         uses: dennisameling/ftp-upload-action@v1.0.10
