@@ -13,6 +13,16 @@
     <properties>
         <checkstyle.skip>true</checkstyle.skip>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.b3dgs.lionengine</groupId>
+            <artifactId>lionengine-core</artifactId>
+            <version>${lionengine.version}</version>
+            <classifier>test</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

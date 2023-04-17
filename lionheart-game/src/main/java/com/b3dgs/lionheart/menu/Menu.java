@@ -191,9 +191,9 @@ public class Menu extends Sequence
         return 0;
     }
 
-    private final SpriteFont textWhite = loadFont("fontmenu.png", "fontmenu.xml", 25, 29);
-    private final SpriteFont textDark = loadFont("fontmenu_dark.png", "fontmenu.xml", 25, 29);
-    private final SpriteFont textBlue = loadFont("fontmenu_blue.png", "fontmenu.xml", 25, 29);
+    private final SpriteFont textWhite = loadFont("fontmenu.png", "fontmenu.xml", 26, 30);
+    private final SpriteFont textDark = loadFont("fontmenu_dark.png", "fontmenu.xml", 26, 30);
+    private final SpriteFont textBlue = loadFont("fontmenu_blue.png", "fontmenu.xml", 26, 30);
     private final SpriteFont font = loadFont("fonttip.png", "fontdata.xml", 12, 12);
 
     private final Settings settings = Settings.getInstance();
