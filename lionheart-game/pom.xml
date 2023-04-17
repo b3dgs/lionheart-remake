@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
             <artifactId>lionengine-core</artifactId>
-            <version>${lionengine.version}</version>
+            <version>10.0.0-20230416.121630-45</version>
             <classifier>test</classifier>
             <type>test-jar</type>
             <scope>test</scope>
