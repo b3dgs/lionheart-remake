@@ -1,31 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lionengine:letters xmlns:lionengine="https://lionengine.b3dgs.com">
-    <lionengine:letter char="a" height="0" width="5"/>
-    <lionengine:letter char="b" height="0" width="5"/>
-    <lionengine:letter char="c" height="0" width="4"/>
-    <lionengine:letter char="d" height="0" width="5"/>
-    <lionengine:letter char="e" height="0" width="5"/>
-    <lionengine:letter char="f" height="0" width="3"/>
-    <lionengine:letter char="g" height="0" width="5"/>
-    <lionengine:letter char="h" height="0" width="6"/>
-    <lionengine:letter char="i" height="0" width="3"/>
-    <lionengine:letter char="j" height="0" width="3"/>
-    <lionengine:letter char="k" height="0" width="6"/>
-    <lionengine:letter char="l" height="0" width="3"/>
-    <lionengine:letter char="m" height="0" width="9"/>
-    <lionengine:letter char="n" height="0" width="6"/>
-    <lionengine:letter char="o" height="0" width="5"/>
-    <lionengine:letter char="p" height="0" width="5"/>
-    <lionengine:letter char="q" height="0" width="5"/>
-    <lionengine:letter char="r" height="0" width="4"/>
-    <lionengine:letter char="s" height="0" width="4"/>
-    <lionengine:letter char="t" height="0" width="3"/>
-    <lionengine:letter char="u" height="0" width="6"/>
-    <lionengine:letter char="v" height="0" width="4"/>
-    <lionengine:letter char="w" height="0" width="7"/>
-    <lionengine:letter char="x" height="0" width="5"/>
-    <lionengine:letter char="y" height="0" width="5"/>
-    <lionengine:letter char="z" height="0" width="5"/>
     <lionengine:letter char="A" height="0" width="7"/>
     <lionengine:letter char="B" height="0" width="7"/>
     <lionengine:letter char="C" height="0" width="8"/>
@@ -52,6 +26,84 @@
     <lionengine:letter char="X" height="0" width="6"/>
     <lionengine:letter char="Y" height="0" width="7"/>
     <lionengine:letter char="Z" height="0" width="6"/>
+    <lionengine:letter char="À" height="0" width="7"/>
+    <lionengine:letter char="Á" height="0" width="7"/>
+    <lionengine:letter char="Ã" height="0" width="7"/>
+    <lionengine:letter char="Â" height="0" width="7"/>
+    <lionengine:letter char="Ä" height="0" width="7"/>
+    <lionengine:letter char="Ç" height="0" width="8"/>
+    <lionengine:letter char="È" height="0" width="5"/>
+    <lionengine:letter char="É" height="0" width="5"/>
+    <lionengine:letter char="Ê" height="0" width="5"/>
+    <lionengine:letter char="Ë" height="0" width="5"/>
+    <lionengine:letter char="Ì" height="0" width="3"/>
+    <lionengine:letter char="Í" height="0" width="3"/>
+    <lionengine:letter char="Î" height="0" width="3"/>
+    <lionengine:letter char="Ï" height="0" width="3"/>
+    <lionengine:letter char="Ñ" height="0" width="7"/>
+    <lionengine:letter char="Ò" height="0" width="9"/>
+    <lionengine:letter char="Ó" height="0" width="9"/>
+    <lionengine:letter char="Õ" height="0" width="9"/>
+    <lionengine:letter char="Ô" height="0" width="9"/>
+    <lionengine:letter char="Ö" height="0" width="9"/>
+    <lionengine:letter char="Ù" height="0" width="7"/>
+    <lionengine:letter char="Ú" height="0" width="7"/>
+    <lionengine:letter char="Û" height="0" width="7"/>
+    <lionengine:letter char="Ü" height="0" width="7"/>
+    <lionengine:letter char="Ÿ" height="0" width="7"/>
+    <lionengine:letter char="/" height="0" width="4"/>
+    <lionengine:letter char="a" height="0" width="5"/>
+    <lionengine:letter char="b" height="0" width="5"/>
+    <lionengine:letter char="c" height="0" width="4"/>
+    <lionengine:letter char="d" height="0" width="5"/>
+    <lionengine:letter char="e" height="0" width="5"/>
+    <lionengine:letter char="f" height="0" width="3"/>
+    <lionengine:letter char="g" height="0" width="5"/>
+    <lionengine:letter char="h" height="0" width="6"/>
+    <lionengine:letter char="i" height="0" width="3"/>
+    <lionengine:letter char="j" height="0" width="3"/>
+    <lionengine:letter char="k" height="0" width="6"/>
+    <lionengine:letter char="l" height="0" width="3"/>
+    <lionengine:letter char="m" height="0" width="9"/>
+    <lionengine:letter char="n" height="0" width="6"/>
+    <lionengine:letter char="o" height="0" width="5"/>
+    <lionengine:letter char="p" height="0" width="5"/>
+    <lionengine:letter char="q" height="0" width="5"/>
+    <lionengine:letter char="r" height="0" width="4"/>
+    <lionengine:letter char="s" height="0" width="4"/>
+    <lionengine:letter char="t" height="0" width="3"/>
+    <lionengine:letter char="u" height="0" width="6"/>
+    <lionengine:letter char="v" height="0" width="4"/>
+    <lionengine:letter char="w" height="0" width="7"/>
+    <lionengine:letter char="x" height="0" width="5"/>
+    <lionengine:letter char="y" height="0" width="5"/>
+    <lionengine:letter char="z" height="0" width="5"/>
+    <lionengine:letter char="à" height="0" width="5"/>
+    <lionengine:letter char="á" height="0" width="5"/>
+    <lionengine:letter char="ã" height="0" width="5"/>
+    <lionengine:letter char="â" height="0" width="5"/>
+    <lionengine:letter char="ä" height="0" width="5"/>
+    <lionengine:letter char="ç" height="0" width="4"/>
+    <lionengine:letter char="è" height="0" width="5"/>
+    <lionengine:letter char="é" height="0" width="5"/>
+    <lionengine:letter char="ê" height="0" width="5"/>
+    <lionengine:letter char="ë" height="0" width="5"/>
+    <lionengine:letter char="ñ" height="0" width="6"/>
+    <lionengine:letter char="ì" height="0" width="3"/>
+    <lionengine:letter char="í" height="0" width="3"/>
+    <lionengine:letter char="î" height="0" width="3"/>
+    <lionengine:letter char="ï" height="0" width="3"/>
+    <lionengine:letter char="ò" height="0" width="5"/>
+    <lionengine:letter char="ó" height="0" width="5"/>
+    <lionengine:letter char="õ" height="0" width="5"/>
+    <lionengine:letter char="ô" height="0" width="5"/>
+    <lionengine:letter char="ö" height="0" width="5"/>
+    <lionengine:letter char="ù" height="0" width="6"/>
+    <lionengine:letter char="ú" height="0" width="6"/>
+    <lionengine:letter char="û" height="0" width="6"/>
+    <lionengine:letter char="ü" height="0" width="6"/>
+    <lionengine:letter char="ÿ" height="0" width="5"/>
+    <lionengine:letter char="\\" height="0" width="4"/>
     <lionengine:letter char="0" height="0" width="5"/>
     <lionengine:letter char="1" height="0" width="5"/>
     <lionengine:letter char="2" height="0" width="5"/>
@@ -62,44 +114,18 @@
     <lionengine:letter char="7" height="0" width="5"/>
     <lionengine:letter char="8" height="0" width="5"/>
     <lionengine:letter char="9" height="0" width="5"/>
-    <lionengine:letter char="à" height="0" width="5"/>
-    <lionengine:letter char="á" height="0" width="5"/>
-    <lionengine:letter char="ç" height="0" width="4"/>
-    <lionengine:letter char="è" height="0" width="5"/>
-    <lionengine:letter char="é" height="0" width="5"/>
-    <lionengine:letter char="ì" height="0" width="3"/>
-    <lionengine:letter char="í" height="0" width="3"/>
-    <lionengine:letter char="ñ" height="0" width="6"/>
-    <lionengine:letter char="ó" height="0" width="5"/>
-    <lionengine:letter char="ô" height="0" width="5"/>
-    <lionengine:letter char="ö" height="0" width="5"/>
-    <lionengine:letter char="ú" height="0" width="6"/>
-    <lionengine:letter char="û" height="0" width="6"/>
-    <lionengine:letter char="ü" height="0" width="6"/>
-    <lionengine:letter char="À" height="0" width="7"/>
-    <lionengine:letter char="Á" height="0" width="7"/>
-    <lionengine:letter char="Ç" height="0" width="8"/>
-    <lionengine:letter char="È" height="0" width="5"/>
-    <lionengine:letter char="É" height="0" width="5"/>
-    <lionengine:letter char="Ì" height="0" width="3"/>
-    <lionengine:letter char="Í" height="0" width="3"/>
-    <lionengine:letter char="Ñ" height="0" width="7"/>
-    <lionengine:letter char="Ó" height="0" width="9"/>
-    <lionengine:letter char="Ô" height="0" width="9"/>
-    <lionengine:letter char="Ö" height="0" width="9"/>
-    <lionengine:letter char="Ú" height="0" width="7"/>
-    <lionengine:letter char="Û" height="0" width="7"/>
-    <lionengine:letter char="Ü" height="0" width="7"/>
     <lionengine:letter char="," height="0" width="2"/>
+    <lionengine:letter char="*" height="0" width="5"/>
+    <lionengine:letter char=":" height="0" width="3"/>
     <lionengine:letter char="?" height="0" width="5"/>
     <lionengine:letter char="!" height="0" width="3"/>
+    <lionengine:letter char="¿" height="0" width="5"/>
+    <lionengine:letter char="¡" height="0" width="3"/>
     <lionengine:letter char="." height="0" width="2"/>
     <lionengine:letter char="-" height="0" width="3"/>
-    <lionengine:letter char=":" height="0" width="3"/>
-    <lionengine:letter char="*" height="0" width="5"/>
-    <lionengine:letter char="'" height="0" width="2"/>
     <lionengine:letter char="&amp;" height="0" width="8"/>
     <lionengine:letter char="(" height="0" width="3"/>
     <lionengine:letter char=")" height="0" width="3"/>
+    <lionengine:letter char="'" height="0" width="2"/>
     <lionengine:letter char=" " height="0" width="2"/>
 </lionengine:letters>
