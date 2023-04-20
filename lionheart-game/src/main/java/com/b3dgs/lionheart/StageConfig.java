@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.ForegroundConfig;
@@ -49,11 +49,11 @@ public final class StageConfig
     /** File attribute name. */
     public static final String ATT_FILE = "file";
     /** Reload attribute name. */
-    private static final String ATT_RELOAD = "reload";
+    public static final String ATT_RELOAD = "reload";
     /** Reload minimum horizontal location attribute name. */
-    private static final String ATT_RELOAD_MIN_X = "reloadMinX";
+    public static final String ATT_RELOAD_MIN_X = "reloadMinX";
     /** Reload maximum horizontal location attribute name. */
-    private static final String ATT_RELOAD_MAX_X = "reloadMaxX";
+    public static final String ATT_RELOAD_MAX_X = "reloadMaxX";
 
     /** Music node name. */
     public static final String NODE_MUSIC = "music";
@@ -61,9 +61,9 @@ public final class StageConfig
     /** Map node name. */
     public static final String NODE_MAP = "map";
     /** Lines per raster attribute name. */
-    private static final String ATT_MAP_LINES_PER_RASTER = "linesPerRaster";
+    public static final String ATT_MAP_LINES_PER_RASTER = "linesPerRaster";
     /** Raster line offset attribute name. */
-    private static final String ATT_MAP_RASTER_LINE_OFFSET = "rasterLineOffset";
+    public static final String ATT_MAP_RASTER_LINE_OFFSET = "rasterLineOffset";
 
     /** Raster folder node name. */
     public static final String NODE_RASTER = "raster";
@@ -91,22 +91,22 @@ public final class StageConfig
     public static final String ATT_SPAWN_TY = "sty";
 
     /** Boss node name. */
-    private static final String NODE_BOSS = "boss";
+    public static final String NODE_BOSS = "boss";
     /** Boss spawn tile x attribute name. */
-    private static final String ATT_BOSS_TSX = "tsx";
+    public static final String ATT_BOSS_TSX = "tsx";
     /** Boss spawn tile y attribute name. */
-    private static final String ATT_BOSS_TSY = "tsy";
+    public static final String ATT_BOSS_TSY = "tsy";
 
     /**
      * Imports the config from configurer.
      * 
-     * @param configurer The configurer reference (must not be <code>null</code>).
+     * @param root The configurer reference (must not be <code>null</code>).
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static StageConfig imports(Configurer configurer)
+    public static StageConfig imports(AttributesReader root)
     {
-        return new StageConfig(configurer);
+        return new StageConfig(root);
     }
 
     /** Picture file. */
@@ -149,40 +149,39 @@ public final class StageConfig
     /**
      * Create config.
      * 
-     * @param configurer The configurer reference.
+     * @param root The configurer reference.
      * @throws LionEngineException If unable to read node.
      */
-    private StageConfig(Configurer configurer)
+    private StageConfig(AttributesReader root)
     {
         super();
 
-        Check.notNull(configurer);
+        Check.notNull(root);
 
-        pic = configurer.getMediaOptional(ATT_STAGE_PIC);
-        text = configurer.getStringOptional(ATT_STAGE_TEXT);
-        reload = configurer.getBoolean(false, ATT_RELOAD);
-        reloadMinX = configurer.getInteger(0, ATT_RELOAD_MIN_X);
-        reloadMaxX = configurer.getInteger(Integer.MAX_VALUE, ATT_RELOAD_MAX_X);
+        pic = root.getMediaOptional(ATT_STAGE_PIC);
+        text = root.getStringOptional(ATT_STAGE_TEXT);
+        reload = root.getBoolean(false, ATT_RELOAD);
+        reloadMinX = root.getInteger(0, ATT_RELOAD_MIN_X);
+        reloadMaxX = root.getInteger(Integer.MAX_VALUE, ATT_RELOAD_MAX_X);
 
-        music = configurer.getMedia(ATT_FILE, NODE_MUSIC);
+        music = root.getMedia(ATT_FILE, NODE_MUSIC);
 
-        mapFile = configurer.getMedia(ATT_FILE, NODE_MAP);
-        linesPerRaster = configurer.getInteger(2, ATT_MAP_LINES_PER_RASTER, NODE_MAP);
-        rasterLineOffset = configurer.getInteger(1, ATT_MAP_RASTER_LINE_OFFSET, NODE_MAP);
+        mapFile = root.getMedia(ATT_FILE, NODE_MAP);
+        linesPerRaster = root.getInteger(2, ATT_MAP_LINES_PER_RASTER, NODE_MAP);
+        rasterLineOffset = root.getInteger(1, ATT_MAP_RASTER_LINE_OFFSET, NODE_MAP);
 
-        rasterFolder = configurer.getStringOptional(ATT_RASTER_FOLDER, NODE_RASTER);
+        rasterFolder = root.getStringOptional(ATT_RASTER_FOLDER, NODE_RASTER);
 
-        background = configurer.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
-        foreground = ForegroundConfig.imports(configurer);
+        background = root.getEnum(BackgroundType.class, ATT_BACKGROUND_TYPE, NODE_BACKGROUND);
+        foreground = ForegroundConfig.imports(root);
 
-        if (configurer.hasAttribute(ATT_CHECKPOINT_TX, NODE_BOSS)
-            && configurer.hasAttribute(ATT_CHECKPOINT_TY, NODE_BOSS))
+        if (root.hasAttribute(ATT_CHECKPOINT_TX, NODE_BOSS) && root.hasAttribute(ATT_CHECKPOINT_TY, NODE_BOSS))
         {
-            boss = Optional.of(new Coord(configurer.getDouble(ATT_CHECKPOINT_TX, NODE_BOSS),
-                                         configurer.getDouble(ATT_CHECKPOINT_TY, NODE_BOSS)));
-            bossSpawn = Optional.of(new Coord(configurer.getDouble(ATT_BOSS_TSX, NODE_BOSS),
-                                              configurer.getDouble(ATT_BOSS_TSY, NODE_BOSS)));
-            bossNext = configurer.getStringOptional(ATT_CHECKPOINT_NEXT, NODE_BOSS);
+            boss = Optional.of(new Coord(root.getDouble(ATT_CHECKPOINT_TX, NODE_BOSS),
+                                         root.getDouble(ATT_CHECKPOINT_TY, NODE_BOSS)));
+            bossSpawn = Optional.of(new Coord(root.getDouble(ATT_BOSS_TSX, NODE_BOSS),
+                                              root.getDouble(ATT_BOSS_TSY, NODE_BOSS)));
+            bossNext = root.getStringOptional(ATT_CHECKPOINT_NEXT, NODE_BOSS);
         }
         else
         {
@@ -191,11 +190,11 @@ public final class StageConfig
             bossNext = Optional.empty();
         }
 
-        configurer.getChildren(NODE_CHECKPOINT, NODE_CHECKPOINTS).forEach(this::addCheckpoints);
+        root.getChildren(NODE_CHECKPOINT, NODE_CHECKPOINTS).forEach(this::addCheckpoints);
 
-        configurer.getChildren(EntityConfig.NODE_ENTITY, NODE_ENTITIES).forEach(this::addEntity);
+        root.getChildren(EntityConfig.NODE_ENTITY, NODE_ENTITIES).forEach(this::addEntity);
 
-        configurer.getChildren(SpawnConfig.NODE_SPAWN, NODE_SPAWNS).forEach(this::addSpawn);
+        root.getChildren(SpawnConfig.NODE_SPAWN, NODE_SPAWNS).forEach(this::addSpawn);
     }
 
     /**

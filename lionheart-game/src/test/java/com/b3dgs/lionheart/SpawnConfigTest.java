@@ -26,9 +26,9 @@ import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileGame;
 
 /**
- * Test {@link EntityConfig}.
+ * Test {@link SpawnConfig}.
  */
-final class EntityConfigTest
+final class SpawnConfigTest
 {
     /**
      * Test import.
@@ -36,20 +36,27 @@ final class EntityConfigTest
     @Test
     void testImport()
     {
-        Medias.setLoadFromJar(EntityConfigTest.class);
+        Medias.setLoadFromJar(SpawnConfigTest.class);
 
-        final Xml root = new Xml(EntityConfig.NODE_ENTITY);
-        root.writeString(EntityConfig.ATT_FILE, "entity/Bee.xml");
-        root.writeDouble(EntityConfig.ATT_TX, 1.0);
-        root.writeDouble(EntityConfig.ATT_TY, 2.0);
+        final Xml root = new Xml(SpawnConfig.NODE_SPAWN);
+        root.writeInteger(SpawnConfig.ATT_DELAY, 1);
+
+        final Xml entity = root.createChild(EntityConfig.NODE_ENTITY);
+        entity.writeString(EntityConfig.ATT_FILE, "entity/Bee.xml");
+        entity.writeDouble(EntityConfig.ATT_TX, 1.0);
+        entity.writeDouble(EntityConfig.ATT_TY, 2.0);
 
         final MapTile map = new MapTileGame();
         map.create(16, 16, 4, 4);
 
-        final EntityConfig config = EntityConfig.imports(root);
-        assertEquals(root, config.getRoot());
-        assertEquals("entity/Bee.xml", config.getMedia().getPath());
-        assertEquals(16.0, config.getSpawnX(map));
-        assertEquals(16.0, config.getSpawnY(map));
+        final SpawnConfig config = SpawnConfig.imports(root);
+        assertEquals(1, config.getDelay());
+
+        final EntityConfig expected = EntityConfig.imports(entity);
+        final EntityConfig read = config.getEntities().iterator().next();
+
+        assertEquals(expected.getMedia(), read.getMedia());
+        assertEquals(expected.getSpawnX(map), read.getSpawnX(map));
+        assertEquals(expected.getSpawnY(map), read.getSpawnY(map));
     }
 }

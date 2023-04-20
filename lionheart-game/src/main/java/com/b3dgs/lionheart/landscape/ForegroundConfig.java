@@ -19,9 +19,9 @@ package com.b3dgs.lionheart.landscape;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.Configurer;
 
 /**
  * Foreground configuration.
@@ -45,7 +45,7 @@ public final class ForegroundConfig
     /** Water raise attribute name. */
     public static final String ATT_WATER_RAISE = "raise";
     /** Width limit. */
-    private static final String ATT_WIDTH_MAX = "widthMax";
+    public static final String ATT_WIDTH_MAX = "widthMax";
 
     /**
      * Imports the config from configurer.
@@ -54,7 +54,7 @@ public final class ForegroundConfig
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static ForegroundConfig imports(Configurer root)
+    public static ForegroundConfig imports(AttributesReader root)
     {
         Check.notNull(root);
 
@@ -84,7 +84,7 @@ public final class ForegroundConfig
      * @param root The configurer reference (must not be <code>null</code>).
      * @throws LionEngineException If unable to read node.
      */
-    private ForegroundConfig(Configurer root)
+    private ForegroundConfig(AttributesReader root)
     {
         super();
 

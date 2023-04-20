@@ -20,6 +20,7 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -268,7 +269,7 @@ public final class AppLionheart
         }
         else
         {
-            return new GameConfig(game, players, Optional.empty());
+            return new GameConfig(game, players, Optional.empty(), Optional.empty(), Collections.emptyMap(), null);
         }
 
         if (stageMedia.exists())
@@ -280,7 +281,7 @@ public final class AppLionheart
                                   controls,
                                   new InitConfig(stageMedia, health, life, difficulty));
         }
-        return new GameConfig(game, players, Optional.empty());
+        return new GameConfig(game, players, Optional.empty(), Optional.empty(), Collections.emptyMap(), null);
     }
 
     /**

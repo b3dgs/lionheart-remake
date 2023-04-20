@@ -28,8 +28,8 @@ import com.b3dgs.lionengine.network.Network;
  */
 public class GameConfig
 {
-    private final int players;
     private final GameType type;
+    private final int players;
     private final Optional<Network> network;
     private final Optional<String> stages;
     private final Map<Integer, Integer> controls;
@@ -40,39 +40,20 @@ public class GameConfig
      */
     public GameConfig()
     {
-        this(GameType.STORY, 1, Optional.empty());
+        this(GameType.STORY, 1, Optional.empty(), Optional.empty(), Collections.emptyMap(), null);
     }
 
     /**
      * Create configuration.
      * 
-     * @param game The game type.
+     * @param type The game type.
      * @param players The players number.
-     * @param network The network configuration if online, absent if local.
-     */
-    public GameConfig(GameType game, int players, Optional<Network> network)
-    {
-        super();
-
-        this.players = players;
-        type = game;
-        this.network = network;
-        stages = Optional.empty();
-        controls = Collections.emptyMap();
-        init = null;
-    }
-
-    /**
-     * Create configuration.
-     * 
-     * @param players The players number.
-     * @param game The game type.
      * @param network The network configuration if online, absent if local.
      * @param stages The stages set.
      * @param controls The player id as key, the control index as value.
      * @param init The init configuration.
      */
-    public GameConfig(GameType game,
+    public GameConfig(GameType type,
                       int players,
                       Optional<Network> network,
                       Optional<String> stages,
@@ -81,8 +62,8 @@ public class GameConfig
     {
         super();
 
+        this.type = type;
         this.players = players;
-        type = game;
         this.network = network;
         this.stages = stages;
         this.controls = controls;
@@ -125,13 +106,13 @@ public class GameConfig
     }
 
     /**
-     * Get the stages set.
+     * Get the game type.
      * 
-     * @return The stages set.
+     * @return The game type.
      */
-    public Optional<String> getStages()
+    public GameType getType()
     {
-        return stages;
+        return type;
     }
 
     /**
@@ -145,16 +126,6 @@ public class GameConfig
     }
 
     /**
-     * Get the game type.
-     * 
-     * @return The game type.
-     */
-    public GameType getType()
-    {
-        return type;
-    }
-
-    /**
      * Get the network configuration.
      * 
      * @return The network configuration.
@@ -162,6 +133,16 @@ public class GameConfig
     public Optional<Network> getNetwork()
     {
         return network;
+    }
+
+    /**
+     * Get the stages set.
+     * 
+     * @return The stages set.
+     */
+    public Optional<String> getStages()
+    {
+        return stages;
     }
 
     /**
