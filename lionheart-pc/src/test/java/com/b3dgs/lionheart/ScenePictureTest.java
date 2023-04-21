@@ -64,6 +64,7 @@ final class ScenePictureTest
         "es:pic1:swamp", "es:pic2:ancienttown", "es:pic3:lava", "es:pic4:airship", "es:pic5:dragonfly", "es:pic6:tower", "es:pic7:underworld",
         "de:pic1:swamp", "de:pic2:ancienttown", "de:pic3:lava", "de:pic4:airship", "de:pic5:dragonfly", "de:pic6:tower", "de:pic7:underworld",
         "pt:pic1:swamp", "pt:pic2:ancienttown", "pt:pic3:lava", "pt:pic4:airship", "pt:pic5:dragonfly", "pt:pic6:tower", "pt:pic7:underworld",
+        "it:pic1:swamp", "it:pic2:ancienttown", "it:pic3:lava", "it:pic4:airship", "it:pic5:dragonfly", "it:pic6:tower", "it:pic7:underworld",
     // @formatter:on
     }, delimiter = ':')
     void testPicturesManual(String lang, String pic, String text)
@@ -104,6 +105,7 @@ final class ScenePictureTest
         "es:pic1:swamp", "es:pic2:ancienttown", "es:pic3:lava", "es:pic4:airship", "es:pic5:dragonfly", "es:pic6:tower", "es:pic7:underworld",
         "de:pic1:swamp", "de:pic2:ancienttown", "de:pic3:lava", "de:pic4:airship", "de:pic5:dragonfly", "de:pic6:tower", "de:pic7:underworld",
         "pt:pic1:swamp", "pt:pic2:ancienttown", "pt:pic3:lava", "pt:pic4:airship", "pt:pic5:dragonfly", "pt:pic6:tower", "pt:pic7:underworld",
+        "it:pic1:swamp", "it:pic2:ancienttown", "it:pic3:lava", "it:pic4:airship", "it:pic5:dragonfly", "it:pic6:tower", "it:pic7:underworld",
     // @formatter:on
     }, delimiter = ':')
     void testPictures(String lang, String pic, String text)

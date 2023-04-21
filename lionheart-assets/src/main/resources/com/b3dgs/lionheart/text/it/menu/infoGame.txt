@@ -1,0 +1,5 @@
+Classica gioco lineare a livelli%dalla intro ai credits.
+Livello individuale giocabile %senza intro e menu, per giocare subito.
+Termina il livello nel minor tempo possbile.%Nessun oggetto, nessun mostro, solo velocità.
+Rimani in vita fino all'ultimo mostro,%raccogli oggetti per sopravvivere più a lungo !
+Combatti gli altri giocatori,%massima energia vitale, ma nessuna vita extra ! 

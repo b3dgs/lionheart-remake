@@ -1,0 +1,7 @@
+Game:
+Livello/i:
+Difficoltà:
+Giocatore/i:
+Controller:
+Gioca
+Esci

@@ -1,35 +1,35 @@
-C26 Congratulations for
-C26 completing LIONHEART !
+C26 Congratulazioni per
+C26 aver completato LIONHEART !
 C26 (remake version)
 
 
 
-C26 The staff:
+C26 Lo staff:
 C14 ------------------
 
 L24 Erwin Kloibhofer
-L11 general programming, Schnitzel-cooking
+L11 Programmazione, cucinare Schnitzel
 L24 Michael Bittner
-L11 additional programming, intro, extro,
-L11 3D-scroller, ideas, Spaetzle
+L11 Programmazione aggiuntiva, intro, extro,
+L11 3D-scroller, ideee, Spaetzle
 L24 Henk Nieborg
-L11 graphics, animations, ideas & console
-L11 inspiration
+L11 grafica, animazioni, idee & console
+L11 inspirazione
 L24 Erik Simon
-L11 concept, game design, some colors,
-L11 curried chicken, beating up the staff
+L11 concept, game design, alcuni colori,
+L11 pollo al curry, botte allo staff
 L24 Matthias Steinwachs
-L11 composing, music, sound effects,
-L11 funny letters
+L11 composizione, musica, effetti sonori,
+L11 lettere divertenti
 L24 Matthias Moerstedt
 L11 soundroutine patching,
 L11 board supervising (sigh)
 L24 Jurie Horneman
-L11 story writing, ideas, chili con carne
+L11 Storia, idee, chili con carne
 L24 Dieter Rottermund
-L11 cover illustration
+L11 illustrazione copertina
 L24 Pierre-Alexandre
-L11 remake programming
+L11 programmazione del remake
 L24 Luciano (DrSocial)
 L11 Portuguese translation
 L24 tarr@EnglishAmigaBoard

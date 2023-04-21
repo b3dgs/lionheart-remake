@@ -1,0 +1,43 @@
+Scegli la lingua
+Lingue disponibili.
+Ingrandimento di risoluzione in base alla risoluzione originale.
+Ingrandimento selezionato.
+Ratio applicata a risoluzione ingrandita, 4/3 è la ratio originale.
+Ratio selezionata.
+Risoluzione attuale (larghezza e altezza)
+Risoluzione attuale (larghezza e altezza)
+Scegli frame rate.
+Attuale screen rate.
+Lista di risoluzioni a pieno schermo supportate da questo monitor.
+Risoluzione selezionata.
+Risoluzione selezionata.
+Selezionato: in finestra, non selezionato: a schemo pieno.
+Filtri disponibili
+Filtro selezionato.
+Lista dei gameplay disponibili.
+Gameplay selezionato.
+Imposta volume della musica.
+Attuale volume della musica.
+Seleziona volume effetti sonori.
+Attuale volume effetti sonori.
+Strategia di caricamento immagini.
+Strategia di caricamento selezionata.
+Selezionato: caricamento parallelo(default). Non selezionato: caricamento sequenziale.
+Selezionato: abilita VSync. Non selezionato: disabilita (default).
+Selezionato: abilita effetto raster (default), Non selezionato: disabilita.
+Selezionato: abilita effetto raster (default), Non selezionato: disabilita.
+Selezionato: mostra HUD (default), non selezionato: nascondi HUD.
+Selezionato: mostra livello della spada. Non selezionato: nascondi (default).
+Imposta flickering dello sfondo.
+Imposta flickering del primo piano.
+Imposta visuale troncata originale.
+Imposta visuale normalizzata del remake.
+Seleziona effetto zoom della visuale.
+Valore dello zoom selezionato.
+Valore dello zoom selezionato.
+Configura controlli.
+Salva configurazione e gioca localmente.
+Salva configurazione e gioca online come server.
+Salva configurazione e gioca online come client.
+Apri editor di gioco.
+Salva configurazione ed esci dal launcher.

@@ -30,7 +30,10 @@ L24 Dieter Rottermund
 L11 illustration de la couverture
 L24 Pierre-Alexandre
 L11 programmation du remake
-
+L24 Luciano (DrSocial)
+L11 Portuguese translation
+L24 tarr@EnglishAmigaBoard
+L11 Italian translation
 
 
 

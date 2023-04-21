@@ -1,0 +1,1 @@
+Premi "fuoco" col controller per assegnare,%change player (id) con movimento orizzontale se più di uno. 

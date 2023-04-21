@@ -1,0 +1,26 @@
+Lingua:
+Scala:
+Ratio:
+Risoluzione:
+Disponibile:
+In finestra:
+Filtro:
+Gameplay:
+Musica:
+  Sfx:
+Strateia:
+Parallel:
+VSync:
+Raster:
+Visibile:
+Spada:
+Sfondo:
+In primo piano:
+Zoom:
+Avanzato
+Controlli
+Gioca
+Crea server
+Unisicti a un server
+Editor
+Esci
