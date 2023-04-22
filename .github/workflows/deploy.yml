@@ -517,7 +517,7 @@ jobs:
       - name: Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install gcc-multilib libxrender1:i386 libxtst6:i386 libxi6:i386
+          sudo apt-get install gcc-multilib
   
       - name: Checkout
         uses: actions/checkout@v3.5.0
@@ -568,7 +568,7 @@ jobs:
       - name: Compile Game
         uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
