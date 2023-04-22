@@ -517,7 +517,7 @@ jobs:
       - name: Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install gcc-multilib libxrender1 libxtst6 libxi6
+          sudo apt-get install gcc-multilib libxrender1:i386 libxtst6:i386 libxi6:i386
   
       - name: Checkout
         uses: actions/checkout@v3.5.0
