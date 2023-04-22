@@ -6,6 +6,7 @@ Available:
 Windowed:
 Filter:
 Gameplay:
+2 bouttons:
 Music:
   Sfx:
 Strategy:

@@ -6,6 +6,7 @@ Disponible:
 Fenêtré:
 Filtre:
 Jouabilité:
+2 bouttons:
 Musique:
    Son:
 Strategy:

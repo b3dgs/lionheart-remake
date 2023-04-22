@@ -64,6 +64,8 @@ public final class Settings
 
     /** Gameplay value. */
     public static final String GAMEPLAY = "gameplay";
+    /** Gameplay two buttons mode. */
+    public static final String GAMEPLAY_TWOBUTTONS = GAMEPLAY + ".twobuttons";
 
     /** Raster key. */
     public static final String RASTER = "raster";
@@ -328,6 +330,16 @@ public final class Settings
     public GameplayType getGameplay()
     {
         return getEnum(GAMEPLAY, GameplayType.ORIGINAL, GameplayType.class);
+    }
+
+    /**
+     * Get gameplay two buttons mode.
+     * 
+     * @return The gameplay two buttons mode.
+     */
+    public boolean getGameplayTwoButtons()
+    {
+        return getBoolean(GAMEPLAY_TWOBUTTONS, false);
     }
 
     /**

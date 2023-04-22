@@ -36,6 +36,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -148,6 +149,7 @@ public final class Launcher
     private static final AtomicReference<String> LANG = new AtomicReference<>(LANG_DEFAULT);
     private static final AtomicReference<FilterType> FILTER = new AtomicReference<>(FilterType.NONE);
     private static final AtomicReference<GameplayType> GAMEPLAY = new AtomicReference<>(GameplayType.ORIGINAL);
+    private static final AtomicBoolean GAMEPLAY_TWOBUTTONS = new AtomicBoolean();
 
     private static final String FOLDER_LAUNCHER = "launcher";
     private static final String FILENAME_LANGS = "langs.txt";
@@ -182,6 +184,7 @@ public final class Launcher
     private static final String LABEL_FLICKER_BACKGROUND = "Background:";
     private static final String LABEL_FLICKER_FOREGROUND = "Foreground:";
     private static final String LABEL_GAMEPLAY = "Gameplay:";
+    private static final String LABEL_GAMEPLAY_TWOBUTTONS = "2 buttons:";
     private static final String LABEL_CONTROLS = "Controls";
     private static final String LABEL_PLAY = "Play";
     private static final String LABEL_START_SERVER = "Start Server";
@@ -548,7 +551,10 @@ public final class Launcher
         final JComboBox<GameplayType> combo = createCombo(GameplayType.values(), GAMEPLAY.get());
         combo.addActionListener(e -> GAMEPLAY.set(combo.getItemAt(combo.getSelectedIndex())));
 
-        createBorderBox(parent, label, combo);
+        final JCheckBox twobuttons = createCheck(LABEL_GAMEPLAY_TWOBUTTONS, GAMEPLAY_TWOBUTTONS);
+        twobuttons.addChangeListener(e -> GAMEPLAY_TWOBUTTONS.set(twobuttons.isSelected()));
+
+        createBorderBox(parent, label, combo, twobuttons);
 
         return combo;
     }
@@ -712,7 +718,7 @@ public final class Launcher
         {
             save();
             window.dispose();
-            AppLionheart.run(new GameConfig(), gamepad, false);
+            AppLionheart.run(new GameConfig().with(!GAMEPLAY_TWOBUTTONS.get()), gamepad, false);
         });
         LABELS.add(play::setText);
         TIPS.add(play);
@@ -967,6 +973,7 @@ public final class Launcher
 
         FILTER.set(settings.getFilter());
         GAMEPLAY.set(settings.getGameplay());
+        GAMEPLAY_TWOBUTTONS.set(settings.getGameplayTwoButtons());
         RASTER.set(settings.getRaster());
         HUD.set(settings.isHudVisible());
         HUD_SWORD.set(settings.isHudSword());
@@ -1253,66 +1260,68 @@ public final class Launcher
 
     private static void save()
     {
-        if (new File(Medias.getResourcesDirectory()).isDirectory())
+        try (FileWriter output = getSettingsWriter())
         {
-            try (FileWriter output = new FileWriter(prepareSettings()))
-            {
-                writeFormatted(output, "# undefined = system language");
-                writeFormatted(output, Settings.LANG, LANG.get());
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# undefined = desktop resolution");
-                writeFormatted(output, Settings.RESOLUTION_WIDTH, WIDTH.get());
-                writeFormatted(output, Settings.RESOLUTION_HEIGHT, HEIGHT.get());
-                writeFormatted(output, Settings.RESOLUTION_RATE, RATE.get());
-                writeFormatted(output, Settings.RESOLUTION_WINDOWED, WINDOWED.get());
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# NONE, BLUR, HQ2X, HQ3X, SCANLINE, CRT");
-                writeFormatted(output, Settings.FILTER, FILTER.get().name());
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# [0 - 100]");
-                writeFormatted(output, Settings.VOLUME, com.b3dgs.lionengine.Constant.HUNDRED);
-                writeFormatted(output, Settings.VOLUME_MUSIC, MUSIC.get());
-                writeFormatted(output, Settings.VOLUME_SFX, SFX.get());
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# ORIGINAL, ALTERNATIVE");
-                writeFormatted(output, Settings.GAMEPLAY, GAMEPLAY.get().name());
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# NONE, DIRECT, CACHE");
-                writeFormatted(output, Settings.RASTER_TYPE, RASTER.get().name());
-                output.write(System.lineSeparator());
-                writeFormatted(output, Settings.HUD_VISIBLE, HUD.get());
-                writeFormatted(output, Settings.HUD_SWORD, HUD_SWORD.get());
-                output.write(System.lineSeparator());
-                writeFormatted(output, Settings.FLICKER_BACKGROUND, FLICKER_BACKGROUND.get());
-                writeFormatted(output, Settings.FLICKER_FOREGROUND, FLICKER_FOREGROUND.get());
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# [0.8 - 1.3]");
-                writeFormatted(output, Settings.ZOOM, ZOOM.get() / 100.0);
-                output.write(System.lineSeparator());
-                writeFormatted(output, "# 0 = FAST_LOADING, 1 = FAST_RENDERING, 2 = LOW_MEMORY");
-                writeFormatted(output, Settings.FLAG_STRATEGY, FLAG_STRATEGY.get());
-                writeFormatted(output, Settings.FLAG_PARALLEL, FLAG_PARALLEL.get());
-                writeFormatted(output, Settings.FLAG_VSYNC, FLAG_VSYNC.get());
-                writeFormatted(output, Settings.FLAG_DEBUG, false);
+            writeFormatted(output, "# undefined = system language");
+            writeFormatted(output, Settings.LANG, LANG.get());
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# undefined = desktop resolution");
+            writeFormatted(output, Settings.RESOLUTION_WIDTH, WIDTH.get());
+            writeFormatted(output, Settings.RESOLUTION_HEIGHT, HEIGHT.get());
+            writeFormatted(output, Settings.RESOLUTION_RATE, RATE.get());
+            writeFormatted(output, Settings.RESOLUTION_WINDOWED, WINDOWED.get());
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# NONE, BLUR, HQ2X, HQ3X, SCANLINE, CRT");
+            writeFormatted(output, Settings.FILTER, FILTER.get().name());
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# [0 - 100]");
+            writeFormatted(output, Settings.VOLUME, com.b3dgs.lionengine.Constant.HUNDRED);
+            writeFormatted(output, Settings.VOLUME_MUSIC, MUSIC.get());
+            writeFormatted(output, Settings.VOLUME_SFX, SFX.get());
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# ORIGINAL, ALTERNATIVE");
+            writeFormatted(output, Settings.GAMEPLAY, GAMEPLAY.get().name());
+            writeFormatted(output, Settings.GAMEPLAY_TWOBUTTONS, GAMEPLAY_TWOBUTTONS.get());
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# NONE, DIRECT, CACHE");
+            writeFormatted(output, Settings.RASTER_TYPE, RASTER.get().name());
+            output.write(System.lineSeparator());
+            writeFormatted(output, Settings.HUD_VISIBLE, HUD.get());
+            writeFormatted(output, Settings.HUD_SWORD, HUD_SWORD.get());
+            output.write(System.lineSeparator());
+            writeFormatted(output, Settings.FLICKER_BACKGROUND, FLICKER_BACKGROUND.get());
+            writeFormatted(output, Settings.FLICKER_FOREGROUND, FLICKER_FOREGROUND.get());
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# [0.8 - 1.3]");
+            writeFormatted(output, Settings.ZOOM, ZOOM.get() / 100.0);
+            output.write(System.lineSeparator());
+            writeFormatted(output, "# 0 = FAST_LOADING, 1 = FAST_RENDERING, 2 = LOW_MEMORY");
+            writeFormatted(output, Settings.FLAG_STRATEGY, FLAG_STRATEGY.get());
+            writeFormatted(output, Settings.FLAG_PARALLEL, FLAG_PARALLEL.get());
+            writeFormatted(output, Settings.FLAG_VSYNC, FLAG_VSYNC.get());
+            writeFormatted(output, Settings.FLAG_DEBUG, false);
 
-                output.flush();
-            }
-            catch (final IOException exception)
-            {
-                Verbose.exception(exception);
-            }
-            Settings.load();
+            output.flush();
         }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+        Settings.load();
     }
 
-    private static File prepareSettings() throws IOException
+    private static FileWriter getSettingsWriter() throws IOException
     {
         final File file = new File(Medias.getResourcesDirectory(), Settings.FILENAME);
-        if (!file.isFile() && !file.createNewFile())
+        if (file.isFile() && file.getParentFile().isDirectory() && file.createNewFile())
         {
-            Verbose.info("Unable to create file: " + file);
+            return new FileWriter(file);
         }
-        return file;
+        try (OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
+        {
+            output.close();
+        }
+        return new FileWriter(Medias.create(Settings.FILENAME).getFile());
     }
 
     private static void writeFormatted(FileWriter output, String data) throws IOException

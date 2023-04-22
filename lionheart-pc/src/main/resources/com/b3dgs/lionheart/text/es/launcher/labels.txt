@@ -6,6 +6,7 @@ Disponible:
 Ventana:
 Filtrar:
 Juego:
+2 Botones:
 Música:
    Sfx:
 Strategy:

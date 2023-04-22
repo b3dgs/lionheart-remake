@@ -16,6 +16,7 @@ Liste des filtres disposibles.
 Filtre sélectionné.
 Liste des type de jouabilité.
 Jouabilité sélectionnée.
+Mode 2 bouttons.
 Sélectionner le volume de la musique.
 Volume de la musique.
 Sélectionner le volume d'effets sonore.

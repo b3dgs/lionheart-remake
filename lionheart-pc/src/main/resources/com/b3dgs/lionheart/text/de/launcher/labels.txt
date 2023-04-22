@@ -6,6 +6,7 @@ Erhältlich:
 Fenster Modus:
 Filter:
 Spielweise:
+2 Tasten:
 Musik:
    Sfx:
 Strategy:

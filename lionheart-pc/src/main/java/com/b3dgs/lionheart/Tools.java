@@ -82,21 +82,15 @@ public final class Tools
     {
         try
         {
-            if (new File(Medias.getResourcesDirectory()).isDirectory())
+            final File file = new File(Medias.getResourcesDirectory(), Constant.INPUT_FILE_DEFAULT);
+            if (!file.exists() && file.getParentFile().isDirectory() && !file.createNewFile())
             {
-                final File file = new File(Medias.getResourcesDirectory(), Constant.INPUT_FILE_DEFAULT);
-                if (!file.exists())
-                {
-                    if (!file.createNewFile())
-                    {
-                        Verbose.info("Unable to create file: " + file);
-                    }
-                    try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
-                         OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
-                    {
-                        UtilStream.copy(input, output);
-                    }
-                }
+                Verbose.warning("Unable to create file: " + file);
+            }
+            try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
+                 OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
+            {
+                UtilStream.copy(input, output);
             }
         }
         catch (final IOException exception)

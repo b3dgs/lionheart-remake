@@ -97,10 +97,6 @@
     <lionengine:device index="3" id="0" class="com.b3dgs.lionheart.Gamepad" name="Gamepad 1">
         <lionengine:horizontal positive="14" negative="13"/>
         <lionengine:vertical positive="11" negative="12"/>
-        <lionengine:fire index="LEFT" positive="13"/>
-        <lionengine:fire index="RIGHT" positive="14"/>
-        <lionengine:fire index="UP" positive="11"/>
-        <lionengine:fire index="DOWN" positive="12"/>
         <lionengine:fire index="CTRL_RIGHT" positive="0"/>
         <lionengine:fire index="UP" positive="1"/>
         <lionengine:fire index="PAUSE" positive="6"/>
@@ -111,10 +107,6 @@
     <lionengine:device index="4" id="1" class="com.b3dgs.lionheart.Gamepad" name="Gamepad 2">
         <lionengine:horizontal positive="14" negative="13"/>
         <lionengine:vertical positive="11" negative="12"/>
-        <lionengine:fire index="LEFT" positive="13"/>
-        <lionengine:fire index="RIGHT" positive="14"/>
-        <lionengine:fire index="UP" positive="11"/>
-        <lionengine:fire index="DOWN" positive="12"/>
         <lionengine:fire index="CTRL_RIGHT" positive="0"/>
         <lionengine:fire index="UP" positive="1"/>
         <lionengine:fire index="PAUSE" positive="6"/>
@@ -125,10 +117,6 @@
     <lionengine:device index="5" id="2" class="com.b3dgs.lionheart.Gamepad" name="Gamepad 3">
         <lionengine:horizontal positive="14" negative="13"/>
         <lionengine:vertical positive="11" negative="12"/>
-        <lionengine:fire index="LEFT" positive="13"/>
-        <lionengine:fire index="RIGHT" positive="14"/>
-        <lionengine:fire index="UP" positive="11"/>
-        <lionengine:fire index="DOWN" positive="12"/>
         <lionengine:fire index="CTRL_RIGHT" positive="0"/>
         <lionengine:fire index="UP" positive="1"/>
         <lionengine:fire index="PAUSE" positive="6"/>
@@ -139,10 +127,6 @@
     <lionengine:device index="6" id="3" class="com.b3dgs.lionheart.Gamepad" name="Gamepad 4">
         <lionengine:horizontal positive="14" negative="13"/>
         <lionengine:vertical positive="11" negative="12"/>
-        <lionengine:fire index="LEFT" positive="13"/>
-        <lionengine:fire index="RIGHT" positive="14"/>
-        <lionengine:fire index="UP" positive="11"/>
-        <lionengine:fire index="DOWN" positive="12"/>
         <lionengine:fire index="CTRL_RIGHT" positive="0"/>
         <lionengine:fire index="UP" positive="1"/>
         <lionengine:fire index="PAUSE" positive="6"/>

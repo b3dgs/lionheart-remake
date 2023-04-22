@@ -16,6 +16,7 @@ Filtri disponibili
 Filtro selezionato.
 Lista dei gameplay disponibili.
 Gameplay selezionato.
+2 Pulsanti.
 Imposta volume della musica.
 Attuale volume della musica.
 Seleziona volume effetti sonori.

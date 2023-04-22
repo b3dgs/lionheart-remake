@@ -106,7 +106,7 @@ public final class AppLionheart
 
         if (params.isEmpty())
         {
-            run(new GameConfig(), new Gamepad(), false);
+            run(new GameConfig().with(!Settings.getInstance().getGameplayTwoButtons()), new Gamepad(), false);
         }
         else
         {
@@ -252,7 +252,7 @@ public final class AppLionheart
                                   1,
                                   Optional.empty(),
                                   stage,
-                                  true,
+                                  !Settings.getInstance().getGameplayTwoButtons(),
                                   controls,
                                   new InitConfig(null, 0, 0, difficulty));
         }
@@ -279,7 +279,7 @@ public final class AppLionheart
                                   players,
                                   Optional.empty(),
                                   Optional.empty(),
-                                  true,
+                                  !Settings.getInstance().getGameplayTwoButtons(),
                                   Collections.emptyMap(),
                                   null);
         }
@@ -290,11 +290,17 @@ public final class AppLionheart
                                   players,
                                   Optional.empty(),
                                   Optional.empty(),
-                                  true,
+                                  !Settings.getInstance().getGameplayTwoButtons(),
                                   controls,
                                   new InitConfig(stageMedia, health, life, difficulty));
         }
-        return new GameConfig(game, players, Optional.empty(), Optional.empty(), true, Collections.emptyMap(), null);
+        return new GameConfig(game,
+                              players,
+                              Optional.empty(),
+                              Optional.empty(),
+                              !Settings.getInstance().getGameplayTwoButtons(),
+                              Collections.emptyMap(),
+                              null);
     }
 
     /**

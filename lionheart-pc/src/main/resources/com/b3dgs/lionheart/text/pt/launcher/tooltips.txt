@@ -16,6 +16,7 @@ Lista de filtros disponíveis.
 Filtro escolhido.
 Lista de tipos de jogo disponíveis.
 Tipo de jogo escolhido.
+2 Botões.
 Escolha o volume da música.
 Volume atual da música.
 Escolha o volume de efeitos sonoros.

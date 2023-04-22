@@ -6,6 +6,7 @@ Disponibile:
 In finestra:
 Filtro:
 Gameplay:
+2 Pulsanti:
 Musica:
   Sfx:
 Strateia:
