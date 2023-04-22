@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionengine.helper.StateHelper;
 import com.b3dgs.lionheart.DeviceMapping;
+import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.feature.Glue;
@@ -64,6 +65,8 @@ public abstract class State extends StateHelper<EntityModel>
     protected final GameplayLiana liana = new GameplayLiana();
     /** Win flag. */
     private final BooleanSupplier win;
+    /** One button flag. */
+    private final boolean oneButton;
 
     /** Object collide flag. */
     private boolean collObject;
@@ -79,6 +82,7 @@ public abstract class State extends StateHelper<EntityModel>
     {
         super(model, animation);
 
+        oneButton = model.getServices().get(GameConfig.class).isOneButton();
         movement = model.getMovement();
         jump = model.getJump();
         if (model.hasFeature(Stats.class))
@@ -241,6 +245,26 @@ public abstract class State extends StateHelper<EntityModel>
     }
 
     /**
+     * Check if button up pressed.
+     * 
+     * @return <code>true</code> if up, <code>false</code> else.
+     */
+    protected final boolean isButtonUp()
+    {
+        return oneButton ? isGoUp() || isFireOnce(DeviceMapping.UP) : isFireOnce(DeviceMapping.UP);
+    }
+
+    /**
+     * Check if button up pressed once.
+     * 
+     * @return <code>true</code> if up, <code>false</code> else.
+     */
+    protected final boolean isButtonUpOnce()
+    {
+        return oneButton ? isGoUp() || isFireOnce(DeviceMapping.UP) : isFireOnce(DeviceMapping.UP);
+    }
+
+    /**
      * Check win flag.
      * 
      * @return The win flag.
@@ -355,4 +379,5 @@ public abstract class State extends StateHelper<EntityModel>
         collObject = false;
         oldY = transformable.getY();
     }
+
 }

@@ -248,7 +248,13 @@ public final class AppLionheart
 
         if (game == GameType.STORY && stage.isPresent())
         {
-            return new GameConfig(game, 1, Optional.empty(), stage, controls, new InitConfig(null, 0, 0, difficulty));
+            return new GameConfig(game,
+                                  1,
+                                  Optional.empty(),
+                                  stage,
+                                  true,
+                                  controls,
+                                  new InitConfig(null, 0, 0, difficulty));
         }
 
         final int health = getParam(params, ARG_HEALTH, Integer.valueOf(4), Integer::parseInt, 0).intValue();
@@ -269,7 +275,13 @@ public final class AppLionheart
         }
         else
         {
-            return new GameConfig(game, players, Optional.empty(), Optional.empty(), Collections.emptyMap(), null);
+            return new GameConfig(game,
+                                  players,
+                                  Optional.empty(),
+                                  Optional.empty(),
+                                  true,
+                                  Collections.emptyMap(),
+                                  null);
         }
 
         if (stageMedia.exists())
@@ -278,10 +290,11 @@ public final class AppLionheart
                                   players,
                                   Optional.empty(),
                                   Optional.empty(),
+                                  true,
                                   controls,
                                   new InitConfig(stageMedia, health, life, difficulty));
         }
-        return new GameConfig(game, players, Optional.empty(), Optional.empty(), Collections.emptyMap(), null);
+        return new GameConfig(game, players, Optional.empty(), Optional.empty(), true, Collections.emptyMap(), null);
     }
 
     /**

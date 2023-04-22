@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StatePrepareAttack;
@@ -48,7 +47,7 @@ public final class StateLand extends State
         final SourceResolutionProvider source = model.getServices().get(SourceResolutionProvider.class);
 
         addTransition(StateIdle.class, () -> !isGoDown() && landed.elapsedTime(source.getRate(), LAND_DELAY_MS));
-        addTransition(StateJump.class, () -> !hasWin() && !isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateJump.class, () -> !hasWin() && !isFire() && isButtonUpOnce());
         addTransition(StateCrouch.class, () -> !hasWin() && isGoDown());
         addTransition(StatePrepareAttack.class, () -> !hasWin() && isFire());
         addTransition(StateFall.class,

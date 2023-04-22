@@ -19,6 +19,7 @@ package com.b3dgs.lionheart;
 import static com.b3dgs.lionengine.UtilAssert.assertEquals;
 import static com.b3dgs.lionengine.UtilAssert.assertFalse;
 import static com.b3dgs.lionengine.UtilAssert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
@@ -44,6 +45,7 @@ final class GameConfigTest
         assertEquals(1, config.getPlayers());
         assertFalse(config.getNetwork().isPresent());
         assertFalse(config.getStages().isPresent());
+        assertTrue(config.isOneButton());
         assertNull(config.getInit());
         assertEquals(SplitType.NONE, config.getSplit());
     }
@@ -54,12 +56,13 @@ final class GameConfigTest
     @Test
     void testWithOther2()
     {
-        final GameConfig config = new GameConfig().with(GameType.SPEEDRUN, 2, Collections.emptyMap());
+        final GameConfig config = new GameConfig().with(GameType.SPEEDRUN, 2, false, Collections.emptyMap());
 
         assertEquals(GameType.SPEEDRUN, config.getType());
         assertEquals(2, config.getPlayers());
         assertFalse(config.getNetwork().isPresent());
         assertFalse(config.getStages().isPresent());
+        assertFalse(config.isOneButton());
         assertNull(config.getInit());
         assertEquals(SplitType.TWO_HORIZONTAL, config.getSplit());
     }
@@ -70,12 +73,13 @@ final class GameConfigTest
     @Test
     void testWithOther4()
     {
-        final GameConfig config = new GameConfig().with(GameType.TRAINING, 4, Collections.emptyMap());
+        final GameConfig config = new GameConfig().with(GameType.TRAINING, 4, false, Collections.emptyMap());
 
         assertEquals(GameType.TRAINING, config.getType());
         assertEquals(4, config.getPlayers());
         assertFalse(config.getNetwork().isPresent());
         assertFalse(config.getStages().isPresent());
+        assertFalse(config.isOneButton());
         assertNull(config.getInit());
         assertEquals(SplitType.FOUR, config.getSplit());
     }
@@ -92,6 +96,7 @@ final class GameConfigTest
         assertEquals(1, config.getPlayers());
         assertFalse(config.getNetwork().isPresent());
         assertEquals("test", config.getStages().get());
+        assertTrue(config.isOneButton());
         assertNull(config.getInit());
         assertEquals(SplitType.NONE, config.getSplit());
     }
@@ -110,7 +115,26 @@ final class GameConfigTest
         assertEquals(1, config.getPlayers());
         assertFalse(config.getNetwork().isPresent());
         assertFalse(config.getStages().isPresent());
+        assertTrue(config.isOneButton());
         assertEquals(init, config.getInit());
+        assertEquals(SplitType.NONE, config.getSplit());
+    }
+
+    /**
+     * Test with two buttons.
+     */
+    @Test
+    void testWithTwoButtons()
+    {
+        final GameConfig config = new GameConfig().with(false);
+
+        assertFalse(config.getStages().isPresent());
+        assertEquals(GameType.STORY, config.getType());
+        assertEquals(1, config.getPlayers());
+        assertFalse(config.getNetwork().isPresent());
+        assertFalse(config.getStages().isPresent());
+        assertFalse(config.isOneButton());
+        assertNull(config.getInit());
         assertEquals(SplitType.NONE, config.getSplit());
     }
 }

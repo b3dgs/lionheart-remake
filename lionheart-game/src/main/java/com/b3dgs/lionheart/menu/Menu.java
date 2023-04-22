@@ -286,6 +286,7 @@ public class Menu extends Sequence
 
         this.config = config;
         difficulty = getDifficultyIndex(config);
+        joystick = config.isOneButton() ? 0 : 1;
         game = config.getType().ordinal();
         players = config.getPlayers() - 1;
         setSystemCursorVisible(false);
@@ -913,7 +914,7 @@ public class Menu extends Sequence
         if (GameType.is(game, GameType.STORY))
         {
             end(Intro.class,
-                config.with(type, players, controls)
+                config.with(type, players, joystick == 0, controls)
                       .with(stages0.get(0).get(this.stage).toLowerCase(Locale.ENGLISH))
                       .with(new InitConfig(null, 0, 0, difficulty)));
         }
@@ -922,22 +923,25 @@ public class Menu extends Sequence
             final String[] s = stages0.get(game).get(this.stage).split("-");
             final String set = s[0].toLowerCase(Locale.ENGLISH);
             final Media media = Util.getStage(set, difficulty, Integer.parseInt(s[1]));
-            end(Scene.class, config.with(type, players, controls).with(getInitConfig(media)));
+            end(Scene.class, config.with(type, players, joystick == 0, controls).with(getInitConfig(media)));
         }
         else if (GameType.is(game, GameType.SPEEDRUN))
         {
             final Media media = Medias.create(Folder.STAGE, Folder.SPEEDRUN, Constant.STAGE_PREFIX + stage + ".xml");
-            end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 1, 0, difficulty)));
+            end(Scene.class,
+                config.with(type, players, joystick == 0, controls).with(new InitConfig(media, 1, 0, difficulty)));
         }
         else if (GameType.is(game, GameType.BATTLE))
         {
             final Media media = Medias.create(Folder.STAGE, Folder.BATTLE, Constant.STAGE_PREFIX + stage + ".xml");
-            end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 8, 0, difficulty)));
+            end(Scene.class,
+                config.with(type, players, joystick == 0, controls).with(new InitConfig(media, 8, 0, difficulty)));
         }
         else if (GameType.is(game, GameType.VERSUS))
         {
             final Media media = Medias.create(Folder.STAGE, Folder.VERSUS, Constant.STAGE_PREFIX + stage + ".xml");
-            end(Scene.class, config.with(type, players, controls).with(new InitConfig(media, 8, 0, difficulty)));
+            end(Scene.class,
+                config.with(type, players, joystick == 0, controls).with(new InitConfig(media, 8, 0, difficulty)));
         }
     }
 
@@ -955,7 +959,7 @@ public class Menu extends Sequence
         }
         final StageConfig stageConfig = StageConfig.imports(new Configurer(stage));
         end(ScenePicture.class,
-            config.with(getInitConfig(stage)),
+            config.with(joystick == 0).with(getInitConfig(stage)),
             stageConfig.getPic().get(),
             stageConfig.getText().get());
     }

@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
-import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.constant.CollisionName;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
@@ -42,7 +41,7 @@ public final class StateBorder extends State
 
         addTransition(StateWalk.class, () -> !hasWin() && !collideX.get() && isGoHorizontal());
         addTransition(StateCrouch.class, () -> !hasWin() && collideY.get() && isGoDown());
-        addTransition(StateJump.class, () -> !hasWin() && collideY.get() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateJump.class, () -> !hasWin() && collideY.get() && isButtonUpOnce());
         addTransition(StatePrepareAttack.class, () -> !hasWin() && collideY.get() && isFire());
         addTransition(StateFall.class,
                       () -> !hasWin()

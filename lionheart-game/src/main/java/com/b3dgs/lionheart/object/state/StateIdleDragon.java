@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
@@ -45,7 +44,7 @@ public final class StateIdleDragon extends State
         addTransition(StateAttackDragon.class, this::isFireOnce);
         addTransition(StateJump.class, () ->
         {
-            unlock.set(isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+            unlock.set(isFire() && isButtonUpOnce());
             return unlock.get();
         });
     }

@@ -53,7 +53,7 @@ public class StateSlideBase extends State
 
         addTransition(StateIdle.class, () -> (!steep.is() || abord.get()) && !model.hasFeature(Patrol.class));
         addTransition(StatePatrol.class, () -> (!steep.is() || abord.get()) && model.hasFeature(Patrol.class));
-        addTransition(StateJump.class, () -> (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateJump.class, this::isButtonUpOnce);
     }
 
     /**

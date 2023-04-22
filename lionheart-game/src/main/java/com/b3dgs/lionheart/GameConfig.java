@@ -34,13 +34,14 @@ public class GameConfig
     private final Optional<String> stages;
     private final Map<Integer, Integer> controls;
     private final InitConfig init;
+    private final boolean oneButton;
 
     /**
      * Create first configuration.
      */
     public GameConfig()
     {
-        this(GameType.STORY, 1, Optional.empty(), Optional.empty(), Collections.emptyMap(), null);
+        this(GameType.STORY, 1, Optional.empty(), Optional.empty(), true, Collections.emptyMap(), null);
     }
 
     /**
@@ -50,6 +51,7 @@ public class GameConfig
      * @param players The players number.
      * @param network The network configuration if online, absent if local.
      * @param stages The stages set.
+     * @param oneButton <code>true</code> for one button mode, <code>false</code> two buttons.
      * @param controls The player id as key, the control index as value.
      * @param init The init configuration.
      */
@@ -57,6 +59,7 @@ public class GameConfig
                       int players,
                       Optional<Network> network,
                       Optional<String> stages,
+                      boolean oneButton,
                       Map<Integer, Integer> controls,
                       InitConfig init)
     {
@@ -68,6 +71,7 @@ public class GameConfig
         this.stages = stages;
         this.controls = controls;
         this.init = init;
+        this.oneButton = oneButton;
     }
 
     /**
@@ -75,12 +79,13 @@ public class GameConfig
      * 
      * @param type The type.
      * @param players The players number.
+     * @param oneButton <code>true</code> for one button mode, <code>false</code> two buttons.
      * @param controls The custom controls.
      * @return The new configuration.
      */
-    public GameConfig with(GameType type, int players, Map<Integer, Integer> controls)
+    public GameConfig with(GameType type, int players, boolean oneButton, Map<Integer, Integer> controls)
     {
-        return new GameConfig(type, players, network, stages, controls, init);
+        return new GameConfig(type, players, network, stages, oneButton, controls, init);
     }
 
     /**
@@ -91,7 +96,18 @@ public class GameConfig
      */
     public GameConfig with(String stages)
     {
-        return new GameConfig(type, players, network, Optional.ofNullable(stages), controls, init);
+        return new GameConfig(type, players, network, Optional.ofNullable(stages), oneButton, controls, init);
+    }
+
+    /**
+     * Create with custom button.
+     * 
+     * @param oneButton <code>true</code> for one button mode, <code>false</code> two buttons.
+     * @return The new configuration.
+     */
+    public GameConfig with(boolean oneButton)
+    {
+        return new GameConfig(type, players, network, stages, oneButton, controls, init);
     }
 
     /**
@@ -102,7 +118,7 @@ public class GameConfig
      */
     public GameConfig with(InitConfig init)
     {
-        return new GameConfig(type, players, network, stages, controls, init);
+        return new GameConfig(type, players, network, stages, oneButton, controls, init);
     }
 
     /**
@@ -143,6 +159,16 @@ public class GameConfig
     public Optional<String> getStages()
     {
         return stages;
+    }
+
+    /**
+     * Get the one button flag.
+     * 
+     * @return <code>true</code> for one button mode, <code>false</code> two buttons.
+     */
+    public boolean isOneButton()
+    {
+        return oneButton;
     }
 
     /**

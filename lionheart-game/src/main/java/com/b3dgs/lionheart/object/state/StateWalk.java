@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
 import com.b3dgs.lionheart.Constant;
-import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.GameplayType;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.constant.CollisionName;
@@ -63,7 +62,7 @@ public final class StateWalk extends State
                             || isGoLeft() && collideXleft.get()
                             || isWalkingSlowEnough());
         addTransition(StateCrouch.class, this::isGoDown);
-        addTransition(StateJump.class, () -> (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateJump.class, this::isButtonUpOnce);
         addTransition(StateFall.class,
                       () -> model.hasGravity()
                             && Double.compare(movement.getDirectionHorizontal(), 0.0) != 0
