@@ -509,7 +509,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      JDK_VERSION: "8.0.362+9"
+      JDK_VERSION: "8"
       AUDIODEV: "null"
       APP_PLATFORM: "linux-x86-32"
 
@@ -535,7 +535,7 @@ jobs:
         uses: actions/setup-java@v3.11.0
         with:
           java-version: |
-            ${{ env.JDK_VERSION }}
+            8.0.362+9
             17
           distribution: 'zulu'
           mvn-toolchain-id: |
