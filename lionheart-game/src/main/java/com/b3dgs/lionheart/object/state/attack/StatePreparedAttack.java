@@ -52,12 +52,16 @@ public final class StatePreparedAttack extends State
 
     private boolean canAttackHorizontal()
     {
-        return isFire() && (is(Mirror.HORIZONTAL) && isGoLeftOnce() || is(Mirror.NONE) && isGoRightOnce());
+        return !isGoDown()
+               && isFire()
+               && (is(Mirror.HORIZONTAL) && isGoLeftOnce() || is(Mirror.NONE) && isGoRightOnce());
     }
 
     private boolean canAttackTurning()
     {
-        return isFire() && (is(Mirror.NONE) && isGoLeftOnce() || is(Mirror.HORIZONTAL) && isGoRightOnce());
+        return !isGoDown()
+               && isFire()
+               && (is(Mirror.NONE) && isGoLeftOnce() || is(Mirror.HORIZONTAL) && isGoRightOnce());
     }
 
     @Override
