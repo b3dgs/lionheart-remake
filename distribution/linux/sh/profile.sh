@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ----------------------- DOCUMENTATION -----------------------
 # game modes: -game [story, training, speedrun, battle, versus]
@@ -25,6 +25,9 @@ export ARGS="-game story -stage original"
 # ----------------------- DO NOT CHANGE -----------------------
 export VERSION=%%INPUT_APPV%%
 export PARAM="-server -splash:splash.png -jar lionheart-pc-"$VERSION".jar "
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path"
 
 cd data
 jre_linux-x86_64/bin/java $PARAM $ARGS
