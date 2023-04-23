@@ -231,7 +231,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFire()
     {
-        return isFire(DeviceMapping.CTRL_RIGHT);
+        return isFire(DeviceMapping.ATTACK);
     }
 
     /**
@@ -241,7 +241,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isFireOnce()
     {
-        return isFireOnce(DeviceMapping.CTRL_RIGHT);
+        return isFireOnce(DeviceMapping.ATTACK);
     }
 
     /**
@@ -251,7 +251,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isButtonUp()
     {
-        return oneButton ? isGoUp() || isFireOnce(DeviceMapping.UP) : isFireOnce(DeviceMapping.UP);
+        return oneButton ? isGoUp() || isFireOnce(DeviceMapping.JUMP) : isFireOnce(DeviceMapping.JUMP);
     }
 
     /**
@@ -261,7 +261,7 @@ public abstract class State extends StateHelper<EntityModel>
      */
     protected final boolean isButtonUpOnce()
     {
-        return oneButton ? isGoUp() || isFireOnce(DeviceMapping.UP) : isFireOnce(DeviceMapping.UP);
+        return oneButton ? isGoUp() || isFireOnce(DeviceMapping.JUMP) : isFireOnce(DeviceMapping.JUMP);
     }
 
     /**

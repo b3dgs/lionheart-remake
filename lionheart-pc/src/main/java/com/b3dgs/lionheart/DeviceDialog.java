@@ -104,10 +104,10 @@ public class DeviceDialog extends JDialog
 
         final JPanel panel = new JPanel(new GridLayout(0, 1));
 
-        createAxis(panel, Axis.X + " -", negativeX, controller);
-        createAxis(panel, Axis.X + " +", positiveX, controller);
-        createAxis(panel, Axis.Y + " -", negativeY, controller);
         createAxis(panel, Axis.Y + " +", positiveY, controller);
+        createAxis(panel, Axis.Y + " -", negativeY, controller);
+        createAxis(panel, Axis.X + " +", positiveX, controller);
+        createAxis(panel, Axis.X + " -", negativeX, controller);
 
         for (final DeviceMapper mapping : DeviceMapping.values())
         {
@@ -134,15 +134,17 @@ public class DeviceDialog extends JDialog
             f.add(entry.getValue());
             fires.put(entry.getKey().getIndex(), f);
         }
-        config.getHorizontal().clear();
+
         config.getVertical().clear();
-        if (negativeX.get() != null && positiveX.get() != null)
+        if (positiveY.get() != null && negativeY != null)
         {
-            config.getHorizontal().add(new DeviceAxis(negativeX.get(), positiveX.get()));
+            config.getVertical().add(new DeviceAxis(positiveY.get(), negativeY.get()));
         }
-        if (negativeY.get() != null && negativeY != null)
+
+        config.getHorizontal().clear();
+        if (positiveX.get() != null && negativeX.get() != null)
         {
-            config.getVertical().add(new DeviceAxis(negativeY.get(), positiveY.get()));
+            config.getHorizontal().add(new DeviceAxis(positiveX.get(), negativeX.get()));
         }
 
         final DeviceControllerConfig result = new DeviceControllerConfig(config.getName(),
@@ -161,15 +163,15 @@ public class DeviceDialog extends JDialog
         final String name = controller.getName();
         if (name.equals(config.getDevice().getSimpleName()))
         {
-            if (!config.getHorizontal().isEmpty())
-            {
-                negativeX.set(config.getHorizontal().get(0).getNegative());
-                positiveX.set(config.getHorizontal().get(0).getPositive());
-            }
             if (!config.getVertical().isEmpty())
             {
-                negativeY.set(config.getVertical().get(0).getNegative());
                 positiveY.set(config.getVertical().get(0).getPositive());
+                negativeY.set(config.getVertical().get(0).getNegative());
+            }
+            if (!config.getHorizontal().isEmpty())
+            {
+                positiveX.set(config.getHorizontal().get(0).getPositive());
+                negativeX.set(config.getHorizontal().get(0).getNegative());
             }
 
             final DeviceMapping[] values = DeviceMapping.values();

@@ -48,7 +48,7 @@ public final class StateLianaIdle extends State
 
         addTransition(StateLianaSlide.class, () -> (liana.isLeft() || liana.isRight()) && !isGoDown());
         addTransition(StateLianaWalk.class, this::isGoHorizontal);
-        addTransition(StateLianaSoar.class, () -> liana.is() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateLianaSoar.class, () -> liana.is() && (isGoUpOnce() || isFire(DeviceMapping.JUMP)));
         addTransition(StateAttackLiana.class, this::isFireOnce);
         addTransition(StateFall.class, () -> !liana.is() || isGoDown());
     }

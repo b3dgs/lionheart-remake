@@ -23,20 +23,18 @@ import com.b3dgs.lionengine.io.DeviceMapper;
  */
 public enum DeviceMapping implements DeviceMapper
 {
-    /** Move. */
-    MOVE,
+    /** Attack. */
+    ATTACK,
+    /** Jump. */
+    JUMP,
+    /** Down. */
+    DOWN,
     /** Left. */
     LEFT,
     /** Right. */
     RIGHT,
-    /** Up. */
-    UP,
-    /** Down. */
-    DOWN,
-    /** Action right. */
-    CTRL_RIGHT,
-    /** Action left. */
-    CTRL_LEFT,
+    /** Cheat. */
+    CHEAT,
     /** Pause. */
     PAUSE,
     /** Quit. */
@@ -45,6 +43,10 @@ public enum DeviceMapping implements DeviceMapper
     TAB,
     /** Cheats. */
     PAGE_DOWN,
+    /** Zoom in. */
+    ZOOM_IN,
+    /** Zoom out. */
+    ZOOM_OUT,
     /** Stage 1. */
     F1,
     /** Stage 2. */
@@ -80,7 +82,9 @@ public enum DeviceMapping implements DeviceMapper
     /** Quick load. */
     QUICK_LOAD,
     /** Force exit. */
-    FORCE_EXIT;
+    FORCE_EXIT,
+    /** Move. */
+    MOVE;
 
     /**
      * Convert from index.

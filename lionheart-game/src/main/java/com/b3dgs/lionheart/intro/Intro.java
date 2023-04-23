@@ -150,7 +150,7 @@ public class Intro extends Sequence
      */
     private void updateSkip(double extrp)
     {
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
+        if (device.isFiredOnce(DeviceMapping.ATTACK) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
         {
             alphaSpeed = SPEED_FADE_OUT;
             updaterFade = this::updateFadeOut;

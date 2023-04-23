@@ -57,9 +57,9 @@ public final class TestPart1 extends Part1
 
         device.addFire(null,
                        push,
-                       DeviceMapping.UP.getIndex(),
-                       DeviceMapping.UP.getIndex(),
-                       new DeviceActionModel(DeviceMapping.UP.getIndex(), push));
+                       DeviceMapping.JUMP.getIndex(),
+                       DeviceMapping.JUMP.getIndex(),
+                       new DeviceActionModel(DeviceMapping.JUMP.getIndex(), push));
         device.addFire(null,
                        push,
                        DeviceMapping.DOWN.getIndex(),
@@ -67,9 +67,9 @@ public final class TestPart1 extends Part1
                        new DeviceActionModel(DeviceMapping.DOWN.getIndex(), push));
         device.addFire(null,
                        push,
-                       DeviceMapping.CTRL_RIGHT.getIndex(),
-                       DeviceMapping.CTRL_RIGHT.getIndex(),
-                       new DeviceActionModel(DeviceMapping.CTRL_RIGHT.getIndex(), push));
+                       DeviceMapping.ATTACK.getIndex(),
+                       DeviceMapping.ATTACK.getIndex(),
+                       new DeviceActionModel(DeviceMapping.ATTACK.getIndex(), push));
         device.addFire(null,
                        push,
                        DeviceMapping.FORCE_EXIT.getIndex(),

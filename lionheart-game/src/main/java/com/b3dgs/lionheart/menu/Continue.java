@@ -327,7 +327,7 @@ public class Continue extends Sequence
             Sfx.MENU_SELECT.play();
         }
         // Accept choice
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
+        if (device.isFiredOnce(DeviceMapping.ATTACK)
             || deviceCursor.isFiredOnce(DeviceMapping.LEFT)
             || timeLeft.elapsedTime(getRate()) > TIME_MAX_MS)
         {

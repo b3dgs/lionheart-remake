@@ -60,7 +60,7 @@ public final class StateJump extends State
 
         checkJumpStopped = extrp ->
         {
-            if (!isFire() && Double.compare(device.getVerticalDirection(), 0.0) <= 0 && !isFire(DeviceMapping.UP))
+            if (!isFire() && Double.compare(device.getVerticalDirection(), 0.0) <= 0 && !isFire(DeviceMapping.JUMP))
             {
                 check = UpdatableVoid.getInstance();
                 jump.setDirectionMaximum(new Force(0.0,

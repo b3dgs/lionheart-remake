@@ -349,7 +349,7 @@ public class Cheats implements Updatable, Renderable
      */
     private void updateOriginal()
     {
-        if (paused && device.isFired(DeviceMapping.CTRL_LEFT))
+        if (paused && device.isFired(DeviceMapping.CHEAT))
         {
             if (!player.isState(StateCrouch.class))
             {
@@ -358,7 +358,7 @@ public class Cheats implements Updatable, Renderable
             }
             else if (device.isFiredOnce(DeviceMapping.PAGE_DOWN))
             {
-                device.isFiredOnce(DeviceMapping.CTRL_LEFT);
+                device.isFiredOnce(DeviceMapping.CHEAT);
                 enabled = !enabled;
                 shaker.start();
                 paused = false;
@@ -420,7 +420,7 @@ public class Cheats implements Updatable, Renderable
      */
     private void updateCheatsFly()
     {
-        if (device.isFiredOnce(DeviceMapping.CTRL_LEFT))
+        if (device.isFiredOnce(DeviceMapping.CHEAT))
         {
             fly = !fly;
             unlockPlayer(fly);

@@ -44,7 +44,7 @@ public final class StatePreparedAttackCrouch extends State
 
         addTransition(StateUnprepareAttackCrouch.class, () -> !isFire());
         addTransition(StateAttackCrouchHorizontal.class, () -> isFire() && (isGoLeftOnce() || isGoRightOnce()));
-        addTransition(StateAttackTop.class, () -> isFire() && (isGoUpOnce() || isFire(DeviceMapping.UP)));
+        addTransition(StateAttackTop.class, () -> isFire() && (isGoUpOnce() || isFire(DeviceMapping.JUMP)));
         addTransition(StateWin.class, this::hasWin);
     }
 

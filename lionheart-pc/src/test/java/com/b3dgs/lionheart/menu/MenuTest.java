@@ -75,22 +75,22 @@ final class MenuTest
         final DevicePushMock push = new DevicePushMock();
         final List<TickAction> actions = new ArrayList<>();
 
-        DevicePushMock.addSimu(actions, push, DeviceMapping.CTRL_RIGHT);
-        DevicePushMock.addSimu(actions, push, DeviceMapping.CTRL_RIGHT);
+        DevicePushMock.addSimu(actions, push, DeviceMapping.ATTACK);
+        DevicePushMock.addSimu(actions, push, DeviceMapping.ATTACK);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
-        DevicePushMock.addSimu(actions, push, DeviceMapping.CTRL_RIGHT);
+        DevicePushMock.addSimu(actions, push, DeviceMapping.ATTACK);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
-        DevicePushMock.addSimu(actions, push, DeviceMapping.CTRL_RIGHT);
+        DevicePushMock.addSimu(actions, push, DeviceMapping.ATTACK);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
         DevicePushMock.addSimu(actions, push, DeviceMapping.DOWN);
-        DevicePushMock.addSimu(actions, push, DeviceMapping.CTRL_RIGHT);
+        DevicePushMock.addSimu(actions, push, DeviceMapping.ATTACK);
 
         final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              TestMenu.class,

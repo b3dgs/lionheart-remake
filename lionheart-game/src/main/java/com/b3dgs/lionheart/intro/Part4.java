@@ -216,7 +216,7 @@ public class Part4 extends Sequence
      */
     private void checkSkip()
     {
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
+        if (device.isFiredOnce(DeviceMapping.ATTACK) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
         {
             updater = this::updateFadeOut;
             rendererFade = this::renderFade;

@@ -108,7 +108,7 @@ public class StateAttackLianaSlide extends State
     {
         super.exit();
 
-        if (isGoUp() || isFire(DeviceMapping.UP))
+        if (isGoUp() || isFire(DeviceMapping.JUMP))
         {
             movement.setDestination(0.0, 0.0);
         }

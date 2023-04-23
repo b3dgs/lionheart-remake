@@ -417,7 +417,7 @@ public class Part3 extends Sequence
      */
     private void updateSkip(double extrp)
     {
-        skip = device.isFiredOnce(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT);
+        skip = device.isFiredOnce(DeviceMapping.ATTACK) || deviceCursor.isFiredOnce(DeviceMapping.LEFT);
 
         if (time.isAfter(TIME_FADE_OUT_MS) || skip)
         {

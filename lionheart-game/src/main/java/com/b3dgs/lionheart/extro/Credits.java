@@ -291,7 +291,7 @@ public class Credits extends Sequence
                 text.setLocation(text.getX(), text.getY() - SCROLL_SPEED * extrp);
             }
         }
-        else if (device.isFired(DeviceMapping.CTRL_RIGHT) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
+        else if (device.isFired(DeviceMapping.ATTACK) || deviceCursor.isFiredOnce(DeviceMapping.LEFT))
         {
             updater = this::updateFadeOut;
             rendererFade = this::renderFade;

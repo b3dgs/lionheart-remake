@@ -112,7 +112,7 @@ public class StateSlideBase extends State
 
         movement.zero();
 
-        if (isGoUp() || isFire(DeviceMapping.UP))
+        if (isGoUp() || isFire(DeviceMapping.JUMP))
         {
             movement.setDirection(SPEED_JUMP_X * steep.getSide(), 0.0);
             jump.setDirectionMaximum(SPEED_JUMP_Y);

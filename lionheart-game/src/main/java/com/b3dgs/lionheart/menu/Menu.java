@@ -299,7 +299,7 @@ public class Menu extends Sequence
 
         listener = (n, p, c, f) ->
         {
-            if (choice == 4 && device.isFired(DeviceMapping.CTRL_RIGHT))
+            if (choice == 4 && device.isFired(DeviceMapping.ATTACK))
             {
                 controls.put(Integer.valueOf(controller), Integer.valueOf(controllers0.indexOf(n)));
             }
@@ -600,7 +600,7 @@ public class Menu extends Sequence
      */
     private void handleOptionMusic()
     {
-        if (device.isFiredOnce(DeviceMapping.CTRL_RIGHT))
+        if (device.isFiredOnce(DeviceMapping.ATTACK))
         {
             stopAudio();
             if (music > 0)
@@ -780,7 +780,7 @@ public class Menu extends Sequence
             movedVertical = false;
         }
 
-        if (!movedVertical && (device.getVerticalDirection() > 0 || device.isFiredOnce(DeviceMapping.UP)))
+        if (!movedVertical && (device.getVerticalDirection() > 0 || device.isFiredOnce(DeviceMapping.JUMP)))
         {
             choice--;
             if (type == MenuType.LAUNCHER
@@ -822,7 +822,7 @@ public class Menu extends Sequence
         final MenuType next = data.choices[choice].getNext();
         // Accept choice
         if (next != null
-            && (device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
+            && (device.isFiredOnce(DeviceMapping.ATTACK)
                 || deviceCursor.isFiredOnce(DeviceMapping.LEFT) && data.choices[choice].isOver(cursor)))
         {
             typeNext = next;

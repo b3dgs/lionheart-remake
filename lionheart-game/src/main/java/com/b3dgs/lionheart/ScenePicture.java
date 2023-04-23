@@ -209,7 +209,7 @@ public final class ScenePicture extends Sequence
             tick.start();
         }
         else if (auto.booleanValue()
-                 || device.isFiredOnce(DeviceMapping.CTRL_RIGHT)
+                 || device.isFiredOnce(DeviceMapping.ATTACK)
                  || deviceCursor.isFiredOnce(DeviceMapping.LEFT.getIndex()))
         {
             speed = -speed;
