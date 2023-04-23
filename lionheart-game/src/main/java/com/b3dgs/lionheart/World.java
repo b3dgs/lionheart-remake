@@ -49,6 +49,7 @@ import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -87,6 +88,7 @@ import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.engine.Zooming;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.helper.EntityInputController;
 import com.b3dgs.lionengine.helper.MapTileHelper;
@@ -132,6 +134,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private static final int ALLDEAD_DELAY_MS = 2000;
     private static final int PARALLEL_LOAD_TIMEOUT_SEC = 30;
     private static final String MAP_BOTTOM = "_bottom";
+    private static final double ZOOM_OUT_MAX = 1.35;
+    private static final double ZOOM_IN_MAX = 0.9;
+    private static final double ZOOM_SPEED = 0.005;
 
     /**
      * Load player raster.
@@ -160,6 +165,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final boolean debug;
     private final GameConfig game;
     private final Tick spawnTick = new Tick();
+    private final Zooming zooming;
+    private final double zoomPref;
+    private final Force zoom;
 
     private final Camera[] splitCamera;
     private final CameraTracker[] splitTracker;
@@ -205,6 +213,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         componentCollision.setVisible(Constant.DEBUG_COLLISIONS);
 
         this.game = game;
+        zoomPref = Settings.getInstance().getZoom();
+        zoom = new Force(zoomPref, 0.0, ZOOM_SPEED, 0.01);
         debug = Settings.getInstance().isFlagDebug();
 
         services.add(tracker);
@@ -222,6 +232,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 World.this.stopMusic();
             }
         });
+        zooming = services.get(Zooming.class);
 
         map.addFeature(new LayerableModel(4, 2));
         map.addFeature(new MapTilePersisterOptimized(), true);
@@ -1364,6 +1375,29 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         spawnTick.update(extrp);
     }
 
+    private void updateZoom(double extrp)
+    {
+        if (device.isFired(DeviceMapping.ZOOM_OUT))
+        {
+            zoom.setDestination(ZOOM_OUT_MAX, 0.0);
+
+        }
+        else if (device.isFired(DeviceMapping.ZOOM_IN))
+        {
+            zoom.setDestination(ZOOM_IN_MAX, 0.0);
+        }
+        else
+        {
+            zoom.setDestination(zoomPref, 0.0);
+        }
+        final double zoomOld = zoom.getDirectionHorizontal();
+        zoom.update(extrp);
+        if (Double.compare(zoomOld, zoom.getDirectionHorizontal()) != 0)
+        {
+            zooming.setZoom(zoom.getDirectionHorizontal());
+        }
+    }
+
     /**
      * Load the stage from configuration.
      * 
@@ -1597,8 +1631,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tick.update(extrp);
             super.update(extrp);
             checkpoints.update(extrp);
-
             landscape.update(extrp, camera);
+            updateZoom(extrp);
 
             if (trackerY > 0)
             {

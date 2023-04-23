@@ -10,6 +10,8 @@
         <lionengine:fire index="QUIT" positive="27"/>
         <lionengine:fire index="TAB" positive="9"/>
         <lionengine:fire index="PAGE_DOWN" positive="34"/>
+        <lionengine:fire index="ZOOM_IN" positive="107"/>
+        <lionengine:fire index="ZOOM_OUT" positive="109"/>
         <lionengine:fire index="F1" positive="112"/>
         <lionengine:fire index="F2" positive="113"/>
         <lionengine:fire index="F3" positive="114"/>
@@ -38,6 +40,8 @@
         <lionengine:fire index="QUIT" positive="27"/>
         <lionengine:fire index="TAB" positive="9"/>
         <lionengine:fire index="PAGE_DOWN" positive="34"/>
+        <lionengine:fire index="ZOOM_IN" positive="107"/>
+        <lionengine:fire index="ZOOM_OUT" positive="109"/>
         <lionengine:fire index="F1" positive="112"/>
         <lionengine:fire index="F2" positive="113"/>
         <lionengine:fire index="F3" positive="114"/>
@@ -59,13 +63,15 @@
     <lionengine:device class="com.b3dgs.lionengine.awt.Keyboard" id="0" index="2" name="Pav num">
         <lionengine:horizontal negative="100" positive="102"/>
         <lionengine:vertical negative="98" positive="101"/>
-        <lionengine:fire index="JUMP" positive="107"/>
-        <lionengine:fire index="ATTACK" positive="10"/>
+        <lionengine:fire index="JUMP" positive="105"/>
+        <lionengine:fire index="ATTACK" positive="104"/>
         <lionengine:fire index="CHEAT" positive="16711697"/>
         <lionengine:fire index="PAUSE" positive="80"/>
         <lionengine:fire index="QUIT" positive="27"/>
         <lionengine:fire index="TAB" positive="9"/>
         <lionengine:fire index="PAGE_DOWN" positive="34"/>
+        <lionengine:fire index="ZOOM_IN" positive="107"/>
+        <lionengine:fire index="ZOOM_OUT" positive="109"/>
         <lionengine:fire index="F1" positive="112"/>
         <lionengine:fire index="F2" positive="113"/>
         <lionengine:fire index="F3" positive="114"/>
