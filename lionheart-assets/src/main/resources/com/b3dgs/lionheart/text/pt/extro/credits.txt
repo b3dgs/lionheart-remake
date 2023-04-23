@@ -32,7 +32,7 @@ L24 Pierre-Alexandre
 L11 remake programming
 L24 Luciano (DrSocial)
 L11 Portuguese translation
-L24 tarr@EnglishAmigaBoard
+L24 tarr@EnglishAmigaBoard Mod3m from Darkage and Lanch form X-Zone
 L11 Italian translation
 
 
