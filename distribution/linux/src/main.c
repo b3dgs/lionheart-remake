@@ -18,6 +18,6 @@
 
 int main(int argc, char** argv)
 {
-   system("cd data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-%%INPUT_APPV%%.jar");
+   system("cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-%%INPUT_APPV%%.jar");
    return 0;
 }
