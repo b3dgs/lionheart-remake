@@ -697,7 +697,7 @@ jobs:
           secure: false
 
   macos-x86-64:
-    runs-on: macos-latest
+    runs-on: macOS-11
 
     env:
       JDK_VERSION: "8"
@@ -777,6 +777,14 @@ jobs:
           _format-key: '%%key%%'
           INPUT_APPV: ${{ env.APP_VERSION }}
 
+      - name: Update main.c version
+        uses: bluwy/substitute-string-action@v2.0.1
+        with:
+          _input-file: 'distribution/linux/src/main.c'
+          _output-file: 'distribution/linux/src/main.c'
+          _format-key: '%%key%%'
+          INPUT_APPV: ${{ env.APP_VERSION }}
+
       - name: Prepare folders
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
@@ -813,6 +821,12 @@ jobs:
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
           jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
+
+      - name: Compile C
+        run: |
+          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+          gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
+          chmod +x build/$TARGET/lionheart-remake
 
       - name: Make Archive
         run: |
