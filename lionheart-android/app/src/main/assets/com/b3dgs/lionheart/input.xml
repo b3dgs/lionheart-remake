@@ -5,11 +5,11 @@
         <lionengine:vertical positive="4" negative="3"/>
         <lionengine:fire index="LEFT" positive="1"/>
         <lionengine:fire index="RIGHT" positive="2"/>
-        <lionengine:fire index="UP" positive="4"/>
+        <lionengine:fire index="JUMP" positive="4"/>
         <lionengine:fire index="DOWN" positive="3"/>
-        <lionengine:fire index="CTRL_RIGHT" positive="0"/>
+        <lionengine:fire index="ATTACK" positive="0"/>
         <lionengine:fire index="PAUSE" positive="5"/>
-        <lionengine:fire index="CTRL_LEFT" positive="6"/>
+        <lionengine:fire index="CHEAT" positive="6"/>
         <lionengine:fire index="TAB" positive="7"/>
         <lionengine:fire index="PAGE_DOWN" positive="8"/>
         <lionengine:fire index="F1" positive="9"/>
@@ -27,16 +27,18 @@
         <lionengine:fire index="K3" positive="21"/>
         <lionengine:fire index="K4" positive="22"/>
         <lionengine:fire index="K5" positive="23" />
+        <lionengine:fire index="ZOOM_IN" positive="24"/>
+        <lionengine:fire index="ZOOM_OUT" positive="25"/>
     </lionengine:device>
     <lionengine:device index="1" class="com.b3dgs.lionengine.android.Gamepad" name="Gamepad">
         <lionengine:horizontal positive="2" negative="1"/>
         <lionengine:vertical positive="0" negative="3"/>
-        <lionengine:fire index="UP" positive="97"/>
-        <lionengine:fire index="CTRL_RIGHT" positive="96"/>
+        <lionengine:fire index="JUMP" positive="97"/>
+        <lionengine:fire index="ATTACK" positive="96"/>
         <lionengine:fire index="PAUSE" positive="100"/>
         <lionengine:fire index="QUIT" positive="99"/>
         <lionengine:fire index="TAB" positive="102"/>
-        <lionengine:fire index="CTRL_LEFT" positive="103"/>
+        <lionengine:fire index="CHEAT" positive="103"/>
         <lionengine:fire index="PAGE_DOWN" positive="104"/>
     </lionengine:device>
 </lionengine:input>
