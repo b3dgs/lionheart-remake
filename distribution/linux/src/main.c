@@ -15,9 +15,45 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char** argv)
 {
-   system("cd data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-%%INPUT_APPV%%.jar");
+   const char cmd0[] = "cd ";
+   const char cmd1[] = "data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-1.3.0-SNAPSHOT.jar";
+   int start = strchr(argv[0], '/') - argv[0];
+   const int end = strrchr(argv[0], '/') - argv[0];
+
+   // Double click run
+   if (argv[0][0] == '.')
+   {
+      start++;
+   }
+
+   // Run from outside
+   if (end > start)
+   {
+      char path[end - start];
+      strncpy(path, argv[0] + start, end - start);
+
+      char cmd2[sizeof(cmd0) + sizeof(char) + sizeof(path) + sizeof(cmd1)];
+      strcpy(cmd2, "");
+      strcat(cmd2, cmd0);
+      strcat(cmd2, path);
+      strcat(cmd2, "/");
+      strcat(cmd2, cmd1);
+
+      system(cmd2);
+   }
+   // Run from local
+   else
+   {
+      char cmd2[sizeof(cmd0) + sizeof(cmd1)] = "";
+      strcat(cmd2, cmd0);
+      strcat(cmd2, cmd1);
+
+      system(cmd2);
+   }
+   
    return 0;
 }
