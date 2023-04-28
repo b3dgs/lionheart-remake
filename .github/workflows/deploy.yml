@@ -825,7 +825,7 @@ jobs:
       - name: Compile C
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
+          clang distribution/linux/src/main.c -o build/$TARGET/lionheart-remake
           chmod +x build/$TARGET/lionheart-remake
 
       - name: Make Archive
