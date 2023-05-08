@@ -43,7 +43,18 @@ int main(int argc, char** argv)
       strcat(cmd2, "/");
       strcat(cmd2, cmd1);
 
-      system(cmd2);
+      if (cmd2[0] == '.' && cmd2[1] == '/')
+      {
+            system(cmd2);
+      }
+      else
+      {
+            char cmd3[sizeof(cmd2) + 2];
+            strncpy(cmd3, "./", 2);
+            strncpy(cmd3, cmd2, sizeof(cmd2));
+
+            system(cmd3);
+      }
    }
    // Run from local
    else
@@ -52,8 +63,19 @@ int main(int argc, char** argv)
       strcat(cmd2, cmd0);
       strcat(cmd2, cmd1);
 
-      system(cmd2);
+      if (cmd2[0] == '.' && cmd2[1] == '/')
+      {
+            system(cmd2);
+      }
+      else
+      {
+            char cmd3[sizeof(cmd2) + 2];
+            strncpy(cmd3, "./", 2);
+            strncpy(cmd3, cmd2, sizeof(cmd2));
+
+            system(cmd3);
+      }
    }
-   
+
    return 0;
 }
