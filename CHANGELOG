@@ -6,15 +6,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0] - In progress
 ### Added
-- Support to stage progress save and load
+- New game menu
+- New game modes (Story, Training, Speedrun, Battle, Coop)
+- Local multiplayer (up to 4 players split screen)
+- Stage progress save and load
 - Alternative player attack gameplay with more trivial feeling
+- Start game without launcher with custom configuration
+- Automatic desktop resolution by default
+- Portuguese language
+- Italian language
+- Language automatically detected
+- Android left analog stick
+- Android Menu navigation with dpad and x button
+- Android UI overlay hidden when controller is connected
+- Android automatic screen ratio
+- Android 5 compatible
+- In game zoom-in zoom-out
+- Water flickering option
 - More cheats and access to all stages set
+- JAR signature
+
+### Changed
+- Filters performance improved and quality increased
 
 ### Fixed
+- Joystick 2 buttons mode working
+- Music on MacOS
+- Swamp Flower explode effect position incorrect
+- AncientTown executioner wall can be crossed with attack jump
+- AncientTown corrupted Veteran stage 6
+- Lava FloaterCube hit force too low
+- Airship road invalid on zoom
+- Airship catapult projectile missing respawn
+- Airship wall can be crossed on top of ground
+- Dragonfly monsters hit interrupts movement
+- Dragonfly Dragon fire time invalid
+- Dragonfly bullet destroyed on collide on bomb explode
+- Dragonfly Original stage duplicated Bomb location
+- Dragonfly boss invalid head 
+- Tower Rotating length a little bit too short
 - Norka first boss body collision missing on attack
 - Norka second boss wrong collision and bullet hit
+- Stages and Boss not reloaded on respawn
+- Weird gameplay on player Hurt transition
+- RotatingPlatformControlled invalid behavior
+- Monsters falling on killed must be always updated
+- Bullet destroy on ground hit box not large enough
+- Movement clamped to zero when changing direction on jump
+- Android liana cut crash
 - Sfx audio bad rendering and latency on Linux
-- Antivirus detections on "Lionheart Remake.exe" launcher
+- Antivirus detections on "Lionheart Remake.exe"
 - Memory leak on State changes
 
 ## [1.2.0] - 2022-01-29
