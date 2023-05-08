@@ -14,6 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
+#ifndef __APPLE__
+__asm__(".symver realpath,realpath@GLIBC_2.2.5");
+#endif
+ 
 #include <stdlib.h>
 #include <string.h>
 
