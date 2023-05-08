@@ -24,7 +24,7 @@ __asm__(".symver realpath,realpath@GLIBC_2.2.5");
 int main(int argc, char** argv)
 {
    const char cmd0[] = "cd ";
-   const char cmd1[] = "data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-1.3.0-SNAPSHOT.jar";
+   const char cmd1[] = "data; jre_linux-x86_64/bin/java -server -splash:splash.png -jar lionheart-pc-%%INPUT_APPV%%.jar";
    int start = strchr(argv[0], '/') - argv[0];
    const int end = strrchr(argv[0], '/') - argv[0];
 
