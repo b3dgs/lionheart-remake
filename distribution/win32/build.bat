@@ -2,8 +2,11 @@
 
 rem ################################################################# PROPERTIES #################################################################
 SET VERSION=1.3.0
+SET VERSIONI=1,3,0
 SET FOLDER=lionheart-remake-%VERSION%_win32-x86
 SET DEST=build\%FOLDER%
+SET MSBUILD="C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\msbuild.exe"
+SET POWERSHELL="C:\Program Files\PowerShell\7\pwsh.exe"
 SET SIGNTOOL="C:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64\signtool.exe"
 SET PFX=""
 SET PASS=""
@@ -53,16 +56,30 @@ echo -------------------------------------------- Copy jar
 copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
 copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar.asc" "%DEST%\data"
 copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
+echo -------------------------------------------- Copy bat
+%POWERSHELL% -Command "(gc 'src\Lionheart Remake.bat') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%DEST%\Lionheart Remake.bat'"
+%POWERSHELL% -Command "(gc 'src\Configure.bat') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%DEST%\Configure.bat'"
+%POWERSHELL% -Command "(gc 'src\Profile.bat') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%DEST%\Profile.bat'"
+
+robocopy "src\Lionheart Remake" "%TMP%\Lionheart Remake" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+robocopy "src\Lionheart Remake Configure" "%TMP%\Lionheart Remake Configure" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
 echo -------------------------------------------- Copy exe
-copy "src\Lionheart Remake\Release\Lionheart Remake.exe" "%DEST%"
-copy "src\Lionheart Remake Configure\Release\Configure.exe" "%DEST%"
+%POWERSHELL% -Command "(gc '%TMP%\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%TMP%\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'"
+%POWERSHELL% -Command "(gc '%TMP%\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc') -replace '%%%%INPUT_APPVI%%%%', '%VERSIONI%' | Out-File -encoding utf8NoBOM '%TMP%\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'"
+%POWERSHELL% -Command "(gc '%TMP%\Lionheart Remake\Lionheart Remake\main.cpp') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%TMP%\Lionheart Remake\Lionheart Remake\main.cpp'"
+
+%POWERSHELL% -Command "(gc '%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'"
+%POWERSHELL% -Command "(gc '%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc') -replace '%%%%INPUT_APPVI%%%%', '%VERSIONI%' | Out-File -encoding utf8NoBOM '%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'"
+%POWERSHELL% -Command "(gc '%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'"
+
+%MSBUILD% "%TMP%\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -property:Configuration=Release
+%MSBUILD% "%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -property:Configuration=Release
+
+copy "%TMP%\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "%DEST%"
+copy "%TMP%\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "%DEST%"
 echo -------------------------------------------- Sign
 if %PASS%=="" (echo skip) else (%SIGNTOOL% sign /f %PFX% /p %PASS% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "%DEST%\Lionheart Remake.exe")
 if %PASS%=="" (echo skip) else (%SIGNTOOL% sign /f %PFX% /p %PASS% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "%DEST%\Configure.exe")
-echo -------------------------------------------- Copy bat
-copy "bat\Lionheart Remake.bat" "%DEST%"
-copy "bat\Configure.bat" "%DEST%"
-copy "bat\Profile.bat" "%DEST%"
 echo --------------------------------------------------------------------------------------------------------
 rem ##############################################################################################################################################
 
@@ -78,29 +95,31 @@ rem ############################################################################
 
 rem ################################################################## Make ZIP ##################################################################
 echo ---------------------------------------------- Create ZIP ----------------------------------------------
+%POWERSHELL% -Command "(gc 'src\sfxmaker.txt') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM 'build\sfxmaker.txt'"
+copy "src\7zsd_LZMA2.sfx" "build"
 cd build
 7z a -t7z -mf=off -m0=lzma2 -mx=9 "%FOLDER%.7z" "%FOLDER%"
-rmdir /S /Q "%FOLDER%"
+7z a -tzip -m0=deflate -mx=9 %FOLDER%.zip %FOLDER%
+copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%FOLDER%.7z" "%FOLDER%.exe"
+sha256sum %FOLDER%.exe > %FOLDER%.exe.sha256sum
+sha256sum %FOLDER%.zip > %FOLDER%.zip.sha256sum
+del "%FOLDER%.7z"
 cd ..
-echo --------------------------------------------------------------------------------------------------------
-rem ##############################################################################################################################################
-
-rem ################################################################## Make SFX ##################################################################
-echo ---------------------------------------------- Create SFX ----------------------------------------------
-echo ---------------------------------------------- Click "Make SFX"
-echo ---------------------------------------------- Click "Close"
-echo ---------------------------------------------- Close window
-"C:\Program Files (x86)\7z SFX Builder\7z SFX Builder.exe" src\sfxmaker.txt
-del "%DEST%.7z"
 echo --------------------------------------------------------------------------------------------------------
 rem ##############################################################################################################################################
 
 rem ################################################################## ADD INFO ##################################################################
 echo ------------------------------------ Update VersionInfo and Language -----------------------------------
 echo 
-"C:\Program Files (x86)\Resource Hacker\resourcehacker.exe" -open "%DEST%.exe" -save "%DEST%.exe" -action delete -mask versioninfo, 1,
-"C:\Program Files (x86)\Resource Hacker\resourcehacker.exe" -open "%DEST%.exe" -save "%DEST%.exe" -action add -res src\versioninfo.res -mask versioninfo, 1,
-"C:\Program Files (x86)\Resource Hacker\resourcehacker.exe" -open "%DEST%.exe" -save "%DEST%.exe" -action changelanguage(1033)
+"C:\Program Files (x86)\Resource Hacker\resourcehacker.exe" -open "build\%FOLDER%\Lionheart Remake.exe" -save info.res -action extract -mask *,*,
+"C:\Program Files (x86)\Resource Hacker\resourcehacker.exe" -open "build\%FOLDER%.exe" -save "build\%FOLDER%.exe" -action delete -mask *,*,
+"C:\Program Files (x86)\Resource Hacker\resourcehacker.exe" -open "build\%FOLDER%.exe" -save "build\%FOLDER%.exe" -action addoverwrite -res info.res -mask *,*,
+del info.res
+cd build
+rmdir /S /Q "%FOLDER%"
+del 7zsd_LZMA2.sfx
+del sfxmaker.txt
+cd ..
 echo --------------------------------------------------------------------------------------------------------
 rem ##############################################################################################################################################
 
@@ -126,5 +145,7 @@ cd "..\..\..\..\..\..\..\distribution\win32\"
 echo ---------------------------------------------- Create ZIP editor
 cd build
 7z a -t7z -mf=off -m0=lzma2 -mx=9 %FOLDER%_editor.7z %FOLDER%
+sha256sum %FOLDER%_editor.7z > %FOLDER%_editor.7z.sha256sum
 rmdir /S /Q %FOLDER%
+cd ..
 echo --------------------------------------------------------------------------------------------------------
