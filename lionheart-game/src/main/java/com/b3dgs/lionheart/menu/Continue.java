@@ -131,6 +131,7 @@ public class Continue extends Sequence
     private TransitionType transition = TransitionType.IN;
     /** Line choice on. */
     private int choice;
+    private boolean movedHorizontal;
 
     /**
      * Constructor.
@@ -140,7 +141,9 @@ public class Continue extends Sequence
      */
     public Continue(Context context, GameConfig game)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION.get2x(), context), Util.getLoop(context.getConfig().getOutput()));
+        super(context,
+              Util.getResolution(Constant.RESOLUTION.get2x(), context),
+              Util.getLoop(context.getConfig().getOutput()));
 
         this.game = game;
 
@@ -303,15 +306,22 @@ public class Continue extends Sequence
      */
     private void updateNavigation()
     {
-        final int choiceOld = choice;
-        if (device.isFiredOnce(DeviceMapping.LEFT))
+        if (Double.compare(device.getHorizontalDirection(), 0) == 0)
         {
+            movedHorizontal = false;
+        }
+
+        final int choiceOld = choice;
+        if (!movedHorizontal && (device.getHorizontalDirection() < 0 || device.isFiredOnce(DeviceMapping.LEFT)))
+        {
+            movedHorizontal = true;
             choice--;
             cursor.setVisible(false);
             cursor.setLocation(0, 0);
         }
-        if (device.isFiredOnce(DeviceMapping.RIGHT))
+        if (!movedHorizontal && (device.getHorizontalDirection() > 0 || device.isFiredOnce(DeviceMapping.RIGHT)))
         {
+            movedHorizontal = true;
             choice++;
             cursor.setVisible(false);
             cursor.setLocation(0, 0);
