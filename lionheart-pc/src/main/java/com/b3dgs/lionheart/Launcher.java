@@ -228,8 +228,9 @@ public final class Launcher
 
         loadLangs();
 
-        Settings.load();
+        Tools.prepareSettingsCustom();
         Tools.prepareInputCustom();
+        Settings.load();
 
         final Gamepad gamepad = new Gamepad();
 

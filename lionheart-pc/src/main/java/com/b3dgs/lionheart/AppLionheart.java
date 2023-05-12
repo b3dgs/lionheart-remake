@@ -55,7 +55,6 @@ import com.b3dgs.lionheart.constant.Folder;
 public final class AppLionheart
 {
     private static final String ARG_SETTINGS = "-settings";
-    private static final String ARG_INPUT = "-input";
     private static final String ARG_GAME = "-game";
     private static final String ARG_STAGE = "-stage";
     private static final String ARG_DIFFICULTY = "-difficulty";
@@ -70,7 +69,6 @@ public final class AppLionheart
      * </p>
      * <ul>
      * <li>-settings <code>[string]</code></li>
-     * <li>-input <code>[string]</code></li>
      * <li>-game [<code>story, training, speedrun, battle, versus</code>]</li>
      * <li>-stage {story=[<code>original, beginner, veteran</code>],
      * training=[<code>original-X, beginner-X, veteran-X</code>],
@@ -100,9 +98,11 @@ public final class AppLionheart
             EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
         }
 
+        Tools.prepareSettingsCustom();
+        Tools.prepareInputCustom();
+
         final List<String> params = Arrays.asList(args);
         loadSettings(params);
-        loadInput(params);
 
         if (params.isEmpty())
         {
@@ -204,20 +204,6 @@ public final class AppLionheart
     {
         final File file = getParam(params, ARG_SETTINGS, Settings.getFile(), File::new, 0);
         Settings.load(file);
-    }
-
-    /**
-     * Load input from parameters.
-     * 
-     * @param params The parameters.
-     */
-    private static void loadInput(List<String> params)
-    {
-        final Media media = getParam(params, ARG_INPUT, Medias.create(Constant.INPUT_FILE_DEFAULT), Medias::create, 0);
-        if (!media.exists())
-        {
-            Tools.prepareInputCustom();
-        }
     }
 
     /**

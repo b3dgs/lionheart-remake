@@ -78,19 +78,49 @@ public final class Tools
     /**
      * Prepare custom input file.
      */
+    public static void prepareSettingsCustom()
+    {
+        try
+        {
+            final File file = new File(Medias.getResourcesDirectory(), Settings.FILENAME);
+            if (!file.exists())
+            {
+            if (file.getParentFile().isDirectory() && !file.createNewFile())
+            {
+                Verbose.warning("Unable to create file: " + file);
+            }
+            try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
+                 OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
+            {
+                UtilStream.copy(input, output);
+            }
+            }
+        }
+        catch (final IOException exception)
+        {
+            Verbose.exception(exception);
+        }
+    }
+
+    /**
+     * Prepare custom input file.
+     */
     public static void prepareInputCustom()
     {
         try
         {
             final File file = new File(Medias.getResourcesDirectory(), Constant.INPUT_FILE_DEFAULT);
-            if (!file.exists() && file.getParentFile().isDirectory() && !file.createNewFile())
+            if (!file.exists())
             {
-                Verbose.warning("Unable to create file: " + file);
-            }
-            try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
-                 OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
-            {
-                UtilStream.copy(input, output);
+                if (file.getParentFile().isDirectory() && !file.createNewFile())
+                {
+                    Verbose.warning("Unable to create file: " + file);
+                }
+                try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
+                     OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
+                {
+                    UtilStream.copy(input, output);
+                }
             }
         }
         catch (final IOException exception)
