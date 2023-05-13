@@ -1008,7 +1008,7 @@ jobs:
       - name: Bundle JRE aarch64
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --module-path ${{ steps.setup-java.outputs.jdk-path }}/jmods --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
+          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --module-path $JAVA_HOME_17_AARCH64/jmods --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
 
       - name: Compile C
         run: |
