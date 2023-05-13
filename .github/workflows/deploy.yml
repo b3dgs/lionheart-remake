@@ -999,6 +999,12 @@ jobs:
           java-version: '17'
           architecture: aarch64
 
+      - name: Set JRE
+        uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Bundle JRE aarch64
         run: |
           export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
