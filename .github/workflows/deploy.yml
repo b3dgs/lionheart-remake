@@ -4,13 +4,40 @@
 
 name: Deploy
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      windows-x86:
+        description: 'Windows x86'
+        required: false
+        default: 'true'
+      linux-x86:
+        description: 'Linux x86'
+        required: false
+        default: 'true'
+      linux-x86-64:
+        description: 'Linux x86-64'
+        required: false
+        default: 'true'
+      android-arm:
+        description: 'Android arm'
+        required: false
+        default: 'true'
+      macos-x86-64:
+        description: 'MacOS x86-64'
+        required: false
+        default: 'true'
+      macos-aarch64:
+        description: 'MacOS aarch64'
+        required: false
+        default: 'true'
 
 env:
   APP_NAME: "lionheart-remake"
 
 jobs:
   win32-x86:
+    if: github.event.inputs.windows-x86 == 'true'
     runs-on: windows-latest
 
     env:
@@ -323,6 +350,7 @@ jobs:
           secure: false
 
   linux-x86-64:
+    if: github.event.inputs.linux-x86-64 == 'true'
     runs-on: ubuntu-latest
 
     env:
@@ -506,6 +534,7 @@ jobs:
           secure: false
 
   linux-x86-32:
+    if: github.event.inputs.linux-x86 == 'true'
     runs-on: ubuntu-latest
 
     env:
@@ -697,6 +726,7 @@ jobs:
           secure: false
 
   macos-x86-64:
+    if: github.event.inputs.macos-x86-64 == 'true'
     runs-on: macOS-11
 
     env:
@@ -847,6 +877,7 @@ jobs:
           secure: false
 
   macos-aarch64:
+    if: github.event.inputs.macos-aarch64 == 'true'
     runs-on: macOS-11
 
     env:
@@ -999,6 +1030,7 @@ jobs:
 
 
   android-arm:
+    if: github.event.inputs.android-arm == 'true'
     runs-on: ubuntu-latest
 
     env:
