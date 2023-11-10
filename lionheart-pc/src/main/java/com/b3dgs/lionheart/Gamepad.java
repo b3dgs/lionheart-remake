@@ -110,6 +110,9 @@ public class Gamepad implements InputDevice
     /** Check timing. */
     private final Timing timing = new Timing();
 
+    private final int[] oldAxisX = new int[4];
+    private final int[] oldAxisY = new int[4];
+
     /**
      * Create.
      */
@@ -211,40 +214,59 @@ public class Gamepad implements InputDevice
                     if (index != null)
                     {
                         final Set<Integer> codes = press.get(index);
+                        final int mod = axisCode % 4;
                         if (axisCode % 2 == 0)
                         {
                             if (value > 0.5)
                             {
-                                codes.add(Integer.valueOf(14));
-                                codes.remove(Integer.valueOf(13));
+                                if (oldAxisX[mod] != 1)
+                                {
+                                    codes.add(Integer.valueOf(14));
+                                    codes.remove(Integer.valueOf(13));
+                                    oldAxisX[mod] = 1;
+                                }
                             }
                             else if (value < -0.5)
                             {
-                                codes.add(Integer.valueOf(13));
-                                codes.remove(Integer.valueOf(14));
+                                if (oldAxisX[mod] != -1)
+                                {
+                                    codes.add(Integer.valueOf(13));
+                                    codes.remove(Integer.valueOf(14));
+                                    oldAxisX[mod] = -1;
+                                }
                             }
-                            else
+                            else if (oldAxisX[mod] != 0)
                             {
                                 codes.remove(Integer.valueOf(13));
                                 codes.remove(Integer.valueOf(14));
+                                oldAxisX[mod] = 0;
                             }
                         }
                         else if (axisCode % 2 == 1)
                         {
                             if (value < -0.5)
                             {
-                                codes.add(Integer.valueOf(11));
-                                codes.remove(Integer.valueOf(12));
+                                if (oldAxisY[mod] != -1)
+                                {
+                                    codes.add(Integer.valueOf(11));
+                                    codes.remove(Integer.valueOf(12));
+                                    oldAxisY[mod] = -1;
+                                }
                             }
                             else if (value > 0.5)
                             {
-                                codes.add(Integer.valueOf(12));
-                                codes.remove(Integer.valueOf(11));
+                                if (oldAxisY[mod] != 1)
+                                {
+                                    codes.add(Integer.valueOf(12));
+                                    codes.remove(Integer.valueOf(11));
+                                    oldAxisY[mod] = 1;
+                                }
                             }
-                            else
+                            else if (oldAxisY[mod] != 0)
                             {
                                 codes.remove(Integer.valueOf(11));
                                 codes.remove(Integer.valueOf(12));
+                                oldAxisY[mod] = 0;
                             }
                         }
                     }
