@@ -49,7 +49,8 @@ public final class StateHurt extends State
     private Updatable updater;
     private int frameFlicker;
     private int flicker;
-    private double velocity = -1;
+    private double velocity = 0.22;
+    private boolean restore;
 
     /**
      * Create the state.
@@ -147,6 +148,7 @@ public final class StateHurt extends State
             velocity = jump.getVelocity();
             jump.setVelocity(0.1);
             jump.setDirection(0.0, HURT_JUMP_FORCE);
+            restore = true;
         }
         movement.setVelocity(Constant.WALK_VELOCITY_MAX);
         hurtable.setEnabled(false);
@@ -173,7 +175,7 @@ public final class StateHurt extends State
     {
         super.exit();
 
-        if (model.getJumpOnHurt())
+        if (restore && velocity > 0)
         {
             jump.setVelocity(velocity);
             jump.setDirectionMaximum(Constant.JUMP_MAX);
