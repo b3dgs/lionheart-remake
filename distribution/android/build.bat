@@ -26,4 +26,4 @@ echo "Sign APK"
 call apksigner sign --ks %KEYSTORE% --out "app\build\outputs\apk\release\app-release-signed.apk" "app\build\outputs\apk\release\app-release-aligned.apk"
 
 echo "Copy final APK"
-copy "app\build\outputs\apk\release\app-release-signed.apk" "..\distribution\android\build\lionheart-remake-1.3.0.apk"
+copy "app\build\outputs\apk\release\app-release-signed.apk" "..\distribution\android\build\lionheart-remake-1.4.0.apk"

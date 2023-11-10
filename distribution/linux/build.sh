@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ###################### PROPERTIES ######################
-export VERSION=1.3.0
+export VERSION=1.4.0
 export FOLDER="lionheart-remake-"$VERSION"_linux-x86_64"
 export DEST=build/$FOLDER
 export M2_HOME=/home/djthunder/apache-maven-3.9.1

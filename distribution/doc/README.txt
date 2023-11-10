@@ -1,5 +1,5 @@
-Version : 1.3.0
-Date    : 2023-03
+Version : 1.4.0
+Date    : 20??-??
 Website : https://lionheart.b3dgs.com
 Sources : https://github.com/b3dgs/lionheart-remake
 

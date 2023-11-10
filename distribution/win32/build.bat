@@ -1,8 +1,8 @@
 @echo off
 
 rem ################################################################# PROPERTIES #################################################################
-SET VERSION=1.3.0
-SET VERSIONI=1,3,0
+SET VERSION=1.4.0
+SET VERSIONI=1,4,0
 SET FOLDER=lionheart-remake-%VERSION%_win32-x86
 SET DEST=build\%FOLDER%
 SET MSBUILD="C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\msbuild.exe"
