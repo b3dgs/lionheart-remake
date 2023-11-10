@@ -84,7 +84,6 @@ public final class StatePatrol extends State
         }
         else if (steep.isRight() && movement.getDirectionHorizontal() < 0)
         {
-
             tileCollidable.apply(result);
             transformable.teleportX(transformable.getOldX() + 1);
             collideX.set(true);

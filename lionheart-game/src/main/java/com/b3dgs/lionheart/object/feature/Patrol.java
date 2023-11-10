@@ -163,6 +163,14 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     }
 
     /**
+     * Disable patrol.
+     */
+    public void disable()
+    {
+        checker = UpdatableVoid.getInstance();
+    }
+
+    /**
      * Load next available patrol.
      */
     private void loadNextPatrol()

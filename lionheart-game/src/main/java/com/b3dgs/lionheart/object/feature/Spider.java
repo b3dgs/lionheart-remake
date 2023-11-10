@@ -73,6 +73,7 @@ public final class Spider extends FeatureModel
     @FeatureGet private EntityModel model;
     @FeatureGet private StateHandler stateHandler;
     @FeatureGet private Body body;
+    @FeatureGet private Patrol patrol;
 
     /**
      * Create feature.
@@ -129,6 +130,7 @@ public final class Spider extends FeatureModel
             }
         });
         stateHandler.changeState(StateIdle.class);
+        patrol.disable();
     }
 
     @Override
