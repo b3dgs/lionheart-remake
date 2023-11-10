@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMaxX="13760">
+<stage xmlns:lionengine="https://lionengine.b3dgs.com" pic="sprite/pic3.png" text="lava.txt" reload="true" reloadMinX="13760">
     <music file="music/lava.sc68"/>
     <map file="level/lava/original/stage_hard.lvl" linesPerRaster="1" rasterLineOffset="2"/>
     <raster folder="raster/lava/lava/"/>
