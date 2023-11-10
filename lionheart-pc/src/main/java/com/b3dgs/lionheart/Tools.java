@@ -85,15 +85,15 @@ public final class Tools
             final File file = new File(Medias.getResourcesDirectory(), Settings.FILENAME);
             if (!file.exists())
             {
-            if (file.getParentFile().isDirectory() && !file.createNewFile())
-            {
-                Verbose.warning("Unable to create file: " + file);
-            }
-            try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
-                 OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
-            {
-                UtilStream.copy(input, output);
-            }
+                if (file.getParentFile().isDirectory() && !file.createNewFile())
+                {
+                    Verbose.warning("Unable to create file: " + file);
+                }
+                try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
+                     OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
+                {
+                    UtilStream.copy(input, output);
+                }
             }
         }
         catch (final IOException exception)
@@ -171,7 +171,8 @@ public final class Tools
         final ExecutorService executor = Executors.newFixedThreadPool(Math.max(1,
                                                                                Runtime.getRuntime()
                                                                                       .availableProcessors()
-                                                                                  / 2));
+                                                                                  / 2),
+                                                                      r -> new Thread(r, Tools.class.getSimpleName()));
         executor.execute(() ->
         {
             if (BackgroundType.LAVA == type)

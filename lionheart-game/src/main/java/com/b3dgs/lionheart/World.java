@@ -155,7 +155,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private final Hud hud = services.create(Hud.class);
     private final Tick tick = new Tick();
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private final ExecutorService executor;
     private final BlockingDeque<Runnable> musicToPlay = new LinkedBlockingDeque<>();
     private final List<Featurable> players = new ArrayList<>();
     private final Map<Integer, String> clients = services.add(new ConcurrentHashMap<>());
@@ -205,6 +205,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     World(Services services, GameConfig game)
     {
         super(services);
+
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(),
+                                                runnable -> new Thread(runnable, getClass().getSimpleName()));
 
         final int size = Math.max(9,
                                   9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.getHeight()));

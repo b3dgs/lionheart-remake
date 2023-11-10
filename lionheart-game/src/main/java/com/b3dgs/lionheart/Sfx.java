@@ -157,14 +157,20 @@ public enum Sfx
     private static final int MAX_PARALLEL_CACHE = 3;
     private static final List<Sfx> TO_CACHE = new ArrayList<>(Arrays.asList(Sfx.values()));
 
-    private static ExecutorService executor = Executors.newFixedThreadPool(MAX_PARALLEL_CACHE);
+    private static final ExecutorService EXECUTOR;
+    private static boolean done;
+
+    static
+    {
+        EXECUTOR = Executors.newFixedThreadPool(MAX_PARALLEL_CACHE, r -> new Thread(r, Sfx.class.getSimpleName()));
+    }
 
     /**
      * Cache sfx start.
      */
-    public static void cacheStart()
+    public static synchronized void cacheStart()
     {
-        if (TO_CACHE.isEmpty() && Settings.getInstance().getVolumeSfx() > 0)
+        if (!done && TO_CACHE.isEmpty() && Settings.getInstance().getVolumeSfx() > 0)
         {
             final int n = TO_CACHE.size();
             for (int i = 0; i < n; i++)
@@ -172,7 +178,7 @@ public enum Sfx
                 final Sfx sfx = TO_CACHE.get(i);
                 if (!sfx.cached)
                 {
-                    executor.execute(createCache(sfx));
+                    EXECUTOR.execute(createCache(sfx));
                 }
             }
         }
@@ -205,14 +211,15 @@ public enum Sfx
     /**
      * Cache sfx end.
      */
-    public static void cacheEnd()
+    public static synchronized void cacheEnd()
     {
-        if (!TO_CACHE.isEmpty() && Settings.getInstance().getVolumeSfx() > 0)
+        if (!done && !TO_CACHE.isEmpty() && Settings.getInstance().getVolumeSfx() > 0)
         {
             try
             {
-                executor.shutdown();
-                executor.awaitTermination(TIMEOUT_SEC, TimeUnit.SECONDS);
+                done = true;
+                EXECUTOR.shutdown();
+                EXECUTOR.awaitTermination(TIMEOUT_SEC, TimeUnit.SECONDS);
 
                 final int volume = Settings.getInstance().getVolumeSfx();
                 if (!TO_CACHE.isEmpty() && volume > 0)
@@ -252,9 +259,13 @@ public enum Sfx
     /**
      * Stop cache.
      */
-    public static void cacheStop()
+    public static synchronized void cacheStop()
     {
-        executor.shutdownNow();
+        if (!done)
+        {
+            done = true;
+            EXECUTOR.shutdownNow();
+        }
     }
 
     /**

@@ -160,7 +160,7 @@ public final class AppLionheart
      * @param <T> The parameter type.
      * @param params The parameters list.
      * @param param The parameter name.
-     * @param def The defaut value.
+     * @param def The default value.
      * @param conv The converter function.
      * @param lowerNoUpper -1 to lower case, 0 for default, 1 for upper case.
      * @return The converted value.
