@@ -36,10 +36,13 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackJump;
  */
 public final class StateJump extends State
 {
+    private static final double SPEED_SLOPE_RISING = -0.3;
+
     /** Check for jump interruption during jumping. */
     private final Updatable checkJumpStopped;
 
     private Updatable check;
+    private double speedSlope;
 
     /**
      * Create the state.
@@ -79,6 +82,18 @@ public final class StateJump extends State
         {
             body.resetGravity();
         }
+        else if (result.startWithY(CollisionName.INCLINE))
+        {
+            if (movement.getDirectionHorizontal() > 0 && result.endWithY(CollisionName.LEFT)
+                || movement.getDirectionHorizontal() < 0 && result.endWithY(CollisionName.RIGHT))
+            {
+                speedSlope = SPEED_SLOPE_RISING * 1.4;
+            }
+        }
+        else
+        {
+            speedSlope = 0.0;
+        }
     }
 
     @Override
@@ -100,7 +115,9 @@ public final class StateJump extends State
     {
         check.update(extrp);
         body.resetGravity();
-        movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
+
+        final double sx = device.getHorizontalDirection() * (Constant.WALK_SPEED + speedSlope);
+        movement.setDestination(sx, 0.0);
     }
 
     @Override
