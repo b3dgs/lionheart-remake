@@ -38,6 +38,12 @@ jobs:
             maven-${{ matrix.os }}-java${{ matrix.jdk }}-
             maven-${{ matrix.os }}-
 
+     - name: Setup Maven Action
+       uses: s4u/setup-maven-action@v1.10.0
+       with:
+         java-version: ${{ matrix.jdk }}
+         maven-version: 3.9.4
+
      - name: JDK
        uses: actions/setup-java@v3.11.0
        with:
