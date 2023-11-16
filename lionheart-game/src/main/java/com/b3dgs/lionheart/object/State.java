@@ -321,7 +321,7 @@ public abstract class State extends StateHelper<EntityModel>
         else if (Axis.Y == category.getAxis())
         {
             if ((!collObject || transformable.getY() < oldY)
-                && !liana.is()
+                && (!liana.is() || isGoDown())
                 && category.getName().startsWith(CollisionName.LEG))
             {
                 model.setIgnoreGlue(true);
