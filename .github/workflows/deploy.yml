@@ -74,6 +74,10 @@ jobs:
             JavaSE-1.8
             JavaSE-17
 
+      - name: maven-settings-xml-action
+        shell: bash
+        run: echo \<settings\>\<servers\>\<server\>\<id\>ossrh\</id\>\<username\>${{ secrets.MAVEN_USERNAME }}\</username\>\<password\>${{ secrets.MAVEN_PASSWORD }}\</password\>\</server\>\</servers\>\<mirrors\>\<mirror\>\<id\>maven-default-http-blocker\</id\>\<mirrorOf\>external:dont-match-anything-mate:*\</mirrorOf\>\<name\>Pseudo repo.\</name\>\<url\>http://0.0.0.0/\</url\>\<blocked\>false\</blocked\>\</mirror\>\</mirrors\>\</settings\> > C:\\Users\\runneradmin\\.m2\\settings.xml
+
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5.2.0
         with:
@@ -392,6 +396,9 @@ jobs:
             JavaSE-1.8
             JavaSE-17
 
+      - name: maven-settings-xml-action
+        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
+
       - name: Set GCC
         uses: egor-tensin/setup-gcc@v1.3
         with:
@@ -581,6 +588,9 @@ jobs:
             JavaSE-1.8
             JavaSE-17
           architecture: x86
+
+      - name: maven-settings-xml-action
+        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
 
       - name: Set GCC
         uses: egor-tensin/setup-gcc@v1.3
@@ -773,6 +783,9 @@ jobs:
             JavaSE-1.8
             JavaSE-17
 
+      - name: maven-settings-xml-action
+        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
+
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5.2.0
         with:
@@ -928,6 +941,9 @@ jobs:
           mvn-toolchain-id: |
             JavaSE-1.8
             JavaSE-17
+
+      - name: maven-settings-xml-action
+        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5.2.0
@@ -1092,6 +1108,9 @@ jobs:
           mvn-toolchain-id: |
             JavaSE-1.8
             JavaSE-17
+
+      - name: maven-settings-xml-action
+        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
 
       - name: Decode Keystore
         uses: timheuer/base64-to-file@v1.2
