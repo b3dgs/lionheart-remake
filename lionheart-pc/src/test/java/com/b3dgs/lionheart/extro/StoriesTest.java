@@ -96,7 +96,7 @@ final class StoriesTest
     /**
      * Mock sequence.
      */
-    private static class Mock extends Sequence
+    public static final class Mock extends Sequence
     {
         private final Stories stories = new Stories(getWidth(), getHeight());
         private final DeviceController device;
