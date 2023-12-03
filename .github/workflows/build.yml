@@ -54,6 +54,15 @@ jobs:
            JavaSE-1.8
            JavaSE-17
 
+     - name: maven-settings-xml-action win
+       if: matrix.os == 'windows-latest'
+       shell: bash
+       run: echo \<settings\>\<servers\>\<server\>\<id\>ossrh\</id\>\<username\>${{ secrets.MAVEN_USERNAME }}\</username\>\<password\>${{ secrets.MAVEN_PASSWORD }}\</password\>\</server\>\</servers\>\<mirrors\>\<mirror\>\<id\>maven-default-http-blocker\</id\>\<mirrorOf\>external:dont-match-anything-mate:*\</mirrorOf\>\<name\>Pseudo repo.\</name\>\<url\>http://0.0.0.0/\</url\>\<blocked\>false\</blocked\>\</mirror\>\</mirrors\>\</settings\> > C:\\Users\\runneradmin\\.m2\\settings.xml
+
+     - name: maven-settings-xml-action linux
+       if: matrix.os != 'windows-latest'
+       run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
+
      - name: Compile Game
        if: matrix.os != 'ubuntu-latest'
        uses: coactions/setup-xvfb@v1
