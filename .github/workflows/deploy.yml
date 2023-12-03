@@ -58,6 +58,11 @@ jobs:
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
 
+      - name: Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.6
+
       - name: Set JDK
         uses: actions/setup-java@v3.11.0
         with:
@@ -370,6 +375,11 @@ jobs:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
+
+      - name: Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.6
 
       - name: Set JDK
         uses: actions/setup-java@v3.11.0
@@ -747,6 +757,11 @@ jobs:
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
 
+      - name: Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.6
+
       - name: Set JDK
         uses: actions/setup-java@v3.11.0
         with:
@@ -897,6 +912,11 @@ jobs:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
+
+      - name: Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.6
 
       - name: Set JDK
         uses: actions/setup-java@v3.11.0
@@ -1056,6 +1076,11 @@ jobs:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
+
+      - name: Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.6
 
       - name: Set JDK
         uses: actions/setup-java@v3.11.0
