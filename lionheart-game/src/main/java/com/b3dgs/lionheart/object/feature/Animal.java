@@ -21,11 +21,9 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -61,12 +59,16 @@ public final class Animal extends FeatureModel
     private static final double SPEED_BOAT = 0.6;
     private static final int CAMERA_MAP_LIMIT_MARGIN_WIDTH = 8;
 
+    private final Camera camera = services.get(Camera.class);
+    private final MapTile map = services.get(MapTile.class);
+    private final CameraTracker tracker = services.getOptional(CameraTracker.class).orElse(null);
+
+    private final Animatable animatable;
+    private final Transformable transformable;
+
     private final Trackable target;
     private final Rasterable playerSprite;
     private final StateHandler playerState;
-    private final Camera camera = services.get(Camera.class);
-    private final CameraTracker tracker = services.getOptional(CameraTracker.class).orElse(null);
-    private final MapTile map = services.get(MapTile.class);
 
     private AnimalConfig config;
     private int offsetY;
@@ -74,19 +76,21 @@ public final class Animal extends FeatureModel
     private boolean on;
     private double boatEffectY;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Animal(Services services, Setup setup)
+    public Animal(Services services, Setup setup, Animatable animatable, Transformable transformable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.transformable = transformable;
 
         target = services.getOptional(Trackable.class).orElse(null);
         if (target != null)
@@ -101,12 +105,6 @@ public final class Animal extends FeatureModel
         }
 
         load(setup.getRoot());
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         if (target != null)
         {

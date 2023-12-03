@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -44,22 +43,25 @@ public final class Fly extends FeatureModel implements Routine, Recyclable, Coll
 {
     private static final double SPEED = 1.3;
 
-    private final Force direction = new Force();
-
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
 
-    @FeatureGet private Transformable transformable;
+    private final Transformable transformable;
+
+    private final Force direction = new Force();
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Fly(Services services, Setup setup)
+    public Fly(Services services, Setup setup, Transformable transformable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
 
         direction.setVelocity(0.048);
         direction.setSensibility(0.01);

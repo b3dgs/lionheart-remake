@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -36,22 +35,33 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class BossNorka2Bullet extends FeatureModel implements Recyclable, CollidableListener
 {
-    private boolean reverted;
+    private final Hurtable hurtable;
+    private final Launchable launchable;
+    private final Collidable collidable;
 
-    @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Launchable launchable;
-    @FeatureGet private Collidable collidable;
+    private boolean reverted;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param hurtable The hurtable feature.
+     * @param launchable The launchable feature.
+     * @param collidable The collidable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossNorka2Bullet(Services services, Setup setup)
+    public BossNorka2Bullet(Services services,
+                            Setup setup,
+                            Hurtable hurtable,
+                            Launchable launchable,
+                            Collidable collidable)
     {
         super(services, setup);
+
+        this.hurtable = hurtable;
+        this.launchable = launchable;
+        this.collidable = collidable;
     }
 
     @Override

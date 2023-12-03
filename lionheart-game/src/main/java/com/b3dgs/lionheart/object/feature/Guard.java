@@ -18,8 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -49,11 +47,10 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
 
     private final Trackable target = services.get(Trackable.class);
 
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Hurtable hurtable;
+    private final Mirrorable mirrorable;
+    private final Transformable transformable;
+    private final Rasterable rasterable;
+    private final Hurtable hurtable;
 
     private double startX;
     private boolean started;
@@ -63,11 +60,30 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param mirrorable The mirrorable feature.
+     * @param transformable The transformable feature.
+     * @param rasterable The rasterable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Guard(Services services, SetupSurfaceRastered setup)
+    public Guard(Services services,
+                 SetupSurfaceRastered setup,
+                 EntityModel model,
+                 Mirrorable mirrorable,
+                 Transformable transformable,
+                 Rasterable rasterable,
+                 Hurtable hurtable)
     {
         super(services, setup);
+
+        this.mirrorable = mirrorable;
+        this.transformable = transformable;
+        this.rasterable = rasterable;
+        this.hurtable = hurtable;
+
+        model.getMovement().setVelocity(1.0);
+        mirrorable.update(1.0);
     }
 
     /**
@@ -87,15 +103,6 @@ public final class Guard extends FeatureModel implements Routine, Recyclable
             rasterable.setFrameOffsets(0, 0);
             hurtable.setShadeOffset(0, 0);
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        model.getMovement().setVelocity(1.0);
-        mirrorable.update(1.0);
     }
 
     @Override

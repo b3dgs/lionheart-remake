@@ -21,8 +21,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -51,27 +49,37 @@ public final class SwordShade extends FeatureModel implements Routine
     private static final int SHADE_FH = 10;
     private static final int SHADE_FV = 5;
 
+    private final Mirrorable mirrorable;
+    private final Transformable transformable;
+
     private final SpriteAnimated[] shades = new SpriteAnimated[Constant.STATS_MAX_SWORD];
     private final AnimationConfig config;
     private final Viewer viewer;
 
     private SpriteAnimated shade;
 
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Stats stats;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param mirrorable The mirrorable feature.
+     * @param transformable The transformable feature.
+     * @param stateHandler The state feature.
+     * @param stats The stats feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public SwordShade(Services services, Setup setup)
+    public SwordShade(Services services,
+                      Setup setup,
+                      Mirrorable mirrorable,
+                      Transformable transformable,
+                      StateHandler stateHandler,
+                      Stats stats)
     {
         super(services, setup);
+
+        this.mirrorable = mirrorable;
+        this.transformable = transformable;
 
         viewer = services.get(Viewer.class);
 
@@ -88,12 +96,6 @@ public final class SwordShade extends FeatureModel implements Routine
         shade = shades[0];
 
         config = AnimationConfig.imports(setup);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         stateHandler.addListener((from, to) ->
         {

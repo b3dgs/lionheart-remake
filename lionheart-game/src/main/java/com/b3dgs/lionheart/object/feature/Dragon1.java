@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -58,30 +57,44 @@ public final class Dragon1 extends FeatureModel
     private static final int FIRED_DELAY_MS = 800;
     private static final int HEIGHT_LIMIT = 400;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Animatable animatable;
+    private final Launcher launcher;
+    private final Transformable transformable;
+    private final Identifiable identifiable;
+
     private final Tick tick = new Tick();
     private final Animation idle;
-
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private Updatable current;
     private Dragon1Config config;
     private int count;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param launcher The launcher feature.
+     * @param transformable The transformable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Dragon1(Services services, Setup setup)
+    public Dragon1(Services services,
+                   Setup setup,
+                   Animatable animatable,
+                   Launcher launcher,
+                   Transformable transformable,
+                   Identifiable identifiable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.launcher = launcher;
+        this.transformable = transformable;
+        this.identifiable = identifiable;
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
 

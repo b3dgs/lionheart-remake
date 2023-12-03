@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -41,28 +40,60 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
 @FeatureInterface
 public final class NorkaPlatform extends FeatureModel implements Routine, Recyclable
 {
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Transformable transformable;
+    private final Hurtable hurtable;
+    private final Launchable launchable;
+
+    private final Tick tick = new Tick();
 
     private boolean first;
     private double startX;
     private int delay;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Launchable launchable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param hurtable The hurtable feature.
+     * @param launchable The launchable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public NorkaPlatform(Services services, Setup setup)
+    public NorkaPlatform(Services services,
+                         Setup setup,
+                         Transformable transformable,
+                         Hurtable hurtable,
+                         Launchable launchable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.hurtable = hurtable;
+        this.launchable = launchable;
+    }
+
+    private int getMaxX()
+    {
+        final int max;
+        if (Double.compare(launchable.getDirection().getDirectionVertical(), -3.0) == 0)
+        {
+            max = 48;
+            delay = 4600;
+        }
+        else if (Double.compare(launchable.getDirection().getDirectionVertical(), -0.5) == 0)
+        {
+            max = 112;
+            delay = 4300;
+        }
+        else
+        {
+            max = 76;
+            delay = 4000;
+        }
+        return max;
     }
 
     @Override
@@ -93,27 +124,6 @@ public final class NorkaPlatform extends FeatureModel implements Routine, Recycl
         {
             hurtable.kill(true);
         }
-    }
-
-    private int getMaxX()
-    {
-        final int max;
-        if (Double.compare(launchable.getDirection().getDirectionVertical(), -3.0) == 0)
-        {
-            max = 48;
-            delay = 4600;
-        }
-        else if (Double.compare(launchable.getDirection().getDirectionVertical(), -0.5) == 0)
-        {
-            max = 112;
-            delay = 4300;
-        }
-        else
-        {
-            max = 76;
-            delay = 4000;
-        }
-        return max;
     }
 
     @Override

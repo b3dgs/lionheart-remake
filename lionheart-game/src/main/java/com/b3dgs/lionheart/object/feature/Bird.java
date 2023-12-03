@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -58,26 +57,43 @@ public final class Bird extends FeatureModel implements Routine, Recyclable, Col
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
+    private final EntityModel model;
+    private final StateHandler stateHandler;
+    private final Launchable launchable;
+    private final Hurtable hurtable;
+    private final Glue glue;
+
     private DeviceController device;
     private boolean hit;
     private Force old;
-
-    @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Launchable launchable;
-    @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Glue glue;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param stateHandler The state feature.
+     * @param launchable The launchable feature.
+     * @param hurtable The hurtable feature.
+     * @param glue The glue feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Bird(Services services, Setup setup)
+    public Bird(Services services,
+                Setup setup,
+                EntityModel model,
+                StateHandler stateHandler,
+                Launchable launchable,
+                Hurtable hurtable,
+                Glue glue)
     {
         super(services, setup);
+
+        this.model = model;
+        this.stateHandler = stateHandler;
+        this.launchable = launchable;
+        this.hurtable = hurtable;
+        this.glue = glue;
     }
 
     @Override

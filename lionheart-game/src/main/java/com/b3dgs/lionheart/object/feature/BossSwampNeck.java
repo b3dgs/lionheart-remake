@@ -20,9 +20,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Localizable;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -51,29 +49,48 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     private static final int OFFSET_Y = 87;
     private static final int HIT_DELAY_MS = 30;
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final Rasterable rasterable;
+    private final Collidable collidable;
+    private final Identifiable identifiable;
+
+    private final Tick tick = new Tick();
 
     private CollidableListener listener;
     private int frame;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param rasterable The rasterable feature.
+     * @param collidable The collidable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwampNeck(Services services, Setup setup)
+    public BossSwampNeck(Services services,
+                         Setup setup,
+                         Transformable transformable,
+                         Animatable animatable,
+                         Rasterable rasterable,
+                         Collidable collidable,
+                         Identifiable identifiable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.rasterable = rasterable;
+        this.collidable = collidable;
+        this.identifiable = identifiable;
+
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     /**
@@ -114,14 +131,6 @@ public final class BossSwampNeck extends FeatureModel implements Routine, Recycl
     public void destroy()
     {
         identifiable.destroy();
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

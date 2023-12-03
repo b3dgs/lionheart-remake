@@ -20,9 +20,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -52,36 +50,43 @@ public final class BossSwampLittle extends FeatureModel implements Routine, Recy
     private static final double SPEED_X = 1.2;
 
     private final Trackable target = services.get(Trackable.class);
+
+    private final Transformable transformable;
+    private final Mirrorable mirrorable;
+    private final Animatable animatable;
+
     private final Animation walk;
 
     private double sh;
     private boolean init;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param animatable The animatable feature.
+     * @param collidable The collidable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwampLittle(Services services, Setup setup)
+    public BossSwampLittle(Services services,
+                           Setup setup,
+                           Transformable transformable,
+                           Mirrorable mirrorable,
+                           Animatable animatable,
+                           Collidable collidable)
     {
         super(services, setup);
 
-        walk = AnimationConfig.imports(setup).getAnimation(Anim.WALK);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
+        this.transformable = transformable;
+        this.mirrorable = mirrorable;
+        this.animatable = animatable;
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
+
+        walk = AnimationConfig.imports(setup).getAnimation(Anim.WALK);
     }
 
     @Override

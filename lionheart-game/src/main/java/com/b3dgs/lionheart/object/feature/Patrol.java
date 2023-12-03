@@ -28,8 +28,6 @@ import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -75,11 +73,21 @@ import com.b3dgs.lionheart.object.state.StateTurn;
 public final class Patrol extends FeatureModel implements Snapshotable, XmlLoader, Routine, TileCollidableListener,
                           CollidableListener, Recyclable, Syncable
 {
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
+
+    private final EntityModel model;
+    private final StateHandler stateHandler;
+    private final Mirrorable mirrorable;
+    private final Transformable transformable;
+    private final Rasterable rasterable;
+    private final Stats stats;
+    private final Patrols patrols;
+    private final Networkable networkable;
+
     private final Tick tickSync = new Tick();
     private final Tick tick = new Tick();
     private final AnimationConfig anim;
-
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
     private int currentIndex;
     private double sh;
@@ -98,34 +106,81 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
     private double startY;
     private double curveAngle;
 
-    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
     private Updatable checker;
     private boolean enabled = true;
     private boolean first = true;
     private double idle;
-
-    @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private Patrols patrols;
-    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param stateHandler The state feature.
+     * @param collidable The collidable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param transformable The transformable feature.
+     * @param rasterable The rasterable feature.
+     * @param stats The stats feature.
+     * @param patrols The patrols feature.
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Patrol(Services services, Setup setup)
+    public Patrol(Services services,
+                  Setup setup,
+                  EntityModel model,
+                  StateHandler stateHandler,
+                  Collidable collidable,
+                  Mirrorable mirrorable,
+                  Transformable transformable,
+                  Rasterable rasterable,
+                  Stats stats,
+                  Patrols patrols,
+                  Networkable networkable)
     {
         super(services, setup);
 
+        this.model = model;
+        this.stateHandler = stateHandler;
+        this.mirrorable = mirrorable;
+        this.transformable = transformable;
+        this.rasterable = rasterable;
+        this.stats = stats;
+        this.patrols = patrols;
+        this.networkable = networkable;
+
         anim = AnimationConfig.imports(setup);
+
+        stateHandler.addListener((from, to) ->
+        {
+            if (stats.getHealth() > 0)
+            {
+                collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
+            }
+        });
+        model.setInput(new DeviceControllerVoid()
+        {
+            @Override
+            public double getHorizontalDirection()
+            {
+                return enabled
+                       && (stateHandler.isState(StatePatrol.class) || stateHandler.isState(StatePatrolCeil.class)) ? sh
+                                                                                                                   : 0.0;
+            }
+
+            @Override
+            public double getVerticalDirection()
+            {
+                return !curve && enabled ? sv : 0.0;
+            }
+        });
+        model.getMovement().setVelocity(1.0);
+
+        applyMirror();
+        mirrorable.update(1.0);
+
+        rasterable.setAnimOffset(animOffset);
     }
 
     /**
@@ -414,42 +469,6 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
                 currentIndex = -1;
             }
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        stateHandler.addListener((from, to) ->
-        {
-            if (stats.getHealth() > 0)
-            {
-                collidable.setEnabled(!coll || !Anim.TURN.equals(EntityModel.getAnimationName(to)));
-            }
-        });
-        model.setInput(new DeviceControllerVoid()
-        {
-            @Override
-            public double getHorizontalDirection()
-            {
-                return enabled
-                       && (stateHandler.isState(StatePatrol.class) || stateHandler.isState(StatePatrolCeil.class)) ? sh
-                                                                                                                   : 0.0;
-            }
-
-            @Override
-            public double getVerticalDirection()
-            {
-                return !curve && enabled ? sv : 0.0;
-            }
-        });
-        model.getMovement().setVelocity(1.0);
-
-        applyMirror();
-        mirrorable.update(1.0);
-
-        rasterable.setAnimOffset(animOffset);
     }
 
     @Override

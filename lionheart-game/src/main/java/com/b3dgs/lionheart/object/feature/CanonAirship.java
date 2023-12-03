@@ -24,7 +24,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -51,32 +50,52 @@ public final class CanonAirship extends FeatureModel implements Routine, Recycla
     private static final int FIRE_DELAY_MS = 5000;
     private static final double FIRE_SPEED = 1.5;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.get(Trackable.class);
+
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final Stats stats;
+    private final Launcher launcher;
+    private final StateHandler stateHandler;
+    private final Hurtable hurtable;
+
     private final Tick tick = new Tick();
     private final Force direction = new Force();
     private final int halfFrames;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Trackable target = services.get(Trackable.class);
-
     private Updatable current;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Hurtable hurtable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param stats The stats feature.
+     * @param launcher The launcher feature.
+     * @param stateHandler The state feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public CanonAirship(Services services, Setup setup)
+    public CanonAirship(Services services,
+                        Setup setup,
+                        Transformable transformable,
+                        Animatable animatable,
+                        Stats stats,
+                        Launcher launcher,
+                        StateHandler stateHandler,
+                        Hurtable hurtable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.stats = stats;
+        this.launcher = launcher;
+        this.stateHandler = stateHandler;
+        this.hurtable = hurtable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         halfFrames = config.getAnimation(Anim.IDLE).getFrames() / 2;

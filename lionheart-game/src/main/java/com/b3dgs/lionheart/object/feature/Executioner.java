@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -67,27 +66,47 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
 
+    private final Transformable transformable;
+    private final StateHandler stateHandler;
+    private final Mirrorable mirrorable;
+    private final Collidable collidable;
+    private final Hurtable hurtable;
+    private final Stats stats;
+
     private boolean first;
     private Animation fall;
     private Animatable wall;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Stats stats;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param stateHandler The state handler.
+     * @param mirrorable The mirrorable feature.
+     * @param collidable The collidable feature.
+     * @param hurtable The hurtable feature.
+     * @param stats The stats feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Executioner(Services services, Setup setup)
+    public Executioner(Services services,
+                       Setup setup,
+                       Transformable transformable,
+                       StateHandler stateHandler,
+                       Mirrorable mirrorable,
+                       Collidable collidable,
+                       Hurtable hurtable,
+                       Stats stats)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.stateHandler = stateHandler;
+        this.mirrorable = mirrorable;
+        this.collidable = collidable;
+        this.hurtable = hurtable;
+        this.stats = stats;
     }
 
     /**

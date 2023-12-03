@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.Mover;
 import com.b3dgs.lionengine.game.SizeConfig;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -35,7 +34,7 @@ import com.b3dgs.lionengine.game.feature.Transformable;
 @FeatureInterface
 public class Trackable extends FeatureModel implements Mover, Shape
 {
-    @FeatureGet private Transformable transformable;
+    private final Transformable transformable;
 
     /**
      * Create feature.
@@ -45,11 +44,14 @@ public class Trackable extends FeatureModel implements Mover, Shape
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Trackable(Services services, Setup setup)
+    public Trackable(Services services, Setup setup, Transformable transformable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
     }
 
     @Override

@@ -19,11 +19,9 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.game.Feature;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -64,27 +62,55 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
     private final StateHandler playerState = target.getFeature(StateHandler.class);
     private final Camera camera = services.get(Camera.class);
     private final CameraTracker tracker = services.get(CameraTracker.class);
+
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final Launcher launcher;
+
+    private final boolean free;
+
     private int offsetY;
     private boolean on = true;
     private int oldHealth;
-    private final boolean free;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Launcher launcher;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param launcher The launcher feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Dragonfly(Services services, Setup setup)
+    public Dragonfly(Services services,
+                     Setup setup,
+                     Transformable transformable,
+                     Animatable animatable,
+                     Launcher launcher)
     {
         super(services, setup);
 
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.launcher = launcher;
+
         free = setup.getBoolean(false, ATT_FREE, NODE);
+
+        target.getFeature(TileCollidable.class).addListener((result, category) -> off());
+
+        final Collidable collidable = target.getFeature(Collidable.class);
+        collidable.addListener((c, with, by) ->
+        {
+            if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND)
+                || with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
+            {
+                off();
+            }
+        });
+
+        start(collidable, (int) collidable.getY());
+        oldHealth = playerStats.getHealth();
     }
 
     /**
@@ -188,27 +214,6 @@ public final class Dragonfly extends FeatureModel implements Routine, Collidable
                 launcher.setLevel(0);
             }
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        target.getFeature(TileCollidable.class).addListener((result, category) -> off());
-
-        final Collidable collidable = target.getFeature(Collidable.class);
-        collidable.addListener((c, with, by) ->
-        {
-            if (with.getName().startsWith(CollisionName.LEG) && by.getName().startsWith(CollisionName.GROUND)
-                || with.getName().startsWith(CollisionName.GRIP) && by.getName().startsWith(CollisionName.GRIP))
-            {
-                off();
-            }
-        });
-
-        start(collidable, (int) collidable.getY());
-        oldHealth = playerStats.getHealth();
     }
 
     @Override

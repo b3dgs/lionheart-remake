@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -62,6 +61,17 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private static final double MOVE_Y_SPEED = 4.5;
     private static final int MOVE_DOWN_Y = 80;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.get(Trackable.class);
+    private final ScreenShaker shaker = services.get(ScreenShaker.class);
+
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Mirrorable mirrorable;
+    private final Body body;
+    private final Hurtable hurtable;
+    private final Launcher launcher;
+
     private final Tick tick = new Tick();
     private final Force movement = new Force();
     private final Animation idle;
@@ -69,32 +79,41 @@ public final class BossNorka2 extends FeatureModel implements Routine, Recyclabl
     private final Animation turn;
     private final Animation attack;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Trackable target = services.get(Trackable.class);
-    private final ScreenShaker shaker = services.get(ScreenShaker.class);
-
     private Updatable current;
     private int side;
     private boolean forceJump;
     private boolean launch;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Body body;
-    @FeatureGet private Hurtable hurtable;
-    @FeatureGet private Launcher launcher;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param body The body feature.
+     * @param hurtable The hurtable feature.
+     * @param launcher The launcher feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossNorka2(Services services, Setup setup)
+    public BossNorka2(Services services,
+                      Setup setup,
+                      Animatable animatable,
+                      Transformable transformable,
+                      Mirrorable mirrorable,
+                      Body body,
+                      Hurtable hurtable,
+                      Launcher launcher)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.mirrorable = mirrorable;
+        this.body = body;
+        this.hurtable = hurtable;
+        this.launcher = launcher;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

@@ -269,20 +269,24 @@ public class ApplicationConfiguration
                     final Featurable featurable = WorldModel.INSTANCE.getFactory()
                                                                      .create(media, ObjectRepresentation.class);
                     final Setup setup = WorldModel.INSTANCE.getFactory().getSetup(media);
-                    featurable.addFeature(new MirrorableModel(services, setup));
-                    featurable.addFeature(new BodyModel(services, setup));
-                    featurable.addFeature(new CollidableModel(services, setup));
-                    featurable.addFeature(new LauncherModel(services, setup));
-                    featurable.addFeature(new LaunchableModel(services, setup));
-                    featurable.addFeature(new TileCollidableModel(services, setup));
-                    featurable.addFeature(new StateHandler(services, setup));
-                    featurable.addFeature(new AnimatableModel(services, setup));
-                    featurable.addFeature(new NetworkableModel(services, setup));
-                    featurable.addFeature(new Glue(services, setup));
-                    featurable.addFeature(new Stats(services, setup));
+                    featurable.addFeature(MirrorableModel.class, services, setup);
+                    featurable.addFeature(BodyModel.class, services, setup);
+                    featurable.addFeature(CollidableModel.class, services, setup);
+                    featurable.addFeature(LauncherModel.class, services, setup);
+                    featurable.addFeature(LaunchableModel.class, services, setup);
+                    featurable.addFeature(TileCollidableModel.class, services, setup);
+                    featurable.addFeature(StateHandler.class, services, setup);
+                    featurable.addFeature(AnimatableModel.class, services, setup);
+                    featurable.addFeature(NetworkableModel.class, services, setup);
+                    featurable.addFeature(Glue.class, services, setup);
+                    featurable.addFeature(Stats.class, services, setup);
                     featurable.addFeature(new EntityChecker());
-                    FeaturableConfig.getFeatures(project.getLoader().getClassLoader(), services, setup, XmlSaver.class)
-                                    .forEach(featurable::addFeature);
+                    FeaturableConfig.addFeatures(project.getLoader()
+                                                        .getClassLoader(),
+                                                 featurable,
+                                                 services,
+                                                 setup,
+                                                 XmlSaver.class);
                     featurable.getFeature(Transformable.class).teleport(x, y);
                     WorldModel.INSTANCE.getHandler().add(featurable);
                     return featurable;

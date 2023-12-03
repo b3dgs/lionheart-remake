@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -57,18 +56,21 @@ public final class Takeable extends FeatureModel implements CollidableListener, 
 
     private CollidableListener current;
 
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private EntityModel model;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param transformable The transformable feature.
+     * @param model The model feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Takeable(Services services, Setup setup)
+    public Takeable(Services services,
+                    Setup setup,
+                    Identifiable identifiable,
+                    Transformable transformable,
+                    EntityModel model)
     {
         super(services, setup);
 

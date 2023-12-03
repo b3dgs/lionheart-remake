@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -43,24 +42,38 @@ public final class BulletDestroyOnGround extends FeatureModel implements Recycla
     private static final String NODE = "bulletDestroyOnGround";
     private static final String ATT_COLLFROMBOTTOM = "collFromBottom";
 
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final TileCollidable tileCollidable;
+    private final Hurtable hurtable;
+
     private final boolean collFromBottom = setup.getBoolean(true, ATT_COLLFROMBOTTOM, NODE);
     private final Animation idle;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private TileCollidable tileCollidable;
-    @FeatureGet private Hurtable hurtable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param tileCollidable The tile collidable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BulletDestroyOnGround(Services services, Setup setup)
+    public BulletDestroyOnGround(Services services,
+                                 Setup setup,
+                                 Transformable transformable,
+                                 Animatable animatable,
+                                 TileCollidable tileCollidable,
+                                 Hurtable hurtable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.tileCollidable = tileCollidable;
+        this.hurtable = hurtable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

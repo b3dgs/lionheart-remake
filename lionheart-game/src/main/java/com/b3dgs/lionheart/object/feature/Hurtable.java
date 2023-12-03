@@ -29,11 +29,9 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.OriginConfig;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -98,6 +96,25 @@ public final class Hurtable extends FeatureModel
     private static final int HURT_FLICKER_SWITCH_DELAY_MS = 130;
     private static final int SPIKE_DAMAGES = 1;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Spawner spawner = services.get(Spawner.class);
+    private final Viewer viewer = services.get(Viewer.class);
+    private final LoadNextStage stage = services.get(LoadNextStage.class);
+    private final MapTileWater mapWater = services.get(MapTileWater.class);
+
+    private final Identifiable identifiable;
+    private final Transformable transformable;
+    private final Body body;
+    private final Mirrorable mirrorable;
+    private final StateHandler stateHandler;
+    private final Collidable collidable;
+    private final TileCollidable tileCollidable;
+    private final EntityModel model;
+    private final EntityChecker checker;
+    private final Stats stats;
+    private final Rasterable rasterable;
+    private final Networkable networkable;
+
     private final Force hurtForce = new Force();
     private final Tick recover = new Tick();
     private final Tick flicker = new Tick();
@@ -112,12 +129,6 @@ public final class Hurtable extends FeatureModel
     private final Sfx sfx;
     private final boolean boss;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Spawner spawner = services.get(Spawner.class);
-    private final Viewer viewer = services.get(Viewer.class);
-    private final LoadNextStage stage = services.get(LoadNextStage.class);
-    private final MapTileWater mapWater = services.get(MapTileWater.class);
-
     private CollidableListener currentCollide;
     private TileCollidableListener currentTile;
     private Updatable flickerCurrent;
@@ -128,29 +139,54 @@ public final class Hurtable extends FeatureModel
     private double oldGravityMax;
     private boolean shading;
 
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Body body;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private TileCollidable tileCollidable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private EntityChecker checker;
-    @FeatureGet private Stats stats;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Networkable networkable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param transformable The transformable feature.
+     * @param body The body feature.
+     * @param mirrorable The mirrorable feature.
+     * @param stateHandler The state feature.
+     * @param collidable The collidable feature.
+     * @param tileCollidable The tile collidable feature.
+     * @param model The model feature.
+     * @param checker The checker feature.
+     * @param stats The stats feature.
+     * @param rasterable The rasterable feature.
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Hurtable(Services services, SetupEntity setup)
+    public Hurtable(Services services,
+                    SetupEntity setup,
+                    Identifiable identifiable,
+                    Transformable transformable,
+                    Body body,
+                    Mirrorable mirrorable,
+                    StateHandler stateHandler,
+                    Collidable collidable,
+                    TileCollidable tileCollidable,
+                    EntityModel model,
+                    EntityChecker checker,
+                    Stats stats,
+                    Rasterable rasterable,
+                    Networkable networkable)
     {
         super(services, setup);
+
+        this.identifiable = identifiable;
+        this.transformable = transformable;
+        this.body = body;
+        this.mirrorable = mirrorable;
+        this.stateHandler = stateHandler;
+        this.collidable = collidable;
+        this.tileCollidable = tileCollidable;
+        this.model = model;
+        this.checker = checker;
+        this.stats = stats;
+        this.rasterable = rasterable;
+        this.networkable = networkable;
 
         final HurtableConfig config = HurtableConfig.imports(setup);
         frame = config.getFrame();
@@ -179,6 +215,13 @@ public final class Hurtable extends FeatureModel
         hurtForce.setVelocity(0.14);
         hurtForceValue = config.getBackward().orElse(0.0);
 
+        if (fall)
+        {
+            body.setGravity(0.0);
+            body.setGravityMax(0.0);
+            tileCollidable.setEnabled(false);
+            collidable.setEnabled(true);
+        }
     }
 
     /**
@@ -578,20 +621,6 @@ public final class Hurtable extends FeatureModel
             buffer.putInt(getSyncId());
             buffer.put(UtilConversion.fromUnsignedByte(UtilConversion.boolToInt(force)));
             networkable.send(buffer);
-        }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        if (fall)
-        {
-            body.setGravity(0.0);
-            body.setGravityMax(0.0);
-            tileCollidable.setEnabled(false);
-            collidable.setEnabled(true);
         }
     }
 

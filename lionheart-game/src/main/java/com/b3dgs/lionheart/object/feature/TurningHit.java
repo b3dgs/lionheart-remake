@@ -20,10 +20,10 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
+import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
@@ -44,10 +44,10 @@ import com.b3dgs.lionheart.object.state.StateIdle;
 @FeatureInterface
 public final class TurningHit extends Turning implements CollidableListener
 {
-    private final Animation idle;
+    private final Animatable animatable;
+    private final StateHandler stateHandler;
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private StateHandler stateHandler;
+    private final Animation idle;
 
     private boolean stopped;
 
@@ -56,11 +56,23 @@ public final class TurningHit extends Turning implements CollidableListener
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param stateHandler The state feature.
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param glue The glue feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public TurningHit(Services services, Setup setup)
+    public TurningHit(Services services,
+                      Setup setup,
+                      StateHandler stateHandler,
+                      Animatable animatable,
+                      Transformable transformable,
+                      Glue glue)
     {
-        super(services, setup);
+        super(services, setup, stateHandler, animatable, transformable, glue);
+
+        this.animatable = animatable;
+        this.stateHandler = stateHandler;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

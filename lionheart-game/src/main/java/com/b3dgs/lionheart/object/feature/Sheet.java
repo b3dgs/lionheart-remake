@@ -20,8 +20,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -48,6 +46,8 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     private static final double CURVE_SPEED = 8.0;
     private static final int HIDE_RANGE = 48;
 
+    private final Transformable transformable;
+
     private Trackable target;
 
     private SheetConfig config;
@@ -56,39 +56,22 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
     private double curve;
     private boolean abord;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Glue glue;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param glue The glue feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Sheet(Services services, Setup setup)
+    public Sheet(Services services, Setup setup, Transformable transformable, Glue glue)
     {
         super(services, setup);
 
+        this.transformable = transformable;
+
         load(setup.getRoot());
-    }
-
-    @Override
-    public void setConfig(SheetConfig config)
-    {
-        this.config = config;
-    }
-
-    @Override
-    public SheetConfig getConfig()
-    {
-        return config;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         glue.addListener(new GlueListener()
         {
@@ -109,6 +92,18 @@ public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Ed
                 abord = true;
             }
         });
+    }
+
+    @Override
+    public void setConfig(SheetConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
+    public SheetConfig getConfig()
+    {
+        return config;
     }
 
     @Override

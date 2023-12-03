@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -40,23 +39,34 @@ public final class Fish extends FeatureModel implements Routine, Recyclable
 {
     private final MapTileWater water = services.get(MapTileWater.class);
 
+    private final Transformable transformable;
+    private final Collidable collidable;
+    private final Rasterable rasterable;
+
     private boolean first;
     private double startY;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
+     * @param rasterable The rasterable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Fish(Services services, Setup setup)
+    public Fish(Services services,
+                Setup setup,
+                Transformable transformable,
+                Collidable collidable,
+                Rasterable rasterable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.collidable = collidable;
+        this.rasterable = rasterable;
     }
 
     @Override

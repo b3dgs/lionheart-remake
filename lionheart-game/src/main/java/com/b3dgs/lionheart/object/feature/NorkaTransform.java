@@ -24,7 +24,6 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -44,26 +43,31 @@ import com.b3dgs.lionheart.constant.Anim;
 @FeatureInterface
 public final class NorkaTransform extends FeatureModel implements Routine, Recyclable
 {
-    private final Animation idle;
-
     private final Spawner spawner = services.get(Spawner.class);
+
+    private final Animatable animatable;
+    private final Identifiable identifiable;
+
+    private final Animation idle;
 
     private int max;
     private Updatable phase;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public NorkaTransform(Services services, Setup setup)
+    public NorkaTransform(Services services, Setup setup, Animatable animatable, Identifiable identifiable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.identifiable = identifiable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

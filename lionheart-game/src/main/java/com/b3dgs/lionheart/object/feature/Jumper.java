@@ -21,8 +21,6 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -58,6 +56,13 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
 {
     private static final String ATT_OFFSET = "offset";
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Transformable transformable;
+    private final EntityModel model;
+    private final StateHandler handler;
+    private final Body body;
+
     private final Tick jumpStop = new Tick();
     private final MapTile map;
     private final MapTileGroup mapGroup;
@@ -77,35 +82,70 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
     };
     private final int offset = setup.getInteger(0, ATT_OFFSET, JumperConfig.NODE_JUMPER);
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-
     private JumperConfig config;
     private DeviceController oldControl;
     private double move;
     private boolean jump;
     private boolean jumpPress;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler handler;
-    @FeatureGet private Body body;
-    @FeatureGet private Mirrorable mirrorable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param model The model feature.
+     * @param handler The handler feature.
+     * @param body The body feature.
+     * @param mirrorable The mirrorable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Jumper(Services services, Setup setup)
+    public Jumper(Services services,
+                  Setup setup,
+                  Transformable transformable,
+                  EntityModel model,
+                  StateHandler handler,
+                  Body body,
+                  Mirrorable mirrorable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.model = model;
+        this.handler = handler;
+        this.body = body;
 
         map = services.get(MapTile.class);
         mapGroup = map.getFeature(MapTileGroup.class);
 
         load(setup.getRoot());
+
+        handler.addListener((f, t) ->
+        {
+            if (t == StateJump.class)
+            {
+                if (mirrorable.is(Mirror.HORIZONTAL))
+                {
+                    move = -config.getH();
+                }
+                if (mirrorable.is(Mirror.NONE))
+                {
+                    move = config.getH();
+                }
+                model.getMovement().setDirection(move, 0.0);
+                jumpPress = true;
+                jumpStop.restart();
+            }
+            else if (oldControl != null && f == StateFall.class && t == StatePatrol.class)
+            {
+                move = 0.0;
+                model.setInput(oldControl);
+                oldControl = null;
+                jump = false;
+                jumpPress = false;
+                jumpStop.stop();
+            }
+        });
     }
 
     /**
@@ -147,39 +187,6 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
     public void save(Xml root)
     {
         config.save(root);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        handler.addListener((f, t) ->
-        {
-            if (t == StateJump.class)
-            {
-                if (mirrorable.is(Mirror.HORIZONTAL))
-                {
-                    move = -config.getH();
-                }
-                if (mirrorable.is(Mirror.NONE))
-                {
-                    move = config.getH();
-                }
-                model.getMovement().setDirection(move, 0.0);
-                jumpPress = true;
-                jumpStop.restart();
-            }
-            else if (oldControl != null && f == StateFall.class && t == StatePatrol.class)
-            {
-                move = 0.0;
-                model.setInput(oldControl);
-                oldControl = null;
-                jump = false;
-                jumpPress = false;
-                jumpStop.stop();
-            }
-        });
     }
 
     @Override

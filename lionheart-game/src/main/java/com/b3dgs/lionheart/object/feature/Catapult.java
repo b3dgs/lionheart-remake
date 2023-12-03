@@ -26,10 +26,8 @@ import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -53,6 +51,9 @@ import com.b3dgs.lionheart.object.XmlSaver;
 @FeatureInterface
 public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable, CollidableListener
 {
+    private final Animatable animatable;
+    private final Launcher launcher;
+
     private final Animation idle;
     private final Animation fire;
     private final Animation reload;
@@ -62,19 +63,21 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
     private Updatable updater = UpdatableVoid.getInstance();
     private boolean fired;
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Launcher launcher;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param launcher The launcher feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Catapult(Services services, Setup setup)
+    public Catapult(Services services, Setup setup, Animatable animatable, Launcher launcher)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.launcher = launcher;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
@@ -82,6 +85,13 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
         reload = config.getAnimation(Anim.TURN);
 
         load(setup.getRoot());
+
+        launcher.addListener(l ->
+        {
+            final Force direction = l.getDirection();
+            final double vx = direction.getDirectionHorizontal();
+            direction.setDestination(vx, 0.0);
+        });
     }
 
     private void updateReload(@SuppressWarnings("unused") double extrp)
@@ -118,19 +128,6 @@ public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver,
     public void save(Xml root)
     {
         config.save(root);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        launcher.addListener(l ->
-        {
-            final Force direction = l.getDirection();
-            final double vx = direction.getDirectionHorizontal();
-            direction.setDestination(vx, 0.0);
-        });
     }
 
     @Override

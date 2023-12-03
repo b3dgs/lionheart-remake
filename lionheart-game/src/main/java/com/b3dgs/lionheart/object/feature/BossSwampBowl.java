@@ -20,9 +20,7 @@ import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -48,28 +46,39 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
 {
     private static final int HIT_DELAY_MS = 30;
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Animatable animatable;
+    private final Rasterable rasterable;
+
+    private final Tick tick = new Tick();
 
     private boolean hit;
     private double effect;
     private int frame;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param rasterable The rasterable feature.
+     * @param collidable The collidable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwampBowl(Services services, Setup setup)
+    public BossSwampBowl(Services services,
+                         Setup setup,
+                         Animatable animatable,
+                         Rasterable rasterable,
+                         Collidable collidable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.rasterable = rasterable;
+
+        collidable.setCollisionVisibility(com.b3dgs.lionheart.Constant.DEBUG_COLLISIONS);
     }
 
     /**
@@ -109,14 +118,6 @@ public final class BossSwampBowl extends FeatureModel implements Routine, Recycl
     public void setFrameOffset(int offset)
     {
         rasterable.setAnimOffset(UtilMath.clamp(offset, 0, 2) * 2);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        collidable.setCollisionVisibility(com.b3dgs.lionheart.Constant.DEBUG_COLLISIONS);
     }
 
     @Override

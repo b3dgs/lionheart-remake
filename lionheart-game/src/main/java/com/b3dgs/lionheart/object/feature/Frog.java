@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -49,31 +48,48 @@ public final class Frog extends FeatureModel implements Routine, Recyclable
     private static final int AWAIT_DELAY_MS = 1000;
     private static final double SPEED = 3.5;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Viewer viewer = services.get(Viewer.class);
+
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final Rasterable rasterable;
+    private final Collidable collidable;
+    private final Identifiable identifiable;
+
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation turn;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Viewer viewer = services.get(Viewer.class);
-
     private int phase;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param rasterable The rasterable feature.
+     * @param collidable The collidable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Frog(Services services, Setup setup)
+    public Frog(Services services,
+                Setup setup,
+                Transformable transformable,
+                Animatable animatable,
+                Rasterable rasterable,
+                Collidable collidable,
+                Identifiable identifiable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.rasterable = rasterable;
+        this.collidable = collidable;
+        this.identifiable = identifiable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

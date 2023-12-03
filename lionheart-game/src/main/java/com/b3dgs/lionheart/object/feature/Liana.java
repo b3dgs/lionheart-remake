@@ -21,8 +21,6 @@ import java.util.List;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -143,35 +141,41 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
     private final MapTile map = services.get(MapTile.class);
     private final MapTileGroup mapGroup = map.getFeature(MapTileGroup.class);
     private final MapTileCollision mapCollision = map.getFeature(MapTileCollision.class);
+
     private final CollidableListener take;
 
     private CollidableListener current;
-
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Liana(Services services, SetupSurfaceRastered setup)
+    public Liana(Services services,
+                 SetupSurfaceRastered setup,
+                 Identifiable identifiable,
+                 Transformable transformable,
+                 Collidable collidable)
     {
         super(services, setup);
 
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
+
         final Spawner spawner = services.get(Spawner.class);
 
-        take = (collidable, with, by) ->
+        take = (c, with, by) ->
         {
             if (by.getName().startsWith(Anim.ATTACK_FALL))
             {
                 final Tile tile = map.getTile(transformable, 0, 0);
                 if (tile != null && mapGroup.getGroup(tile).startsWith(CollisionName.LIANA))
                 {
-                    collidable.getFeature(EntityModel.class).jumpHit();
+                    c.getFeature(EntityModel.class).jumpHit();
                 }
                 else
                 {
@@ -368,14 +372,6 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         }
         // Case for other liana
         return TILE_VOID;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

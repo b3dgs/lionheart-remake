@@ -25,12 +25,11 @@ import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -97,13 +96,21 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
         return sideX;
     }
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Viewer viewer = services.get(Viewer.class);
+
+    private final Body body;
+    private final Launchable launchable;
+    private final TileCollidable tileCollidable;
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final EntityModel model;
+    private final Hurtable hurtable;
+
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Sfx sfx;
     private final int count;
-
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Viewer viewer = services.get(Viewer.class);
 
     private Rasterable rasterable;
     private Force jump;
@@ -111,28 +118,70 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
     private int bounced;
     private double extrp = com.b3dgs.lionengine.Constant.EXTRP;
 
-    @FeatureGet private Body body;
-    @FeatureGet private Launchable launchable;
-    @FeatureGet private TileCollidable tileCollidable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Hurtable hurtable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param body The body feature.
+     * @param launchable The launchable feature.
+     * @param tileCollidable The tile collidable feature.
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param animatable The animatable feature.
+     * @param model The model feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BulletBounceOnGround(Services services, Setup setup)
+    public BulletBounceOnGround(Services services,
+                                Setup setup,
+                                Body body,
+                                Launchable launchable,
+                                TileCollidable tileCollidable,
+                                Transformable transformable,
+                                Mirrorable mirrorable,
+                                Animatable animatable,
+                                EntityModel model,
+                                Hurtable hurtable)
     {
         super(services, setup);
+
+        this.body = body;
+        this.launchable = launchable;
+        this.tileCollidable = tileCollidable;
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.model = model;
+        this.hurtable = hurtable;
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
         sfx = Sfx.valueOf(setup.getString(ATT_SFX, NODE));
         count = setup.getInteger(0, ATT_COUNT, NODE);
+
+        jump = model.getJump();
+        jump.setVelocity(0.12);
+        jump.setSensibility(0.5);
+        jump.setDestination(0.0, 0.0);
+        jump.setDirection(0.0, 0.0);
+
+        rasterable = new RasterableModel(services,
+                                         new SetupSurfaceRastered(setup.getMedia()),
+                                         transformable,
+                                         mirrorable,
+                                         animatable)
+        {
+            @Override
+            public int getRasterIndex(double y)
+            {
+                return (int) (transformable.getHeight()
+                              - UtilMath.clamp(transformable.getY()
+                                               + UtilMath.getRounded(transformable.getHeight(), 16)
+                                               - 32,
+                                               0,
+                                               transformable.getHeight()));
+            }
+        };
+        rasterable.prepare(this);
     }
 
     /**
@@ -252,33 +301,6 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
         {
             ifIs(Launchable.class, l -> l.getDirection().zeroHorizontal());
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        jump = model.getJump();
-        jump.setVelocity(0.12);
-        jump.setSensibility(0.5);
-        jump.setDestination(0.0, 0.0);
-        jump.setDirection(0.0, 0.0);
-
-        rasterable = new RasterableModel(services, new SetupSurfaceRastered(setup.getMedia()))
-        {
-            @Override
-            public int getRasterIndex(double y)
-            {
-                return (int) (transformable.getHeight()
-                              - UtilMath.clamp(transformable.getY()
-                                               + UtilMath.getRounded(transformable.getHeight(), 16)
-                                               - 32,
-                                               0,
-                                               transformable.getHeight()));
-            }
-        };
-        rasterable.prepare(provider);
     }
 
     @Override

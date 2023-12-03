@@ -21,7 +21,6 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -43,30 +42,35 @@ public final class Ghost2 extends FeatureModel implements Routine, Recyclable
     private static final int TRACK_DELAY_MS = 1500;
     private static final double SPEED = 1.45;
 
-    private final Tick tick = new Tick();
-    private final Force current = new Force();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
+
+    private final Transformable transformable;
+    private final Hurtable hurtable;
+
+    private final Tick tick = new Tick();
+    private final Force current = new Force();
 
     private boolean phase;
     private double startY;
     private double idle;
     private boolean first;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Hurtable hurtable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Ghost2(Services services, SetupSurfaceRastered setup)
+    public Ghost2(Services services, SetupSurfaceRastered setup, Transformable transformable, Hurtable hurtable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.hurtable = hurtable;
     }
 
     /**

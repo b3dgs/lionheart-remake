@@ -21,8 +21,6 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -62,34 +60,57 @@ public final class Spider extends FeatureModel
 
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
 
+    private final Transformable transformable;
+    private final Mirrorable mirrorable;
+    private final EntityModel model;
+    private final StateHandler stateHandler;
+    private final Body body;
+    private final Patrol patrol;
+
     private SpiderConfig config;
     private int distance;
     private double move;
     private boolean tracked;
     private boolean enabled;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Body body;
-    @FeatureGet private Patrol patrol;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param model The model feature.
+     * @param stateHandler The state feature.
+     * @param body The body feature.
+     * @param patrol The patrol feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Spider(Services services, Setup setup)
+    public Spider(Services services,
+                  Setup setup,
+                  Transformable transformable,
+                  Mirrorable mirrorable,
+                  EntityModel model,
+                  StateHandler stateHandler,
+                  Body body,
+                  Patrol patrol)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.mirrorable = mirrorable;
+        this.model = model;
+        this.stateHandler = stateHandler;
+        this.body = body;
+        this.patrol = patrol;
 
         if (setup.hasNode(SpiderConfig.NODE_SPIDER))
         {
             config = new SpiderConfig(setup.getRoot());
         }
+
+        body.setGravity(0.54);
+        body.setGravityMax(6.6);
     }
 
     @Override
@@ -161,15 +182,6 @@ public final class Spider extends FeatureModel
         {
             config.save(root);
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        body.setGravity(0.54);
-        body.setGravityMax(6.6);
     }
 
     @Override

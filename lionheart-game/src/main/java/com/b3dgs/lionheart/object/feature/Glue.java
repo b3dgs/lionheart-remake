@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -47,6 +46,9 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     private static final String NODE = "glue";
     private static final String ATT_FORCE = "force";
 
+    private final Transformable transformable;
+    private final Collidable collidable;
+
     private final Collection<GlueListener> listeners = new ArrayList<>();
     private final boolean force = setup.getBoolean(false, ATT_FORCE, NODE);
 
@@ -61,19 +63,21 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     private boolean glue;
     private boolean started;
 
-    @FeatureGet private Transformable reference;
-    @FeatureGet private Collidable collidable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Glue(Services services, Setup setup)
+    public Glue(Services services, Setup setup, Transformable transformable, Collidable collidable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.collidable = collidable;
     }
 
     /**
@@ -123,8 +127,8 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
     {
         if (first)
         {
-            referenceX = reference.getX();
-            referenceY = reference.getY();
+            referenceX = transformable.getX();
+            referenceY = transformable.getY();
             first = false;
         }
         if (!started)
@@ -150,13 +154,13 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         {
             if (transformX != null)
             {
-                reference.teleportX(referenceX - transformX.transform());
+                transformable.teleportX(referenceX - transformX.transform());
             }
             if (transformY != null)
             {
-                reference.teleportY(referenceY - transformY.transform());
+                transformable.teleportY(referenceY - transformY.transform());
             }
-            reference.check(true);
+            transformable.check(true);
         }
 
         if (!collide && started)
@@ -165,9 +169,9 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
         }
         else if (glue && collide)
         {
-            other.moveLocationX(1.0, reference.getX() - reference.getOldX());
+            other.moveLocationX(1.0, transformable.getX() - transformable.getOldX());
             other.getFeature(Body.class).resetGravity();
-            other.teleportY(reference.getY() + offsetY);
+            other.teleportY(transformable.getY() + offsetY);
             other.check(true);
         }
         if (!collidable.isEnabled() && other != null && Double.compare(other.getY(), other.getOldY()) == 0)
@@ -191,12 +195,12 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
                 && !other.getFeature(EntityModel.class).isIgnoreGlue()
                 && (Double.compare(other.getY(), other.getOldY()) <= 0
                     && Double.compare(other.getFeature(EntityModel.class).getJump().getDirectionVertical(), 0.0) <= 0
-                    || force && Double.compare(reference.getY(), reference.getOldY()) != 0))
+                    || force && Double.compare(transformable.getY(), transformable.getOldY()) != 0))
             {
                 collide = true;
                 offsetY = with.getOffsetY();
                 other.getFeature(Body.class).resetGravity();
-                other.teleportY(reference.getY() + offsetY);
+                other.teleportY(transformable.getY() + offsetY);
                 other.check(true);
 
                 start();

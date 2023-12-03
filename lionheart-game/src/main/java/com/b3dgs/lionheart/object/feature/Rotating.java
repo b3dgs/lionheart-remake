@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -59,9 +58,12 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
 public final class Rotating extends FeatureModel
                             implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
 {
-    private final List<Transformable> rings = new ArrayList<>();
     private final Spawner spawner = services.get(Spawner.class);
     private final Viewer viewer = services.get(Viewer.class);
+
+    private final Transformable transformable;
+
+    private final List<Transformable> rings = new ArrayList<>();
     private final StateHandler target;
 
     private RotatingConfig config;
@@ -75,18 +77,19 @@ public final class Rotating extends FeatureModel
     private boolean collide;
     private Transformable platform;
 
-    @FeatureGet private Transformable transformable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Rotating(Services services, Setup setup)
+    public Rotating(Services services, Setup setup, Transformable transformable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
 
         final Optional<Trackable> trackable = services.getOptional(Trackable.class);
         if (trackable.isPresent())

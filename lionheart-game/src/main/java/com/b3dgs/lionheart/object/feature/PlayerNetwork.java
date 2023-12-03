@@ -30,8 +30,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -79,24 +77,25 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
 
     private static final String IMG_NUMBERS = "numbers.png";
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final DeviceController device = services.get(DeviceController.class);
+    private final CheckpointHandler checkpoint = services.get(CheckpointHandler.class);
+    private final Map<Integer, String> clients = services.get(ConcurrentHashMap.class);
+
+    private final Networkable networkable;
+
     private final ImageBuffer number = Graphics.getImageBuffer(Medias.create(Folder.SPRITE, IMG_NUMBERS));
     private final SpriteDigit numberTime = Drawable.loadSpriteDigit(number, 8, 16, 8);
     private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
                                                             Medias.create(Folder.SPRITE, "fontdata.xml"),
                                                             12,
                                                             12);
+
     private final Tick time = new Tick();
     private final Timing timeSync = new Timing();
     private final Timing timeWater = new Timing();
     private final Map<Integer, Boolean> clientsReady = new HashMap<>();
     private final Map<Integer, Integer> reachTime = new TreeMap<>();
-
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final DeviceController device = services.get(DeviceController.class);
-    private final CheckpointHandler checkpoint = services.get(CheckpointHandler.class);
-    private final Map<Integer, String> clients = services.get(ConcurrentHashMap.class);
-
-    @FeatureGet private Networkable networkable;
 
     private boolean ready;
     private boolean started;
@@ -107,16 +106,40 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
      * 
      * @param services The services reference.
      * @param setup The setup reference.
+     * @param networkable The networkable feature.
      */
-    public PlayerNetwork(Services services, Setup setup)
+    public PlayerNetwork(Services services, Setup setup, Networkable networkable)
     {
         super(services, setup);
+
+        this.networkable = networkable;
 
         number.prepare();
         numberTime.prepare();
 
         font.load();
         font.prepare();
+
+        checkpoint.addListener(new CheckpointListener()
+        {
+            @Override
+            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint, int index)
+            {
+                syncReach(player);
+            }
+
+            @Override
+            public void notifyReachStage(String next, Optional<Coord> spawn)
+            {
+                // Nothing to do
+            }
+
+            @Override
+            public void notifyReachBoss(double x, double y)
+            {
+                // Nothing to do
+            }
+        });
     }
 
     /**
@@ -219,33 +242,6 @@ public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Re
             }
         }
         return true;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        checkpoint.addListener(new CheckpointListener()
-        {
-            @Override
-            public void notifyReachCheckpoint(Transformable player, Checkpoint checkpoint, int index)
-            {
-                syncReach(player);
-            }
-
-            @Override
-            public void notifyReachStage(String next, Optional<Coord> spawn)
-            {
-                // Nothing to do
-            }
-
-            @Override
-            public void notifyReachBoss(double x, double y)
-            {
-                // Nothing to do
-            }
-        });
     }
 
     @Override

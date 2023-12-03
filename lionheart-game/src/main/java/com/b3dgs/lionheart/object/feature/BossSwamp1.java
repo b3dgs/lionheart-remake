@@ -25,10 +25,8 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -65,9 +63,19 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private static final double MOVE_X = 1.1;
     private static final int BOWL_MARGIN = 48;
 
-    private final List<Launchable> bowls = new ArrayList<>();
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
+
+    private final EntityModel model;
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Launcher launcher;
+    private final Identifiable identifiable;
+    private final Rasterable rasterable;
+    private final Stats stats;
+    private final BossSwampEffect effect;
+
+    private final List<Launchable> bowls = new ArrayList<>();
     private final Animation idle;
 
     private boolean moved;
@@ -76,27 +84,52 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private boolean fired;
     private int hit;
 
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private BossSwampEffect effect;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param launcher The launcher feature.
+     * @param identifiable The identifiable feature.
+     * @param rasterable The rasterable feature.
+     * @param stats The stats feature.
+     * @param effect The effect feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwamp1(Services services, Setup setup)
+    public BossSwamp1(Services services,
+                      Setup setup,
+                      EntityModel model,
+                      Animatable animatable,
+                      Transformable transformable,
+                      Launcher launcher,
+                      Identifiable identifiable,
+                      Rasterable rasterable,
+                      Stats stats,
+                      BossSwampEffect effect)
     {
         super(services, setup);
 
+        this.model = model;
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.launcher = launcher;
+        this.identifiable = identifiable;
+        this.rasterable = rasterable;
+        this.stats = stats;
+        this.effect = effect;
+
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+
+        launcher.setOffset(0, 0);
+        launcher.addListener(bowl ->
+        {
+            bowl.getFeature(Layerable.class).setLayer(Integer.valueOf(2), Integer.valueOf(2 + bowls.size()));
+            bowls.add(bowl);
+            Sfx.BOSS1_BOWL.play();
+        });
     }
 
     /**
@@ -220,20 +253,6 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
     private int getFrameOffset()
     {
         return (stats.getHealthMax() - stats.getHealth()) / 2;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        launcher.setOffset(0, 0);
-        launcher.addListener(bowl ->
-        {
-            bowl.getFeature(Layerable.class).setLayer(Integer.valueOf(2), Integer.valueOf(2 + bowls.size()));
-            bowls.add(bowl);
-            Sfx.BOSS1_BOWL.play();
-        });
     }
 
     @Override

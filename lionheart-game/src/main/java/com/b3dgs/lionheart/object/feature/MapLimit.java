@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
@@ -40,20 +39,31 @@ public final class MapLimit extends FeatureModel implements Routine
 {
     private final MapTile map = services.get(MapTile.class);
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Networkable networkable;
+    private final Transformable transformable;
+    private final EntityModel model;
+    private final Networkable networkable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param model The model feature.
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public MapLimit(Services services, SetupSurfaceRastered setup)
+    public MapLimit(Services services,
+                    SetupSurfaceRastered setup,
+                    Transformable transformable,
+                    EntityModel model,
+                    Networkable networkable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.model = model;
+        this.networkable = networkable;
     }
 
     @Override

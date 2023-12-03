@@ -22,9 +22,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -60,10 +58,13 @@ public final class LaserAirship extends FeatureModel
     private static final int DOT_HIDE = -100;
     private static final String LASER_DOT_FILE = "LaserDot.xml";
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
+
+    private final Transformable transformable;
+    private final Launcher launcher;
+
+    private final Tick tick = new Tick();
 
     private LaserAirshipConfig config;
     private Updatable current;
@@ -72,25 +73,56 @@ public final class LaserAirship extends FeatureModel
     private Identifiable laser;
     private double dotEndY;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Identifiable identifiable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param stats The stats feature.
+     * @param launcher The launcher feature.
+     * @param stateHandler The state feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public LaserAirship(Services services, Setup setup)
+    public LaserAirship(Services services,
+                        Setup setup,
+                        Transformable transformable,
+                        Animatable animatable,
+                        Stats stats,
+                        Launcher launcher,
+                        StateHandler stateHandler,
+                        Identifiable identifiable)
     {
         super(services, setup);
 
+        this.transformable = transformable;
+        this.launcher = launcher;
+
         load(setup.getRoot());
+
+        if (!Settings.isEditor())
+        {
+            identifiable.addListener(id ->
+            {
+                dotStart.getFeature(Identifiable.class).destroy();
+                dotEnd.getFeature(Identifiable.class).destroy();
+                if (laser != null)
+                {
+                    laser.destroy();
+                }
+            });
+            launcher.addListener(l ->
+            {
+                if (laser != null)
+                {
+                    laser.destroy();
+                    laser = l.getFeature(Identifiable.class);
+                }
+                l.getFeature(Laser.class).load(config.getStayDelay(), identifiable);
+            });
+        }
     }
 
     /**
@@ -181,34 +213,6 @@ public final class LaserAirship extends FeatureModel
     public void save(Xml root)
     {
         config.save(root);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        if (!Settings.isEditor())
-        {
-            identifiable.addListener(id ->
-            {
-                dotStart.getFeature(Identifiable.class).destroy();
-                dotEnd.getFeature(Identifiable.class).destroy();
-                if (laser != null)
-                {
-                    laser.destroy();
-                }
-            });
-            launcher.addListener(l ->
-            {
-                if (laser != null)
-                {
-                    laser.destroy();
-                    laser = l.getFeature(Identifiable.class);
-                }
-                l.getFeature(Laser.class).load(config.getStayDelay(), identifiable);
-            });
-        }
     }
 
     @Override

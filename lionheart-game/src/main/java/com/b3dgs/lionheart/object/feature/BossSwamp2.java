@@ -27,13 +27,11 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -96,12 +94,6 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private static final double MOVE_DEAD_Y = -0.6;
     private static final Animation FLY_ANIMATION = new Animation(Animation.DEFAULT_NAME, 1, 2, 0.48, false, true);
 
-    private final Tick tick = new Tick();
-    private final Tick tickFlicker = new Tick();
-    private final SpriteAnimated fly = Drawable.loadSpriteAnimated(Medias.create(Folder.BOSS, "swamp", "Boss2fly.png"),
-                                                                   4,
-                                                                   2);
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
@@ -110,6 +102,23 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private final LoadNextStage stage = services.get(LoadNextStage.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
 
+    private final EntityModel model;
+    private final Mirrorable mirrorable;
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Launcher launcher;
+    private final BossSwampEffect effect;
+    private final Identifiable identifiable;
+    private final Rasterable rasterable;
+    private final Collidable collidable;
+    private final Stats stats;
+    private final Glue glue;
+
+    private final Tick tick = new Tick();
+    private final Tick tickFlicker = new Tick();
+    private final SpriteAnimated fly = Drawable.loadSpriteAnimated(Medias.create(Folder.BOSS, "swamp", "Boss2fly.png"),
+                                                                   4,
+                                                                   2);
     private final Animation idle;
     private final Animation land;
     private final SpriteAnimated shade;
@@ -126,28 +135,51 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private double lastY;
     private int flickerCount;
 
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private BossSwampEffect effect;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private Glue glue;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param mirrorable The mirrorable feature.
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param launcher The launcher feature.
+     * @param effect The effect feature.
+     * @param identifiable The identifiable feature.
+     * @param rasterable The rasterable feature.
+     * @param collidable The collidable feature.
+     * @param stats The stats feature.
+     * @param glue The glue feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwamp2(Services services, SetupEntity setup)
+    public BossSwamp2(Services services,
+                      SetupEntity setup,
+                      EntityModel model,
+                      Mirrorable mirrorable,
+                      Animatable animatable,
+                      Transformable transformable,
+                      Launcher launcher,
+                      BossSwampEffect effect,
+                      Identifiable identifiable,
+                      Rasterable rasterable,
+                      Collidable collidable,
+                      Stats stats,
+                      Glue glue)
     {
         super(services, setup);
+
+        this.model = model;
+        this.mirrorable = mirrorable;
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.launcher = launcher;
+        this.effect = effect;
+        this.identifiable = identifiable;
+        this.rasterable = rasterable;
+        this.collidable = collidable;
+        this.stats = stats;
+        this.glue = glue;
 
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
         land = AnimationConfig.imports(setup).getAnimation(Anim.LAND);
@@ -159,6 +191,14 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
 
         fly.load();
         fly.prepare();
+
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
+        launcher.addListener(l ->
+        {
+            final int offset = UtilMath.clamp(getFrameOffset(), 0, 2);
+            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset(offset * 20));
+            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset + 1));
+        });
 
         listener = (c, with, by) ->
         {
@@ -487,20 +527,6 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
     private int getFrameOffset()
     {
         return (stats.getHealthMax() - stats.getHealth()) / 2;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
-        launcher.addListener(l ->
-        {
-            final int offset = UtilMath.clamp(getFrameOffset(), 0, 2);
-            l.ifIs(Bird.class, b -> b.getFeature(Rasterable.class).setAnimOffset(offset * 20));
-            l.ifIs(BossSwampEgg.class, e -> e.setFrameOffset(offset + 1));
-        });
     }
 
     @Override

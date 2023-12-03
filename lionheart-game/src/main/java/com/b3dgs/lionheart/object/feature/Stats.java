@@ -27,7 +27,6 @@ import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.Alterable;
 import com.b3dgs.lionengine.game.Damages;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -55,29 +54,33 @@ import com.b3dgs.lionheart.object.Snapshotable;
 @FeatureInterface
 public final class Stats extends FeatureModel implements Snapshotable, Recyclable, Syncable
 {
+    private final Networkable networkable;
+
     private final List<StatsListener> listeners = new ArrayList<>();
     private final Alterable health = new Alterable(Constant.STATS_MAX_HEALTH);
     private final Alterable talisment = new Alterable(Constant.STATS_MAX_TALISMENT);
     private final Alterable life = new Alterable(Constant.STATS_MAX_LIFE);
     private final Damages damages = new Damages(1, 1);
     private final StatsConfig config;
+
     private int sword;
     private boolean amulet;
     private int credits;
     private boolean win;
-
-    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Stats(Services services, Setup setup)
+    public Stats(Services services, Setup setup, Networkable networkable)
     {
         super(services, setup);
+
+        this.networkable = networkable;
 
         config = StatsConfig.imports(setup);
     }

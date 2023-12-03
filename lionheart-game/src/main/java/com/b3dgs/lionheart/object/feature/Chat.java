@@ -24,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -44,19 +43,24 @@ public class Chat extends FeatureModel implements Syncable
     private final Map<Integer, String> clients = services.get(ConcurrentHashMap.class);
     private final ChatHandler chat = services.getOptional(ChatHandler.class).orElse(null);
 
-    @FeatureGet private Networkable networkable;
-    @FeatureGet private EntityModel model;
+    private final Networkable networkable;
+    private final EntityModel model;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param networkable The networkable feature.
+     * @param model The model feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Chat(Services services, Setup setup)
+    public Chat(Services services, Setup setup, Networkable networkable, EntityModel model)
     {
         super(services, setup);
+
+        this.networkable = networkable;
+        this.model = model;
     }
 
     private void sendMessage(String message)

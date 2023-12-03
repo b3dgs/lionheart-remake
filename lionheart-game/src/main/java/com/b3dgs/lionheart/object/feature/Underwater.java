@@ -24,11 +24,11 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.FramesConfig;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
+import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -54,27 +54,77 @@ public final class Underwater extends FeatureModel implements Routine, Recyclabl
     private static final String NODE = "underwater";
 
     private final MapTileWater water = services.get(MapTileWater.class);
-    private final SetupSurfaceRastered setup;
+
+    private final Transformable transformable;
+    private final Rasterable rasterable;
 
     private Rasterable rasterableWater;
     private Updatable updater;
     private Renderable renderer;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param rasterable The rasterable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param animatable The animatable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Underwater(Services services, SetupSurfaceRastered setup)
+    public Underwater(Services services,
+                      SetupSurfaceRastered setup,
+                      Transformable transformable,
+                      Rasterable rasterable,
+                      Mirrorable mirrorable,
+                      Animatable animatable)
     {
         super(services, setup);
 
-        this.setup = setup;
+        this.transformable = transformable;
+        this.rasterable = rasterable;
+
+        final FramesConfig config = FramesConfig.imports(setup);
+
+        final Media media;
+        if (setup.hasNode(NODE))
+        {
+            media = Medias.create(setup.getText(NODE), setup.getMedia().getName());
+        }
+        else
+        {
+            media = setup.getMedia();
+        }
+        final SetupSurfaceRastered raster = new SetupSurfaceRastered(media);
+        rasterableWater = new RasterableModel(services, setup, transformable, mirrorable, animatable)
+        {
+            @Override
+            public int getRasterIndex(double y)
+            {
+                return UtilMath.clamp((int) Math.floor(water.getCurrent() - transformable.getY()),
+                                      0,
+                                      transformable.getHeight())
+                       - 1
+                       + config.getOffsetY();
+            }
+        };
+        rasterableWater.setFrameOffsets(config.getOffsetX(), config.getOffsetY());
+
+        if (setup.hasNode(NODE))
+        {
+            final AnimationConfig anims = AnimationConfig.imports(raster);
+            rasterableWater.setAnimTransform((name, frame) ->
+            {
+                if (anims.hasAnimation(name))
+                {
+                    rasterableWater.setVisibility(true);
+                    return anims.getAnimation(name).getFirst() + frame - 1;
+                }
+                rasterableWater.setVisibility(false);
+                return Animation.MINIMUM_FRAME;
+            });
+        }
     }
 
     /**
@@ -131,54 +181,6 @@ public final class Underwater extends FeatureModel implements Routine, Recyclabl
         if (rasterableWater.getRasterIndex(0) > 0)
         {
             rasterableWater.render(g);
-        }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        final FramesConfig config = FramesConfig.imports(setup);
-
-        final Media media;
-        if (setup.hasNode(NODE))
-        {
-            media = Medias.create(setup.getText(NODE), setup.getMedia().getName());
-        }
-        else
-        {
-            media = setup.getMedia();
-        }
-        final SetupSurfaceRastered raster = new SetupSurfaceRastered(media);
-        rasterableWater = new RasterableModel(services, raster)
-        {
-            @Override
-            public int getRasterIndex(double y)
-            {
-                return UtilMath.clamp((int) Math.floor(water.getCurrent() - transformable.getY()),
-                                      0,
-                                      transformable.getHeight())
-                       - 1
-                       + config.getOffsetY();
-            }
-        };
-        rasterableWater.prepare(provider);
-        rasterableWater.setFrameOffsets(config.getOffsetX(), config.getOffsetY());
-
-        if (setup.hasNode(NODE))
-        {
-            final AnimationConfig anims = AnimationConfig.imports(raster);
-            rasterableWater.setAnimTransform((name, frame) ->
-            {
-                if (anims.hasAnimation(name))
-                {
-                    rasterableWater.setVisibility(true);
-                    return anims.getAnimation(name).getFirst() + frame - 1;
-                }
-                rasterableWater.setVisibility(false);
-                return Animation.MINIMUM_FRAME;
-            });
         }
     }
 

@@ -20,9 +20,7 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -52,38 +50,47 @@ public final class BossSpidercaveBowl extends FeatureModel implements Routine, R
 {
     private static final String ANIM_HATCH = "hatch";
 
+    private final Animatable animatable;
+    private final TileCollidable tileCollidable;
+    private final Identifiable identifiable;
+    private final Launchable launchable;
+
     private final Animation fall;
     private final Animation hatch;
 
     private boolean falling;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private TileCollidable tileCollidable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Launchable launchable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param tileCollidable The tile collidable feature.
+     * @param collidable The collidable feature.
+     * @param identifiable The identifiable feature.
+     * @param launchable The launchable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSpidercaveBowl(Services services, Setup setup)
+    public BossSpidercaveBowl(Services services,
+                              Setup setup,
+                              Animatable animatable,
+                              TileCollidable tileCollidable,
+                              Collidable collidable,
+                              Identifiable identifiable,
+                              Launchable launchable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.tileCollidable = tileCollidable;
+        this.identifiable = identifiable;
+        this.launchable = launchable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
 
         fall = config.getAnimation(Anim.FALL);
         hatch = config.getAnimation(ANIM_HATCH);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }

@@ -20,7 +20,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -50,28 +49,33 @@ public final class Laser extends FeatureModel implements Routine, Recyclable
     private static final int SMOKE_OFFSET_Y = -4;
     private static final String SMOKE_FILE = "Smoke.xml";
 
-    private final Tick alive = new Tick();
-    private final Tick effect = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
 
+    private final Transformable transformable;
+    private final Identifiable identifiable;
+
+    private final Tick alive = new Tick();
+    private final Tick effect = new Tick();
+
     private int stayDelay;
     private Updatable current;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Laser(Services services, Setup setup)
+    public Laser(Services services, Setup setup, Transformable transformable, Identifiable identifiable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.identifiable = identifiable;
     }
 
     /**

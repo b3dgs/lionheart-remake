@@ -18,8 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
@@ -45,29 +43,34 @@ public final class GeyzerPlatform extends FeatureModel implements Routine, Colli
 {
     private final Viewer viewer = services.get(Viewer.class);
 
+    private final Transformable transformable;
+    private final Body body;
+    private final EntityModel model;
+
     private boolean collide;
     private boolean played;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Body body;
-    @FeatureGet private EntityModel model;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param body The body feature.
+     * @param model The model feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public GeyzerPlatform(Services services, SetupSurfaceRastered setup)
+    public GeyzerPlatform(Services services,
+                          SetupSurfaceRastered setup,
+                          Transformable transformable,
+                          Body body,
+                          EntityModel model)
     {
         super(services, setup);
-    }
 
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
+        this.transformable = transformable;
+        this.body = body;
+        this.model = model;
 
         model.getMovement().setVelocity(0.025);
     }

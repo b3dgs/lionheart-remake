@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -48,20 +47,23 @@ public final class Bomb extends FeatureModel implements Routine, Recyclable, Col
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
-    private int count;
+    private final Hurtable hurtable;
 
-    @FeatureGet private Hurtable hurtable;
+    private int count;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Bomb(Services services, Setup setup)
+    public Bomb(Services services, Setup setup, Hurtable hurtable)
     {
         super(services, setup);
+
+        this.hurtable = hurtable;
     }
 
     @Override

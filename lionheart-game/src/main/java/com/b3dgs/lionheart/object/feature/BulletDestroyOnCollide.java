@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -39,19 +38,27 @@ public final class BulletDestroyOnCollide extends FeatureModel implements Routin
 {
     private final Viewer viewer = services.get(Viewer.class);
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Identifiable identifiable;
+    private final Transformable transformable;
+    private final Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BulletDestroyOnCollide(Services services, Setup setup)
+    public BulletDestroyOnCollide(Services services,
+                                  Setup setup,
+                                  Transformable transformable,
+                                  Identifiable identifiable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.identifiable = identifiable;
     }
 
     @Override

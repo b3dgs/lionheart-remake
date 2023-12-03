@@ -863,7 +863,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             mapBottom.addFeature(new MapTileGroupModel());
             mapBottom.addFeature(new MapTileCollisionModel());
             mapBottom.addFeature(new LayerableModel(4, 5));
-            final MapTileViewer mapViewer = mapBottom.addFeatureAndGet(new MapTileViewerModel(services));
+            final MapTileViewer mapViewer = mapBottom.addFeature(new MapTileViewerModel(services));
             mapBottom.loadSheets(Medias.create(Folder.LEVEL,
                                                config.getBackground().getWorld().getFolder(),
                                                TileSheetsConfig.FILENAME));
@@ -871,7 +871,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
 
             raster.ifPresent(r ->
             {
-                final MapTileRastered mapRaster = mapBottom.addFeatureAndGet(new MapTileRasteredModel());
+                final MapTileRastered mapRaster = mapBottom.addFeature(new MapTileRasteredModel());
                 if (mapRaster.loadSheets() && RasterType.CACHE == settings.getRaster())
                 {
                     mapViewer.clear();
@@ -936,7 +936,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     {
         if (Constant.DEBUG_COLLISIONS)
         {
-            final MapTileCollisionRenderer renderer = map.addFeatureAndGet(new MapTileCollisionRendererModel());
+            final MapTileCollisionRenderer renderer = map.addFeature(new MapTileCollisionRendererModel());
             renderer.createCollisionDraw();
 
             final MapTileViewer mapViewer = map.getFeature(MapTileViewer.class);

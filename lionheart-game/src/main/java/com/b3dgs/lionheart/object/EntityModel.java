@@ -37,7 +37,6 @@ import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Layerable;
@@ -118,8 +117,6 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         return state.getSimpleName().substring(PREFIX).toLowerCase(Locale.ENGLISH);
     }
 
-    private final Force movement = new Force();
-    private final Force jump = new Force();
     private final MapTile map = services.get(MapTile.class);
     private final CheckpointHandler checkpoint = services.getOptional(CheckpointHandler.class).orElse(null);
     private final ClassLoader loader = services.getOptional(ClassLoader.class).orElse(getClass().getClassLoader());
@@ -127,38 +124,65 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     private final Spawner spawner = services.get(Spawner.class);
     private final GameConfig game = services.get(GameConfig.class);
     private final boolean hasGravity = setup.hasNode(BodyConfig.NODE_BODY);
+
+    private final Identifiable identifiable;
+    private final Mirrorable mirrorable;
+    private final Body body;
+    private final Transformable transformable;
+    private final EntityChecker checker;
+    private final StateHandler state;
+    private final Networkable networkable;
+
+    private final Force movement = new Force();
+    private final Force jump = new Force();
     private final Origin origin = OriginConfig.imports(setup);
     private final Boolean mirror = new ModelConfig(setup.getRoot()).getMirror().orElse(Boolean.FALSE);
-    private final int frames;
     private final AtomicBoolean collideSword = new AtomicBoolean();
+    private final int frames;
 
     private Camera camera = services.get(Camera.class);
-    private CameraTracker tracker;
     private ModelConfig config = new ModelConfig();
+    private CameraTracker tracker;
     private boolean jumpOnHurt = true;
     private NetworkedDevice networkedDevice;
     private DeviceController deviceNetwork;
     private boolean ignoreGlue;
-
-    @FeatureGet private Body body;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private EntityChecker checker;
-    @FeatureGet private StateHandler state;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param body The body feature.
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
+     * @param checker The checker feature.
+     * @param state The state feature.
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public EntityModel(Services services, Setup setup)
+    public EntityModel(Services services,
+                       Setup setup,
+                       Identifiable identifiable,
+                       Mirrorable mirrorable,
+                       Body body,
+                       Transformable transformable,
+                       Collidable collidable,
+                       EntityChecker checker,
+                       StateHandler state,
+                       Networkable networkable)
     {
         super(services, setup);
+
+        this.identifiable = identifiable;
+        this.mirrorable = mirrorable;
+        this.body = body;
+        this.transformable = transformable;
+        this.checker = checker;
+        this.state = state;
+        this.networkable = networkable;
 
         final FramesConfig config = FramesConfig.imports(setup);
         frames = config.getHorizontal() * config.getVertical();
@@ -167,6 +191,10 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         {
             this.config = new ModelConfig(setup.getRoot());
         }
+
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
+
+        state.addListener(this::syncState);
     }
 
     @Override
@@ -186,21 +214,6 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
         transformable.teleport(file.readDouble(), file.readDouble());
         movement.setDirection(file.readDouble(), file.readDouble());
         jump.setDirection(file.readDouble(), file.readDouble());
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
-
-        if (provider.hasFeature(NetworkedDevice.class))
-        {
-            networkedDevice = provider.getFeature(NetworkedDevice.class);
-        }
-
-        state.addListener(this::syncState);
     }
 
     private static final int TYPE_CONTROL = 0;
@@ -590,6 +603,17 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
                          transformable.getY() / map.getTileHeight() + map.getInTileHeight(transformable) - 1);
 
         config.save(root);
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        if (hasFeature(NetworkedDevice.class))
+        {
+            networkedDevice = getFeature(NetworkedDevice.class);
+        }
     }
 
     @SuppressWarnings("unchecked")

@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -51,23 +50,26 @@ public final class CarnivorousPlant extends FeatureModel implements Routine, Rec
 {
     private static final int BITE_DELAY_MS = 1500;
 
-    private final Tick tick = new Tick();
-    private final Animation bite;
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
-    @FeatureGet private Animatable animatable;
+    private final Animatable animatable;
+
+    private final Tick tick = new Tick();
+    private final Animation bite;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public CarnivorousPlant(Services services, Setup setup)
+    public CarnivorousPlant(Services services, Setup setup, Animatable animatable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         bite = config.getAnimation(Anim.ATTACK);

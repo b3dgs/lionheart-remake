@@ -27,12 +27,10 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -486,11 +484,6 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     };
     // @formatter:on
 
-    private final Transformable[] limbs = new Transformable[LIMBS.length];
-    private final Animatable[] limbsAnim = new Animatable[LIMBS.length];
-    private final Animator animator = new AnimatorModel();
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final MusicPlayer music = services.get(MusicPlayer.class);
@@ -498,6 +491,15 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
     private final StateHandler target = services.get(Trackable.class).getFeature(StateHandler.class);
 
+    private final Identifiable identifiable;
+    private final Transformable transformable;
+    private final Body body;
+    private final Launcher launcher;
+
+    private final Transformable[] limbs = new Transformable[LIMBS.length];
+    private final Animatable[] limbsAnim = new Animatable[LIMBS.length];
+    private final Animator animator = new AnimatorModel();
+    private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation rise;
     private final Animation walk;
@@ -512,21 +514,30 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private Updatable phase;
     private double angle;
 
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Body body;
-    @FeatureGet private Launcher launcher;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param transformable The transformable feature.
+     * @param body The body feature.
+     * @param launcher The launcher feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossNorka(Services services, Setup setup)
+    public BossNorka(Services services,
+                     Setup setup,
+                     Identifiable identifiable,
+                     Transformable transformable,
+                     Body body,
+                     Launcher launcher)
     {
         super(services, setup);
+
+        this.identifiable = identifiable;
+        this.transformable = transformable;
+        this.body = body;
+        this.launcher = launcher;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
@@ -534,6 +545,38 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
         walk = config.getAnimation(Anim.WALK);
         preparejump = config.getAnimation("preparejump");
         jump = config.getAnimation(Anim.JUMP);
+
+        for (int i = 0; i < LIMBS.length; i++)
+        {
+            final Featurable featurable = create(LIMBS[i]);
+            limbs[i] = featurable.getFeature(Transformable.class);
+            limbsAnim[i] = featurable.getFeature(Animatable.class);
+        }
+        stats = limbs[0].getFeature(Stats.class);
+
+        launcher.addListener(l ->
+        {
+            if (stats != null && !l.hasFeature(Fly.class))
+            {
+                if (l.hasFeature(NorkaPlatform.class))
+                {
+                    l.getFeature(Rasterable.class)
+                     .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3) * 3);
+                }
+                else
+                {
+                    l.getFeature(Rasterable.class)
+                     .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3));
+                }
+            }
+        });
+        identifiable.addListener(id ->
+        {
+            for (int i = 0; i < limbs.length; i++)
+            {
+                limbs[i].getFeature(Identifiable.class).destroy();
+            }
+        });
     }
 
     /**
@@ -835,44 +878,6 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
     private void updateCurve(double extrp)
     {
         angle = UtilMath.wrapAngleDouble(angle + CURVE_SPEED * extrp);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        for (int i = 0; i < LIMBS.length; i++)
-        {
-            final Featurable featurable = create(LIMBS[i]);
-            limbs[i] = featurable.getFeature(Transformable.class);
-            limbsAnim[i] = featurable.getFeature(Animatable.class);
-        }
-        stats = limbs[0].getFeature(Stats.class);
-
-        launcher.addListener(l ->
-        {
-            if (stats != null && !l.hasFeature(Fly.class))
-            {
-                if (l.hasFeature(NorkaPlatform.class))
-                {
-                    l.getFeature(Rasterable.class)
-                     .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3) * 3);
-                }
-                else
-                {
-                    l.getFeature(Rasterable.class)
-                     .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3));
-                }
-            }
-        });
-        identifiable.addListener(id ->
-        {
-            for (int i = 0; i < limbs.length; i++)
-            {
-                limbs[i].getFeature(Identifiable.class).destroy();
-            }
-        });
     }
 
     @Override

@@ -22,9 +22,7 @@ import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -51,35 +49,44 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class MeltingPlatform extends FeatureModel implements Recyclable, CollidableListener, Routine
 {
-    private final Animation idle;
-    private final Animation fall;
     private final Viewer viewer = services.get(Viewer.class);
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Rasterable rasterable;
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Collidable collidable;
+    private final Rasterable rasterable;
+
+    private final Animation idle;
+    private final Animation fall;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
+     * @param rasterable The rasterable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public MeltingPlatform(Services services, Setup setup)
+    public MeltingPlatform(Services services,
+                           Setup setup,
+                           Animatable animatable,
+                           Transformable transformable,
+                           Collidable collidable,
+                           Rasterable rasterable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.collidable = collidable;
+        this.rasterable = rasterable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
         fall = config.getAnimation(Anim.FALL);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         animatable.addListener((AnimatorFrameListener) frame ->
         {

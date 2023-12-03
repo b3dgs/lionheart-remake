@@ -22,7 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
@@ -45,19 +44,24 @@ public class ClientsList extends FeatureModel implements Routine
     private final Camera camera = services.get(Camera.class);
     private final Map<Integer, String> clients = services.getOptional(ConcurrentHashMap.class).orElse(null);
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Networkable networkable;
+    private final Transformable transformable;
+    private final Networkable networkable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public ClientsList(Services services, Setup setup)
+    public ClientsList(Services services, Setup setup, Transformable transformable, Networkable networkable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.networkable = networkable;
     }
 
     @Override

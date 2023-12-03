@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -38,21 +37,24 @@ public final class ExplodeLiana extends FeatureModel implements Routine, Recycla
 {
     private static final double INIT_Y = 1.5;
 
+    private final Transformable transformable;
+
     private int side;
     private double speed;
-
-    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public ExplodeLiana(Services services, Setup setup)
+    public ExplodeLiana(Services services, Setup setup, Transformable transformable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
     }
 
     @Override

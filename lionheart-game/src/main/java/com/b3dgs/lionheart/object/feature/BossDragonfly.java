@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilRandom;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -65,14 +64,14 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
     private final MusicPlayer music = services.get(MusicPlayer.class);
     private final LoadNextStage stage = services.get(LoadNextStage.class);
 
+    private final EntityModel model;
+    private final Transformable transformable;
+    private final Collidable collidable;
+    private final Hurtable hurtable;
+
     private Updatable updater;
     private Hurtable head;
     private Hurtable gobelin;
-
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Hurtable hurtable;
 
     private boolean leave;
 
@@ -81,11 +80,25 @@ public final class BossDragonfly extends FeatureModel implements Routine, Recycl
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossDragonfly(Services services, Setup setup)
+    public BossDragonfly(Services services,
+                         Setup setup,
+                         EntityModel model,
+                         Transformable transformable,
+                         Collidable collidable,
+                         Hurtable hurtable)
     {
         super(services, setup);
+
+        this.model = model;
+        this.transformable = transformable;
+        this.collidable = collidable;
+        this.hurtable = hurtable;
     }
 
     /**

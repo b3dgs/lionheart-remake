@@ -24,9 +24,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -80,6 +78,11 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
     private final Spawner spawner = services.get(Spawner.class);
     private final ForegroundWater water = services.get(ForegroundWater.class);
 
+    private final Transformable transformable;
+    private final Mirrorable mirrorable;
+    private final Animatable animatable;
+    private final Launcher launcher;
+
     private final Tick tick = new Tick();
     private final Animation idle;
 
@@ -87,25 +90,48 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
     private boolean attack;
     private double effectY;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Stats stats;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param animatable The animatable feature.
+     * @param launcher The launcher feature.
+     * @param identifiable The identifiable feature.
+     * @param stats The stats feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossUnderworld(Services services, Setup setup)
+    public BossUnderworld(Services services,
+                          Setup setup,
+                          Transformable transformable,
+                          Mirrorable mirrorable,
+                          Animatable animatable,
+                          Launcher launcher,
+                          Identifiable identifiable,
+                          Stats stats)
     {
         super(services, setup);
 
+        this.transformable = transformable;
+        this.mirrorable = mirrorable;
+        this.animatable = animatable;
+        this.launcher = launcher;
+
         idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        {
+            launcher.addListener(l -> l.ifIs(Underwater.class, u -> u.loadRaster("raster/underworld/underworld/")));
+        }
+        identifiable.addListener(id -> music.playMusic(Music.BOSS_WIN));
+        stats.addListener((StatsDeadListener) () ->
+        {
+            water.stopRaise();
+            spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 208, 4);
+            spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 240, 4);
+        });
     }
 
     /**
@@ -216,24 +242,6 @@ public final class BossUnderworld extends FeatureModel implements Routine, Recyc
         {
             mirrorable.mirror(Mirror.HORIZONTAL);
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
-        {
-            launcher.addListener(l -> l.ifIs(Underwater.class, u -> u.loadRaster("raster/underworld/underworld/")));
-        }
-        identifiable.addListener(id -> music.playMusic(Music.BOSS_WIN));
-        stats.addListener((StatsDeadListener) () ->
-        {
-            water.stopRaise();
-            spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 208, 4);
-            spawner.spawn(Medias.create(Folder.ENTITY, WorldType.UNDERWORLD.getFolder(), "Floater3.xml"), 240, 4);
-        });
     }
 
     @Override

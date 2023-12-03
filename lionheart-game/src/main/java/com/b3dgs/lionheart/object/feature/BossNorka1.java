@@ -26,7 +26,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -69,6 +68,14 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
         112, 208, 320
     };
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.get(Trackable.class);
+
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Mirrorable mirrorable;
+    private final Hurtable hurtable;
+
     private final Tick tick = new Tick();
     private final Force movement = new Force();
     private final Animation idle;
@@ -78,30 +85,36 @@ public final class BossNorka1 extends FeatureModel implements Routine, Recyclabl
     private final Animation attackprepare;
     private final Animation attack;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Trackable target = services.get(Trackable.class);
-
     private Updatable current;
     private double angle;
     private int patrol;
     private int subpatrol;
     private int side;
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Hurtable hurtable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossNorka1(Services services, Setup setup)
+    public BossNorka1(Services services,
+                      Setup setup,
+                      Animatable animatable,
+                      Transformable transformable,
+                      Mirrorable mirrorable,
+                      Hurtable hurtable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.mirrorable = mirrorable;
+        this.hurtable = hurtable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

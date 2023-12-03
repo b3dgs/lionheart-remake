@@ -19,7 +19,7 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 
 import com.b3dgs.lionengine.UtilConversion;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.tile.Tile;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTileSurface;
@@ -33,7 +33,7 @@ import com.b3dgs.lionengine.io.FileWriting;
 @FeatureInterface
 public class MapTilePersisterOptimized extends MapTilePersisterModel
 {
-    @FeatureGet private MapTileSurface map;
+    private MapTileSurface map;
 
     /**
      * Create feature.
@@ -41,6 +41,14 @@ public class MapTilePersisterOptimized extends MapTilePersisterModel
     public MapTilePersisterOptimized()
     {
         super();
+    }
+
+    @Override
+    public void prepare(FeatureProvider provider)
+    {
+        super.prepare(provider);
+
+        map = provider.getFeature(MapTileSurface.class);
     }
 
     @Override

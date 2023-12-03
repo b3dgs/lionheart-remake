@@ -18,7 +18,6 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -40,23 +39,28 @@ public final class Turtle extends FeatureModel implements Routine, Recyclable
 {
     private static final int IDLE_TIME_MS = 3000;
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Floater floater;
+    private final StateHandler stateHandler;
+    private final Floater floater;
+
+    private final Tick tick = new Tick();
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param stateHandler The state feature.
+     * @param floater The floater feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Turtle(Services services, Setup setup)
+    public Turtle(Services services, Setup setup, StateHandler stateHandler, Floater floater)
     {
         super(services, setup);
+
+        this.stateHandler = stateHandler;
+        this.floater = floater;
     }
 
     @Override

@@ -25,10 +25,8 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -73,6 +71,11 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private final Trackable target = services.get(Trackable.class);
     private final Spawner spawner = services.get(Spawner.class);
 
+    private final Transformable transformable;
+    private final Collidable collidable;
+    private final Launcher launcher;
+    private final Animatable animatable;
+
     private Updatable updater;
     private boolean mirror;
     private boolean start;
@@ -80,23 +83,34 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
     private double startY;
     private double trackSpeed = TRACK_SPEED;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Hurtable hurtable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param collidable The collidable feature.
+     * @param launcher The launcher feature.
+     * @param animatable The animatable feature.
+     * @param rasterable The rasterable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossDragonflyHead(Services services, Setup setup)
+    public BossDragonflyHead(Services services,
+                             Setup setup,
+                             Transformable transformable,
+                             Collidable collidable,
+                             Launcher launcher,
+                             Animatable animatable,
+                             Rasterable rasterable,
+                             Hurtable hurtable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.collidable = collidable;
+        this.launcher = launcher;
+        this.animatable = animatable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
@@ -105,6 +119,41 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
 
         force.setVelocity(0.2);
         force.setSensibility(0.25);
+
+        animatable.addListener((AnimatorFrameListener) f ->
+        {
+            if (f > 7 && f < 14)
+            {
+                rasterable.setFrameOffsets(-13, 0);
+                hurtable.setShadeOffset(-13, 0);
+            }
+            else if (f == 14)
+            {
+                rasterable.setFrameOffsets(0, 7);
+                hurtable.setShadeOffset(0, 7);
+            }
+            else
+            {
+                rasterable.setFrameOffsets(0, 0);
+                hurtable.setShadeOffset(0, 0);
+            }
+        });
+        launcher.addListener(l ->
+        {
+            l.getFeature(Animatable.class).addListener((AnimatorStateListener) s ->
+            {
+                if (s == AnimState.FINISHED)
+                {
+                    l.getFeature(Identifiable.class).destroy();
+                }
+            });
+        });
+
+        for (int i = 0; i < limbs.length; i++)
+        {
+            limbs[i] = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "BossBowl.xml"), transformable)
+                              .getFeature(Transformable.class);
+        }
     }
 
     /**
@@ -247,47 +296,6 @@ public final class BossDragonflyHead extends FeatureModel implements Routine, Re
         {
             limbs[i].teleport(16 + startX + (transformable.getX() - startX) * (0.05 * (i * i / 1.5)),
                               8 + startY + (transformable.getY() - startY) * (0.05 * (i * i / 1.5)));
-        }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        animatable.addListener((AnimatorFrameListener) f ->
-        {
-            if (f > 7 && f < 14)
-            {
-                rasterable.setFrameOffsets(-13, 0);
-                hurtable.setShadeOffset(-13, 0);
-            }
-            else if (f == 14)
-            {
-                rasterable.setFrameOffsets(0, 7);
-                hurtable.setShadeOffset(0, 7);
-            }
-            else
-            {
-                rasterable.setFrameOffsets(0, 0);
-                hurtable.setShadeOffset(0, 0);
-            }
-        });
-        launcher.addListener(l ->
-        {
-            l.getFeature(Animatable.class).addListener((AnimatorStateListener) s ->
-            {
-                if (s == AnimState.FINISHED)
-                {
-                    l.getFeature(Identifiable.class).destroy();
-                }
-            });
-        });
-
-        for (int i = 0; i < limbs.length; i++)
-        {
-            limbs[i] = spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "BossBowl.xml"), transformable)
-                              .getFeature(Transformable.class);
         }
     }
 

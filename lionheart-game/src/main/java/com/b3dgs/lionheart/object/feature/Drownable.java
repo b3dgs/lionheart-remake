@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -47,21 +46,26 @@ public final class Drownable extends FeatureModel implements Routine, Recyclable
     private final MapTileWater water = services.get(MapTileWater.class);
     private final CheatsProvider cheats = services.get(CheatsProvider.class);
 
-    private Updatable check;
+    private final Transformable transformable;
+    private final StateHandler stateHandler;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private StateHandler stateHandler;
+    private Updatable check;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param stateHandler The state feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Drownable(Services services, Setup setup)
+    public Drownable(Services services, Setup setup, Transformable transformable, StateHandler stateHandler)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.stateHandler = stateHandler;
     }
 
     /**

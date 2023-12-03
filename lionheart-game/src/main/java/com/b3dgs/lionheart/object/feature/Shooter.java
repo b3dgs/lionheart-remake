@@ -24,11 +24,9 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -57,39 +55,76 @@ import com.b3dgs.lionheart.object.XmlSaver;
 public final class Shooter extends FeatureModel
                            implements XmlLoader, XmlSaver, Editable<ShooterConfig>, Routine, Recyclable
 {
-    private final Tick tick = new Tick();
-    private final Animation idle;
-    private final Animation attack;
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
     private final Camera camera = services.get(Camera.class);
 
+    private final Launcher launcher;
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Stats stats;
+
+    private final Tick tick = new Tick();
+    private final Animation idle;
+    private final Animation attack;
+
     private ShooterConfig config;
     private Updatable updater;
     private boolean enabled;
-
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Stats stats;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param launcher The launcher feature.
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param stats The stats feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Shooter(Services services, Setup setup)
+    public Shooter(Services services,
+                   Setup setup,
+                   Launcher launcher,
+                   Animatable animatable,
+                   Transformable transformable,
+                   Stats stats)
     {
         super(services, setup);
+
+        this.launcher = launcher;
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.stats = stats;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation("patrol");
         attack = config.getAnimation(Anim.ATTACK);
 
         load(setup.getRoot());
+
+        final MapTile map = services.get(MapTile.class);
+        launcher.addListener(l ->
+        {
+            if (RasterType.CACHE == Settings.getInstance().getRaster())
+            {
+                l.ifIs(Rasterable.class,
+                       r -> r.getMedia().ifPresent(media -> r.setRaster(true, media, map.getTileHeight())));
+            }
+
+            if (!this.config.getTrack())
+            {
+                final Force direction = l.getDirection();
+                if (direction != null)
+                {
+                    final double dx = direction.getDirectionHorizontal();
+                    final double dy = direction.getDirectionVertical();
+                    direction.setDirection(dx * this.config.getSvx(), dy * this.config.getSvy());
+                    direction.setDestination(dx * this.config.getDvx().orElse(this.config.getSvx()),
+                                             dy * this.config.getDvy().orElse(this.config.getSvy()));
+                }
+            }
+        });
     }
 
     @Override
@@ -239,35 +274,6 @@ public final class Shooter extends FeatureModel
         {
             updater.update(extrp);
         }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        final MapTile map = services.get(MapTile.class);
-        launcher.addListener(l ->
-        {
-            if (RasterType.CACHE == Settings.getInstance().getRaster())
-            {
-                l.ifIs(Rasterable.class,
-                       r -> r.getMedia().ifPresent(media -> r.setRaster(true, media, map.getTileHeight())));
-            }
-
-            if (!config.getTrack())
-            {
-                final Force direction = l.getDirection();
-                if (direction != null)
-                {
-                    final double dx = direction.getDirectionHorizontal();
-                    final double dy = direction.getDirectionVertical();
-                    direction.setDirection(dx * config.getSvx(), dy * config.getSvy());
-                    direction.setDestination(dx * config.getDvx().orElse(config.getSvx()),
-                                             dy * config.getDvy().orElse(config.getSvy()));
-                }
-            }
-        });
     }
 
     @Override

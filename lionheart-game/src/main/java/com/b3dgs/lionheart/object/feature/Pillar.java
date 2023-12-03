@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -51,30 +50,44 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
     private static final int MIN_Y = -6;
     private static final int MAX_Y = 80;
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Transformable transformable;
+    private final Rasterable rasterable;
+    private final Collidable collidable;
+    private final Identifiable identifiable;
+
+    private final Tick tick = new Tick();
 
     private PillarConfig config;
     private Updatable updater;
     private double y;
     private int side;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Identifiable identifiable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param rasterable The rasterable feature.
+     * @param collidable The collidable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Pillar(Services services, Setup setup)
+    public Pillar(Services services,
+                  Setup setup,
+                  Transformable transformable,
+                  Rasterable rasterable,
+                  Collidable collidable,
+                  Identifiable identifiable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.rasterable = rasterable;
+        this.collidable = collidable;
+        this.identifiable = identifiable;
 
         load(setup.getRoot());
     }

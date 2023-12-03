@@ -24,10 +24,8 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -54,15 +52,13 @@ public final class BossUnderworldBubble extends FeatureModel implements Routine,
     private static final double ROTATE_MARGIN_MAX = 50;
     private static final double BULLET_SPEED = 2.5;
 
-    private final Tick tick = new Tick();
-    private final Animation attack;
-
     private final Trackable target = services.get(Trackable.class);
     private final ScreenShaker shaker = services.get(ScreenShaker.class);
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Identifiable identifiable;
+    private final Transformable transformable;
+
+    private final Tick tick = new Tick();
+    private final Animation attack;
 
     private Updatable updater;
     private double x;
@@ -76,13 +72,31 @@ public final class BossUnderworldBubble extends FeatureModel implements Routine,
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossUnderworldBubble(Services services, Setup setup)
+    public BossUnderworldBubble(Services services,
+                                Setup setup,
+                                Transformable transformable,
+                                Animatable animatable,
+                                Identifiable identifiable)
     {
         super(services, setup);
 
+        this.transformable = transformable;
+
         attack = AnimationConfig.imports(setup).getAnimation(Anim.ATTACK);
+
+        animatable.addListener((AnimatorStateListener) state ->
+        {
+            if (AnimState.FINISHED == state)
+            {
+                animatable.play(attack);
+            }
+        });
+        identifiable.addListener(id -> shaker.start());
     }
 
     /**
@@ -154,21 +168,6 @@ public final class BossUnderworldBubble extends FeatureModel implements Routine,
         force.setDirection(vecX, vecY);
 
         return force;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        animatable.addListener((AnimatorStateListener) state ->
-        {
-            if (AnimState.FINISHED == state)
-            {
-                animatable.play(attack);
-            }
-        });
-        identifiable.addListener(id -> shaker.start());
     }
 
     @Override

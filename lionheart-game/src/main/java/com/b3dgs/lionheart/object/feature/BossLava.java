@@ -28,7 +28,6 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -500,6 +499,11 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private final LoadNextStage stage = services.get(LoadNextStage.class);
     private final Landscape landscape = services.get(Landscape.class);
 
+    private final EntityModel model;
+    private final Identifiable identifiable;
+    private final Transformable transformable;
+    private final Body body;
+
     private final Animation rise;
     private final Animation idle;
     private final Animation walk;
@@ -513,21 +517,30 @@ public final class BossLava extends FeatureModel implements Routine, Recyclable
     private double minY;
     private Updatable phase;
 
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Body body;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param identifiable The identifiable feature.
+     * @param transformable The transformable feature.
+     * @param body The body feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossLava(Services services, Setup setup)
+    public BossLava(Services services,
+                    Setup setup,
+                    EntityModel model,
+                    Identifiable identifiable,
+                    Transformable transformable,
+                    Body body)
     {
         super(services, setup);
+
+        this.model = model;
+        this.identifiable = identifiable;
+        this.transformable = transformable;
+        this.body = body;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         rise = config.getAnimation("rise");

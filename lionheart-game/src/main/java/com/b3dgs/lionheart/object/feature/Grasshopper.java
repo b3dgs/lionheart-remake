@@ -18,9 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -55,33 +53,43 @@ public final class Grasshopper extends FeatureModel implements Routine, Collidab
 {
     private final MapTile map = services.get(MapTile.class);
     private final Camera camera = services.get(Camera.class);
-
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
-    private double move;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private StateHandler handler;
+    private final Transformable transformable;
+    private final Mirrorable mirrorable;
+    private final Launcher launcher;
+    private final StateHandler handler;
+
+    private double move;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param rasterable The rasterable feature.
+     * @param launcher The launcher feature.
+     * @param model The model feature.
+     * @param handler The handler feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Grasshopper(Services services, Setup setup)
+    public Grasshopper(Services services,
+                       Setup setup,
+                       Transformable transformable,
+                       Mirrorable mirrorable,
+                       Rasterable rasterable,
+                       Launcher launcher,
+                       EntityModel model,
+                       StateHandler handler)
     {
         super(services, setup);
-    }
 
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
+        this.transformable = transformable;
+        this.mirrorable = mirrorable;
+        this.launcher = launcher;
+        this.handler = handler;
 
         model.setInput(new DeviceControllerVoid()
         {

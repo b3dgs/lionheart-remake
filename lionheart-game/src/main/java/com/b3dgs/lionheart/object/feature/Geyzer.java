@@ -31,7 +31,6 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -66,30 +65,33 @@ public final class Geyzer extends FeatureModel
     private static final double SPEED = 3.0;
     private static final String BOTTOM_FILE = "GeyzerBottom.xml";
 
-    private final Tick tick = new Tick();
-    private final List<Transformable> bottom = new ArrayList<>();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Viewer viewer = services.get(Viewer.class);
+
+    private final Transformable transformable;
+
+    private final Tick tick = new Tick();
+    private final List<Transformable> bottom = new ArrayList<>();
 
     private GeyzerConfig config;
     private Updatable updater;
     private double y;
     private double current;
 
-    @FeatureGet private Transformable transformable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Geyzer(Services services, Setup setup)
+    public Geyzer(Services services, Setup setup, Transformable transformable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
 
         if (setup.hasNode(GeyzerConfig.NODE_GEYZER))
         {

@@ -25,10 +25,8 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -65,15 +63,21 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     private static final int HEAD_OPENED_DELAY_MS = 1250;
     private static final int HEAD_ATTACK_OFFSET_Y = 12;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
+    private final Spawner spawner = services.get(Spawner.class);
+
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Collidable collidable;
+    private final Body body;
+    private final EntityModel model;
+
     private final Tick tick = new Tick();
     private final Animation walk;
     private final Animation attack;
     private final Animation dead;
     private final Updatable updater;
-
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Trackable target = services.getOptional(Trackable.class).orElse(null);
-    private final Spawner spawner = services.get(Spawner.class);
 
     private Featurable head;
     private Transformable headTransformable;
@@ -91,28 +95,42 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
     private double oldY;
     private double jump;
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Body body;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param launcher The launcher feature.
+     * @param collidable The collidable feature.
+     * @param body The body feature.
+     * @param model The model feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSpidercave(Services services, Setup setup)
+    public BossSpidercave(Services services,
+                          Setup setup,
+                          Animatable animatable,
+                          Transformable transformable,
+                          Launcher launcher,
+                          Collidable collidable,
+                          Body body,
+                          EntityModel model)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.collidable = collidable;
+        this.body = body;
+        this.model = model;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         walk = config.getAnimation(Anim.WALK);
         attack = config.getAnimation(Anim.ATTACK);
         dead = config.getAnimation(Anim.DEAD);
+
+        launcher.addListener(l -> l.ifIs(Spider.class, s -> s.track(-1)));
 
         updater = extrp ->
         {
@@ -257,14 +275,6 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 }
             }
         };
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        launcher.addListener(l -> l.ifIs(Spider.class, s -> s.track(-1)));
     }
 
     @Override

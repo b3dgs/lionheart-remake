@@ -23,10 +23,8 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.DirectionNone;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -63,6 +61,14 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
     private static final double FALL_VELOCITY = 0.12;
 
     private final Spawner spawner = services.get(Spawner.class);
+
+    private final Animatable animatable;
+    private final TileCollidable tileCollidable;
+    private final Transformable transformable;
+    private final Identifiable identifiable;
+    private final Rasterable rasterable;
+    private final Body body;
+
     private final Force force = new Force();
     private final Animation fall;
     private final Animation hatch;
@@ -70,24 +76,38 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
     private boolean falling;
     private int offset;
 
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private TileCollidable tileCollidable;
-    @FeatureGet private Collidable collidable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Body body;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param tileCollidable The tile collidable feature.
+     * @param collidable The collidable feature.
+     * @param transformable The transformable feature.
+     * @param identifiable The identifiable feature.
+     * @param rasterable The rasterable feature.
+     * @param body The body feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BossSwampEgg(Services services, Setup setup)
+    public BossSwampEgg(Services services,
+                        Setup setup,
+                        Animatable animatable,
+                        TileCollidable tileCollidable,
+                        Collidable collidable,
+                        Transformable transformable,
+                        Identifiable identifiable,
+                        Rasterable rasterable,
+                        Body body)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.tileCollidable = tileCollidable;
+        this.transformable = transformable;
+        this.identifiable = identifiable;
+        this.rasterable = rasterable;
+        this.body = body;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
 
@@ -97,6 +117,11 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
         force.setDirection(DirectionNone.INSTANCE);
         force.setVelocity(FALL_VELOCITY);
         force.setSensibility(FALL_VELOCITY);
+
+        body.setGravity(Constant.GRAVITY / 2 * 0.06);
+        body.setGravityMax(Constant.GRAVITY / 2);
+
+        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     /**
@@ -108,17 +133,6 @@ public final class BossSwampEgg extends FeatureModel implements Routine, Recycla
     {
         this.offset = offset;
         rasterable.setAnimOffset(UtilMath.clamp(offset, 1, 3) * 15);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        body.setGravity(Constant.GRAVITY / 2 * 0.06);
-        body.setGravityMax(Constant.GRAVITY / 2);
-
-        collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
 
     @Override

@@ -19,9 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.AnimatorAnimListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
@@ -41,25 +39,18 @@ public final class TurningCube extends FeatureModel implements Routine
 {
     private final Viewer viewer = services.get(Viewer.class);
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public TurningCube(Services services, Setup setup)
+    public TurningCube(Services services, Setup setup, Transformable transformable, Animatable animatable)
     {
         super(services, setup);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         animatable.addListener((AnimatorAnimListener) anim ->
         {

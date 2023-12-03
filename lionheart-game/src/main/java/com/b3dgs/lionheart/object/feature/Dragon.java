@@ -28,9 +28,7 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -68,6 +66,16 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     private static final int TONGUE_RETRACT_DELAY_MS = 40;
     private static final int THROW_DISTANCE = 160;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final MapTile map = services.get(MapTile.class);
+    private final Viewer viewer = services.get(Viewer.class);
+    private final Trackable target = services.get(Trackable.class);
+
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final Mirrorable mirrorable;
+    private final Launcher launcher;
+
     private final List<Launchable> tongue = new ArrayList<>();
     private final Tick tick = new Tick();
     private final Animation idle;
@@ -76,31 +84,36 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
     private final Animation close;
     private final Animation hide;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final MapTile map = services.get(MapTile.class);
-    private final Viewer viewer = services.get(Viewer.class);
-    private final Trackable target = services.get(Trackable.class);
-
     private Updatable current;
     private boolean fired;
     private boolean hurt;
-
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Mirrorable mirrorable;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Rasterable rasterable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param mirrorable The mirrorable feature.
+     * @param launcher The launcher feature.
+     * @param rasterable The rasterable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Dragon(Services services, Setup setup)
+    public Dragon(Services services,
+                  Setup setup,
+                  Transformable transformable,
+                  Animatable animatable,
+                  Mirrorable mirrorable,
+                  Launcher launcher,
+                  Rasterable rasterable)
     {
         super(services, setup);
+
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.mirrorable = mirrorable;
+        this.launcher = launcher;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
@@ -108,6 +121,14 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
         open = config.getAnimation("open");
         close = config.getAnimation("close");
         hide = config.getAnimation("hide");
+
+        launcher.setOffset(TONGUE_OFFSET_X, TONGUE_OFFSET_Y);
+        launcher.addListener(tongue::add);
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        {
+            launcher.addListener(l -> l.ifIs(Rasterable.class,
+                                             r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
+        }
     }
 
     /**
@@ -250,20 +271,6 @@ public final class Dragon extends FeatureModel implements Routine, Recyclable
             animatable.play(hide);
             animatable.setFrame(frame);
             current = this::updateCheck;
-        }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        launcher.setOffset(TONGUE_OFFSET_X, TONGUE_OFFSET_Y);
-        launcher.addListener(tongue::add);
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
-        {
-            launcher.addListener(l -> l.ifIs(Rasterable.class,
-                                             r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
         }
     }
 

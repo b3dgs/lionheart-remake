@@ -28,7 +28,6 @@ import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -60,32 +59,43 @@ public final class Spike extends FeatureModel
     private static final int PHASE2_DELAY_MS = 500;
     private static final int PHASE3_DELAY_MS = 100;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+    private final Viewer viewer = services.get(Viewer.class);
+
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Networkable networkable;
+
     private final Tick tick = new Tick();
     private final Tick delay = new Tick();
     private final Animation rise;
     private final Animation attack;
     private final Animation hide;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-    private final Viewer viewer = services.get(Viewer.class);
-
     private SpikeConfig config;
     private Updatable updater;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Networkable networkable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param networkable The networkable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Spike(Services services, Setup setup)
+    public Spike(Services services,
+                 Setup setup,
+                 Animatable animatable,
+                 Transformable transformable,
+                 Networkable networkable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.networkable = networkable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         rise = config.getAnimation("phase1");

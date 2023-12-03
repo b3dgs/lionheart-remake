@@ -19,9 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Localizable;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -58,50 +56,46 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
     private final MapTileWater water = services.get(MapTileWater.class);
     private final Viewer viewer = services.get(Viewer.class);
 
+    private final EntityModel model;
+    private final Transformable transformable;
+    private final Glue glue;
+    private final Body body;
+
     private final double speedUp;
     private final double speedDown;
     private final int max;
     private final boolean hit;
     private final boolean waterLevel;
+
     private boolean start;
     private double down;
     private Localizable origin;
-
-    @FeatureGet private EntityModel model;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Glue glue;
-    @FeatureGet private Body body;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param model The model feature.
+     * @param transformable The transformable feature.
+     * @param glue The glue feature.
+     * @param body The body feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Floater(Services services, Setup setup)
+    public Floater(Services services, Setup setup, EntityModel model, Transformable transformable, Glue glue, Body body)
     {
         super(services, setup);
+
+        this.model = model;
+        this.transformable = transformable;
+        this.glue = glue;
+        this.body = body;
 
         speedUp = setup.getDouble(ATT_SPEEDUP, NODE);
         speedDown = setup.getDouble(ATT_SPEEDDOWN, NODE);
         max = setup.getInteger(0, ATT_MAX, NODE);
         waterLevel = setup.getBoolean(true, ATT_WATER_LEVEL, NODE);
         hit = setup.getBoolean(false, ATT_HIT, NODE);
-    }
-
-    /**
-     * Stop glue.
-     */
-    public void stop()
-    {
-        glue.setTransformY(null);
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
 
         glue.start();
         glue.addListener(new GlueListener()
@@ -118,6 +112,14 @@ public final class Floater extends FeatureModel implements Routine, Recyclable, 
                 start = false;
             }
         });
+    }
+
+    /**
+     * Stop glue.
+     */
+    public void stop()
+    {
+        glue.setTransformY(null);
     }
 
     @Override

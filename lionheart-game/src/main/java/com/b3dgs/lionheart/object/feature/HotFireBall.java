@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -50,33 +49,39 @@ public final class HotFireBall extends FeatureModel
 {
     private static final int BALL_DELAY_MS = 130;
 
-    private final Tick tick = new Tick();
-    private final Tick series = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Viewer viewer = services.get(Viewer.class);
 
+    private final Launcher launcher;
+    private final Transformable transformable;
+
+    private final Tick tick = new Tick();
+    private final Tick series = new Tick();
+
     private HotFireBallConfig config;
     private int current;
-
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private Transformable transformable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param launcher The launcher feature.
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public HotFireBall(Services services, Setup setup)
+    public HotFireBall(Services services, Setup setup, Launcher launcher, Transformable transformable)
     {
         super(services, setup);
+
+        this.launcher = launcher;
+        this.transformable = transformable;
 
         if (setup.hasNode(HotFireBallConfig.NODE_HOTFIREBALL))
         {
             config = new HotFireBallConfig(setup.getRoot());
         }
+        launcher.addListener(l -> l.getDirection().setDestination(config.getVx(), config.getVy()));
     }
 
     @Override
@@ -113,7 +118,6 @@ public final class HotFireBall extends FeatureModel
         super.prepare(provider);
 
         ifIs(Rasterable.class, r -> r.setVisibility(false));
-        launcher.addListener(l -> l.getDirection().setDestination(config.getVx(), config.getVy()));
     }
 
     @Override

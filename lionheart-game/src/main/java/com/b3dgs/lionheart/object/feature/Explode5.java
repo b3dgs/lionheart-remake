@@ -19,7 +19,6 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -52,26 +51,31 @@ public final class Explode5 extends FeatureModel implements Routine, Recyclable
     //  @formatter:on
     private static final String EXPLODE_FILE = "Explode.xml";
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
 
-    private int phase;
+    private final Identifiable identifiable;
+    private final Transformable transformable;
 
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Transformable transformable;
+    private final Tick tick = new Tick();
+
+    private int phase;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param transformable The transformable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Explode5(Services services, Setup setup)
+    public Explode5(Services services, Setup setup, Identifiable identifiable, Transformable transformable)
     {
         super(services, setup);
+
+        this.identifiable = identifiable;
+        this.transformable = transformable;
     }
 
     @Override

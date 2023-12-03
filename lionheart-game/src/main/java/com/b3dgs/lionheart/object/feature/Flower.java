@@ -23,10 +23,8 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -68,31 +66,77 @@ public final class Flower extends FeatureModel implements Routine, Recyclable, C
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final MapTile map = services.get(MapTile.class);
-
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
-    private Updatable current;
 
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Stats stats;
-    @FeatureGet private Launcher launcher;
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Rasterable rasterable;
-    @FeatureGet private Hurtable hurtable;
+    private final Transformable transformable;
+    private final Animatable animatable;
+    private final Stats stats;
+    private final Launcher launcher;
+    private final StateHandler stateHandler;
+    private final Hurtable hurtable;
+
+    private Updatable current;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param transformable The transformable feature.
+     * @param animatable The animatable feature.
+     * @param stats The stats feature.
+     * @param launcher The launcher feature.
+     * @param stateHandler The state feature.
+     * @param rasterable The rasterable feature.
+     * @param hurtable The hurtable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Flower(Services services, Setup setup)
+    public Flower(Services services,
+                  Setup setup,
+                  Transformable transformable,
+                  Animatable animatable,
+                  Stats stats,
+                  Launcher launcher,
+                  StateHandler stateHandler,
+                  Rasterable rasterable,
+                  Hurtable hurtable)
     {
         super(services, setup);
 
+        this.transformable = transformable;
+        this.animatable = animatable;
+        this.stats = stats;
+        this.launcher = launcher;
+        this.stateHandler = stateHandler;
+        this.hurtable = hurtable;
+
         final AnimationConfig config = AnimationConfig.imports(setup);
         halfFrames = config.getAnimation(Anim.IDLE).getFrames() / 2;
+
+        animatable.addListener((AnimatorFrameListener) frame ->
+        {
+            if (frame < 4)
+            {
+                rasterable.setFrameOffsets(0, 0);
+            }
+            else if (frame < 7)
+            {
+                rasterable.setFrameOffsets(-11, 0);
+            }
+            else if (frame < 8)
+            {
+                rasterable.setFrameOffsets(-17, 0);
+            }
+            else if (frame < 9)
+            {
+                rasterable.setFrameOffsets(-19, 0);
+            }
+        });
+        if (RasterType.CACHE == Settings.getInstance().getRaster())
+        {
+            launcher.addListener(l -> l.ifIs(Rasterable.class,
+                                             r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
+        }
     }
 
     /**
@@ -144,37 +188,6 @@ public final class Flower extends FeatureModel implements Routine, Recyclable, C
             launcher.fire(direction);
             Sfx.PROJECTILE_FLOWER.play();
             tick.restart();
-        }
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        animatable.addListener((AnimatorFrameListener) frame ->
-        {
-            if (frame < 4)
-            {
-                rasterable.setFrameOffsets(0, 0);
-            }
-            else if (frame < 7)
-            {
-                rasterable.setFrameOffsets(-11, 0);
-            }
-            else if (frame < 8)
-            {
-                rasterable.setFrameOffsets(-17, 0);
-            }
-            else if (frame < 9)
-            {
-                rasterable.setFrameOffsets(-19, 0);
-            }
-        });
-        if (RasterType.CACHE == Settings.getInstance().getRaster())
-        {
-            launcher.addListener(l -> l.ifIs(Rasterable.class,
-                                             r -> r.setRaster(true, rasterable.getMedia().get(), map.getTileHeight())));
         }
     }
 

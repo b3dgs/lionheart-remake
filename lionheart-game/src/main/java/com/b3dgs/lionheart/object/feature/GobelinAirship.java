@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -44,27 +43,32 @@ public final class GobelinAirship extends FeatureModel implements Routine, Recyc
 {
     private static final int ATTACK_DELAY_MS = 1300;
 
+    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
+
+    private final Animatable animatable;
+    private final Launcher launcher;
+
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation attack;
 
-    private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
-
     private int phase;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Launcher launcher;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param launcher The launcher feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public GobelinAirship(Services services, Setup setup)
+    public GobelinAirship(Services services, Setup setup, Animatable animatable, Launcher launcher)
     {
         super(services, setup);
+
+        this.animatable = animatable;
+        this.launcher = launcher;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);

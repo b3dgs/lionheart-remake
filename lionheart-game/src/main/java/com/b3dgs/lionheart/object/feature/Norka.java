@@ -25,9 +25,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.AnimationConfig;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -56,34 +54,37 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
     private static final int SPAWN_PILLAR_DELAY_MS = 1250;
     private static final int SPAWN_FLYER_DELAY_MS = 1500;
 
-    private final Tick tick = new Tick();
-    private final Identifiable[] pillar = new Identifiable[4];
-    private final Animation idle;
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final Trackable target = services.get(Trackable.class);
     private final Hurtable playerHurtable = target.getFeature(Hurtable.class);
     private final ForegroundWater water = services.get(ForegroundWater.class);
 
+    private final Animatable animatable;
+
+    private final Tick tick = new Tick();
+    private final Identifiable[] pillar = new Identifiable[4];
+    private final Animation idle;
+
     private Identifiable flyer;
     private Identifiable daemon;
     private boolean exit;
     private Updatable phase;
-
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Identifiable identifiable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param animatable The animatable feature.
+     * @param identifiable The identifiable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Norka(Services services, Setup setup)
+    public Norka(Services services, Setup setup, Animatable animatable, Identifiable identifiable)
     {
         super(services, setup);
+
+        this.animatable = animatable;
 
         final AnimationConfig config = AnimationConfig.imports(setup);
         idle = config.getAnimation(Anim.IDLE);
@@ -100,6 +101,16 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
             }
             pillar[i].getFeature(Pillar.class).load(new PillarConfig(1650 + i * 1650));
         }
+
+        animatable.addListener((AnimatorStateListener) s ->
+        {
+            if (exit && s == AnimState.FINISHED)
+            {
+                exit = false;
+                spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "NorkaWalk.xml"), 208, 112);
+                identifiable.destroy();
+            }
+        });
     }
 
     /**
@@ -177,22 +188,6 @@ public final class Norka extends FeatureModel implements Routine, Recyclable
         animatable.setFrame(idle.getLast());
         animatable.setAnimSpeed(-idle.getSpeed());
         exit = true;
-    }
-
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
-
-        animatable.addListener((AnimatorStateListener) s ->
-        {
-            if (exit && s == AnimState.FINISHED)
-            {
-                exit = false;
-                spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "NorkaWalk.xml"), 208, 112);
-                identifiable.destroy();
-            }
-        });
     }
 
     @Override

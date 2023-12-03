@@ -23,7 +23,6 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -60,29 +59,43 @@ public class Turning extends FeatureModel implements Routine, Recyclable
     /** Total number of shakes in shaking state. */
     private static final int SHAKE_MAX_COUNT = 3;
 
-    private final Tick tick = new Tick();
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Camera camera = services.get(Camera.class);
 
+    private final StateHandler stateHandler;
+    private final Animatable animatable;
+    private final Transformable transformable;
+    private final Glue glue;
+
+    private final Tick tick = new Tick();
+
     private Updatable check;
     private double curve;
-
-    @FeatureGet private StateHandler stateHandler;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private Glue glue;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param stateHandler The state feature.
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param glue The glue feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Turning(Services services, Setup setup)
+    public Turning(Services services,
+                   Setup setup,
+                   StateHandler stateHandler,
+                   Animatable animatable,
+                   Transformable transformable,
+                   Glue glue)
     {
         super(services, setup);
+
+        this.stateHandler = stateHandler;
+        this.animatable = animatable;
+        this.transformable = transformable;
+        this.glue = glue;
     }
 
     /**

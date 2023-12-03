@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.Force;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -36,18 +35,21 @@ import com.b3dgs.lionheart.object.Snapshotable;
 @FeatureInterface
 public final class BulletDestroyOnPlayer extends FeatureModel implements Snapshotable
 {
-    @FeatureGet private Launchable launchable;
+    private final Launchable launchable;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param launchable The launchable feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public BulletDestroyOnPlayer(Services services, Setup setup)
+    public BulletDestroyOnPlayer(Services services, Setup setup, Launchable launchable)
     {
         super(services, setup);
+
+        this.launchable = launchable;
     }
 
     @Override

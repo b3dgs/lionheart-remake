@@ -21,9 +21,7 @@ import com.b3dgs.lionengine.AnimatorStateListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -51,37 +49,41 @@ public final class Effect extends FeatureModel implements Routine, Recyclable
     private static final String ATT_COUNT = "count";
     private static final int DELAY_MS = 150;
 
-    private final Tick tick = new Tick();
-    private final int count;
-
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Viewer viewer = services.get(Viewer.class);
 
-    private int current;
+    private final Transformable transformable;
+    private final StateHandler stateHandler;
 
-    @FeatureGet private Identifiable identifiable;
-    @FeatureGet private Animatable animatable;
-    @FeatureGet private Transformable transformable;
-    @FeatureGet private StateHandler stateHandler;
+    private final Tick tick = new Tick();
+    private final int count;
+
+    private int current;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param identifiable The identifiable feature.
+     * @param animatable The animatable feature.
+     * @param transformable The transformable feature.
+     * @param stateHandler The state feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Effect(Services services, Setup setup)
+    public Effect(Services services,
+                  Setup setup,
+                  Identifiable identifiable,
+                  Animatable animatable,
+                  Transformable transformable,
+                  StateHandler stateHandler)
     {
         super(services, setup);
 
-        count = setup.getInteger(0, ATT_COUNT, NODE_SFX_EXPLODE);
-    }
+        this.transformable = transformable;
+        this.stateHandler = stateHandler;
 
-    @Override
-    public void prepare(FeatureProvider provider)
-    {
-        super.prepare(provider);
+        count = setup.getInteger(0, ATT_COUNT, NODE_SFX_EXPLODE);
 
         animatable.addListener((AnimatorStateListener) state ->
         {

@@ -17,7 +17,6 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.feature.FeatureGet;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Routine;
@@ -33,19 +32,24 @@ import com.b3dgs.lionengine.game.feature.Setup;
 @FeatureInterface
 public final class Dragon4 extends FeatureModel implements Routine
 {
-    @FeatureGet private Shooter shooter;
-    @FeatureGet private Patrol patrol;
+    private final Shooter shooter;
+    private final Patrol patrol;
 
     /**
      * Create feature.
      * 
      * @param services The services reference (must not be <code>null</code>).
      * @param setup The setup reference (must not be <code>null</code>).
+     * @param shooter The shooter feature.
+     * @param patrol The patrol feature.
      * @throws LionEngineException If invalid arguments.
      */
-    public Dragon4(Services services, Setup setup)
+    public Dragon4(Services services, Setup setup, Shooter shooter, Patrol patrol)
     {
         super(services, setup);
+
+        this.shooter = shooter;
+        this.patrol = patrol;
     }
 
     @Override
