@@ -68,6 +68,16 @@
             <url>https://download.eclipse.org/technology/swtbot/releases/4.1.0/</url>
         </repository>
         <repository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>lionengine</id>
             <url>https://lionengine.b3dgs.com/repository</url>
             <layout>p2</layout>
