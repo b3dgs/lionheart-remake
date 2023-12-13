@@ -83,7 +83,7 @@
             <id>game</id>
         </profile>
         <profile>
-            <id>release</id>
+            <id>all</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
