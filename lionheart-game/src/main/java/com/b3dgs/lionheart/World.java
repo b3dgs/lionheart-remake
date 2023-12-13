@@ -34,6 +34,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -43,7 +46,6 @@ import com.b3dgs.lionengine.SplitType;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Action;
@@ -137,6 +139,8 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     private static final double ZOOM_OUT_MAX = 1.35;
     private static final double ZOOM_IN_MAX = 0.9;
     private static final double ZOOM_SPEED = 0.005;
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(World.class);
 
     /**
      * Load player raster.
@@ -408,7 +412,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 }
                 catch (final IOException exception)
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("onClientConnected error", exception);
                 }
             }
         }
@@ -430,7 +434,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("serverCreatePlayer error", exception);
         }
     }
 
@@ -1290,7 +1294,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("quickSave error", exception);
         }
     }
 
@@ -1330,7 +1334,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             }
             catch (final IOException exception)
             {
-                Verbose.exception(exception);
+                LOGGER.error("quickLoad error", exception);
             }
         }
     }
@@ -1503,7 +1507,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         catch (final InterruptedException exception)
         {
             Thread.currentThread().interrupt();
-            Verbose.exception(exception);
+            LOGGER.error("Interrupted!", exception);
         }
 
         handler.updateRemove();
@@ -1593,7 +1597,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             catch (final InterruptedException exception)
             {
                 Thread.currentThread().interrupt();
-                Verbose.exception(exception);
+                LOGGER.error("Interrupted!", exception);
             }
             musicToPlay.clear();
             if (music != null)

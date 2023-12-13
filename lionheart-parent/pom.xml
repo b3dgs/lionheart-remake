@@ -65,37 +65,42 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-toolchains-plugin</artifactId>
-            </plugin>
-        </plugins>
     </build>
     <profiles>
         <profile>
             <id>game</id>
         </profile>
         <profile>
-            <id>pc</id>
-            <modules>
-                <module>../lionheart-pc</module>
-            </modules>
-            <properties>
-                <lionheart-pc-excludes>b3dgs-buildtools,lionheart-assets,lionheart-raster</lionheart-pc-excludes>
-            </properties>
-        </profile>
-        <profile>
-            <id>pc-assets</id>
+            <id>release</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>../lionheart-pc</module>
+                <module>../com.b3dgs.lionheart.editor.target</module>
+                <module>../com.b3dgs.lionheart.editor</module>
+                <module>../com.b3dgs.lionheart.editor.test</module>
+                <module>../com.b3dgs.lionheart.editor.repository</module>
+                <module>../com.b3dgs.lionheart.editor.product</module>
             </modules>
             <properties>
-                <lionheart-pc-excludes>b3dgs-buildtools,lionheart-raster</lionheart-pc-excludes>
+                <lionheart-pc-excludes>b3dgs-buildtools</lionheart-pc-excludes>
             </properties>
+        </profile>
+        <profile>
+            <id>sonar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>sign</id>
@@ -108,6 +113,10 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-gpg-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>

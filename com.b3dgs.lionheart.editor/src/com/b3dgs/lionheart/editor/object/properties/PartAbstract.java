@@ -31,8 +31,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.editor.utility.Focusable;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.UtilTree;
@@ -51,6 +52,8 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
 {
     /** Id. */
     protected static final String ID_PREFIX = Activator.PLUGIN_ID + ".part.properties.";
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PartAbstract.class);
 
     private final String id;
     private final String menuId;
@@ -102,7 +105,7 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
             }
             catch (final ReflectiveOperationException exception)
             {
-                Verbose.exception(exception);
+                LOGGER.error("enabled error", exception);
             }
         }
     }
@@ -205,7 +208,7 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
                     }
                     catch (final ReflectiveOperationException exception)
                     {
-                        Verbose.exception(exception);
+                        LOGGER.error("listener error", exception);
                     }
                 }
             }

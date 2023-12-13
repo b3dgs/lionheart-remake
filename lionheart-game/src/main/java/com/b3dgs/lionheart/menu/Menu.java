@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
@@ -33,7 +36,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
@@ -91,6 +93,8 @@ public class Menu extends Sequence
     private static final int MENU_MAIN_IMAGE_OFFSET_Y = 32;
     private static final int OPTIONS_TITLE_OFFSET_Y = 96;
     private static final int OPTIONS_TEXT_OFFSET_X = 12;
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Menu.class);
 
     /**
      * Load front.
@@ -883,7 +887,7 @@ public class Menu extends Sequence
                 }
                 catch (final IOException exception)
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("continue error", exception);
                     startNewGame();
                 }
                 break;

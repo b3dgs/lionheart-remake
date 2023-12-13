@@ -21,8 +21,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Constant;
-import com.b3dgs.lionengine.Verbose;
 
 /**
  * Gamepad assigner.
@@ -31,6 +33,8 @@ public class AssignerGamepad extends AssignController
 {
     private static final String LABEL_BUTTON = "Button ";
     private static final AtomicReference<ActionGetter> ACTION = new AtomicReference<>();
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssignerGamepad.class);
 
     private final AtomicBoolean running = new AtomicBoolean(true);
     private final CountDownLatch latch = new CountDownLatch(1);
@@ -62,7 +66,7 @@ public class AssignerGamepad extends AssignController
                 catch (final InterruptedException exception)
                 {
                     Thread.currentThread().interrupt();
-                    Verbose.exception(exception);
+                    LOGGER.error("Interrupted!", exception);
                     running.set(false);
                 }
                 latch.countDown();
@@ -81,7 +85,7 @@ public class AssignerGamepad extends AssignController
         catch (final InterruptedException exception)
         {
             Thread.currentThread().interrupt();
-            Verbose.exception(exception);
+            LOGGER.error("Interrupted!", exception);
         }
     }
 

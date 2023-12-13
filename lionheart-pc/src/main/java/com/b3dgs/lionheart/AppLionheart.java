@@ -28,6 +28,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Config;
 import com.b3dgs.lionengine.Engine;
@@ -37,7 +40,6 @@ import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
@@ -61,6 +63,8 @@ public final class AppLionheart
     private static final String ARG_PLAYERS = "-players";
     private static final String ARG_HEALTH = "-health";
     private static final String ARG_LIFE = "-life";
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppLionheart.class);
 
     /**
      * Main.
@@ -189,7 +193,7 @@ public final class AppLionheart
             }
             catch (final Exception exception)
             {
-                Verbose.exception(exception);
+                LOGGER.error("getParam error", exception);
             }
         }
         return def;
@@ -323,7 +327,7 @@ public final class AppLionheart
         }
         catch (final Throwable exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("getDesktopResolution error", exception);
             return null;
         }
     }

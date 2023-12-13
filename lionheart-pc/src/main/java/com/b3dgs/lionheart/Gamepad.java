@@ -26,6 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import org.libsdl.SDL_Error;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.InputDevice;
@@ -36,7 +38,6 @@ import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilStream;
-import com.b3dgs.lionengine.Verbose;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
@@ -50,6 +51,9 @@ import uk.co.electronstudio.sdl2gdx.SDL2ControllerManager;
  */
 public class Gamepad implements InputDevice
 {
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Gamepad.class);
+
     /**
      * Get instance or <code>null</code>.
      * 
@@ -63,7 +67,7 @@ public class Gamepad implements InputDevice
         }
         catch (final Exception | Error exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
         {
-            Verbose.exception(exception);
+            LOGGER.error("getFailsafe error", exception);
             return null;
         }
     }
@@ -91,7 +95,7 @@ public class Gamepad implements InputDevice
         }
         catch (final Throwable throwable) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
         {
-            Verbose.exception(throwable);
+            LOGGER.error("gamepad error", throwable);
         }
     }
 
@@ -312,7 +316,7 @@ public class Gamepad implements InputDevice
             }
             catch (final SDL_Error error)
             {
-                Verbose.exception(error);
+                LOGGER.error("findDevices error", error);
             }
         }
         return Collections.emptyMap();
@@ -369,7 +373,7 @@ public class Gamepad implements InputDevice
                 {
                     if (!last.isEmpty())
                     {
-                        Verbose.exception(error);
+                        LOGGER.error("update error", error);
                         timing.restart();
                     }
                 }

@@ -33,8 +33,9 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.editor.ObjectRepresentation;
@@ -111,6 +112,8 @@ public class ApplicationConfiguration
 {
     /** Import project argument. */
     private static final String ARG_IMPORT = "-import";
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
     /** Application reference. */
     private final MApplication application;
@@ -294,7 +297,7 @@ public class ApplicationConfiguration
             }
             catch (final IOException exception)
             {
-                Verbose.exception(exception);
+                LOGGER.error("importProject error", exception);
             }
         }
 

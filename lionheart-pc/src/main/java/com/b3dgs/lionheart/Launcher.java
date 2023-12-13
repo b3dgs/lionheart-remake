@@ -83,6 +83,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -91,7 +94,6 @@ import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
@@ -206,6 +208,8 @@ public final class Launcher
 
     private static final List<Consumer<String>> LABELS = new ArrayList<>();
     private static final List<JComponent> TIPS = new ArrayList<>();
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Launcher.class);
 
     /**
      * Main function.
@@ -318,7 +322,7 @@ public final class Launcher
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("createFrame error", exception);
         }
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
@@ -362,7 +366,7 @@ public final class Launcher
                 }
                 catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("splashListener error", exception);
                 }
             }
         };
@@ -775,7 +779,7 @@ public final class Launcher
                 }
                 catch (final IOException exception)
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("joinGame error", exception);
                 }
             }
         });
@@ -798,22 +802,28 @@ public final class Launcher
             {
                 try
                 {
-                    Runtime.getRuntime().exec(path1);
+                    Runtime.getRuntime().exec(new String[]
+                    {
+                        path1
+                    });
                 }
                 catch (final IOException exception)
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("editor error", exception);
                 }
             }
             else if (UtilFile.exists(path2))
             {
                 try
                 {
-                    Runtime.getRuntime().exec(path2);
+                    Runtime.getRuntime().exec(new String[]
+                    {
+                        path2
+                    });
                 }
                 catch (final IOException exception)
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("editor error", exception);
                 }
             }
             else
@@ -826,7 +836,7 @@ public final class Launcher
                 }
                 catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("editor error", exception);
                 }
             }
             window.dispose();
@@ -872,7 +882,7 @@ public final class Launcher
                 }
                 catch (final Exception exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
                 {
-                    Verbose.exception(exception);
+                    LOGGER.error("copyright error", exception);
                 }
             }
         });
@@ -913,9 +923,14 @@ public final class Launcher
                 });
             }).start();
         }
-        catch (InvocationTargetException | InterruptedException exception)
+        catch (final InvocationTargetException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("run error", exception);
+        }
+        catch (final InterruptedException exception)
+        {
+            Thread.currentThread().interrupt();
+            LOGGER.error("run error", exception);
         }
     }
 
@@ -942,7 +957,7 @@ public final class Launcher
         }
         catch (final ReflectiveOperationException | UnsupportedLookAndFeelException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("setThemeSystem error", exception);
         }
     }
 
@@ -1306,7 +1321,7 @@ public final class Launcher
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("save error", exception);
         }
         Settings.load();
     }

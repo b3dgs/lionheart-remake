@@ -23,9 +23,11 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -108,6 +110,10 @@ public final class Settings
     private static final String DEFAULT_LANG = "en";
     /** Local language. */
     private static final String LOCALE_LANG = Locale.getDefault().getLanguage();
+
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Settings.class);
+
     /** Editor flag. */
     private static boolean editor;
 
@@ -154,7 +160,7 @@ public final class Settings
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("loadDefault error", exception);
         }
     }
 
@@ -487,7 +493,7 @@ public final class Settings
         }
         catch (final NumberFormatException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("getBoolean error", exception);
             return def;
         }
     }
@@ -507,7 +513,7 @@ public final class Settings
         }
         catch (final NumberFormatException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("getInt error", exception);
             return def;
         }
     }
@@ -527,7 +533,7 @@ public final class Settings
         }
         catch (final NumberFormatException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("getDouble error", exception);
             return def;
         }
     }
@@ -548,7 +554,7 @@ public final class Settings
         }
         catch (final IllegalArgumentException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("getEnum error", exception);
             return def;
         }
     }

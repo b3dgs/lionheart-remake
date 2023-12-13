@@ -25,10 +25,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionheart.constant.Extension;
@@ -158,6 +160,9 @@ public enum Sfx
     private static final List<Sfx> TO_CACHE = new ArrayList<>(Arrays.asList(Sfx.values()));
 
     private static final ExecutorService EXECUTOR;
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Sfx.class);
+
     private static boolean done;
 
     static
@@ -230,7 +235,8 @@ public enum Sfx
             }
             catch (final InterruptedException exception)
             {
-                Verbose.exception(exception);
+                Thread.currentThread().interrupt();
+                LOGGER.error("Interrupted!", exception);
             }
         }
     }

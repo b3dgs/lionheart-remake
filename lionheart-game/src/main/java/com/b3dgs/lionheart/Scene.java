@@ -19,13 +19,15 @@ package com.b3dgs.lionheart;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.SplitType;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.SequenceGame;
@@ -39,6 +41,9 @@ import com.b3dgs.lionengine.io.DeviceController;
  */
 public class Scene extends SequenceGame<World>
 {
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Scene.class);
+
     private final AppInfo info;
     private final Media music;
     private final InitConfig init;
@@ -103,7 +108,7 @@ public class Scene extends SequenceGame<World>
             }
             catch (final IOException exception)
             {
-                Verbose.exception(exception);
+                LOGGER.error("prepareNetwork error", exception);
             }
         });
 

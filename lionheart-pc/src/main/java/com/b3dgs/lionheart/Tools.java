@@ -26,11 +26,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilStream;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.FramesConfig;
@@ -59,6 +61,8 @@ public final class Tools
     private static final int TILE_HEIGHT = 16;
 
     private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tools.class);
 
     /**
      * Disable UI auto scale.
@@ -71,7 +75,7 @@ public final class Tools
         }
         catch (final SecurityException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("disableAutoScale error", exception);
         }
     }
 
@@ -87,7 +91,7 @@ public final class Tools
             {
                 if (file.getParentFile().isDirectory() && !file.createNewFile())
                 {
-                    Verbose.warning("Unable to create file: " + file);
+                    LOGGER.warn("Unable to create file: {}", file);
                 }
                 try (InputStream input = Medias.create(Settings.FILENAME).getUrl().openStream();
                      OutputStream output = Medias.create(Settings.FILENAME).getOutputStream())
@@ -98,7 +102,7 @@ public final class Tools
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("prepareSettingsCustom error", exception);
         }
     }
 
@@ -114,7 +118,7 @@ public final class Tools
             {
                 if (file.getParentFile().isDirectory() && !file.createNewFile())
                 {
-                    Verbose.warning("Unable to create file: " + file);
+                    LOGGER.warn("Unable to create file: {}", file);
                 }
                 try (InputStream input = Medias.create(Constant.INPUT_FILE_DEFAULT).getUrl().openStream();
                      OutputStream output = Medias.create(Constant.INPUT_FILE_DEFAULT).getOutputStream())
@@ -125,7 +129,7 @@ public final class Tools
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("prepareInputCustom error", exception);
         }
     }
 
@@ -235,7 +239,7 @@ public final class Tools
         catch (final InterruptedException exception)
         {
             Thread.currentThread().interrupt();
-            Verbose.exception(exception);
+            LOGGER.error("Interrupted!", exception);
         }
     }
 

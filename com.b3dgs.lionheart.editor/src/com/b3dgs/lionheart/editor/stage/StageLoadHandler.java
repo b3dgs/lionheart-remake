@@ -20,10 +20,11 @@ import java.io.IOException;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.dialog.UtilDialog;
 import com.b3dgs.lionengine.editor.world.WorldModel;
@@ -50,6 +51,8 @@ public final class StageLoadHandler
 {
     /** Element ID. */
     public static final String ID = "menu.file.load";
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(StageLoadHandler.class);
 
     /**
      * Load world.
@@ -82,7 +85,7 @@ public final class StageLoadHandler
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("load error", exception);
             UtilDialog.error(shell, Messages.ErrorLoadTitle, Messages.ErrorLoadMessage);
         }
 

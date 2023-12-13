@@ -28,6 +28,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.LionEngineException;
@@ -36,7 +39,6 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.Verbose;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
 import com.b3dgs.lionengine.game.Cursor;
@@ -83,6 +85,8 @@ public final class Util
 {
     private static final int MARGIN_X = 1;
     private static final int MARGIN_Y = 5;
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Util.class);
 
     private static AtomicReference<Consumer<BackgroundType>> init = new AtomicReference<>();
 
@@ -239,7 +243,7 @@ public final class Util
         }
         catch (final IOException exception)
         {
-            Verbose.exception(exception);
+            LOGGER.error("readLines error", exception);
         }
         return lines;
     }
@@ -466,7 +470,7 @@ public final class Util
                 }
                 if (!file.isFile() && !file.createNewFile())
                 {
-                    Verbose.warning("Unable to create progress: " + file);
+                    LOGGER.warn("Unable to create progress: {}", file);
                 }
 
                 final InitConfig init = config.getInit();
@@ -485,7 +489,7 @@ public final class Util
             }
             catch (final IOException | SecurityException exception)
             {
-                Verbose.exception(exception);
+                LOGGER.error("saveProgress error", exception);
             }
         }
     }
