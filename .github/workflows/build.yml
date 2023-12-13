@@ -52,13 +52,19 @@ jobs:
          mvn-toolchain-id: |
            JavaSE-17
 
-     - name: Compile
-       if: matrix.os != 'ubuntu-latest'
+     - name: Compile windows
+       if: matrix.os == 'windows-latest'
        uses: coactions/setup-xvfb@v1.0.1
        with:
          run: mvn clean install --file lionheart-parent/pom.xml -U -Pall
 
-     - name: Sonar
+     - name: Compile macos
+       if: matrix.os == 'macos-latest'
+       uses: coactions/setup-xvfb@v1.0.1
+       with:
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -tycho.testArgLine=-XstartOnFirstThread
+
+     - name: Sonar ubuntu
        if: matrix.os == 'ubuntu-latest'
        uses: coactions/setup-xvfb@v1.0.1
        with:
