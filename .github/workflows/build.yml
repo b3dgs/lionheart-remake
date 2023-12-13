@@ -62,7 +62,7 @@ jobs:
        if: matrix.os == 'macos-latest'
        uses: coactions/setup-xvfb@v1.0.1
        with:
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -tycho.testArgLine=-XstartOnFirstThread
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -Dtycho.testArgLine=-XstartOnFirstThread
 
      - name: Sonar ubuntu
        if: matrix.os == 'ubuntu-latest'
