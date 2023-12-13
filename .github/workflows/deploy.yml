@@ -379,9 +379,6 @@ jobs:
           mvn-toolchain-id: |
             JavaSE-${{ env.JDK_VERSION }}
 
-      - name: maven-settings-xml-action
-        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
-
       - name: Set GCC
         uses: egor-tensin/setup-gcc@v1.3
         with:
