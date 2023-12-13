@@ -1,6 +1,6 @@
 # This workflow will:
-# - compile, sign, package deploy project on win32-x86 with JDK 8
-# - compile, package deploy project on linux-x86_64 with JDK 8
+# - compile, sign, package deploy project on win32-x86
+# - compile, package deploy project on linux-x86_64
 
 name: Deploy
 
@@ -41,18 +41,18 @@ jobs:
     runs-on: windows-latest
 
     env:
-      JDK_VERSION: "8"
+      JDK_VERSION: "17"
       AUDIODEV: "null"
       APP_PLATFORM: "win32-x86"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
@@ -64,28 +64,22 @@ jobs:
           maven-version: 3.9.6
 
       - name: Set JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
-            17
           distribution: 'temurin'
           mvn-toolchain-id: |
-            JavaSE-1.8
-            JavaSE-17
-
-      - name: maven-settings-xml-action
-        shell: bash
-        run: echo \<settings\>\<servers\>\<server\>\<id\>ossrh\</id\>\<username\>${{ secrets.MAVEN_USERNAME }}\</username\>\<password\>${{ secrets.MAVEN_PASSWORD }}\</password\>\</server\>\</servers\>\<mirrors\>\<mirror\>\<id\>maven-default-http-blocker\</id\>\<mirrorOf\>external:dont-match-anything-mate:*\</mirrorOf\>\<name\>Pseudo repo.\</name\>\<url\>http://0.0.0.0/\</url\>\<blocked\>false\</blocked\>\</mirror\>\</mirrors\>\</settings\> > C:\\Users\\runneradmin\\.m2\\settings.xml
+            JavaSE-${{ env.JDK_VERSION }}
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5.2.0
+        uses: crazy-max/ghaction-import-gpg@v6.0.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@v1.2.4
         with:
           fileName: 'keystore.jks'
           fileDir: './'
@@ -104,19 +98,10 @@ jobs:
           $data = $APP_VERSION.Split("-")[0].replace('.',',')
           echo "APP_VERSIONI=$data" >> $env:GITHUB_ENV
 
-      - name: Compile Game
-        uses: coactions/setup-xvfb@v1
+      - name: Compile
+        uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-          
-      - name: Compile Editor
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: mvn clean verify --file lionheart-editor-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
@@ -234,7 +219,7 @@ jobs:
         shell: cmd
 
       - name: Set JRE x86
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -247,7 +232,7 @@ jobs:
         shell: cmd
 
       - name: Set JRE x86_64
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -349,7 +334,7 @@ jobs:
         shell: cmd
 
       - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.10
+        uses: dennisameling/ftp-upload-action@v1.0.14
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -363,18 +348,18 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      JDK_VERSION: "8"
+      JDK_VERSION: "17"
       AUDIODEV: "null"
       APP_PLATFORM: "linux-x86-64"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
@@ -386,15 +371,13 @@ jobs:
           maven-version: 3.9.6
 
       - name: Set JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
-            17
           distribution: 'temurin'
           mvn-toolchain-id: |
-            JavaSE-1.8
-            JavaSE-17
+            JavaSE-${{ env.JDK_VERSION }}
 
       - name: maven-settings-xml-action
         run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
@@ -406,13 +389,13 @@ jobs:
           platform: x64
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5.2.0
+        uses: crazy-max/ghaction-import-gpg@v6.0.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@v1.2.4
         with:
           fileName: 'keystore.jks'
           fileDir: './'
@@ -421,19 +404,10 @@ jobs:
       - name: Get version
         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Compile Game
+      - name: Compile
         uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
-      - name: Compile Editor
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: mvn clean verify --file lionheart-editor-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
@@ -497,7 +471,7 @@ jobs:
           chmod +x profile.sh
 
       - name: Set JRE x86_64
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -541,7 +515,7 @@ jobs:
           sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor.tar.xz.sha256sum"
 
       - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.10
+        uses: dennisameling/ftp-upload-action@v1.0.14
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -566,31 +540,26 @@ jobs:
           sudo apt-get install gcc-multilib
   
       - name: Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: java${{ env.JDK_VERSION }}-
 
       - name: Set JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
-            17
           distribution: 'zulu'
           mvn-toolchain-id: |
-            JavaSE-1.8
-            JavaSE-17
+            JavaSE-${{ env.JDK_VERSION }}
           architecture: x86
-
-      - name: maven-settings-xml-action
-        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
 
       - name: Set GCC
         uses: egor-tensin/setup-gcc@v1.3
@@ -599,13 +568,13 @@ jobs:
           platform: x86
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5.2.0
+        uses: crazy-max/ghaction-import-gpg@v6.0.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@v1.2.4
         with:
           fileName: 'keystore.jks'
           fileDir: './'
@@ -614,10 +583,10 @@ jobs:
       - name: Get version
         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Compile Game
+      - name: Compile
         uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
@@ -709,7 +678,7 @@ jobs:
           chmod +x profile.sh
 
       - name: Set JRE x86
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -736,7 +705,7 @@ jobs:
           sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
 
       - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.10
+        uses: dennisameling/ftp-upload-action@v1.0.14
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -750,18 +719,18 @@ jobs:
     runs-on: macOS-11
 
     env:
-      JDK_VERSION: "8"
+      JDK_VERSION: "17"
       AUDIODEV: "null"
       APP_PLATFORM: "macos-x86-64"
 
     steps:   
       - name: Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
@@ -773,27 +742,22 @@ jobs:
           maven-version: 3.9.6
 
       - name: Set JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
-            17
           distribution: 'temurin'
           mvn-toolchain-id: |
-            JavaSE-1.8
-            JavaSE-17
-
-      - name: maven-settings-xml-action
-        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
+            JavaSE-${{ env.JDK_VERSION }}
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5.2.0
+        uses: crazy-max/ghaction-import-gpg@v6.0.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@v1.2.4
         with:
           fileName: 'keystore.jks'
           fileDir: './'
@@ -802,10 +766,10 @@ jobs:
       - name: Get version
         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Compile Game
+      - name: Compile
         uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
@@ -869,7 +833,7 @@ jobs:
           chmod +x profile.sh
 
       - name: Set JRE x86_64
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -895,7 +859,7 @@ jobs:
           rm -r -f $TARGET
 
       - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.10
+        uses: dennisameling/ftp-upload-action@v1.0.14
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -909,18 +873,18 @@ jobs:
     runs-on: macOS-11
 
     env:
-      JDK_VERSION: "8"
+      JDK_VERSION: "17"
       AUDIODEV: "null"
       APP_PLATFORM: "macos-aarch64"
 
     steps:   
       - name: Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
@@ -932,27 +896,22 @@ jobs:
           maven-version: 3.9.6
 
       - name: Set JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: |
             ${{ env.JDK_VERSION }}
-            17
           distribution: 'temurin'
           mvn-toolchain-id: |
-            JavaSE-1.8
-            JavaSE-17
-
-      - name: maven-settings-xml-action
-        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
+            JavaSE-${{ env.JDK_VERSION }}
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5.2.0
+        uses: crazy-max/ghaction-import-gpg@v6.0.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@v1.2.4
         with:
           fileName: 'keystore.jks'
           fileDir: './'
@@ -961,10 +920,10 @@ jobs:
       - name: Get version
         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Compile Game
+      - name: Compile
         uses: coactions/setup-xvfb@v1.0.1
         with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Ppc,sign
+          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Prelease,sign
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
@@ -1029,14 +988,14 @@ jobs:
 
       - name: Set JRE aarch64
         id: setup-java
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'temurin'
           java-version: '17'
           architecture: aarch64
 
       - name: Set JRE
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -1061,7 +1020,7 @@ jobs:
           rm -r -f $TARGET
 
       - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.10
+        uses: dennisameling/ftp-upload-action@v1.0.14
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
@@ -1082,12 +1041,12 @@ jobs:
 
     steps:  
       - name: Checkout
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
@@ -1099,21 +1058,16 @@ jobs:
           maven-version: 3.9.6
 
       - name: Set JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           java-version: |
-            8
             ${{ env.JDK_VERSION }}
           distribution: 'temurin'
           mvn-toolchain-id: |
-            JavaSE-1.8
-            JavaSE-17
-
-      - name: maven-settings-xml-action
-        run: cat ~/.m2/settings.xml | echo "<settings><mirrors><mirror><id>maven-default-http-blocker</id><mirrorOf>external:dont-match-anything-mate:*</mirrorOf><name>Pseudo repo.</name><url>http://0.0.0.0/</url><blocked>false</blocked></mirror></mirrors></settings>" > ~/.m2/settings.xml
+            JavaSE-${{ env.JDK_VERSION }}
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2
+        uses: timheuer/base64-to-file@v1.2.4
         with:
           fileName: 'android.jks'
           fileDir: 'lionheart-android/app/'
@@ -1140,7 +1094,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
           keyPassword: ${{ secrets.KEYSTORE_PASS }}
         env:
-          BUILD_TOOLS_VERSION: "33.0.0"
+          BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Make Archive
         run: |
@@ -1159,7 +1113,7 @@ jobs:
           sha256sum $TARGET.zip > $TARGET".zip.sha256sum"
 
       - name: Deploy Archive
-        uses: dennisameling/ftp-upload-action@v1.0.10
+        uses: dennisameling/ftp-upload-action@v1.0.14
         with:
           server: ftp.b3dgs.com
           username: ${{ secrets.LOGIN }}
