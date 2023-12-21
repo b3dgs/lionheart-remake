@@ -116,15 +116,15 @@ public final class Launcher
     private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 20);
     private static final Font FONT1 = new Font(Font.MONOSPACED, Font.PLAIN, 16);
     private static final Font FONT2 = new Font(Font.MONOSPACED, Font.PLAIN, 12);
-    private static final Integer[] AVAILABLE_SCALE = new Integer[]
+    private static final Integer[] AVAILABLE_SCALE =
     {
         null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4),
     };
-    private static final String[] AVAILABLE_RATIO = new String[]
+    private static final String[] AVAILABLE_RATIO =
     {
         null, "5/4", "4/3", "16/10", "16/9", "21/9"
     };
-    private static final double[] RATIO_VALUE = new double[]
+    private static final double[] RATIO_VALUE =
     {
         // @formatter:off
         5.0 / 4.0, 4.0 / 3.0, 16.0 / 10.0, 16.0 / 9.0, 21.0 / 9.0
@@ -696,8 +696,8 @@ public final class Launcher
     private static void createButtons(Container parent, Window window, Gamepad gamepad)
     {
         final JButton play = createButtonPlay(window, gamepad);
-        final JButton startServer = createButtonStartServer(parent, window, gamepad);
-        final JButton joinGame = createButtonJoinGame(parent, window, gamepad);
+        createButtonStartServer(parent, window, gamepad);
+        createButtonJoinGame(parent, window, gamepad);
         final JButton editor = createButtonEditor(window);
         final JButton exit = createButtonExit(window, gamepad);
 
@@ -1213,7 +1213,7 @@ public final class Launcher
         {
             return "00" + percent;
         }
-        else if (percent < com.b3dgs.lionengine.Constant.HUNDRED)
+        if (percent < com.b3dgs.lionengine.Constant.HUNDRED)
         {
             return "0" + percent;
         }
@@ -1450,8 +1450,7 @@ public final class Launcher
             final int prime = 31;
             int result = 1;
             result = prime * result + width;
-            result = prime * result + height;
-            return result;
+            return prime * result + height;
         }
 
         @Override

@@ -13,8 +13,6 @@
     <packaging>jar</packaging>
     <name>Lionheart Remake PC</name>
     <properties>
-        <jdk.version>17</jdk.version>
-        <jdk-release.version>${jdk.version}</jdk-release.version>
         <jna.version>5.14.0</jna.version>
         <sdl2gdx.version>1.0.4</sdl2gdx.version>
         <checkstyle.skip>true</checkstyle.skip>

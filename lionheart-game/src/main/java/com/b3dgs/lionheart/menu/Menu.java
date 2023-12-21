@@ -438,7 +438,7 @@ public class Menu extends Sequence
     private Data createLauncher()
     {
         final int x = (int) Math.round(CENTER_X * factorH);
-        final Choice[] choices = new Choice[]
+        final Choice[] choices =
         {
             new Choice(textDark, textWhite, options0.get(0), x - LAUNCHER_TEXT_OFFSET_X, mainY + 114, Align.RIGHT),
             new Choice(textDark, textWhite, options0.get(1), x - LAUNCHER_TEXT_OFFSET_X, mainY + 141, Align.RIGHT),
@@ -495,7 +495,7 @@ public class Menu extends Sequence
     private Data createOptions()
     {
         final int x = (int) Math.round(CENTER_X * factorH);
-        final Choice[] choices = new Choice[]
+        final Choice[] choices =
         {
             new Choice(textDark, textWhite, options1.get(0), x - 118, mainY + 125, Align.LEFT),
             new Choice(textDark, textWhite, options1.get(1), x - 118, mainY + 161, Align.LEFT),
@@ -850,9 +850,9 @@ public class Menu extends Sequence
         for (int i = 0; i < data.choices.length; i++)
         {
             if (data.choices[i].isOver(cursor)
-                && !(type == MenuType.LAUNCHER
-                     && (i == 3 && GameType.is(game, GameType.STORY, GameType.TRAINING)
-                         || i == 2 && GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))))
+                && (type != MenuType.LAUNCHER
+                    || (i != 3 || !GameType.is(game, GameType.STORY, GameType.TRAINING))
+                       && (i != 2 || !GameType.is(game, GameType.SPEEDRUN, GameType.BATTLE, GameType.VERSUS))))
             {
                 return i;
             }
@@ -976,26 +976,15 @@ public class Menu extends Sequence
      */
     private InitConfig getInitConfig(Media stage)
     {
-        final InitConfig init;
         final Difficulty value = Difficulty.from(difficulty);
-        switch (value)
+        return switch (value)
         {
-            case BEGINNER:
-                init = new InitConfig(stage, 5, 3, Difficulty.NORMAL);
-                break;
-            case NORMAL:
-                init = new InitConfig(stage, 4, 2, Difficulty.NORMAL);
-                break;
-            case HARD:
-                init = new InitConfig(stage, 3, 2, Difficulty.HARD);
-                break;
-            case LIONHARD:
-                init = new InitConfig(stage, 3, 2, Difficulty.LIONHARD);
-                break;
-            default:
-                throw new LionEngineException(value);
-        }
-        return init;
+            case BEGINNER -> new InitConfig(stage, 5, 3, Difficulty.NORMAL);
+            case NORMAL -> new InitConfig(stage, 4, 2, Difficulty.NORMAL);
+            case HARD -> new InitConfig(stage, 3, 2, Difficulty.HARD);
+            case LIONHARD -> new InitConfig(stage, 3, 2, Difficulty.LIONHARD);
+            default -> throw new LionEngineException(value);
+        };
     }
 
     /**
@@ -1008,13 +997,11 @@ public class Menu extends Sequence
             tickMouse.stop();
             setSystemCursorVisible(false);
         }
-        else if (transition == TransitionType.NONE)
+        else if (transition == TransitionType.NONE
+                 && (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0))
         {
-            if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
-            {
-                tickMouse.restart();
-                setSystemCursorVisible(true);
-            }
+            tickMouse.restart();
+            setSystemCursorVisible(true);
         }
     }
 

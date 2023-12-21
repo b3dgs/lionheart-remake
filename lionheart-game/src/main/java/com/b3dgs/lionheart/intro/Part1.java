@@ -82,7 +82,7 @@ public final class Part1 implements Updatable, Renderable
                                                                      Folder.INTRO,
                                                                      PART1_TEXT));
     private final TextData[] texts;
-    private final SceneryData[] sceneriesData = new SceneryData[]
+    private final SceneryData[] sceneriesData =
     {
         new SceneryData(0, 32), new SceneryData(1, 410), new SceneryData(0, 620), new SceneryData(1, 745),
         new SceneryData(2, 795), new SceneryData(0, 850), new SceneryData(3, 1000), new SceneryData(0, 1090),

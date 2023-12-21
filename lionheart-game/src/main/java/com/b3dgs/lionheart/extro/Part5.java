@@ -149,7 +149,7 @@ public class Part5 extends Sequence
     });
     private final int x = getWidth() / 2 - 2;
     private final int y = getHeight() / 2 - 54;
-    private final Featurable[] effects = new Featurable[]
+    private final Featurable[] effects =
     {
         spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x, y),
         spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM2), x + 4, y),

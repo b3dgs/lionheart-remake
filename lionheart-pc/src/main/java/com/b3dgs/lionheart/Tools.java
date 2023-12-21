@@ -193,8 +193,8 @@ public final class Tools
             generateHeroWaterRaster(type);
         });
 
-        final List<Media> medias = new ArrayList<>();
-        medias.addAll(Medias.create(Folder.ENTITY, type.getWorld().getFolder()).getMedias());
+        final List<Media> medias = new ArrayList<>(Medias.create(Folder.ENTITY, type.getWorld().getFolder())
+                                                         .getMedias());
         medias.addAll(Medias.create(Folder.LIMB, type.getWorld().getFolder()).getMedias());
         medias.addAll(Medias.create(Folder.PROJECTILE, type.getWorld().getFolder()).getMedias());
         medias.addAll(Medias.create(Folder.EFFECT, type.getWorld().getFolder()).getMedias());

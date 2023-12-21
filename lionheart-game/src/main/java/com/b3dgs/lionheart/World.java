@@ -1480,14 +1480,11 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                                 VERSUS_WIN_DELAY_MS);
                         }
                     }
-                    else
+                    else if (dead.incrementAndGet() == players.size())
                     {
-                        if (dead.incrementAndGet() == players.size())
-                        {
-                            spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
-                                                source.getRate(),
-                                                ALLDEAD_DELAY_MS);
-                        }
+                        spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                                            source.getRate(),
+                                            ALLDEAD_DELAY_MS);
                     }
                 };
                 for (int i = 0; i < players.size(); i++)

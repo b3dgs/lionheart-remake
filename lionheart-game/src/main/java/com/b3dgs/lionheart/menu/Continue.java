@@ -204,7 +204,7 @@ public class Continue extends Sequence
     private Data create()
     {
         final int x = (int) Math.round(CENTER_X * factorH);
-        final Choice[] choices = new Choice[]
+        final Choice[] choices =
         {
             new Choice(textDark, textWhite, continues.get(INDEX_YES), x - 100, mainY + 188, Align.CENTER, null),
             new Choice(textDark, textWhite, continues.get(INDEX_NO), x + 100, mainY + 188, Align.CENTER, null),
@@ -361,13 +361,10 @@ public class Continue extends Sequence
             tickMouse.stop();
             setSystemCursorVisible(false);
         }
-        else
+        else if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
         {
-            if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
-            {
-                tickMouse.restart();
-                setSystemCursorVisible(true);
-            }
+            tickMouse.restart();
+            setSystemCursorVisible(true);
         }
     }
 

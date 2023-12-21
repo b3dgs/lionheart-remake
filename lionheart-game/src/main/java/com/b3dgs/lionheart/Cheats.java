@@ -388,13 +388,10 @@ public class Cheats implements Updatable, Renderable
                 tickMouse.stop();
                 sequencer.setSystemCursorVisible(false);
             }
-            else
+            else if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
             {
-                if (Double.compare(cursor.getMoveX(), 0.0) != 0 || Double.compare(cursor.getMoveY(), 0.0) != 0)
-                {
-                    tickMouse.restart();
-                    sequencer.setSystemCursorVisible(true);
-                }
+                tickMouse.restart();
+                sequencer.setSystemCursorVisible(true);
             }
             if (deviceCursor.isFiredOnce(DeviceMapping.RIGHT))
             {

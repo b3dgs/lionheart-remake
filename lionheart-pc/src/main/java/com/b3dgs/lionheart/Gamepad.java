@@ -361,21 +361,18 @@ public class Gamepad implements InputDevice
     @Override
     public void update(double extrp)
     {
-        if (manager != null)
+        if (manager != null && (!last.isEmpty() || timing.elapsed(Constant.ONE_SECOND_IN_MILLI)))
         {
-            if (!last.isEmpty() || timing.elapsed(Constant.ONE_SECOND_IN_MILLI))
+            try
             {
-                try
+                manager.pollState();
+            }
+            catch (final SDL_Error error)
+            {
+                if (!last.isEmpty())
                 {
-                    manager.pollState();
-                }
-                catch (final SDL_Error error)
-                {
-                    if (!last.isEmpty())
-                    {
-                        LOGGER.error("update error", error);
-                        timing.restart();
-                    }
+                    LOGGER.error("update error", error);
+                    timing.restart();
                 }
             }
         }

@@ -351,16 +351,13 @@ public class CheatMenu implements Routine, Surface
             {
                 g.setColor(HOVER);
             }
+            else if (numberStage != null)
+            {
+                g.setColor(COLOR2);
+            }
             else
             {
-                if (numberStage != null)
-                {
-                    g.setColor(COLOR2);
-                }
-                else
-                {
-                    g.setColor(COLOR);
-                }
+                g.setColor(COLOR);
             }
             g.drawRect((int) area.getX(), (int) area.getY(), area.getWidth() - 1, area.getHeight() - 1, true);
             drawBorder(g);

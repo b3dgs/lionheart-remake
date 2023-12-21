@@ -353,11 +353,11 @@ public class ProfilesDialog extends JDialog
         {
             return new AssignerKeyboard();
         }
-        else if (Mouse.class.equals(device))
+        if (Mouse.class.equals(device))
         {
             return new AssignerMouse();
         }
-        else if (Gamepad.class.equals(device))
+        if (Gamepad.class.equals(device))
         {
             return new AssignerGamepad(gamepad, id);
         }

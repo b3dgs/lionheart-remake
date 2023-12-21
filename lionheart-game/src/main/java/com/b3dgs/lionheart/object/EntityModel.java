@@ -293,15 +293,12 @@ public final class EntityModel extends EntityModelHelper implements Snapshotable
     @Override
     public void onConnected()
     {
-        if (networkedDevice != null)
+        if (networkedDevice != null && !networkable.isClient())
         {
-            if (!networkable.isClient())
-            {
-                final Services s = new Services();
-                s.add(networkedDevice.getVirtual());
-                deviceNetwork = DeviceControllerConfig.create(s, Medias.create("input_network.xml"));
-                setInput(deviceNetwork);
-            }
+            final Services s = new Services();
+            s.add(networkedDevice.getVirtual());
+            deviceNetwork = DeviceControllerConfig.create(s, Medias.create("input_network.xml"));
+            setInput(deviceNetwork);
         }
     }
 

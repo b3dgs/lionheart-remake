@@ -104,46 +104,22 @@ public final class FactoryLandscape
     // CHECKSTYLE IGNORE LINE: CyclomaticComplexity
     private Background createBackground(BackgroundType backgroundType)
     {
-        final Background background;
         final WorldType world = backgroundType.getWorld();
-        switch (world)
+        return switch (world)
         {
-            case SWAMP:
-                background = new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
-                break;
-            case SPIDERCAVE1:
-            case SPIDERCAVE2:
-            case SPIDERCAVE3:
-            case UNDERWORLD:
-                background = new Black(source);
-                break;
-            case ANCIENTTOWN:
-                // CHECKSTYLE IGNORE LINE: MagicNumber
-                background = new Gradient(1800, 470, source, backgroundType, flickerBackground);
-                break;
-            case LAVA:
-                background = new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
-                break;
-            case SECRET:
-                // CHECKSTYLE IGNORE LINE: MagicNumber
-                background = new Gradient(1600, 384, source, backgroundType, flickerBackground);
-                break;
-            case AIRSHIP:
-                background = new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
-                break;
-            case DRAGONFLY:
-                background = new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
-                break;
-            case TOWER:
-                // CHECKSTYLE IGNORE LINE: MagicNumber
-                background = new Gradient(2448, 676, source, backgroundType, flickerBackground);
-                break;
-            case NORKA:
-                background = new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
-                break;
-            default:
-                throw new LionEngineException(backgroundType);
-        }
-        return background;
+            case SWAMP -> new Swamp(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
+            case SPIDERCAVE1, SPIDERCAVE2, SPIDERCAVE3, UNDERWORLD -> new Black(source);
+            // CHECKSTYLE IGNORE LINE: MagicNumber
+            case ANCIENTTOWN -> new Gradient(1800, 470, source, backgroundType, flickerBackground);
+            case LAVA -> new Lava(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
+            // CHECKSTYLE IGNORE LINE: MagicNumber
+            case SECRET -> new Gradient(1600, 384, source, backgroundType, flickerBackground);
+            case AIRSHIP -> new Airship(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
+            case DRAGONFLY -> new Dragonfly(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
+            // CHECKSTYLE IGNORE LINE: MagicNumber
+            case TOWER -> new Gradient(2448, 676, source, backgroundType, flickerBackground);
+            case NORKA -> new Norka(source, scaleH, scaleV, backgroundType.getTheme(), flickerBackground);
+            default -> throw new LionEngineException(backgroundType);
+        };
     }
 }

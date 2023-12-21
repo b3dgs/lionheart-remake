@@ -113,12 +113,13 @@ final class FontsTest
             {
                 font.load();
                 font.prepare();
-                font.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZ%"
-                             + "ÀÁÃÂÄÇÈÉÊËÌÍÎÏÑÒÓÕÔÖÙÚÛÜŸ%"
-                             + "abcdefghijklmnopqrstuvwxyz%"
-                             + "àáãâäçèéêëñìíîïòóõôöùúûüÿ%"
-                             + "0123456789%"
-                             + "/\\,*:?!¿¡.-&()'");
+                font.setText("""
+                        ABCDEFGHIJKLMNOPQRSTUVWXYZ%\
+                        ÀÁÃÂÄÇÈÉÊËÌÍÎÏÑÒÓÕÔÖÙÚÛÜŸ%\
+                        abcdefghijklmnopqrstuvwxyz%\
+                        àáãâäçèéêëñìíîïòóõôöùúûüÿ%\
+                        0123456789%\
+                        /\\,*:?!¿¡.-&()'""");
                 font.setLocation(10, 10);
             }
         }

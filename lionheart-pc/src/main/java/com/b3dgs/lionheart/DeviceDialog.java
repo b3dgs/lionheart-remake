@@ -147,15 +147,14 @@ public class DeviceDialog extends JDialog
             config.getHorizontal().add(new DeviceAxis(positiveX.get(), negativeX.get()));
         }
 
-        final DeviceControllerConfig result = new DeviceControllerConfig(config.getName(),
-                                                                         config.getIndex(),
-                                                                         config.getId(),
-                                                                         config.getDevice(),
-                                                                         config.isDisabled(),
-                                                                         config.getHorizontal(),
-                                                                         config.getVertical(),
-                                                                         fires);
-        return result;
+        return new DeviceControllerConfig(config.getName(),
+                                          config.getIndex(),
+                                          config.getId(),
+                                          config.getDevice(),
+                                          config.isDisabled(),
+                                          config.getHorizontal(),
+                                          config.getVertical(),
+                                          fires);
     }
 
     private void load(DeviceControllerConfig config)
