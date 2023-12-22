@@ -68,4 +68,4 @@ jobs:
        if: matrix.os == 'ubuntu-latest'
        uses: coactions/setup-xvfb@v1.0.1
        with:
-         run: mvn clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-parent/pom.xml -U -Pall -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
+         run: mvn clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-parent/pom.xml -U -Pall -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
