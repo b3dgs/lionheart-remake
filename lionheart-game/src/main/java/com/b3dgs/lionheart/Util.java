@@ -302,9 +302,9 @@ public final class Util
     {
         entity.getFeatures().forEach(feature ->
         {
-            if (feature instanceof XmlLoader)
+            if (feature instanceof final XmlLoader loader)
             {
-                ((XmlLoader) feature).load(config.getRoot());
+                loader.load(config.getRoot());
             }
         });
     }

@@ -16,6 +16,7 @@
         <jna.version>5.14.0</jna.version>
         <sdl2gdx.version>1.0.4</sdl2gdx.version>
         <checkstyle.skip>true</checkstyle.skip>
+        <log4j2.version>2.22.0</log4j2.version>
     </properties>
     <repositories>
         <repository>
@@ -33,6 +34,21 @@
         </repository>
     </repositories>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
             <artifactId>lionengine-core-awt</artifactId>

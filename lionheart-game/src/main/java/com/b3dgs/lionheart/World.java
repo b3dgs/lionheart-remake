@@ -1307,9 +1307,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 file.writeString(featurable.getMedia().getPath());
                 for (final Feature feature : featurable.getFeatures())
                 {
-                    if (feature instanceof Snapshotable)
+                    if (feature instanceof final Snapshotable snapshotable)
                     {
-                        ((Snapshotable) feature).save(file);
+                        snapshotable.save(file);
                     }
                 }
             }
@@ -1369,9 +1369,9 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         for (final Feature feature : featurable.getFeatures())
         {
-            if (feature instanceof Snapshotable)
+            if (feature instanceof final Snapshotable snapshotable)
             {
-                ((Snapshotable) feature).load(file);
+                snapshotable.load(file);
             }
         }
         handler.add(featurable);

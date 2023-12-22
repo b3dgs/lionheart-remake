@@ -87,9 +87,9 @@ public final class StageSaveHandler
         final Xml root = new Xml(EntityConfig.NODE_ENTITY);
         featurable.getFeatures().forEach(feature ->
         {
-            if (feature instanceof XmlSaver)
+            if (feature instanceof final XmlSaver saver)
             {
-                ((XmlSaver) feature).save(root);
+                saver.save(root);
             }
         });
         return root;
