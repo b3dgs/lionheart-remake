@@ -18,6 +18,11 @@
             <artifactId>lionheart-game</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.b3dgs.lionheart</groupId>
+            <artifactId>lionheart-pc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
             <groupId>com.b3dgs.lionheart.editor</groupId>
             <artifactId>com.b3dgs.lionheart.editor</artifactId>
