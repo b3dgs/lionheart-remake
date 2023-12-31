@@ -33,7 +33,7 @@
         <lionengine.version>10.0.0-SNAPSHOT</lionengine.version>
         <radial.base-package>com.b3dgs.lionheart</radial.base-package>
         <checkstyle.skip>true</checkstyle.skip>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../lionheart-pc/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../lionheart-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
         <dependency>
@@ -96,6 +96,7 @@
                 <module>../com.b3dgs.lionheart.editor.test</module>
                 <module>../com.b3dgs.lionheart.editor.repository</module>
                 <module>../com.b3dgs.lionheart.editor.product</module>
+                <module>../lionheart-coverage</module>
             </modules>
             <properties>
                 <lionheart-pc-excludes>b3dgs-buildtools</lionheart-pc-excludes>
