@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,7 +223,7 @@ public final class Tools
                                             .getChildren(FeaturableConfig.NODE_FEATURE)
                                             .stream()
                                             .map(XmlReader::getText)
-                                            .toList()
+                                            .collect(Collectors.toList())
                                             .contains(Underwater.class.getName()))
                     {
                         generateObjectWaterRaster(type, media);

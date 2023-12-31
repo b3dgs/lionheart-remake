@@ -38,10 +38,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -97,11 +94,9 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
-import com.b3dgs.lionengine.network.MessageType;
 import com.b3dgs.lionengine.network.Network;
 import com.b3dgs.lionengine.network.NetworkType;
 import com.b3dgs.lionengine.network.UtilNetwork;
-import com.b3dgs.lionengine.network.client.InfoGet;
 import com.b3dgs.lionheart.constant.Folder;
 
 /**
@@ -376,7 +371,7 @@ public final class Launcher
     {
         final JLabel label = createLabel(LABEL_LANG, SwingConstants.RIGHT);
 
-        final List<String> langs = LANG_FULL.values().stream().sorted().toList();
+        final List<String> langs = LANG_FULL.values().stream().sorted().collect(Collectors.toList());
         final JComboBox<String> combo = createCombo(langs.toArray(new String[langs.size()]),
                                                     LANG_FULL.getOrDefault(LANG.get(), LANG.get()));
         combo.addActionListener(e ->
@@ -1182,7 +1177,7 @@ public final class Launcher
                      .map(d -> Integer.valueOf(d.getRefreshRate()))
                      .distinct()
                      .sorted()
-                     .toList();
+                     .collect(Collectors.toList());
     }
 
     private static List<Integer> getAvailableRates()
@@ -1190,7 +1185,7 @@ public final class Launcher
         final List<Integer> rates = new ArrayList<>(getNativeRates());
         rates.add(Integer.valueOf(Constant.RESOLUTION.getRate()));
         rates.add(Integer.valueOf(Constant.RESOLUTION.getRate() * 2));
-        return rates.stream().distinct().sorted().toList();
+        return rates.stream().distinct().sorted().collect(Collectors.toList());
     }
 
     private static int getClosestRate(JComboBox<Integer> comboRate, Integer custom)
@@ -1238,29 +1233,17 @@ public final class Launcher
 
     private static NetworkStageData getGameType(String ip, int port) throws IOException
     {
-        try (final DatagramSocket socket = new DatagramSocket())
-        {
-            final ByteBuffer buffer = ByteBuffer.allocate(1);
-            buffer.put(UtilNetwork.toByte(MessageType.INFO));
-            final ByteBuffer send = UtilNetwork.createPacket(buffer);
-            socket.send(new DatagramPacket(send.array(), send.capacity(), InetAddress.getByName(ip), port));
+        final ByteBuffer info = UtilNetwork.getInfo(ip, port);
+        final GameType type = GameType.values()[UtilConversion.toUnsignedByte(info.get())];
+        final int size = UtilConversion.toUnsignedByte(info.get());
+        final byte[] stageBuffer = new byte[size];
+        info.get(stageBuffer);
 
-            final ByteBuffer info = InfoGet.decode(socket);
-            final GameType type = GameType.values()[UtilConversion.toUnsignedByte(info.get())];
-            final int size = UtilConversion.toUnsignedByte(info.get());
-            final byte[] stageBuffer = new byte[size];
-            info.get(stageBuffer);
+        final String stage = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stageBuffer)).toString();
+        final int health = UtilConversion.toUnsignedByte(info.get());
+        final int life = UtilConversion.toUnsignedByte(info.get());
 
-            final String stage = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stageBuffer)).toString();
-            final int health = UtilConversion.toUnsignedByte(info.get());
-            final int life = UtilConversion.toUnsignedByte(info.get());
-
-            return new NetworkStageData(type, Medias.create(stage), health, life);
-        }
-        catch (final UnknownHostException | SocketException exception)
-        {
-            throw new IOException(exception);
-        }
+        return new NetworkStageData(type, Medias.create(stage), health, life);
     }
 
     private static void runGame(Window window, Network network, Gamepad gamepad, NetworkStageData data)
