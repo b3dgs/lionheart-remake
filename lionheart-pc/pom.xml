@@ -16,7 +16,7 @@
         <jna.version>5.14.0</jna.version>
         <sdl2gdx.version>1.0.4</sdl2gdx.version>
         <checkstyle.skip>true</checkstyle.skip>
-        <log4j2.version>2.22.0</log4j2.version>
+        <log4j2.version>2.22.1</log4j2.version>
     </properties>
     <repositories>
         <repository>
