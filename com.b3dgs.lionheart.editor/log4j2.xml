@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/master/log4j-core/src/main/resources/Log4j-config.xsd">
     <!-- Logging Properties -->
     <Properties>
-        <Property name="APP_LOG_NAME">lionheart</Property>
+        <Property name="APP_LOG_NAME">lionheart-editor</Property>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %p %m%n</Property>
         <Property name="APP_LOG_ROOT">log</Property>
     </Properties>
