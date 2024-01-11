@@ -29,7 +29,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -55,7 +55,7 @@ import com.b3dgs.lionheart.constant.CollisionName;
  * </ol>
  */
 @FeatureInterface
-public final class BossSwampEgg extends FeatureModel implements Routine, Recyclable, TileCollidableListener
+public final class BossSwampEgg extends FeatureModel implements RoutineUpdate, TileCollidableListener, Recyclable
 {
     private static final String ANIM_HATCH = "hatch";
     private static final double FALL_VELOCITY = 0.12;

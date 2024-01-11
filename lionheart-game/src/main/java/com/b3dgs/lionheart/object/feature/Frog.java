@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -43,7 +43,7 @@ import com.b3dgs.lionheart.constant.Anim;
  * </ol>
  */
 @FeatureInterface
-public final class Frog extends FeatureModel implements Routine, Recyclable
+public final class Frog extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int AWAIT_DELAY_MS = 1000;
     private static final double SPEED = 3.5;

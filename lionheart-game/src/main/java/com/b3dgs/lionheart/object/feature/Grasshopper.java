@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -49,7 +49,7 @@ import com.b3dgs.lionheart.object.state.StateJump;
  * </ol>
  */
 @FeatureInterface
-public final class Grasshopper extends FeatureModel implements Routine, CollidableListener
+public final class Grasshopper extends FeatureModel implements RoutineUpdate, CollidableListener
 {
     private final MapTile map = services.get(MapTile.class);
     private final Camera camera = services.get(Camera.class);

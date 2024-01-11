@@ -25,7 +25,7 @@ import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -45,7 +45,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
  */
 @FeatureInterface
 public final class HotFireBall extends FeatureModel
-                               implements XmlLoader, XmlSaver, Editable<HotFireBallConfig>, Routine, Recyclable
+                               implements XmlLoader, XmlSaver, Editable<HotFireBallConfig>, RoutineUpdate, Recyclable
 {
     private static final int BALL_DELAY_MS = 130;
 

@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -49,7 +49,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * </p>
  */
 @FeatureInterface
-public final class Catapult extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable, CollidableListener
+public final class Catapult extends FeatureModel
+                            implements XmlLoader, XmlSaver, RoutineUpdate, CollidableListener, Recyclable
 {
     private final Animatable animatable;
     private final Launcher launcher;

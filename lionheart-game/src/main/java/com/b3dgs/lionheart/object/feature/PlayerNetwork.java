@@ -33,7 +33,8 @@ import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineRender;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -60,7 +61,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * Player network data.
  */
 @FeatureInterface
-public class PlayerNetwork extends FeatureModel implements Routine, Syncable, Recyclable
+public class PlayerNetwork extends FeatureModel implements RoutineUpdate, RoutineRender, Syncable, Recyclable
 {
     private static final int TIME_START_DELAY = 1000;
     private static final int TIMING_SYNC_DELAY_MS = 1000;

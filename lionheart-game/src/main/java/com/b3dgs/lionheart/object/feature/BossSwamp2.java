@@ -37,7 +37,8 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineRender;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -76,7 +77,7 @@ import com.b3dgs.lionheart.object.SetupEntity;
  * </ol>
  */
 @FeatureInterface
-public final class BossSwamp2 extends FeatureModel implements Routine, Recyclable
+public final class BossSwamp2 extends FeatureModel implements RoutineUpdate, RoutineRender, Recyclable
 {
     private static final int END_DELAY_MS = 8000;
     private static final double MOVE_BACK_X = 1.0;
@@ -580,7 +581,6 @@ public final class BossSwamp2 extends FeatureModel implements Routine, Recyclabl
         neck.setFrameOffset(getFrameOffset());
 
         updateFlickerHurt(extrp);
-        transformable.check(true);
     }
 
     @Override

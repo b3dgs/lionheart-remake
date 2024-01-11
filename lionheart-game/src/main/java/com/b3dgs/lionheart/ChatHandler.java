@@ -27,7 +27,8 @@ import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.IdentifiableListener;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineRender;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.graphic.ColorRgba;
@@ -42,7 +43,7 @@ import com.b3dgs.lionengine.io.DeviceControllerListener;
  * Chat handler dedicated to messages control and rendering.
  */
 @FeatureInterface
-public class ChatHandler extends FeatureModel implements Routine, IdentifiableListener
+public class ChatHandler extends FeatureModel implements RoutineUpdate, RoutineRender, IdentifiableListener
 {
     private static final int MESSAGE_DELAY_MS = 5000;
     private static final int MESSAGES_POS_X = 2;

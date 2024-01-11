@@ -37,7 +37,8 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineRender;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -86,8 +87,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackGrip;
  * </p>
  */
 @FeatureInterface
-public final class Hurtable extends FeatureModel
-                            implements Routine, CollidableListener, TileCollidableListener, Recyclable, Syncable
+public final class Hurtable extends FeatureModel implements RoutineUpdate, RoutineRender, CollidableListener,
+                            TileCollidableListener, Syncable, Recyclable
 {
     private static final int NEXT_DELAY_MS = 5000;
     private static final int HURT_RECOVER_ATTACK_DELAY_MS = 300;

@@ -32,7 +32,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -55,7 +55,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </ol>
  */
 @FeatureInterface
-public final class BossSwamp1 extends FeatureModel implements Routine, Recyclable
+public final class BossSwamp1 extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int MAX_Y = 220;
     private static final int TOP_Y = 230;
@@ -222,7 +222,7 @@ public final class BossSwamp1 extends FeatureModel implements Routine, Recyclabl
                 {
                     trans.teleport(x, transformable.getY() - i * 12 + 16);
                 }
-                trans.check(true);
+                trans.updateAfter();
             }
             for (int i = 0; i < toRemove.size(); i++)
             {

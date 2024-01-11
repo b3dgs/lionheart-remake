@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -41,7 +41,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </ol>
  */
 @FeatureInterface
-public final class Laser extends FeatureModel implements Routine, Recyclable
+public final class Laser extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final double VX = -5.0;
     private static final double VY = 2.5;

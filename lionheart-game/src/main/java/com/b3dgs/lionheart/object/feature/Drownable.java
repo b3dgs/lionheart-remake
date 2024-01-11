@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -39,7 +39,7 @@ import com.b3dgs.lionheart.object.state.StateDrowned;
  * </ol>
  */
 @FeatureInterface
-public final class Drownable extends FeatureModel implements Routine, Recyclable
+public final class Drownable extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int DROWN_OFFSET_Y = 4;
 

@@ -24,7 +24,8 @@ import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineRender;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -44,7 +45,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </p>
  */
 @FeatureInterface
-public final class SwordShade extends FeatureModel implements Routine
+public final class SwordShade extends FeatureModel implements RoutineUpdate, RoutineRender
 {
     private static final int SHADE_FH = 10;
     private static final int SHADE_FV = 5;

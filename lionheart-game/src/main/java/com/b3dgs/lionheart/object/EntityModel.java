@@ -43,7 +43,7 @@ import com.b3dgs.lionengine.game.feature.Layerable;
 import com.b3dgs.lionengine.game.feature.LayerableModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -95,8 +95,8 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackDragon;
  */
 // CHECKSTYLE IGNORE LINE: FanOutComplexity
 @FeatureInterface
-public final class EntityModel extends EntityModelHelper implements Snapshotable, XmlLoader, XmlSaver,
-                               Editable<ModelConfig>, Routine, Recyclable, Syncable
+public final class EntityModel extends EntityModelHelper implements XmlLoader, XmlSaver, Editable<ModelConfig>,
+                               RoutineUpdate, Recyclable, Syncable, Snapshotable
 {
     private static final String NODE_ALWAYS_UPDATE = "alwaysUpdate";
     private static final int PREFIX = State.class.getSimpleName().length();

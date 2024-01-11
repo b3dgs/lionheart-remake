@@ -32,7 +32,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -54,7 +54,7 @@ import com.b3dgs.lionheart.object.state.executioner.StateExecutionerDefense;
  * </ol>
  */
 @FeatureInterface
-public final class Executioner extends FeatureModel implements Routine, Recyclable
+public final class Executioner extends FeatureModel implements RoutineUpdate, Recyclable
 {
     /** Maximum attack 1 distance. */
     public static final int ATTACK1_DISTANCE_MAX = 96;
@@ -148,7 +148,6 @@ public final class Executioner extends FeatureModel implements Routine, Recyclab
         {
             final Transformable t = wall.getFeature(Transformable.class);
             t.teleport(transformable.getX() + 48.0, transformable.getY());
-            t.check(true);
             first = false;
         }
         else

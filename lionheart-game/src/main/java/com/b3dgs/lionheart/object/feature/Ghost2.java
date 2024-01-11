@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.rasterable.SetupSurfaceRastered;
@@ -37,7 +37,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
  * </ol>
  */
 @FeatureInterface
-public final class Ghost2 extends FeatureModel implements Routine, Recyclable
+public final class Ghost2 extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int TRACK_DELAY_MS = 1500;
     private static final double SPEED = 1.45;

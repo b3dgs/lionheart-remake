@@ -34,7 +34,7 @@ import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -60,7 +60,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
  */
 @FeatureInterface
 public final class Geyzer extends FeatureModel
-                          implements XmlLoader, XmlSaver, Editable<GeyzerConfig>, Routine, Recyclable
+                          implements XmlLoader, XmlSaver, Editable<GeyzerConfig>, RoutineUpdate, Recyclable
 {
     private static final double SPEED = 3.0;
     private static final String BOTTOM_FILE = "GeyzerBottom.xml";

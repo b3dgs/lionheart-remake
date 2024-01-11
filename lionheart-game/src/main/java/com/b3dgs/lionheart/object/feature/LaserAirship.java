@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -50,7 +50,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
  */
 @FeatureInterface
 public final class LaserAirship extends FeatureModel
-                                implements XmlSaver, XmlLoader, Editable<LaserAirshipConfig>, Routine, Recyclable
+                                implements XmlSaver, XmlLoader, Editable<LaserAirshipConfig>, RoutineUpdate, Recyclable
 {
     private static final int PREPARE_DELAY_MS = 650;
     private static final double DOT_SPEED = 6.0;

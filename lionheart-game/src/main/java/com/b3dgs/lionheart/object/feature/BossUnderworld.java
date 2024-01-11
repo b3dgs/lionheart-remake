@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -59,7 +59,7 @@ import com.b3dgs.lionheart.landscape.ForegroundWater;
  * </ol>
  */
 @FeatureInterface
-public final class BossUnderworld extends FeatureModel implements Routine, Recyclable
+public final class BossUnderworld extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int SPAWN_DELAY_MS = 6_000;
     private static final int ATTACK_DELAY_MS = 10_000;

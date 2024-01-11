@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -53,7 +53,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
  */
 @FeatureInterface
 public final class Shooter extends FeatureModel
-                           implements XmlLoader, XmlSaver, Editable<ShooterConfig>, Routine, Recyclable
+                           implements XmlLoader, XmlSaver, Editable<ShooterConfig>, RoutineUpdate, Recyclable
 {
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);

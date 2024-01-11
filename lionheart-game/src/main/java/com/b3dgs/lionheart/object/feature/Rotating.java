@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -56,7 +56,7 @@ import com.b3dgs.lionheart.object.state.StateCrouch;
  */
 @FeatureInterface
 public final class Rotating extends FeatureModel
-                            implements XmlLoader, XmlSaver, Editable<RotatingConfig>, Routine, Recyclable
+                            implements XmlLoader, XmlSaver, Editable<RotatingConfig>, RoutineUpdate, Recyclable
 {
     private final Spawner spawner = services.get(Spawner.class);
     private final Viewer viewer = services.get(Viewer.class);

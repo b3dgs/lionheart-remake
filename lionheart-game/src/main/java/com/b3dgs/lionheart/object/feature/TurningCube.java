@@ -22,7 +22,6 @@ import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
-import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -35,7 +34,7 @@ import com.b3dgs.lionheart.Sfx;
  * </ol>
  */
 @FeatureInterface
-public final class TurningCube extends FeatureModel implements Routine
+public final class TurningCube extends FeatureModel
 {
     private final Viewer viewer = services.get(Viewer.class);
 

@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -45,7 +45,7 @@ import com.b3dgs.lionheart.constant.Anim;
  * </ol>
  */
 @FeatureInterface
-public final class BossUnderworldBubble extends FeatureModel implements Routine, Recyclable
+public final class BossUnderworldBubble extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final double ROTATE_ANGLE_SPEED = 2.0;
     private static final double ROTATE_MARGIN_SPEED = 0.5;

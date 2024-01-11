@@ -23,16 +23,17 @@ import java.util.function.BooleanSupplier;
 import com.b3dgs.lionengine.Align;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Surface;
+import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Cursor;
-import com.b3dgs.lionengine.game.feature.Routine;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.geom.Rectangle;
 import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
+import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.SpriteDigit;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
@@ -41,7 +42,7 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Cheat menu representation.
  */
-public class CheatMenu implements Routine, Surface
+public class CheatMenu implements Updatable, Renderable, Surface
 {
     private static final ColorRgba COLOR = new ColorRgba(128, 128, 128);
     private static final ColorRgba COLOR2 = new ColorRgba(118, 118, 118);

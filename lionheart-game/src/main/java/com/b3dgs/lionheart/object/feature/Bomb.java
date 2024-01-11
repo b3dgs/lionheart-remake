@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.collidable.Collidable;
@@ -36,7 +36,7 @@ import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
  * </ol>
  */
 @FeatureInterface
-public final class Bomb extends FeatureModel implements Routine, Recyclable, CollidableListener
+public final class Bomb extends FeatureModel implements RoutineUpdate, CollidableListener, Recyclable
 {
     private static final int TRIGGER_DELAY_MS = 150;
     private static final int FLICKER_COUNT = 4;

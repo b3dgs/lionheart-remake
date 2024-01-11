@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.game.feature.CameraTracker;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -53,7 +53,7 @@ import com.b3dgs.lionheart.object.state.attack.StateAttackAnimal;
  */
 @FeatureInterface
 public final class Animal extends FeatureModel
-                          implements XmlLoader, XmlSaver, Editable<AnimalConfig>, Routine, CollidableListener
+                          implements XmlLoader, XmlSaver, Editable<AnimalConfig>, RoutineUpdate, CollidableListener
 {
     private static final double SPEED_GROUND = 3.0;
     private static final double SPEED_BOAT = 0.6;

@@ -35,7 +35,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -69,7 +69,7 @@ import com.b3dgs.lionheart.extro.Extro;
  * </ol>
  */
 @FeatureInterface
-public final class BossNorka extends FeatureModel implements Routine, Recyclable
+public final class BossNorka extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int END_DELAY_MS = 8000;
     private static final double CURVE_SPEED = 9.5;
@@ -866,7 +866,7 @@ public final class BossNorka extends FeatureModel implements Routine, Recyclable
                 limbs[i].getFeature(Rasterable.class)
                         .setAnimOffset(UtilMath.clamp(stats.getHealthMax() - stats.getHealth(), 0, 3) * 5);
             }
-            limbs[i].check(false);
+            limbs[i].updateAfter();
         }
     }
 

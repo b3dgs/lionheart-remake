@@ -32,7 +32,7 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -70,8 +70,8 @@ import com.b3dgs.lionheart.object.state.StateTurn;
  * </p>
  */
 @FeatureInterface
-public final class Patrol extends FeatureModel implements Snapshotable, XmlLoader, Routine, TileCollidableListener,
-                          CollidableListener, Recyclable, Syncable
+public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpdate, TileCollidableListener,
+                          CollidableListener, Syncable, Snapshotable, Recyclable
 {
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Trackable target = services.getOptional(Trackable.class).orElse(null);
@@ -331,7 +331,6 @@ public final class Patrol extends FeatureModel implements Snapshotable, XmlLoade
                     {
                         transformable.teleportY(startY - amplitude);
                     }
-                    transformable.check(true);
 
                     if (Double.compare(sh, 0.0) != 0)
                     {

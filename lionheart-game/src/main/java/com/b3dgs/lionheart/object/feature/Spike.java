@@ -31,7 +31,7 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -53,7 +53,7 @@ import com.b3dgs.lionheart.object.XmlSaver;
  */
 @FeatureInterface
 public final class Spike extends FeatureModel
-                         implements XmlLoader, XmlSaver, Editable<SpikeConfig>, Routine, Recyclable, Syncable
+                         implements XmlLoader, XmlSaver, Editable<SpikeConfig>, RoutineUpdate, Syncable, Recyclable
 {
     private static final int PHASE1_DELAY_MS = 500;
     private static final int PHASE2_DELAY_MS = 500;

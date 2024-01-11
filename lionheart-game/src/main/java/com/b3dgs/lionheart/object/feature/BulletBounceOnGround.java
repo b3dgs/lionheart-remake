@@ -31,7 +31,8 @@ import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineRender;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -62,8 +63,8 @@ import com.b3dgs.lionheart.object.XmlSaver;
  * Bounce bullet on hit ground.
  */
 @FeatureInterface
-public final class BulletBounceOnGround extends FeatureModel implements XmlLoader, XmlSaver, Routine, Recyclable,
-                                        TileCollidableListener, CollidableListener
+public final class BulletBounceOnGround extends FeatureModel implements XmlLoader, XmlSaver, RoutineUpdate,
+                                        RoutineRender, TileCollidableListener, CollidableListener, Recyclable
 {
     private static final String NODE = "bulletBounceOnGround";
     private static final String ATT_SFX = "sfx";
@@ -248,7 +249,6 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
                 tick.restart();
                 tileCollidable.apply(result);
                 transformable.teleportY(transformable.getY() + 1);
-                transformable.check(true);
 
                 final int sideX = getSideX(result);
                 if (result.containsY(CollisionName.SLOPE))
@@ -285,7 +285,6 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
             }
             tileCollidable.apply(result);
             transformable.teleportX(transformable.getX() + 1.0 * side);
-            transformable.check(true);
 
             final Force direction = launchable.getDirection();
             final double vx = direction.getDirectionHorizontal();

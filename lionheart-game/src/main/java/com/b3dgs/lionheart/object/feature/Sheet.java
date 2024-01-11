@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -40,7 +40,8 @@ import com.b3dgs.lionheart.object.feature.Glue.GlueListener;
  * </p>
  */
 @FeatureInterface
-public final class Sheet extends FeatureModel implements XmlLoader, XmlSaver, Editable<SheetConfig>, Routine, Recyclable
+public final class Sheet extends FeatureModel
+                         implements XmlLoader, XmlSaver, Editable<SheetConfig>, RoutineUpdate, Recyclable
 {
     private static final double CURVE_FORCE = 7.0;
     private static final double CURVE_SPEED = 8.0;

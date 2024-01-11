@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -34,7 +34,7 @@ import com.b3dgs.lionheart.constant.CollisionName;
  * Destroy bullet on collide.
  */
 @FeatureInterface
-public final class BulletDestroyOnCollide extends FeatureModel implements Routine, CollidableListener
+public final class BulletDestroyOnCollide extends FeatureModel implements RoutineUpdate, CollidableListener
 {
     private final Viewer viewer = services.get(Viewer.class);
 

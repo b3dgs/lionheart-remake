@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -41,7 +41,7 @@ import com.b3dgs.lionheart.object.state.StateFall;
  * Glue feature implementation.
  */
 @FeatureInterface
-public final class Glue extends FeatureModel implements Routine, Recyclable, CollidableListener
+public final class Glue extends FeatureModel implements RoutineUpdate, CollidableListener, Recyclable
 {
     private static final String NODE = "glue";
     private static final String ATT_FORCE = "force";
@@ -160,7 +160,6 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
             {
                 transformable.teleportY(referenceY - transformY.transform());
             }
-            transformable.check(true);
         }
 
         if (!collide && started)
@@ -172,7 +171,6 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
             other.moveLocationX(1.0, transformable.getX() - transformable.getOldX());
             other.getFeature(Body.class).resetGravity();
             other.teleportY(transformable.getY() + offsetY);
-            other.check(true);
         }
         if (!collidable.isEnabled() && other != null && Double.compare(other.getY(), other.getOldY()) == 0)
         {
@@ -201,7 +199,6 @@ public final class Glue extends FeatureModel implements Routine, Recyclable, Col
                 offsetY = with.getOffsetY();
                 other.getFeature(Body.class).resetGravity();
                 other.teleportY(transformable.getY() + offsetY);
-                other.check(true);
 
                 start();
             }

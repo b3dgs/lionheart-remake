@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
@@ -47,7 +47,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </ol>
  */
 @FeatureInterface
-public final class MeltingPlatform extends FeatureModel implements Recyclable, CollidableListener, Routine
+public final class MeltingPlatform extends FeatureModel implements RoutineUpdate, Recyclable, CollidableListener
 {
     private final Viewer viewer = services.get(Viewer.class);
 

@@ -52,7 +52,7 @@ import com.b3dgs.lionheart.object.Snapshotable;
  * </ol>
  */
 @FeatureInterface
-public final class Stats extends FeatureModel implements Snapshotable, Recyclable, Syncable
+public final class Stats extends FeatureModel implements Syncable, Snapshotable, Recyclable
 {
     private final Networkable networkable;
 

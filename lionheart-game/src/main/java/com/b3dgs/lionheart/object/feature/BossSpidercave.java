@@ -30,7 +30,7 @@ import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
@@ -56,7 +56,7 @@ import com.b3dgs.lionheart.object.EntityModel;
  * </ol>
  */
 @FeatureInterface
-public final class BossSpidercave extends FeatureModel implements Routine, Recyclable
+public final class BossSpidercave extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int HEAD_OFFSET_X = -38;
     private static final int PATROL_MARGIN = 80;
@@ -146,14 +146,12 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 if (transformable.getX() < minX)
                 {
                     transformable.teleportX(minX);
-                    transformable.check(true);
                     animatable.setAnimSpeed(-animatable.getAnimSpeed());
                     speed = -speed;
                 }
                 else if (transformable.getX() > maxX)
                 {
                     transformable.teleportX(maxX);
-                    transformable.check(true);
                     animatable.setAnimSpeed(-animatable.getAnimSpeed());
                     speed = -speed;
                     step++;
@@ -215,7 +213,6 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
                 {
                     jump -= 3.0;
                     transformable.teleportY(oldY);
-                    transformable.check(true);
                     body.resetGravity();
                     model.getJump().setDirection(0.0, jump);
                     if (jump < 0)
@@ -286,7 +283,6 @@ public final class BossSpidercave extends FeatureModel implements Routine, Recyc
         if (stats.getHealth() == 0 && transformable.getY() < oldY)
         {
             transformable.teleportY(oldY);
-            transformable.check(true);
             body.resetGravity();
             model.getJump().zero();
             body.setGravity(0.0);

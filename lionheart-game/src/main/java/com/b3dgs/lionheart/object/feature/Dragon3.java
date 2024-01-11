@@ -25,7 +25,7 @@ import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
-import com.b3dgs.lionengine.game.feature.Routine;
+import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
@@ -40,7 +40,7 @@ import com.b3dgs.lionheart.constant.Anim;
  * </ol>
  */
 @FeatureInterface
-public final class Dragon3 extends FeatureModel implements Routine, Recyclable
+public final class Dragon3 extends FeatureModel implements RoutineUpdate, Recyclable
 {
     private static final int FIRED_DELAY_MS = 1300;
 

@@ -37,7 +37,7 @@ import com.b3dgs.lionheart.constant.CollisionName;
  * Destroy bullet on hit ground.
  */
 @FeatureInterface
-public final class BulletDestroyOnGround extends FeatureModel implements Recyclable, TileCollidableListener
+public final class BulletDestroyOnGround extends FeatureModel implements TileCollidableListener, Recyclable
 {
     private static final String NODE = "bulletDestroyOnGround";
     private static final String ATT_COLLFROMBOTTOM = "collFromBottom";
