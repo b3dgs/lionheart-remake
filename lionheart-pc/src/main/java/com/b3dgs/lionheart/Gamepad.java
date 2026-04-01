@@ -16,8 +16,10 @@
  */
 package com.b3dgs.lionheart;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -25,26 +27,22 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-import org.libsdl.SDL_Error;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWGamepadState;
+import org.lwjgl.glfw.GLFWJoystickCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.InputDeviceListener;
+import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.ListenableModel;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilStream;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerListener;
-import com.badlogic.gdx.controllers.PovDirection;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-
-import uk.co.electronstudio.sdl2gdx.SDL2ControllerManager;
 
 /**
  * Gamepad handler device.
@@ -53,24 +51,6 @@ public class Gamepad implements InputDevice
 {
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(Gamepad.class);
-
-    /**
-     * Get instance or <code>null</code>.
-     * 
-     * @return The available instance.
-     */
-    private static SDL2ControllerManager getFailsafe()
-    {
-        try
-        {
-            return new SDL2ControllerManager();
-        }
-        catch (final Exception | Error exception) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
-        {
-            LOGGER.error("getFailsafe error", exception);
-            return null;
-        }
-    }
 
     /**
      * Load library.
@@ -99,12 +79,14 @@ public class Gamepad implements InputDevice
         }
     }
 
-    /** Current manager, or <code>null</code>. */
-    private final SDL2ControllerManager manager = getFailsafe();
     /** Push listener. */
     private final Map<Integer, ListenableModel<InputDeviceListener>> listeners = new ConcurrentHashMap<>();
-    /** Controllers mapping by name and index. */
-    private final Map<Integer, Integer> controllers = new ConcurrentHashMap<>();
+    /** Id lists. */
+    private final List<Integer> ids = new ArrayList<>();
+    /** Controllers mapping by index. */
+    private final Map<Integer, Integer> jidToIndex = new ConcurrentHashMap<>();
+    /** Controllers mapping by name. */
+    private final Map<Integer, String> jidToName = new ConcurrentHashMap<>();
     /** Press flags. */
     private final Map<Integer, Set<Integer>> press = new ConcurrentHashMap<>();
     /** Pressed flags. */
@@ -114,8 +96,7 @@ public class Gamepad implements InputDevice
     /** Check timing. */
     private final Timing timing = new Timing();
 
-    private final int[] oldAxisX = new int[4];
-    private final int[] oldAxisY = new int[4];
+    private final Map<Integer, byte[]> previousButtons = new HashMap<>();
 
     /**
      * Create.
@@ -124,166 +105,31 @@ public class Gamepad implements InputDevice
     {
         super();
 
-        if (manager != null)
+        if (!GLFW.glfwInit())
         {
-            manager.addListener(new ControllerListener()
-            {
-                @Override
-                public void connected(Controller controller)
-                {
-                    int index;
-                    for (index = 0; index < controllers.size(); index++)
-                    {
-                        if (!controllers.containsKey(Integer.valueOf(controller.hashCode())))
-                        {
-                            break;
-                        }
-                    }
-                    controllers.put(Integer.valueOf(controller.hashCode()), Integer.valueOf(index));
-                    init(Integer.valueOf(index));
-                }
-
-                @Override
-                public void disconnected(Controller controller)
-                {
-                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
-                    if (index != null)
-                    {
-                        clean(index);
-                    }
-                }
-
-                @Override
-                public boolean buttonDown(Controller controller, int buttonCode)
-                {
-                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
-                    if (index != null)
-                    {
-                        final Integer code = Integer.valueOf(buttonCode);
-                        last.put(index, code);
-                        press.get(index).add(code);
-
-                        final ListenableModel<InputDeviceListener> l = listeners.get(index);
-                        final int n = l.size();
-                        for (int i = 0; i < n; i++)
-                        {
-                            l.get(i).onDeviceChanged(index, code, (char) buttonCode, true);
-                        }
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean buttonUp(Controller controller, int buttonCode)
-                {
-                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
-                    if (index != null)
-                    {
-                        final Integer code = Integer.valueOf(buttonCode);
-                        last.remove(index, code);
-                        press.get(index).remove(code);
-
-                        final ListenableModel<InputDeviceListener> l = listeners.get(index);
-                        final int n = l.size();
-                        for (int i = 0; i < n; i++)
-                        {
-                            l.get(i).onDeviceChanged(index, code, (char) buttonCode, false);
-                        }
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean xSliderMoved(Controller controller, int sliderCode, boolean value)
-                {
-                    return false;
-                }
-
-                @Override
-                public boolean ySliderMoved(Controller controller, int sliderCode, boolean value)
-                {
-                    return false;
-                }
-
-                @Override
-                public boolean povMoved(Controller controller, int povCode, PovDirection value)
-                {
-                    return false;
-                }
-
-                @Override
-                public boolean axisMoved(Controller controller, int axisCode, float value)
-                {
-                    final Integer index = controllers.get(Integer.valueOf(controller.hashCode()));
-                    if (index != null)
-                    {
-                        final Set<Integer> codes = press.get(index);
-                        final int mod = axisCode % 4;
-                        if (axisCode % 2 == 0)
-                        {
-                            if (value > 0.5)
-                            {
-                                if (oldAxisX[mod] != 1)
-                                {
-                                    codes.add(Integer.valueOf(14));
-                                    codes.remove(Integer.valueOf(13));
-                                    oldAxisX[mod] = 1;
-                                }
-                            }
-                            else if (value < -0.5)
-                            {
-                                if (oldAxisX[mod] != -1)
-                                {
-                                    codes.add(Integer.valueOf(13));
-                                    codes.remove(Integer.valueOf(14));
-                                    oldAxisX[mod] = -1;
-                                }
-                            }
-                            else if (oldAxisX[mod] != 0)
-                            {
-                                codes.remove(Integer.valueOf(13));
-                                codes.remove(Integer.valueOf(14));
-                                oldAxisX[mod] = 0;
-                            }
-                        }
-                        else if (axisCode % 2 == 1)
-                        {
-                            if (value < -0.5)
-                            {
-                                if (oldAxisY[mod] != -1)
-                                {
-                                    codes.add(Integer.valueOf(11));
-                                    codes.remove(Integer.valueOf(12));
-                                    oldAxisY[mod] = -1;
-                                }
-                            }
-                            else if (value > 0.5)
-                            {
-                                if (oldAxisY[mod] != 1)
-                                {
-                                    codes.add(Integer.valueOf(12));
-                                    codes.remove(Integer.valueOf(11));
-                                    oldAxisY[mod] = 1;
-                                }
-                            }
-                            else if (oldAxisY[mod] != 0)
-                            {
-                                codes.remove(Integer.valueOf(11));
-                                codes.remove(Integer.valueOf(12));
-                                oldAxisY[mod] = 0;
-                            }
-                        }
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value)
-                {
-                    return false;
-                }
-            });
+            throw new LionEngineException("Unable to initialize !");
         }
+
+        GLFW.glfwSetJoystickCallback(new GLFWJoystickCallback()
+        {
+            @Override
+            public void invoke(int jid, int event)
+            {
+                final Integer id = Integer.valueOf(jid);
+                if (event == GLFW.GLFW_CONNECTED)
+                {
+                    init(jid);
+                }
+                else if (event == GLFW.GLFW_DISCONNECTED)
+                {
+                    final Integer index = jidToIndex.get(id);
+                    if (index != null)
+                    {
+                        clean(jid, index);
+                    }
+                }
+            }
+        });
 
         findDevices();
         timing.start();
@@ -296,54 +142,64 @@ public class Gamepad implements InputDevice
      */
     public final Map<Integer, Integer> findDevices()
     {
-        if (manager != null)
+        GLFW.glfwPollEvents();
+
+        for (int jid = GLFW.GLFW_JOYSTICK_1; jid <= GLFW.GLFW_JOYSTICK_LAST; jid++)
         {
-            try
+            if (GLFW.glfwJoystickPresent(jid))
             {
-                manager.pollState();
-
-                controllers.values().forEach(this::clean);
-
-                final Array<Controller> array = manager.getControllers();
-                controllers.clear();
-                for (int i = 0; i < array.size; i++)
-                {
-                    final Integer index = Integer.valueOf(i);
-                    controllers.put(Integer.valueOf(array.get(i).hashCode()), index);
-                    init(index);
-                }
-                return controllers;
-            }
-            catch (final SDL_Error error)
-            {
-                LOGGER.error("findDevices error", error);
+                init(jid);
             }
         }
-        return Collections.emptyMap();
+        return jidToIndex;
     }
 
     /**
      * Init controller structure.
      * 
-     * @param index The controller index.
+     * @param jid The internal id.
      */
-    private void init(Integer index)
+    private void init(int jid)
     {
+        final Integer key = Integer.valueOf(jid);
+
+        int i;
+        for (i = 0; i < jidToIndex.size(); i++)
+        {
+            if (!jidToIndex.containsKey(Integer.valueOf(i)))
+            {
+                break;
+            }
+        }
+        final Integer index = Integer.valueOf(i);
+
+        jidToIndex.put(key, index);
+        jidToName.put(key, GLFW.glfwGetJoystickName(jid));
+
+        previousButtons.put(key, new byte[GLFW.GLFW_JOYSTICK_LAST + 1]);
+
         listeners.put(index, new ListenableModel<>());
         press.put(index, new HashSet<>());
         pressed.put(index, new HashSet<>());
+
+        ids.add(key);
     }
 
     /**
      * Clean controller structure.
      * 
+     * @param jid The internal jid.
      * @param index The controller index.
      */
-    private void clean(Integer index)
+    private void clean(int jid, Integer index)
     {
+        ids.remove(Integer.valueOf(jid));
+
         last.remove(index);
         Optional.ofNullable(press.get(index)).ifPresent(Set::clear);
         Optional.ofNullable(pressed.get(index)).ifPresent(Set::clear);
+
+        previousButtons.remove(Integer.valueOf(jid));
     }
 
     @Override
@@ -356,26 +212,6 @@ public class Gamepad implements InputDevice
     public void removeListener(InputDeviceListener listener)
     {
         // Nothing to do
-    }
-
-    @Override
-    public void update(double extrp)
-    {
-        if (manager != null && (!last.isEmpty() || timing.elapsed(Constant.ONE_SECOND_IN_MILLI)))
-        {
-            try
-            {
-                manager.pollState();
-            }
-            catch (final SDL_Error error)
-            {
-                if (!last.isEmpty())
-                {
-                    LOGGER.error("update error", error);
-                    timing.restart();
-                }
-            }
-        }
     }
 
     @Override
@@ -392,12 +228,61 @@ public class Gamepad implements InputDevice
     }
 
     @Override
+    public void update(double extrp)
+    {
+        GLFW.glfwPollEvents();
+
+        final int n = ids.size();
+        for (int idsIndex = 0; idsIndex < n; idsIndex++)
+        {
+            final int jid = ids.get(idsIndex).intValue();
+            if (GLFW.glfwJoystickPresent(jid))
+            {
+                final Integer key = Integer.valueOf(jid);
+                final Integer index = jidToIndex.get(key);
+
+                if (GLFW.glfwJoystickIsGamepad(jid))
+                {
+                    final GLFWGamepadState state = GLFWGamepadState.create();
+                    if (GLFW.glfwGetGamepadState(jid, state))
+                    {
+                        for (int i = 0; i <= GLFW.GLFW_GAMEPAD_BUTTON_LAST; i++)
+                        {
+                            if (state.buttons(i) != previousButtons.get(key)[i])
+                            {
+                                final Integer code = Integer.valueOf(i);
+                                final boolean flag;
+                                if (state.buttons(i) == GLFW.GLFW_PRESS)
+                                {
+                                    press.get(index).add(code);
+                                    last.put(index, code);
+                                    flag = true;
+                                }
+                                else
+                                {
+                                    press.get(index).remove(code);
+                                    last.remove(index, code);
+                                    flag = false;
+                                }
+                                final ListenableModel<InputDeviceListener> l = listeners.get(index);
+                                final int count = l.size();
+                                for (int j = 0; j < count; j++)
+                                {
+                                    l.get(j).onDeviceChanged(index, code, (char) code.intValue(), flag);
+                                }
+                                previousButtons.get(key)[i] = state.buttons(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void close()
     {
-        if (manager != null)
-        {
-            manager.close();
-        }
+        jidToIndex.entrySet().forEach(e -> clean(e.getKey().intValue(), e.getValue()));
     }
 
     @Override

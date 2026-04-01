@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.Nameable;
 /**
  * Controller.
  */
-public abstract class AssignController implements AssignListener, CodeTranslator, Nameable
+public abstract class AssignController implements AssignListener, CodeTranslator, Nameable<AssignController>
 {
     private final AssignListener listener;
     private final CodeTranslator translator;

@@ -91,43 +91,43 @@
         <lionengine:fire index="QUICK_LOAD" positive="106"/>
     </lionengine:device>
     <lionengine:device class="com.b3dgs.lionheart.Gamepad" id="0" index="3" name="Gamepad 1">
-        <lionengine:horizontal negative="13" positive="14"/>
-        <lionengine:vertical negative="12" positive="11"/>
-        <lionengine:fire index="JUMP" positive="1"/>
-        <lionengine:fire index="ATTACK" positive="0"/>
-        <lionengine:fire index="CHEAT" positive="9"/>
-        <lionengine:fire index="PAUSE" positive="6"/>
-        <lionengine:fire index="QUIT" positive="4"/>
-        <lionengine:fire index="PAGE_DOWN" positive="10"/>
+        <lionengine:horizontal negative="14" positive="12"/>
+        <lionengine:vertical negative="13" positive="11"/>
+        <lionengine:fire index="JUMP" positive="0"/>
+        <lionengine:fire index="ATTACK" positive="1"/>
+        <lionengine:fire index="CHEAT" positive="4"/>
+        <lionengine:fire index="PAUSE" positive="7"/>
+        <lionengine:fire index="QUIT" positive="6"/>
+        <lionengine:fire index="PAGE_DOWN" positive="5"/>
     </lionengine:device>
     <lionengine:device class="com.b3dgs.lionheart.Gamepad" id="1" index="4" name="Gamepad 2">
-        <lionengine:horizontal negative="13" positive="14"/>
-        <lionengine:vertical negative="12" positive="11"/>
-        <lionengine:fire index="JUMP" positive="1"/>
-        <lionengine:fire index="ATTACK" positive="0"/>
-        <lionengine:fire index="CHEAT" positive="9"/>
-        <lionengine:fire index="PAUSE" positive="6"/>
-        <lionengine:fire index="QUIT" positive="4"/>
-        <lionengine:fire index="PAGE_DOWN" positive="10"/>
+        <lionengine:horizontal negative="14" positive="12"/>
+        <lionengine:vertical negative="13" positive="11"/>
+        <lionengine:fire index="JUMP" positive="0"/>
+        <lionengine:fire index="ATTACK" positive="1"/>
+        <lionengine:fire index="CHEAT" positive="4"/>
+        <lionengine:fire index="PAUSE" positive="7"/>
+        <lionengine:fire index="QUIT" positive="6"/>
+        <lionengine:fire index="PAGE_DOWN" positive="5"/>
     </lionengine:device>
     <lionengine:device class="com.b3dgs.lionheart.Gamepad" id="2" index="5" name="Gamepad 3">
-        <lionengine:horizontal negative="13" positive="14"/>
-        <lionengine:vertical negative="12" positive="11"/>
-        <lionengine:fire index="JUMP" positive="1"/>
-        <lionengine:fire index="ATTACK" positive="0"/>
-        <lionengine:fire index="CHEAT" positive="9"/>
-        <lionengine:fire index="PAUSE" positive="6"/>
-        <lionengine:fire index="QUIT" positive="4"/>
-        <lionengine:fire index="PAGE_DOWN" positive="10"/>
+        <lionengine:horizontal negative="14" positive="12"/>
+        <lionengine:vertical negative="13" positive="11"/>
+        <lionengine:fire index="JUMP" positive="0"/>
+        <lionengine:fire index="ATTACK" positive="1"/>
+        <lionengine:fire index="CHEAT" positive="4"/>
+        <lionengine:fire index="PAUSE" positive="7"/>
+        <lionengine:fire index="QUIT" positive="6"/>
+        <lionengine:fire index="PAGE_DOWN" positive="5"/>
     </lionengine:device>
     <lionengine:device class="com.b3dgs.lionheart.Gamepad" id="3" index="6" name="Gamepad 4">
-        <lionengine:horizontal negative="13" positive="14"/>
-        <lionengine:vertical negative="12" positive="11"/>
-        <lionengine:fire index="JUMP" positive="1"/>
-        <lionengine:fire index="ATTACK" positive="0"/>
-        <lionengine:fire index="CHEAT" positive="9"/>
-        <lionengine:fire index="PAUSE" positive="6"/>
-        <lionengine:fire index="QUIT" positive="4"/>
-        <lionengine:fire index="PAGE_DOWN" positive="10"/>
+        <lionengine:horizontal negative="14" positive="12"/>
+        <lionengine:vertical negative="13" positive="11"/>
+        <lionengine:fire index="JUMP" positive="0"/>
+        <lionengine:fire index="ATTACK" positive="1"/>
+        <lionengine:fire index="CHEAT" positive="4"/>
+        <lionengine:fire index="PAUSE" positive="7"/>
+        <lionengine:fire index="QUIT" positive="6"/>
+        <lionengine:fire index="PAGE_DOWN" positive="5"/>
     </lionengine:device>
 </lionengine:input>
