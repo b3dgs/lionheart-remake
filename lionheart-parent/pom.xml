@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.b3dgs</groupId>
@@ -33,7 +33,8 @@
         <lionengine.version>10.0.0-SNAPSHOT</lionengine.version>
         <radial.base-package>com.b3dgs.lionheart</radial.base-package>
         <checkstyle.skip>true</checkstyle.skip>
-        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../lionheart-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${basedir}/../lionheart-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
         <dependency>
@@ -54,13 +55,21 @@
     </dependencies>
     <repositories>
         <repository>
-            <id>snapshots</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots</url>
-            <releases>
+            <id>central</id>
+            <name>Maven Repository</name>
+            <layout>default</layout>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
                 <enabled>false</enabled>
-            </releases>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <name>Snapshot Repository</name>
+            <url>https://central.sonatype.com/repository/maven-snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
