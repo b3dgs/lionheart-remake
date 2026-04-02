@@ -89,30 +89,17 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <configuration>
-                        <excludes>
-                            <exclude>org/apache/logging/**/*.class</exclude>
-                            <exclude>org/lwjgl/**</exclude>
-                        </excludes>
-                    </configuration>
                     <executions>
                         <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
+                            <id>report-aggregate</id>
                             <phase>verify</phase>
                             <goals>
-                                <goal>report</goal>
+                                <goal>report-aggregate</goal>
                             </goals>
                             <configuration>
-                                <excludes>
-                                    <exclude>org/lwjgl/**</exclude>
-                                    <exclude>META-INF/versions/**</exclude>
-                                </excludes>
+                                <includes>
+                                    <include>com/b3dgs/lionheart/**</include>
+                                </includes>
                             </configuration>
                         </execution>
                     </executions>
