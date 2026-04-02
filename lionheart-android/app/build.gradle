@@ -1,9 +1,10 @@
 plugins {
     id 'com.android.application'
+    id 'signing'
 }
 
 group = 'com.b3dgs.lionheart'
-version = '1.4.0'
+version = '1.4.0-SNAPSHOT'
 
 android {
     packagingOptions {
@@ -23,11 +24,11 @@ android {
             storePassword property('keystore.storepassword')
         }
     }
-    compileSdk 34
+    compileSdk 36
     defaultConfig {
         applicationId "com.b3dgs.lionheart"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 36
         signingConfig signingConfigs.app
     }
     buildTypes {
@@ -36,9 +37,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.app
+            multiDexEnabled true
         }
         debug {
             signingConfig signingConfigs.app
+            multiDexEnabled true
         }
     }
     compileOptions {
@@ -60,10 +63,17 @@ android {
     namespace 'com.b3dgs.lionheart'
 }
 
+afterEvaluate {
+    signing {
+        required { isReleaseBuild() }
+        sign configurations.archives
+    }
+}
+
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     //noinspection GradleDependency
-    implementation 'net.java.dev.jna:jna:5.12.1@aar'
+    implementation 'net.java.dev.jna:jna:5.18.1@aar'
     implementation 'com.b3dgs:b3dgs-parent:2.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core-android:10.0.0-SNAPSHOT'
