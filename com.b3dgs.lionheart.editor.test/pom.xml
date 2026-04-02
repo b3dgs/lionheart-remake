@@ -54,7 +54,6 @@
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-surefire-plugin</artifactId>
                     <configuration>
-                        <argLine>-XstartOnFirstThread</argLine>
                         <useUIHarness>true</useUIHarness>
                         <useUIThread>true</useUIThread>
                         <product>com.b3dgs.lionheart.editor.product</product>
