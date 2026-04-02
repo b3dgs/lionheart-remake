@@ -63,11 +63,7 @@ jobs:
        if: matrix.os == 'macos-latest'
        uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3
        with:
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -DargLine=-XstartOnFirstThread
-       env:
-         MAVEN_OPTS: >
-           -XstartOnFirstThread
-         SWT_GTK3: 0
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall
 
      - name: Sonar ubuntu
        if: matrix.os == 'ubuntu-latest'

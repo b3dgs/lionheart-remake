@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.b3dgs.lionheart.editor</groupId>
@@ -54,10 +54,12 @@
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-surefire-plugin</artifactId>
                     <configuration>
+                        <argLine>-XstartOnFirstThread</argLine>
                         <useUIHarness>true</useUIHarness>
-                        <useUIThread>false</useUIThread>
+                        <useUIThread>true</useUIThread>
                         <product>com.b3dgs.lionheart.editor.product</product>
-                        <application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
+                        <application>
+                            org.eclipse.e4.ui.workbench.swt.E4Application</application>
                         <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
                         <showEclipseLog>true</showEclipseLog>
                     </configuration>
