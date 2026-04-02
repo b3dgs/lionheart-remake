@@ -89,20 +89,11 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>report-aggregate</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>report-aggregate</goal>
-                            </goals>
-                            <configuration>
-                                <includes>
-                                    <include>com/b3dgs/lionheart/**</include>
-                                </includes>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <configuration>
+                        <includes>
+                            <include>com/b3dgs/lionheart/**</include>
+                        </includes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
