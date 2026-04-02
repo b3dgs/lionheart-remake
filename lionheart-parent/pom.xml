@@ -92,6 +92,7 @@
                     <configuration>
                         <excludes>
                             <exclude>org/apache/logging/**/*.class</exclude>
+                            <exclude>org/lwjgl/**</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
