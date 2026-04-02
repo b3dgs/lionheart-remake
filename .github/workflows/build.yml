@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-13]
         jdk: [17]
     runs-on: ${{ matrix.os }}
     env:
@@ -49,6 +49,7 @@ jobs:
          java-version: |
            ${{ matrix.jdk }}
          distribution: 'temurin'
+         architecture: x64
          mvn-toolchain-id: |
            JavaSE-17
 
