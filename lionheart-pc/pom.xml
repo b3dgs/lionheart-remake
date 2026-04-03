@@ -13,10 +13,10 @@
     <packaging>jar</packaging>
     <name>Lionheart Remake PC</name>
     <properties>
-        <jna.version>5.14.0</jna.version>
+        <jna.version>5.18.1</jna.version>
         <lwjgl.version>3.3.6</lwjgl.version>
+        <log4j2.version>2.25.4</log4j2.version>
         <checkstyle.skip>true</checkstyle.skip>
-        <log4j2.version>2.22.1</log4j2.version>
     </properties>
     <dependencies>
         <dependency>
