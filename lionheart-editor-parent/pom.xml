@@ -16,7 +16,7 @@
     <properties>
         <maven.install.skip>true</maven.install.skip>
         <spifly.version>1.3.7</spifly.version>
-        <log4j2.version>2.22.1</log4j2.version>
+        <log4j2.version>2.25.4</log4j2.version>
         <radial.base-package>com.b3dgs.lionheart.editor</radial.base-package>
     </properties>
     <dependencies>
@@ -49,7 +49,7 @@
     <repositories>
         <repository>
             <id>eclipse</id>
-            <url>http://download.eclipse.org/releases/2018-09/</url>
+            <url>https://archive.eclipse.org/releases/2018-09/</url>
             <layout>p2</layout>
         </repository>
         <repository>
