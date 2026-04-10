@@ -398,15 +398,9 @@ public class MultiplayerDialog extends JDialog
         {
 
             @Override
-            public boolean isJar()
+            public String getName()
             {
-                return media.isJar();
-            }
-
-            @Override
-            public URL getUrl()
-            {
-                return media.getUrl();
+                return media.getName();
             }
 
             @Override
@@ -428,12 +422,6 @@ public class MultiplayerDialog extends JDialog
             }
 
             @Override
-            public String getName()
-            {
-                return media.getName();
-            }
-
-            @Override
             public Collection<Media> getMedias()
             {
                 return media.getMedias();
@@ -449,6 +437,18 @@ public class MultiplayerDialog extends JDialog
             public File getFile()
             {
                 return media.getFile();
+            }
+
+            @Override
+            public boolean isJar()
+            {
+                return media.isJar();
+            }
+
+            @Override
+            public URL getUrl()
+            {
+                return media.getUrl();
             }
 
             @Override
