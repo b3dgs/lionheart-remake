@@ -1,5 +1,5 @@
-Empezar juego
+Iniciar juego
 Continuar
 Opciones
 Introducción
-Salida
+Salir

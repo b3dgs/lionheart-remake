@@ -1,5 +1,5 @@
-Juego lineal clásico con niveles sucesivos%desde la introducción hasta los créditos del juego.
-Nivel jugable individualmente sin%introducción ni menu, para jugar rápidamente.
+Juego lineal clásico con niveles sucesivos desde%la introducción hasta los créditos del juego.
+Nivel jugable individual sin introducción%ni menú, para jugar rápidamente.
 Completa el nivel lo más rápido posible.%Sin elementos, sin monstruos, solo velocidad.
-Mantente con vida hasta el ultimo monstruo,%toma objetos para sobrevivir más tiempo!
-Lucha contra otros jugadores,%máxima salud pero sin vida!
+¡Mantente con vida hasta el último monstruo,%recoge pociones para sobrevivir por más tiempo!
+¡Enfréntate a otros jugadores,%con máxima salud pero sin vidas!

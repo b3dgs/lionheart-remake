@@ -1,4 +1,4 @@
-SEGUIR ?
+¿Continuar?
 SÍ
 NO
 CRÉDITOS:

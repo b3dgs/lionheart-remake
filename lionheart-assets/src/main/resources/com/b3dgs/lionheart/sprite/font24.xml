@@ -118,8 +118,8 @@
     <lionengine:letter char="*" height="0" width="11"/>
     <lionengine:letter char=":" height="0" width="5"/>
     <lionengine:letter char="?" height="0" width="9"/>
-    <lionengine:letter char="!" height="0" width="7"/>
-    <lionengine:letter char="¿" height="0" width="9"/>
+    <lionengine:letter char="!" height="4" width="7"/>
+    <lionengine:letter char="¿" height="4" width="9"/>
     <lionengine:letter char="¡" height="0" width="7"/>
     <lionengine:letter char="." height="0" width="5"/>
     <lionengine:letter char="-" height="0" width="7"/>

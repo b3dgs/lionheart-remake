@@ -1,7 +1,7 @@
-Juego:
-Etapa(s):
+Modo:
+Trayecto:
 Dificultad:
 Jugador(es):
-Controlador:
+Control:
 Jugar
-Salida
+Salir

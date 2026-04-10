@@ -1,4 +1,4 @@
 Dificultad
-Controlador 
-Música 
-Hecho
+Mando de
+Reproducir  
+Salir
