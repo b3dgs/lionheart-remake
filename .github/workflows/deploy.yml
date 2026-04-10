@@ -94,8 +94,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         with:
-            run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update Lionheart Remake.bat version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -395,8 +394,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         with:
-            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -573,8 +571,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         with:
-            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -749,8 +746,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         with:
-            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -896,12 +892,11 @@ jobs:
          run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
 
       -  name: Compile
-         with:
-            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
          env:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -961,7 +956,6 @@ jobs:
             chmod +x profile.sh
 
       -  name: Set JRE aarch64
-         id: setup-java
          uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
          with:
             distribution: temurin

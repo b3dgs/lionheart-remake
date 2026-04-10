@@ -47,11 +47,11 @@ jobs:
 
       -  name: Windows
          if: matrix.os == 'windows-latest'
-            run: mvn clean install --file lionheart-parent/pom.xml -U -Pall
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall
 
       -  name: MacOs
          if: matrix.os == 'macos-latest'
-            run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -Dtycho.testArgLine="-XstartOnFirstThread"
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -Dtycho.testArgLine="-XstartOnFirstThread"
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
