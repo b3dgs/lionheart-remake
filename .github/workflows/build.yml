@@ -52,8 +52,11 @@ jobs:
       -  name: MacOs
          if: matrix.os == 'macos-latest'
          run: |
-            sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
-            xvfb-run -a mvn clean install -U -Pall -Dtycho.testArgLine="-XstartOnFirstThread"
+            brew install --cask xquartz
+            open -a XQuartz
+            sleep 5
+            export DISPLAY=$(ls /private/tmp/com.apple.launchd.*/org.xquartz:0 2>/dev/null | head -n 1)
+            mvn clean install -U -Pall -Dtycho.testArgLine="-XstartOnFirstThread"
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
