@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
@@ -222,7 +223,7 @@ public final class Tools
                     if (new XmlReader(media).getChild(FeaturableConfig.NODE_FEATURES)
                                             .getChildren(FeaturableConfig.NODE_FEATURE)
                                             .stream()
-                                            .map(XmlReader::getText)
+                                            .map(AttributesReader::getText)
                                             .collect(Collectors.toList())
                                             .contains(Underwater.class.getName()))
                     {

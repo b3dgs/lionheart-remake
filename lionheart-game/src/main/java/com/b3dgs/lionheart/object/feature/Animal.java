@@ -16,11 +16,12 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
@@ -128,7 +129,7 @@ public final class Animal extends FeatureModel
      * @param collidable The collidable reference.
      * @param offsetY The vertical offset.
      */
-    private void start(Collidable collidable, int offsetY)
+    private void start(FeatureProvider collidable, int offsetY)
     {
         collidable.getFeature(StateHandler.class).changeState(StateIdleAnimal.class);
         collidable.getFeature(Transformable.class).teleportY(transformable.getY() + offsetY);
@@ -167,7 +168,7 @@ public final class Animal extends FeatureModel
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(AnimalConfig.NODE_ANIMAL))
         {
@@ -259,7 +260,7 @@ public final class Animal extends FeatureModel
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (with.getName().startsWith(CollisionName.ANIMAL)
             && by.getName().startsWith(CollisionName.BODY)

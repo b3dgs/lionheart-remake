@@ -19,9 +19,9 @@ package com.b3dgs.lionheart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.XmlReader;
 
 /**
  * Spawn configuration.
@@ -40,7 +40,7 @@ public final class SpawnConfig
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static SpawnConfig imports(XmlReader root)
+    public static SpawnConfig imports(AttributesReader root)
     {
         Check.notNull(root);
 
@@ -58,7 +58,7 @@ public final class SpawnConfig
      * @param root The configurer reference (must not be <code>null</code>).
      * @throws LionEngineException If unable to read node.
      */
-    private SpawnConfig(XmlReader root)
+    private SpawnConfig(AttributesReader root)
     {
         super();
 

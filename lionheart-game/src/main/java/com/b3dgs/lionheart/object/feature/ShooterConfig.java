@@ -19,10 +19,10 @@ package com.b3dgs.lionheart.object.feature;
 import java.util.OptionalDouble;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -112,13 +112,13 @@ public final class ShooterConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    public ShooterConfig(XmlReader root)
+    public ShooterConfig(AttributesReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_SHOOTER);
+        final AttributesReader node = root.getChild(NODE_SHOOTER);
         fireDelay = node.getInteger(ATT_FIRE_DELAY_MS);
         firedDelay = node.getInteger(ATT_FIRED_DELAY_MS);
         anim = node.getInteger(0, ATT_ANIM);

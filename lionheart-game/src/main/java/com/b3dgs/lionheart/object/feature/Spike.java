@@ -20,12 +20,12 @@ import java.nio.ByteBuffer;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -225,7 +225,7 @@ public final class Spike extends FeatureModel
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(SpikeConfig.NODE_SPIKE))
         {

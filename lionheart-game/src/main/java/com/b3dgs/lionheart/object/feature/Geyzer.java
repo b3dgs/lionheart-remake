@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -207,7 +207,7 @@ public final class Geyzer extends FeatureModel
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(GeyzerConfig.NODE_GEYZER))
         {

@@ -18,11 +18,11 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -34,6 +34,7 @@ import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -114,7 +115,7 @@ public final class Shooter extends FeatureModel
 
             if (!this.config.getTrack())
             {
-                final Force direction = l.getDirection();
+                final Force direction = l.getFeature(Launchable.class).getDirection();
                 if (direction != null)
                 {
                     final double dx = direction.getDirectionHorizontal();
@@ -252,7 +253,7 @@ public final class Shooter extends FeatureModel
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(ShooterConfig.NODE_SHOOTER))
         {

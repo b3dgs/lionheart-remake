@@ -25,7 +25,6 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.feature.Camera;
-import com.b3dgs.lionengine.graphic.ColorRgba;
 import com.b3dgs.lionengine.graphic.Graphic;
 import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
@@ -425,15 +424,15 @@ public final class Part1 implements Updatable, Renderable
 
             if (texts.length > 0)
             {
-                buffer = Graphics.createImageBuffer(width, height, ColorRgba.TRANSPARENT);
+                buffer = Graphics.createImageBufferAlpha(width, height);
                 buffer.prepare();
 
                 final Graphic g = buffer.createGraphic();
-                text.draw(g, width / 2 + x1, height / 2 + y1, align, texts[0]);
+                text.draw(g, width / 2 + x1, height / 2 + this.y1, align, texts[0]);
 
                 for (int i = 1; i < texts.length; i++)
                 {
-                    text.draw(g, width / 2 + x2, height / 2 + y1 + i * TEXT_LINE_HEIGHT, align, texts[i]);
+                    text.draw(g, width / 2 + x2, height / 2 + this.y1 + i * TEXT_LINE_HEIGHT, align, texts[i]);
                 }
                 g.dispose();
             }

@@ -20,9 +20,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.Axis;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
@@ -194,7 +194,7 @@ public abstract class State extends StateHelper<EntityModel>
      * @param with The collision collided with (source).
      * @param by The collision collided by (other).
      */
-    private void updateCollidedGlue(Collidable collidable, Collision with, Collision by)
+    private void updateCollidedGlue(FeatureProvider collidable, Collision with, Collision by)
     {
         if (collidable.hasFeature(Glue.class))
         {
@@ -339,7 +339,7 @@ public abstract class State extends StateHelper<EntityModel>
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         updateCollidedGlue(collidable, with, by);
 

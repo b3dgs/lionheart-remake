@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -83,13 +83,13 @@ public final class GeyzerConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    public GeyzerConfig(XmlReader root)
+    public GeyzerConfig(AttributesReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_GEYZER);
+        final AttributesReader node = root.getChild(NODE_GEYZER);
         delayFirst = node.getInteger(0, ATT_FIRST_DELAY_MS);
         delayStart = node.getInteger(ATT_START_DELAY_MS);
         delayDown = node.getInteger(ATT_DOWN_DELAY_MS);

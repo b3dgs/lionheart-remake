@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.XmlReader;
+import com.b3dgs.lionengine.AttributesReader;
 
 /**
- * Load data from {@link XmlReader}.
+ * Load data from {@link AttributesReader}.
  */
 public interface XmlLoader
 {
@@ -28,5 +28,5 @@ public interface XmlLoader
      * 
      * @param root The root reference.
      */
-    void load(XmlReader root);
+    void load(AttributesReader root);
 }

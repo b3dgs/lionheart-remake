@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.object.state;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionCategory;
 import com.b3dgs.lionengine.game.feature.tile.map.collision.CollisionResult;
@@ -98,7 +98,7 @@ public final class StateIdle extends State
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         super.notifyCollided(collidable, with, by);
 

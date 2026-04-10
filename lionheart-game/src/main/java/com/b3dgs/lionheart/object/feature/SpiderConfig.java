@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -60,13 +60,13 @@ public final class SpiderConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    public SpiderConfig(XmlReader root)
+    public SpiderConfig(AttributesReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_SPIDER);
+        final AttributesReader node = root.getChild(NODE_SPIDER);
         follow = node.getBoolean(true, ATT_FOLLOW);
     }
 

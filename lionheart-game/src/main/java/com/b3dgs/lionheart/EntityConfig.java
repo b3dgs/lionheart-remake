@@ -16,12 +16,12 @@
  */
 package com.b3dgs.lionheart;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.SizeConfig;
@@ -51,7 +51,7 @@ public final class EntityConfig
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static EntityConfig imports(XmlReader root)
+    public static EntityConfig imports(AttributesReader root)
     {
         Check.notNull(root);
 
@@ -67,7 +67,7 @@ public final class EntityConfig
     /** Spawn tile. */
     private final Coord spawn;
     /** Node. */
-    private final XmlReader root;
+    private final AttributesReader root;
 
     /**
      * Create config.
@@ -75,7 +75,7 @@ public final class EntityConfig
      * @param root The configurer reference (must not be <code>null</code>).
      * @throws LionEngineException If unable to read node.
      */
-    private EntityConfig(XmlReader root)
+    private EntityConfig(AttributesReader root)
     {
         super();
 
@@ -97,7 +97,7 @@ public final class EntityConfig
      * 
      * @return The node.
      */
-    public XmlReader getRoot()
+    public AttributesReader getRoot()
     {
         return root;
     }

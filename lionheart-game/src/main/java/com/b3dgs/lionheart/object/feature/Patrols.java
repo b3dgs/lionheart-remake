@@ -19,10 +19,10 @@ package com.b3dgs.lionheart.object.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Services;
@@ -84,14 +84,14 @@ public final class Patrols extends FeatureModel implements XmlLoader, XmlSaver
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         Check.notNull(root);
 
         if (root.hasNode(PatrolConfig.NODE_PATROL))
         {
             patrols.clear();
-            for (final XmlReader node : root.getChildren(PatrolConfig.NODE_PATROL))
+            for (final AttributesReader node : root.getChildren(PatrolConfig.NODE_PATROL))
             {
                 patrols.add(new PatrolConfig(node));
             }

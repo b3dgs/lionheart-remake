@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -90,13 +90,13 @@ public final class HotFireBallConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be <code>null</code>).
      */
-    public HotFireBallConfig(XmlReader root)
+    public HotFireBallConfig(AttributesReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_HOTFIREBALL);
+        final AttributesReader node = root.getChild(NODE_HOTFIREBALL);
         delay = node.getInteger(ATT_DELAY_MS);
         count = node.getInteger(ATT_COUNT);
         level = node.getInteger(ATT_LEVEL);

@@ -17,14 +17,15 @@
 package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -37,7 +38,6 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
 import com.b3dgs.lionengine.game.feature.body.Body;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
@@ -207,7 +207,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         load(root.getDouble(0.0, EntityConfig.ATT_VX));
     }
@@ -294,7 +294,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
         {

@@ -67,7 +67,7 @@ final class StoriesTest
     @ParameterizedTest
     @ValueSource(strings =
     {
-        "en", "fr", "de", "es", "pt", "pt"
+        "en", "fr", "de", "es", "pt", "it"
     })
     void testStoriesManual(String lang)
     {
@@ -83,7 +83,7 @@ final class StoriesTest
     @ParameterizedTest
     @ValueSource(strings =
     {
-        "en", "fr", "de", "es", "pt", "pt"
+        "en", "fr", "de", "es", "pt", "it"
     })
     void testStories(String lang)
     {
@@ -94,7 +94,7 @@ final class StoriesTest
     /**
      * Mock sequence.
      */
-    private static class Mock extends Sequence
+    public static class Mock extends Sequence
     {
         private final Stories stories = new Stories(getWidth(), getHeight());
         private final DeviceController device;

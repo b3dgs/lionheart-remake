@@ -22,11 +22,11 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -66,12 +66,12 @@ public final class PatrolConfig implements XmlSaver
      * @return The config data.
      * @throws LionEngineException If unable to read node.
      */
-    public static List<PatrolConfig> imports(XmlReader root)
+    public static List<PatrolConfig> imports(AttributesReader root)
     {
         Check.notNull(root);
 
         final List<PatrolConfig> patrols = new ArrayList<>();
-        for (final XmlReader node : root.getChildren(NODE_PATROL))
+        for (final AttributesReader node : root.getChildren(NODE_PATROL))
         {
             patrols.add(new PatrolConfig(node));
         }
@@ -126,7 +126,7 @@ public final class PatrolConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    public PatrolConfig(XmlReader root)
+    public PatrolConfig(AttributesReader root)
     {
         super();
 

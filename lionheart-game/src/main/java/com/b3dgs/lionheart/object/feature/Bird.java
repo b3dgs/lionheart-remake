@@ -18,6 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -25,7 +26,6 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.launchable.Launchable;
@@ -117,7 +117,7 @@ public final class Bird extends FeatureModel implements RoutineUpdate, Collidabl
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (!hit && with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
         {

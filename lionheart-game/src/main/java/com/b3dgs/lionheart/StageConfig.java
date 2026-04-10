@@ -24,7 +24,6 @@ import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.geom.Coord;
 import com.b3dgs.lionheart.landscape.BackgroundType;
 import com.b3dgs.lionheart.landscape.ForegroundConfig;
@@ -202,7 +201,7 @@ public final class StageConfig
      * 
      * @param checkpoint The checkpoint configuration.
      */
-    private void addCheckpoints(XmlReader checkpoint)
+    private void addCheckpoints(AttributesReader checkpoint)
     {
         final Optional<Coord> spawn;
         if (checkpoint.hasAttribute(ATT_SPAWN_TX) && checkpoint.hasAttribute(ATT_SPAWN_TY))
@@ -224,7 +223,7 @@ public final class StageConfig
      * 
      * @param entity The entity configuration.
      */
-    private void addEntity(XmlReader entity)
+    private void addEntity(AttributesReader entity)
     {
         entities.add(EntityConfig.imports(entity));
     }
@@ -234,7 +233,7 @@ public final class StageConfig
      * 
      * @param spawn The spawn configuration.
      */
-    private void addSpawn(XmlReader spawn)
+    private void addSpawn(AttributesReader spawn)
     {
         spawns.add(SpawnConfig.imports(spawn));
     }

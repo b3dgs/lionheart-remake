@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -45,11 +45,11 @@ public final class CatapultConfig implements XmlSaver
      * @param root The root configuration (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    public CatapultConfig(XmlReader root)
+    public CatapultConfig(AttributesReader root)
     {
         super();
 
-        final XmlReader node = root.getChild(NODE_CATAPULT);
+        final AttributesReader node = root.getChild(NODE_CATAPULT);
         vx = node.getDouble(ATT_VX);
         vy = node.getDouble(ATT_VY);
     }

@@ -65,6 +65,12 @@ public enum StageVeteran implements Media
                                              name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 
     @Override
+    public String getName()
+    {
+        return file.getName();
+    }
+
+    @Override
     public String getPath()
     {
         return file.getPath();
@@ -116,11 +122,5 @@ public enum StageVeteran implements Media
     public boolean isJar()
     {
         return file.isJar();
-    }
-
-    @Override
-    public String getName()
-    {
-        return file.getName();
     }
 }

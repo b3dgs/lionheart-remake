@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.OriginConfig;
@@ -364,11 +365,12 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
      * @param with The collision with.
      * @param by The collision by.
      */
-    private void updateCollide(Collidable collidable, Collision with, Collision by)
+    private void updateCollide(FeatureProvider collidable, Collision with, Collision by)
     {
+        final Collidable coll = collidable.getFeature(Collidable.class);
         if (enabled
             && !shield
-            && (Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup())
+            && (Constant.COLL_GROUP_PLAYER.equals(coll.getGroup())
                 && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
                 || !Constant.COLL_GROUP_PLAYER.equals(this.collidable.getGroup())
                    && recover.elapsedTime(source.getRate(), HURT_RECOVER_ATTACK_DELAY_MS))
@@ -379,7 +381,7 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
             updateCollideAttack(collidable, by);
         }
         if (!invincibility
-            && !Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup())
+            && !Constant.COLL_GROUP_PLAYER.equals(coll.getGroup())
             && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
             && with.getName().startsWith(Anim.BODY)
             && by.getName().startsWith(Anim.ATTACK))
@@ -394,7 +396,7 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
      * @param collidable The collidable reference.
      * @param by The collision by.
      */
-    public void updateCollideAttack(Collidable collidable, Collision by)
+    public void updateCollideAttack(FeatureProvider collidable, Collision by)
     {
         sfx.play();
         int damages = collidable.getFeature(Stats.class).getDamages();
@@ -415,11 +417,12 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
             mirrorable.mirror(Mirror.NONE);
         }
 
+        final Collidable coll = collidable.getFeature(Collidable.class);
         if (stats.getHealth() > 0)
         {
             final int side = UtilMath.getSign(transformable.getX() - collidable.getFeature(Transformable.class).getX());
             if (Constant.COLL_GROUP_PLAYER.equals(this.collidable.getGroup())
-                && Constant.COLL_GROUP_PLAYER.equals(collidable.getGroup()))
+                && Constant.COLL_GROUP_PLAYER.equals(coll.getGroup()))
             {
                 hurtForce.setDirection(1.2 * side, 0.0);
             }
@@ -469,7 +472,7 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
      * 
      * @param collidable The collidable reference.
      */
-    private void updateCollideBody(Collidable collidable)
+    private void updateCollideBody(FeatureProvider collidable)
     {
         collidable.ifIs(BulletDestroyOnPlayer.class, b -> b.ifIs(Hurtable.class, h -> h.kill(true)));
 
@@ -659,7 +662,7 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         currentCollide.notifyCollided(collidable, with, by);
     }

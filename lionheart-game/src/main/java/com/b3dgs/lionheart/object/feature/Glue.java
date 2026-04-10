@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.b3dgs.lionengine.LionEngineException;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Recyclable;
@@ -182,7 +183,7 @@ public final class Glue extends FeatureModel implements RoutineUpdate, Collidabl
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (with.getName().startsWith(CollisionName.GROUND)
             && by.getName().startsWith(Anim.LEG)

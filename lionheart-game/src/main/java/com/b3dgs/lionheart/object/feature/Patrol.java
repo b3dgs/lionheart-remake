@@ -19,6 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
@@ -26,8 +27,8 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -448,7 +449,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpda
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         sh = 0;
         sv = 0;
@@ -541,7 +542,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpda
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (sh < 0 && by.getName().equals(CollisionName.RIGHT_VERTICAL)
             || sh > 0 && by.getName().equals(CollisionName.LEFT_VERTICAL))

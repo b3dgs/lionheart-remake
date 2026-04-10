@@ -16,12 +16,12 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Identifiable;
@@ -167,7 +167,7 @@ public final class Pillar extends FeatureModel implements XmlLoader, XmlSaver, R
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (setup.hasNode(PillarConfig.NODE_PILLARD))
         {

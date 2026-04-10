@@ -50,7 +50,7 @@ import com.b3dgs.lionengine.audio.Audio;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.game.Action;
 import com.b3dgs.lionengine.game.Configurer;
-import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
@@ -1305,7 +1305,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             if (featurable.hasFeature(EntityModel.class))
             {
                 file.writeString(featurable.getMedia().getPath());
-                for (final Feature feature : featurable.getFeatures())
+                for (final FeatureProvider feature : featurable.getFeatures())
                 {
                     if (feature instanceof final Snapshotable snapshotable)
                     {
@@ -1344,7 +1344,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         handler.updateAdd();
         for (final Featurable featurable : handler.values())
         {
-            for (final Feature feature : featurable.getFeatures())
+            for (final FeatureProvider feature : featurable.getFeatures())
             {
                 if (feature instanceof Snapshotable)
                 {
@@ -1367,7 +1367,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             tracker.setOffset(0, trackerInitY);
             tracker.track(player);
         }
-        for (final Feature feature : featurable.getFeatures())
+        for (final FeatureProvider feature : featurable.getFeatures())
         {
             if (feature instanceof final Snapshotable snapshotable)
             {

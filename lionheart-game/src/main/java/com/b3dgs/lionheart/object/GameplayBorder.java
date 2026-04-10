@@ -16,7 +16,7 @@
  */
 package com.b3dgs.lionheart.object;
 
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -111,7 +111,7 @@ public final class GameplayBorder implements TileCollidableListener, CollidableL
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (CollisionName.GROUND.equals(by.getName()))
         {

@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
@@ -30,7 +31,6 @@ import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.FramesConfig;
@@ -119,7 +119,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
 
     private final MapTile map = services.get(MapTile.class);
     private final CheckpointHandler checkpoint = services.getOptional(CheckpointHandler.class).orElse(null);
-    private final ClassLoader loader = services.getOptional(ClassLoader.class).orElse(getClass().getClassLoader());
+    // private final ClassLoader loader = services.getOptional(ClassLoader.class).orElse(getClass().getClassLoader());
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
     private final Spawner spawner = services.get(Spawner.class);
     private final GameConfig game = services.get(GameConfig.class);
@@ -573,7 +573,7 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(ModelConfig.NODE_MODEL))
         {
@@ -613,7 +613,6 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void onReceived(Packet packet)
     {

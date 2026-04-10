@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.b3dgs.lionengine.Align;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Context;
 import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.LionEngineException;
@@ -375,8 +376,8 @@ public class Menu extends Sequence
         stages0.add(getStages(Folder.BATTLE));
         stages0.add(getStages(Folder.VERSUS));
 
-        final XmlReader xml = new XmlReader(Medias.create("input.xml"));
-        for (final XmlReader device : xml.getChildren(DeviceControllerConfig.NODE_DEVICE))
+        final AttributesReader xml = new XmlReader(Medias.create("input.xml"));
+        for (final AttributesReader device : xml.getChildren(DeviceControllerConfig.NODE_DEVICE))
         {
             controllers0.add(device.getString(DeviceControllerConfig.ATT_NAME));
         }

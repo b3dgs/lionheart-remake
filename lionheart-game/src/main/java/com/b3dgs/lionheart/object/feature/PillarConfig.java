@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -41,7 +41,7 @@ public final class PillarConfig implements XmlSaver
      * @param root The root configuration (must not be <code>null</code>).
      * @throws LionEngineException If invalid argument.
      */
-    public PillarConfig(XmlReader root)
+    public PillarConfig(AttributesReader root)
     {
         super();
 

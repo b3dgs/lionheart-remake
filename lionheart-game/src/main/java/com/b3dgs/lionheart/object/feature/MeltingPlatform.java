@@ -22,6 +22,7 @@ import com.b3dgs.lionengine.AnimatorFrameListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -108,7 +109,7 @@ public final class MeltingPlatform extends FeatureModel implements RoutineUpdate
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (animatable.is(AnimState.FINISHED)
             && by.getName().startsWith(CollisionName.LEG)

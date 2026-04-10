@@ -18,10 +18,10 @@ package com.b3dgs.lionheart.object.feature;
 
 import java.util.OptionalInt;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -62,7 +62,7 @@ public final class SpikeConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    public SpikeConfig(XmlReader root)
+    public SpikeConfig(AttributesReader root)
     {
         super();
 

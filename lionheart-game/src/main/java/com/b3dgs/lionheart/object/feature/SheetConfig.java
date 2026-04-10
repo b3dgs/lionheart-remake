@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -60,7 +60,7 @@ public final class SheetConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be null).
      */
-    public SheetConfig(XmlReader root)
+    public SheetConfig(AttributesReader root)
     {
         super();
 

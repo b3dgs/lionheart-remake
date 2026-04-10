@@ -69,6 +69,12 @@ public enum Stage implements Media
                                              name().toLowerCase(Locale.ENGLISH) + Extension.STAGE);
 
     @Override
+    public String getName()
+    {
+        return file.getName();
+    }
+
+    @Override
     public String getPath()
     {
         return file.getPath();
@@ -120,11 +126,5 @@ public enum Stage implements Media
     public boolean isJar()
     {
         return file.isJar();
-    }
-
-    @Override
-    public String getName()
-    {
-        return file.getName();
     }
 }

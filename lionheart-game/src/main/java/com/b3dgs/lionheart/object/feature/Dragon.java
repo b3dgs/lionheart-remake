@@ -28,6 +28,7 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -38,7 +39,6 @@ import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.game.feature.tile.map.MapTile;
@@ -76,7 +76,7 @@ public final class Dragon extends FeatureModel implements RoutineUpdate, Recycla
     private final Mirrorable mirrorable;
     private final Launcher launcher;
 
-    private final List<Launchable> tongue = new ArrayList<>();
+    private final List<FeatureProvider> tongue = new ArrayList<>();
     private final Tick tick = new Tick();
     private final Animation idle;
     private final Animation raise;

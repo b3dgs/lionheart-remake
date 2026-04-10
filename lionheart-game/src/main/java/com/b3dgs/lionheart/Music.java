@@ -75,6 +75,12 @@ public enum Music implements Media
     private final Media media = Medias.create(Folder.MUSIC, name().toLowerCase(Locale.ENGLISH) + Extension.MUSIC);
 
     @Override
+    public String getName()
+    {
+        return media.getName();
+    }
+
+    @Override
     public String getPath()
     {
         return media.getPath();
@@ -126,11 +132,5 @@ public enum Music implements Media
     public boolean isJar()
     {
         return media.isJar();
-    }
-
-    @Override
-    public String getName()
-    {
-        return media.getName();
     }
 }

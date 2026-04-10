@@ -25,6 +25,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -37,7 +38,6 @@ import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Spawner;
 import com.b3dgs.lionengine.game.feature.Transformable;
-import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionheart.Sfx;
@@ -75,7 +75,7 @@ public final class BossSwamp1 extends FeatureModel implements RoutineUpdate, Rec
     private final Stats stats;
     private final BossSwampEffect effect;
 
-    private final List<Launchable> bowls = new ArrayList<>();
+    private final List<FeatureProvider> bowls = new ArrayList<>();
     private final Animation idle;
 
     private boolean moved;
@@ -197,7 +197,7 @@ public final class BossSwamp1 extends FeatureModel implements RoutineUpdate, Rec
         if (fired)
         {
             final int n = bowls.size();
-            final List<Launchable> toRemove = new ArrayList<>(0);
+            final List<FeatureProvider> toRemove = new ArrayList<>(0);
             for (int i = 0; i < n; i++)
             {
                 final Transformable trans = bowls.get(i).getFeature(Transformable.class);

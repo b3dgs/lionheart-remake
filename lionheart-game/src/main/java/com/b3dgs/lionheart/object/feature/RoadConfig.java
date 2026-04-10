@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -69,13 +69,13 @@ public final class RoadConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be <code>null</code>).
      */
-    public RoadConfig(XmlReader root)
+    public RoadConfig(AttributesReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_ROAD);
+        final AttributesReader node = root.getChild(NODE_ROAD);
         start = node.getInteger(ATT_START);
         offset = node.getInteger(ATT_OFFSET);
     }

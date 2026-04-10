@@ -16,11 +16,11 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -29,6 +29,7 @@ import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
 import com.b3dgs.lionengine.game.feature.Transformable;
+import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionengine.game.feature.rasterable.Rasterable;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionProvider;
@@ -81,7 +82,9 @@ public final class HotFireBall extends FeatureModel
         {
             config = new HotFireBallConfig(setup.getRoot());
         }
-        launcher.addListener(l -> l.getDirection().setDestination(config.getVx(), config.getVy()));
+        launcher.addListener(l -> l.getFeature(Launchable.class)
+                                   .getDirection()
+                                   .setDestination(config.getVx(), config.getVy()));
     }
 
     @Override
@@ -97,7 +100,7 @@ public final class HotFireBall extends FeatureModel
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(HotFireBallConfig.NODE_HOTFIREBALL))
         {

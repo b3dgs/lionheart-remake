@@ -150,7 +150,7 @@ public final class Util
         if (FilterType.BLUR == filter)
         {
             final FilterBlur blur = new FilterBlur();
-            blur.setRadius(1.3F);
+            blur.setRadius(1.3);
             sequence.setFilter(blur);
             sequence.setScanline(ScanlineNone.INSTANCE);
         }

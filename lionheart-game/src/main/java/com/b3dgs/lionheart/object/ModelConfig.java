@@ -18,10 +18,10 @@ package com.b3dgs.lionheart.object;
 
 import java.util.Optional;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.geom.Coord;
 
 /**
@@ -83,7 +83,7 @@ public final class ModelConfig implements XmlSaver
      * 
      * @param root The root configuration (must not be <code>null</code>).
      */
-    public ModelConfig(XmlReader root)
+    public ModelConfig(AttributesReader root)
     {
         super();
 

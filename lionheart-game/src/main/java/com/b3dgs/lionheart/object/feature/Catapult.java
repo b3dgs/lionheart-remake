@@ -18,14 +18,15 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionengine.game.AnimationConfig;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.DirectionNone;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -34,9 +35,9 @@ import com.b3dgs.lionengine.game.feature.Recyclable;
 import com.b3dgs.lionengine.game.feature.RoutineUpdate;
 import com.b3dgs.lionengine.game.feature.Services;
 import com.b3dgs.lionengine.game.feature.Setup;
-import com.b3dgs.lionengine.game.feature.collidable.Collidable;
 import com.b3dgs.lionengine.game.feature.collidable.CollidableListener;
 import com.b3dgs.lionengine.game.feature.collidable.Collision;
+import com.b3dgs.lionengine.game.feature.launchable.Launchable;
 import com.b3dgs.lionengine.game.feature.launchable.Launcher;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.object.XmlLoader;
@@ -89,7 +90,7 @@ public final class Catapult extends FeatureModel
 
         launcher.addListener(l ->
         {
-            final Force direction = l.getDirection();
+            final Force direction = l.getFeature(Launchable.class).getDirection();
             final double vx = direction.getDirectionHorizontal();
             direction.setDestination(vx, 0.0);
         });
@@ -116,7 +117,7 @@ public final class Catapult extends FeatureModel
     }
 
     @Override
-    public void load(XmlReader root)
+    public void load(AttributesReader root)
     {
         if (root.hasNode(CatapultConfig.NODE_CATAPULT))
         {
@@ -138,7 +139,7 @@ public final class Catapult extends FeatureModel
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (!fired && with.getName().startsWith(Anim.BODY) && by.getName().startsWith(Anim.ATTACK))
         {

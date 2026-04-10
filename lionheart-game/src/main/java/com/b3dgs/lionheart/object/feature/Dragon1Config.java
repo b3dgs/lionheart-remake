@@ -16,10 +16,10 @@
  */
 package com.b3dgs.lionheart.object.feature;
 
+import com.b3dgs.lionengine.AttributesReader;
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.XmlReader;
 import com.b3dgs.lionheart.object.XmlSaver;
 
 /**
@@ -62,13 +62,13 @@ public final class Dragon1Config implements XmlSaver
      * 
      * @param root The root configuration (must not be <code>null</code>).
      */
-    public Dragon1Config(XmlReader root)
+    public Dragon1Config(AttributesReader root)
     {
         super();
 
         Check.notNull(root);
 
-        final XmlReader node = root.getChild(NODE_DRAGON1);
+        final AttributesReader node = root.getChild(NODE_DRAGON1);
         firedCount = node.getInteger(ATT_FIRED_COUNT);
     }
 

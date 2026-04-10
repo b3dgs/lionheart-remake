@@ -18,7 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
 import com.b3dgs.lionengine.game.feature.CameraTracker;
@@ -119,7 +119,7 @@ public final class Dragonfly extends FeatureModel implements RoutineUpdate, Coll
      * @param feature The feature reference.
      * @param offsetY The vertical offset.
      */
-    private void start(Feature feature, int offsetY)
+    private void start(FeatureProvider feature, int offsetY)
     {
         feature.getFeature(StateHandler.class).changeState(StateIdleDragon.class);
         feature.getFeature(Transformable.class).teleportY(transformable.getY() + offsetY);
@@ -268,7 +268,7 @@ public final class Dragonfly extends FeatureModel implements RoutineUpdate, Coll
     }
 
     @Override
-    public void notifyCollided(Collidable collidable, Collision with, Collision by)
+    public void notifyCollided(FeatureProvider collidable, Collision with, Collision by)
     {
         if (with.getName().startsWith(CollisionName.ANIMAL) && collidable.getFeature(Stats.class).getHealth() > 0)
         {

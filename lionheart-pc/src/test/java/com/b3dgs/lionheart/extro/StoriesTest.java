@@ -85,7 +85,7 @@ final class StoriesTest
     @ParameterizedTest
     @ValueSource(strings =
     {
-        "en", "fr", "de", "es", "pt", "pt"
+        "en", "fr", "de", "es", "pt", "it"
     })
     void testStories(String lang)
     {
