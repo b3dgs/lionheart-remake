@@ -34,7 +34,7 @@ import com.b3dgs.lionengine.editor.utility.Focusable;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.UtilTree;
 import com.b3dgs.lionengine.editor.utility.control.UtilSwt;
-import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionheart.editor.Activator;
 import com.b3dgs.lionheart.editor.object.properties.PropertiesFeature;
 import com.b3dgs.lionheart.object.feature.PatrolConfig;
@@ -96,7 +96,7 @@ public class PatrolPart implements Focusable, PropertiesFeature
     }
 
     @Override
-    public void load(Feature feature)
+    public void load(FeatureProvider feature)
     {
         UtilPart.getMPart(PatrolPart.ID).setVisible(true);
         for (final TreeItem item : tree.getItems())

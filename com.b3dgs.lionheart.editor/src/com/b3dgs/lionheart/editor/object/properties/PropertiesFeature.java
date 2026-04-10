@@ -16,7 +16,7 @@
  */
 package com.b3dgs.lionheart.editor.object.properties;
 
-import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.FeatureProvider;
 
 /**
  * Represents feature properties.
@@ -28,5 +28,5 @@ public interface PropertiesFeature
      * 
      * @param feature The feature to load.
      */
-    void load(Feature feature);
+    void load(FeatureProvider feature);
 }

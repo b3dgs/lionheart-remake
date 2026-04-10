@@ -38,7 +38,7 @@ import com.b3dgs.lionengine.editor.utility.Focusable;
 import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.utility.UtilTree;
 import com.b3dgs.lionengine.editor.utility.control.UtilSwt;
-import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionheart.editor.Activator;
 import com.b3dgs.lionheart.object.Editable;
 
@@ -125,7 +125,7 @@ public class PartAbstract<C, E extends Editable<C>> implements Focusable, Proper
 
     @SuppressWarnings("unchecked")
     @Override
-    public void load(Feature feature)
+    public void load(FeatureProvider feature)
     {
         UtilPart.getMPart(id).setVisible(true);
         for (final TreeItem item : tree.getItems())

@@ -47,6 +47,7 @@ import com.b3dgs.lionengine.editor.utility.UtilPart;
 import com.b3dgs.lionengine.editor.world.WorldModel;
 import com.b3dgs.lionengine.editor.world.view.WorldPart;
 import com.b3dgs.lionengine.game.Feature;
+import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.AnimatableModel;
 import com.b3dgs.lionengine.game.feature.Featurable;
 import com.b3dgs.lionengine.game.feature.FeaturableConfig;
@@ -225,7 +226,7 @@ public class ApplicationConfiguration
             UtilPart.getPart(WorldPart.ID, WorldPart.class).focus();
         }
 
-        private void loadProperty(Feature feature)
+        private void loadProperty(FeatureProvider feature)
         {
             if (feature instanceof XmlSaver)
             {
