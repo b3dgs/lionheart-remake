@@ -1,72 +1,65 @@
-# This workflow will:
-# - compile game on windows, linux, macos
-# - compile editor on windows
-# - run game and editor sonar on linux
-
 name: Build
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+   push:
+      branches:
+      - master
+   pull_request:
+      branches:
+      - master
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        jdk: [17]
-    runs-on: ${{ matrix.os }}
-    env:
-      JDK_VERSION: ${{ matrix.jdk }}
-      AUDIODEV: "null"
+   build:
+      strategy:
+         fail-fast: false
+         matrix:
+            os:
+            - ubuntu-latest
+            - windows-latest
+            - macos-latest
 
-    steps:
-     - name: Checkout
-       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-       with:
-         fetch-depth: 0
+      runs-on: ${{ matrix.os }}
+      env:
+         AUDIODEV: 'null'
+      steps:
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
 
-     - name: Cache
-       uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
-       with:
-          path: ~/.m2/repository
-          key: maven-${{ matrix.os }}-java${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-${{ matrix.os }}-java${{ matrix.jdk }}-
-            maven-${{ matrix.os }}-
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: ~/.m2/repository
+            key: maven-${{ matrix.os }}-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-${{ matrix.os }}-
 
-     - name: Maven
-       uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0
-       with:
-         maven-version: 3.9.14
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: 17
+            distribution: temurin
+            architecture: x64
+            mvn-toolchain-id: |
+               JavaSE-17
 
-     - name: JDK
-       uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-       with:
-         java-version: |
-           ${{ matrix.jdk }}
-         distribution: 'temurin'
-         architecture: x64
-         mvn-toolchain-id: |
-           JavaSE-17
+      -  name: Windows
+         if: matrix.os == 'windows-latest'
+            run: mvn clean install --file lionheart-parent/pom.xml -U -Pall
 
-     - name: Compile windows
-       if: matrix.os == 'windows-latest'
-       uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3
-       with:
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall
+      -  name: MacOs
+         if: matrix.os == 'macos-latest'
+            run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -Dtycho.testArgLine="-XstartOnFirstThread"
 
-     - name: Compile macos
-       if: matrix.os == 'macos-latest'
-       uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3
-       with:
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Pall -Dtycho.testArgLine="-XstartOnFirstThread"
-
-     - name: Sonar ubuntu
-       if: matrix.os == 'ubuntu-latest'
-       uses: coactions/setup-xvfb@b6b4fcfb9f5a895edadc3bc76318fae0ac17c8b3
-       with:
-         run: mvn clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file lionheart-parent/pom.xml -U -Pall -Dsonar.organization=b3dgs -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.projectKey=b3dgs_lionheart-remake
+      -  name: Linux
+         if: matrix.os == 'ubuntu-latest'
+         env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         run: |
+            mvn clean install sonar:sonar --file lionheart-parent/pom.xml -Psonar \
+               -Dsonar.host.url=https://sonarcloud.io \
+               -Dsonar.organization=b3dgs \
+               -Dsonar.token=$SONAR_TOKEN \
+               -Dsonar.projectKey=b3dgs_llionheart-remake

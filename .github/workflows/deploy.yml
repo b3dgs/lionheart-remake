@@ -5,1116 +5,1087 @@
 name: Deploy
 
 on:
-  workflow_dispatch:
-    inputs:
-      windows-x86:
-        description: 'Windows x86'
-        required: false
-        default: 'true'
-      linux-x86:
-        description: 'Linux x86'
-        required: false
-        default: 'true'
-      linux-x86-64:
-        description: 'Linux x86-64'
-        required: false
-        default: 'true'
-      android-arm:
-        description: 'Android arm'
-        required: false
-        default: 'true'
-      macos-x86-64:
-        description: 'MacOS x86-64'
-        required: false
-        default: 'true'
-      macos-aarch64:
-        description: 'MacOS aarch64'
-        required: false
-        default: 'true'
+   workflow_dispatch:
+      inputs:
+         windows-x86:
+            description: Windows x86
+            required: false
+            default: true
+         linux-x86:
+            description: Linux x86
+            required: false
+            default: true
+         linux-x86-64:
+            description: Linux x86-64
+            required: false
+            default: true
+         android-arm:
+            description: Android arm
+            required: false
+            default: true
+         macos-x86-64:
+            description: MacOS x86-64
+            required: false
+            default: true
+         macos-aarch64:
+            description: MacOS aarch64
+            required: false
+            default: true
 
 env:
-  APP_NAME: "lionheart-remake"
+   APP_NAME: lionheart-remake
 
 jobs:
-  win32-x86:
-    if: github.event.inputs.windows-x86 == 'true'
-    runs-on: windows-latest
-
-    env:
-      JDK_VERSION: "17"
-      AUDIODEV: "null"
-      APP_PLATFORM: "win32-x86"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Cache
-        uses: actions/cache@v3.3.2
-        with:
-          path: ~/.m2/repository
-          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: java${{ env.JDK_VERSION }}-
-
-      - name: Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.9.6
-
-      - name: Set JDK
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: |
-            ${{ env.JDK_VERSION }}
-          distribution: 'temurin'
-          mvn-toolchain-id: |
-            JavaSE-${{ env.JDK_VERSION }}
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.0.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2.4
-        with:
-          fileName: 'keystore.jks'
-          fileDir: './'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      - name: Get version
-        run: |
-          call distribution\win32\src\version.bat > version.txt
-        shell: cmd
-
-      - name: Set version
-        run: |
-          $APP_VERSION = Get-Content .\version.txt -Raw 
-          echo $APP_VERSION
-          echo "APP_VERSION=$APP_VERSION" >> $env:GITHUB_ENV
-          $data = $APP_VERSION.Split("-")[0].replace('.',',')
-          echo "APP_VERSIONI=$data" >> $env:GITHUB_ENV
-
-      - name: Compile
-        uses: coactions/setup-xvfb@v1.0.1
-        with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
-      - name: Update Lionheart Remake.bat version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake.bat'
-          _output-file: 'distribution\win32\src\Lionheart Remake.bat'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update Lionheart Remake.bat version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake.bat'
-          _output-file: 'distribution\win32\src\Lionheart Remake.bat'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update Configure.bat version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Configure.bat'
-          _output-file: 'distribution\win32\src\Configure.bat'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update Profile.bat version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Profile.bat'
-          _output-file: 'distribution\win32\src\Profile.bat'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update sfxmaker.txt version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\sfxmaker.txt'
-          _output-file: 'distribution\win32\src\sfxmaker.txt'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update Lionheart Remake.rc version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
-          _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update Lionheart Remake.rc version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
-          _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc'
-          _format-key: '%%key%%'
-          INPUT_APPVI: ${{env.APP_VERSIONI}}
-
-      - name: Update Lionheart Remake.cpp version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
-          _output-file: 'distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Update Lionheart Remake Lionheart Remake Configure.rc version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
-          _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-          
-      - name: Update Lionheart Remake Lionheart Remake Configure.rc version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
-          _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc'
-          _format-key: '%%key%%'
-          INPUT_APPVI: ${{env.APP_VERSIONI}}
-
-      - name: Update Lionheart Remake Configure.cpp version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
-          _output-file: 'distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{env.APP_VERSION}}
-
-      - name: Prepare folders
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          mkdir "build"
-          mkdir "build\%TARGET%"
-          mkdir "build\%TARGET%\data"
-          mkdir "build\%TARGET%\data\assets"
-          cd build\%TARGET%
-          robocopy "..\..\distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
-          copy "..\..\CHANGELOG" "doc\CHANGELOG.txt"
-          copy "..\..\LICENSE" "doc\LICENSE.txt"
-          copy "..\..\distribution\data\splash.png" "data"
-          copy "..\..\distribution\data\b3dgs.cer" "data"
-          copy "..\..\distribution\data\.lionengine" "data"
-          copy "..\..\lionheart-pc\target\lionheart-pc-${{env.APP_VERSION}}.jar" "data"
-          copy "..\..\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
-          copy "..\..\distribution\win32\src\Lionheart Remake.bat" .
-          copy "..\..\distribution\win32\src\Configure.bat" .
-          copy "..\..\distribution\win32\src\Profile.bat" .
-          robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
-          del /Q /F /S "stage*.png"
-        shell: cmd
-
-      - name: Set JRE x86
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          architecture: x86
-
-      - name: Bundle JRE x86
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86
-        shell: cmd
-
-      - name: Set JRE x86_64
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          architecture: x64
-
-      - name: Bundle JRE x86_64
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
-        shell: cmd
-
-      - name: msbuild
-        uses: microsoft/setup-msbuild@v1.3.1
-
-      - name: Compile vsproject
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -property:Configuration=Release
-          msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -property:Configuration=Release
-          copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET%"
-          copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\%TARGET%"
-        shell: cmd
-
-      - name: Sign
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          dir "C:\Program Files (x86)\Windows Kits\10\bin\"
-          echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
-          certutil -decode base64.txt cert.pfx
-          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Lionheart Remake.exe"
-          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Configure.exe"
-          del base64.txt
-          del cert.pfx
-        shell: cmd
-
-      - name: Make Archive
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          copy "distribution\win32\src\sfxmaker.txt" "build"
-          copy "distribution\win32\src\7zsd_LZMA2.sfx" "build"
-          cd build
-          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
-          7z a -tzip -m0=deflate -mx=9 %TARGET%.zip %TARGET%
-          sha256sum %TARGET%.zip > %TARGET%.zip.sha256sum
-          copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
-          cd ..
-          mkdir reshack
-        shell: cmd
-
-      - name: Get reshack
-        uses: gamedev-thingy/Download-Extract@done
-        with:
-          url: "http://www.angusj.com/resourcehacker/resource_hacker.zip"
-          destination: reshack
-          ZIPname: "resource_hacker.zip"
-
-      - name: Update info
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          reshack\ResourceHacker.exe -open "build\%TARGET%\Lionheart Remake.exe" -save info.res -action extract -mask *,*,
-          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action delete -mask *,*,
-          reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res info.res -mask *,*,
-          del info.res
-        shell: cmd
-
-      - name: Sign SFX
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
-          certutil -decode base64.txt cert.pfx
-          "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
-          del base64.txt
-          del cert.pfx
-          cd build
-          del 7zsd_LZMA2.sfx
-          del sfxmaker.txt
-          del "%TARGET%.7z"
-          rmdir /S /Q "%TARGET%"
-          sha256sum %TARGET%.exe
-          sha256sum %TARGET%.exe > %TARGET%.exe.sha256sum
-        shell: cmd
-
-      - name: Prepare editor
-        run: |
-          set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
-          mkdir "build\%TARGET%"
-          mkdir "build\%TARGET%\data"
-          mkdir "build\%TARGET%\data\assets"
-          mkdir "build\%TARGET%\data\editor"
-          mkdir "build\%TARGET%\data\editor\plugins"
-          robocopy "com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "build\%TARGET%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
-          cd "lionheart-assets\src\main\resources\com\b3dgs\lionheart"
-          xcopy stage*.png ..\..\..\..\..\..\..\build\%TARGET%\data\assets /s /q /i
-          cd ..\..\..\..\..\..\..\build
-          7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
-          rmdir /S /Q %TARGET%
-          sha256sum %TARGET%_editor.7z
-          sha256sum %TARGET%_editor.7z > %TARGET%_editor.7z.sha256sum
-        shell: cmd
-
-      - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.14
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: /${{env.APP_VERSION}}/
-          secure: false
-
-  linux-x86-64:
-    if: github.event.inputs.linux-x86-64 == 'true'
-    runs-on: ubuntu-latest
-
-    env:
-      JDK_VERSION: "17"
-      AUDIODEV: "null"
-      APP_PLATFORM: "linux-x86-64"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Cache
-        uses: actions/cache@v3.3.2
-        with:
-          path: ~/.m2/repository
-          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: java${{ env.JDK_VERSION }}-
-
-      - name: Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.9.6
-
-      - name: Set JDK
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: |
-            ${{ env.JDK_VERSION }}
-          distribution: 'temurin'
-          mvn-toolchain-id: |
-            JavaSE-${{ env.JDK_VERSION }}
-
-      - name: Set GCC
-        uses: egor-tensin/setup-gcc@v1.3
-        with:
-          version: latest
-          platform: x64
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.0.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2.4
-        with:
-          fileName: 'keystore.jks'
-          fileDir: './'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      - name: Get version
-        run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Compile
-        uses: coactions/setup-xvfb@v1.0.1
-        with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
-      - name: Update lionheart-remake.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update configure.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/configure.sh'
-          _output-file: 'distribution/linux/sh/configure.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update profile.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/profile.sh'
-          _output-file: 'distribution/linux/sh/profile.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update main.c version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _output-file: 'distribution/linux/src/main.c'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Prepare folders
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build
-          mkdir build/$TARGET
-          mkdir build/$TARGET/data
-          mkdir build/$TARGET/data/assets
-          cd build/$TARGET
-          cp -R ../../distribution/doc "doc"
-          cp "../../CHANGELOG" "doc/CHANGELOG.txt"
-          cp "../../LICENSE" "doc/LICENSE.txt"
-          cp ../../distribution/data/splash.png data
-          cp ../../distribution/data/b3dgs.cer data
-          cp ../../distribution/data/.lionengine data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
-          cp ../../distribution/linux/src/icon.xpm .
-          cp ../../distribution/linux/sh/lionheart-remake.sh .
-          cp ../../distribution/linux/sh/configure.sh .
-          cp ../../distribution/linux/sh/profile.sh .
-          cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
-          find . -name 'stage*.png' -delete
-          chmod +x lionheart-remake.sh
-          chmod +x configure.sh
-          chmod +x profile.sh
-
-      - name: Set JRE x86_64
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          architecture: x64
-
-      - name: Bundle JRE x86_64
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
-
-      - name: Compile C
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
-          chmod +x build/$TARGET/lionheart-remake
-
-      - name: Make Archive
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd build
-          tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
-          rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz
-          sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
-
-      - name: Prepare editor
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build/$TARGET
-          mkdir build/$TARGET/data
-          mkdir build/$TARGET/data/assets
-          mkdir build/$TARGET/data/editor
-          mkdir build/$TARGET/data/editor/plugins
-          cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. build/$TARGET/data/editor
-          cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
-          find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
-          cd ../../../../../../../build
-          tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
-          rm -r -f $TARGET
-          sha256sum $TARGET"_editor.tar.xz"
-          sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor.tar.xz.sha256sum"
-
-      - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.14
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
-          secure: false
-
-  linux-x86-32:
-    if: github.event.inputs.linux-x86 == 'true'
-    runs-on: ubuntu-latest
-
-    env:
-      JDK_VERSION: "8"
-      AUDIODEV: "null"
-      APP_PLATFORM: "linux-x86-32"
-
-    steps:
-      - name: Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc-multilib
-  
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Cache
-        uses: actions/cache@v3.3.2
-        with:
-          path: ~/.m2/repository
-          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: java${{ env.JDK_VERSION }}-
-
-      - name: Set JDK
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: |
-            ${{ env.JDK_VERSION }}
-          distribution: 'zulu'
-          mvn-toolchain-id: |
-            JavaSE-${{ env.JDK_VERSION }}
-          architecture: x86
-
-      - name: Set GCC
-        uses: egor-tensin/setup-gcc@v1.3
-        with:
-          version: latest
-          platform: x86
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.0.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2.4
-        with:
-          fileName: 'keystore.jks'
-          fileDir: './'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      - name: Get version
-        run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Compile
-        uses: coactions/setup-xvfb@v1.0.1
-        with:
-          run: mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
-      - name: Update lionheart-remake.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update lionheart-remake.sh vm
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
-          linux-x86_64: linux-x86
-
-      - name: Update configure.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/configure.sh'
-          _output-file: 'distribution/linux/sh/configure.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update configure.sh vm
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/configure.sh'
-          _output-file: 'distribution/linux/sh/configure.sh'
-          linux-x86_64: linux-x86
-
-      - name: Update profile.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/profile.sh'
-          _output-file: 'distribution/linux/sh/profile.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update profile.sh vm
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/profile.sh'
-          _output-file: 'distribution/linux/sh/profile.sh'
-          linux-x86_64: linux-x86
-
-      - name: Update main.c version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _output-file: 'distribution/linux/src/main.c'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update main.c vm
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _output-file: 'distribution/linux/src/main.c'
-          linux-x86_64: linux-x86
-
-      - name: Prepare folders
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build
-          mkdir build/$TARGET
-          mkdir build/$TARGET/data
-          mkdir build/$TARGET/data/assets
-          cd build/$TARGET
-          cp -R ../../distribution/doc "doc"
-          cp "../../CHANGELOG" "doc/CHANGELOG.txt"
-          cp "../../LICENSE" "doc/LICENSE.txt"
-          cp ../../distribution/data/splash.png data
-          cp ../../distribution/data/b3dgs.cer data
-          cp ../../distribution/data/.lionengine data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
-          cp ../../distribution/linux/src/icon.xpm .
-          cp ../../distribution/linux/sh/lionheart-remake.sh .
-          cp ../../distribution/linux/sh/configure.sh .
-          cp ../../distribution/linux/sh/profile.sh .
-          cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
-          find . -name 'stage*.png' -delete
-          chmod +x lionheart-remake.sh
-          chmod +x configure.sh
-          chmod +x profile.sh
-
-      - name: Set JRE x86
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-          architecture: x86
-
-      - name: Bundle JRE x86
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86
-
-      - name: Compile C
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          gcc distribution/linux/src/main.c -s -static -m32 -o build/$TARGET/lionheart-remake
-          chmod +x build/$TARGET/lionheart-remake
-
-      - name: Make Archive
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd build
-          tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
-          rm -r -f $TARGET
-          sha256sum $TARGET.tar.xz
-          sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
-
-      - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.14
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
-          secure: false
-
-  macos-x86-64:
-    if: github.event.inputs.macos-x86-64 == 'true'
-    runs-on: macOS-11
-
-    env:
-      JDK_VERSION: "17"
-      AUDIODEV: "null"
-      APP_PLATFORM: "macos-x86-64"
-
-    steps:   
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Cache
-        uses: actions/cache@v3.3.2
-        with:
-          path: ~/.m2/repository
-          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: java${{ env.JDK_VERSION }}-
-
-      - name: Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.9.6
-
-      - name: Set JDK
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: |
-            ${{ env.JDK_VERSION }}
-          distribution: 'temurin'
-          mvn-toolchain-id: |
-            JavaSE-${{ env.JDK_VERSION }}
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.0.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2.4
-        with:
-          fileName: 'keystore.jks'
-          fileDir: './'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      - name: Get version
-        run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Compile
-        uses: coactions/setup-xvfb@v1.0.1
-        with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
-      - name: Update lionheart-remake.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update configure.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/configure.sh'
-          _output-file: 'distribution/linux/sh/configure.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update profile.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/profile.sh'
-          _output-file: 'distribution/linux/sh/profile.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update main.c version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _output-file: 'distribution/linux/src/main.c'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Prepare folders
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build
-          mkdir build/$TARGET
-          mkdir build/$TARGET/data
-          mkdir build/$TARGET/data/assets
-          cd build/$TARGET
-          cp -R ../../distribution/doc "doc"
-          cp "../../CHANGELOG" "doc/CHANGELOG.txt"
-          cp "../../LICENSE" "doc/LICENSE.txt"
-          cp ../../distribution/data/splash.png data
-          cp ../../distribution/data/b3dgs.cer data
-          cp ../../distribution/data/.lionengine data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
-          cp ../../distribution/linux/src/icon.xpm .
-          cp ../../distribution/linux/sh/lionheart-remake.sh .
-          cp ../../distribution/linux/sh/configure.sh .
-          cp ../../distribution/linux/sh/profile.sh .
-          cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
-          find . -name 'stage*.png' -delete
-          chmod +x lionheart-remake.sh
-          chmod +x configure.sh
-          chmod +x profile.sh
-
-      - name: Set JRE x86_64
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          architecture: x64
-
-      - name: Bundle JRE x86_64
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
-
-      - name: Compile C
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          clang distribution/linux/src/main.c -o build/$TARGET/lionheart-remake
-          chmod +x build/$TARGET/lionheart-remake
-
-      - name: Make Archive
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd build
-          zip -9 -r $TARGET.zip $TARGET
-          shasum -a 256 $TARGET.zip > $TARGET".zip.sha256sum"
-          rm -r -f $TARGET
-
-      - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.14
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
-          secure: false
-
-  macos-aarch64:
-    if: github.event.inputs.macos-aarch64 == 'true'
-    runs-on: macOS-11
-
-    env:
-      JDK_VERSION: "17"
-      AUDIODEV: "null"
-      APP_PLATFORM: "macos-aarch64"
-
-    steps:   
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Cache
-        uses: actions/cache@v3.3.2
-        with:
-          path: ~/.m2/repository
-          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: java${{ env.JDK_VERSION }}-
-
-      - name: Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.9.6
-
-      - name: Set JDK
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: |
-            ${{ env.JDK_VERSION }}
-          distribution: 'temurin'
-          mvn-toolchain-id: |
-            JavaSE-${{ env.JDK_VERSION }}
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.0.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2.4
-        with:
-          fileName: 'keystore.jks'
-          fileDir: './'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      - name: Get version
-        run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Compile
-        uses: coactions/setup-xvfb@v1.0.1
-        with:
-          run: mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-
-      - name: Update lionheart-remake.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _output-file: 'distribution/linux/sh/lionheart-remake.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update configure.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/configure.sh'
-          _output-file: 'distribution/linux/sh/configure.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update profile.sh version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/sh/profile.sh'
-          _output-file: 'distribution/linux/sh/profile.sh'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Update main.c version
-        uses: bluwy/substitute-string-action@v2.0.1
-        with:
-          _input-file: 'distribution/linux/src/main.c'
-          _output-file: 'distribution/linux/src/main.c'
-          _format-key: '%%key%%'
-          INPUT_APPV: ${{ env.APP_VERSION }}
-
-      - name: Prepare folders
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build
-          mkdir build/$TARGET
-          mkdir build/$TARGET/data
-          mkdir build/$TARGET/data/assets
-          cd build/$TARGET
-          cp -R ../../distribution/doc "doc"
-          cp "../../CHANGELOG" "doc/CHANGELOG.txt"
-          cp "../../LICENSE" "doc/LICENSE.txt"
-          cp ../../distribution/data/splash.png data
-          cp ../../distribution/data/b3dgs.cer data
-          cp ../../distribution/data/.lionengine data
-          cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
-          cp ../../distribution/linux/src/icon.xpm .
-          cp ../../distribution/linux/sh/lionheart-remake.sh .
-          cp ../../distribution/linux/sh/configure.sh .
-          cp ../../distribution/linux/sh/profile.sh .
-          cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
-          find . -name 'stage*.png' -delete
-          chmod +x lionheart-remake.sh
-          chmod +x configure.sh
-          chmod +x profile.sh
-
-      - name: Set JRE aarch64
-        id: setup-java
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          architecture: aarch64
-
-      - name: Set JRE
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Bundle JRE aarch64
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          jlink --compress=0 --strip-debug --no-header-files --no-man-pages --module-path $JAVA_HOME_17_AARCH64/jmods --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
-
-      - name: Compile C
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          clang distribution/linux/src/main.c -target arm64-apple-macos11 -o build/$TARGET/lionheart-remake
-          chmod +x build/$TARGET/lionheart-remake
-
-      - name: Make Archive
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          cd build
-          zip -9 -r $TARGET.zip $TARGET
-          shasum -a 256 $TARGET.zip > $TARGET".zip.sha256sum"
-          rm -r -f $TARGET
-
-      - name: Deploy archives
-        uses: dennisameling/ftp-upload-action@v1.0.14
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
-          secure: false
-
-
-  android-arm:
-    if: github.event.inputs.android-arm == 'true'
-    runs-on: ubuntu-latest
-
-    env:
-      JDK_VERSION: "17"
-      main_project_module: app
-      APP_PLATFORM: "android-arm"
-
-    steps:  
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Cache
-        uses: actions/cache@v3.3.2
-        with:
-          path: ~/.m2/repository
-          key: java${{ env.JDK_VERSION }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: java${{ env.JDK_VERSION }}-
-
-      - name: Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.9.6
-
-      - name: Set JDK
-        uses: actions/setup-java@v4.0.0
-        with:
-          java-version: |
-            ${{ env.JDK_VERSION }}
-          distribution: 'temurin'
-          mvn-toolchain-id: |
-            JavaSE-${{ env.JDK_VERSION }}
-
-      - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1.2.4
-        with:
-          fileName: 'android.jks'
-          fileDir: 'lionheart-android/app/'
-          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      - name: Get version
-        run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Build JAR
-        run: mvn clean install --file lionheart-parent/pom.xml -U -Pgame
-
-      - name: Build APK
-        run: |
-          cd lionheart-android
-          chmod +x ./gradlew
-          ./gradlew assembleRelease -Pkeystore=android.jks -Pkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Pkeystore.storepassword=${{ secrets.KEYSTORE_STOREPASS }} -Pkeystore.password=${{ secrets.KEYSTORE_PASS }}
-
-      - name: Sign app APK
-        uses: r0adkll/sign-android-release@v1.0.4
-        with:
-          releaseDirectory: lionheart-android/app/build/outputs/apk/release/
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.KEYSTORE_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
-          keyPassword: ${{ secrets.KEYSTORE_PASS }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Make Archive
-        run: |
-          export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
-          mkdir build
-          mkdir build/$TARGET
-          cd build/$TARGET
-          cp -R ../../distribution/doc "doc"
-          cp "../../CHANGELOG" "doc/CHANGELOG.txt"
-          cp "../../LICENSE" "doc/LICENSE.txt"
-          cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
-          cd ..
-          zip -9 -r $TARGET.zip $TARGET
-          rm -r -f $TARGET
-          sha256sum $TARGET.zip
-          sha256sum $TARGET.zip > $TARGET".zip.sha256sum"
-
-      - name: Deploy Archive
-        uses: dennisameling/ftp-upload-action@v1.0.14
-        with:
-          server: ftp.b3dgs.com
-          username: ${{ secrets.LOGIN }}
-          password: ${{ secrets.PASSWORD }}
-          local_dir: build/
-          server_dir: /${{ env.APP_VERSION }}/
-          secure: false
+   win32-x86:
+      if: github.event.inputs.windows-x86 == 'true'
+      runs-on: windows-latest
+      env:
+         AUDIODEV: 'null'
+         APP_PLATFORM: win32-x86
+      steps:
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
+
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.m2/repository
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-
+
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: |
+               17
+            distribution: temurin
+            mvn-toolchain-id: |
+               JavaSE-17
+
+      -  name: Import GPG key
+         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd
+         with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      -  name: Decode Keystore
+         uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
+         with:
+            fileName: keystore.jks
+            fileDir: ./
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      -  name: Get version
+         shell: cmd
+         run: |
+            call distribution\win32\src\version.bat > version.txt
+
+      -  name: Set version
+         run: "$APP_VERSION = Get-Content .\\version.txt -Raw \necho $APP_VERSION\necho \"APP_VERSION=$APP_VERSION\" >> $env:GITHUB_ENV\n$data = $APP_VERSION.Split(\"-\")[0].replace('.',',')\necho \"APP_VERSIONI=$data\" >> $env:GITHUB_ENV\n"
+
+      -  name: Compile
+         env:
+            SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+            SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+            SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+         with:
+            run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+
+      -  name: Update Lionheart Remake.bat version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake.bat
+            _output-file: distribution\win32\src\Lionheart Remake.bat
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Lionheart Remake.bat version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake.bat
+            _output-file: distribution\win32\src\Lionheart Remake.bat
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Configure.bat version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Configure.bat
+            _output-file: distribution\win32\src\Configure.bat
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Profile.bat version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Profile.bat
+            _output-file: distribution\win32\src\Profile.bat
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update sfxmaker.txt version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\sfxmaker.txt
+            _output-file: distribution\win32\src\sfxmaker.txt
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Lionheart Remake.rc version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc
+            _output-file: distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Lionheart Remake.rc version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc
+            _output-file: distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.rc
+            _format-key: '%%key%%'
+            INPUT_APPVI: ${{env.APP_VERSIONI}}
+
+      -  name: Update Lionheart Remake.cpp version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp
+            _output-file: distribution\win32\src\Lionheart Remake\Lionheart Remake\main.cpp
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Lionheart Remake Lionheart Remake Configure.rc version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc
+            _output-file: distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Update Lionheart Remake Lionheart Remake Configure.rc version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc
+            _output-file: distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.rc
+            _format-key: '%%key%%'
+            INPUT_APPVI: ${{env.APP_VERSIONI}}
+
+      -  name: Update Lionheart Remake Configure.cpp version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp
+            _output-file: distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\main.cpp
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{env.APP_VERSION}}
+
+      -  name: Prepare folders
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            mkdir "build"
+            mkdir "build\%TARGET%"
+            mkdir "build\%TARGET%\data"
+            mkdir "build\%TARGET%\data\assets"
+            cd build\%TARGET%
+            robocopy "..\..\distribution\doc" "doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
+            copy "..\..\CHANGELOG" "doc\CHANGELOG.txt"
+            copy "..\..\LICENSE" "doc\LICENSE.txt"
+            copy "..\..\distribution\data\splash.png" "data"
+            copy "..\..\distribution\data\b3dgs.cer" "data"
+            copy "..\..\distribution\data\.lionengine" "data"
+            copy "..\..\lionheart-pc\target\lionheart-pc-${{env.APP_VERSION}}.jar" "data"
+            copy "..\..\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
+            copy "..\..\distribution\win32\src\Lionheart Remake.bat" .
+            copy "..\..\distribution\win32\src\Configure.bat" .
+            copy "..\..\distribution\win32\src\Profile.bat" .
+            robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+            del /Q /F /S "stage*.png"
+
+      -  name: Set JRE x86
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: temurin
+            java-version: '17'
+            architecture: x86
+
+      -  name: Bundle JRE x86
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86
+
+      -  name: Set JRE x86_64
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: temurin
+            java-version: '17'
+            architecture: x64
+
+      -  name: Bundle JRE x86_64
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build\%TARGET%\data\jre_win32-x86_64
+
+      -  name: msbuild
+         uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57
+
+      -  name: Compile vsproject
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            msbuild "distribution\win32\src\Lionheart Remake\Lionheart Remake\Lionheart Remake.vcxproj" -t:rebuild -property:Configuration=Release
+            msbuild "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Lionheart Remake Configure.vcxproj" -t:rebuild -property:Configuration=Release
+            copy "distribution\win32\src\Lionheart Remake\Lionheart Remake\Release\Lionheart Remake.exe" "build\%TARGET%"
+            copy "distribution\win32\src\Lionheart Remake Configure\Lionheart Remake Configure\Release\Configure.exe" "build\%TARGET%"
+
+      -  name: Sign
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            dir "C:\Program Files (x86)\Windows Kits\10\bin\"
+            echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
+            certutil -decode base64.txt cert.pfx
+            "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Lionheart Remake.exe"
+            "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%\Configure.exe"
+            del base64.txt
+            del cert.pfx
+
+      -  name: Make Archive
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            copy "distribution\win32\src\sfxmaker.txt" "build"
+            copy "distribution\win32\src\7zsd_LZMA2.sfx" "build"
+            cd build
+            7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%.7z %TARGET%
+            7z a -tzip -m0=deflate -mx=9 %TARGET%.zip %TARGET%
+            sha256sum %TARGET%.zip > %TARGET%.zip.sha256sum
+            copy /b "7zsd_LZMA2.sfx" + "sfxmaker.txt" + "%TARGET%.7z" "%TARGET%.exe"
+            cd ..
+            mkdir reshack
+
+      -  name: Get reshack
+         uses: gamedev-thingy/Download-Extract@done
+         with:
+            url: http://www.angusj.com/resourcehacker/resource_hacker.zip
+            destination: reshack
+            ZIPname: resource_hacker.zip
+
+      -  name: Update info
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            reshack\ResourceHacker.exe -open "build\%TARGET%\Lionheart Remake.exe" -save info.res -action extract -mask *,*,
+            reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action delete -mask *,*,
+            reshack\ResourceHacker.exe -open "build\%TARGET%.exe" -save "build\%TARGET%.exe" -action addoverwrite -res info.res -mask *,*,
+            del info.res
+
+      -  name: Sign SFX
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            echo ${{ secrets.CODESIGN_BASE64 }} >> base64.txt
+            certutil -decode base64.txt cert.pfx
+            "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /f cert.pfx /p ${{ secrets.CODESIGN_PWD }} /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 "build\%TARGET%.exe"
+            del base64.txt
+            del cert.pfx
+            cd build
+            del 7zsd_LZMA2.sfx
+            del sfxmaker.txt
+            del "%TARGET%.7z"
+            rmdir /S /Q "%TARGET%"
+            sha256sum %TARGET%.exe
+            sha256sum %TARGET%.exe > %TARGET%.exe.sha256sum
+
+      -  name: Prepare editor
+         shell: cmd
+         run: |
+            set TARGET=${{ env.APP_NAME }}-${{env.APP_VERSION}}_${{ env.APP_PLATFORM }}
+            mkdir "build\%TARGET%"
+            mkdir "build\%TARGET%\data"
+            mkdir "build\%TARGET%\data\assets"
+            mkdir "build\%TARGET%\data\editor"
+            mkdir "build\%TARGET%\data\editor\plugins"
+            robocopy "com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "build\%TARGET%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+            cd "lionheart-assets\src\main\resources\com\b3dgs\lionheart"
+            xcopy stage*.png ..\..\..\..\..\..\..\build\%TARGET%\data\assets /s /q /i
+            cd ..\..\..\..\..\..\..\build
+            7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
+            rmdir /S /Q %TARGET%
+            sha256sum %TARGET%_editor.7z
+            sha256sum %TARGET%_editor.7z > %TARGET%_editor.7z.sha256sum
+
+      -  name: Deploy archives
+         uses: dennisameling/ftp-upload-action@f87b6437536013699f24c8674f7246a1e09e8f3d
+         with:
+            server: ftp.b3dgs.com
+            username: ${{ secrets.LOGIN }}
+            password: ${{ secrets.PASSWORD }}
+            local_dir: build/
+            server_dir: /${{env.APP_VERSION}}/
+            secure: false
+
+   linux-x86-64:
+      if: github.event.inputs.linux-x86-64 == 'true'
+      runs-on: ubuntu-latest
+      env:
+         AUDIODEV: 'null'
+         APP_PLATFORM: linux-x86-64
+      steps:
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
+
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.m2/repository
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-
+
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: |
+               17
+            distribution: temurin
+            mvn-toolchain-id: |
+               JavaSE-17
+
+      -  name: Set GCC
+         uses: egor-tensin/setup-gcc@a2861a8b8538f49cf2850980acccf6b05a1b2ae4
+         with:
+            version: latest
+            platform: x64
+
+      -  name: Import GPG key
+         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd
+         with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      -  name: Decode Keystore
+         uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
+         with:
+            fileName: keystore.jks
+            fileDir: ./
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      -  name: Get version
+         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      -  name: Install
+         run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
+
+      -  name: Compile
+         env:
+            SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+            SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+            SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+         with:
+            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+
+      -  name: Update lionheart-remake.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/lionheart-remake.sh
+            _output-file: distribution/linux/sh/lionheart-remake.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update configure.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/configure.sh
+            _output-file: distribution/linux/sh/configure.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update profile.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/profile.sh
+            _output-file: distribution/linux/sh/profile.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update main.c version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/src/main.c
+            _output-file: distribution/linux/src/main.c
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Prepare folders
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            mkdir build
+            mkdir build/$TARGET
+            mkdir build/$TARGET/data
+            mkdir build/$TARGET/data/assets
+            cd build/$TARGET
+            cp -R ../../distribution/doc "doc"
+            cp "../../CHANGELOG" "doc/CHANGELOG.txt"
+            cp "../../LICENSE" "doc/LICENSE.txt"
+            cp ../../distribution/data/splash.png data
+            cp ../../distribution/data/b3dgs.cer data
+            cp ../../distribution/data/.lionengine data
+            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp ../../distribution/linux/src/icon.xpm .
+            cp ../../distribution/linux/sh/lionheart-remake.sh .
+            cp ../../distribution/linux/sh/configure.sh .
+            cp ../../distribution/linux/sh/profile.sh .
+            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            find . -name 'stage*.png' -delete
+            chmod +x lionheart-remake.sh
+            chmod +x configure.sh
+            chmod +x profile.sh
+
+      -  name: Set JRE x86_64
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: temurin
+            java-version: '17'
+            architecture: x64
+
+      -  name: Bundle JRE x86_64
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
+
+      -  name: Compile C
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            gcc distribution/linux/src/main.c -s -static -o build/$TARGET/lionheart-remake
+            chmod +x build/$TARGET/lionheart-remake
+
+      -  name: Make Archive
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            cd build
+            tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
+            rm -r -f $TARGET
+            sha256sum $TARGET.tar.xz
+            sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
+
+      -  name: Prepare editor
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            mkdir build/$TARGET
+            mkdir build/$TARGET/data
+            mkdir build/$TARGET/data/assets
+            mkdir build/$TARGET/data/editor
+            mkdir build/$TARGET/data/editor/plugins
+            cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. build/$TARGET/data/editor
+            cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
+            find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
+            cd ../../../../../../../build
+            tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
+            rm -r -f $TARGET
+            sha256sum $TARGET"_editor.tar.xz"
+            sha256sum $TARGET"_editor.tar.xz" > $TARGET"_editor.tar.xz.sha256sum"
+
+      -  name: Deploy archives
+         uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
+         with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            local-dir: build/
+            server-dir: /${{ env.APP_VERSION }}/
+
+   linux-x86-32:
+      if: github.event.inputs.linux-x86 == 'true'
+      runs-on: ubuntu-latest
+      env:
+         AUDIODEV: 'null'
+         APP_PLATFORM: linux-x86-32
+      steps:
+      -  name: Dependencies
+         run: |
+            sudo apt-get update
+            sudo apt-get install gcc-multilib xvfb libasound2-dev alsa-utils
+
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
+
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.m2/repository
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-
+
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: |
+               17
+            distribution: zulu
+            mvn-toolchain-id: |
+               17
+            architecture: x86
+
+      -  name: Set GCC
+         uses: egor-tensin/setup-gcc@a2861a8b8538f49cf2850980acccf6b05a1b2ae4
+         with:
+            version: latest
+            platform: x86
+
+      -  name: Import GPG key
+         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd
+         with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      -  name: Decode Keystore
+         uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
+         with:
+            fileName: keystore.jks
+            fileDir: ./
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      -  name: Get version
+         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      -  name: Compile
+         env:
+            SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+            SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+            SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+         with:
+            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+
+      -  name: Update lionheart-remake.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/lionheart-remake.sh
+            _output-file: distribution/linux/sh/lionheart-remake.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update lionheart-remake.sh vm
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/lionheart-remake.sh
+            _output-file: distribution/linux/sh/lionheart-remake.sh
+
+      -  name: Update configure.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/configure.sh
+            _output-file: distribution/linux/sh/configure.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update configure.sh vm
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/configure.sh
+            _output-file: distribution/linux/sh/configure.sh
+
+      -  name: Update profile.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/profile.sh
+            _output-file: distribution/linux/sh/profile.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update profile.sh vm
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/profile.sh
+            _output-file: distribution/linux/sh/profile.sh
+
+      -  name: Update main.c version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/src/main.c
+            _output-file: distribution/linux/src/main.c
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update main.c vm
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/src/main.c
+            _output-file: distribution/linux/src/main.c
+
+      -  name: Prepare folders
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            mkdir build
+            mkdir build/$TARGET
+            mkdir build/$TARGET/data
+            mkdir build/$TARGET/data/assets
+            cd build/$TARGET
+            cp -R ../../distribution/doc "doc"
+            cp "../../CHANGELOG" "doc/CHANGELOG.txt"
+            cp "../../LICENSE" "doc/LICENSE.txt"
+            cp ../../distribution/data/splash.png data
+            cp ../../distribution/data/b3dgs.cer data
+            cp ../../distribution/data/.lionengine data
+            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp ../../distribution/linux/src/icon.xpm .
+            cp ../../distribution/linux/sh/lionheart-remake.sh .
+            cp ../../distribution/linux/sh/configure.sh .
+            cp ../../distribution/linux/sh/profile.sh .
+            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            find . -name 'stage*.png' -delete
+            chmod +x lionheart-remake.sh
+            chmod +x configure.sh
+            chmod +x profile.sh
+
+      -  name: Set JRE x86
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: zulu
+            java-version: '17'
+            architecture: x86
+
+      -  name: Bundle JRE x86
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86
+
+      -  name: Compile C
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            gcc distribution/linux/src/main.c -s -static -m32 -o build/$TARGET/lionheart-remake
+            chmod +x build/$TARGET/lionheart-remake
+
+      -  name: Make Archive
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            cd build
+            tar -cf - $TARGET | xz -1ze -T0 >$TARGET.tar.xz
+            rm -r -f $TARGET
+            sha256sum $TARGET.tar.xz
+            sha256sum $TARGET.tar.xz > $TARGET".tar.xz.sha256sum"
+
+      -  name: Deploy archives
+         uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
+         with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            local-dir: build/
+            server-dir: /${{ env.APP_VERSION }}/
+
+   macos-x86-64:
+      if: github.event.inputs.macos-x86-64 == 'true'
+      runs-on: macOS-11
+      env:
+         AUDIODEV: 'null'
+         APP_PLATFORM: macos-x86-64
+      steps:
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
+
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.m2/repository
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-
+
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: |
+               17
+            distribution: temurin
+            mvn-toolchain-id: |
+               JavaSE-17
+
+      -  name: Import GPG key
+         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd
+         with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      -  name: Decode Keystore
+         uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
+         with:
+            fileName: keystore.jks
+            fileDir: ./
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      -  name: Get version
+         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      -  name: Install
+         run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
+
+      -  name: Compile
+         env:
+            SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+            SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+            SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+         with:
+            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+
+      -  name: Update lionheart-remake.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/lionheart-remake.sh
+            _output-file: distribution/linux/sh/lionheart-remake.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update configure.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/configure.sh
+            _output-file: distribution/linux/sh/configure.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update profile.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/profile.sh
+            _output-file: distribution/linux/sh/profile.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update main.c version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/src/main.c
+            _output-file: distribution/linux/src/main.c
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Prepare folders
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            mkdir build
+            mkdir build/$TARGET
+            mkdir build/$TARGET/data
+            mkdir build/$TARGET/data/assets
+            cd build/$TARGET
+            cp -R ../../distribution/doc "doc"
+            cp "../../CHANGELOG" "doc/CHANGELOG.txt"
+            cp "../../LICENSE" "doc/LICENSE.txt"
+            cp ../../distribution/data/splash.png data
+            cp ../../distribution/data/b3dgs.cer data
+            cp ../../distribution/data/.lionengine data
+            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp ../../distribution/linux/src/icon.xpm .
+            cp ../../distribution/linux/sh/lionheart-remake.sh .
+            cp ../../distribution/linux/sh/configure.sh .
+            cp ../../distribution/linux/sh/profile.sh .
+            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            find . -name 'stage*.png' -delete
+            chmod +x lionheart-remake.sh
+            chmod +x configure.sh
+            chmod +x profile.sh
+
+      -  name: Set JRE x86_64
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: temurin
+            java-version: '17'
+            architecture: x64
+
+      -  name: Bundle JRE x86_64
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            jlink --compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
+
+      -  name: Compile C
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            clang distribution/linux/src/main.c -o build/$TARGET/lionheart-remake
+            chmod +x build/$TARGET/lionheart-remake
+
+      -  name: Make Archive
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            cd build
+            zip -9 -r $TARGET.zip $TARGET
+            shasum -a 256 $TARGET.zip > $TARGET".zip.sha256sum"
+            rm -r -f $TARGET
+
+      -  name: Deploy archives
+         uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
+         with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            local-dir: build/
+            server-dir: /${{ env.APP_VERSION }}/
+
+   macos-aarch64:
+      if: github.event.inputs.macos-aarch64 == 'true'
+      runs-on: macOS-11
+      env:
+         AUDIODEV: 'null'
+         APP_PLATFORM: macos-aarch64
+      steps:
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
+
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.m2/repository
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-
+
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: |
+               17
+            distribution: temurin
+            mvn-toolchain-id: |
+               JavaSE-17
+
+      -  name: Import GPG key
+         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd
+         with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      -  name: Decode Keystore
+         uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
+         with:
+            fileName: keystore.jks
+            fileDir: ./
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      -  name: Get version
+         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      -  name: Install
+         run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
+
+      -  name: Compile
+         with:
+            run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         env:
+            SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+            SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
+            SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
+
+      -  name: Update lionheart-remake.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/lionheart-remake.sh
+            _output-file: distribution/linux/sh/lionheart-remake.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update configure.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/configure.sh
+            _output-file: distribution/linux/sh/configure.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update profile.sh version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/sh/profile.sh
+            _output-file: distribution/linux/sh/profile.sh
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Update main.c version
+         uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
+         with:
+            _input-file: distribution/linux/src/main.c
+            _output-file: distribution/linux/src/main.c
+            _format-key: '%%key%%'
+            INPUT_APPV: ${{ env.APP_VERSION }}
+
+      -  name: Prepare folders
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            mkdir build
+            mkdir build/$TARGET
+            mkdir build/$TARGET/data
+            mkdir build/$TARGET/data/assets
+            cd build/$TARGET
+            cp -R ../../distribution/doc "doc"
+            cp "../../CHANGELOG" "doc/CHANGELOG.txt"
+            cp "../../LICENSE" "doc/LICENSE.txt"
+            cp ../../distribution/data/splash.png data
+            cp ../../distribution/data/b3dgs.cer data
+            cp ../../distribution/data/.lionengine data
+            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp ../../distribution/linux/src/icon.xpm .
+            cp ../../distribution/linux/sh/lionheart-remake.sh .
+            cp ../../distribution/linux/sh/configure.sh .
+            cp ../../distribution/linux/sh/profile.sh .
+            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            find . -name 'stage*.png' -delete
+            chmod +x lionheart-remake.sh
+            chmod +x configure.sh
+            chmod +x profile.sh
+
+      -  name: Set JRE aarch64
+         id: setup-java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: temurin
+            java-version: '17'
+            architecture: aarch64
+
+      -  name: Set JRE
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: temurin
+            java-version: '17'
+
+      -  name: Bundle JRE aarch64
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            jlink --compress=0 --strip-debug --no-header-files --no-man-pages --module-path $JAVA_HOME_17_AARCH64/jmods --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging --output build/$TARGET/data/jre_linux-x86_64
+
+      -  name: Compile C
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            clang distribution/linux/src/main.c -target arm64-apple-macos11 -o build/$TARGET/lionheart-remake
+            chmod +x build/$TARGET/lionheart-remake
+
+      -  name: Make Archive
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            cd build
+            zip -9 -r $TARGET.zip $TARGET
+            shasum -a 256 $TARGET.zip > $TARGET".zip.sha256sum"
+            rm -r -f $TARGET
+
+      -  name: Deploy archives
+         uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
+         with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            local-dir: build/
+            server-dir: /${{ env.APP_VERSION }}/
+
+   android-arm:
+      if: github.event.inputs.android-arm == 'true'
+      runs-on: ubuntu-latest
+      env:
+         main_project_module: app
+         APP_PLATFORM: android-arm
+      steps:
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+         with:
+            ref: master
+            fetch-depth: 1
+            fetch-tags: false
+
+      -  name: Cache
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.m2/repository
+               ~/.gradle/wrapper
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+               maven-
+
+      -  name: Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            java-version: |
+               17
+            distribution: temurin
+            mvn-toolchain-id: |
+               JavaSE-17
+
+      -  name: Decode Keystore
+         uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
+         with:
+            fileName: android.jks
+            fileDir: lionheart-android/app/
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      -  name: Get version
+         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      -  name: Build JAR
+         run: mvn clean install --file lionheart-parent/pom.xml -U -Pgame
+
+      -  name: Build APK
+         run: |
+            cd lionheart-android
+            chmod +x ./gradlew
+            ./gradlew assembleRelease -Pkeystore=android.jks -Pkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Pkeystore.storepassword=${{ secrets.KEYSTORE_STOREPASS }} -Pkeystore.password=${{ secrets.KEYSTORE_PASS }}
+
+      -  name: Sign app APK
+         uses: r0adkll/sign-android-release@dbeba6b98a60b0fd540c02443c7f428cdedf0e7f
+         env:
+            BUILD_TOOLS_VERSION: 36.0.0
+         with:
+            releaseDirectory: lionheart-android/app/build/outputs/apk/release/
+            signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+            alias: ${{ secrets.KEYSTORE_ALIAS }}
+            keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
+            keyPassword: ${{ secrets.KEYSTORE_PASS }}
+
+      -  name: Make Archive
+         run: |
+            export TARGET=${{ env.APP_NAME }}-${{ env.APP_VERSION }}_${{ env.APP_PLATFORM }}
+            mkdir build
+            mkdir build/$TARGET
+            cd build/$TARGET
+            cp -R ../../distribution/doc "doc"
+            cp "../../CHANGELOG" "doc/CHANGELOG.txt"
+            cp "../../LICENSE" "doc/LICENSE.txt"
+            cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
+            cd ..
+            zip -9 -r $TARGET.zip $TARGET
+            rm -r -f $TARGET
+            sha256sum $TARGET.zip
+            sha256sum $TARGET.zip > $TARGET".zip.sha256sum"
+
+      -  name: Deploy archives
+         uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
+         with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            local-dir: build/
+            server-dir: /${{ env.APP_VERSION }}/
