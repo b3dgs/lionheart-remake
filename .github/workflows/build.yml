@@ -63,4 +63,4 @@ jobs:
                -Dsonar.host.url=https://sonarcloud.io \
                -Dsonar.organization=b3dgs \
                -Dsonar.token=$SONAR_TOKEN \
-               -Dsonar.projectKey=b3dgs_llionheart-remake
+               -Dsonar.projectKey=b3dgs_lionheart-remake
