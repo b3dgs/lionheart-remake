@@ -23,11 +23,11 @@ rem ############################################################################
 
 rem ############################################################## Compile project ###############################################################
 echo --------------------------------------------- Compile game ---------------------------------------------
-call mvn clean install -f ..\..\lionheart-parent\pom.xml -P pc,sign
+call mvn clean install -f ..\..\pom.xml -P pc,sign
 echo --------------------------------------------------------------------------------------------------------
 
 echo -------------------------------------------- Compile editor --------------------------------------------
-call mvn clean verify -f ..\..\lionheart-editor-parent\pom.xml -P release
+call mvn clean verify -f ..\..\releng\lionheart-editor-parent\pom.xml -P release
 echo --------------------------------------------------------------------------------------------------------
 rem ##############################################################################################################################################
 
@@ -49,13 +49,13 @@ robocopy "..\doc" "%DEST%\doc" /E /NFL /NDL /NJH /NJS /nc /ns /np
 copy "..\..\CHANGELOG" "%DEST%\doc\CHANGELOG.txt"
 copy "..\..\LICENSE" "%DEST%\doc\LICENSE.txt"
 echo -------------------------------------------- Copy assets
-robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "%DEST%\data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+robocopy "..\..\assets\src\main\resources\com\b3dgs\lionheart" "%DEST%\data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
 echo -------------------------------------------- Remove levels rip
 del /Q /F /S "stage*.png"
 echo -------------------------------------------- Copy jar
-copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
-copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar.asc" "%DEST%\data"
-copy "..\..\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
+copy "..\..\java\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
+copy "..\..\java\lionheart-pc\target\lionheart-pc-%VERSION%.jar.asc" "%DEST%\data"
+copy "..\..\java\lionheart-pc\target\lionheart-pc-%VERSION%.jar" "%DEST%\data"
 echo -------------------------------------------- Copy bat
 %POWERSHELL% -Command "(gc 'src\Lionheart Remake.bat') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%DEST%\Lionheart Remake.bat'"
 %POWERSHELL% -Command "(gc 'src\Configure.bat') -replace '%%%%INPUT_APPV%%%%', '%VERSION%' | Out-File -encoding utf8NoBOM '%DEST%\Configure.bat'"
@@ -136,10 +136,10 @@ mkdir "%DEST%\data"
 mkdir "%DEST%\data\assets"
 mkdir "%DEST%\data\editor"
 mkdir "%DEST%\data\editor\plugins"
-robocopy "..\..\com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "%DEST%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+robocopy "..\..\releng\com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "%DEST%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
 
 echo -------------------------------------------- Copy levels rip
-cd "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart"
+cd "..\..\assets\src\main\resources\com\b3dgs\lionheart"
 xcopy stage*.png ..\..\..\..\..\..\..\distribution\win32\build\%FOLDER%\data\assets /s /q /i
 cd "..\..\..\..\..\..\..\distribution\win32\"
 echo ---------------------------------------------- Create ZIP editor

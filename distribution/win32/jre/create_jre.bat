@@ -1,5 +1,5 @@
 set javahome=C:\Eclipse\
-set jdk=jdk-17.0.6+10
+set jdk=jdk-17.0.18+8
 set param=--compress=0 --strip-debug --no-header-files --no-man-pages --add-modules java.base,java.xml,jdk.xml.dom,java.prefs,java.desktop,java.logging
 
 rmdir /S /Q jre_win32-x86_64

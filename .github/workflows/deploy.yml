@@ -94,7 +94,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: mvn clean install -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=..\keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update Lionheart Remake.bat version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -199,12 +199,12 @@ jobs:
             copy "..\..\distribution\data\splash.png" "data"
             copy "..\..\distribution\data\b3dgs.cer" "data"
             copy "..\..\distribution\data\.lionengine" "data"
-            copy "..\..\lionheart-pc\target\lionheart-pc-${{env.APP_VERSION}}.jar" "data"
-            copy "..\..\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
+            copy "..\..\java\lionheart-pc\target\lionheart-pc-${{env.APP_VERSION}}.jar" "data"
+            copy "..\..\java\lionheart-pc\src\main\resources\com\b3dgs\lionheart\icon.ico" "data"
             copy "..\..\distribution\win32\src\Lionheart Remake.bat" .
             copy "..\..\distribution\win32\src\Configure.bat" .
             copy "..\..\distribution\win32\src\Profile.bat" .
-            robocopy "..\..\lionheart-assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+            robocopy "..\..\assets\src\main\resources\com\b3dgs\lionheart" "data\assets" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
             del /Q /F /S "stage*.png"
 
       -  name: Set JRE x86
@@ -313,8 +313,8 @@ jobs:
             mkdir "build\%TARGET%\data\assets"
             mkdir "build\%TARGET%\data\editor"
             mkdir "build\%TARGET%\data\editor\plugins"
-            robocopy "com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "build\%TARGET%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
-            cd "lionheart-assets\src\main\resources\com\b3dgs\lionheart"
+            robocopy "releng\com.b3dgs.lionheart.editor.product\target\products\com.b3dgs.lionheart.editor.product\win32\win32\x86_64" "build\%TARGET%\data\editor" /MIR /NFL /NDL /NJH /NJS /nc /ns /np
+            cd "assets\src\main\resources\com\b3dgs\lionheart"
             xcopy stage*.png ..\..\..\..\..\..\..\build\%TARGET%\data\assets /s /q /i
             cd ..\..\..\..\..\..\..\build
             7z a -t7z -mf=off -m0=lzma2 -mx=9 %TARGET%_editor.7z %TARGET%
@@ -384,7 +384,7 @@ jobs:
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       -  name: Get version
-         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+         run: echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       -  name: Install
          run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
@@ -394,7 +394,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -442,12 +442,12 @@ jobs:
             cp ../../distribution/data/splash.png data
             cp ../../distribution/data/b3dgs.cer data
             cp ../../distribution/data/.lionengine data
-            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp "../../java/lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
             cp ../../distribution/linux/src/icon.xpm .
             cp ../../distribution/linux/sh/lionheart-remake.sh .
             cp ../../distribution/linux/sh/configure.sh .
             cp ../../distribution/linux/sh/profile.sh .
-            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            cp -R ../../assets/src/main/resources/com/b3dgs/lionheart/. data/assets
             find . -name 'stage*.png' -delete
             chmod +x lionheart-remake.sh
             chmod +x configure.sh
@@ -488,8 +488,8 @@ jobs:
             mkdir build/$TARGET/data/assets
             mkdir build/$TARGET/data/editor
             mkdir build/$TARGET/data/editor/plugins
-            cp -R com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. build/$TARGET/data/editor
-            cd lionheart-assets/src/main/resources/com/b3dgs/lionheart
+            cp -R releng/com.b3dgs.lionheart.editor.product/target/products/com.b3dgs.lionheart.editor.product/linux/gtk/x86_64/. build/$TARGET/data/editor
+            cd assets/src/main/resources/com/b3dgs/lionheart
             find . -type f -name "stage*.png" | xargs -i -exec cp --parents {} ../../../../../../../build/$TARGET/data/assets/
             cd ../../../../../../../build
             tar -cf - $TARGET | xz -1ze -T0 >$TARGET"_editor.tar.xz"
@@ -564,14 +564,14 @@ jobs:
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       -  name: Get version
-         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+         run: echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       -  name: Compile
          env:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install -DskipTests=true -U -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -643,12 +643,12 @@ jobs:
             cp ../../distribution/data/splash.png data
             cp ../../distribution/data/b3dgs.cer data
             cp ../../distribution/data/.lionengine data
-            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp "../../java/lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
             cp ../../distribution/linux/src/icon.xpm .
             cp ../../distribution/linux/sh/lionheart-remake.sh .
             cp ../../distribution/linux/sh/configure.sh .
             cp ../../distribution/linux/sh/profile.sh .
-            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            cp -R ../../assets/src/main/resources/com/b3dgs/lionheart/. data/assets
             find . -name 'stage*.png' -delete
             chmod +x lionheart-remake.sh
             chmod +x configure.sh
@@ -736,7 +736,7 @@ jobs:
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       -  name: Get version
-         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+         run: echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       -  name: Install
          run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
@@ -746,7 +746,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -794,12 +794,12 @@ jobs:
             cp ../../distribution/data/splash.png data
             cp ../../distribution/data/b3dgs.cer data
             cp ../../distribution/data/.lionengine data
-            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp "../../java/lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
             cp ../../distribution/linux/src/icon.xpm .
             cp ../../distribution/linux/sh/lionheart-remake.sh .
             cp ../../distribution/linux/sh/configure.sh .
             cp ../../distribution/linux/sh/profile.sh .
-            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            cp -R ../../assets/src/main/resources/com/b3dgs/lionheart/. data/assets
             find . -name 'stage*.png' -delete
             chmod +x lionheart-remake.sh
             chmod +x configure.sh
@@ -886,7 +886,7 @@ jobs:
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       -  name: Get version
-         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+         run: echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       -  name: Install
          run: sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
@@ -896,7 +896,7 @@ jobs:
             SIGNING_KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
             SIGNING_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             SIGNING_STORE_PASSWORD: ${{ secrets.KEYSTORE_STOREPASS }}
-         run: xvfb-run -a mvn clean install --file lionheart-parent/pom.xml -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
+         run: xvfb-run -a mvn clean install -U -Dtycho.testArgLine=-XstartOnFirstThread -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dkeystore=../keystore.jks -Dkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Dkeystore.pass=${{ secrets.KEYSTORE_STOREPASS }} -Dkeystore.key=${{ secrets.KEYSTORE_PASS }} -Pall,sign
 
       -  name: Update lionheart-remake.sh version
          uses: bluwy/substitute-string-action@70ff0b17357670ffd3fee68e95b6de9963b66bad
@@ -944,12 +944,12 @@ jobs:
             cp ../../distribution/data/splash.png data
             cp ../../distribution/data/b3dgs.cer data
             cp ../../distribution/data/.lionengine data
-            cp "../../lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
+            cp "../../java/lionheart-pc/target/lionheart-pc-${{ env.APP_VERSION }}.jar" data
             cp ../../distribution/linux/src/icon.xpm .
             cp ../../distribution/linux/sh/lionheart-remake.sh .
             cp ../../distribution/linux/sh/configure.sh .
             cp ../../distribution/linux/sh/profile.sh .
-            cp -R ../../lionheart-assets/src/main/resources/com/b3dgs/lionheart/. data/assets
+            cp -R ../../assets/src/main/resources/com/b3dgs/lionheart/. data/assets
             find . -name 'stage*.png' -delete
             chmod +x lionheart-remake.sh
             chmod +x configure.sh
@@ -1033,18 +1033,18 @@ jobs:
          uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be
          with:
             fileName: android.jks
-            fileDir: lionheart-android/app/
+            fileDir: java/lionheart-android/app/
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       -  name: Get version
-         run: echo "APP_VERSION=$(mvn --file lionheart-parent/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+         run: echo "APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       -  name: Build JAR
-         run: mvn clean install --file lionheart-parent/pom.xml -U -Pgame
+         run: mvn clean install -U -Pgame
 
       -  name: Build APK
          run: |
-            cd lionheart-android
+            cd java/lionheart-android
             chmod +x ./gradlew
             ./gradlew assembleRelease -Pkeystore=android.jks -Pkeystore.alias=${{ secrets.KEYSTORE_ALIAS }} -Pkeystore.storepassword=${{ secrets.KEYSTORE_STOREPASS }} -Pkeystore.password=${{ secrets.KEYSTORE_PASS }}
 
@@ -1053,7 +1053,7 @@ jobs:
          env:
             BUILD_TOOLS_VERSION: 36.0.0
          with:
-            releaseDirectory: lionheart-android/app/build/outputs/apk/release/
+            releaseDirectory: java/lionheart-android/app/build/outputs/apk/release/
             signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
             alias: ${{ secrets.KEYSTORE_ALIAS }}
             keyStorePassword: ${{ secrets.KEYSTORE_STOREPASS }}
@@ -1068,7 +1068,7 @@ jobs:
             cp -R ../../distribution/doc "doc"
             cp "../../CHANGELOG" "doc/CHANGELOG.txt"
             cp "../../LICENSE" "doc/LICENSE.txt"
-            cp "../../lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
+            cp "../../java/lionheart-android/app/build/outputs/apk/release/app-release-signed.apk" ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.apk
             cd ..
             zip -9 -r $TARGET.zip $TARGET
             rm -r -f $TARGET

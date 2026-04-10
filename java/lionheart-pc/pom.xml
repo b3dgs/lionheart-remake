@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.b3dgs.lionheart</groupId>
-        <artifactId>lionheart-parent</artifactId>
+        <artifactId>lionheart</artifactId>
         <version>1.4.0-SNAPSHOT</version>
-        <relativePath>../lionheart-parent/pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>lionheart-pc</artifactId>
     <packaging>jar</packaging>
@@ -56,7 +56,7 @@
         </dependency>
         <dependency>
             <groupId>com.b3dgs.lionheart</groupId>
-            <artifactId>lionheart-assets</artifactId>
+            <artifactId>assets</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
