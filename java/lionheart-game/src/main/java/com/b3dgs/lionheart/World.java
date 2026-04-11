@@ -815,7 +815,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
             if (CollisionName.LIANA_TOP.equals(mapGroup.getGroup(tile)))
             {
                 spawn(Medias.create(Folder.EFFECT, WorldType.SWAMP.getFolder(), "Liana.xml"),
-                      tile.getX() + tile.getWidth() / 2,
+                      tile.getX() + tile.getWidth() / 2.0,
                       tile.getY());
             }
             else if (CollisionName.BLOCK.equals(mapGroup.getGroup(tile)))

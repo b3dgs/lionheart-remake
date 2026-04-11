@@ -117,7 +117,7 @@ public final class StateRespawn extends State
             landscape.reset();
 
             final StageConfig config = StageConfig.imports(new Configurer(game.getInit().getStage()));
-            if (config.getReload()
+            if (config.isReload()
                 && Double.compare(transformable.getX(), config.getReloadMinX()) >= 0
                 && Double.compare(transformable.getX(), config.getReloadMaxX()) <= 0)
             {

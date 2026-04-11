@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.awt.Keyboard;
 /**
  * Keyboard assigner.
  */
-public class AssignerKeyboard extends AssignController
+public final class AssignerKeyboard extends AssignController
 {
     /**
      * Create assigner.

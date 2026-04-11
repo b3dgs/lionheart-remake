@@ -111,7 +111,7 @@ final class StageConfigTest
 
         assertEquals("pic", config.getPic().get().getPath());
         assertEquals("txt", config.getText().get());
-        assertTrue(config.getReload());
+        assertTrue(config.isReload());
         assertEquals(1, config.getReloadMinX());
         assertEquals(2, config.getReloadMaxX());
         assertEquals("mus", config.getMusic().getPath());
@@ -191,7 +191,7 @@ final class StageConfigTest
 
         assertFalse(config.getPic().isPresent());
         assertFalse(config.getText().isPresent());
-        assertFalse(config.getReload());
+        assertFalse(config.isReload());
         assertEquals(0, config.getReloadMinX());
         assertEquals(Integer.MAX_VALUE, config.getReloadMaxX());
         assertEquals("mus", config.getMusic().getPath());

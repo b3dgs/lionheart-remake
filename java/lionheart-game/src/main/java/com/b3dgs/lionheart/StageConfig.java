@@ -263,7 +263,7 @@ public final class StageConfig
      * 
      * @return The reload flag.
      */
-    public boolean getReload()
+    public boolean isReload()
     {
         return reload;
     }

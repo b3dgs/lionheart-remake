@@ -151,12 +151,12 @@ public class CheatMenu implements Updatable, Renderable, Surface
             area.set(x + 1, y + 1, area.getWidth(), area.getHeight());
             if (numberStage != null)
             {
-                numberStage.setLocation(x + area.getWidth() / 2 - numberStage.getWidth() / 2 + 1, y + 3);
+                numberStage.setLocation(x + area.getWidth() / 2.0 - numberStage.getWidth() / 2.0 + 1, y + 3);
             }
             else
             {
                 font.setAlign(Align.CENTER);
-                font.setLocation(x + area.getWidth() / 2 + 1, y + 3);
+                font.setLocation(x + area.getWidth() / 2.0 + 1, y + 3);
             }
             spawned = true;
             for (int i = 0; i < sub.size(); i++)

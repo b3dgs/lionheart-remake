@@ -1025,11 +1025,7 @@ public class Menu extends Sequence
             case OPTIONS:
                 renderOptions(g);
                 break;
-            case LAUNCHER_PLAY:
-            case LAUNCHER_EXIT:
-            case NEW:
-            case CONTINUE:
-            case INTRO:
+            case LAUNCHER_PLAY, LAUNCHER_EXIT, NEW, CONTINUE, INTRO:
                 break;
             default:
                 throw new LionEngineException(type);

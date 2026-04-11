@@ -11,18 +11,18 @@
     <groupId>com.b3dgs.lionheart</groupId>
     <artifactId>lionheart</artifactId>
     <version>1.4.0-SNAPSHOT</version>
-    <name>Lionheart Remake</name>
     <packaging>pom</packaging>
+    <name>Lionheart Remake</name>
     <description>Remake of the original Lionheart on the Amiga by Thalion</description>
     <url>https://github.com/b3dgs/lionheart-remake</url>
-    <modules>
-        <module>assets</module>
-        <module>java/lionheart-game</module>
-    </modules>
     <organization>
         <name>Byron 3D Games Studio</name>
         <url>www.b3dgs.com</url>
     </organization>
+    <modules>
+        <module>assets</module>
+        <module>java/lionheart-game</module>
+    </modules>
     <scm>
         <url>https://github.com/b3dgs/lionheart-remake</url>
         <connection>scm:git:git@github.com:b3dgs/lionheart-remake.git</connection>

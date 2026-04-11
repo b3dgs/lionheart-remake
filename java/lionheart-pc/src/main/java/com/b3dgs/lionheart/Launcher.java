@@ -1377,7 +1377,7 @@ public final class Launcher
         }
     }
 
-    private static class NetworkStageData
+    private static final class NetworkStageData
     {
         private final GameType type;
         private final Media stage;

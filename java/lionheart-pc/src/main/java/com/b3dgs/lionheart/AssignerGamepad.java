@@ -29,7 +29,7 @@ import com.b3dgs.lionengine.Constant;
 /**
  * Gamepad assigner.
  */
-public class AssignerGamepad extends AssignController
+public final class AssignerGamepad extends AssignController
 {
     private static final String LABEL_BUTTON = "Button ";
     private static final AtomicReference<ActionGetter> ACTION = new AtomicReference<>();

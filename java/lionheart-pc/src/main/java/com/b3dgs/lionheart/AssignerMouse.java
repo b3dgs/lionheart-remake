@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.awt.Mouse;
 /**
  * Mouse assigner.
  */
-public class AssignerMouse extends AssignController
+public final class AssignerMouse extends AssignController
 {
     private static final String LABEL_BUTTON = "Button ";
 
