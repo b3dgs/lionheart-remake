@@ -17,6 +17,8 @@
         <lwjgl.version>3.3.6</lwjgl.version>
         <log4j2.version>2.25.4</log4j2.version>
         <checkstyle.skip>true</checkstyle.skip>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${basedir}/../../coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
         <dependency>

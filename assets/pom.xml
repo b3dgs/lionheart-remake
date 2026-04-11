@@ -12,6 +12,10 @@
     <artifactId>assets</artifactId>
     <packaging>jar</packaging>
     <name>Lionheart Remake Assets</name>
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${basedir}/../coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
     <build>
         <plugins>
             <plugin>
