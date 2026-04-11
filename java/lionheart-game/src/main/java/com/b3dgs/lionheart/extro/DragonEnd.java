@@ -132,7 +132,7 @@ final class DragonEnd extends BackgroundAbstract
             mountain = createElement(path, FILE_MOUNTAIN, 0, MOUNTAIN_Y);
             mountainSprite = (Sprite) mountain.getRenderable();
 
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
+            w = (int) Math.ceil(screenWidth / (double) mountain.getRenderable().getWidth()) + 1;
         }
 
         /**
@@ -143,7 +143,7 @@ final class DragonEnd extends BackgroundAbstract
         private void setScreenWidth(int width)
         {
             screenWidth = width;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
+            w = (int) Math.ceil(screenWidth / (double) mountain.getRenderable().getWidth()) + 1;
         }
 
         /**

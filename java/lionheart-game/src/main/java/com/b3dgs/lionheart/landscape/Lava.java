@@ -155,7 +155,7 @@ final class Lava extends BackgroundAbstract
             mountainSprite = (Sprite) mountain.getRenderable();
             mountain2Sprite = (Sprite) mountain2.getRenderable();
             this.screenWidth = screenWidth;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
+            w = (int) Math.ceil(screenWidth / (double) mountain.getRenderable().getWidth()) + 1;
         }
 
         /**
@@ -166,7 +166,7 @@ final class Lava extends BackgroundAbstract
         private void setScreenWidth(int width)
         {
             screenWidth = width;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) mountain.getRenderable()).getWidth()) + 1;
+            w = (int) Math.ceil(screenWidth / (double) mountain.getRenderable().getWidth()) + 1;
         }
 
         /**

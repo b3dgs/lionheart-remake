@@ -129,24 +129,22 @@ public final class HotFireBall extends FeatureModel
         tick.update(extrp);
         series.update(extrp);
 
-        if (tick.elapsedTime(source.getRate(), config.getDelay()))
+        if (tick.elapsedTime(source.getRate(), config.getDelay())
+            && series.elapsedTime(source.getRate(), BALL_DELAY_MS))
         {
-            if (series.elapsedTime(source.getRate(), BALL_DELAY_MS))
+            if (current == 0 && viewer.isViewable(transformable, 0, 0))
             {
-                if (current == 0 && viewer.isViewable(transformable, 0, 0))
-                {
-                    Sfx.SCENERY_HOTFIREBALL.play();
-                }
-                current++;
-                if (current > config.getCount())
-                {
-                    current = 0;
-                    tick.restart();
-                }
-
-                launcher.fire();
-                series.restart();
+                Sfx.SCENERY_HOTFIREBALL.play();
             }
+            current++;
+            if (current > config.getCount())
+            {
+                current = 0;
+                tick.restart();
+            }
+
+            launcher.fire();
+            series.restart();
         }
     }
 

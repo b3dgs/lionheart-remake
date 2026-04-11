@@ -724,7 +724,6 @@ public final class BossNorka extends FeatureModel implements RoutineUpdate, Recy
                 launcher.setLevel(0);
                 phase = this::updateAttack;
                 animator.play(idle);
-                tick.restart();
             }
             else
             {
@@ -733,8 +732,8 @@ public final class BossNorka extends FeatureModel implements RoutineUpdate, Recy
                 launcher.setLevel(2);
                 launcher.fire();
                 phase = this::updatePlatform;
-                tick.restart();
             }
+            tick.restart();
         }
 
     }

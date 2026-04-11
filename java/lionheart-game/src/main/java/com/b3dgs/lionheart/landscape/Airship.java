@@ -126,7 +126,7 @@ final class Airship extends BackgroundAbstract
 
             forestSprite = (Sprite) forest.getRenderable();
             this.screenWidth = screenWidth;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) forest.getRenderable()).getWidth()) + 1;
+            w = (int) Math.ceil(screenWidth / (double) forest.getRenderable().getWidth()) + 1;
         }
 
         /**
@@ -137,7 +137,7 @@ final class Airship extends BackgroundAbstract
         private void setScreenWidth(int width)
         {
             screenWidth = width;
-            w = (int) Math.ceil(screenWidth / (double) ((Sprite) forest.getRenderable()).getWidth()) + 1;
+            w = (int) Math.ceil(screenWidth / (double) forest.getRenderable().getWidth()) + 1;
         }
 
         /**

@@ -80,7 +80,7 @@ public final class StateLand extends State
     {
         super.postUpdate();
 
-        if (!(steep.isLeft() && isGoRight() || steep.isRight() && isGoLeft()))
+        if ((!steep.isLeft() || !isGoRight()) && (!steep.isRight() || !isGoLeft()))
         {
             movement.setDestination(device.getHorizontalDirection() * Constant.WALK_SPEED, 0.0);
         }

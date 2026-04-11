@@ -204,12 +204,9 @@ public final class Jumper extends FeatureModel implements XmlLoader, XmlSaver, E
             jump = true;
             jumpPress = true;
         }
-        else
+        else if (jumpStop.elapsedTime(source.getRate(), config.getDelay()))
         {
-            if (jumpStop.elapsedTime(source.getRate(), config.getDelay()))
-            {
-                jumpPress = false;
-            }
+            jumpPress = false;
         }
     }
 }

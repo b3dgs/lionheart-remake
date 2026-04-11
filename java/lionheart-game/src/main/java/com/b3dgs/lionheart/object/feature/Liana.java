@@ -69,25 +69,15 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         {
             return 809;
         }
-        switch (tile.getNumber())
+        return switch (tile.getNumber())
         {
-            case 812:
-                return 809;
-            case 818:
-                return 809;
-            case 817:
-            case 821:
-                return 815;
-            case 811:
-            case 814:
-                return 808;
-            case 813:
-            case 820:
-            case 838:
-                return 810;
-            default:
-                return 809;
-        }
+            case 812 -> 809;
+            case 818 -> 809;
+            case 817, 821 -> 815;
+            case 811, 814 -> 808;
+            case 813, 820, 838 -> 810;
+            default -> 809;
+        };
     }
 
     /**
@@ -102,26 +92,16 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
         {
             return 835;
         }
-        switch (tile.getNumber())
+        return switch (tile.getNumber())
         {
-            case 813:
-                return 835;
-            case 807:
-            case 817:
-                return 816;
-            case 811:
-            case 814:
-                return 819;
-            case 820:
-                return 836;
-            case 818:
-            case 821:
-                return 838;
-            case 804:
-                return 816;
-            default:
-                return 835;
-        }
+            case 813 -> 835;
+            case 807, 817 -> 816;
+            case 811, 814 -> 819;
+            case 820 -> 836;
+            case 818, 821 -> 838;
+            case 804 -> 816;
+            default -> 835;
+        };
     }
 
     /**
@@ -347,8 +327,8 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
             {
                 return 5;
             }
-            else if (top.getNumber() == 6 && (top2.getNumber() == 702 || top2.getNumber() == 907)
-                     || top.getNumber() == 5 && (top2.getNumber() == 907 || top2.getNumber() == 908))
+            if (top.getNumber() == 6 && (top2.getNumber() == 702 || top2.getNumber() == 907)
+                || top.getNumber() == 5 && (top2.getNumber() == 907 || top2.getNumber() == 908))
             {
                 return 8;
             }
@@ -365,7 +345,7 @@ public final class Liana extends FeatureModel implements CollidableListener, Rec
                 {
                     return 6;
                 }
-                else if (top.getNumber() == 908)
+                if (top.getNumber() == 908)
                 {
                     return 909;
                 }

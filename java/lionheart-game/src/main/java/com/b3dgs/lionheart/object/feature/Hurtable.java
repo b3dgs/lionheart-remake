@@ -483,23 +483,20 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
                 stateHandler.changeState(StateDie.class);
             }
         }
-        else
+        else if (hasFeature(Trackable.class))
         {
-            if (hasFeature(Trackable.class))
+            Sfx.VALDYN_HURT.play();
+            if (!stateHandler.isState(StateGripIdle.class)
+                && !stateHandler.isState(StateGripSoar.class)
+                && !stateHandler.isState(StateLianaSoar.class)
+                && !stateHandler.isState(StateLianaIdle.class)
+                && !stateHandler.isState(StateLianaWalk.class)
+                && !stateHandler.isState(StateAttackGrip.class)
+                && !stateHandler.isState(StateIdleAnimal.class))
             {
-                Sfx.VALDYN_HURT.play();
-                if (!stateHandler.isState(StateGripIdle.class)
-                    && !stateHandler.isState(StateGripSoar.class)
-                    && !stateHandler.isState(StateLianaSoar.class)
-                    && !stateHandler.isState(StateLianaIdle.class)
-                    && !stateHandler.isState(StateLianaWalk.class)
-                    && !stateHandler.isState(StateAttackGrip.class)
-                    && !stateHandler.isState(StateIdleAnimal.class))
-                {
-                    stateHandler.changeState(StateHurt.class);
-                }
-                hurtJump();
+                stateHandler.changeState(StateHurt.class);
             }
+            hurtJump();
         }
         recover.restart();
     }

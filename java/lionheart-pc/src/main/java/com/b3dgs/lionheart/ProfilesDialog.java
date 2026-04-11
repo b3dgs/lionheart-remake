@@ -82,8 +82,8 @@ public class ProfilesDialog extends JDialog
     {
         super(owner, Dialog.ModalityType.DOCUMENT_MODAL);
 
-        final Collection<DeviceControllerConfig> configs;
-        configs = DeviceControllerConfig.imports(new Services(), Medias.create(Constant.INPUT_FILE_DEFAULT));
+        final Collection<DeviceControllerConfig> configs = DeviceControllerConfig.imports(new Services(),
+                                                                                          Medias.create(Constant.INPUT_FILE_DEFAULT));
         for (final DeviceControllerConfig config : configs)
         {
             this.configs.put(Integer.valueOf(config.getIndex()), config);

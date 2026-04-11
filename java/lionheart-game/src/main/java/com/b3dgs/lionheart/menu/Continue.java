@@ -221,17 +221,10 @@ public class Continue extends Sequence
     {
         switch (transition)
         {
-            case IN:
-                updateFadeIn(extrp);
-                break;
-            case OUT:
-                updateFadeOut(extrp);
-                break;
-            case NONE:
-                updateNavigation();
-                break;
-            default:
-                throw new LionEngineException(transition);
+            case IN -> updateFadeIn(extrp);
+            case OUT -> updateFadeOut(extrp);
+            case NONE -> updateNavigation();
+            default -> throw new LionEngineException(transition);
         }
     }
 

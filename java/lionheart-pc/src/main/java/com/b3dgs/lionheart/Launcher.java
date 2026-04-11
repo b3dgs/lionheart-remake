@@ -457,8 +457,14 @@ public final class Launcher
         comboRes.setSelectedItem(new Res(WIDTH.get(), HEIGHT.get()));
         TIPS.add(comboRes);
 
-        final Box boxResolution;
-        boxResolution = createBorderBox(parent, labelResolution, width, labelX, height, labelA, comboRate, labelHz);
+        final Box boxResolution = createBorderBox(parent,
+                                                  labelResolution,
+                                                  width,
+                                                  labelX,
+                                                  height,
+                                                  labelA,
+                                                  comboRate,
+                                                  labelHz);
         createWindowed(boxResolution, comboScale, comboRatio, comboRes, comboRate, width, height);
     }
 

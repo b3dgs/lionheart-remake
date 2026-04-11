@@ -178,19 +178,11 @@ public class MultiplayerDialog extends JDialog
             this.type.set(type);
             switch (type)
             {
-                case SPEEDRUN:
-                    createSpeedrun(panel);
-                    break;
-                case VERSUS:
-                    createBattle(panel);
-                    break;
-                case BATTLE:
-                    createCoop(panel);
-                    break;
-                case STORY:
-                case TRAINING:
-                default:
-                    throw new LionEngineException(type);
+                case SPEEDRUN -> createSpeedrun(panel);
+                case VERSUS -> createBattle(panel);
+                case BATTLE -> createCoop(panel);
+                case STORY, TRAINING -> throw new LionEngineException(type);
+                default -> throw new LionEngineException(type);
             }
             panel.validate();
         });

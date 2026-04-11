@@ -113,16 +113,13 @@ public final class Guard extends FeatureModel implements RoutineUpdate, Recyclab
             started = true;
             startX = transformable.getX();
         }
-        else
+        else if (transformable.getX() > startX + MOVE_MAX)
         {
-            if (transformable.getX() > startX + MOVE_MAX)
-            {
-                transformable.teleportX(startX + MOVE_MAX);
-            }
-            else if (transformable.getX() < startX - MOVE_MIN)
-            {
-                transformable.teleportX(startX - MOVE_MIN);
-            }
+            transformable.teleportX(startX + MOVE_MAX);
+        }
+        else if (transformable.getX() < startX - MOVE_MIN)
+        {
+            transformable.teleportX(startX - MOVE_MIN);
         }
     }
 

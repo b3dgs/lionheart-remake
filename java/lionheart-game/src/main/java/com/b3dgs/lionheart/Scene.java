@@ -93,8 +93,8 @@ public class Scene extends SequenceGame<World>
             Util.saveProgress(config);
         }
 
-        final DeviceController device;
-        device = services.add(DeviceControllerConfig.create(services, Medias.create(Constant.INPUT_FILE_DEFAULT)));
+        final DeviceController device = services.add(DeviceControllerConfig.create(services,
+                                                                                   Medias.create(Constant.INPUT_FILE_DEFAULT)));
         device.setVisible(false);
 
         info = new AppInfo(this::getFps, services);

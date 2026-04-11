@@ -196,16 +196,13 @@ public final class Shooter extends FeatureModel
             {
                 updater = this::updateCheckAnimEnd;
             }
+            else if (config.getFiredDelay() > 0)
+            {
+                updater = this::updateFired;
+            }
             else
             {
-                if (config.getFiredDelay() > 0)
-                {
-                    updater = this::updateFired;
-                }
-                else
-                {
-                    updater = this::updatePrepare;
-                }
+                updater = this::updatePrepare;
             }
         }
     }

@@ -161,15 +161,12 @@ public final class Executioner extends FeatureModel implements RoutineUpdate, Re
                         collidable.setEnabled(true);
                         stateHandler.changeState(StateExecutionerAttackPrepare.class);
                     }
-                    else
+                    else if (target.getFeature(Animatable.class).getAnim().getName().startsWith(Anim.ATTACK)
+                             && target.getFeature(Mirrorable.class).getMirror() != mirrorable.getMirror()
+                             && getPlayerDistance() < DEFENSE_DISTANCE)
                     {
-                        if (target.getFeature(Animatable.class).getAnim().getName().startsWith(Anim.ATTACK)
-                            && target.getFeature(Mirrorable.class).getMirror() != mirrorable.getMirror()
-                            && getPlayerDistance() < DEFENSE_DISTANCE)
-                        {
-                            collidable.setEnabled(false);
-                            stateHandler.changeState(StateExecutionerDefense.class);
-                        }
+                        collidable.setEnabled(false);
+                        stateHandler.changeState(StateExecutionerDefense.class);
                     }
                 }
             }
