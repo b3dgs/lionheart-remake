@@ -49,12 +49,7 @@ jobs:
          if: matrix.os == 'windows-latest'
          env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         run: |
-           mvn clean install sonar:sonar -U -B -P "all,sonar" `
-              -Dsonar.host.url=https://sonarcloud.io `
-              -Dsonar.organization=b3dgs `
-              -Dsonar.token=$env:SONAR_TOKEN `
-              -Dsonar.projectKey=b3dgs_lionheart-remake
+         run: mvn clean install sonar:sonar -U -B -P "all,sonar" -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=b3dgs -Dsonar.token=$env:SONAR_TOKEN -Dsonar.projectKey=b3dgs_lionheart-remake
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
