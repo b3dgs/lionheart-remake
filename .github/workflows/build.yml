@@ -47,17 +47,16 @@ jobs:
 
       -  name: Windows
          if: matrix.os == 'windows-latest'
-         env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         run: |
-            mvn clean install sonar:sonar -U -B -P "all,sonar" `
-               "-Dsonar.host.url=https://sonarcloud.io" `
-               "-Dsonar.organization=b3dgs" `
-               "-Dsonar.token=$env:SONAR_TOKEN" `
-               "-Dsonar.projectKey=b3dgs_lionheart-remake"
+         run: mvn clean install -U -B -Pall
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
+         env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
          run: |
             sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
-            xvfb-run -a mvn clean install -U -B -Pall
+            xvfb-run -a mvn clean install sonar:sonar -U -B -P "all,sonar" \
+               -Dsonar.host.url=https://sonarcloud.io \
+               -Dsonar.organization=b3dgs \
+               -Dsonar.token=$env:SONAR_TOKEN \
+               -Dsonar.projectKey=b3dgs_lionheart-remake
