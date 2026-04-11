@@ -210,7 +210,7 @@ public final class Part1 implements Updatable, Renderable
         if (cameraBack.getX() < BACKGROUND_X_MAX)
         {
             final int x = (int) Math.floor(cameraBack.getX());
-            final double y = height / 2.0 - backs[0].getHeight() / 2.0;
+            final int y = height / 2 - backs[0].getHeight() / 2;
 
             for (int i = 0; i < backs.length; i++)
             {
@@ -237,14 +237,14 @@ public final class Part1 implements Updatable, Renderable
             if (alpha == 255 || alpha < 255 && Double.compare(alphaShade, 255.0) == 0)
             {
                 updateTitleAlpha(alpha);
-                title.setLocation(width / 2.0 - title.getWidth() / 2.0, height / 2.0 - texts[1].getY());
+                title.setLocation(width / 2 - title.getWidth() / 2, height / 2 - texts[1].getY());
                 title.render(g);
             }
 
             if (alphaShade < 255.0)
             {
                 updateTitleShadeAlpha(alpha);
-                titleShade.setLocation(width / 2.0 - titleShade.getWidth() / 2.0, height / 2.0 - texts[1].getY());
+                titleShade.setLocation(width / 2 - titleShade.getWidth() / 2, height / 2 - texts[1].getY());
                 titleShade.render(g);
             }
         }
@@ -305,8 +305,8 @@ public final class Part1 implements Updatable, Renderable
      */
     private void renderScenery(Graphic g, int id, int x)
     {
-        sceneries[id].setLocation(Math.floor(cameraScenery.getViewpointX(x)),
-                                  height - sceneries[id].getHeight() + (BAND_HEIGHT - height) / 2.0);
+        sceneries[id].setLocation((int) Math.floor(cameraScenery.getViewpointX(x)),
+                                  height - sceneries[id].getHeight() + (BAND_HEIGHT - height) / 2);
         if (UtilMath.isBetween(sceneries[id].getX(), -sceneries[id].getWidth(), width))
         {
             sceneries[id].render(g);

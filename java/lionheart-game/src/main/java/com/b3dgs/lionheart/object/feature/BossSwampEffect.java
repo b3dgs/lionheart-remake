@@ -36,7 +36,7 @@ public final class BossSwampEffect extends FeatureModel implements Recyclable
     /** Fly effect speed. */
     static final double EFFECT_SPEED = 0.24;
     /** Fly effect margin. */
-    static final int EFFECT_MARGIN = 5;
+    static final double EFFECT_MARGIN = 5.0;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 

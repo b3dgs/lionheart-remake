@@ -237,13 +237,13 @@ public final class Dragonfly extends FeatureModel implements RoutineUpdate, Coll
                 camera.setLocation(camera.getX(), target.getY() - 64);
             }
 
-            if (target.getX() < camera.getX() + transformable.getWidth() / 10)
+            if (target.getX() < camera.getX() + transformable.getWidth() / 10.0)
             {
-                target.teleportX(camera.getX() + transformable.getWidth() / 10);
+                target.teleportX(camera.getX() + transformable.getWidth() / 10.0);
             }
-            else if (target.getX() > camera.getX() + camera.getWidth() - transformable.getWidth() / 3)
+            else if (target.getX() > camera.getX() + camera.getWidth() - transformable.getWidth() / 3.0)
             {
-                target.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth() / 3);
+                target.teleportX(camera.getX() + camera.getWidth() - transformable.getWidth() / 3.0);
             }
 
             if (playerState.isState(StateIdleDragon.class) || playerState.isState(StateAttackDragon.class))

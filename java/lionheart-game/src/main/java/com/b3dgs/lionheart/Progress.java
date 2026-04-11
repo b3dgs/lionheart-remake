@@ -51,7 +51,7 @@ public class Progress implements Renderable
 
         text.setAlign(Align.CENTER);
         text.setColor(ColorRgba.YELLOW);
-        text.setLocation(width / 2, height - text.getSize() * TEXT_HEIGHT_FACTOR);
+        text.setLocation(width / 2.0, height - text.getSize() * TEXT_HEIGHT_FACTOR);
         text.setText(com.b3dgs.lionengine.Constant.EMPTY_STRING);
 
         bar.setHorizontalReferential(true);

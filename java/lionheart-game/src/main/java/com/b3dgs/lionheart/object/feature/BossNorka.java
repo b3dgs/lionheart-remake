@@ -648,7 +648,7 @@ public final class BossNorka extends FeatureModel implements RoutineUpdate, Recy
         if (side <= 0 && old == walk.getFirst() && animator.getFrame() == walk.getLast()
             || side > 0 && old == walk.getLast() && animator.getFrame() == walk.getFirst())
         {
-            transformable.moveLocationX(1.0, WALK_OFFSET * side);
+            transformable.moveLocationX(1.0, WALK_OFFSET * (double) side);
             walkedCount++;
 
             if (walkedCount > 1)

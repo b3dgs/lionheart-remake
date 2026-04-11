@@ -35,10 +35,10 @@ import com.b3dgs.lionheart.constant.Folder;
 final class ForegroundAirship extends BackgroundAbstract implements Foreground
 {
     private static final double FOREGROUND1_OFFSET_X = -3.35;
-    private static final int FOREGROUND1_OFFSET_Y = -49;
+    private static final double FOREGROUND1_OFFSET_Y = -49.0;
 
     private static final double FOREGROUND2_OFFSET_X = -4.5;
-    private static final int FOREGROUND2_OFFSET_Y = -59;
+    private static final double FOREGROUND2_OFFSET_Y = -59.0;
 
     /** Primary. */
     private final Secondary secondary;

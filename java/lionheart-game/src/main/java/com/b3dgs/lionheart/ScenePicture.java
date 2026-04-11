@@ -283,7 +283,7 @@ public final class ScenePicture extends Sequence
         if (getFadePic() > 0)
         {
             g.setColor(Constant.ALPHAS_BLACK[getFadePic()]);
-            g.drawRect((int) Math.round(picture.getX() - picture.getWidth() / 2),
+            g.drawRect((int) Math.round(picture.getX() - picture.getWidth() / 2.0),
                        (int) Math.round(picture.getY() + picYoffset),
                        picture.getWidth(),
                        picture.getHeight(),

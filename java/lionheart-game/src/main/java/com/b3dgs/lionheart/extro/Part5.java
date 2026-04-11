@@ -147,8 +147,8 @@ public class Part5 extends Sequence
         featurable.addFeature(new DisplayableModel(rasterable));
         return featurable;
     });
-    private final int x = getWidth() / 2 - 2;
-    private final int y = getHeight() / 2 - 54;
+    private final double x = getWidth() / 2.0 - 2;
+    private final double y = getHeight() / 2.0 - 54;
     private final Featurable[] effects =
     {
         spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x, y),

@@ -144,11 +144,11 @@ public final class Rotating extends FeatureModel
 
         if (config.getSpeed() < 0)
         {
-            angleStart = Constant.ANGLE_MAX / 2 + config.getAmplitude();
+            angleStart = Constant.ANGLE_MAX / 2.0 + config.getAmplitude();
         }
         else
         {
-            angleStart = Constant.ANGLE_MAX / 2 - config.getAmplitude();
+            angleStart = Constant.ANGLE_MAX / 2.0 - config.getAmplitude();
         }
         angle = angleStart + config.getOffset();
         angleBack = config.getBack();
@@ -209,11 +209,11 @@ public final class Rotating extends FeatureModel
                 }
                 max = UtilMath.clamp(max, 0.95, 6.5);
 
-                if (angle > Constant.ANGLE_MAX / 2 + config.getAmplitude())
+                if (angle > Constant.ANGLE_MAX / 2.0 + config.getAmplitude())
                 {
                     side = -config.getSpeed();
                 }
-                else if (angle < Constant.ANGLE_MAX / 2 - config.getAmplitude())
+                else if (angle < Constant.ANGLE_MAX / 2.0 - config.getAmplitude())
                 {
                     side = config.getSpeed();
                 }
@@ -255,7 +255,7 @@ public final class Rotating extends FeatureModel
     @Override
     public void recycle()
     {
-        angle = Constant.ANGLE_MAX / 2;
+        angle = Constant.ANGLE_MAX / 2.0;
         angleAcc = 0.0;
         max = 0.95;
     }

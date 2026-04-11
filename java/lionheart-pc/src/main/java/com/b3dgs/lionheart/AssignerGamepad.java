@@ -80,7 +80,10 @@ public final class AssignerGamepad extends AssignController
         running.set(false);
         try
         {
-            latch.await(Constant.THOUSAND, TimeUnit.MILLISECONDS);
+            if (!latch.await(Constant.THOUSAND, TimeUnit.MILLISECONDS))
+            {
+                LOGGER.error("Await timeout!");
+            }
         }
         catch (final InterruptedException exception)
         {

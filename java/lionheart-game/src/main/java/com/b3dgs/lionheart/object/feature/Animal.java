@@ -214,9 +214,9 @@ public final class Animal extends FeatureModel
             camera.setLocationY(target.getY() - 80);
             target.moveLocationX(extrp, speed);
 
-            if (target.getX() < camera.getX() + transformable.getWidth() / 2)
+            if (target.getX() < camera.getX() + transformable.getWidth() / 2.0)
             {
-                target.teleportX(camera.getX() + transformable.getWidth() / 2);
+                target.teleportX(camera.getX() + transformable.getWidth() / 2.0);
             }
             else if (target.getX() > camera.getX() + camera.getWidth() - transformable.getWidth())
             {

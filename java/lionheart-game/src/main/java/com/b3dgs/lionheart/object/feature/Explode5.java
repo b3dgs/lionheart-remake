@@ -96,7 +96,7 @@ public final class Explode5 extends FeatureModel implements RoutineUpdate, Recyc
             phase++;
             tick.restart();
         }
-        else if (phase == 1 && tick.elapsedTime(source.getRate(), OFFSET[OFFSET.length - 1][2] + OFFSET[1][2]))
+        else if (phase == 1 && tick.elapsedTime(source.getRate(), OFFSET[OFFSET.length - 1][2] + (long) OFFSET[1][2]))
         {
             identifiable.destroy();
         }

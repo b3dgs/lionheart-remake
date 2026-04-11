@@ -253,9 +253,9 @@ public class Part2 extends Sequence
     @Override
     public void load()
     {
-        services.add(spawner.spawn(Medias.create(Folder.EXTRO, PART2_FOLDER, VALDYN), getWidth() / 2 + X, Y)
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, PART2_FOLDER, VALDYN), getWidth() / 2.0 + X, Y)
                             .getFeature(Trackable.class));
-        spawner.spawn(Medias.create(Folder.ENTITY, FOLDER_DRAGONFLY, DRAGON_EXTRO), getWidth() / 2 + X, Y);
+        spawner.spawn(Medias.create(Folder.ENTITY, FOLDER_DRAGONFLY, DRAGON_EXTRO), getWidth() / 2.0 + X, Y);
     }
 
     @Override

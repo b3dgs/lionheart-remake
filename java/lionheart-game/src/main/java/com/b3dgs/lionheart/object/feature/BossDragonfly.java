@@ -228,7 +228,7 @@ public final class BossDragonfly extends FeatureModel implements RoutineUpdate, 
         final int height = transformable.getHeight();
 
         spawner.spawn(Medias.create(Folder.EFFECT, "dragonfly", "ExplodeBig.xml"),
-                      transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
+                      transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2.0,
                       transformable.getY() + UtilRandom.getRandomInteger(height));
     }
 

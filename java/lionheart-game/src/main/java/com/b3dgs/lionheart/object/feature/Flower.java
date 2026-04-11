@@ -167,7 +167,7 @@ public final class Flower extends FeatureModel implements RoutineUpdate, Collida
      */
     private void updateFrame()
     {
-        final int margin = (int) Math.round(target.getX() - target.getWidth() / 4 - transformable.getX()) / 16;
+        final int margin = (int) Math.round(target.getX() - target.getWidth() / 4.0 - transformable.getX()) / 16;
         final int frame = UtilMath.clamp(margin, -halfFrames, halfFrames - 1) + halfFrames + 1;
         animatable.setFrame(frame);
         launcher.setOffset(frame * halfFrames - 17, launcher.getOffsetY());

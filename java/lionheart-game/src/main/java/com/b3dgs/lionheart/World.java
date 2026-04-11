@@ -1561,7 +1561,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
     @Override
     public void playMusic(Media media)
     {
-        musicToPlay.offer(() ->
+        if (!musicToPlay.offer(() ->
         {
             synchronized (musicTask)
             {
@@ -1578,7 +1578,10 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     music.play();
                 }
             }
-        });
+        }))
+        {
+            LOGGER.warn("Unable to play music", media);
+        }
     }
 
     @Override
@@ -1654,12 +1657,12 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 }
                 splitHud[i].update(extrp);
                 sequencer.setSplit(i + 1);
-                rasterbar.setRasterbarY((int) splitCamera[i].getY(), mapWater.getCurrent() - 2);
+                rasterbar.setRasterbarY((int) splitCamera[i].getY(), (int) mapWater.getCurrent() - 2);
             }
         }
         hud.update(extrp);
         sequencer.setSplit(0);
-        rasterbar.setRasterbarY((int) camera.getY(), mapWater.getCurrent() - 2);
+        rasterbar.setRasterbarY((int) camera.getY(), (int) mapWater.getCurrent() - 2);
 
         if (debug)
         {

@@ -217,7 +217,9 @@ public class Part1 extends Sequence
                                               PART1_FOLDER,
                                               UtilRandom.getRandomBoolean() ? EXPLODE_LITTLE : EXPLODE_BIG);
             final double x = UtilRandom.getRandomInteger(width);
-            final double y = UtilRandom.getRandomInteger((int) (height * EXPLODE_Y_SCALE)) + height + bandHeight;
+            final double y = (double) UtilRandom.getRandomInteger((int) (height * EXPLODE_Y_SCALE))
+                             + height
+                             + bandHeight;
             final int citadelOffsetY = citadel.getHeight() / 3;
             spawner.spawn(media, citadel.getX() + x, y - citadel.getY() + citadelOffsetY - EXPLODE_Y_OFFSET);
         }

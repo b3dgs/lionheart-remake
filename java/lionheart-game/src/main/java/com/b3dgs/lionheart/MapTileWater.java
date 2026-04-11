@@ -49,7 +49,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
     /** Tiles water. */
     private SpriteTiled[] tiles;
     /** The water height. */
-    private int waterHeight;
+    private double waterHeight;
     /** Disabled. */
     private boolean disabled;
 
@@ -127,7 +127,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
      * 
      * @param waterHeight The water height.
      */
-    public void setWaterHeight(int waterHeight)
+    public void setWaterHeight(double waterHeight)
     {
         this.waterHeight = waterHeight;
 
@@ -146,7 +146,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
      * 
      * @return The current water level.
      */
-    public int getCurrent()
+    public double getCurrent()
     {
         return waterHeight;
     }
@@ -166,7 +166,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
             final int vtx = map.getInTileX(viewer);
             final int vtx2 = vtx + (int) Math.ceil(viewer.getWidth() / (double) map.getTileWidth()) + 1;
             int ty;
-            final int max = (int) Math.floor((waterHeight - 2) / (double) map.getTileHeight());
+            final int max = (int) Math.floor((waterHeight - 2) / map.getTileHeight());
 
             for (ty = 0; ty < max; ty++)
             {
@@ -185,7 +185,7 @@ public class MapTileWater extends FeaturableAbstract implements Renderable
                 }
             }
 
-            final SpriteTiled water = tiles[(waterHeight - 2) % map.getTileHeight()];
+            final SpriteTiled water = tiles[((int) waterHeight - 2) % map.getTileHeight()];
             for (int tx = vtx; tx < vtx2; tx++)
             {
                 final Tile tile = map.getTile(tx, ty);

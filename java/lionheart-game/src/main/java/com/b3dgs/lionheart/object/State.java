@@ -349,12 +349,12 @@ public abstract class State extends StateHelper<EntityModel>
             collideX.set(true);
             if (by.getName().contains(CollisionName.LEFT_VERTICAL))
             {
-                transformable.teleportX(other.getX() + by.getOffsetX() - with.getWidth() / 2);
+                transformable.teleportX(other.getX() + by.getOffsetX() - with.getWidth() / 2.0);
                 collideXright.set(true);
             }
             if (by.getName().contains(CollisionName.RIGHT_VERTICAL))
             {
-                transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2);
+                transformable.teleportX(other.getX() + by.getOffsetX() + with.getWidth() / 2.0);
                 collideXleft.set(true);
             }
             movement.zero();

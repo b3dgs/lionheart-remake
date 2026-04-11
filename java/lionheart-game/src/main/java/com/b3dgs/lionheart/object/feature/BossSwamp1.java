@@ -57,8 +57,8 @@ import com.b3dgs.lionheart.object.EntityModel;
 @FeatureInterface
 public final class BossSwamp1 extends FeatureModel implements RoutineUpdate, Recyclable
 {
-    private static final int MAX_Y = 220;
-    private static final int TOP_Y = 230;
+    private static final double MAX_Y = 220;
+    private static final double TOP_Y = 230;
     private static final int MAX_AWAY_Y = 388;
     private static final double MOVE_X = 1.1;
     private static final int BOWL_MARGIN = 48;

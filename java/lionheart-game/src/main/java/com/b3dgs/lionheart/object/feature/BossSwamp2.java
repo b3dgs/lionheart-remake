@@ -240,7 +240,7 @@ public final class BossSwamp2 extends FeatureModel implements RoutineUpdate, Rou
      */
     private void followHorizontal()
     {
-        if (transformable.getX() < target.getX() + transformable.getWidth() / 2 - MOVE_BACK_X_MARGIN)
+        if (transformable.getX() < target.getX() + transformable.getWidth() / 2.0 - MOVE_BACK_X_MARGIN)
         {
             if (!movedX)
             {
@@ -248,7 +248,7 @@ public final class BossSwamp2 extends FeatureModel implements RoutineUpdate, Rou
             }
             effect.setEffectX(BossSwampEffect.EFFECT_SPEED);
         }
-        else if (transformable.getX() > target.getX() + transformable.getWidth() / 2 + MOVE_BACK_X_MARGIN)
+        else if (transformable.getX() > target.getX() + transformable.getWidth() / 2.0 + MOVE_BACK_X_MARGIN)
         {
             if (!movedX)
             {
@@ -491,7 +491,7 @@ public final class BossSwamp2 extends FeatureModel implements RoutineUpdate, Rou
         final int height = transformable.getHeight() / 2;
 
         spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeBoss.xml"),
-                      transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2,
+                      transformable.getX() + UtilRandom.getRandomInteger(width) - width / 2.0,
                       transformable.getY() + UtilRandom.getRandomInteger(height));
     }
 

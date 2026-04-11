@@ -79,7 +79,7 @@ public class Continue extends Sequence
     private static final int MAIN_Y_OFFSET = -336;
 
     private static final int VALDYN_FRAME_OFFSET_X = -8;
-    private static final int VALDYN_OFFSET_Y = 242;
+    private static final double VALDYN_OFFSET_Y = 242.0;
 
     private final SpriteFont textWhite = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "fontmenu.png"),
                                                                  Medias.create(Folder.SPRITE, "fontmenu.xml"),

@@ -63,7 +63,7 @@ public final class Dragon extends FeatureModel implements RoutineUpdate, Recycla
     private static final int TONGUE_COUNT = 7;
     private static final int TONGUE_OFFSET_X = 8;
     private static final int TONGUE_OFFSET_Y = 23;
-    private static final int TONGUE_RETRACT_DELAY_MS = 40;
+    private static final long TONGUE_RETRACT_DELAY_MS = 40L;
     private static final int THROW_DISTANCE = 160;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);

@@ -152,7 +152,7 @@ public final class BossSwampEgg extends FeatureModel implements RoutineUpdate, T
         {
             spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeLittle.xml"),
                           transformable.getX(),
-                          transformable.getY() + transformable.getHeight() / 2)
+                          transformable.getY() + transformable.getHeight() / 2.0)
                    .getFeature(Rasterable.class)
                    .setAnimOffset2(offset);
 

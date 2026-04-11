@@ -70,15 +70,17 @@ public final class MapLimit extends FeatureModel implements RoutineUpdate
     public void update(double extrp)
     {
         final Camera camera = model.getCamera();
+        final double min = 2.0;
+        final double max = map.getWidth() - (double) map.getTileWidth();
 
-        if (transformable.getX() < 2)
+        if (transformable.getX() < min)
         {
-            transformable.teleportX(2);
+            transformable.teleportX(min);
             model.getMovement().zero();
         }
-        else if (transformable.getX() > map.getWidth() - map.getTileWidth())
+        else if (transformable.getX() > max)
         {
-            transformable.teleportX(map.getWidth() - map.getTileWidth());
+            transformable.teleportX(max);
             model.getMovement().zero();
         }
         if (networkable.isOwner() && transformable.getX() < camera.getX())

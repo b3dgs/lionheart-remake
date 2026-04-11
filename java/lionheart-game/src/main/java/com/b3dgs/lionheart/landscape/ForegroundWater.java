@@ -457,11 +457,11 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
             }
             if (enabled)
             {
-                mapWater.setWaterHeight((int) water.getTotalHeight());
+                mapWater.setWaterHeight(water.getTotalHeight());
             }
             else
             {
-                mapWater.setWaterHeight(-1);
+                mapWater.setWaterHeight(-1.0);
             }
 
             py = y;

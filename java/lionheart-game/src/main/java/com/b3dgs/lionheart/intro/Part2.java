@@ -215,7 +215,7 @@ public final class Part2 implements Updatable, Renderable
         z[0] = Z_DOOR_INIT;
         for (int i = 1; i < z.length; i++)
         {
-            z[i] = i * Z_PILLAR_INDEX_MULT + Z_PILLAR_INIT;
+            z[i] = i * (double) Z_PILLAR_INDEX_MULT + Z_PILLAR_INIT;
         }
     }
 
