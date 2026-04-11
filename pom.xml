@@ -34,7 +34,7 @@
         <radial.base-package>com.b3dgs.lionheart</radial.base-package>
         <checkstyle.skip>true</checkstyle.skip>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ${basedir}/../coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+            ${basedir}/../../coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
         <dependency>
