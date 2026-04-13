@@ -331,7 +331,7 @@ public class Part1 extends Sequence
     private void updateCitadelFall(double extrp)
     {
         citadel.setFrame(2);
-        citadelY = UtilMath.clamp(citadelY + citadelYacc * extrp, 0.0, getHeight() + citadel.getHeight());
+        citadelY = UtilMath.clamp(citadelY + citadelYacc * extrp, 0.0, getHeight() + (double) citadel.getHeight());
         citadelYacc = UtilMath.clamp(citadelYacc + CITADEL_FALL_SPEED * extrp, 0.0, CITADEL_ACC_MAX);
         citadel.setLocation(CITADEL_X, bandHeight + citadelY);
     }
