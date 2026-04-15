@@ -115,7 +115,16 @@
             </properties>
         </profile>
         <profile>
-            <id>sign</id>
+            <id>release</id>
+            <modules>
+                <module>java/lionheart-pc</module>
+                <module>releng/aggregator</module>
+            </modules>
+            <properties>
+                <lionheart-pc-excludes>b3dgs-buildtools</lionheart-pc-excludes>
+                <maven.test.skip>true</maven.test.skip>
+                <skipTests>true</skipTests>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

@@ -1,0 +1,103 @@
+name: Delivery
+
+on:
+   workflow_dispatch:
+      inputs:
+         target:
+            required: true
+            type: choice
+            options:
+            - win32-x86
+            - win32-x86-64
+            - linux-x86-64
+            - linux-x86-32
+            - macos-x86_64
+            - macos-aarch64
+            - android-arm
+
+jobs:
+   delivery:
+      name: Delivery ${{ inputs.target }}
+      runs-on: ubuntu-latest
+
+      steps:
+
+      -  name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      -  name: Setup config
+         shell: pwsh
+         run: |
+            $map = @{
+              'win32-x86'     = @{ arch='x86';     java='17'; dist='temurin' }
+              'win32-x86-64'  = @{ arch='x64';     java='25'; dist='temurin' }
+              'linux-x86-64'  = @{ arch='x64';     java='25'; dist='temurin' }
+              'linux-x86-32'  = @{ arch='x86';     java='17'; dist='zulu' }
+              'macos-x86_64'  = @{ arch='x64';     java='25'; dist='temurin' }
+              'macos-aarch64' = @{ arch='aarch64'; java='25'; dist='temurin' }
+              'android-arm'   = @{ arch='arm';     java='17'; dist='temurin' }
+            }
+
+            $t = "${{ inputs.target }}"
+            $cfg = $map[$t]
+
+            if (-not $cfg) { throw "Unknown target $t" }
+
+            "ARCH=$($cfg.arch)" >> $env:GITHUB_ENV
+            "JAVA_VERSION=$($cfg.java)" >> $env:GITHUB_ENV
+            "JAVA_DIST=$($cfg.dist)" >> $env:GITHUB_ENV
+
+      -  name: Cache Maven
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: ~/.m2/repository
+            key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+
+      -  name: Cache Gradle
+         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+         with:
+            path: |
+               ~/.gradle/caches
+               ~/.gradle/wrapper
+            key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
+
+      -  name: Setup Java
+         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+         with:
+            distribution: ${{ env.JAVA_DIST }}
+            java-version: ${{ env.JAVA_VERSION }}
+
+      -  name: Set up Maven
+         uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0
+         with:
+            maven-version: 3.9.14
+
+      -  name: Build
+         shell: pwsh
+         env:
+            GPG_B64: ${{ secrets.GPG_B64 }}
+            GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+            KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+            KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+            KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+         run: |
+            $params = @{
+              Platform      = "${{ inputs.target }}"
+              Architecture  = $env:ARCH
+              GpgB64        = $env:GPG_B64
+              GpgPassphrase = $env:GPG_PASSPHRASE
+              KeystoreB64   = $env:KEYSTORE_B64
+              KeystoreAlias = $env:KEYSTORE_ALIAS
+              KeystorePass  = $env:KEYSTORE_PASS
+            }
+            $script = Join-Path $PWD "scripts/delivery.ps1"
+            & $script @params
+
+      -  name: FTP Deploy
+         uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
+         with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            local-dir: build/
+            server-dir: /build/

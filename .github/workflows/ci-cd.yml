@@ -1,4 +1,4 @@
-name: Build
+name: CI/CD
 
 on:
    push:
@@ -21,10 +21,10 @@ jobs:
       env:
          AUDIODEV: 'null'
       steps:
+
       -  name: Checkout
          uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
          with:
-            ref: master
             fetch-depth: 1
             fetch-tags: false
 
@@ -32,30 +32,26 @@ jobs:
          uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
          with:
             path: ~/.m2/repository
-            key: maven-${{ matrix.os }}-${{ hashFiles('**/pom.xml') }}
-            restore-keys: |
-               maven-${{ matrix.os }}-
+            key: maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: maven-
 
       -  name: Java
          uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
          with:
-            java-version: 17
+            java-version: 25
             distribution: temurin
-            architecture: x64
-            mvn-toolchain-id: |
-               JavaSE-17
 
       -  name: Windows
          if: matrix.os == 'windows-latest'
-         run: mvn clean install -U -B -Pall
+         run: mvn test -B -Pall
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
          env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         run: |
+         run: |-
             sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
-            xvfb-run -a mvn clean install sonar:sonar -U -B -P "all,sonar" \
+            xvfb-run -a mvn verify sonar:sonar -B -P "all,sonar" \
                -Dsonar.host.url=https://sonarcloud.io \
                -Dsonar.organization=b3dgs \
                -Dsonar.token=$SONAR_TOKEN \
