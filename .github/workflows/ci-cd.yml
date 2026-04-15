@@ -43,7 +43,7 @@ jobs:
 
       -  name: Windows
          if: matrix.os == 'windows-latest'
-         run: mvn test -B -Pall -Djdk.xml.totalEntitySizeLimit=10000000 -Djdk.xml.maxGeneralEntitySizeLimit=10000000
+         run: mvn test -B -Pall "-Djdk.xml.totalEntitySizeLimit=10000000" "-Djdk.xml.maxGeneralEntitySizeLimit=10000000"
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
