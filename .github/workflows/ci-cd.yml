@@ -43,7 +43,7 @@ jobs:
 
       -  name: Windows
          if: matrix.os == 'windows-latest'
-         run: mvn test -B -Pall
+         run: mvn test -B -Pall -Djdk.xml.totalEntitySizeLimit=10000000 -Djdk.xml.maxGeneralEntitySizeLimit=10000000
 
       -  name: Linux
          if: matrix.os == 'ubuntu-latest'
@@ -52,6 +52,8 @@ jobs:
          run: |-
             sudo apt-get update && sudo apt-get install -y xvfb libasound2-dev alsa-utils
             xvfb-run -a mvn verify sonar:sonar -B -P "all,sonar" \
+               -Djdk.xml.totalEntitySizeLimit=10000000 \
+               -Djdk.xml.maxGeneralEntitySizeLimit=10000000 \
                -Dsonar.host.url=https://sonarcloud.io \
                -Dsonar.organization=b3dgs \
                -Dsonar.token=$SONAR_TOKEN \
