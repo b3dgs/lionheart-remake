@@ -36,7 +36,7 @@ function Invoke-BuildApp ([hashtable]$ctx) {
       '--input',         $inputDir
       '--main-jar',      "lionheart-pc-$($ctx.AppVersion).jar"
       '--main-class',    'com.b3dgs.lionheart.Main'
-      '--java-options',  $splash
+#      '--java-options',  $splash
       '--icon',          $icon
       '--runtime-image', $jre
       '--dest',          (Join-Path $ctx.Root "build")
