@@ -81,6 +81,7 @@ jobs:
             with:
                distribution: ${{ env.JAVA_DIST }}
                java-version: ${{ env.JAVA_VERSION }}
+               architecture: ${{ env:ARCH }}
 
          -  name: Set up Maven
             uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0
