@@ -31,7 +31,7 @@ jobs:
          shell: pwsh
          run: |
             $map = [ordered]@{
-              'win32-x86'     = @{ os = 'windows-latest'; arch = 'x86';     java_version = '17'; java_dist = 'temurin' }
+              'win32-x86'     = @{ os = 'windows-latest'; arch = 'x86';     java_version = '17'; java_dist = 'zulu' }
               'win32-x86-64'  = @{ os = 'windows-latest'; arch = 'x64';     java_version = '25'; java_dist = 'temurin' }
               'linux-x86-64'  = @{ os = 'ubuntu-latest';  arch = 'x64';     java_version = '25'; java_dist = 'temurin' }
               'linux-x86-32'  = @{ os = 'ubuntu-latest';  arch = 'x86';     java_version = '17'; java_dist = 'zulu' }
