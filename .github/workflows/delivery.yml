@@ -88,6 +88,15 @@ jobs:
             with:
                maven-version: 3.9.14
 
+         -  name: Install WiX 3.14
+            if: runner.os == 'Windows' && env.ARCH == 'x86'
+            shell: pwsh
+            run: |
+              Invoke-WebRequest https://github.com/wixtoolset/wix3/releases/download/wix3141rtm/wix314-binaries.zip -OutFile wix.zip
+              Expand-Archive wix.zip -DestinationPath wix
+              echo "WIX=$(pwd)/wix" >> $env:GITHUB_ENV
+              $env:PATH="$env:WIX;$env:PATH"
+
          -  name: Build
             shell: pwsh
             env:
