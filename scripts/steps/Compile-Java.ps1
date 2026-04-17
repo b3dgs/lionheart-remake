@@ -24,14 +24,26 @@ function Invoke-CompileJava ([hashtable]$ctx) {
   Write-Host "  Keystore: $keystore"
 
   # ── Maven ─────────────────────────────────────────────────────────────────
-  $profile = if ($ctx.Platform -eq 'android-arm') { 'game' } else { 'release' }
+  $platformProfileMap = @{
+    "win32-x86"    = "windows-x86"
+    "win32-x86-64" = "windows"
+    "linux-x86-64" = "linux"
+    "linux-x86-32" = "linux"
+    "macos-x86-64" = "macos"
+    "macos-aarch64" = "macos-arm64"
+  }
+
+  $profiles = @(
+    if ($ctx.Platform -eq 'android-arm') { 'game' } else { 'release' }
+    $platformProfileMap[$ctx.Platform]
+  ) | Where-Object { $_ }
 
   $mvnArgs = @(
     'clean', 'package',
     '-Djdk.xml.totalEntitySizeLimit=10000000',
     '-Djdk.xml.maxGeneralEntitySizeLimit=10000000',
     '-U', '-B',
-    "-P$profile",
+    "-P$($profiles -join ',')",
     "-Dkeystore=$keystore",
     '-Dstoretype=PKCS12',
     "-Dkeystore.alias=$($ctx.KeystoreAlias)",

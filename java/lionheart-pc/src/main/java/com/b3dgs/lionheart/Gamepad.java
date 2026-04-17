@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -30,55 +29,20 @@ import java.util.function.Supplier;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWGamepadState;
 import org.lwjgl.glfw.GLFWJoystickCallback;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.InputDeviceListener;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.ListenableModel;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Timing;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
-import com.b3dgs.lionengine.UtilStream;
 
 /**
  * Gamepad handler device.
  */
 public class Gamepad implements InputDevice
 {
-    /** Logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Gamepad.class);
-
-    /**
-     * Load library.
-     */
-    static
-    {
-        try
-        {
-            if (System.getProperty("os.name", Constant.EMPTY_STRING).toLowerCase(Locale.ENGLISH).contains("win"))
-            {
-                final String arch;
-                if (com.sun.jna.Native.POINTER_SIZE == 4)
-                {
-                    arch = "32";
-                }
-                else
-                {
-                    arch = "64";
-                }
-                System.load(UtilStream.getCopy(Medias.create(arch, "libusb-1.0.dll")).getAbsolutePath());
-            }
-        }
-        catch (final Throwable throwable) // CHECKSTYLE IGNORE LINE: IllegalCatch|TrailingComment
-        {
-            LOGGER.error("gamepad error", throwable);
-        }
-    }
-
     /** Push listener. */
     private final Map<Integer, ListenableModel<InputDeviceListener>> listeners = new ConcurrentHashMap<>();
     /** Id lists. */

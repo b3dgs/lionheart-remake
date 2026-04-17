@@ -14,27 +14,22 @@
     <name>Lionheart Remake PC</name>
     <properties>
         <jna.version>5.18.1</jna.version>
-        <lwjgl.version>3.3.6</lwjgl.version>
-        <log4j2.version>2.25.4</log4j2.version>
+        <lwjgl.version>3.4.1</lwjgl.version>
         <checkstyle.skip>true</checkstyle.skip>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ${basedir}/../../coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+            ${basedir}/../../coverage/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+        <excludes.packages>
+            darwin-aarch64/,darwin-x86-64/,linux-x86/,linux-x86-64/,win32-x86/,
+            com/sun/jna/darwin-x86-64/,com/sun/jna/linux-x86/,com/sun/jna/linux-x86-64/,com/sun/jna/linux-loongarch64/,
+            com/sun/jna/win32-x86/,org/lwjgl/linux/,org/lwjgl/macosx/
+        </excludes.packages>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <version>${log4j2.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.b3dgs.lionengine</groupId>
@@ -65,30 +60,18 @@
             <groupId>com.b3dgs.lionheart</groupId>
             <artifactId>lionheart-game</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
             <version>${lwjgl.version}</version>
-            <classifier>natives-windows</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-            <version>${lwjgl.version}</version>
-            <classifier>natives-windows-x86</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-            <version>${lwjgl.version}</version>
-            <classifier>natives-linux</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-            <version>${lwjgl.version}</version>
-            <classifier>natives-macos</classifier>
+            <classifier>natives-${platform.arch}</classifier>
         </dependency>
         <dependency>
             <groupId>org.lwjgl</groupId>
@@ -99,25 +82,7 @@
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-glfw</artifactId>
             <version>${lwjgl.version}</version>
-            <classifier>natives-windows</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-glfw</artifactId>
-            <version>${lwjgl.version}</version>
-            <classifier>natives-windows-x86</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-glfw</artifactId>
-            <version>${lwjgl.version}</version>
-            <classifier>natives-linux</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-glfw</artifactId>
-            <version>${lwjgl.version}</version>
-            <classifier>natives-macos</classifier>
+            <classifier>natives-${platform.arch}</classifier>
         </dependency>
     </dependencies>
     <build>
@@ -157,18 +122,15 @@
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <excludeArtifactIds>${lionheart-pc-excludes}</excludeArtifactIds>
                             <excludeGroupIds>
-                                org.apiguardian,org.hamcrest,org.opentest4j,org.junit,junit</excludeGroupIds>
+                                org.apiguardian,org.hamcrest,org.opentest4j,org.junit,junit
+                            </excludeGroupIds>
                             <excludes>
-                                armeabi-v7a/,arm64-v8a/,com/sun/jna/freebsd*/,com/sun/jna/openbsd*/,com/sun/jna/sunos*/,com/sun/jna/android*/,com/sun/jna/*ppc*/,com/sun/jna/*arm*/,com/sun/jna/*aarch64/,com/sun/jna/sunos-sparc*/,com/sun/jna/linux-s390x/,com/sun/jna/linux-riscv64/,com/sun/jna/linux-mips64el/,
-                                com/badlogic/gdx.gwt.xml,com/badlogic/gdx/assets/,com/badlogic/gdx/audio/,com/badlogic/gdx/files/,com/badlogic/gdx/graphics/,com/badlogic/gdx/maps/,com/badlogic/gdx/net/,com/badlogic/gdx/scenes/,
-                                com/badlogic/gdx/Net**,com/badlogic/gdx/Graphics**,com/badlogic/gdx/Application**,com/badlogic/gdx/Audio**,com/badlogic/gdx/Input**,com/badlogic/gdx/Screen**,com/badlogic/gdx/Files**,com/badlogic/gdx/Game**,com/badlogic/gdx/Lifecycle**,com/badlogic/gdx/Preferences**,com/badlogic/gdx/Version**,
-                                com/badlogic/gdx/jnigen/resources/,com/badlogic/gdx/jnigen/test/,com/badlogic/gdx/utils/async/,com/badlogic/gdx/utils/compression/,com/badlogic/gdx/utils/reflect/,com/badlogic/gdx/utils/viewport/,
-                                com/badlogic/gdx/utils/arial*,com/badlogic/gdx/utils/B*,com/badlogic/gdx/utils/C*,com/badlogic/gdx/utils/D*,com/badlogic/gdx/utils/E*,com/badlogic/gdx/utils/F*,com/badlogic/gdx/utils/H*,com/badlogic/gdx/utils/J*,com/badlogic/gdx/utils/K*,com/badlogic/gdx/utils/L*,com/badlogic/gdx/utils/M*,com/badlogic/gdx/utils/N*,com/badlogic/gdx/utils/O*,com/badlogic/gdx/utils/P*,com/badlogic/gdx/utils/Q*,com/badlogic/gdx/utils/R*,com/badlogic/gdx/utils/S*,com/badlogic/gdx/utils/T*,com/badlogic/gdx/utils/U*,com/badlogic/gdx/utils/V*,com/badlogic/gdx/utils/W*,com/badlogic/gdx/utils/X*,com/badlogic/gdx/utils/Y*,com/badlogic/gdx/utils/Z*,
-                                com/github/,
-                                com/badlogic/gdx/controllers/desktop/,
-                                com/badlogic/gdx/controllers/lwjgl3/,
-                                com/badlogic/gdx/jnigen/BuildExecutorFixed.class.class,
-                                com/badlogic/gdx/jnigen/BuildExecutorFixed$1.class, </excludes>
+                                armeabi-v7a/,arm64-v8a/,com/sun/jna/freebsd*/,com/sun/jna/openbsd*/,com/sun/jna/sunos*/,
+                                com/sun/jna/android*/,com/sun/jna/*ppc*/,com/sun/jna/*arm*/,com/sun/jna/*aarch64/,
+                                com/sun/jna/sunos-sparc*/,com/sun/jna/linux-s390x/,com/sun/jna/linux-riscv64/,
+                                com/sun/jna/linux-mips64el/,com/sun/jna/dragonflybsd-x86-64,
+                                org/lwjgl/freebsd/,META-INF/versions/,${excludes.packages}
+                            </excludes>
                         </configuration>
                     </execution>
                     <execution>
@@ -185,4 +147,51 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>win32-x86-64</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <platform.arch>windows</platform.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>win32-x86</id>
+            <properties>
+                <platform.arch>windows-x86</platform.arch>
+                <excludes.packages>
+                    darwin-aarch64/,darwin-x86-64/,linux-x86/,linux-x86-64/,win32-x86-64/,
+                    com/sun/jna/darwin-x86-64/,com/sun/jna/linux-x86/,com/sun/jna/linux-x86-64/,
+                    com/sun/jna/linux-loongarch64/, com/sun/jna/win32-x86-64/,
+                    org/lwjgl/linux/,org/lwjgl/macosx/
+                </excludes.packages>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <properties>
+                <platform.arch>linux</platform.arch>
+                <excludes.packages>
+                    darwin-aarch64/,darwin-x86-64/,win32-x86/,win32-x86-64/,
+                    com/sun/jna/darwin-x86-64/,
+                    com/sun/jna/win32-x86/,com/sun/jna/win32-x86-64/,
+                    org/lwjgl/windows/,org/lwjgl/macosx/
+                </excludes.packages>
+            </properties>
+        </profile>
+        <profile>
+            <id>macos</id>
+            <properties>
+                <platform.arch>macos</platform.arch>
+                <excludes.packages>
+                    linux-x86/,linux-x86-64/,win32-x86-64/,
+                    com/sun/jna/linux-x86/,com/sun/jna/linux-x86-64/,com/sun/jna/linux-loongarch64/,
+                    com/sun/jna/win32-x86/,com/sun/jna/win32-x86-64/,
+                    org/lwjgl/windows/,org/lwjgl/linux/
+                </excludes.packages>
+            </properties>
+        </profile>
+    </profiles>
 </project>
