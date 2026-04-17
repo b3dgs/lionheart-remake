@@ -37,8 +37,8 @@ import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionengine.graphic.engine.SourceResolutionDelegate;
 import com.b3dgs.lionengine.helper.DeviceControllerConfig;
 import com.b3dgs.lionengine.io.DeviceController;
-import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Constant;
+import com.b3dgs.lionheart.Main;
 import com.b3dgs.lionheart.Settings;
 import com.b3dgs.lionheart.Util;
 
@@ -55,7 +55,7 @@ final class StoriesTest
     {
         if (!Engine.isStarted())
         {
-            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, Main.class);
             AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         }
     }

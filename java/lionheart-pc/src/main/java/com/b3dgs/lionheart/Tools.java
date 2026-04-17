@@ -20,11 +20,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -55,6 +65,7 @@ import com.b3dgs.lionheart.object.feature.Underwater;
  */
 public final class Tools
 {
+    private static final String LOG_FOLDER_NAME = Constant.PROGRAM_NAME.toLowerCase(Locale.ENGLISH).replace(' ', '_');
     private static final String BLANK = com.b3dgs.lionengine.Constant.EMPTY_STRING;
     private static final String PNG = ".png";
     private static final String XML = Factory.FILE_DATA_DOT_EXTENSION;
@@ -562,6 +573,84 @@ public final class Tools
         final ImageBuffer[] rasters = Graphics.getRasterBufferOffset(moon, palette, raster, 1);
 
         Graphics.generateTileset(rasters, Medias.create("moon_raster.png"));
+    }
+
+    /**
+     * Init logging engine.
+     */
+    public static void initLog()
+    {
+        try
+        {
+            final Path logDir = getLogDir();
+            Files.createDirectories(logDir);
+
+            LogManager.getLogManager().reset();
+
+            final String pattern = logDir.resolve(LOG_FOLDER_NAME + "-%g.log").toString();
+
+            final FileHandler fileHandler = new FileHandler(pattern, 2_000_000, 10, true);
+            fileHandler.setLevel(Level.ALL);
+            fileHandler.setFormatter(createFormatter());
+
+            final ConsoleHandler console = new ConsoleHandler();
+            console.setFormatter(createFormatter());
+            console.setLevel(Level.ALL);
+
+            final java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+            root.addHandler(console);
+            root.addHandler(fileHandler);
+            root.setLevel(Level.ALL);
+
+            enableLog("com.b3dgs", fileHandler, console);
+        }
+        catch (@SuppressWarnings("unused") final Throwable exception)
+        {
+            // Skip
+        }
+    }
+
+    private static void enableLog(String name, Handler... handlers)
+    {
+        for (final Handler handler : handlers)
+        {
+            handler.setFilter(record -> record.getLoggerName().startsWith(name));
+        }
+    }
+
+    private static Formatter createFormatter()
+    {
+        return new Formatter()
+        {
+            @Override
+            public String format(LogRecord r)
+            {
+                return String.format("%1$tF %1$tT.%1$tL %2$s %3$s%n",
+                                     Long.valueOf(r.getMillis()),
+                                     r.getLevel(),
+                                     r.getMessage());
+            }
+        };
+    }
+
+    private static Path getLogDir()
+    {
+        final String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win"))
+        {
+            final String appData = System.getenv("APPDATA");
+            return Path.of(appData, LOG_FOLDER_NAME, "log");
+        }
+
+        if (os.contains("mac"))
+        {
+            final String home = System.getProperty("user.home");
+            return Path.of(home, "Library", "Logs", LOG_FOLDER_NAME);
+        }
+
+        final String home = System.getProperty("user.home");
+        return Path.of(home, "." + LOG_FOLDER_NAME, "log");
     }
 
     /**

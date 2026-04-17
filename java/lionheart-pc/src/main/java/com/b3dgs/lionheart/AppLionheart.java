@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import com.b3dgs.lionengine.Check;
 import com.b3dgs.lionengine.Config;
-import com.b3dgs.lionengine.Engine;
 import com.b3dgs.lionengine.InputDevice;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Media;
@@ -43,7 +42,6 @@ import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.audio.AudioFactory;
 import com.b3dgs.lionengine.audio.sc68.Sc68Format;
 import com.b3dgs.lionengine.audio.wav.WavFormat;
-import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
@@ -54,7 +52,7 @@ import com.b3dgs.lionheart.constant.Folder;
 /**
  * Program starts here.
  */
-public final class AppLionheart
+final class AppLionheart
 {
     private static final String ARG_SETTINGS = "-settings";
     private static final String ARG_GAME = "-game";
@@ -93,15 +91,8 @@ public final class AppLionheart
      * 
      * @param args The arguments.
      */
-    public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
+    static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
-        Tools.disableAutoScale();
-
-        if (!Engine.isStarted())
-        {
-            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
-        }
-
         Tools.prepareSettingsCustom();
         Tools.prepareInputCustom();
 

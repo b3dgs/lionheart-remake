@@ -33,10 +33,10 @@ import com.b3dgs.lionengine.audio.AudioVoidFormat;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.graphic.engine.Loader;
 import com.b3dgs.lionengine.graphic.engine.TaskFuture;
-import com.b3dgs.lionheart.AppLionheart;
 import com.b3dgs.lionheart.Constant;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.DevicePushMock;
+import com.b3dgs.lionheart.Main;
 import com.b3dgs.lionheart.Settings;
 
 /**
@@ -52,7 +52,7 @@ final class MenuTest
     {
         if (!Engine.isStarted())
         {
-            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, Main.class);
             AudioFactory.addFormat(new AudioVoidFormat(Arrays.asList("wav", "sc68")));
         }
     }

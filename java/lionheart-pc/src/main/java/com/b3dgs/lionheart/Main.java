@@ -16,15 +16,12 @@
  */
 package com.b3dgs.lionheart;
 
-import java.io.File;
-
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 
 /**
  * Main entry.
  */
-public class Main
+public final class Main
 {
     /**
      * Main function.
@@ -40,17 +37,18 @@ public class Main
      */
     public static void main(String[] args)
     {
+        Tools.initLog();
         Tools.disableAutoScale();
 
-        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
+        EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, Main.class);
 
-        if (args.length > 0 || new File(Medias.getResourcesDirectory(), Settings.FILENAME).exists())
+        if (args.length > 0 && "launcher".equals(args[0]))
         {
-            AppLionheart.main(args);
+            Launcher.main(args);
         }
         else
         {
-            Launcher.main(args);
+            AppLionheart.main(args);
         }
     }
 }

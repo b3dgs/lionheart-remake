@@ -91,7 +91,6 @@ import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilFile;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.awt.graphic.EngineAwt;
 import com.b3dgs.lionengine.awt.graphic.ImageLoadStrategy;
 import com.b3dgs.lionengine.awt.graphic.ToolsAwt;
 import com.b3dgs.lionengine.network.Network;
@@ -103,7 +102,7 @@ import com.b3dgs.lionheart.constant.Folder;
  * Program starts here.
  */
 // CHECKSTYLE IGNORE LINE: FanOutComplexity|DataAbstractionCoupling
-public final class Launcher
+final class Launcher
 {
     private static final String LANG_DEFAULT = "en";
     private static final String RELEASES_LINK = "https://github.com/b3dgs/lionheart-remake/releases";
@@ -211,19 +210,13 @@ public final class Launcher
      * 
      * @param args The arguments (none).
      */
-    public static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
+    static void main(String[] args) // CHECKSTYLE IGNORE LINE: TrailingComment|UncommentedMain
     {
-        Tools.disableAutoScale();
         UIManager.put("ToolTip.font", FONT1);
         UIManager.put("OptionPane.messageFont", FONT);
         UIManager.put("OptionPane.buttonFont", FONT);
         UIManager.put("ComboBox.font", FONT);
         UIManager.put("TextField.font", FONT);
-
-        if (!Engine.isStarted())
-        {
-            EngineAwt.start(Constant.PROGRAM_NAME, Constant.PROGRAM_VERSION, AppLionheart.class);
-        }
 
         loadLangs();
 
