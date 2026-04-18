@@ -173,7 +173,7 @@ public final class BossDragonflyHead extends FeatureModel implements RoutineUpda
         }
         if (animatable.getFrame() == 1
             && tick.elapsedTime(source.getRate(), FIRE_DELAY_MS)
-            && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4) < 8
+            && Math.abs(target.getY() - transformable.getY() + transformable.getHeight() / 4.0) < 8
             && target.getX() < transformable.getX()
             && Double.compare(transformable.getX(), transformable.getOldX()) <= 0)
         {

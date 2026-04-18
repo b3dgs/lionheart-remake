@@ -602,7 +602,7 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
             {
                 spawner.spawn(effect.get(),
                               transformable.getX() + effectOffsetX,
-                              transformable.getY() + transformable.getHeight() / 2)
+                              transformable.getY() + transformable.getHeight() / 2.0)
                        .getFeature(Rasterable.class)
                        .setAnimOffset2(rasterable.getAnimOffset2());
             }
