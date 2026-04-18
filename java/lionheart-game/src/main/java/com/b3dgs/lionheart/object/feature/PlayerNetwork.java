@@ -293,7 +293,7 @@ public class PlayerNetwork extends FeatureModel implements RoutineUpdate, Routin
                 font.draw(g, 0, y, Align.LEFT, clients.get(client.getKey()));
                 numberTime.setLocation(50, y);
 
-                final double frameTime = Constant.ONE_SECOND_IN_MILLI / source.getRate();
+                final double frameTime = Constant.ONE_SECOND_IN_MILLI / (double) source.getRate();
                 numberTime.setValue((int) StrictMath.floor(client.getValue().intValue() * frameTime));
                 numberTime.render(g);
                 i++;

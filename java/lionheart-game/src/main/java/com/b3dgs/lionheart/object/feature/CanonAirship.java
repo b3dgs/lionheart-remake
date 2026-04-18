@@ -47,7 +47,7 @@ import com.b3dgs.lionheart.object.state.StateDecay;
 @FeatureInterface
 public final class CanonAirship extends FeatureModel implements RoutineUpdate, Recyclable
 {
-    private static final int FIRE_DELAY_MS = 5000;
+    private static final long FIRE_DELAY_MS = 5000L;
     private static final double FIRE_SPEED = 1.5;
 
     private final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
@@ -160,6 +160,6 @@ public final class CanonAirship extends FeatureModel implements RoutineUpdate, R
     {
         current = this::updateAlive;
         tick.restart();
-        tick.set(FIRE_DELAY_MS / 2);
+        tick.set(FIRE_DELAY_MS / 2.0);
     }
 }

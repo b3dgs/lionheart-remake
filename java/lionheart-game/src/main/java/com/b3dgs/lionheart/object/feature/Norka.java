@@ -92,7 +92,7 @@ public final class Norka extends FeatureModel implements RoutineUpdate, Recyclab
         for (int i = 0; i < pillar.length; i++)
         {
             pillar[i] = spawner.spawn(Medias.create(Folder.ENTITY, WorldType.NORKA.getFolder(), "Pillar.xml"),
-                                      88 + i * 80,
+                                      88.0 + i * 80,
                                       0)
                                .getFeature(Identifiable.class);
             if (RasterType.CACHE == Settings.getInstance().getRaster())

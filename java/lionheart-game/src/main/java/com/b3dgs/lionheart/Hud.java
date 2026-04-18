@@ -80,7 +80,7 @@ public final class Hud implements Resource, Updatable, Renderable
 
     private static final int LIFE_TILE = 6;
     private static final double LIFE_Y = 1.0;
-    private static final int LIFE_X_BORDER = 4;
+    private static final double LIFE_X_BORDER = 4.0;
 
     private static final double TIME_X_RATIO = 0.0;
     private static final int TIME_Y = 1;
