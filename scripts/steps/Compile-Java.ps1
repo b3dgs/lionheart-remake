@@ -59,7 +59,10 @@ function Invoke-CompileJava ([hashtable]$ctx) {
 
   # ── Gradle (Android only) ─────────────────────────────────────────────────
   if ($ctx.Platform -eq 'android-arm') {
-    Invoke-Proc -Name 'Gradle' -Exe './gradlew' -WorkDir $ctx.Root -Arguments @(
+    $workDir = Join-Path $ctx.Root java/lionheart-android/
+    Invoke-Proc -Name 'Gradle' -Exe './java/lionheart-android/gradlew' -Arguments @(
+      "--%",
+      "-p $workDir",
       'assembleRelease',
       "-Dkeystore=$keystore",
       '-Dstoretype=PKCS12',
