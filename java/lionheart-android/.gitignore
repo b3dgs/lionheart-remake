@@ -47,6 +47,8 @@ captures/
 .idea/libraries
 .idea/caches
 .idea/migrations.xml
+.idea/AndroidProjectSystem.xml
+.idea/deploymentTargetSelector.xml
 
 # Keystore files
 *.jks

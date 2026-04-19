@@ -66,6 +66,8 @@ public final class ActivityLionheart extends ActivityGame
         AudioFactory.setVolume(settings.getVolumeMaster());
 
         final Resolution resolution = new Resolution(width, height, settings.getResolution(Constant.RESOLUTION_OUTPUT).getRate());
-        Loader.start(Config.fullscreen(resolution), Loading.class, new GameConfig(), Boolean.FALSE);
+        final Config config = Config.fullscreen(resolution);
+        ScreenAndroid.setSize(config);
+        Loader.startAsync(config, Loading.class, new GameConfig(), Boolean.FALSE);
     }
 }

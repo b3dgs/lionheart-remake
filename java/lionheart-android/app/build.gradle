@@ -24,18 +24,18 @@ android {
             storePassword property('keystore.storepassword')
         }
     }
-    compileSdk 36
+    compileSdk 37
     defaultConfig {
         applicationId "com.b3dgs.lionheart"
         minSdkVersion 21
-        targetSdkVersion 36
+        targetSdkVersion 37
         signingConfig signingConfigs.app
     }
     buildTypes {
         release {
             shrinkResources false
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.app
             multiDexEnabled true
         }
@@ -47,8 +47,8 @@ android {
     compileOptions {
         coreLibraryDesugaringEnabled true
 
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     sourceSets {
@@ -73,7 +73,7 @@ afterEvaluate {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     //noinspection GradleDependency
-    implementation 'net.java.dev.jna:jna:5.18.1@aar'
+    implementation 'net.java.dev.jna:jna:5.18.0@aar'
     implementation 'com.b3dgs:b3dgs-parent:2.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core:10.0.0-SNAPSHOT'
     implementation 'com.b3dgs.lionengine:lionengine-core-android:10.0.0-SNAPSHOT'
