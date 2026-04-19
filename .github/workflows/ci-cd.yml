@@ -4,6 +4,22 @@ on:
    push:
       branches:
       - master
+      paths:
+      - '.github/workflows/ci-cd.yml'
+      - '**/*.java'
+      - '**/*.xml'
+      - '**/*.xsd'
+      - '**/*.png'
+      - '**/*.bmp'
+      - '**/*.icns'
+      - '**/*.xpm'
+      - '**/*.gradle'
+      - '**/*.product'
+      - '**/*.target'
+      - '**/*.e4xmi'
+      - '**/*.MF'
+      - '**/*.properties'
+      - '**/*.ps1'
    pull_request:
       branches:
       - master
