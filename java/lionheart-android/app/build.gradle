@@ -53,7 +53,7 @@ android {
 
     sourceSets {
         main {
-            assets.srcDirs = ['src/main/assets/', '../../../assets/src/main/resources/', '../../../lionheart-raster/src/main/resources/']
+            assets.srcDirs = ['src/main/assets/', '../../../assets/src/main/resources/']
             jniLibs.srcDir 'jniLibs'
         }
     }
