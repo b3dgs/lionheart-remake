@@ -74,7 +74,7 @@ final class ExtroTest
 
         DevicePushMock.addSimu(actions, push, DeviceMapping.FORCE_EXIT);
 
-        final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), part, push, actions);
+        final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT), part, push, actions);
         task.await();
     }
 }

@@ -61,7 +61,7 @@ final class EntitiesTest
                                           world.name().toLowerCase(Locale.ENGLISH) + Factory.FILE_DATA_DOT_EXTENSION);
         if (stage.exists())
         {
-            final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+            final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
                                                  new GameConfig().with(new InitConfig(stage,
                                                                                       1,
@@ -101,7 +101,7 @@ final class EntitiesTest
         final Media stage = Medias.create(Folder.STAGE, world);
         if (stage.exists())
         {
-            final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+            final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
                                                  new GameConfig().with(new InitConfig(stage,
                                                                                       1,
@@ -140,7 +140,7 @@ final class EntitiesTest
         final Media stage = Medias.create(Folder.STAGE, world);
         if (stage.exists())
         {
-            final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+            final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                                  TestScene.class,
                                                  new GameConfig().with(new InitConfig(stage,
                                                                                       1,

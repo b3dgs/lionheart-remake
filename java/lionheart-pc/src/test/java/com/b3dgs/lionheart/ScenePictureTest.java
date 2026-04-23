@@ -71,7 +71,7 @@ final class ScenePictureTest
     {
         ScenePicture.fadeSpeed = 255;
         Settings.getInstance().setLang(lang);
-        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+        Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
                      new GameConfig().with(new InitConfig(Medias.create("void.xml"),
                                                           Constant.STATS_MAX_HEART - 1,
@@ -112,7 +112,7 @@ final class ScenePictureTest
     {
         ScenePicture.fadeSpeed = 255;
         Settings.getInstance().setLang(lang);
-        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+        Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                      ScenePicture.class,
                      new GameConfig().with(new InitConfig(Medias.create("void.xml"),
                                                           Constant.STATS_MAX_HEART - 1,

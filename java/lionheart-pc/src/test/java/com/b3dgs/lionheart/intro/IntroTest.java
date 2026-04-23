@@ -65,7 +65,7 @@ final class IntroTest
 
         DevicePushMock.addSimu(actions, push, DeviceMapping.FORCE_EXIT);
 
-        final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+        final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              TestIntro.class,
                                              push,
                                              actions);
@@ -83,7 +83,7 @@ final class IntroTest
 
         DevicePushMock.addSimu(actions, push, DeviceMapping.FORCE_EXIT);
 
-        final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+        final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              TestPart3.class,
                                              push,
                                              actions);
@@ -101,7 +101,7 @@ final class IntroTest
 
         DevicePushMock.addSimu(actions, push, DeviceMapping.FORCE_EXIT);
 
-        final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+        final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              TestPart4.class,
                                              push,
                                              actions);

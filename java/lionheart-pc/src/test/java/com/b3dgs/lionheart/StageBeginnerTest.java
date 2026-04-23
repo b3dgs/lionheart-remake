@@ -69,7 +69,7 @@ final class StageBeginnerTest
     @EnumSource(StageBeginner.class)
     void testStageBeginner(StageBeginner stage)
     {
-        final TaskFuture task = Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT),
+        final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
                                              Scene.class,
                                              new GameConfig().with(new InitConfig(stage,
                                                                                   1,

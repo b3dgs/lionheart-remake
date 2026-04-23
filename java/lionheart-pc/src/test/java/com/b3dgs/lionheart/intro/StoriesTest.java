@@ -72,7 +72,7 @@ final class StoriesTest
     void testStoriesManual(String lang)
     {
         Settings.getInstance().setLang(lang);
-        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class, Boolean.FALSE).await();
+        Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class, Boolean.FALSE).await();
     }
 
     /**
@@ -88,7 +88,7 @@ final class StoriesTest
     void testStories(String lang)
     {
         Settings.getInstance().setLang(lang);
-        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class, Boolean.TRUE).await();
+        Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class, Boolean.TRUE).await();
     }
 
     /**

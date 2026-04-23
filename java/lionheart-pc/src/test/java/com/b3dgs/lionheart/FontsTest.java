@@ -63,7 +63,7 @@ final class FontsTest
     @Test
     void testFontsManual()
     {
-        Loader.start(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class).await();
+        Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT), Mock.class).await();
     }
 
     /**
