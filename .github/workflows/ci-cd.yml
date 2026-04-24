@@ -6,23 +6,14 @@ on:
       - master
       paths:
       - .github/workflows/ci-cd.yml
-      - '**/*.java'
-      - '**/*.xml'
-      - '**/*.xsd'
-      - '**/*.png'
-      - '**/*.bmp'
-      - '**/*.icns'
-      - '**/*.xpm'
-      - '**/*.gradle'
-      - '**/*.product'
-      - '**/*.target'
-      - '**/*.e4xmi'
-      - '**/*.MF'
-      - '**/*.properties'
-      - '**/*.ps1'
-      paths-ignore:
-      - .github/workflows/website.yml
-      - website/**
+      - assets/**
+      - coverage/**
+      - java/**
+      - plugins/**
+      - releng/**
+      - scripts/**
+      - tests/**
+      - pom.xml
    pull_request:
       branches:
       - master
