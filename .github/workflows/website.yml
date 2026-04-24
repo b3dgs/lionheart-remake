@@ -32,11 +32,6 @@ jobs:
       -  name: Build
          run: hugo --minify
 
-      -  name: Upload artifact
-         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
-         with:
-            path: website/public
-
       -  name: FTP Deploy
          uses: SamKirkland/FTP-Deploy-Action@a51268f67f6605236975928ae28b0f7e9971d50a
          with:
@@ -45,14 +40,3 @@ jobs:
             password: ${{ secrets.FTP_SITE_PASS }}
             local-dir: website/public/
             dangerous-clean-slate: true
-
-   deploy:
-      needs: build
-      runs-on: ubuntu-latest
-      permissions:
-         pages: write
-         id-token: write
-      environment:
-         name: github-pages
-      steps:
-      -  uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128
