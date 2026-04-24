@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home | Lionheart Remake</title>
+    <meta name="description" content="Java remake of the classic Lionheart Amiga platformer" />
+    <style>
+        html {
+            visibility: hidden;
+        }
+
+        html,
+        body {
+            margin: 0;
+            background: #05040a;
+        }
+
+        .wrapper {
+            max-width: 960px;
+            margin: auto;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: auto;
+            display: block;
+        }
+
+        header {
+            width: 100%;
+        }
+
+        a {
+            color: #dfa040
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-scroll {
+            display: flex;
+            justify-content: center;
+        }
+
+        #header nav ul li a {
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: #C2B6A2;
+            padding: 6px 11px;
+            border-radius: 3px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ "assets/style.css" | relURL }}">
+    <meta name="theme-color" content="#05040a">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ "assets/icon.ico" | relURL }}" />
+</head>
+
+<body>
+    {{ partial "header.html" . }}
+    <div class="wrapper">
+        <section>
+            <div class="page-hero">
+                <img src="{{ "assets/title.png" | relURL }}" alt="Lionheart Remake" width="384" height="160" />
+            </div>
+            {{ block "main" . }}{{ end }}
+            {{ partial "footer.html" . }}
+        </section>
+    </div>
+</body>
+
+</html>

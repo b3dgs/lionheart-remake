@@ -1,0 +1,169 @@
+---
+title: "Changelog"
+---
+
+## Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## Versions
+
+### [1.3.0 - 2023-05-12](https://github.com/b3dgs/lionheart-remake/releases/tag/v1.3.0)
+
+{{< changelog-entry >}}
+
+### added
+- New game menu
+- New game modes (Story, Training, Speedrun, Battle, Coop)
+- Local multiplayer (up to 4 players split screen)
+- Stage progress save and load
+- Alternative player attack gameplay with more trivial feeling
+- Start game without launcher with custom configuration
+- Automatic desktop resolution by default
+- Portuguese language
+- Italian language
+- Language automatically detected
+- Android left analog stick
+- Android Menu navigation with dpad and x button
+- Android UI overlay hidden when controller is connected
+- Android automatic screen ratio
+- Android 5 compatible
+- In game zoom-in zoom-out
+- Water flickering option
+- More cheats and access to all stages set
+- JAR signature
+
+### changed
+- Filters performance improved and quality increased
+
+### fixed
+- Joystick 2 buttons mode working
+- Music on MacOS
+- Swamp Flower explode effect position incorrect
+- AncientTown executioner wall can be crossed with attack jump
+- AncientTown corrupted Veteran stage 6
+- Lava FloaterCube hit force too low
+- Airship road invalid on zoom
+- Airship catapult projectile missing respawn
+- Airship wall can be crossed on top of ground
+- Dragonfly monsters hit interrupts movement
+- Dragonfly Dragon fire time invalid
+- Dragonfly bullet destroyed on collide on bomb explode
+- Dragonfly Original stage duplicated Bomb location
+- Dragonfly boss invalid head 
+- Tower Rotating length a little bit too short
+- Norka first boss body collision missing on attack
+- Norka second boss wrong collision and bullet hit
+- Stages and Boss not reloaded on respawn
+- Weird gameplay on player Hurt transition
+- RotatingPlatformControlled invalid behavior
+- Monsters falling on killed must be always updated
+- Bullet destroy on ground hit box not large enough
+- Movement clamped to zero when changing direction on jump
+- Android liana cut crash
+- Sfx audio bad rendering and latency on Linux
+- Antivirus detections on "Lionheart Remake.exe"
+- Memory leak on State changes
+
+{{< /changelog-entry >}}
+
+### [1.2.0 - 2022-01-29](https://github.com/b3dgs/lionheart-remake/releases/tag/v1.2.0)
+
+{{< changelog-entry >}}
+
+### added
+- Underworld theme added with new stages, objects and boss
+- New beginner stages added to play without headache
+- New beginner difficulty (more starting health and life)
+- Basic CRT filter added (without shader)
+- Direct raster implemented (no need cached files, overall size reduced)
+- Catapult Rock projectile sfx
+- More default key configuration
+- Launcher tool tips
+- Launcher logo click go to website
+- Editor run from Launcher
+
+### changed
+- Resources moved from Jar to external directory
+
+### fixed
+- Menu select sfx may not be heard
+- Norka bullet bowl missing body collision with backward
+- Norka Boss2 stuck if hit on attack end
+- Dragonfly boss head body collision with backward on hurt
+- Swamp Dragon does not respawn once offscreen
+- Rotating objects layer display invalid
+- Swamp Bee missing steep collision on fallen
+- Grasshopper launch even if not on sight
+- Object Body and Ground collision overlapped with AttackFall
+- MeltingPlatform animation speed
+- Geyzer default delay and height
+- AttackJump transition on vertical collide when moving down
+- Double jump when hurt on AttackFall
+- Missing StateWin transitions
+- Canon Secret ground collision offset invalid
+- Unreachable Talisment at Veteran Lava stage
+- Invalid area Veteran Airship stage
+- Invalid map objects delay
+- Projectile Secret Bullet invalid vertical collision
+- Original Hard Stages corrections
+- Missing Veteran AncientTown stage tile
+- Editor do not save correct rate if changed from resolution list
+- Resolution scaling not pixel perfect
+- Frog spawn even if camera starts after location
+- Music on arm64-v8
+- Linux libsdl2gdx64 udev missing dependency warning
+
+{{< /changelog-entry >}}
+
+### [1.1.0 - 2021-10-03](https://github.com/b3dgs/lionheart-remake/releases/tag/v1.1.0)
+
+{{< changelog-entry >}}
+
+### added
+- Game launcher configuration
+- Gamepad support (PC & Android)
+- New stages (Swamp, Spidercave, Ancient Town, Lava, Secret, Airship, Dragonfly, Tower)
+- Full editor with stage entities properties and checkpoints edition
+- Original 50Hz support added with fullscreen
+- Cheats menu added
+- Click and touch support to menu
+- Android virtual keyboard diagonal support
+- Multi language support (shipped with English, French, German, Spanish)
+- Sword level on hud
+
+### changed
+- Intro and Extro reviewed with perfect original timing
+- Font converted to bitmap to be rendered same on any platform
+- Backdrop non flicker mode with more color
+- Loading time improved
+- Map tile file size reduced
+- Sfx converted to mono with no loss
+
+### fixed
+- Widescreen support
+- Life lost even with cheats enabled
+- No credits on last life lost when bitten
+- Intro and Credits English texts
+- Intro not working without music
+- Bird behavior on collide
+- Player camera limit lock
+- Swamp stage5 Bee invalid patrol proximity
+- Spider ground fall
+- Liana and Grip soar hurt invalid jump
+- Sfx not correctly cached
+- Music on Windows 32bits
+- AncientTown level rip 7 and 8 black color
+
+{{< /changelog-entry >}}
+
+### [1.0.0 - 2021-06-30](https://github.com/b3dgs/lionheart-remake/releases/tag/v1.0.0)
+
+{{< changelog-entry >}}
+
+### added
+- Original game 99.9% cloned
+
+{{< /changelog-entry >}}

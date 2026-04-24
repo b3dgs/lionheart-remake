@@ -1,0 +1,20 @@
+<table>
+    <thead>
+        <tr>
+            <th>Object</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ $lines := split (trim .Inner "\n") "\n" }}
+        {{ range $lines }}
+        {{ $p := split . "|" }}
+        <tr>
+            <td><img src="{{ index $p 0 }}" /></td>
+            <td>{{ index $p 1 }}</td>
+            <td>{{ index $p 2 }}</td>
+        </tr>
+        {{ end }}
+    </tbody>
+</table>

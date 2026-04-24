@@ -1,0 +1,9 @@
+<div class="world-themes">
+    {{ $lines := split (.Inner | plainify) "\n" }}
+    {{ range $lines }}
+    {{ $src := trim . " \r\t" }}
+    {{ if ne $src "" }}
+    <img src="{{ $src }}" alt="{{ $src | replaceRE " .*/|\\..*" "" | humanize }}" />
+    {{ end }}
+    {{ end }}
+</div>

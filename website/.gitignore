@@ -1,0 +1,7 @@
+/public
+hugo.exe
+hugo
+.hugo_build.lock
+.project
+*.exe
+*.sha256sum

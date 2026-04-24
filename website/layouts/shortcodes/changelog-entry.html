@@ -1,0 +1,22 @@
+<div class="changelog-entry">
+    {{ $sections := split .Inner "###" }}
+    {{ range $sections }}
+        {{ $block := trim . " \n" }}
+        {{ if strings.HasPrefix $block "added" }}
+            <div class="changelog-section added">
+                <h4>Added</h4>
+                {{ replace $block "added" "" | markdownify }}
+            </div>
+        {{ else if strings.HasPrefix $block "changed" }}
+            <div class="changelog-section changed">
+            <h4>Changed</h4>
+                {{ replace $block "changed" "" | markdownify }}
+            </div>
+        {{ else if strings.HasPrefix $block "fixed" }}
+            <div class="changelog-section fixed">
+                <h4>Fixed</h4>
+                {{ replace $block "fixed" "" | markdownify }}
+            </div>
+        {{ end }}
+    {{ end }}
+</div>

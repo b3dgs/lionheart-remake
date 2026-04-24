@@ -1,0 +1,10 @@
+baseURL = "/site/"
+languageCode = "en-en"
+title = "Lionheart Remake"
+buildDrafts = false
+relativeURLs = false
+canonifyURLs = false
+
+[params]
+filesBase = "/files/"
+videosBase = "/videos/"

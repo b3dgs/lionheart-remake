@@ -1,0 +1,27 @@
+<table>
+    <thead>
+        <tr>
+            <th>Stage</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ $lines := split (trim .Inner "\n") "\n" }}
+        {{ range $lines }}
+        {{ $line := trim . " " }}
+        {{ if $line }}
+        {{ $p := split $line "|" }}
+        {{ if ge (len $p) 3 }}
+        <tr>
+            <td>{{ index $p 0 }}</td>
+            <td>
+                <a href="{{ index $p 2 }}">
+                    <img src="{{ index $p 1 }}" />
+                </a>
+            </td>
+        </tr>
+        {{ end }}
+        {{ end }}
+        {{ end }}
+    </tbody>
+</table>

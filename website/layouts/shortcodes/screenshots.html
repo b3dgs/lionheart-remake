@@ -1,0 +1,12 @@
+<div class="screenshot-group">
+    <h3>{{ .Get "name" }}</h3>
+    <div class="screenshot-grid">
+        {{ $links := split (.Get "links") "," }}
+        {{ range $links }}
+        {{ $img := printf "%s.png" . }}
+        <a href="{{ $img }}">
+            <img src="{{ $img }}" alt="{{ . }}">
+        </a>
+        {{ end }}
+    </div>
+</div>

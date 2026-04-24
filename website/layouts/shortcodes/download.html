@@ -1,0 +1,47 @@
+<table class="dl-table">
+    <thead>
+        <tr>
+            <th class="dl-platform">
+                <img src="{{ "assets/platform-windows.svg" | relURL }}" alt="Windows">
+                <p>Windows</p>
+            </th>
+
+            <th class="dl-platform">
+                <img src="{{ "assets/platform-linux.svg" | relURL }}" alt="Linux">
+                <p>Linux</p>
+            </th>
+
+            <th class="dl-platform">
+                <img src="{{ "assets/platform-macos.svg" | relURL }}" alt="macOS">
+                <p>MacOS</p>
+            </th>
+
+            <th class="dl-platform">
+                <img src="{{ "assets/platform-android.svg" | relURL }}" alt="Android">
+                <p>Android</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "win64" }}">x64</a>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "win32" }}">x86</a>
+            </td>
+
+            <td>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "linux64" }}">x86_64</a>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "linux32" }}">i386</a>
+            </td>
+
+            <td>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "mac64" }}">x86_64</a>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "macarm" }}">aarch64</a>
+            </td>
+
+            <td>
+                <a class="dl-btn2" href="{{ .Site.Params.filesBase }}{{ .Get "android" }}">armv7 & arm64v8a</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

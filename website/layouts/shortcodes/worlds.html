@@ -1,0 +1,7 @@
+<div class="world-grid">
+  {{ range split (.Get "items") "," }}
+    {{ $name := . }}
+    {{ $url := lower . }}
+    <a class="world-link" href="world/{{ $url }}">{{ $name }}</a>
+  {{ end }}
+</div>
