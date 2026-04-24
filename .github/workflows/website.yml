@@ -23,7 +23,7 @@ jobs:
             fetch-depth: 1
             fetch-tags: false
 
-      -  name: Setup Hugo
+      -  name: Hugo
          uses: peaceiris/actions-hugo@75d2e84710de30f6ff7268e08f310b60ef14033f
          with:
             hugo-version: latest
