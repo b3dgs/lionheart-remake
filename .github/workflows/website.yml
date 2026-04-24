@@ -3,7 +3,7 @@ name: Website
 on:
    push:
       branches:
-      - main
+      - master
       paths:
       - .github/workflows/website.yml
       - website/**
