@@ -5,7 +5,7 @@ on:
       branches:
       - master
       paths:
-      - '.github/workflows/ci-cd.yml'
+      - .github/workflows/ci-cd.yml
       - '**/*.java'
       - '**/*.xml'
       - '**/*.xsd'
@@ -20,6 +20,9 @@ on:
       - '**/*.MF'
       - '**/*.properties'
       - '**/*.ps1'
+      paths-ignore:
+      - .github/workflows/website.yml
+      - website/**
    pull_request:
       branches:
       - master
