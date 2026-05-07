@@ -126,5 +126,6 @@
     <lionengine:letter char="&amp;" height="0" width="19"/>
     <lionengine:letter char="(" height="0" width="8"/>
     <lionengine:letter char=")" height="0" width="8"/>
+    <lionengine:letter char="'" height="0" width="8"/>
     <lionengine:letter char=" " height="0" width="6"/>
 </lionengine:letters>
