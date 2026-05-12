@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -623,12 +625,25 @@ public final class Tools
         return new Formatter()
         {
             @Override
-            public String format(LogRecord r)
+            public String format(LogRecord record)
             {
-                return String.format("%1$tF %1$tT.%1$tL %2$s %3$s%n",
-                                     Long.valueOf(r.getMillis()),
-                                     r.getLevel(),
-                                     r.getMessage());
+                final StringBuilder builder = new StringBuilder();
+                builder.append(String.format("%1$tF %1$tT.%1$tL %2$s %3$s%n",
+                                             Long.valueOf(record.getMillis()),
+                                             record.getLevel(),
+                                             formatMessage(record)));
+
+                if (record.getThrown() != null)
+                {
+                    final StringWriter writer = new StringWriter();
+                    try (final PrintWriter print = new PrintWriter(writer))
+                    {
+                        record.getThrown().printStackTrace(print);
+                    }
+                    builder.append(writer);
+                }
+
+                return builder.toString();
             }
         };
     }
