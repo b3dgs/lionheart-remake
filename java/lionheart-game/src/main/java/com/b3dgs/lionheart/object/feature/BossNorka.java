@@ -52,7 +52,7 @@ import com.b3dgs.lionheart.MusicPlayer;
 import com.b3dgs.lionheart.ScreenShaker;
 import com.b3dgs.lionheart.constant.Anim;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.extro.Extro;
+import com.b3dgs.lionheart.narration.extro.Extro;
 
 /**
  * Boss Norka feature implementation.

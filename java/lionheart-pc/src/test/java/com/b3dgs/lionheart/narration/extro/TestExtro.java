@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.menu;
+package com.b3dgs.lionheart.narration.extro;
 
 import java.util.List;
 
@@ -26,12 +26,11 @@ import com.b3dgs.lionengine.io.DeviceActionModel;
 import com.b3dgs.lionengine.io.DevicePush;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.GameConfig;
-import com.b3dgs.lionheart.InitConfig;
 
 /**
- * Test menu implementation.
+ * Test intro implementation.
  */
-public final class TestMenu extends MenuGame
+public final class TestExtro extends Extro
 {
     private final List<TickAction> actions;
     private int i;
@@ -42,11 +41,12 @@ public final class TestMenu extends MenuGame
      * @param context The context reference (must not be <code>null</code>).
      * @param push The device reference.
      * @param actions The actions to add.
+     * @param alternative The alternative mode.
      * @throws LionEngineException If invalid argument.
      */
-    public TestMenu(Context context, DevicePush push, List<TickAction> actions)
+    public TestExtro(Context context, DevicePush push, List<TickAction> actions, Boolean alternative)
     {
-        super(context, new GameConfig().with(new InitConfig(null, 0, 0, null)));
+        super(context, new GameConfig(), alternative);
 
         device.addFire(null,
                        push,
@@ -63,21 +63,22 @@ public final class TestMenu extends MenuGame
                        DeviceMapping.ATTACK.getIndex(),
                        DeviceMapping.ATTACK.getIndex(),
                        new DeviceActionModel(DeviceMapping.ATTACK.getIndex(), push));
+        device.addFire(null,
+                       push,
+                       DeviceMapping.FORCE_EXIT.getIndex(),
+                       DeviceMapping.FORCE_EXIT.getIndex(),
+                       new DeviceActionModel(DeviceMapping.FORCE_EXIT.getIndex(), push));
 
+        Credits.FADE_SPEED = 255;
+        Credits.SCROLL_SPEED = 1000.0;
         this.actions = actions;
-        alphaSpeed = 256;
-    }
-
-    @Override
-    protected void goToLauncher()
-    {
-        end(null);
+        time.set(Credits.T_START);
     }
 
     @Override
     public void update(double extrp)
     {
-        if (transition == TransitionType.NONE)
+        if (theEnd.get())
         {
             actions.get(i).execute();
             i = UtilMath.clamp(i + 1, 0, actions.size() - 1);

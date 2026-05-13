@@ -38,7 +38,7 @@ final class Choice implements Renderable
     /** Vertical location. */
     private final int y;
     /** Next menu pointer. */
-    private final MenuType next;
+    private final Enum<?> next;
     /** Text reference. */
     private final SpriteFont text;
     /** Choice name. */
@@ -78,7 +78,7 @@ final class Choice implements Renderable
      * @param align The text align.
      * @param next The next menu pointer.
      */
-    Choice(SpriteFont text, SpriteFont textHover, String name, int x, int y, Align align, MenuType next)
+    Choice(SpriteFont text, SpriteFont textHover, String name, int x, int y, Align align, Enum<?> next)
     {
         super();
 
@@ -111,9 +111,10 @@ final class Choice implements Renderable
      * 
      * @return The next menu.
      */
-    public MenuType getNext()
+    @SuppressWarnings("unchecked")
+    public <T extends Enum<T>> T getNext()
     {
-        return next;
+        return (T) next;
     }
 
     /**

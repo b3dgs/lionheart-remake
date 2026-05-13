@@ -33,8 +33,8 @@ import com.b3dgs.lionheart.InitConfig;
 import com.b3dgs.lionheart.LoadNextStage;
 import com.b3dgs.lionheart.StageConfig;
 import com.b3dgs.lionheart.landscape.Landscape;
-import com.b3dgs.lionheart.menu.Continue;
-import com.b3dgs.lionheart.menu.Menu;
+import com.b3dgs.lionheart.menu.MenuContinue;
+import com.b3dgs.lionheart.menu.MenuGame;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.State;
 import com.b3dgs.lionheart.object.feature.Stats;
@@ -75,7 +75,7 @@ public final class StateRespawn extends State
             {
                 if (stats.getCredits() > 0)
                 {
-                    sequencer.end(Continue.class,
+                    sequencer.end(MenuContinue.class,
                                   model.getServices()
                                        .get(GameConfig.class)
                                        .with(new InitConfig(model.getServices().get(Media.class),
@@ -91,12 +91,12 @@ public final class StateRespawn extends State
                 }
                 else
                 {
-                    sequencer.end(Menu.class, model.getServices().get(GameConfig.class));
+                    sequencer.end(MenuGame.class, model.getServices().get(GameConfig.class));
                 }
             }
             else if (game.getType().is(GameType.TRAINING))
             {
-                sequencer.end(Menu.class, model.getServices().get(GameConfig.class).with((InitConfig) null));
+                sequencer.end(MenuGame.class, model.getServices().get(GameConfig.class).with((InitConfig) null));
             }
         }
         else

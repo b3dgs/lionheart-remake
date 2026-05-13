@@ -42,8 +42,8 @@ import com.b3dgs.lionengine.helper.EntityChecker;
 import com.b3dgs.lionengine.io.DeviceController;
 import com.b3dgs.lionengine.io.DevicePointer;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.extro.Extro;
-import com.b3dgs.lionheart.menu.Menu;
+import com.b3dgs.lionheart.menu.MenuGame;
+import com.b3dgs.lionheart.narration.extro.Extro;
 import com.b3dgs.lionheart.object.feature.Hurtable;
 import com.b3dgs.lionheart.object.feature.Stats;
 import com.b3dgs.lionheart.object.state.StateCrouch;
@@ -268,14 +268,14 @@ public class Cheats implements Updatable, Renderable
             {
                 if (paused)
                 {
-                    sequencer.end(Menu.class, config);
+                    sequencer.end(MenuGame.class, config);
                 }
                 paused = !paused;
                 hud.setExit(paused);
             }
             else
             {
-                sequencer.end(Menu.class, config.with((InitConfig) null));
+                sequencer.end(MenuGame.class, config.with((InitConfig) null));
             }
         }
     }

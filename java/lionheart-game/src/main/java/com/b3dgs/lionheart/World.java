@@ -115,7 +115,7 @@ import com.b3dgs.lionheart.constant.Folder;
 import com.b3dgs.lionheart.landscape.FactoryLandscape;
 import com.b3dgs.lionheart.landscape.ForegroundType;
 import com.b3dgs.lionheart.landscape.Landscape;
-import com.b3dgs.lionheart.menu.Menu;
+import com.b3dgs.lionheart.menu.MenuGame;
 import com.b3dgs.lionheart.object.EntityModel;
 import com.b3dgs.lionheart.object.Snapshotable;
 import com.b3dgs.lionheart.object.feature.BulletBounceOnGround;
@@ -281,7 +281,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     players.get(i).getFeature(Stats.class).win();
                 }
                 playMusic(Music.BOSS_WIN);
-                spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                spawnTick.addAction(() -> sequencer.end(MenuGame.class, game.with((InitConfig) null)),
                                     source.getRate(),
                                     BATTLE_WIN_DELAY_MS);
             }, source.getRate(), 176_700);
@@ -564,7 +564,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                     }
 
                     playMusic(Music.BOSS_WIN);
-                    spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                    spawnTick.addAction(() -> sequencer.end(MenuGame.class, game.with((InitConfig) null)),
                                         source.getRate(),
                                         SPEEDRUN_WIN_DELAY_MS);
                 }
@@ -1475,14 +1475,14 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                                 }
                             }
                             playMusic(Music.BOSS_WIN);
-                            spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                            spawnTick.addAction(() -> sequencer.end(MenuGame.class, game.with((InitConfig) null)),
                                                 source.getRate(),
                                                 VERSUS_WIN_DELAY_MS);
                         }
                     }
                     else if (dead.incrementAndGet() == players.size())
                     {
-                        spawnTick.addAction(() -> sequencer.end(Menu.class, game.with((InitConfig) null)),
+                        spawnTick.addAction(() -> sequencer.end(MenuGame.class, game.with((InitConfig) null)),
                                             source.getRate(),
                                             ALLDEAD_DELAY_MS);
                     }
@@ -1554,7 +1554,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         }
         else
         {
-            sequencer.end(Menu.class, game.with((InitConfig) null));
+            sequencer.end(MenuGame.class, game.with((InitConfig) null));
         }
     }
 

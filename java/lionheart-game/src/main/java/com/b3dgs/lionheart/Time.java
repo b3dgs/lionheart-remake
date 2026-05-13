@@ -94,6 +94,16 @@ public class Time implements Updatable
         return isAfter((int) Math.floor(start * FACTOR)) && isBefore((int) Math.floor(end * FACTOR));
     }
 
+    /**
+     * Get elapsed time in milliseconds.
+     * 
+     * @return The elapsed time.
+     */
+    public int get()
+    {
+        return tick.elapsedTime(rate);
+    }
+
     @Override
     public void update(double extrp)
     {

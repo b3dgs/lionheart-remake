@@ -20,7 +20,6 @@ import java.util.Optional;
 
 import com.b3dgs.lionengine.Constant;
 import com.b3dgs.lionengine.Media;
-import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Resource;
 import com.b3dgs.lionengine.graphic.Graphic;
@@ -28,7 +27,6 @@ import com.b3dgs.lionengine.graphic.Renderable;
 import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Sprite;
 import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
-import com.b3dgs.lionheart.constant.Folder;
 
 /**
  * Handle story rendering.
@@ -36,11 +34,7 @@ import com.b3dgs.lionheart.constant.Folder;
 public class StoryRenderer implements Resource, Renderable
 {
     /** Font. */
-    private final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, "font.png"),
-                                                            Medias.create(Folder.SPRITE, "fontdata.xml"),
-                                                            12,
-                                                            12);
-
+    private final SpriteFont font = Util.loadFont("font.png", "fontdata.xml", 12, 12);
     /** Pictures. */
     private final Sprite story;
     /** Show text. */
@@ -97,7 +91,6 @@ public class StoryRenderer implements Resource, Renderable
     public void load()
     {
         story.load();
-        font.load();
     }
 
     @Override

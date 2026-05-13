@@ -56,6 +56,10 @@ import com.b3dgs.lionengine.graphic.Graphics;
 import com.b3dgs.lionengine.graphic.ImageBuffer;
 import com.b3dgs.lionengine.graphic.Text;
 import com.b3dgs.lionengine.graphic.TextStyle;
+import com.b3dgs.lionengine.graphic.drawable.Drawable;
+import com.b3dgs.lionengine.graphic.drawable.Sprite;
+import com.b3dgs.lionengine.graphic.drawable.SpriteAnimated;
+import com.b3dgs.lionengine.graphic.drawable.SpriteFont;
 import com.b3dgs.lionengine.graphic.engine.FilterNone;
 import com.b3dgs.lionengine.graphic.engine.Loop;
 import com.b3dgs.lionengine.graphic.engine.LoopHybrid;
@@ -221,6 +225,40 @@ public final class Util
         }
 
         return resolution;
+    }
+
+    /**
+     * Get media from filename.
+     * 
+     * @param path The media path (must not be <code>null</code>).
+     * @return The media.
+     */
+    public static Sprite get(String... path)
+    {
+        final Media media = Medias.create(path);
+        final Sprite sprite = Drawable.loadSprite(media);
+        sprite.load();
+        sprite.prepare();
+
+        return sprite;
+    }
+
+    /**
+     * Get media from filename.
+     * 
+     * @param horizontalFrames The number of horizontal frames (must be strictly positive).
+     * @param verticalFrames The number of vertical frames (must be strictly positive).
+     * @param path The media path (must not be <code>null</code>).
+     * @return The media.
+     */
+    public static SpriteAnimated get(int horizontalFrames, int verticalFrames, String... path)
+    {
+        final Media media = Medias.create(path);
+        final SpriteAnimated sprite = Drawable.loadSpriteAnimated(media, horizontalFrames, verticalFrames);
+        sprite.load();
+        sprite.prepare();
+
+        return sprite;
     }
 
     /**
@@ -523,6 +561,133 @@ public final class Util
             }
         }
         return null;
+    }
+
+    /**
+     * Load front.
+     * 
+     * @param media The font sprite media.
+     * @param data The font data media.
+     * @param lw The font image letter width.
+     * @param lh The font image letter height.
+     * @return The loaded font.
+     */
+    public static SpriteFont loadFont(String media, String data, int lw, int lh)
+    {
+        final SpriteFont font = Drawable.loadSpriteFont(Medias.create(Folder.SPRITE, media),
+                                                        Medias.create(Folder.SPRITE, data),
+                                                        lw,
+                                                        lh);
+        font.load();
+        font.prepare();
+
+        return font;
+    }
+
+    /**
+     * Get all supported training stages.
+     * 
+     * @return The training stages.
+     */
+    public static List<String> getStagesTraining()
+    {
+        final List<String> training = new ArrayList<>();
+        for (final String set : com.b3dgs.lionheart.Util.readLines(Medias.create(Folder.STAGE,
+                                                                                 Folder.STORY,
+                                                                                 "stages.txt")))
+        {
+            int i = 1;
+            while (true)
+            {
+                if (!com.b3dgs.lionheart.Util.getStage(set, null, i).exists())
+                {
+                    break;
+                }
+                training.add(set + "-" + i);
+                i++;
+            }
+        }
+        return training;
+    }
+
+    /**
+     * Get all stages in folder.
+     * 
+     * @param folder The folder name.
+     * @return The stages found.
+     */
+    public static List<String> getStages(String folder)
+    {
+        final List<String> stages = new ArrayList<>();
+        int i = 1;
+        while (true)
+        {
+            final Media media = Medias.create(Folder.STAGE, folder, Constant.STAGE_PREFIX + i + Extension.STAGE);
+            if (!media.exists())
+            {
+                break;
+            }
+            stages.add(String.valueOf(i));
+            i++;
+        }
+        return stages;
+    }
+
+    /**
+     * Cache text to image.
+     * 
+     * @param texts The text lines.
+     * @param index The starting index.
+     * @param buffers The cached buffer.
+     * @param font The font used.
+     * @return The next index.
+     */
+    public static int cacheText(List<String> texts, int index, ImageBuffer[] buffers, SpriteFont font)
+    {
+        int i;
+        for (i = 0; i < texts.size(); i++)
+        {
+            buffers[i + index] = Graphics.createImageBuffer(160, 40, ColorRgba.TRANSPARENT);
+            buffers[i + index].prepare();
+            final Graphic g = buffers[i + index].createGraphic();
+            font.draw(g, 0, 0, Align.LEFT, texts.get(i));
+            g.dispose();
+        }
+        return index + i;
+    }
+
+    /**
+     * Get difficulty index if exists.
+     * 
+     * @param config The current config.
+     * @return The difficulty index.
+     */
+    public static int getDifficultyIndex(GameConfig config)
+    {
+        if (config.getInit() != null && config.getInit().getDifficulty() != null)
+        {
+            return config.getInit().getDifficulty().ordinal();
+        }
+        return 0;
+    }
+
+    /**
+     * Get init config based on difficulty.
+     * 
+     * @param difficulty The difficulty type.
+     * @param stage The init stage.
+     * @return The init config.
+     */
+    public static InitConfig getInitConfig(Difficulty difficulty, Media stage)
+    {
+        return switch (difficulty)
+        {
+            case BEGINNER -> new InitConfig(stage, 5, 3, Difficulty.NORMAL);
+            case NORMAL -> new InitConfig(stage, 4, 2, Difficulty.NORMAL);
+            case HARD -> new InitConfig(stage, 3, 2, Difficulty.HARD);
+            case LIONHARD -> new InitConfig(stage, 3, 2, Difficulty.LIONHARD);
+            default -> throw new LionEngineException(difficulty);
+        };
     }
 
     private static char[] getLetters()

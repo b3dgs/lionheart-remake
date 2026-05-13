@@ -28,9 +28,9 @@ import com.b3dgs.lionengine.graphic.drawable.Drawable;
 import com.b3dgs.lionengine.graphic.drawable.Image;
 import com.b3dgs.lionengine.graphic.engine.Sequence;
 import com.b3dgs.lionheart.constant.Folder;
-import com.b3dgs.lionheart.intro.Intro;
 import com.b3dgs.lionheart.landscape.BackgroundType;
-import com.b3dgs.lionheart.menu.Menu;
+import com.b3dgs.lionheart.menu.MenuLauncher;
+import com.b3dgs.lionheart.narration.intro.Intro;
 
 /**
  * Loading screen.
@@ -104,7 +104,7 @@ public final class Loading extends Sequence
         }
         else
         {
-            load(Menu.class, config);
+            load(MenuLauncher.class, config);
         }
     }
 
@@ -125,7 +125,7 @@ public final class Loading extends Sequence
     {
         timing.update(extrp);
 
-        if (!load && timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND / 2))
+        if (!load && timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND / 4))
         {
             alpha -= alphaSpeed * extrp;
             if (alpha < 0)
@@ -146,7 +146,7 @@ public final class Loading extends Sequence
             }
             current = UtilMath.clamp(current + 1, 0, max);
         }
-        else if (timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND))
+        else if (timing.elapsed(com.b3dgs.lionengine.Constant.THOUSAND / 2))
         {
             alpha += alphaSpeed * extrp;
 

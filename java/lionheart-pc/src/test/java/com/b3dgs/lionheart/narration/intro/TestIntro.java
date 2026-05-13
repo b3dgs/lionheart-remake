@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.b3dgs.lionheart.menu;
+package com.b3dgs.lionheart.narration.intro;
 
 import java.util.List;
 
@@ -26,12 +26,11 @@ import com.b3dgs.lionengine.io.DeviceActionModel;
 import com.b3dgs.lionengine.io.DevicePush;
 import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.GameConfig;
-import com.b3dgs.lionheart.InitConfig;
 
 /**
- * Test menu implementation.
+ * Test intro implementation.
  */
-public final class TestMenu extends MenuGame
+public final class TestIntro extends Intro
 {
     private final List<TickAction> actions;
     private int i;
@@ -44,9 +43,9 @@ public final class TestMenu extends MenuGame
      * @param actions The actions to add.
      * @throws LionEngineException If invalid argument.
      */
-    public TestMenu(Context context, DevicePush push, List<TickAction> actions)
+    public TestIntro(Context context, DevicePush push, List<TickAction> actions)
     {
-        super(context, new GameConfig().with(new InitConfig(null, 0, 0, null)));
+        super(context, new GameConfig());
 
         device.addFire(null,
                        push,
@@ -63,25 +62,21 @@ public final class TestMenu extends MenuGame
                        DeviceMapping.ATTACK.getIndex(),
                        DeviceMapping.ATTACK.getIndex(),
                        new DeviceActionModel(DeviceMapping.ATTACK.getIndex(), push));
+        device.addFire(null,
+                       push,
+                       DeviceMapping.FORCE_EXIT.getIndex(),
+                       DeviceMapping.FORCE_EXIT.getIndex(),
+                       new DeviceActionModel(DeviceMapping.FORCE_EXIT.getIndex(), push));
 
         this.actions = actions;
-        alphaSpeed = 256;
-    }
-
-    @Override
-    protected void goToLauncher()
-    {
-        end(null);
+        time.set(Part4.T_END);
     }
 
     @Override
     public void update(double extrp)
     {
-        if (transition == TransitionType.NONE)
-        {
-            actions.get(i).execute();
-            i = UtilMath.clamp(i + 1, 0, actions.size() - 1);
-        }
+        actions.get(i).execute();
+        i = UtilMath.clamp(i + 1, 0, actions.size() - 1);
 
         super.update(extrp);
     }
