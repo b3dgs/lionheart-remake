@@ -764,6 +764,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
                 rasterbar.addRasterbarColor(Graphics.getImageBuffer(rasterHero));
             }
         });
+        rasterbar.prepare();
         rasterRenderer = rasterbar::renderRasterbar;
     }
 
