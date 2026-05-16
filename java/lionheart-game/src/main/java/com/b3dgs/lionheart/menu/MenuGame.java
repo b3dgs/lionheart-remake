@@ -41,6 +41,7 @@ import com.b3dgs.lionheart.DeviceMapping;
 import com.b3dgs.lionheart.Difficulty;
 import com.b3dgs.lionheart.GameConfig;
 import com.b3dgs.lionheart.Music;
+import com.b3dgs.lionheart.Scene;
 import com.b3dgs.lionheart.SceneBlack;
 import com.b3dgs.lionheart.ScenePicture;
 import com.b3dgs.lionheart.Settings;
@@ -231,10 +232,17 @@ public class MenuGame extends Menu<Type>
             stage = Medias.create(Folder.STAGE, Folder.STORY, config.getStages().get(), "stage1.xml");
         }
         final StageConfig stageConfig = StageConfig.imports(new Configurer(stage));
-        end(ScenePicture.class,
-            config.with(joystick == 0).with(Util.getInitConfig(Difficulty.from(difficulty), stage)),
-            stageConfig.getPic().get(),
-            stageConfig.getText().get());
+        if (stageConfig.getPic().isPresent() && stageConfig.getText().isPresent())
+        {
+            end(ScenePicture.class,
+                config.with(joystick == 0).with(Util.getInitConfig(Difficulty.from(difficulty), stage)),
+                stageConfig.getPic().get(),
+                stageConfig.getText().get());
+        }
+        else
+        {
+            end(Scene.class, config.with(joystick == 0).with(Util.getInitConfig(Difficulty.from(difficulty), stage)));
+        }
     }
 
     private void renderMain(Graphic g)
