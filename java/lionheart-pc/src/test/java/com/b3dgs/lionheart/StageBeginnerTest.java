@@ -70,18 +70,18 @@ final class StageBeginnerTest
     void testStageBeginner(StageBeginner stage)
     {
         final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                                             Scene.class,
-                                             new GameConfig().with(new InitConfig(stage,
-                                                                                  1,
-                                                                                  1,
-                                                                                  1,
-                                                                                  1,
-                                                                                  true,
-                                                                                  1,
-                                                                                  Difficulty.NORMAL,
-                                                                                  false,
-                                                                                  Optional.empty())),
-                                             Boolean.TRUE);
+                                                  Scene.class,
+                                                  new GameConfig().with(new InitConfig(stage,
+                                                                                       1,
+                                                                                       1,
+                                                                                       1,
+                                                                                       1,
+                                                                                       true,
+                                                                                       1,
+                                                                                       Difficulty.NORMAL,
+                                                                                       false,
+                                                                                       Optional.empty())),
+                                                  Boolean.TRUE);
         task.await();
     }
 }

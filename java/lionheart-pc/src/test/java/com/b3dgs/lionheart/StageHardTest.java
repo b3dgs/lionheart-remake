@@ -70,19 +70,19 @@ final class StageHardTest
     void testStageHard(StageHard stage)
     {
         final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                                             Scene.class,
-                                             new GameConfig().with(new InitConfig(stage.exists() ? stage
-                                                                                                 : Stage.values()[stage.ordinal()],
-                                                                                  1,
-                                                                                  1,
-                                                                                  1,
-                                                                                  1,
-                                                                                  true,
-                                                                                  1,
-                                                                                  Difficulty.HARD,
-                                                                                  false,
-                                                                                  Optional.empty())),
-                                             Boolean.TRUE);
+                                                  Scene.class,
+                                                  new GameConfig().with(new InitConfig(stage.exists() ? stage
+                                                                                                      : Stage.values()[stage.ordinal()],
+                                                                                       1,
+                                                                                       1,
+                                                                                       1,
+                                                                                       1,
+                                                                                       true,
+                                                                                       1,
+                                                                                       Difficulty.HARD,
+                                                                                       false,
+                                                                                       Optional.empty())),
+                                                  Boolean.TRUE);
         task.await();
     }
 }

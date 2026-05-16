@@ -72,19 +72,19 @@ final class ScenePictureTest
         ScenePicture.fadeSpeed = 255;
         Settings.getInstance().setLang(lang);
         Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                     ScenePicture.class,
-                     new GameConfig().with(new InitConfig(Medias.create("void.xml"),
-                                                          Constant.STATS_MAX_HEART - 1,
-                                                          Constant.STATS_MAX_TALISMENT - 1,
-                                                          Constant.STATS_MAX_LIFE - 1,
-                                                          Constant.STATS_MAX_SWORD - 1,
-                                                          true,
-                                                          Constant.CREDITS,
-                                                          Difficulty.NORMAL,
-                                                          true,
-                                                          Optional.empty())),
-                     Medias.create(Folder.SPRITE, pic + ".png"),
-                     text + ".txt")
+                          ScenePicture.class,
+                          new GameConfig().with(new InitConfig(Medias.create("void.xml"),
+                                                               Constant.STATS_MAX_HEART - 1,
+                                                               Constant.STATS_MAX_TALISMENT - 1,
+                                                               Constant.STATS_MAX_LIFE - 1,
+                                                               Constant.STATS_MAX_SWORD - 1,
+                                                               true,
+                                                               Constant.CREDITS,
+                                                               Difficulty.NORMAL,
+                                                               true,
+                                                               Optional.empty())),
+                          Medias.create(Folder.SPRITE, pic + ".png"),
+                          text + ".txt")
               .await();
         ScenePicture.fadeSpeed = ScenePicture.FADE_SPEED;
     }
@@ -113,20 +113,20 @@ final class ScenePictureTest
         ScenePicture.fadeSpeed = 255;
         Settings.getInstance().setLang(lang);
         Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                     ScenePicture.class,
-                     new GameConfig().with(new InitConfig(Medias.create("void.xml"),
-                                                          Constant.STATS_MAX_HEART - 1,
-                                                          Constant.STATS_MAX_TALISMENT - 1,
-                                                          Constant.STATS_MAX_LIFE - 1,
-                                                          Constant.STATS_MAX_SWORD - 1,
-                                                          true,
-                                                          Constant.CREDITS,
-                                                          Difficulty.NORMAL,
-                                                          true,
-                                                          Optional.empty())),
-                     Medias.create(Folder.SPRITE, pic + ".png"),
-                     text + ".txt",
-                     Boolean.TRUE)
+                          ScenePicture.class,
+                          new GameConfig().with(new InitConfig(Medias.create("void.xml"),
+                                                               Constant.STATS_MAX_HEART - 1,
+                                                               Constant.STATS_MAX_TALISMENT - 1,
+                                                               Constant.STATS_MAX_LIFE - 1,
+                                                               Constant.STATS_MAX_SWORD - 1,
+                                                               true,
+                                                               Constant.CREDITS,
+                                                               Difficulty.NORMAL,
+                                                               true,
+                                                               Optional.empty())),
+                          Medias.create(Folder.SPRITE, pic + ".png"),
+                          text + ".txt",
+                          Boolean.TRUE)
               .await();
         ScenePicture.fadeSpeed = ScenePicture.FADE_SPEED;
     }

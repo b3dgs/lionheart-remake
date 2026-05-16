@@ -62,17 +62,17 @@ final class EntitiesTest
         if (stage.exists())
         {
             final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                                                 TestScene.class,
-                                                 new GameConfig().with(new InitConfig(stage,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1,
-                                                                                      true,
-                                                                                      1,
-                                                                                      Difficulty.NORMAL,
-                                                                                      false,
-                                                                                      Optional.empty())));
+                                                      TestScene.class,
+                                                      new GameConfig().with(new InitConfig(stage,
+                                                                                           1,
+                                                                                           1,
+                                                                                           1,
+                                                                                           1,
+                                                                                           true,
+                                                                                           1,
+                                                                                           Difficulty.NORMAL,
+                                                                                           false,
+                                                                                           Optional.empty())));
             task.await();
         }
         else
@@ -102,17 +102,17 @@ final class EntitiesTest
         if (stage.exists())
         {
             final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                                                 TestScene.class,
-                                                 new GameConfig().with(new InitConfig(stage,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1,
-                                                                                      true,
-                                                                                      1,
-                                                                                      Difficulty.NORMAL,
-                                                                                      false,
-                                                                                      Optional.empty())));
+                                                      TestScene.class,
+                                                      new GameConfig().with(new InitConfig(stage,
+                                                                                           1,
+                                                                                           1,
+                                                                                           1,
+                                                                                           1,
+                                                                                           true,
+                                                                                           1,
+                                                                                           Difficulty.NORMAL,
+                                                                                           false,
+                                                                                           Optional.empty())));
             task.await();
         }
         else
@@ -141,18 +141,18 @@ final class EntitiesTest
         if (stage.exists())
         {
             final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                                                 TestScene.class,
-                                                 new GameConfig().with(new InitConfig(stage,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1,
-                                                                                      true,
-                                                                                      1,
-                                                                                      Difficulty.NORMAL,
-                                                                                      false,
-                                                                                      Optional.empty())),
-                                                 OptionalInt.of(400));
+                                                      TestScene.class,
+                                                      new GameConfig().with(new InitConfig(stage,
+                                                                                           1,
+                                                                                           1,
+                                                                                           1,
+                                                                                           1,
+                                                                                           true,
+                                                                                           1,
+                                                                                           Difficulty.NORMAL,
+                                                                                           false,
+                                                                                           Optional.empty())),
+                                                      OptionalInt.of(400));
             task.await();
         }
         else

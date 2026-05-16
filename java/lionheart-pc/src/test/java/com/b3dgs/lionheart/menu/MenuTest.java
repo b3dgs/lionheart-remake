@@ -93,9 +93,9 @@ final class MenuTest
         DevicePushMock.addSimu(actions, push, DeviceMapping.ATTACK);
 
         final TaskFuture task = Loader.startAsync(Config.windowed(Constant.RESOLUTION_OUTPUT),
-                                             TestMenu.class,
-                                             push,
-                                             actions);
+                                                  TestMenu.class,
+                                                  push,
+                                                  actions);
         task.await();
     }
 }
