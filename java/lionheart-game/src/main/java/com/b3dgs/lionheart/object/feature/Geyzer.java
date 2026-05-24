@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -223,8 +223,7 @@ public final class Geyzer extends FeatureModel
                                                                           WorldType.LAVA.getFolder(),
                                                                           BOTTOM_FILE),
                                                             transformable);
-                final Animation idle = AnimationConfig.imports(new Configurer(featurable.getMedia()))
-                                                      .getAnimation(Anim.IDLE);
+                final Animation idle = AnimationsConfig.imports(new Configurer(featurable.getMedia())).get(Anim.IDLE);
                 featurable.ifIs(Animatable.class, a -> a.play(idle));
                 bottom.add(featurable.getFeature(Transformable.class));
                 y = transformable.getY();

@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Direction;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.FeatureProvider;
@@ -81,10 +81,10 @@ public final class Catapult extends FeatureModel
         this.animatable = animatable;
         this.launcher = launcher;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        fire = config.getAnimation(Anim.ATTACK);
-        reload = config.getAnimation(Anim.TURN);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        fire = animationsConfig.get(Anim.ATTACK);
+        reload = animationsConfig.get(Anim.TURN);
 
         load(setup.getRoot());
 
@@ -101,7 +101,7 @@ public final class Catapult extends FeatureModel
         if (fired && animatable.is(AnimState.FINISHED))
         {
             animatable.play(reload);
-            animatable.setFrame(reload.getLast());
+            animatable.setFrame(reload.lastFrame());
             updater = this::updateReloaded;
         }
     }

@@ -20,7 +20,7 @@ import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
 import com.b3dgs.lionengine.game.feature.Mirrorable;
@@ -54,7 +54,7 @@ public final class SwordShade extends FeatureModel implements RoutineUpdate, Rou
     private final Transformable transformable;
 
     private final SpriteAnimated[] shades = new SpriteAnimated[Constant.STATS_MAX_SWORD];
-    private final AnimationConfig config;
+    private final AnimationsConfig animationsConfig;
     private final Viewer viewer;
 
     private SpriteAnimated shade;
@@ -96,14 +96,14 @@ public final class SwordShade extends FeatureModel implements RoutineUpdate, Rou
         }
         shade = shades[0];
 
-        config = AnimationConfig.imports(setup);
+        animationsConfig = AnimationsConfig.imports(setup);
 
         stateHandler.addListener((from, to) ->
         {
             final String name = Anim.SHADE + EntityModel.getAnimationName(to);
-            if (config.hasAnimation(name))
+            if (animationsConfig.has(name))
             {
-                shade.play(config.getAnimation(name));
+                shade.play(animationsConfig.get(name));
                 Sfx.VALDYN_SWORD.play();
             }
             else

@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -115,11 +115,11 @@ public final class BossNorka2 extends FeatureModel implements RoutineUpdate, Rec
         this.hurtable = hurtable;
         this.launcher = launcher;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        fall = config.getAnimation(Anim.FALL);
-        turn = config.getAnimation(Anim.TURN);
-        attack = config.getAnimation(Anim.ATTACK);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        fall = animationsConfig.get(Anim.FALL);
+        turn = animationsConfig.get(Anim.TURN);
+        attack = animationsConfig.get(Anim.ATTACK);
 
         movement.setVelocity(0.12);
         movement.setSensibility(0.6);
@@ -181,7 +181,7 @@ public final class BossNorka2 extends FeatureModel implements RoutineUpdate, Rec
             animatable.play(turn);
             if (side == 0)
             {
-                animatable.setFrame(fall.getFirst());
+                animatable.setFrame(fall.firstFrame());
                 mirrorable.mirror(Mirror.HORIZONTAL);
             }
             side = -1;
@@ -191,7 +191,7 @@ public final class BossNorka2 extends FeatureModel implements RoutineUpdate, Rec
             animatable.play(turn);
             if (side == 0)
             {
-                animatable.setFrame(fall.getFirst());
+                animatable.setFrame(fall.firstFrame());
             }
             side = 1;
         }
@@ -297,8 +297,8 @@ public final class BossNorka2 extends FeatureModel implements RoutineUpdate, Rec
         if (tick.elapsedTime(source.getRate(), END_ATTACK_DELAY_MS) && !hurtable.isHurting())
         {
             animatable.play(attack);
-            animatable.setFrame(attack.getLast());
-            animatable.setAnimSpeed(-attack.getSpeed());
+            animatable.setFrame(attack.lastFrame());
+            animatable.setAnimSpeed(-attack.speed());
             current = this::updateEndAttack;
             tick.restart();
         }

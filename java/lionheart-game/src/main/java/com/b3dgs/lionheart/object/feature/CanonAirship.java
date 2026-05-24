@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -97,8 +97,7 @@ public final class CanonAirship extends FeatureModel implements RoutineUpdate, R
         this.stateHandler = stateHandler;
         this.hurtable = hurtable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        halfFrames = config.getAnimation(Anim.IDLE).getFrames() / 2;
+        halfFrames = AnimationsConfig.imports(setup).get(Anim.IDLE).getFrames() / 2;
     }
 
     /**

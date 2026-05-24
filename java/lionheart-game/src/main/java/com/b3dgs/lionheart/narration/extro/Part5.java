@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Origin;
 import com.b3dgs.lionengine.Resolution;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -107,7 +107,7 @@ public final class Part5 implements Closeable
         final Featurable featurable = factory.create(media);
         featurable.getFeature(Transformable.class).teleport(x, y);
         final Animatable animatable = featurable.getFeature(Animatable.class);
-        animatable.play(AnimationConfig.imports(new Configurer(featurable.getMedia())).getAnimation(Anim.IDLE));
+        animatable.play(AnimationsConfig.imports(new Configurer(featurable.getMedia())).get(Anim.IDLE));
         animatable.addListener((AnimatorStateListener) state ->
         {
             if (AnimState.FINISHED == state)
@@ -144,11 +144,11 @@ public final class Part5 implements Closeable
         super();
 
         resolution = Util.getResolution(Constant.RESOLUTION, context);
-        width = resolution.getWidth();
-        height = resolution.getHeight();
-        rate = resolution.getRate();
+        width = resolution.width();
+        height = resolution.height();
+        rate = resolution.rate();
 
-        final double x = resolution.getWidth() / 2.0 - 2;
+        final double x = resolution.width() / 2.0 - 2;
         final double y = height / 2.0 - 54;
 
         effects = new Featurable[]
@@ -163,7 +163,7 @@ public final class Part5 implements Closeable
             spawner.spawn(Medias.create(Folder.EXTRO, PART5_FOLDER, FILE_TRANSFORM1), x, y),
         };
 
-        services.add(new SourceResolutionDelegate(resolution::getWidth, resolution::getHeight, resolution::getRate));
+        services.add(new SourceResolutionDelegate(resolution::width, resolution::height, resolution::rate));
         camera.setView(0, 0, width, height, height);
 
         services.add(context);

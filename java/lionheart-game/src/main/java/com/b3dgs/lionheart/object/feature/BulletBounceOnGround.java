@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -155,7 +155,7 @@ public final class BulletBounceOnGround extends FeatureModel implements XmlLoade
         this.model = model;
         this.hurtable = hurtable;
 
-        idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+        idle = AnimationsConfig.imports(setup).get(Anim.IDLE);
         sfx = Sfx.valueOf(setup.getString(ATT_SFX, NODE));
         count = setup.getInteger(0, ATT_COUNT, NODE);
 

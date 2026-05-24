@@ -58,7 +58,7 @@ public final class Stories extends StoriesBase
         super();
 
         final String[] texts = loadTexts(4, Settings.getInstance().getLang());
-        final int offsetX = width / 2 - Constant.RESOLUTION.getWidth() / 2;
+        final int offsetX = width / 2 - Constant.RESOLUTION.width() / 2;
 
         // CHECKSTYLE OFF: MagicNumber
         add(new StoryRenderer(get("pic0.png"), offsetX + 0, 0, texts[0], offsetX + 1, 98));

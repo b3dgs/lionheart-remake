@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -125,10 +125,10 @@ public final class BossSpidercave extends FeatureModel implements RoutineUpdate,
         this.body = body;
         this.model = model;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        walk = config.getAnimation(Anim.WALK);
-        attack = config.getAnimation(Anim.ATTACK);
-        dead = config.getAnimation(Anim.DEAD);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        walk = animationsConfig.get(Anim.WALK);
+        attack = animationsConfig.get(Anim.ATTACK);
+        dead = animationsConfig.get(Anim.DEAD);
 
         launcher.addListener(l -> l.ifIs(Spider.class, s -> s.track(-1)));
 
@@ -180,7 +180,7 @@ public final class BossSpidercave extends FeatureModel implements RoutineUpdate,
             {
                 animatable.play(walk);
                 headAnim.play(headOpen);
-                headAnim.setFrame(headOpen.getLast());
+                headAnim.setFrame(headOpen.lastFrame());
                 headAnim.setAnimSpeed(-headAnim.getAnimSpeed());
                 step++;
             }
@@ -227,7 +227,7 @@ public final class BossSpidercave extends FeatureModel implements RoutineUpdate,
             else if (step == 8)
             {
                 headAnim.play(headOpen);
-                headAnim.setFrame(headOpen.getLast());
+                headAnim.setFrame(headOpen.lastFrame());
                 headAnim.setAnimSpeed(-headAnim.getAnimSpeed());
                 step++;
             }
@@ -297,8 +297,8 @@ public final class BossSpidercave extends FeatureModel implements RoutineUpdate,
         headTransformable = head.getFeature(Transformable.class);
         headCollidable = head.getFeature(Collidable.class);
         headAnim = head.getFeature(Animatable.class);
-        final AnimationConfig headConfig = AnimationConfig.imports(new Configurer(head.getMedia()));
-        headOpen = headConfig.getAnimation("open");
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(new Configurer(head.getMedia()));
+        headOpen = animationsConfig.get("open");
 
         minX = -1.0;
         maxX = -1.0;

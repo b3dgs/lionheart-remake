@@ -124,7 +124,7 @@ abstract class Menu<T extends Enum<T>> extends Sequence
     {
         super(context,
               Util.getResolution(Constant.RESOLUTION, context).get2x(),
-              Util.getLoop(context.getConfig().getOutput()));
+              Util.getLoop(context.getConfig().output()));
 
         this.config = config;
 
@@ -142,8 +142,8 @@ abstract class Menu<T extends Enum<T>> extends Sequence
 
         cursor = services.create(Cursor.class);
         cursor.setViewer(camera);
-        cursor.setSensibility(getWidth() / (double) Constant.RESOLUTION.getWidth(),
-                              getHeight() / (double) Constant.RESOLUTION.getHeight());
+        cursor.setSensibility(getWidth() / (double) Constant.RESOLUTION.width(),
+                              getHeight() / (double) Constant.RESOLUTION.height());
         cursor.setArea(0, 0, getWidth(), getHeight());
 
         pointer = (DevicePointer) getInputDevice(DeviceControllerConfig.imports(services, mediaCursor)

@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -119,7 +119,7 @@ public final class BossUnderworld extends FeatureModel implements RoutineUpdate,
         this.animatable = animatable;
         this.launcher = launcher;
 
-        idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+        idle = AnimationsConfig.imports(setup).get(Anim.IDLE);
 
         if (RasterType.CACHE == Settings.getInstance().getRaster())
         {

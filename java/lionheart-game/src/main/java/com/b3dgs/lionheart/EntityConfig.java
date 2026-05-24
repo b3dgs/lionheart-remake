@@ -120,7 +120,7 @@ public final class EntityConfig
      */
     public double getSpawnX(MapTile map)
     {
-        return origin.getX(spawn.getX() * map.getTileWidth(), size.getWidth()) + map.getTileWidth();
+        return origin.getX(spawn.getX() * map.getTileWidth(), size.width()) + map.getTileWidth();
     }
 
     /**
@@ -131,6 +131,6 @@ public final class EntityConfig
      */
     public double getSpawnY(MapTile map)
     {
-        return origin.getY(spawn.getY() * map.getTileHeight(), size.getHeight()) + map.getTileHeight();
+        return origin.getY(spawn.getY() * map.getTileHeight(), size.height()) + map.getTileHeight();
     }
 }

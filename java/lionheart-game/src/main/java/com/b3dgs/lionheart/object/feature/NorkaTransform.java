@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -69,8 +69,7 @@ public final class NorkaTransform extends FeatureModel implements RoutineUpdate,
         this.animatable = animatable;
         this.identifiable = identifiable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
+        idle = AnimationsConfig.imports(setup).get(Anim.IDLE);
     }
 
     /**
@@ -85,9 +84,9 @@ public final class NorkaTransform extends FeatureModel implements RoutineUpdate,
             max++;
             if (max >= 5)
             {
-                max = idle.getLast();
+                max = idle.lastFrame();
             }
-            if (animatable.getFrame() == idle.getLast())
+            if (animatable.getFrame() == idle.lastFrame())
             {
                 phase = UpdatableVoid.getInstance();
                 spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "Norka.xml"), 208, 88);
@@ -104,17 +103,17 @@ public final class NorkaTransform extends FeatureModel implements RoutineUpdate,
     {
         final double speed;
         final boolean reversed;
-        if (max == idle.getLast())
+        if (max == idle.lastFrame())
         {
             speed = 0.25;
             reversed = false;
         }
         else
         {
-            speed = idle.getSpeed();
-            reversed = idle.hasReverse();
+            speed = idle.speed();
+            reversed = idle.reverse();
         }
-        return new Animation(idle.getName(), idle.getFirst(), max, speed, reversed, false);
+        return new Animation(idle.getName(), idle.firstFrame(), max, speed, reversed, false);
     }
 
     @Override

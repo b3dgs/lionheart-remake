@@ -101,7 +101,7 @@ public final class Road extends FeatureModel
     public void update(double extrp)
     {
         road.setOffsetX(UtilMath.wrapDouble(road.getOffsetX() - 3 * extrp, 0.0, road.getRenderable().getWidth()));
-        road.setOffsetY(-176.0 - camera.getHeight() + Constant.RESOLUTION.getHeight());
+        road.setOffsetY(-176.0 - camera.getHeight() + Constant.RESOLUTION.height());
     }
 
     @Override

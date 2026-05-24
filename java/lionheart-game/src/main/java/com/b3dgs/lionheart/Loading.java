@@ -60,7 +60,7 @@ public final class Loading extends Sequence
      */
     public Loading(Context context, GameConfig config, Boolean direct)
     {
-        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop(context.getConfig().getOutput()));
+        super(context, Util.getResolution(Constant.RESOLUTION, context), Util.getLoop(context.getConfig().output()));
 
         timing.start();
         this.config = config;

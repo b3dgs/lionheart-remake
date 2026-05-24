@@ -263,15 +263,15 @@ public final class Settings
         final int defRate;
         if (desktop != null)
         {
-            defWidth = desktop.getWidth();
-            defHeight = desktop.getHeight();
-            defRate = desktop.getRate();
+            defWidth = desktop.width();
+            defHeight = desktop.height();
+            defRate = desktop.rate();
         }
         else
         {
-            defWidth = Constant.RESOLUTION_OUTPUT.getWidth();
-            defHeight = Constant.RESOLUTION_OUTPUT.getHeight();
-            defRate = Constant.RESOLUTION.getRate();
+            defWidth = Constant.RESOLUTION_OUTPUT.width();
+            defHeight = Constant.RESOLUTION_OUTPUT.height();
+            defRate = Constant.RESOLUTION.rate();
         }
         return new Resolution(getInt(RESOLUTION_WIDTH, defWidth),
                               getInt(RESOLUTION_HEIGHT, defHeight),

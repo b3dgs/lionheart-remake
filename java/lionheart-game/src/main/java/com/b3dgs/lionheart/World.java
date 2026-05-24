@@ -213,8 +213,7 @@ final class World extends WorldHelper implements MusicPlayer, LoadNextStage
         executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(),
                                                 runnable -> new Thread(runnable, getClass().getSimpleName()));
 
-        final int size = Math.max(9,
-                                  9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.getHeight()));
+        final int size = Math.max(9, 9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.height()));
         text = Graphics.createText(size);
         text.setColor(ColorRgba.WHITE);
         componentCollision.setVisible(Constant.DEBUG_COLLISIONS);

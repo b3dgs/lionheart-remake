@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.AnimState;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -87,10 +87,10 @@ public final class BossSpidercaveBowl extends FeatureModel implements RoutineUpd
         this.identifiable = identifiable;
         this.launchable = launchable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
 
-        fall = config.getAnimation(Anim.FALL);
-        hatch = config.getAnimation(ANIM_HATCH);
+        fall = animationsConfig.get(Anim.FALL);
+        hatch = animationsConfig.get(ANIM_HATCH);
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
     }
@@ -103,7 +103,7 @@ public final class BossSpidercaveBowl extends FeatureModel implements RoutineUpd
             launchable.getDirection().setVelocity(0.04);
             launchable.getDirection().setDestination(-1.5, -2.0);
         }
-        else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.getLast())
+        else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.lastFrame())
         {
             identifiable.destroy();
         }

@@ -50,7 +50,7 @@ public final class GameViewHandler
         final WorldPart part = services.get(WorldPart.class);
 
         final WorldZoomUpdater zoom = services.get(WorldZoomUpdater.class);
-        final int percent = (int) (part.getView().height / (double) Constant.RESOLUTION_GAME.getHeight() * 100);
+        final int percent = (int) (part.getView().height / (double) Constant.RESOLUTION_GAME.height() * 100);
         zoom.setPercent(percent);
 
         part.update();

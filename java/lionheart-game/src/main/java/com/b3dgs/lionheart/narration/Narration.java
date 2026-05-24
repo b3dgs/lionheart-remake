@@ -77,7 +77,7 @@ public abstract class Narration extends Sequence implements NarrationFactory
      */
     protected Narration(Context context, Resolution resolution, Audio audio)
     {
-        super(context, resolution, Util.getLoop(context.getConfig().getOutput()));
+        super(context, resolution, Util.getLoop(context.getConfig().output()));
 
         this.audio = audio;
         audio.setVolume(Settings.getInstance().getVolumeMusic());
@@ -182,9 +182,9 @@ public abstract class Narration extends Sequence implements NarrationFactory
      */
     protected double getWideFactor(Context context)
     {
-        final Resolution output = context.getConfig().getOutput();
-        final double factor = getHeight() / (double) output.getHeight();
-        return Math.floor(output.getWidth() * factor) / Constant.RESOLUTION.getWidth();
+        final Resolution output = context.getConfig().output();
+        final double factor = getHeight() / (double) output.height();
+        return Math.floor(output.width() * factor) / Constant.RESOLUTION.width();
     }
 
     /**

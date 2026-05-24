@@ -71,7 +71,7 @@ final class Norka extends BackgroundAbstract
     {
         this.width = width;
         this.height = height;
-        offsetY = height - Constant.RESOLUTION_GAME.getHeight();
+        offsetY = height - Constant.RESOLUTION_GAME.height();
         setOffsetY(offsetY);
     }
 

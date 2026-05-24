@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -69,9 +69,9 @@ public final class Head extends FeatureModel implements RoutineUpdate, Recyclabl
         this.animatable = animatable;
         this.launcher = launcher;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        fire = config.getAnimation(Anim.ATTACK);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        fire = animationsConfig.get(Anim.ATTACK);
     }
 
     @Override
@@ -84,7 +84,7 @@ public final class Head extends FeatureModel implements RoutineUpdate, Recyclabl
             animatable.play(fire);
             phase = 1;
         }
-        else if (phase == 1 && animatable.getFrame() == fire.getLast())
+        else if (phase == 1 && animatable.getFrame() == fire.lastFrame())
         {
             launcher.fire();
             tick.restart();

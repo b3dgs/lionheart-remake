@@ -184,12 +184,12 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         this.state = state;
         this.networkable = networkable;
 
-        final FramesConfig config = FramesConfig.imports(setup);
-        frames = config.getHorizontal() * config.getVertical();
+        final FramesConfig framesConfig = FramesConfig.imports(setup);
+        frames = framesConfig.horizontals() * framesConfig.verticals();
 
         if (setup.hasNode(ModelConfig.NODE_MODEL))
         {
-            this.config = new ModelConfig(setup.getRoot());
+            config = new ModelConfig(setup.getRoot());
         }
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
@@ -582,8 +582,8 @@ public final class EntityModel extends EntityModelHelper implements XmlLoader, X
         if (root.hasNode(BodyConfig.NODE_BODY))
         {
             final BodyConfig c = BodyConfig.imports(root);
-            body.setGravity(c.getGravity());
-            body.setGravityMax(c.getGravityMax());
+            body.setGravity(c.gravity());
+            body.setGravityMax(c.gravityMax());
         }
         mirrorable.mirror(config.getMirror().orElse(mirror).booleanValue() ? Mirror.HORIZONTAL : Mirror.NONE);
         mirrorable.update(1.0);

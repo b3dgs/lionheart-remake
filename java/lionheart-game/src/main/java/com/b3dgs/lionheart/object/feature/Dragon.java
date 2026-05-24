@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.Viewer;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -115,12 +115,12 @@ public final class Dragon extends FeatureModel implements RoutineUpdate, Recycla
         this.mirrorable = mirrorable;
         this.launcher = launcher;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        raise = config.getAnimation("raise");
-        open = config.getAnimation("open");
-        close = config.getAnimation("close");
-        hide = config.getAnimation("hide");
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        raise = animationsConfig.get("raise");
+        open = animationsConfig.get("open");
+        close = animationsConfig.get("close");
+        hide = animationsConfig.get("hide");
 
         launcher.setOffset(TONGUE_OFFSET_X, TONGUE_OFFSET_Y);
         launcher.addListener(tongue::add);

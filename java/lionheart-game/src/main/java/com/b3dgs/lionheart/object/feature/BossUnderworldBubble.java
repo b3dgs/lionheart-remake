@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -87,7 +87,7 @@ public final class BossUnderworldBubble extends FeatureModel implements RoutineU
 
         this.transformable = transformable;
 
-        attack = AnimationConfig.imports(setup).getAnimation(Anim.ATTACK);
+        attack = AnimationsConfig.imports(setup).get(Anim.ATTACK);
 
         animatable.addListener((AnimatorStateListener) state ->
         {

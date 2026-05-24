@@ -98,8 +98,8 @@ public final class Credits implements Closeable
         this.theEnd = theEnd;
 
         final Resolution resolution = Util.getResolution(Constant.RESOLUTION, context);
-        width = resolution.getWidth();
-        height = resolution.getHeight();
+        width = resolution.width();
+        height = resolution.height();
 
         audioAlternative.setVolume(Settings.getInstance().getVolumeMusic());
         sprite = Util.get(Folder.EXTRO, this.alternative ? PART5_FOLDER : PART4_FOLDER, FILENAME_IMAGE);

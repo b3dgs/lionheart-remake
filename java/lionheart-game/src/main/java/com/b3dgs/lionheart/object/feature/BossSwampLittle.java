@@ -19,7 +19,7 @@ package com.b3dgs.lionheart.object.feature;
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Mirror;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -86,7 +86,7 @@ public final class BossSwampLittle extends FeatureModel implements RoutineUpdate
 
         collidable.setCollisionVisibility(Constant.DEBUG_COLLISIONS);
 
-        walk = AnimationConfig.imports(setup).getAnimation(Anim.WALK);
+        walk = AnimationsConfig.imports(setup).get(Anim.WALK);
     }
 
     @Override
@@ -109,7 +109,7 @@ public final class BossSwampLittle extends FeatureModel implements RoutineUpdate
     {
         if (result.startWithX(CollisionName.STEEP)
             && !result.endWithY(CollisionName.GROUND)
-            && category.getAxis() == Axis.X
+            && category.axis() == Axis.X
             && (result.containsX(CollisionName.LEFT) && sh > 0 || result.containsX(CollisionName.RIGHT) && sh < 0))
         {
             transformable.teleportX(transformable.getX() - sh * 5);

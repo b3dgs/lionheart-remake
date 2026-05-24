@@ -85,7 +85,7 @@ public final class Part4 implements Closeable
         this.audioAlternative = audioAlternative;
         this.alternative = alternative;
         resolution = Util.getResolution(Constant.RESOLUTION, context);
-        stories = new Stories(resolution.getWidth(), resolution.getHeight());
+        stories = new Stories(resolution.width(), resolution.height());
     }
 
     /**
@@ -110,7 +110,7 @@ public final class Part4 implements Closeable
         stories.setStory(STORY0_INDEX);
         stories.setStart(STORY0_INDEX);
 
-        amulet.setLocation(resolution.getWidth() / 2 + AMULET_X_OFFSET, AMULET_Y);
+        amulet.setLocation(resolution.width() / 2 + AMULET_X_OFFSET, AMULET_Y);
 
         init(n, source);
     }

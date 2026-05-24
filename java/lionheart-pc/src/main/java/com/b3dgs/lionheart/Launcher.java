@@ -968,16 +968,16 @@ final class Launcher
 
         if (Settings.getFile().exists())
         {
-            WIDTH.set(settings.getResolution(desktop).getWidth());
-            HEIGHT.set(settings.getResolution(desktop).getHeight());
-            RATE.set(settings.getResolution(desktop).getRate());
+            WIDTH.set(settings.getResolution(desktop).width());
+            HEIGHT.set(settings.getResolution(desktop).height());
+            RATE.set(settings.getResolution(desktop).rate());
             WINDOWED.set(settings.isResolutionWindowed());
         }
         else
         {
-            WIDTH.set(desktop.getWidth());
-            HEIGHT.set(desktop.getHeight());
-            RATE.set(desktop.getRate());
+            WIDTH.set(desktop.width());
+            HEIGHT.set(desktop.height());
+            RATE.set(desktop.rate());
             WINDOWED.set(true);
         }
 
@@ -1151,8 +1151,8 @@ final class Launcher
     {
         if (comboScale.getSelectedIndex() > 0 && comboRatio.getSelectedIndex() > 0)
         {
-            int w = Constant.RESOLUTION.getWidth();
-            int h = Constant.RESOLUTION.getHeight();
+            int w = Constant.RESOLUTION.width();
+            int h = Constant.RESOLUTION.height();
 
             final int scale = AVAILABLE_SCALE[comboScale.getSelectedIndex()].intValue();
             w *= scale;
@@ -1172,7 +1172,7 @@ final class Launcher
                                                 .getDefaultScreenDevice()
                                                 .getDisplayModes())
                      .stream()
-                     .filter(d -> d.getRefreshRate() >= Constant.RESOLUTION.getRate())
+                     .filter(d -> d.getRefreshRate() >= Constant.RESOLUTION.rate())
                      .map(d -> Integer.valueOf(d.getRefreshRate()))
                      .distinct()
                      .sorted()
@@ -1182,8 +1182,8 @@ final class Launcher
     private static List<Integer> getAvailableRates()
     {
         final List<Integer> rates = new ArrayList<>(getNativeRates());
-        rates.add(Integer.valueOf(Constant.RESOLUTION.getRate()));
-        rates.add(Integer.valueOf(Constant.RESOLUTION.getRate() * 2));
+        rates.add(Integer.valueOf(Constant.RESOLUTION.rate()));
+        rates.add(Integer.valueOf(Constant.RESOLUTION.rate() * 2));
         return rates.stream().distinct().sorted().collect(Collectors.toList());
     }
 

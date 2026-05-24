@@ -62,15 +62,15 @@ public final class StateGripSoar extends State
         map = model.getMap();
         listener = (AnimatorFrameListener) frame ->
         {
-            if (frame - animation.getFirst() < FRAME_5)
+            if (frame - animation.firstFrame() < FRAME_5)
             {
                 frameOffset = OFFSET_1;
             }
-            if (frame - animation.getFirst() >= FRAME_5 && frame - animation.getFirst() < FRAME_8)
+            if (frame - animation.firstFrame() >= FRAME_5 && frame - animation.firstFrame() < FRAME_8)
             {
                 frameOffset = OFFSET_5;
             }
-            else if (frame - animation.getFirst() >= FRAME_8)
+            else if (frame - animation.firstFrame() >= FRAME_8)
             {
                 frameOffset = OFFSET_8;
             }
@@ -91,7 +91,7 @@ public final class StateGripSoar extends State
         offset = 0.0;
         offset2 = 0.0;
         frameOffset = OFFSET_1;
-        animatable.setFrame(animation.getFirst());
+        animatable.setFrame(animation.firstFrame());
     }
 
     @Override

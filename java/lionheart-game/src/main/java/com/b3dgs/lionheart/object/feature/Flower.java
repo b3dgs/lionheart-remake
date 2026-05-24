@@ -22,7 +22,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -110,8 +110,7 @@ public final class Flower extends FeatureModel implements RoutineUpdate, Collida
         this.stateHandler = stateHandler;
         this.hurtable = hurtable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        halfFrames = config.getAnimation(Anim.IDLE).getFrames() / 2;
+        halfFrames = AnimationsConfig.imports(setup).get(Anim.IDLE).getFrames() / 2;
 
         animatable.addListener((AnimatorFrameListener) frame ->
         {

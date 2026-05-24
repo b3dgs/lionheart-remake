@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Factory;
@@ -539,12 +539,12 @@ public final class BossNorka extends FeatureModel implements RoutineUpdate, Recy
         this.body = body;
         this.launcher = launcher;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        rise = config.getAnimation("rise");
-        walk = config.getAnimation(Anim.WALK);
-        preparejump = config.getAnimation("preparejump");
-        jump = config.getAnimation(Anim.JUMP);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        rise = animationsConfig.get("rise");
+        walk = animationsConfig.get(Anim.WALK);
+        preparejump = animationsConfig.get("preparejump");
+        jump = animationsConfig.get(Anim.JUMP);
 
         for (int i = 0; i < LIMBS.length; i++)
         {
@@ -624,8 +624,8 @@ public final class BossNorka extends FeatureModel implements RoutineUpdate, Recy
 
             if (startX + PATROLS[patrol] < transformable.getX())
             {
-                animator.setFrame(walk.getLast());
-                animator.setAnimSpeed(-walk.getSpeed());
+                animator.setFrame(walk.lastFrame());
+                animator.setAnimSpeed(-walk.speed());
                 transformable.moveLocationX(1.0, -WALK_OFFSET);
             }
             tick.restart();
@@ -645,8 +645,8 @@ public final class BossNorka extends FeatureModel implements RoutineUpdate, Recy
         body.resetGravity();
 
         final int side = getSide();
-        if (side <= 0 && old == walk.getFirst() && animator.getFrame() == walk.getLast()
-            || side > 0 && old == walk.getLast() && animator.getFrame() == walk.getFirst())
+        if (side <= 0 && old == walk.firstFrame() && animator.getFrame() == walk.lastFrame()
+            || side > 0 && old == walk.lastFrame() && animator.getFrame() == walk.firstFrame())
         {
             transformable.moveLocationX(1.0, WALK_OFFSET * (double) side);
             walkedCount++;

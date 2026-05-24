@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilMath;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.OriginConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -182,8 +182,9 @@ public final class BossSwamp2 extends FeatureModel implements RoutineUpdate, Rou
         this.stats = stats;
         this.glue = glue;
 
-        idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
-        land = AnimationConfig.imports(setup).getAnimation(Anim.LAND);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        land = animationsConfig.get(Anim.LAND);
 
         shade = Drawable.loadSpriteAnimated(setup.getShade(),
                                             setup.getInteger(FramesConfig.ATT_HORIZONTAL, SetupEntity.NODE_SHADE),

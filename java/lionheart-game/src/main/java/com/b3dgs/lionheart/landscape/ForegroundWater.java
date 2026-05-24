@@ -383,7 +383,7 @@ public final class ForegroundWater extends BackgroundAbstract implements Foregro
 
             this.water = water;
 
-            anim = Drawable.loadSpriteAnimated(Medias.create(path, "anim.png"), 1, animation.getLast());
+            anim = Drawable.loadSpriteAnimated(Medias.create(path, "anim.png"), 1, animation.lastFrame());
             anim.load();
             anim.play(animation);
         }

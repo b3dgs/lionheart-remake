@@ -53,7 +53,7 @@ public final class TurningCube extends FeatureModel
 
         animatable.addListener((AnimatorAnimListener) anim ->
         {
-            if (anim.getFirst() > 1 && viewer.isViewable(transformable, 0, 0))
+            if (anim.firstFrame() > 1 && viewer.isViewable(transformable, 0, 0))
             {
                 Sfx.SCENERY_TURNINGCUBE.play();
             }

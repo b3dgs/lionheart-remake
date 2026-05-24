@@ -26,7 +26,7 @@ import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Viewer;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -97,10 +97,10 @@ public final class Spike extends FeatureModel
         this.transformable = transformable;
         this.networkable = networkable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        rise = config.getAnimation("phase1");
-        attack = config.getAnimation(Anim.ATTACK);
-        hide = config.getAnimation("phase3");
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        rise = animationsConfig.get("phase1");
+        attack = animationsConfig.get(Anim.ATTACK);
+        hide = animationsConfig.get("phase3");
 
         load(setup.getRoot());
     }
@@ -183,7 +183,7 @@ public final class Spike extends FeatureModel
         if (tick.elapsedTime(source.getRate(), PHASE3_DELAY_MS))
         {
             animatable.play(hide);
-            animatable.setFrame(hide.getLast());
+            animatable.setFrame(hide.lastFrame());
             updater = this::updateDone;
         }
     }
@@ -272,7 +272,7 @@ public final class Spike extends FeatureModel
     @Override
     public void recycle()
     {
-        animatable.setFrame(rise.getFirst());
+        animatable.setFrame(rise.firstFrame());
         updater = this::updatePrepareAttack;
     }
 }

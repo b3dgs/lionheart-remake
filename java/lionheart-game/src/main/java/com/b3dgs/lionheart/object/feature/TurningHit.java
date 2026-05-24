@@ -18,7 +18,7 @@ package com.b3dgs.lionheart.object.feature;
 
 import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -74,8 +74,7 @@ public final class TurningHit extends Turning implements CollidableListener
         this.animatable = animatable;
         this.stateHandler = stateHandler;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
+        idle = AnimationsConfig.imports(setup).get(Anim.IDLE);
     }
 
     @Override
@@ -83,7 +82,7 @@ public final class TurningHit extends Turning implements CollidableListener
     {
         super.update(extrp);
 
-        if (stopped && animatable.getFrameAnim() == idle.getFirst())
+        if (stopped && animatable.getFrameAnim() == idle.firstFrame())
         {
             startIdle();
             resetDelay();

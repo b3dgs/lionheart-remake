@@ -59,7 +59,7 @@ public final class Part4 implements Closeable
         super();
 
         resolution = Util.getResolution(Constant.RESOLUTION, context);
-        stories = new Stories(resolution.getWidth(), resolution.getHeight());
+        stories = new Stories(resolution.width(), resolution.height());
     }
 
     /**

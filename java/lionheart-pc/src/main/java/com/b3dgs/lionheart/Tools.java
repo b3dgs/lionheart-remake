@@ -75,7 +75,7 @@ public final class Tools
     private static final String FILE_RASTER_INSIDE = "tiles_inside.png";
     private static final int TILE_HEIGHT = 16;
 
-    private static final int COLOR2 = new ColorRgba(0, 128, 128).getRgba();
+    private static final int COLOR2 = new ColorRgba(0, 128, 128).rgba();
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(Tools.class);
 
@@ -285,7 +285,7 @@ public final class Tools
         {
             for (int x1 = 0; x1 < 16; x1++)
             {
-                if (buffer.getRgb(x + x1, y + y1) != ColorRgba.BLACK.getRgba())
+                if (buffer.getRgb(x + x1, y + y1) != ColorRgba.BLACK.rgba())
                 {
                     return false;
                 }
@@ -470,7 +470,7 @@ public final class Tools
             {
                 final Media objectImage = new SetupSurfaceRastered(object).getSurfaceFile();
                 final int tileHeight = ImageInfo.get(objectImage).getHeight()
-                                       / FramesConfig.imports(new Configurer(object)).getVertical();
+                                       / FramesConfig.imports(new Configurer(object)).verticals();
                 int i = 0;
                 for (final ImageBuffer b : Graphics.getRasterBufferInside(Graphics.getImageBuffer(objectImage),
                                                                           Graphics.getImageBuffer(raster),
@@ -511,7 +511,7 @@ public final class Tools
             }
 
             final int tileHeight = ImageInfo.get(objectImage).getHeight()
-                                   / FramesConfig.imports(new Configurer(object)).getVertical();
+                                   / FramesConfig.imports(new Configurer(object)).verticals();
             int i = 0;
 
             for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(objectImage),
@@ -547,7 +547,7 @@ public final class Tools
             final Media objectImage = Medias.create(raster.getParentPath(), "Valdyn.png");
 
             final int tileHeight = ImageInfo.get(objectImage).getHeight()
-                                   / FramesConfig.imports(new Configurer(object)).getVertical();
+                                   / FramesConfig.imports(new Configurer(object)).verticals();
             int i = 0;
 
             for (final ImageBuffer b : Graphics.getRasterBufferSmooth(Graphics.getImageBuffer(objectImage),

@@ -38,9 +38,9 @@ public final class Constant
     /** Resolution. */
     public static final Resolution RESOLUTION = new Resolution(320, 240, 50);
     /** Game resolution. */
-    public static final Resolution RESOLUTION_GAME = new Resolution(278, 208, RESOLUTION.getRate());
+    public static final Resolution RESOLUTION_GAME = new Resolution(278, 208, RESOLUTION.rate());
     /** Resolution. */
-    public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, RESOLUTION.getRate());
+    public static final Resolution RESOLUTION_OUTPUT = new Resolution(640, 480, RESOLUTION.rate());
 
     /** Debug collisions flag. */
     public static final boolean DEBUG_COLLISIONS = false;

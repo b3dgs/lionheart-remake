@@ -264,7 +264,7 @@ public class Part3 implements Closeable
     private void updateDragonEat(double extrp)
     {
         dragon1.stop();
-        dragon1.setFrame(dragonBack.getLast() + 1);
+        dragon1.setFrame(dragonBack.lastFrame() + 1);
         dragon1.update(extrp);
     }
 
@@ -277,7 +277,7 @@ public class Part3 implements Closeable
     {
         dragon1.stop();
         dragon1.play(dragonBack);
-        dragon1.setFrame(dragonBack.getLast() + 1);
+        dragon1.setFrame(dragonBack.lastFrame() + 1);
     }
 
     /**

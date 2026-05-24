@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -121,7 +121,7 @@ public final class BossSwamp1 extends FeatureModel implements RoutineUpdate, Rec
         this.stats = stats;
         this.effect = effect;
 
-        idle = AnimationConfig.imports(setup).getAnimation(Anim.IDLE);
+        idle = AnimationsConfig.imports(setup).get(Anim.IDLE);
 
         launcher.setOffset(0, 0);
         launcher.addListener(bowl ->

@@ -511,7 +511,7 @@ public final class Hurtable extends FeatureModel implements RoutineUpdate, Routi
     {
         if (!invincibility
             && recover.elapsedTime(source.getRate(), HURT_RECOVER_BODY_DELAY_MS)
-            && (category.getAxis() == Axis.Y && result.contains(CollisionName.SPIKE)
+            && (category.axis() == Axis.Y && result.contains(CollisionName.SPIKE)
                 || (category.getName().equals(CollisionName.KNEE_CENTER)
                     || category.getName().startsWith(CollisionName.KNEE_X_CENTER))
                    && result.contains(CollisionName.SPIKE)))

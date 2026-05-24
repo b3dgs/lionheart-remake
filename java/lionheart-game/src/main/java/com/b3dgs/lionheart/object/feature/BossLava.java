@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Factory;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -542,13 +542,13 @@ public final class BossLava extends FeatureModel implements RoutineUpdate, Recyc
         this.transformable = transformable;
         this.body = body;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        rise = config.getAnimation("rise");
-        idle = config.getAnimation(Anim.IDLE);
-        walk = config.getAnimation(Anim.WALK);
-        preparejump = config.getAnimation("preparejump");
-        jump = config.getAnimation(Anim.JUMP);
-        land = config.getAnimation(Anim.LAND);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        rise = animationsConfig.get("rise");
+        idle = animationsConfig.get(Anim.IDLE);
+        walk = animationsConfig.get(Anim.WALK);
+        preparejump = animationsConfig.get("preparejump");
+        jump = animationsConfig.get(Anim.JUMP);
+        land = animationsConfig.get(Anim.LAND);
     }
 
     /**
@@ -645,7 +645,7 @@ public final class BossLava extends FeatureModel implements RoutineUpdate, Recyc
         final int old = animator.getFrame();
         animator.update(extrp);
 
-        if (old == walk.getLast() && animator.getFrame() == walk.getFirst())
+        if (old == walk.lastFrame() && animator.getFrame() == walk.firstFrame())
         {
             transformable.moveLocationX(1.0, WALK_OFFSET);
             if (transformable.getX() > startX + RANGE_X)
@@ -717,7 +717,7 @@ public final class BossLava extends FeatureModel implements RoutineUpdate, Recyc
                 model.getJump().setDirection(0.0, 0.0);
                 animator.play(jump);
                 animator.setAnimSpeed(-animator.getAnimSpeed());
-                animator.setFrame(jump.getLast());
+                animator.setFrame(jump.lastFrame());
             }
         }
     }

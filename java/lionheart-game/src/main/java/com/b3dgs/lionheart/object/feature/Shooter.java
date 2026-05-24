@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.Xml;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Camera;
@@ -98,9 +98,9 @@ public final class Shooter extends FeatureModel
         this.transformable = transformable;
         this.stats = stats;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation("patrol");
-        attack = config.getAnimation(Anim.ATTACK);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get("patrol");
+        attack = animationsConfig.get(Anim.ATTACK);
 
         load(setup.getRoot());
 
@@ -113,16 +113,16 @@ public final class Shooter extends FeatureModel
                        r -> r.getMedia().ifPresent(media -> r.setRaster(true, media, map.getTileHeight())));
             }
 
-            if (!this.config.getTrack())
+            if (!config.getTrack())
             {
                 final Force direction = l.getFeature(Launchable.class).getDirection();
                 if (direction != null)
                 {
                     final double dx = direction.getDirectionHorizontal();
                     final double dy = direction.getDirectionVertical();
-                    direction.setDirection(dx * this.config.getSvx(), dy * this.config.getSvy());
-                    direction.setDestination(dx * this.config.getDvx().orElse(this.config.getSvx()),
-                                             dy * this.config.getDvy().orElse(this.config.getSvy()));
+                    direction.setDirection(dx * config.getSvx(), dy * config.getSvy());
+                    direction.setDestination(dx * config.getDvx().orElse(config.getSvx()),
+                                             dy * config.getDvy().orElse(config.getSvy()));
                 }
             }
         });

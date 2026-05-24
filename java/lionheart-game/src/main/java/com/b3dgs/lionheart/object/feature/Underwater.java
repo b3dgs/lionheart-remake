@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FramesConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -86,7 +86,7 @@ public final class Underwater extends FeatureModel implements RoutineUpdate, Rou
         this.transformable = transformable;
         this.rasterable = rasterable;
 
-        final FramesConfig config = FramesConfig.imports(setup);
+        final FramesConfig frames = FramesConfig.imports(setup);
 
         final Media media;
         if (setup.hasNode(NODE))
@@ -107,20 +107,20 @@ public final class Underwater extends FeatureModel implements RoutineUpdate, Rou
                                       0,
                                       transformable.getHeight())
                        - 1
-                       + config.getOffsetY();
+                       + frames.offsetY();
             }
         };
-        rasterableWater.setFrameOffsets(config.getOffsetX(), config.getOffsetY());
+        rasterableWater.setFrameOffsets(frames.offsetX(), frames.offsetY());
 
         if (setup.hasNode(NODE))
         {
-            final AnimationConfig anims = AnimationConfig.imports(raster);
+            final AnimationsConfig animationsConfig = AnimationsConfig.imports(raster);
             rasterableWater.setAnimTransform((name, frame) ->
             {
-                if (anims.hasAnimation(name))
+                if (animationsConfig.has(name))
                 {
                     rasterableWater.setVisibility(true);
-                    return anims.getAnimation(name).getFirst() + frame - 1;
+                    return animationsConfig.get(name).firstFrame() + frame - 1;
                 }
                 rasterableWater.setVisibility(false);
                 return Animation.MINIMUM_FRAME;

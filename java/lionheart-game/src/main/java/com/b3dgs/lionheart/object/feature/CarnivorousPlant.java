@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.UtilRandom;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -71,8 +71,7 @@ public final class CarnivorousPlant extends FeatureModel implements RoutineUpdat
 
         this.animatable = animatable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        bite = config.getAnimation(Anim.ATTACK);
+        bite = AnimationsConfig.imports(setup).get(Anim.ATTACK);
     }
 
     @Override

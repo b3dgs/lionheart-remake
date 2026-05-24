@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -112,10 +112,10 @@ public final class BossDragonflyHead extends FeatureModel implements RoutineUpda
         this.launcher = launcher;
         this.animatable = animatable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        attack = config.getAnimation(Anim.ATTACK);
-        turn = config.getAnimation(Anim.TURN);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        attack = animationsConfig.get(Anim.ATTACK);
+        turn = animationsConfig.get(Anim.TURN);
 
         force.setVelocity(0.2);
         force.setSensibility(0.25);
@@ -195,7 +195,7 @@ public final class BossDragonflyHead extends FeatureModel implements RoutineUpda
             {
                 animatable.play(turn);
                 animatable.setAnimSpeed(-animatable.getAnimSpeed());
-                animatable.setFrame(turn.getLast());
+                animatable.setFrame(turn.lastFrame());
                 mirror = false;
             }
             else if ((!mirror || animatable.getFrameAnim() == 1 && animatable.is(AnimState.FINISHED))

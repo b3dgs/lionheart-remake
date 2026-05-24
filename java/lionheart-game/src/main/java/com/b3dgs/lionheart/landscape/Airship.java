@@ -80,7 +80,7 @@ final class Airship extends BackgroundAbstract
     @Override
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.RESOLUTION_GAME.getHeight());
+        setOffsetY(height - Constant.RESOLUTION_GAME.height());
         trees.setScreenWidth(width);
         backdrop.setScreenWidth(width);
         backdropForest.setScreenWidth(width);

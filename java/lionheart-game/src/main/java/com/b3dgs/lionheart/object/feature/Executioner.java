@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Configurer;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.Featurable;
@@ -193,14 +193,14 @@ public final class Executioner extends FeatureModel implements RoutineUpdate, Re
             wall = featurable.getFeature(Animatable.class);
             wall.addListener((AnimatorFrameListener) s ->
             {
-                if (s == fall.getLast())
+                if (s == fall.lastFrame())
                 {
                     wall.getFeature(Identifiable.class).destroy();
                 }
             });
 
-            final AnimationConfig config = AnimationConfig.imports(new Configurer(featurable.getMedia()));
-            fall = config.getAnimation(Anim.FALL);
+            final AnimationsConfig config = AnimationsConfig.imports(new Configurer(featurable.getMedia()));
+            fall = config.get(Anim.FALL);
         }
         first = true;
     }

@@ -65,7 +65,7 @@ public final class Stories extends StoriesBase
 
         final String[] texts = loadTexts(Settings.getInstance().getLang(), 7);
         final int textX = width / 2 - 124;
-        final int offsetX = width / 2 - Constant.RESOLUTION.getWidth() / 2;
+        final int offsetX = width / 2 - Constant.RESOLUTION.width() / 2;
 
         // CHECKSTYLE OFF: MagicNumber
         add(new StoryRenderer(get(PART3, PIC0), offsetX + 0, 0, texts[0], offsetX + 1, 128));

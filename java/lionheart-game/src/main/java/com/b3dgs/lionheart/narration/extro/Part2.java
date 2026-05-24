@@ -158,11 +158,9 @@ public final class Part2
      */
     public void load(NarrationFactory narration, Consumer<Resolution> source)
     {
-        services.add(spawner.spawn(Medias.create(Folder.EXTRO, PART2_FOLDER, VALDYN),
-                                   resolution.getWidth() / 2.0 + X,
-                                   Y)
+        services.add(spawner.spawn(Medias.create(Folder.EXTRO, PART2_FOLDER, VALDYN), resolution.width() / 2.0 + X, Y)
                             .getFeature(Trackable.class));
-        spawner.spawn(Medias.create(Folder.ENTITY, FOLDER_DRAGONFLY, DRAGON_EXTRO), resolution.getWidth() / 2.0 + X, Y);
+        spawner.spawn(Medias.create(Folder.ENTITY, FOLDER_DRAGONFLY, DRAGON_EXTRO), resolution.width() / 2.0 + X, Y);
 
         init(narration, source);
     }

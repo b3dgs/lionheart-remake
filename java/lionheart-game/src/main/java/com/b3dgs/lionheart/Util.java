@@ -190,11 +190,11 @@ public final class Util
      */
     public static Resolution getResolution(Resolution source, Context context)
     {
-        final Resolution output = context.getConfig().getOutput();
-        final double factor = source.getHeight() / (double) output.getHeight();
-        return new Resolution((int) Math.round(output.getWidth() * factor),
-                              (int) Math.round(output.getHeight() * factor),
-                              source.getRate());
+        final Resolution output = context.getConfig().output();
+        final double factor = source.height() / (double) output.height();
+        return new Resolution((int) Math.round(output.width() * factor),
+                              (int) Math.round(output.height() * factor),
+                              source.rate());
     }
 
     /**
@@ -208,20 +208,20 @@ public final class Util
      */
     public static Resolution getResolution(Context context, int minHeight, int maxWidth, int marginWidth)
     {
-        final Resolution output = context.getConfig().getOutput();
+        final Resolution output = context.getConfig().output();
         final Resolution adjusted = getResolution(Constant.RESOLUTION, context);
-        final double ratio = (double) output.getWidth() / (double) output.getHeight();
-        final int width = adjusted.getWidth() - (adjusted.getWidth() - maxWidth + marginWidth);
+        final double ratio = (double) output.width() / (double) output.height();
+        final int width = adjusted.width() - (adjusted.width() - maxWidth + marginWidth);
         final int height = (int) Math.round(width / ratio);
 
         final Resolution resolution;
         if (height < minHeight)
         {
-            resolution = new Resolution((int) Math.ceil(minHeight * ratio), minHeight, adjusted.getRate());
+            resolution = new Resolution((int) Math.ceil(minHeight * ratio), minHeight, adjusted.rate());
         }
         else
         {
-            resolution = new Resolution(width, height, adjusted.getRate());
+            resolution = new Resolution(width, height, adjusted.rate());
         }
 
         return resolution;
@@ -779,7 +779,7 @@ public final class Util
          */
         default Loop create(Resolution original, Resolution desired)
         {
-            return create(original.getRate(), desired.getRate());
+            return create(original.rate(), desired.rate());
         }
     }
 }

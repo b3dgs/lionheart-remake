@@ -65,15 +65,15 @@ public final class StateLianaSoar extends State
         map = model.getMap();
         listener = (AnimatorFrameListener) frame ->
         {
-            if (frame - animation.getFirst() < FRAME_6)
+            if (frame - animation.firstFrame() < FRAME_6)
             {
                 frameOffset = OFFSET_1;
             }
-            if (frame - animation.getFirst() >= FRAME_6 && frame - animation.getFirst() < FRAME_9)
+            if (frame - animation.firstFrame() >= FRAME_6 && frame - animation.firstFrame() < FRAME_9)
             {
                 frameOffset = OFFSET_6;
             }
-            else if (frame - animation.getFirst() >= FRAME_9)
+            else if (frame - animation.firstFrame() >= FRAME_9)
             {
                 frameOffset = OFFSET_9;
             }
@@ -97,7 +97,7 @@ public final class StateLianaSoar extends State
             side = -1;
             offset = -OFFSET_9;
             frameOffset = OFFSET_9;
-            animatable.setFrame(animation.getLast());
+            animatable.setFrame(animation.lastFrame());
         }
         else
         {
@@ -105,7 +105,7 @@ public final class StateLianaSoar extends State
             offset = 0.0;
             offset2 = 0.0;
             frameOffset = OFFSET_1;
-            animatable.setFrame(animation.getFirst());
+            animatable.setFrame(animation.firstFrame());
         }
     }
 

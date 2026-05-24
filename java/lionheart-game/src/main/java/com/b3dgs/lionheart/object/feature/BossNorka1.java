@@ -23,7 +23,7 @@ import com.b3dgs.lionengine.Mirror;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
@@ -116,13 +116,13 @@ public final class BossNorka1 extends FeatureModel implements RoutineUpdate, Rec
         this.mirrorable = mirrorable;
         this.hurtable = hurtable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
-        walk = config.getAnimation(Anim.WALK);
-        approach = config.getAnimation("approach");
-        approached = config.getAnimation("approached");
-        attackprepare = config.getAnimation("attackprepare");
-        attack = config.getAnimation(Anim.ATTACK);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
+        idle = animationsConfig.get(Anim.IDLE);
+        walk = animationsConfig.get(Anim.WALK);
+        approach = animationsConfig.get("approach");
+        approached = animationsConfig.get("approached");
+        attackprepare = animationsConfig.get("attackprepare");
+        attack = animationsConfig.get(Anim.ATTACK);
 
         movement.setVelocity(1.2);
         movement.setSensibility(0.6);
@@ -325,7 +325,7 @@ public final class BossNorka1 extends FeatureModel implements RoutineUpdate, Rec
         if (tick.elapsedTime(source.getRate(), MOVE_BACK_DELAY_MS))
         {
             animatable.play(approach);
-            animatable.setFrame(approach.getLast());
+            animatable.setFrame(approach.lastFrame());
             animatable.setAnimSpeed(-animatable.getAnimSpeed());
             current = this::updateMoveBack;
         }

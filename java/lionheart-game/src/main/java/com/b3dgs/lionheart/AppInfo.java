@@ -78,8 +78,7 @@ public class AppInfo implements Updatable, Renderable
 
         final SourceResolutionProvider source = services.get(SourceResolutionProvider.class);
 
-        final int size = Math.max(9,
-                                  9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.getHeight()));
+        final int size = Math.max(9, 9 * (int) Math.floor(source.getHeight() / (double) Constant.RESOLUTION.height()));
         textName = Graphics.createText(size);
         textFps = Graphics.createText(size);
         textEngine = Graphics.createText(size);

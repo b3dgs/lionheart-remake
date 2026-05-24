@@ -27,7 +27,7 @@ import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
 import com.b3dgs.lionengine.UtilConversion;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.FeatureProvider;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -88,7 +88,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpda
 
     private final Tick tickSync = new Tick();
     private final Tick tick = new Tick();
-    private final AnimationConfig anim;
+    private final AnimationsConfig animationsConfig;
 
     private int currentIndex;
     private double sh;
@@ -151,7 +151,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpda
         this.patrols = patrols;
         this.networkable = networkable;
 
-        anim = AnimationConfig.imports(setup);
+        animationsConfig = AnimationsConfig.imports(setup);
 
         stateHandler.addListener((from, to) ->
         {
@@ -388,7 +388,7 @@ public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpda
      */
     private void changeDirection()
     {
-        if (anim.hasAnimation(Anim.TURN))
+        if (animationsConfig.has(Anim.TURN))
         {
             stateHandler.changeState(StateTurn.class);
         }
@@ -562,13 +562,13 @@ public final class Patrol extends FeatureModel implements XmlLoader, RoutineUpda
     {
         if (result.startWithX(CollisionName.STEEP)
             && !result.endWithY(CollisionName.GROUND)
-            && category.getAxis() == Axis.X
+            && category.axis() == Axis.X
             && (result.containsX(CollisionName.LEFT) && sh > 0 || result.containsX(CollisionName.RIGHT) && sh < 0))
         {
             transformable.teleportX(transformable.getX() - sh * 5);
             sh = -sh;
         }
-        if (category.getAxis() == Axis.Y && result.containsY(CollisionName.HORIZONTAL))
+        if (category.axis() == Axis.Y && result.containsY(CollisionName.HORIZONTAL))
         {
             stateHandler.changeState(StatePatrolCeil.class);
             transformable.teleportY(result.getY() - 1.0);

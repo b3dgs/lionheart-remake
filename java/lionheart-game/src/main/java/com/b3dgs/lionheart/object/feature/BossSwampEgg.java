@@ -21,7 +21,7 @@ import com.b3dgs.lionengine.Animation;
 import com.b3dgs.lionengine.LionEngineException;
 import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.UtilMath;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.DirectionNone;
 import com.b3dgs.lionengine.game.Force;
 import com.b3dgs.lionengine.game.feature.Animatable;
@@ -109,10 +109,10 @@ public final class BossSwampEgg extends FeatureModel implements RoutineUpdate, T
         this.rasterable = rasterable;
         this.body = body;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
+        final AnimationsConfig animationsConfig = AnimationsConfig.imports(setup);
 
-        fall = config.getAnimation(Anim.FALL);
-        hatch = config.getAnimation(ANIM_HATCH);
+        fall = animationsConfig.get(Anim.FALL);
+        hatch = animationsConfig.get(ANIM_HATCH);
 
         force.setDirection(DirectionNone.INSTANCE);
         force.setVelocity(FALL_VELOCITY);
@@ -148,7 +148,7 @@ public final class BossSwampEgg extends FeatureModel implements RoutineUpdate, T
             force.update(extrp);
             transformable.moveLocation(extrp, body, force);
         }
-        else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.getLast())
+        else if (animatable.is(AnimState.FINISHED) && animatable.getFrame() == hatch.lastFrame())
         {
             spawner.spawn(Medias.create(setup.getMedia().getParentPath(), "ExplodeLittle.xml"),
                           transformable.getX(),

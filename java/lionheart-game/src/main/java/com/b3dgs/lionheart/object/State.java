@@ -311,14 +311,14 @@ public abstract class State extends StateHelper<EntityModel>
     @Override
     public void notifyTileCollided(CollisionResult result, CollisionCategory category)
     {
-        if (Axis.X == category.getAxis())
+        if (Axis.X == category.axis())
         {
             if (category.getName().startsWith(CollisionName.KNEE))
             {
                 onCollideKnee(result, category);
             }
         }
-        else if (Axis.Y == category.getAxis())
+        else if (Axis.Y == category.axis())
         {
             if ((!collObject || transformable.getY() < oldY)
                 && (!liana.is() || isGoDown())

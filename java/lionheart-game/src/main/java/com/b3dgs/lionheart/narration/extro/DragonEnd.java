@@ -99,7 +99,7 @@ final class DragonEnd extends BackgroundAbstract
     @Override
     public void setScreenSize(int width, int height)
     {
-        setOffsetY(height - Constant.RESOLUTION.getHeight());
+        setOffsetY(height - Constant.RESOLUTION.height());
         backdrop.setScreenWidth(width);
         clouds.setScreenSize(width, height);
         ground.setScreenSize(width, height);

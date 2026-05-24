@@ -94,14 +94,14 @@ public final class StateHurt extends State
                     }
                     else if (frameFlicker == 0)
                     {
-                        hurtable.setShading(animatable.getFrame() - animation.getFirst() + 1);
+                        hurtable.setShading(animatable.getFrame() - animation.firstFrame() + 1);
                     }
                 }
                 else
                 {
                     if (frameFlicker > 0)
                     {
-                        animatable.setFrame(animation.getFirst());
+                        animatable.setFrame(animation.firstFrame());
                     }
                     hurtable.setShading(0);
                 }

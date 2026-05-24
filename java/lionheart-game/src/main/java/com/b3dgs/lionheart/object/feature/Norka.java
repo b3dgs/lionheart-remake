@@ -24,7 +24,7 @@ import com.b3dgs.lionengine.Medias;
 import com.b3dgs.lionengine.Tick;
 import com.b3dgs.lionengine.Updatable;
 import com.b3dgs.lionengine.UpdatableVoid;
-import com.b3dgs.lionengine.game.AnimationConfig;
+import com.b3dgs.lionengine.game.AnimationsConfig;
 import com.b3dgs.lionengine.game.feature.Animatable;
 import com.b3dgs.lionengine.game.feature.FeatureInterface;
 import com.b3dgs.lionengine.game.feature.FeatureModel;
@@ -86,8 +86,7 @@ public final class Norka extends FeatureModel implements RoutineUpdate, Recyclab
 
         this.animatable = animatable;
 
-        final AnimationConfig config = AnimationConfig.imports(setup);
-        idle = config.getAnimation(Anim.IDLE);
+        idle = AnimationsConfig.imports(setup).get(Anim.IDLE);
 
         for (int i = 0; i < pillar.length; i++)
         {
@@ -185,8 +184,8 @@ public final class Norka extends FeatureModel implements RoutineUpdate, Recyclab
     private void onDaemonDeath()
     {
         animatable.play(idle);
-        animatable.setFrame(idle.getLast());
-        animatable.setAnimSpeed(-idle.getSpeed());
+        animatable.setFrame(idle.lastFrame());
+        animatable.setAnimSpeed(-idle.speed());
         exit = true;
     }
 
